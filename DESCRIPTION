@@ -11,3 +11,10 @@ Description: Provides tools to interact with the 'Discogs' API
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    httr,
+    jsonlite,
+    magrittr,
+    purrr,
+    dplyr
+RoxygenNote: 6.1.1
