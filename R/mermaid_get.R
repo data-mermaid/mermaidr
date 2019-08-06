@@ -10,7 +10,7 @@
 #' }
 mermaid_get <- function(endpoint, limit = 50, results_only = TRUE) {
   path <- httr::modify_url(base_url, path = paste0("v1/", endpoint), query = list(limit = limit))
-  resp <- httr::GET(path, ua, httr::add_headers(Authorization = Sys.getenv("MERMAID_API_TOKEN")))
+  resp <- httr::GET(path, ua, httr::add_headers(Authorization = paste("Bearer", Sys.getenv("MERMAID_API_TOKEN"))))
 
   check_json(resp)
 
@@ -35,97 +35,110 @@ mermaid_get <- function(endpoint, limit = 50, results_only = TRUE) {
   }
 }
 
-#' Get MERMAID endpoints.
+#' Get MERMAID benthic attributes endpoint.
 #'
-#' @description
-#'
-#' These wrapper functions make it easy to get overall data.
-#' There are 12 functions:
-#' \itemize{
-#'   \item \code{mermaid_benthic_attributes()}
-#'   \item \code{mermaid_choices()}
-#'   \item \code{mermaid_fish_attributes()}
-#'   \item \code{mermaid_fish_families()}
-#'   \item \code{mermaid_fish_genera()}
-#'   \item \code{mermaid_fish_species()}
-#'   \item \code{mermaid_managements()}
-#'   \item \code{mermaid_organization_profiles()}
-#'   \item \code{mermaid_organizations()}
-#'   \item \code{mermaid_profiles()}
-#'   \item \code{mermaid_projects()}
-#'   \item \code{mermaid_sites()}
-#'
-#'}
 #' @inheritParams mermaid_get
-#'
+#' @family MERMAID endpoints
 #' @export
-#' @examples
-#' print("todo")
-mermaid_benthic_attributes <- function(limit = 50, results_only = TRUE) {
+get_mermaid_benthic_attributes <- function(limit = 50, results_only = TRUE) {
   mermaid_get("benthicattributes")
 }
 
-#' @rdname mermaid_benthic_attributes
+#' Get MERMAID choices endpoint.
+#'
+#' @inheritParams mermaid_get
+#' @family MERMAID endpoints
 #' @export
-mermaid_choices <- function(limit = 50, results_only = TRUE) {
+get_mermaid_choices <- function(limit = 50, results_only = TRUE) {
   mermaid_get("choices")
 }
 
-#' @rdname mermaid_benthic_attributes
+#' Get MERMAID fish attributes endpoint.
+#'
+#' @inheritParams mermaid_get
+#' @family MERMAID endpoints
 #' @export
-mermaid_fish_attributes <- function(limit = 50, results_only = TRUE) {
+get_mermaid_fish_attributes <- function(limit = 50, results_only = TRUE) {
   mermaid_get("fishattributes")
 }
 
-mermaid_fish_families <- function(limit = 50, results_only = TRUE) {
+#' Get MERMAID fish families endpoint.
+#'
+#' @inheritParams mermaid_get
+#' @family MERMAID endpoints
+#' @export
+get_mermaid_fish_families <- function(limit = 50, results_only = TRUE) {
   mermaid_get("fishfamilies")
 }
 
-#' @rdname mermaid_benthic_attributes
+#' Get MERMAID fish genera endpoint.
+#'
+#' @inheritParams mermaid_get
+#' @family MERMAID endpoints
 #' @export
-mermaid_fish_genera <- function(limit = 50, results_only = TRUE) {
+get_mermaid_fish_genera <- function(limit = 50, results_only = TRUE) {
   mermaid_get("fishgenera")
 }
 
-#' @rdname mermaid_benthic_attributes
+#' Get MERMAID fish species endpoint.
+#'
+#' @inheritParams mermaid_get
+#' @family MERMAID endpoints
 #' @export
-mermaid_fish_species <- function(limit = 50, results_only = TRUE) {
+get_mermaid_fish_species <- function(limit = 50, results_only = TRUE) {
   mermaid_get("fishspecies")
 }
 
-#' @rdname mermaid_benthic_attributes
+#' Get MERMAID management endpoint.
+#'
+#' @inheritParams mermaid_get
+#' @family MERMAID endpoints
 #' @export
-mermaid_managements <- function(limit = 50, results_only = TRUE) {
+get_mermaid_managements <- function(limit = 50, results_only = TRUE) {
   mermaid_get("managements")
 }
 
-
-#' @rdname mermaid_benthic_attributes
+#' Get MERMAID organization profiles endpoint.
+#'
+#' @inheritParams mermaid_get
+#' @family MERMAID endpoints
 #' @export
-mermaid_organization_profiles <- function(limit = 50, results_only = TRUE) {
+get_mermaid_organization_profiles <- function(limit = 50, results_only = TRUE) {
   mermaid_get("organization_profiles")
 }
 
-#' @rdname mermaid_benthic_attributes
+#' Get MERMAID organizations endpoint.
+#'
+#' @inheritParams mermaid_get
+#' @family MERMAID endpoints
 #' @export
-mermaid_organizations <- function(limit = 50, results_only = TRUE) {
+get_mermaid_organizations <- function(limit = 50, results_only = TRUE) {
   mermaid_get("organizations")
 }
 
-#' @rdname mermaid_benthic_attributes
+#' Get MERMAID profiles endpoint.
+#'
+#' @inheritParams mermaid_get
+#' @family MERMAID endpoints
 #' @export
-mermaid_profiles <- function(limit = 50, results_only = TRUE) {
+get_mermaid_profiles <- function(limit = 50, results_only = TRUE) {
   mermaid_get("profiles")
 }
 
-#' @rdname mermaid_benthic_attributes
+#' Get MERMAID projects endpoint.
+#'
+#' @inheritParams mermaid_get
+#' @family MERMAID endpoints
 #' @export
-mermaid_projects <- function(limit = 50, results_only = TRUE) {
+get_mermaid_projects <- function(limit = 50, results_only = TRUE) {
   mermaid_get("projects")
 }
 
-#' @rdname mermaid_benthic_attributes
+#' Get MERMAID sites endpoint.
+#'
+#' @inheritParams mermaid_get
+#' @family MERMAID endpoints
 #' @export
-mermaid_sites <- function(limit = 50, results_only = TRUE) {
+get_mermaid_sites <- function(limit = 50, results_only = TRUE) {
   mermaid_get("sites")
 }
