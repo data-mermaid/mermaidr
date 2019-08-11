@@ -7,15 +7,15 @@
 #' @export
 #' @examples
 #' \dontrun{
-#'
+#' 
 #' project_name <- "Beta testing"
 #' projects <- mermaid_projects()
 #' project_id <- dplyr::filter(projects, name == project_name)[["id"]]
 #' project_get(project_id, "sampleevents")
 #' }
-project_get <- function(project_id, endpoint, limit = 50, results_only = TRUE) {
+project_get <- function(project_id, endpoint, limit = 50) {
   endpoint <- paste0("projects/", project_id, "/", endpoint)
-  mermaid_get(endpoint)
+  mermaid_get(endpoint, limit = limit)
 }
 
 # Assorted wrappers for project endpoints
@@ -28,8 +28,9 @@ project_get <- function(project_id, endpoint, limit = 50, results_only = TRUE) {
 #' @export
 get_project_belt_fish_transect_methods <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
-    project_id = project_id, endpoint = "beltfishtransectmethods",
-    limit = limit, results_only = results_only
+    project_id = project_id,
+    endpoint = "beltfishtransectmethods",
+    limit = limit
   )
 }
 
@@ -40,8 +41,9 @@ get_project_belt_fish_transect_methods <- function(project_id, limit = 50, resul
 #' @export
 get_project_beltfishes <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
-    project_id = project_id, endpoint = "beltfishes",
-    limit = limit, results_only = results_only
+    project_id = project_id,
+    endpoint = "beltfishes",
+    limit = limit
   )
 }
 
@@ -52,8 +54,9 @@ get_project_beltfishes <- function(project_id, limit = 50, results_only = TRUE) 
 #' @export
 get_project_benthic_lit_transect_methods <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
-    project_id = project_id, endpoint = "benthiclittransectmethods",
-    limit = limit, results_only = results_only
+    project_id = project_id,
+    endpoint = "benthiclittransectmethods",
+    limit = limit
   )
 }
 
@@ -64,8 +67,9 @@ get_project_benthic_lit_transect_methods <- function(project_id, limit = 50, res
 #' @export
 get_project_benthic_pit_transect_methods <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
-    project_id = project_id, endpoint = "benthicpittransectmethods",
-    limit = limit, results_only = results_only
+    project_id = project_id,
+    endpoint = "benthicpittransectmethods",
+    limit = limit
   )
 }
 
@@ -76,8 +80,9 @@ get_project_benthic_pit_transect_methods <- function(project_id, limit = 50, res
 #' @export
 get_project_benthic_pits <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
-    project_id = project_id, endpoint = "benthicpits",
-    limit = limit, results_only = results_only
+    project_id = project_id,
+    endpoint = "benthicpits",
+    limit = limit
   )
 }
 
@@ -88,8 +93,9 @@ get_project_benthic_pits <- function(project_id, limit = 50, results_only = TRUE
 #' @export
 get_project_benthic_transects <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
-    project_id = project_id, endpoint = "benthictransects",
-    limit = limit, results_only = results_only
+    project_id = project_id,
+    endpoint = "benthictransects",
+    limit = limit
   )
 }
 
@@ -100,8 +106,9 @@ get_project_benthic_transects <- function(project_id, limit = 50, results_only =
 #' @export
 get_project_collect_records <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
-    project_id = project_id, endpoint = "collectrecords",
-    limit = limit, results_only = results_only
+    project_id = project_id,
+    endpoint = "collectrecords",
+    limit = limit
   )
 }
 
@@ -113,7 +120,7 @@ get_project_collect_records <- function(project_id, limit = 50, results_only = T
 get_project_fishbelt_transects <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
     project_id = project_id, endpoint = "fishbelttransects",
-    limit = limit, results_only = results_only
+    limit = limit
   )
 }
 
@@ -125,7 +132,7 @@ get_project_fishbelt_transects <- function(project_id, limit = 50, results_only 
 get_project_habitat_complexities <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
     project_id = project_id, endpoint = "habitatcomplexities",
-    limit = limit, results_only = results_only
+    limit = limit
   )
 }
 
@@ -137,7 +144,7 @@ get_project_habitat_complexities <- function(project_id, limit = 50, results_onl
 get_project_obs_benthic_lits <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
     project_id = project_id, endpoint = "obsbenthiclits",
-    limit = limit, results_only = results_only
+    limit = limit
   )
 }
 
@@ -149,7 +156,7 @@ get_project_obs_benthic_lits <- function(project_id, limit = 50, results_only = 
 get_project_obs_benthic_pits <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
     project_id = project_id, endpoint = "obsbenthicpits",
-    limit = limit, results_only = results_only
+    limit = limit
   )
 }
 
@@ -161,7 +168,7 @@ get_project_obs_benthic_pits <- function(project_id, limit = 50, results_only = 
 get_project_obs_habitat_complexities <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
     project_id = project_id, endpoint = "obshabitatcomplexities",
-    limit = limit, results_only = results_only
+    limit = limit
   )
 }
 
@@ -173,7 +180,7 @@ get_project_obs_habitat_complexities <- function(project_id, limit = 50, results
 get_project_obs_transect_beltfishs <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
     project_id = project_id, endpoint = "obstransectbeltfishs",
-    limit = limit, results_only = results_only
+    limit = limit
   )
 }
 
@@ -185,7 +192,7 @@ get_project_obs_transect_beltfishs <- function(project_id, limit = 50, results_o
 get_project_managements <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
     project_id = project_id, endpoint = "managements",
-    limit = limit, results_only = results_only
+    limit = limit
   )
 }
 
@@ -197,7 +204,7 @@ get_project_managements <- function(project_id, limit = 50, results_only = TRUE)
 get_project_observers <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
     project_id = project_id, endpoint = "observers",
-    limit = limit, results_only = results_only
+    limit = limit
   )
 }
 
@@ -209,7 +216,7 @@ get_project_observers <- function(project_id, limit = 50, results_only = TRUE) {
 get_project_profiles <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
     project_id = project_id, endpoint = "profiles",
-    limit = limit, results_only = results_only
+    limit = limit
   )
 }
 
@@ -221,7 +228,7 @@ get_project_profiles <- function(project_id, limit = 50, results_only = TRUE) {
 get_project_project_profiles <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
     project_id = project_id, endpoint = "project_profiles",
-    limit = limit, results_only = results_only
+    limit = limit
   )
 }
 
@@ -232,8 +239,9 @@ get_project_project_profiles <- function(project_id, limit = 50, results_only = 
 #' @export
 get_project_sample_events <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
-    project_id = project_id, endpoint = "sampleevents",
-    limit = limit, results_only = results_only
+    project_id = project_id,
+    endpoint = "sampleevents",
+    limit = limit
   )
 }
 
@@ -244,7 +252,8 @@ get_project_sample_events <- function(project_id, limit = 50, results_only = TRU
 #' @export
 get_project_sites <- function(project_id, limit = 50, results_only = TRUE) {
   project_get(
-    project_id = project_id, endpoint = "sites",
-    limit = limit, results_only = results_only
+    project_id = project_id,
+    endpoint = "sites",
+    limit = limit
   )
 }

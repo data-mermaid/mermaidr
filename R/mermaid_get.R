@@ -1,14 +1,10 @@
 #' Get MERMAID endpoint
 #'
+#' @param endpoint Endpoint
 #' @param limit Number of records to get. Defaults to 50.
-#' @param results_only Whether to return the results only (the default) or to return the entire API call (contents, results, path, and response).
 #'
 #' @export
-#' @examples
-#' \dontrun{
-#' mermaid_endpoint()
-#' }
-mermaid_get <- function(endpoint, limit = 50, results_only = TRUE) {
+mermaid_get <- function(endpoint, limit = 50) {
   path <- httr::modify_url(base_url, path = paste0("v1/", endpoint), query = list(limit = limit))
   resp <- httr::GET(path, ua, httr::add_headers(Authorization = paste("Bearer", Sys.getenv("MERMAID_API_TOKEN"))))
 
@@ -17,22 +13,9 @@ mermaid_get <- function(endpoint, limit = 50, results_only = TRUE) {
   parsed <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyVector = FALSE, simplifyDataFrame = TRUE)
   results <- dplyr::as_tibble(parsed[["results"]])
 
-  check_errors(resp)
+  check_errors(resp, parsed)
 
-  if (results_only) {
-    results
-  }
-  else {
-    structure(
-      list(
-        content = parsed,
-        results = results,
-        path = path,
-        response = resp
-      ),
-      class = "mermaid_api"
-    )
-  }
+  results
 }
 
 #' Get MERMAID benthic attributes endpoint.
@@ -40,8 +23,8 @@ mermaid_get <- function(endpoint, limit = 50, results_only = TRUE) {
 #' @inheritParams mermaid_get
 #' @family MERMAID endpoints
 #' @export
-get_mermaid_benthic_attributes <- function(limit = 50, results_only = TRUE) {
-  mermaid_get("benthicattributes")
+get_mermaid_benthic_attributes <- function(limit = 50) {
+  mermaid_get("benthicattributes", limit = limit)
 }
 
 #' Get MERMAID choices endpoint.
@@ -49,8 +32,8 @@ get_mermaid_benthic_attributes <- function(limit = 50, results_only = TRUE) {
 #' @inheritParams mermaid_get
 #' @family MERMAID endpoints
 #' @export
-get_mermaid_choices <- function(limit = 50, results_only = TRUE) {
-  mermaid_get("choices")
+get_mermaid_choices <- function(limit = 50) {
+  mermaid_get("choices", limit = limit)
 }
 
 #' Get MERMAID fish attributes endpoint.
@@ -58,8 +41,8 @@ get_mermaid_choices <- function(limit = 50, results_only = TRUE) {
 #' @inheritParams mermaid_get
 #' @family MERMAID endpoints
 #' @export
-get_mermaid_fish_attributes <- function(limit = 50, results_only = TRUE) {
-  mermaid_get("fishattributes")
+get_mermaid_fish_attributes <- function(limit = 50) {
+  mermaid_get("fishattributes", limit = limit)
 }
 
 #' Get MERMAID fish families endpoint.
@@ -67,8 +50,8 @@ get_mermaid_fish_attributes <- function(limit = 50, results_only = TRUE) {
 #' @inheritParams mermaid_get
 #' @family MERMAID endpoints
 #' @export
-get_mermaid_fish_families <- function(limit = 50, results_only = TRUE) {
-  mermaid_get("fishfamilies")
+get_mermaid_fish_families <- function(limit = 50) {
+  mermaid_get("fishfamilies", limit = limit)
 }
 
 #' Get MERMAID fish genera endpoint.
@@ -76,8 +59,8 @@ get_mermaid_fish_families <- function(limit = 50, results_only = TRUE) {
 #' @inheritParams mermaid_get
 #' @family MERMAID endpoints
 #' @export
-get_mermaid_fish_genera <- function(limit = 50, results_only = TRUE) {
-  mermaid_get("fishgenera")
+get_mermaid_fish_genera <- function(limit = 50) {
+  mermaid_get("fishgenera", limit = limit)
 }
 
 #' Get MERMAID fish species endpoint.
@@ -85,8 +68,8 @@ get_mermaid_fish_genera <- function(limit = 50, results_only = TRUE) {
 #' @inheritParams mermaid_get
 #' @family MERMAID endpoints
 #' @export
-get_mermaid_fish_species <- function(limit = 50, results_only = TRUE) {
-  mermaid_get("fishspecies")
+get_mermaid_fish_species <- function(limit = 50) {
+  mermaid_get("fishspecies", limit = limit)
 }
 
 #' Get MERMAID management endpoint.
@@ -94,8 +77,8 @@ get_mermaid_fish_species <- function(limit = 50, results_only = TRUE) {
 #' @inheritParams mermaid_get
 #' @family MERMAID endpoints
 #' @export
-get_mermaid_managements <- function(limit = 50, results_only = TRUE) {
-  mermaid_get("managements")
+get_mermaid_managements <- function(limit = 50) {
+  mermaid_get("managements", limit = limit)
 }
 
 #' Get MERMAID organization profiles endpoint.
@@ -103,8 +86,8 @@ get_mermaid_managements <- function(limit = 50, results_only = TRUE) {
 #' @inheritParams mermaid_get
 #' @family MERMAID endpoints
 #' @export
-get_mermaid_organization_profiles <- function(limit = 50, results_only = TRUE) {
-  mermaid_get("organization_profiles")
+get_mermaid_organization_profiles <- function(limit = 50) {
+  mermaid_get("organization_profiles", limit = limit)
 }
 
 #' Get MERMAID organizations endpoint.
@@ -112,8 +95,8 @@ get_mermaid_organization_profiles <- function(limit = 50, results_only = TRUE) {
 #' @inheritParams mermaid_get
 #' @family MERMAID endpoints
 #' @export
-get_mermaid_organizations <- function(limit = 50, results_only = TRUE) {
-  mermaid_get("organizations")
+get_mermaid_organizations <- function(limit = 50) {
+  mermaid_get("organizations", limit = limit)
 }
 
 #' Get MERMAID profiles endpoint.
@@ -121,8 +104,8 @@ get_mermaid_organizations <- function(limit = 50, results_only = TRUE) {
 #' @inheritParams mermaid_get
 #' @family MERMAID endpoints
 #' @export
-get_mermaid_profiles <- function(limit = 50, results_only = TRUE) {
-  mermaid_get("profiles")
+get_mermaid_profiles <- function(limit = 50) {
+  mermaid_get("profiles", limit = limit)
 }
 
 #' Get MERMAID projects endpoint.
@@ -130,8 +113,8 @@ get_mermaid_profiles <- function(limit = 50, results_only = TRUE) {
 #' @inheritParams mermaid_get
 #' @family MERMAID endpoints
 #' @export
-get_mermaid_projects <- function(limit = 50, results_only = TRUE) {
-  mermaid_get("projects")
+get_mermaid_projects <- function(limit = 50) {
+  mermaid_get("projects", limit = limit)
 }
 
 #' Get MERMAID sites endpoint.
@@ -139,6 +122,6 @@ get_mermaid_projects <- function(limit = 50, results_only = TRUE) {
 #' @inheritParams mermaid_get
 #' @family MERMAID endpoints
 #' @export
-get_mermaid_sites <- function(limit = 50, results_only = TRUE) {
-  mermaid_get("sites")
+get_mermaid_sites <- function(limit = 50) {
+  mermaid_get("sites", limit = limit)
 }

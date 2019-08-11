@@ -9,14 +9,13 @@ check_json <- function(resp) {
 }
 
 # check for errors
-check_errors <- function(resp) {
-  if (httr::http_error(resp)) {
+check_errors <- function(response, parsed) {
+  if (httr::http_error(response)) {
     stop(
       sprintf(
-        "Mermaid API request failed [%s]\n%s\n<%s>",
-        httr::status_code(resp),
-        parsed$message,
-        parsed$documentation_url
+        "Mermaid API request failed [%s]\n%s",
+        httr::status_code(response),
+        parsed$detail
       ),
       call. = FALSE
     )
