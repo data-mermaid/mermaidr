@@ -4,12 +4,10 @@
 \alias{get_mermaid_sites}
 \title{Get MERMAID sites endpoint.}
 \usage{
-get_mermaid_sites(limit = 50, results_only = TRUE)
+get_mermaid_sites(limit = 50)
 }
 \arguments{
 \item{limit}{Number of records to get. Defaults to 50.}
-
-\item{results_only}{Whether to return the results only (the default) or to return the entire API call (contents, results, path, and response).}
 }
 \description{
 Get MERMAID sites endpoint.

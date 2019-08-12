@@ -7,7 +7,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' 
+#'
 #' project_name <- "Beta testing"
 #' projects <- mermaid_projects()
 #' project_id <- dplyr::filter(projects, name == project_name)[["id"]]
@@ -26,7 +26,7 @@ project_get <- function(project_id, endpoint, limit = 50) {
 #' @param project_id Project ID
 #' @family project endpoints
 #' @export
-get_project_belt_fish_transect_methods <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_belt_fish_transect_methods <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id,
     endpoint = "beltfishtransectmethods",
@@ -39,7 +39,7 @@ get_project_belt_fish_transect_methods <- function(project_id, limit = 50, resul
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_beltfishes <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_beltfishes <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id,
     endpoint = "beltfishes",
@@ -52,7 +52,7 @@ get_project_beltfishes <- function(project_id, limit = 50, results_only = TRUE) 
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_benthic_lit_transect_methods <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_benthic_lit_transect_methods <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id,
     endpoint = "benthiclittransectmethods",
@@ -65,7 +65,7 @@ get_project_benthic_lit_transect_methods <- function(project_id, limit = 50, res
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_benthic_pit_transect_methods <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_benthic_pit_transect_methods <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id,
     endpoint = "benthicpittransectmethods",
@@ -78,7 +78,7 @@ get_project_benthic_pit_transect_methods <- function(project_id, limit = 50, res
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_benthic_pits <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_benthic_pits <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id,
     endpoint = "benthicpits",
@@ -91,7 +91,7 @@ get_project_benthic_pits <- function(project_id, limit = 50, results_only = TRUE
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_benthic_transects <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_benthic_transects <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id,
     endpoint = "benthictransects",
@@ -104,7 +104,7 @@ get_project_benthic_transects <- function(project_id, limit = 50, results_only =
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_collect_records <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_collect_records <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id,
     endpoint = "collectrecords",
@@ -117,7 +117,7 @@ get_project_collect_records <- function(project_id, limit = 50, results_only = T
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_fishbelt_transects <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_fishbelt_transects <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id, endpoint = "fishbelttransects",
     limit = limit
@@ -129,7 +129,7 @@ get_project_fishbelt_transects <- function(project_id, limit = 50, results_only 
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_habitat_complexities <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_habitat_complexities <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id, endpoint = "habitatcomplexities",
     limit = limit
@@ -141,7 +141,7 @@ get_project_habitat_complexities <- function(project_id, limit = 50, results_onl
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_obs_benthic_lits <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_obs_benthic_lits <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id, endpoint = "obsbenthiclits",
     limit = limit
@@ -153,7 +153,7 @@ get_project_obs_benthic_lits <- function(project_id, limit = 50, results_only = 
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_obs_benthic_pits <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_obs_benthic_pits <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id, endpoint = "obsbenthicpits",
     limit = limit
@@ -165,7 +165,7 @@ get_project_obs_benthic_pits <- function(project_id, limit = 50, results_only = 
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_obs_habitat_complexities <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_obs_habitat_complexities <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id, endpoint = "obshabitatcomplexities",
     limit = limit
@@ -177,7 +177,7 @@ get_project_obs_habitat_complexities <- function(project_id, limit = 50, results
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_obs_transect_beltfishs <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_obs_transect_beltfishs <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id, endpoint = "obstransectbeltfishs",
     limit = limit
@@ -189,7 +189,7 @@ get_project_obs_transect_beltfishs <- function(project_id, limit = 50, results_o
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_managements <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_managements <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id, endpoint = "managements",
     limit = limit
@@ -201,7 +201,7 @@ get_project_managements <- function(project_id, limit = 50, results_only = TRUE)
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_observers <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_observers <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id, endpoint = "observers",
     limit = limit
@@ -213,7 +213,7 @@ get_project_observers <- function(project_id, limit = 50, results_only = TRUE) {
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_profiles <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_profiles <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id, endpoint = "profiles",
     limit = limit
@@ -225,7 +225,7 @@ get_project_profiles <- function(project_id, limit = 50, results_only = TRUE) {
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_project_profiles <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_project_profiles <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id, endpoint = "project_profiles",
     limit = limit
@@ -237,7 +237,7 @@ get_project_project_profiles <- function(project_id, limit = 50, results_only = 
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_sample_events <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_sample_events <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id,
     endpoint = "sampleevents",
@@ -250,7 +250,7 @@ get_project_sample_events <- function(project_id, limit = 50, results_only = TRU
 #' @inheritParams get_project_belt_fish_transect_methods
 #' @family project endpoints
 #' @export
-get_project_sites <- function(project_id, limit = 50, results_only = TRUE) {
+get_project_sites <- function(project_id, limit = 50) {
   project_get(
     project_id = project_id,
     endpoint = "sites",

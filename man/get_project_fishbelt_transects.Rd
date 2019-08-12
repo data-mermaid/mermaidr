@@ -4,15 +4,12 @@
 \alias{get_project_fishbelt_transects}
 \title{Get fishbelt transects for a given project.}
 \usage{
-get_project_fishbelt_transects(project_id, limit = 50,
-  results_only = TRUE)
+get_project_fishbelt_transects(project_id, limit = 50)
 }
 \arguments{
 \item{project_id}{Project ID}
 
 \item{limit}{Number of records to get. Defaults to 50.}
-
-\item{results_only}{Whether to return the results only (the default) or to return the entire API call (contents, results, path, and response).}
 }
 \description{
 Get fishbelt transects for a given project.
