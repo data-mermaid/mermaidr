@@ -15,7 +15,7 @@
 #' }
 project_get <- function(project_id, endpoint, limit = 50) {
   endpoint <- paste0("projects/", project_id, "/", endpoint)
-  mermaid_get(endpoint, limit = limit)
+  mermaid_GET(endpoint, limit = limit)
 }
 
 # Assorted wrappers for project endpoints

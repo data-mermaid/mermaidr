@@ -4,7 +4,7 @@
 \alias{mermaid_api_client}
 \title{Get or set MERMAID_API_CLIENT_ID and MERMAID_API_CLIENT_SECRET}
 \usage{
-mermaid_api_client(force = FALSE)
+mermaid_api_client(value = c("id", "secret"))
 }
 \arguments{
 \item{force}{force setting a new MERMAID API Client ID and Secret for the current environment?}

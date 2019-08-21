@@ -8,7 +8,7 @@ check_json <- function(resp) {
   }
 }
 
-# check for errors
+# check for erro2rs
 check_errors <- function(response, parsed) {
   if (httr::http_error(response)) {
     stop(

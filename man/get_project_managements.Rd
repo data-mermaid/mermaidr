@@ -8,8 +8,6 @@ get_project_managements(project_id, limit = 50)
 }
 \arguments{
 \item{project_id}{Project ID}
-
-\item{limit}{Number of records to get. Defaults to 50.}
 }
 \description{
 Get managements for a given project.

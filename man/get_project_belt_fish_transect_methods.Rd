@@ -8,8 +8,6 @@ get_project_belt_fish_transect_methods(project_id, limit = 50)
 }
 \arguments{
 \item{project_id}{Project ID}
-
-\item{limit}{Number of records to get. Defaults to 50.}
 }
 \description{
 Get belt fish transect methods for a given project.

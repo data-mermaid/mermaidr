@@ -4,8 +4,8 @@
 \alias{get_mermaid_token}
 \title{Get MERMAID API token}
 \usage{
-get_mermaid_token(client_id = Sys.getenv("MERMAID_API_CLIENT_ID"),
-  client_secret = Sys.getenv("MERMAID_API_CLIENT_SECRET"))
+get_mermaid_token(client_id = mermaid_api_client("id"),
+  client_secret = mermaid_api_client("secret"))
 }
 \arguments{
 \item{client_id}{API client id}

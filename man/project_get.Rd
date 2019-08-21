@@ -10,8 +10,6 @@ project_get(project_id, endpoint, limit = 50)
 \item{project_id}{Project ID}
 
 \item{endpoint}{API endpoint}
-
-\item{limit}{Number of records to get. Defaults to 50.}
 }
 \description{
 Get endpoint from a specified MERMAID project.

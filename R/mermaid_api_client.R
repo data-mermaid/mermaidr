@@ -9,38 +9,23 @@
 #' @return atomic character vector containing the MERMAID API Client ID and Secret
 #'
 #' @export
-mermaid_api_client <- function(force = FALSE) {
-  client_id <- Sys.getenv("MERMAID_API_CLIENT_ID")
-  client_secret <- Sys.getenv("MERMAID_API_CLIENT_SECRET")
-  if (!identical(client_id, "") && !identical(client_secret, "") && !force) return(list(MERMAID_API_CLIENT_ID = client_id, MERMAID_API_CLIENT_SECRET = client_secret))
+mermaid_api_client <- function(value = c("id", "secret")) {
+  value_string <- switch(value,
+                         id = "ID",
+                         secret = "Secret")
+  environment_variable <- paste0("MERMAID_API_CLIENT_", toupper(value))
+  client_value <- Sys.getenv(environment_variable)
 
-  if (!interactive()) {
-    stop("Please set environment variables MERMAID_API_CLIENT_ID and MERMAID_API_CLIENT_SECRET to your MERMAID API Client ID and Secret",
-      call. = FALSE
-    )
+  if(!identical(client_value, "")){
+    return(client_value)
   }
 
-  message("Couldn't find environment variables MERMAID_API_CLIENT_ID and MERMAID_API_CLIENT_SECRET. See ?mermaid_api_client for more details.")
-  message("Please enter your MERMAID API Client ID and press enter:")
-  entered_client_id <- readline(": ")
-
-  if (identical(entered_client_id, "")) {
-    stop("MERMAID API Client ID entry failed", call. = FALSE)
+  if(!interactive()){
+    stop(paste("Please set environment variable", environment_variable, "to your MERMAID API Client ", value_string),
+        call. = FALSE)
   }
 
-  message("Please enter your MERMAID API Client Secret and press enter:")
-  entered_client_secret <- readline(": ")
-
-  if (identical(entered_client_secret, "")) {
-    stop("MERMAID API Client Secret entry failed", call. = FALSE)
-  }
-
-  message("Updating MERMAID_API_CLIENT_ID and MERMAID_API_CLIENT_SECRET.")
-  Sys.setenv(MERMAID_API_CLIENT_ID = entered_client_id)
-  Sys.setenv(MERMAID_API_CLIENT_SECRET. = entered_client_secret)
-
-  list(
-    MERMAID_API_CLIENT_ID = entered_client_id,
-    MERMAID_API_CLIENT_SECRET = entered_client_secret
-  )
+  message(paste0("Couldn't find environment variables MERMAID_API_CLIENT_", toupper(value), ". See ?mermaid_api_client", value, " for more details."))
+  message(paste("Please enter your MERMAID API Client", value_string, "and press enter:"))
+  entered_value <- readline(": ")
 }

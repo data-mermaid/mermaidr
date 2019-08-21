@@ -8,8 +8,6 @@ get_project_obs_transect_beltfishs(project_id, limit = 50)
 }
 \arguments{
 \item{project_id}{Project ID}
-
-\item{limit}{Number of records to get. Defaults to 50.}
 }
 \description{
 Get obs transect beltfishes for a given project.
