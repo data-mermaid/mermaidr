@@ -4,7 +4,7 @@
 \alias{project_get}
 \title{Get endpoint from a specified MERMAID project.}
 \usage{
-project_get(project_id, endpoint, limit = 50)
+project_get(project_id, endpoint, limit = 50, token = mermaid_token())
 }
 \arguments{
 \item{project_id}{Project ID}

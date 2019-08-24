@@ -2,10 +2,10 @@
 % Please edit documentation in R/mermaid_auth.R
 \name{mermaid_auth}
 \alias{mermaid_auth}
-\title{Authorize  \code{mermaidr}}
+\title{Authorize \code{mermaidr}}
 \usage{
 mermaid_auth(token = NULL, new_user = FALSE,
-  id = "6q1XvYG0n75ZaLbFko0gUV4xGud4uPyG", cache = TRUE,
+  key = Sys.getenv("MERMAID_OAUTH_API_CLIENT_ID"), cache = FALSE,
   verbose = TRUE)
 }
 \arguments{
