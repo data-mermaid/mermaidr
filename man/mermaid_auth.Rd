@@ -16,8 +16,12 @@ stored as an \code{.rds} file}
 want to wipe the slate clean and re-authenticate with the same or different account. This disables the \code{.httr-oauth} file in current
 working directory.}
 
+\item{key}{the "Client ID" for the application}
+
 \item{cache}{logical indicating if \code{mermaidr} should cache
 credentials in the default cache file \code{.httr-oauth}}
+
+\item{verbose}{logical; do you want informative messages?}
 }
 \description{
 Authorize \code{mermaidr} to access the MERMAID API. You will be
@@ -71,7 +75,7 @@ ttt <- mermaid_auth()
 saveRDS(ttt, "ttt.rds")
 
 ## load a pre-existing token
-mermaid_auth(token = ttt)       # from an object
+mermaid_auth(token = ttt) # from an object
 mermaid_auth(token = "ttt.rds") # from .rds file
 }
 }

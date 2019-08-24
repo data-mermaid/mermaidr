@@ -3,7 +3,7 @@
 #' @param endpoint Endpoint
 #' @param limit Number of records to get. Defaults to 50.
 #' @param url API URL. Defaults to https://dev-api.datamermaid.org
-#' @param token API token. Not required for unauthenticated endpoints. Get via \link{\code{mermaid_token}}
+#' @param token API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}
 mermaid_GET <- function(endpoint, limit = 50, url = base_url, token = NULL) {
   path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit))
   resp <- httr::GET(path, ua, token)

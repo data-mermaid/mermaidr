@@ -1,3 +1,5 @@
+# Very much "borrowed" from `googlesheets`: https://github.com/jennybc/googlesheets/blob/master/R/gs_auth.R
+
 # environment to store credentials
 .state <- new.env(parent = emptyenv())
 
@@ -44,8 +46,10 @@
 #' @param new_user logical, defaults to \code{FALSE}. Set to \code{TRUE} if you
 #'   want to wipe the slate clean and re-authenticate with the same or different account. This disables the \code{.httr-oauth} file in current
 #'   working directory.
+#' @param key the "Client ID" for the application
 #' @param cache logical indicating if \code{mermaidr} should cache
 #'   credentials in the default cache file \code{.httr-oauth}
+#' @param verbose logical; do you want informative messages?
 #'
 #' @family auth functions
 #' @export
@@ -55,14 +59,14 @@
 #' ## load/refresh existing credentials, if available
 #' ## otherwise, go to browser for authentication and authorization
 #' mermaid_auth()
-#' 
+#'
 #' ## force a new token to be obtained
 #' mermaid_auth(new_user = TRUE)
-#' 
+#'
 #' ## store token in an object and then to file
 #' ttt <- mermaid_auth()
 #' saveRDS(ttt, "ttt.rds")
-#' 
+#'
 #' ## load a pre-existing token
 #' mermaid_auth(token = ttt) # from an object
 #' mermaid_auth(token = "ttt.rds") # from .rds file
@@ -130,7 +134,7 @@ omit_token_if <- function(cond) if (cond) NULL else mermaid_token()
 
 #' Check token availability
 #'
-#' Check if a token is available in \code{\link{mermaidr}}' internal
+#' Check if a token is available in \code{mermaidr}' internal
 #' \code{.state} environment.
 #'
 #' @return logical
@@ -163,12 +167,13 @@ token_available <- function(verbose = TRUE) {
 
 #' Suspend authorization
 #'
-#' Suspend \code{\link{mermaidr}}' authorization to place requests to the
+#' Suspend \code{mermaidr}' authorization to place requests to the
 #' MERMAID APIs on behalf of the authenticated user.
 #'
 #' @param clear_cache logical indicating whether to disable the
 #'   \code{.httr-oauth} file in working directory, if such exists, by renaming
 #'   to \code{.httr-oauth-SUSPENDED}
+#' @param verbose logical; do you want informative messages?
 #' @export
 #' @family auth functions
 #' @examples
@@ -227,3 +232,5 @@ access_token <- function() {
   if (!token_available(verbose = TRUE)) return(NULL)
   .state$token$credentials$access_token
 }
+
+spf <- function(...) stop(sprintf(...), call. = FALSE)

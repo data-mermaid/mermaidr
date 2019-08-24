@@ -10,7 +10,7 @@ token_available(verbose = TRUE)
 logical
 }
 \description{
-Check if a token is available in \code{\link{mermaidr}}' internal
+Check if a token is available in \code{mermaidr}' internal
 \code{.state} environment.
 }
 \keyword{internal}

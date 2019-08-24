@@ -10,9 +10,11 @@ mermaid_deauth(clear_cache = TRUE, verbose = TRUE)
 \item{clear_cache}{logical indicating whether to disable the
 \code{.httr-oauth} file in working directory, if such exists, by renaming
 to \code{.httr-oauth-SUSPENDED}}
+
+\item{verbose}{logical; do you want informative messages?}
 }
 \description{
-Suspend \code{\link{mermaidr}}' authorization to place requests to the
+Suspend \code{mermaidr}' authorization to place requests to the
 MERMAID APIs on behalf of the authenticated user.
 }
 \examples{

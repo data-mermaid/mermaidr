@@ -6,7 +6,7 @@
 \usage{
 get_mermaid_endpoint(endpoint = c("benthicattributes", "fishattributes",
   "fishfamilies", "fishgenera", "fishspecies", "managements", "projects",
-  "sites"), limit = 50, url = baseurl)
+  "sites"), limit = 50, url = base_url)
 }
 \arguments{
 \item{endpoint}{Endpoint}

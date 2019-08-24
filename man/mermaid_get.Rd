@@ -13,7 +13,7 @@ mermaid_GET(endpoint, limit = 50, url = base_url, token = NULL)
 
 \item{url}{API URL. Defaults to https://dev-api.datamermaid.org}
 
-\item{token}{API token. Not required for unauthenticated endpoints. Get via \link{\code{mermaid_token}}}
+\item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
 }
 \description{
 Get MERMAID endpoint

@@ -3,8 +3,6 @@
 export("%>%")
 export(get_mermaid_endpoint)
 export(get_mermaid_project_endpoint)
-export(get_mermaid_token)
-export(mermaid_api_client)
 export(mermaid_auth)
 export(mermaid_deauth)
 importFrom(magrittr,"%>%")
