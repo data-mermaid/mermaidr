@@ -13,9 +13,9 @@
 #' project_id <- dplyr::filter(projects, name == project_name)[["id"]]
 #' project_get(project_id, "sampleevents")
 #' }
-project_get <- function(project_id, endpoint, limit = 50) {
+project_get <- function(project_id, endpoint, limit = 50, token = mermaid_token()) {
   endpoint <- paste0("projects/", project_id, "/", endpoint)
-  mermaid_GET(endpoint, limit = limit)
+  mermaid_GET(endpoint, limit = limit, token = token())
 }
 
 # Assorted wrappers for project endpoints

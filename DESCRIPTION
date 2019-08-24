@@ -17,5 +17,6 @@ Imports:
     magrittr,
     purrr,
     dplyr,
-    lubridate
+    lubridate,
+    gargle
 RoxygenNote: 6.1.1
