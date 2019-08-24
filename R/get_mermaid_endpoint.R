@@ -21,8 +21,11 @@ mermaid_endpoint_columns <- list(
 )
 
 check_mermaid_endpoint <- function(x) {
-  if (! x %in% names(mermaid_endpoint_columns)) {
+  if (!x %in% names(mermaid_endpoint_columns)) {
     stop(paste0("endpoint must be one of '", paste0(names(mermaid_endpoint_columns), collapse = "', '"), "'."),
-         call. = FALSE)
-  } else x
+      call. = FALSE
+    )
+  } else {
+    x
+  }
 }

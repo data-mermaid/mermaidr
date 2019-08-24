@@ -55,16 +55,16 @@
 #' ## load/refresh existing credentials, if available
 #' ## otherwise, go to browser for authentication and authorization
 #' mermaid_auth()
-#'
+#' 
 #' ## force a new token to be obtained
 #' mermaid_auth(new_user = TRUE)
-#'
+#' 
 #' ## store token in an object and then to file
 #' ttt <- mermaid_auth()
 #' saveRDS(ttt, "ttt.rds")
-#'
+#' 
 #' ## load a pre-existing token
-#' mermaid_auth(token = ttt)       # from an object
+#' mermaid_auth(token = ttt) # from an object
 #' mermaid_auth(token = "ttt.rds") # from .rds file
 #' }
 mermaid_auth <- function(token = NULL,
@@ -72,27 +72,24 @@ mermaid_auth <- function(token = NULL,
                          key = Sys.getenv("MERMAID_OAUTH_API_CLIENT_ID"),
                          cache = FALSE,
                          verbose = TRUE) {
-
   if (new_user) {
     mermaid_deauth(clear_cache = TRUE, verbose = verbose)
   }
 
   if (is.null(token)) {
-    mermaid_endpoint <- httr::oauth_endpoint(authorize = "https://datamermaid.auth0.com/authorize",
-                                       access = "https://datamermaid.auth0.com/oauth/token")
+    mermaid_endpoint <- httr::oauth_endpoint(
+      authorize = "https://datamermaid.auth0.com/authorize",
+      access = "https://datamermaid.auth0.com/oauth/token"
+    )
     mermaid_app <- httr::oauth_app("mermaidr", key = key, secret = NULL)
     mermaid_token <-
       httr::oauth2.0_token(mermaid_endpoint, mermaid_app)
     stopifnot(is_legit_token(mermaid_token, verbose = TRUE))
     .state$token <- mermaid_token
-
   } else if (inherits(token, "Token2.0")) {
-
     stopifnot(is_legit_token(token, verbose = TRUE))
     .state$token <- token
-
   } else if (inherits(token, "character")) {
-
     mermaid_token <- try(suppressWarnings(readRDS(token)), silent = TRUE)
     if (inherits(mermaid_token, "try-error")) {
       spf("Cannot read token from alleged .rds file:\n%s", token)
@@ -101,12 +98,13 @@ mermaid_auth <- function(token = NULL,
     }
     .state$token <- mermaid_token
   } else {
-    spf("Input provided via 'token' is neither a",
-        "token,\nnor a path to an .rds file containing a token.")
+    spf(
+      "Input provided via 'token' is neither a",
+      "token,\nnor a path to an .rds file containing a token."
+    )
   }
 
   invisible(.state$token)
-
 }
 
 #' Produce MERMAID token
@@ -139,26 +137,28 @@ omit_token_if <- function(cond) if (cond) NULL else mermaid_token()
 #'
 #' @keywords internal
 token_available <- function(verbose = TRUE) {
-
   if (is.null(.state$token)) {
     if (verbose) {
       if (file.exists(".httr-oauth")) {
-        message("A .httr-oauth file exists in current working ",
-                "directory.\nWhen/if needed, the credentials cached in ",
-                ".httr-oauth will be used for this session.\nOr run mermaid_auth() ",
-                "for explicit authentication and authorization.")
+        message(
+          "A .httr-oauth file exists in current working ",
+          "directory.\nWhen/if needed, the credentials cached in ",
+          ".httr-oauth will be used for this session.\nOr run mermaid_auth() ",
+          "for explicit authentication and authorization."
+        )
       } else {
-        message("No .httr-oauth file exists in current working directory.\n",
-                "When/if needed, 'mermaidr' will initiate authentication ",
-                "and authorization.\nOr run mermaid_auth() to trigger this ",
-                "explicitly.")
+        message(
+          "No .httr-oauth file exists in current working directory.\n",
+          "When/if needed, 'mermaidr' will initiate authentication ",
+          "and authorization.\nOr run mermaid_auth() to trigger this ",
+          "explicitly."
+        )
       }
     }
     return(FALSE)
   }
 
   TRUE
-
 }
 
 #' Suspend authorization
@@ -176,7 +176,6 @@ token_available <- function(verbose = TRUE) {
 #' mermaid_deauth()
 #' }
 mermaid_deauth <- function(clear_cache = TRUE, verbose = TRUE) {
-
   if (clear_cache && file.exists(".httr-oauth")) {
     if (verbose) {
       message("Disabling .httr-oauth by renaming to .httr-oauth-SUSPENDED")
@@ -194,14 +193,12 @@ mermaid_deauth <- function(clear_cache = TRUE, verbose = TRUE) {
   }
 
   invisible(NULL)
-
 }
 
 #' Check that token appears to be legitimate
 #'
 #' @keywords internal
 is_legit_token <- function(x, verbose = FALSE) {
-
   if (!inherits(x, "Token2.0")) {
     if (verbose) message("Not a Token2.0 object.")
     return(FALSE)
@@ -223,7 +220,6 @@ is_legit_token <- function(x, verbose = FALSE) {
   }
 
   TRUE
-
 }
 
 ## useful when debugging

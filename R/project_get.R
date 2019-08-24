@@ -6,7 +6,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#'
+#' 
 #' project_name <- "Beta testing"
 #' projects <- get_mermaid_endpoint("projects")
 #' project_id <- dplyr::filter(projects, name == project_name)[["id"]]
