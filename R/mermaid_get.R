@@ -11,7 +11,7 @@ mermaid_GET <- function(endpoint, limit = 50, url = base_url, token = NULL) {
   check_errors(resp)
 
   parsed <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyVector = FALSE, simplifyDataFrame = TRUE)
-  results <- dplyr::as_tibble(parsed[["results"]])
+  results <- tibble::as_tibble(parsed[["results"]])
 
   results
 }

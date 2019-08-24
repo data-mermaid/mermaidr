@@ -2,11 +2,13 @@ Package: mermaidr
 Title: Interface to the 'MERMAID' API
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "Sharla",
+    c(person(given = "Sharla",
            family = "Gelfand",
            role = c("aut", "cre"),
-           email = "sharla.gelfand@gmail.com")
-Description: Provides tools to interact with the 'Discogs' API
+           email = "sharla.gelfand@gmail.com"),
+      person(given = "Wildlife Conservation Society",
+             role = c("cph", "fnd")))
+Description: Provides tools to interact with the 'MERMAID' API
     <https://github.com/data-mermaid/mermaid-api/>.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -15,10 +17,7 @@ Imports:
     httr,
     jsonlite,
     magrittr,
-    purrr,
-    dplyr,
-    lubridate,
-    gargle
+    tibble
 RoxygenNote: 6.1.1
 Suggests: 
     testthat
