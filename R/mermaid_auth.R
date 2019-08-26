@@ -74,17 +74,26 @@
 mermaid_auth <- function(token = NULL,
                          new_user = FALSE,
                          key = Sys.getenv("MERMAID_OAUTH_API_CLIENT_ID"),
-                         cache = FALSE,
-                         verbose = TRUE) {
+                         cache = TRUE,
+                         verbose = TRUE,
+                         silent = FALSE) {
   if (new_user) {
     mermaid_deauth(clear_cache = TRUE, verbose = verbose)
   }
 
   if (is.null(token)) {
-    mermaid_endpoint <- httr::oauth_endpoint(
-      authorize = "https://datamermaid.auth0.com/authorize",
-      access = "https://datamermaid.auth0.com/oauth/token"
-    )
+    if (!silent) {
+      mermaid_endpoint <- httr::oauth_endpoint(
+        authorize = "https://datamermaid.auth0.com/authorize",
+        access = "https://datamermaid.auth0.com/oauth/token"
+      )
+    } else if (silent) {
+      mermaid_endpoint <- httr::oauth_endpoint(
+        authorize = "https://datamermaid.auth0.com/authorize",
+        access = "https://datamermaid.auth0.com/oauth/token",
+        prompt = "none"
+      )
+    }
     mermaid_app <- httr::oauth_app("mermaidr", key = key, secret = NULL)
     mermaid_token <-
       httr::oauth2.0_token(mermaid_endpoint, mermaid_app)
