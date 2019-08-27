@@ -14,7 +14,7 @@
 search_projects <- function(name = NULL, id = NULL) {
   projects <- get_mermaid_endpoint("projects", limit = 99999)
   if (!is.null(name)) {
-    projects <- projects[projects[["name"]] == name, ]
+    projects <- projects[grepl(tolower(name), tolower(projects[["name"]])), ]
   }
   if (!is.null(id)) {
     projects <- projects[projects[["id"]] == name, ]
