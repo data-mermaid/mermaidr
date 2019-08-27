@@ -99,6 +99,7 @@ mermaid_auth <- function(token = NULL,
       httr::oauth2.0_token(mermaid_endpoint, mermaid_app)
     stopifnot(is_legit_token(mermaid_token, verbose = TRUE))
     .state$token <- mermaid_token
+    .state$token_expires <- Sys.time() + mermaid_token$credentials$expires_in
   } else if (inherits(token, "Token2.0")) {
     stopifnot(is_legit_token(token, verbose = TRUE))
     .state$token <- token
@@ -131,8 +132,8 @@ mermaid_auth <- function(token = NULL,
 #' @return a \code{request} object (an S3 class provided by \code{httr})
 #'
 #' @keywords internal
-mermaid_token <- function(verbose = FALSE) {
-  if (!token_available(verbose = verbose)) mermaid_auth(verbose = verbose)
+mermaid_token <- function(verbose = FALSE, silent = FALSE) {
+  if (!token_available(verbose = verbose)) mermaid_auth(verbose = verbose, silent = silent)
   httr::config(token = .state$token)
 }
 
