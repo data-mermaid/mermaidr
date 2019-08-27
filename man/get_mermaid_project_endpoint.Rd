@@ -4,7 +4,7 @@
 \alias{get_mermaid_project_endpoint}
 \title{Get endpoint from a specified MERMAID project.}
 \usage{
-get_mermaid_project_endpoint(project_id,
+get_mermaid_project_endpoint(project,
   endpoint = c("beltfishtransectmethods", "beltfishes",
   "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits",
   "benthictransects", "collectrecords", "fishbelttransects",
@@ -14,7 +14,7 @@ get_mermaid_project_endpoint(project_id,
   limit = 50, url = base_url, token = mermaid_token())
 }
 \arguments{
-\item{project_id}{Project ID}
+\item{project}{A way to identify the project. Either a project ID (passed as a character vector directly), a single package resulting from \code{\link{get_mermaid_endpoint}} or \code{\link{search_projects}}}
 
 \item{endpoint}{Endpoint}
 
