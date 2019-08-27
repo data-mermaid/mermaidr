@@ -1,7 +1,7 @@
 #' Get endpoint from a specified MERMAID project.
 #'
 #' @inheritParams mermaid_GET
-#' @param project A way to identify the project. Either a project ID (passed as a character vector directly), a single package resulting from \code{\link{get_mermaid_endpoint}} or \code{\link{search_projects}}
+#' @param project A way to identify the project. Can be a project ID (passed as a character vector directly) or a single package resulting from \code{\link{get_mermaid_endpoint}} or \code{\link{search_projects}}. Defaults to the project set with \code{\link{set_default_project}}.
 #'
 #' @export
 #' @examples
@@ -16,8 +16,12 @@ get_mermaid_project_endpoint <- function(project, endpoint = c("beltfishtransect
   project_id <- as_id(project)
   endpoint <- check_endpoint(endpoint, mermaid_project_endpoint_columns)
   endpoint <- paste0("projects/", project_id, "/", endpoint)
-  res <- mermaid_GET(endpoint, limit = limit, url = url, token = mermaid_token())
+  res <- mermaid_GET(endpoint, limit = limit, url = url, token = token)
   res[, mermaid_project_endpoint_columns[[endpoint]]]
+}
+
+set_default_project <- function(project) {
+
 }
 
 mermaid_project_endpoint_columns <- list(
