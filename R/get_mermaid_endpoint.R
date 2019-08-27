@@ -4,7 +4,7 @@
 #'
 #' @export
 get_mermaid_endpoint <- function(endpoint = c("benthicattributes", "fishattributes", "fishfamilies", "fishgenera", "fishspecies", "managements", "projects", "sites"), limit = 50, url = base_url) {
-  endpoint <- check_mermaid_endpoint(endpoint)
+  endpoint <- check_endpoint(endpoint, mermaid_endpoint_columns)
   res <- mermaid_GET(endpoint, limit = limit, url = url)
   res[, mermaid_endpoint_columns[[endpoint]]]
 }
@@ -19,16 +19,3 @@ mermaid_endpoint_columns <- list(
   projects = c("id", "name", "countries", "num_sites", "tags", "notes", "status", "data_policy_beltfish", "data_policy_benthiclit", "data_policy_benthicpit", "data_policy_habitatcomplexity", "data_policy_bleachingqc", "created_on", "updated_on"),
   sites = c("id", "name", "notes", "project", "location", "country", "reef_type", "reef_zone", "exposure", "predecessor", "created_on", "updated_on")
 )
-
-check_mermaid_endpoint <- function(x) {
-  if(length(x) > 1) {
-    stop("Please provide a single `endpoint`.",
-         call. = FALSE)
-  } else if (!x %in% names(mermaid_endpoint_columns)) {
-    stop(paste0("endpoint must be one of '", paste0(names(mermaid_endpoint_columns), collapse = "', '"), "'."),
-      call. = FALSE
-    )
-  } else {
-    x
-  }
-}

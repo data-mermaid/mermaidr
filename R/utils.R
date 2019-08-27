@@ -48,3 +48,16 @@ check_id_in_df <- function(x, name) {
     x
   }
 }
+
+check_endpoint <- function(x, endpoints) {
+  if(length(x) > 1) {
+    stop("Please provide a single `endpoint`.",
+         call. = FALSE)
+  } else if (!x %in% names(endpoints)) {
+    stop(paste0("endpoint must be one of '", paste0(names(endpoints), collapse = "', '"), "'."),
+         call. = FALSE
+    )
+  } else {
+    x
+  }
+}
