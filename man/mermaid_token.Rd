@@ -6,7 +6,7 @@
 \alias{omit_token_if}
 \title{Produce MERMAID token}
 \usage{
-mermaid_token(verbose = FALSE)
+mermaid_token(verbose = FALSE, silent = FALSE)
 
 include_token_if(cond)
 
