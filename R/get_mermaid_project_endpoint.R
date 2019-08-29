@@ -16,11 +16,6 @@ get_mermaid_project_endpoint <- function(project, endpoint = c("beltfishtransect
   project_id <- as_id(project)
   endpoint <- check_endpoint(endpoint, mermaid_project_endpoint_columns)
   full_endpoint <- paste0("projects/", project_id, "/", endpoint)
-
-  # refresh token if needed
-  if (identical(token, mermaid_token()) && !is.null(.state$token_expires) && Sys.time() > .state$token_expires) {
-    token <- mermaid_token(silent = TRUE)
-  }
   res <- mermaid_GET(full_endpoint, limit = limit, url = url, token = token)
   res[, mermaid_project_endpoint_columns[[endpoint]]]
 }

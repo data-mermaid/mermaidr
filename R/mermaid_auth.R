@@ -75,28 +75,19 @@ mermaid_auth <- function(token = NULL,
                          new_user = FALSE,
                          key = Sys.getenv("MERMAID_OAUTH_API_CLIENT_ID"),
                          cache = TRUE,
-                         verbose = TRUE,
-                         silent = FALSE) {
+                         verbose = TRUE) {
   if (new_user) {
     mermaid_deauth(clear_cache = TRUE, verbose = verbose)
   }
 
   if (is.null(token)) {
-    if (!silent) {
-      mermaid_endpoint <- httr::oauth_endpoint(
-        authorize = "https://datamermaid.auth0.com/authorize",
-        access = "https://datamermaid.auth0.com/oauth/token"
-      )
-    } else if (silent) {
-      mermaid_endpoint <- httr::oauth_endpoint(
+    mermaid_endpoint <- httr::oauth_endpoint(
         authorize = "https://datamermaid.auth0.com/authorize",
         access = "https://datamermaid.auth0.com/oauth/token",
         prompt = "none"
       )
-    }
-    mermaid_app <- httr::oauth_app("mermaidr", key = key, secret = NULL)
-    mermaid_token <-
-      httr::oauth2.0_token(mermaid_endpoint, mermaid_app)
+  mermaid_app <- httr::oauth_app("mermaidr", key = key, secret = NULL)
+    mermaid_token <- httr::oauth2.0_token(mermaid_endpoint, mermaid_app, cache = FALSE)
     stopifnot(is_legit_token(mermaid_token, verbose = TRUE))
     .state$token <- mermaid_token
     .state$token_expires <- Sys.time() + mermaid_token$credentials$expires_in
@@ -132,8 +123,8 @@ mermaid_auth <- function(token = NULL,
 #' @return a \code{request} object (an S3 class provided by \code{httr})
 #'
 #' @keywords internal
-mermaid_token <- function(verbose = FALSE, silent = FALSE) {
-  if (!token_available(verbose = verbose)) mermaid_auth(verbose = verbose, silent = silent)
+mermaid_token <- function(verbose = FALSE) {
+  if (!token_available(verbose = verbose)) mermaid_auth(verbose = verbose)
   httr::config(token = .state$token)
 }
 

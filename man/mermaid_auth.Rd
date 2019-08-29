@@ -6,7 +6,7 @@
 \usage{
 mermaid_auth(token = NULL, new_user = FALSE,
   key = Sys.getenv("MERMAID_OAUTH_API_CLIENT_ID"), cache = TRUE,
-  verbose = TRUE, silent = FALSE)
+  verbose = TRUE)
 }
 \arguments{
 \item{token}{optional; an actual token object or the path to a valid token
