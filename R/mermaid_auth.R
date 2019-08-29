@@ -73,7 +73,7 @@
 #' }
 mermaid_auth <- function(token = NULL,
                          new_user = FALSE,
-                         key = Sys.getenv("MERMAID_OAUTH_API_CLIENT_ID"),
+                         key = "6q1XvYG0n75ZaLbFko0gUV4xGud4uPyG",
                          cache = TRUE,
                          verbose = TRUE) {
   if (new_user) {

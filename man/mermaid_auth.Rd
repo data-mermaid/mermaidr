@@ -5,7 +5,7 @@
 \title{Authorize \code{mermaidr}}
 \usage{
 mermaid_auth(token = NULL, new_user = FALSE,
-  key = Sys.getenv("MERMAID_OAUTH_API_CLIENT_ID"), cache = TRUE,
+  key = "6q1XvYG0n75ZaLbFko0gUV4xGud4uPyG", cache = TRUE,
   verbose = TRUE)
 }
 \arguments{
