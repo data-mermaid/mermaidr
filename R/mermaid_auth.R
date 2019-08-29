@@ -73,7 +73,7 @@
 #' }
 mermaid_auth <- function(token = NULL,
                          new_user = FALSE,
-                         key = "6q1XvYG0n75ZaLbFko0gUV4xGud4uPyG",
+                         key = mermaid_key,
                          cache = TRUE,
                          verbose = TRUE) {
   if (new_user) {
@@ -82,16 +82,15 @@ mermaid_auth <- function(token = NULL,
 
   if (is.null(token)) {
     mermaid_endpoint <- httr::oauth_endpoint(
-        authorize = "https://datamermaid.auth0.com/authorize",
-        access = "https://datamermaid.auth0.com/oauth/token",
-        prompt = "none"
-      )
-  mermaid_app <- httr::oauth_app("mermaidr", key = key, secret = NULL)
-    mermaid_token <- httr::oauth2.0_token(mermaid_endpoint, mermaid_app, cache = FALSE)
+      authorize = mermaid_authorize_url,
+      access = mermaid_access_url,
+      prompt = "none"
+    )
+    mermaid_app <- httr::oauth_app("mermaidr", key = key, secret = NULL)
+    mermaid_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, key, cache = cache)
     stopifnot(is_legit_token(mermaid_token, verbose = TRUE))
     .state$token <- mermaid_token
-    .state$token_expires <- Sys.time() + mermaid_token$credentials$expires_in
-  } else if (inherits(token, "Token2.0")) {
+  } else if (inherits(token, "Mermaid2.0")) {
     stopifnot(is_legit_token(token, verbose = TRUE))
     .state$token <- token
   } else if (inherits(token, "character")) {
@@ -205,8 +204,8 @@ mermaid_deauth <- function(clear_cache = TRUE, verbose = TRUE) {
 #'
 #' @keywords internal
 is_legit_token <- function(x, verbose = FALSE) {
-  if (!inherits(x, "Token2.0")) {
-    if (verbose) message("Not a Token2.0 object.")
+  if (!inherits(x, "Mermaid2.0")) {
+    if (verbose) message("Not a Mermaid2.0 object.")
     return(FALSE)
   }
 

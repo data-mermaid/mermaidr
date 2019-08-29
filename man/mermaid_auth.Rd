@@ -4,9 +4,8 @@
 \alias{mermaid_auth}
 \title{Authorize \code{mermaidr}}
 \usage{
-mermaid_auth(token = NULL, new_user = FALSE,
-  key = "6q1XvYG0n75ZaLbFko0gUV4xGud4uPyG", cache = TRUE,
-  verbose = TRUE)
+mermaid_auth(token = NULL, new_user = FALSE, key = mermaid_key,
+  cache = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{token}{optional; an actual token object or the path to a valid token
