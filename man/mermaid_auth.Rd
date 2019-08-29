@@ -5,7 +5,7 @@
 \title{Authorize \code{mermaidr}}
 \usage{
 mermaid_auth(token = NULL, new_user = FALSE, key = mermaid_key,
-  cache = TRUE, verbose = TRUE)
+  cache = getOption("mermaidr.httr_oauth_cache"), verbose = TRUE)
 }
 \arguments{
 \item{token}{optional; an actual token object or the path to a valid token

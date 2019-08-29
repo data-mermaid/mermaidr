@@ -74,7 +74,7 @@
 mermaid_auth <- function(token = NULL,
                          new_user = FALSE,
                          key = mermaid_key,
-                         cache = TRUE,
+                         cache = getOption("mermaidr.httr_oauth_cache"),
                          verbose = TRUE) {
   if (new_user) {
     mermaid_deauth(clear_cache = TRUE, verbose = verbose)
