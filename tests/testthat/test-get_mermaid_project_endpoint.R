@@ -1,10 +1,11 @@
 context("test-get_mermaid_project_endpoint")
 
-mermaid_auth(token = test_path("mermaidr_token.rds"), verbose = FALSE)
+mermaid_auth(token = test_path("mermaidr_token.rds"))
 
 test_that("Testing token is in force", expect_true(mermaidr:::token_available()))
 
 test_that("get_mermaid_project_endpoint throws an error when no project is passed, when trying to get data from a project you don't have access to, and when an unexpected endpoint is passed", {
+  skip_if_offline()
   expect_error(get_mermaid_project_endpoint())
   beta_project <- search_projects("beta")
   expect_error(get_mermaid_project_endpoint(beta_project, "sites"), regexp = "Forbidden")
@@ -12,6 +13,7 @@ test_that("get_mermaid_project_endpoint throws an error when no project is passe
 })
 
 test_that("get_mermaid_project_endpoint returns a tibble when passed a known endpoint.", {
+  skip_if_offline()
   test_project <- search_projects("mermaidr testing")
   expect_is(get_mermaid_project_endpoint(test_project, "sites"), "tbl_df")
   output <- get_mermaid_project_endpoint(test_project, "beltfishtransectmethods")
