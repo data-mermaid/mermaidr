@@ -1,3 +1,10 @@
+check_internet <- function(){
+  if(!curl::has_internet()) {
+    stop("`mermaidr` does not work offline. Please check your internet connection.",
+         call. = FALSE)
+  }
+}
+
 check_limit <- function(limit) {
   if (length(limit) != 1) {
     stop("`limit` must be a length 1 positive integer vector.",

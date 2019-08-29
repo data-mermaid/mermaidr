@@ -5,8 +5,9 @@
 #' @param url API URL. Defaults to https://dev-api.datamermaid.org
 #' @param token API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}
 mermaid_GET <- function(endpoint, limit = 50, url = base_url, token = NULL) {
-  limit <- check_limit(limit)
+  check_internet()
 
+  limit <- check_limit(limit)
   path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit))
   resp <- httr::GET(path, ua, token)
 
