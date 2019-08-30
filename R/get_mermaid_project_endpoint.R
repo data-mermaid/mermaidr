@@ -13,11 +13,20 @@
 #' get_mermaid_project_endpoint(project_id, "sampleevents")
 #' }
 get_mermaid_project_endpoint <- function(project, endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "profiles", "project_profiles", "sampleevents", "sites"), limit = 50, url = base_url, token = mermaid_token()) {
+
   project_id <- as_id(project)
   endpoint <- check_endpoint(endpoint, mermaid_project_endpoint_columns)
   full_endpoint <- paste0("projects/", project_id, "/", endpoint)
   res <- mermaid_GET(full_endpoint, limit = limit, url = url, token = token)
+
+  if (nrow(res) == 0) {
+    cols <- mermaid_project_endpoint_columns[[endpoint]]
+    res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)), .name_repair = "minimal")
+    names(res) <- cols
+    res
+  } else {
   res[, mermaid_project_endpoint_columns[[endpoint]]]
+  }
 }
 
 mermaid_project_endpoint_columns <- list(
