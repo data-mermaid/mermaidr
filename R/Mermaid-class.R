@@ -34,22 +34,23 @@ mermaid2.0_token <- function(endpoint, app, scope = NULL, user_params = NULL,
   )
 }
 
-renew_mermaid2.0 <- function(credentials, key) {
+renew_mermaid2.0 <- function(credentials) {
   mermaid_endpoint <- httr::oauth_endpoint(
     authorize = mermaid_authorize_url,
     access = mermaid_access_url,
     prompt = "none"
   )
-  mermaid_app <- httr::oauth_app("mermaidr", key = key, secret = NULL)
-  renew_data <- httr::init_oauth2.0(mermaid_endpoint, mermaid_app)
-  utils::modifyList(credentials, renew_data)
+  mermaid_app <- httr::oauth_app("mermaidr", key = mermaid_key, secret = NULL)
+  renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app)
+  credentials$access_token <- renewed_token$credentials$access_token
+  credentials
 }
 
 Mermaid2.0 <- R6::R6Class("Mermaid2.0", inherit = httr::Token2.0, list(
-  can_renew = function() {
+  can_refresh = function() {
     TRUE
   },
-  renew = function() {
+  refresh = function() {
     cred <- renew_mermaid2.0(
       self$credentials
     )

@@ -59,14 +59,14 @@
 #' ## load/refresh existing credentials, if available
 #' ## otherwise, go to browser for authentication and authorization
 #' mermaid_auth()
-#'
+#' 
 #' ## force a new token to be obtained
 #' mermaid_auth(new_user = TRUE)
-#'
+#' 
 #' ## store token in an object and then to file
 #' ttt <- mermaid_auth()
 #' saveRDS(ttt, "ttt.rds")
-#'
+#' 
 #' ## load a pre-existing token
 #' mermaid_auth(token = ttt) # from an object
 #' mermaid_auth(token = "ttt.rds") # from .rds file
@@ -87,7 +87,7 @@ mermaid_auth <- function(token = NULL,
       prompt = "none"
     )
     mermaid_app <- httr::oauth_app("mermaidr", key = key, secret = NULL)
-    mermaid_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, key, cache = cache)
+    mermaid_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, cache = cache)
     stopifnot(is_legit_token(mermaid_token, verbose = TRUE))
     .state$token <- mermaid_token
   } else if (inherits(token, "Mermaid2.0")) {
