@@ -11,13 +11,15 @@
 #' \dontrun {
 #' search_projects(name = "mermaidr testing")
 #' }
-search_projects <- function(name = NULL, id = NULL) {
+search_projects <- function(name = NULL, id = NULL, fixed = FALSE) {
   projects <- get_mermaid_endpoint("projects", limit = 99999)
-  if (!is.null(name)) {
-    projects <- projects[grepl(tolower(name), tolower(projects[["name"]])), ]
-  }
   if (!is.null(id)) {
-    projects <- projects[projects[["id"]] == name, ]
+    projects[projects[["id"]] == id, ]
+  } else if (!is.null(name)) {
+    if (fixed) {
+      projects[tolower(name) == tolower(projects[["name"]]), ]
+    } else {
+      projects[grepl(tolower(name), tolower(projects[["name"]])), ]
+    }
   }
-  projects
 }
