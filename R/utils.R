@@ -1,21 +1,22 @@
-check_internet <- function(){
-  if(!curl::has_internet()) {
+check_internet <- function() {
+  if (!curl::has_internet()) {
     stop("`mermaidr` does not work offline. Please check your internet connection.",
-         call. = FALSE)
+      call. = FALSE
+    )
   }
 }
 
 check_limit <- function(limit) {
   if (length(limit) != 1) {
     stop("`limit` must be a length 1 positive integer vector.",
-         call. = FALSE
+      call. = FALSE
     )
   } else if (!is.numeric(limit) ||
-             !(limit %% 1 == 0) ||
-             limit <= 0 ||
-             limit == Inf) {
+    !(limit %% 1 == 0) ||
+    limit <= 0 ||
+    limit == Inf) {
     stop("`limit` must be a positive integer.",
-         call. = FALSE
+      call. = FALSE
     )
   } else {
     limit
@@ -31,12 +32,12 @@ as_id <- function(x) {
       as.character(x[["id"]])
     } else {
       stop(paste0("`", object_name, "` must be a 1 row data frame or a length 1 character vector."),
-           call. = FALSE
+        call. = FALSE
       )
     }
   } else if (!(is.vector(x) && length(x) == 1 && is.character(x))) {
     stop(paste0("`", object_name, "` must be a 1 row data frame or a length 1 character vector."),
-         call. = FALSE
+      call. = FALSE
     )
   } else {
     x
@@ -46,7 +47,7 @@ as_id <- function(x) {
 check_id_in_df <- function(x, name) {
   if (!("id" %in% names(x))) {
     stop(paste0("`", name, '` must contain a column "id".'),
-         call. = FALSE
+      call. = FALSE
     )
   } else {
     x
@@ -54,12 +55,13 @@ check_id_in_df <- function(x, name) {
 }
 
 check_endpoint <- function(x, endpoints) {
-  if(length(x) > 1) {
+  if (length(x) > 1) {
     stop("Please provide a single `endpoint`.",
-         call. = FALSE)
+      call. = FALSE
+    )
   } else if (!x %in% names(endpoints)) {
     stop(paste0("endpoint must be one of '", paste0(names(endpoints), collapse = "', '"), "'."),
-         call. = FALSE
+      call. = FALSE
     )
   } else {
     x

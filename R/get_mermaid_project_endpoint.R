@@ -6,14 +6,13 @@
 #' @export
 #' @examples
 #' \dontrun{
-#'
+#' 
 #' project_name <- "Beta testing"
 #' projects <- get_mermaid_endpoint("projects")
 #' project_id <- dplyr::filter(projects, name == project_name)[["id"]]
 #' get_mermaid_project_endpoint(project_id, "sampleevents")
 #' }
 get_mermaid_project_endpoint <- function(project, endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "profiles", "project_profiles", "sampleevents", "sites"), limit = 50, url = base_url, token = mermaid_token()) {
-
   project_id <- as_id(project)
   endpoint <- check_endpoint(endpoint, mermaid_project_endpoint_columns)
   full_endpoint <- paste0("projects/", project_id, "/", endpoint)
@@ -25,7 +24,7 @@ get_mermaid_project_endpoint <- function(project, endpoint = c("beltfishtransect
     names(res) <- cols
     res
   } else {
-  res[, mermaid_project_endpoint_columns[[endpoint]]]
+    res[, mermaid_project_endpoint_columns[[endpoint]]]
   }
 }
 
