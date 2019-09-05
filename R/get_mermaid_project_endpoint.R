@@ -1,12 +1,12 @@
 #' Get endpoint from a specified MERMAID project.
 #'
 #' @inheritParams mermaid_GET
-#' @param project A way to identify the project. Can be a project ID (passed as a character vector directly) or a single package resulting from \code{\link{get_mermaid_endpoint}} or \code{\link{search_projects}}. Defaults to the project set with \code{\link{set_default_project}}.
+#' @param project A way to identify the project. Can be a project ID (passed as a character vector directly) or a single package resulting from \code{\link{get_mermaid_endpoint}} or \code{\link{search_projects}}.
 #'
 #' @export
 #' @examples
 #' \dontrun{
-#' 
+#'
 #' project_name <- "Beta testing"
 #' projects <- get_mermaid_endpoint("projects")
 #' project_id <- dplyr::filter(projects, name == project_name)[["id"]]

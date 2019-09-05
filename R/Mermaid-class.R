@@ -1,6 +1,8 @@
 #' Generate a mermaid token
 #'
 #' Constructor function for objects of class [Mermaid2.0].
+#'
+#' @inheritParams httr::oauth2.0_token
 mermaid2.0_token <- function(endpoint, app, scope = NULL, user_params = NULL,
                              type = NULL,
                              use_oob = getOption("httr_oob_default"),

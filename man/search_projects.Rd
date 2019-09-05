@@ -10,12 +10,9 @@ search_projects(name = NULL, id = NULL, fixed = FALSE)
 \item{name}{Project name}
 
 \item{id}{Project ID}
+
+\item{fixed}{Whether the search should be by the exact \code{name} only (as opposed to the package name just needing to contain \code{name}). Defaults to FALSE.}
 }
 \description{
 Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
-}
-\examples{
-\dontrun {
-search_projects(name = "mermaidr testing")
-}
 }

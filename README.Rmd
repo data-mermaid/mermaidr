@@ -60,7 +60,7 @@ The following project endpoints are available: "beltfishtransectmethods", "beltf
 For example:
 
 ```{r, include = FALSE}
-mermaid_auth(token = "mermaidr_token.rds")
+mermaid_auth(token = testthat::test_path("mermaidr_token.rds"))
 ```
 
 ```{r}

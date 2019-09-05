@@ -14,7 +14,7 @@ get_mermaid_project_endpoint(project,
   limit = 50, url = base_url, token = mermaid_token())
 }
 \arguments{
-\item{project}{A way to identify the project. Can be a project ID (passed as a character vector directly) or a single package resulting from \code{\link{get_mermaid_endpoint}} or \code{\link{search_projects}}. Defaults to the project set with \code{\link{set_default_project}}.}
+\item{project}{A way to identify the project. Can be a project ID (passed as a character vector directly) or a single package resulting from \code{\link{get_mermaid_endpoint}} or \code{\link{search_projects}}.}
 
 \item{endpoint}{Endpoint}
 
