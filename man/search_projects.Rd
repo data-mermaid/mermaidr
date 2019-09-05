@@ -4,7 +4,7 @@
 \alias{search_projects}
 \title{Search projects by name or ID}
 \usage{
-search_projects(name = NULL, id = NULL)
+search_projects(name = NULL, id = NULL, fixed = FALSE)
 }
 \arguments{
 \item{name}{Project name}

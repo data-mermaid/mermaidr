@@ -14,7 +14,7 @@ test_that("get_mermaid_project_endpoint throws an error when no project is passe
 
 test_that("get_mermaid_project_endpoint returns a tibble when passed a known endpoint.", {
   skip_if_offline()
-  test_project <- search_projects("mermaidr testing")
+  test_project <- search_projects("mermaidr testing", fixed = TRUE)
   expect_is(get_mermaid_project_endpoint(test_project, "sites"), "tbl_df")
   output <- get_mermaid_project_endpoint(test_project, "beltfishtransectmethods")
   expect_equal(names(output), mermaid_project_endpoint_columns[["beltfishtransectmethods"]])
