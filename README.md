@@ -109,8 +109,7 @@ For example:
 ``` r
 library(dplyr)
 
-mermaidr_project <- get_mermaid_endpoint("projects", limit = 100) %>%
-  filter(name == "mermaidr testing")
+mermaidr_project <- search_projects("mermaidr testing", fixed = TRUE)
 
 mermaidr_project %>%
   get_mermaid_project_endpoint("obshabitatcomplexities")

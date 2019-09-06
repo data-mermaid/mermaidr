@@ -39,8 +39,7 @@ mermaid2.0_token <- function(endpoint, app, scope = NULL, user_params = NULL,
 renew_mermaid2.0 <- function(credentials) {
   mermaid_endpoint <- httr::oauth_endpoint(
     authorize = mermaid_authorize_url,
-    access = mermaid_access_url,
-    prompt = "none"
+    access = mermaid_access_url
   )
   mermaid_app <- httr::oauth_app("mermaidr", key = mermaid_key, secret = NULL)
   renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app)
