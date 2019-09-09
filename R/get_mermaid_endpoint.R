@@ -3,7 +3,7 @@
 #' @inheritParams mermaid_GET
 #'
 #' @export
-get_mermaid_endpoint <- function(endpoint = c("benthicattributes", "fishattributes", "fishfamilies", "fishgenera", "fishspecies", "managements", "projects", "sites"), limit = 50, url = base_url) {
+get_mermaid_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishattributes", "fishfamilies", "fishgenera", "fishspecies", "managements", "projects", "sites"), limit = 50, url = base_url) {
   endpoint <- check_endpoint(endpoint, mermaid_endpoint_columns)
   res <- mermaid_GET(endpoint, limit = limit, url = url)
 
@@ -15,12 +15,11 @@ get_mermaid_endpoint <- function(endpoint = c("benthicattributes", "fishattribut
   } else {
     res[, mermaid_endpoint_columns[[endpoint]]]
   }
-
-  res[, mermaid_endpoint_columns[[endpoint]]]
 }
 
 mermaid_endpoint_columns <- list(
   benthicattributes = c("id", "name", "status", "parent", "updated_on", "created_on"),
+  choices = c("name", "data"),
   fishattributes = c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "trophic_group", "trophic_level", "functional_group", "vulnerability", "created_on", "updated_on"),
   fishfamilies = c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "created_on", "updated_on"),
   fishgenera = c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "family", "created_on", "updated_on"),

@@ -4,9 +4,9 @@
 \alias{get_mermaid_endpoint}
 \title{Get MERMAID Endpoint}
 \usage{
-get_mermaid_endpoint(endpoint = c("benthicattributes", "fishattributes",
-  "fishfamilies", "fishgenera", "fishspecies", "managements", "projects",
-  "sites"), limit = 50, url = base_url)
+get_mermaid_endpoint(endpoint = c("benthicattributes", "choices",
+  "fishattributes", "fishfamilies", "fishgenera", "fishspecies",
+  "managements", "projects", "sites"), limit = 50, url = base_url)
 }
 \arguments{
 \item{endpoint}{Endpoint}
