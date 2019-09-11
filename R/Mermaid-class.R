@@ -13,7 +13,8 @@ mermaid2.0_token <- function(endpoint, app, scope = NULL, user_params = NULL,
                              config_init = list(),
                              client_credentials = FALSE,
                              credentials = NULL,
-                             query_authorize_extra = list()) {
+                             query_authorize_extra = list(),
+                             refresh = FALSE) {
   params <- list(
     scope = scope,
     user_params = user_params,
@@ -32,7 +33,8 @@ mermaid2.0_token <- function(endpoint, app, scope = NULL, user_params = NULL,
     endpoint = endpoint,
     params = params,
     credentials = credentials,
-    cache_path = if (is.null(credentials)) cache else FALSE
+    cache_path = if (is.null(credentials)) cache else FALSE,
+    refresh = refresh
   )
 }
 
@@ -42,12 +44,37 @@ renew_mermaid2.0 <- function(credentials) {
     access = mermaid_access_url
   )
   mermaid_app <- httr::oauth_app("mermaidr", key = mermaid_key, secret = NULL)
-  renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app)
+  renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, refresh = TRUE)
   credentials$access_token <- renewed_token$credentials$access_token
   credentials
 }
 
 Mermaid2.0 <- R6::R6Class("Mermaid2.0", inherit = httr::Token2.0, list(
+  initialize = function(app, endpoint, params = list(), credentials = NULL,
+                        private_key = NULL,
+                        cache_path = getOption("httr_oauth_cache"),
+                        refresh = FALSE) {
+
+    self$app <- app
+    self$endpoint <- endpoint
+    self$params <- params
+    self$cache_path <- httr:::use_cache(cache_path)
+    self$private_key <- private_key
+
+    if (!is.null(credentials)) {
+      # Use credentials created elsewhere - usually for tests
+      self$credentials <- credentials
+      return(self)
+    }
+
+    # Are credentials cache already?
+    if (self$load_from_cache() && !refresh) {
+      self
+    } else {
+      self$init_credentials()
+      self$cache()
+    }
+  },
   can_refresh = function() {
     TRUE
   },
