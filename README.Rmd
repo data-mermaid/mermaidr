@@ -33,7 +33,9 @@ devtools::install_github("mermaidr/mermaidr@package")
 
 `mermaidr` will help you interact with MERMAID Collect as an authenticated user, as soon as you need. This is only required for accessing project specific data. To access a list of projects, sites, etc, you do not need to be authenticated.
 
-If you would like to authenticate yourself immediately, use `mermaid_auth()`. This will open your browser to the MERMAID Collect login. Once you log in, you can go back to R and will be authenticated. You will not need to do this again, so long as you tell R that you'd like to cache your token the first time around.
+If you would like to authenticate yourself immediately, use `mermaid_auth()`. This will open your browser to the MERMAID Collect login. Once you log in, you can go back to R and will be authenticated.
+
+The login credentials expire every 24 hours. Once your credentials are expired, `mermaidr` will again help you automatically authenticate when needed.
 
 ## Usage
 
@@ -53,18 +55,31 @@ get_mermaid_endpoint("managements")
 
 ### Accessing project data
 
-To access data for a specific project, use `get_mermaid_project_endpoint()` with the `project_id`, from `get_mermaid_endpoint("projects")`. This requires authentication, i.e. you will only be able to pull data for projects that you have access to.
-
-The following project endpoints are available: "beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "collectrecords", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites".
+You will be able to access data from a specific project, provided that you have access to it in the Collect app. To access data for a project, you can either use a project from `get_mermaid_endpoint("projects")` (as above), a `project_id` directly, or a project from `search_projects()`. 
 
 For example:
 
 ```{r}
 library(dplyr)
 
-mermaidr_project <- search_projects("mermaidr testing", fixed = TRUE)
+mermaidr_project <- search_projects(name = "mermaidr testing", exact_name = TRUE)
 
-mermaidr_project %>%
-  get_mermaid_project_endpoint("obshabitatcomplexities")
+mermaidr_project
+```
+
+returns a single project with the exact name "mermaidr testing".
+
+You can use this to access an endpoint for the project, using `get_mermaid_project_endpoint()`. The following project endpoints are available: "beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "collectrecords", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites".
+
+For example, to see the sites in this project:
+
+```{r}
+get_mermaid_project_endpoint(mermaidr_project, "sites")
+```
+
+You can also use the `project_id` directly to access data from a project, without having to search for it first. This may be handy since the `project_id` is directly available from the URL when using the collect app.
+
+```{r}
+get_mermaid_project_endpoint("e477b009-cfd9-4d71-9b8c-d1684f38b954", "managements")
 ```
 

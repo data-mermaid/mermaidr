@@ -32,8 +32,10 @@ etc, you do not need to be authenticated.
 If you would like to authenticate yourself immediately, use
 `mermaid_auth()`. This will open your browser to the MERMAID Collect
 login. Once you log in, you can go back to R and will be authenticated.
-You will not need to do this again, so long as you tell R that you’d
-like to cache your token the first time around.
+
+The login credentials expire every 24 hours. Once your credentials are
+expired, `mermaidr` will again help you automatically authenticate when
+needed.
 
 ## Usage
 
@@ -57,11 +59,11 @@ get_mermaid_endpoint("projects")
 #>  3 eab7… Admi… <chr [1]>         2 <chr… ""        80               50
 #>  4 8701… Ahus… <chr [1]>         1 <chr… Offl…     90               50
 #>  5 a515… Ashi… <chr [1]>         1 <chr… Play…     90               50
-#>  6 7d38… Awal… <chr [0]>         0 <chr… Lear…     90               50
+#>  6 cbb3… Auto… <chr [1]>         3 <chr… ""        80               50
 #>  7 cc0d… Awal… <chr [0]>         0 <chr… Lear…     90               50
-#>  8 1243… Bana… <chr [2]>         4 <chr… ""        90               50
-#>  9 1ee5… Bana… <chr [1]>         4 <chr… ""        90               50
-#> 10 363a… bela… <chr [0]>         0 <chr… ""        90               50
+#>  8 7d38… Awal… <chr [0]>         0 <chr… Lear…     90               50
+#>  9 1243… Bana… <chr [2]>         4 <chr… ""        90               50
+#> 10 1ee5… Bana… <chr [1]>         4 <chr… ""        90               50
 #> # … with 40 more rows, and 6 more variables: data_policy_benthiclit <int>,
 #> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
 #> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
@@ -73,15 +75,15 @@ get_mermaid_endpoint("managements")
 #>    id    name  name_secondary project project_name rules notes est_year
 #>    <chr> <chr> <chr>          <chr>   <chr>        <chr> <chr>    <int>
 #>  1 781a… a ne… j              5a57df… fishman pro… Open… ""        1990
-#>  2 f50f… Aqua… Use Zone       99f71b… Golem Autom… ""    ""        2017
-#>  3 469c… Aqua… Use Zone       834aa6… Admin Is Te… ""    ""        2017
-#>  4 c19f… Aqua… Use Zone       9de827… XPDC Kei Ke… ""    ""          NA
-#>  5 7234… Aqua… Use Zone       1d0c0f… Collector I… ""    ""        2017
-#>  6 9517… Aqua… Use Zone       30e47b… Lamu         ""    ""          NA
-#>  7 274d… Aqua… Use Zone       170ff1… QA Project … ""    ""          NA
-#>  8 7f35… Aqua… Use Zone       13b516… Collector I… ""    ""        2017
-#>  9 6f79… Aqua… Use Zone       f123d4… Test Zoom 1  ""    ""          NA
-#> 10 7631… Aqua… Use Zone       bbd8b9… Test Projec… ""    ""        2017
+#>  2 6fb5… Aqua… Use Zone       e0119b… Cañada Test  ""    ""          NA
+#>  3 6f79… Aqua… Use Zone       f123d4… Test Zoom 1  ""    ""          NA
+#>  4 7f35… Aqua… Use Zone       13b516… Collector I… ""    ""        2017
+#>  5 469c… Aqua… Use Zone       834aa6… Admin Is Te… ""    ""        2017
+#>  6 c19f… Aqua… Use Zone       9de827… XPDC Kei Ke… ""    ""          NA
+#>  7 9517… Aqua… Use Zone       30e47b… Lamu         ""    ""          NA
+#>  8 7631… Aqua… Use Zone       bbd8b9… Test Projec… ""    ""        2017
+#>  9 f50f… Aqua… Use Zone       99f71b… Golem Autom… ""    ""        2017
+#> 10 7234… Aqua… Use Zone       1d0c0f… Collector I… ""    ""        2017
 #> # … with 40 more rows, and 11 more variables: no_take <lgl>,
 #> #   periodic_closure <lgl>, open_access <lgl>, size_limits <lgl>,
 #> #   gear_restriction <lgl>, species_restriction <lgl>, compliance <chr>,
@@ -90,33 +92,66 @@ get_mermaid_endpoint("managements")
 
 ### Accessing project data
 
-To access data for a specific project, use
-`get_mermaid_project_endpoint()` with the `project_id`, from
-`get_mermaid_endpoint("projects")`. This requires authentication,
-i.e. you will only be able to pull data for projects that you have
-access to.
-
-The following project endpoints are available:
-“beltfishtransectmethods”, “beltfishes”,
-“benthiclittransectmethods”, “benthicpittransectmethods”,
-“benthicpits”, “collectrecords”, “habitatcomplexities”,
-“obsbenthiclits”, “obsbenthicpits”, “obshabitatcomplexities”,
-“obstransectbeltfishs”, “managements”, “observers”,
-“project\_profiles”, “sampleevents”, “sites”.
+You will be able to access data from a specific project, provided that
+you have access to it in the Collect app. To access data for a project,
+you can either use a project from `get_mermaid_endpoint("projects")` (as
+above), a `project_id` directly, or a project from `search_projects()`.
 
 For example:
 
 ``` r
 library(dplyr)
 
-mermaidr_project <- search_projects("mermaidr testing", fixed = TRUE)
+mermaidr_project <- search_projects(name = "mermaidr testing", exact_name = TRUE)
 
-mermaidr_project %>%
-  get_mermaid_project_endpoint("obshabitatcomplexities")
-#> # A tibble: 2 x 9
-#>   id    data  interval include notes habitatcomplexi… score created_on
-#>   <chr> <lgl>    <dbl> <lgl>   <chr> <chr>            <chr> <chr>     
-#> 1 0734… NA           2 TRUE    ""    dd6cc72d-b9d9-4… a5e0… 2019-08-2…
-#> 2 5704… NA           1 TRUE    ""    dd6cc72d-b9d9-4… b72a… 2019-08-2…
-#> # … with 1 more variable: updated_on <chr>
+mermaidr_project
+#> # A tibble: 1 x 14
+#>   id    name  countries num_sites tags  notes status data_policy_bel…
+#>   <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
+#> 1 e477… merm… <chr [2]>         2 <chr… ""        80               50
+#> # … with 6 more variables: data_policy_benthiclit <int>,
+#> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
+#> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
+```
+
+returns a single project with the exact name “mermaidr testing”.
+
+You can use this to access an endpoint for the project, using
+`get_mermaid_project_endpoint()`. The following project endpoints are
+available: “beltfishtransectmethods”, “beltfishes”,
+“benthiclittransectmethods”, “benthicpittransectmethods”,
+“benthicpits”, “collectrecords”, “habitatcomplexities”,
+“obsbenthiclits”, “obsbenthicpits”, “obshabitatcomplexities”,
+“obstransectbeltfishs”, “managements”, “observers”,
+“project\_profiles”, “sampleevents”, “sites”.
+
+For example, to see the sites in this project:
+
+``` r
+get_mermaid_project_endpoint(mermaidr_project, "sites")
+#> # A tibble: 2 x 12
+#>   id    name  notes project location$type $coordinates country reef_type
+#>   <chr> <chr> <chr> <chr>   <chr>         <list>       <chr>   <chr>    
+#> 1 42c5… Belo… site… e477b0… Point         <dbl [2]>    dd865c… 2b99cdf4…
+#> 2 14cd… Belo… ""    e477b0… Point         <dbl [2]>    c570ff… 19534716…
+#> # … with 5 more variables: reef_zone <chr>, exposure <chr>,
+#> #   predecessor <chr>, created_on <chr>, updated_on <chr>
+```
+
+You can also use the `project_id` directly to access data from a
+project, without having to search for it first. This may be handy since
+the `project_id` is directly available from the URL when using the
+collect
+app.
+
+``` r
+get_mermaid_project_endpoint("e477b009-cfd9-4d71-9b8c-d1684f38b954", "managements")
+#> # A tibble: 1 x 17
+#>   id    name  name_secondary project notes est_year no_take
+#>   <chr> <chr> <chr>          <chr>   <chr>    <int> <lgl>  
+#> 1 4fb1… Test… For Testing 1… e477b0… Addi…     1970 NA     
+#> # … with 10 more variables: periodic_closure <lgl>, open_access <lgl>,
+#> #   size_limits <lgl>, gear_restriction <lgl>, species_restriction <lgl>,
+#> #   compliance <chr>, predecessor <chr>, parties <list>, created_on <chr>,
+#> #   updated_on <chr>
 ```
