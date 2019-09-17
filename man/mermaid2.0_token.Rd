@@ -62,6 +62,8 @@ token generation.}
 \item{query_authorize_extra}{Default to \code{list()}. Set to named list
 holding query parameters to append to initial auth page query. Useful for
 some APIs.}
+
+\item{refresh}{Whether the token is being refreshed. Defaults to FALSE.}
 }
 \description{
 Constructor function for objects of class [Mermaid2.0].
