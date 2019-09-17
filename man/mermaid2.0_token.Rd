@@ -9,7 +9,7 @@ mermaid2.0_token(endpoint, app, scope = NULL, user_params = NULL,
   oob_value = NULL, as_header = TRUE, use_basic_auth = FALSE,
   cache = getOption("httr_oauth_cache"), config_init = list(),
   client_credentials = FALSE, credentials = NULL,
-  query_authorize_extra = list())
+  query_authorize_extra = list(), refresh = FALSE)
 }
 \arguments{
 \item{endpoint}{An OAuth endpoint, created by \code{\link[=oauth_endpoint]{oauth_endpoint()}}}
