@@ -74,19 +74,19 @@ You can use this to access an endpoint for the project, using `get_mermaid_proje
 For example, to see the sites in this project:
 
 ```{r}
-get_mermaid_project_endpoint(mermaidr_project, "sites")
+get_mermaid_project_endpoint("sites", mermaidr_project)
 ```
 
 You can also use the `project_id` directly to access data from a project, without having to search for it first. This may be handy since the `project_id` is directly available from the URL when using the collect app.
 
 ```{r}
-get_mermaid_project_endpoint("e477b009-cfd9-4d71-9b8c-d1684f38b954", "managements")
+get_mermaid_project_endpoint("managements", "e477b009-cfd9-4d71-9b8c-d1684f38b954")
 ```
 
 If you want to access data from the same project multiple times within a session, it may be useful to set the default project, rather than having to supply it every time. You can do this using `set_default_project()`. Then, you can just supply the endpoint, and the default project is used.
 
 ```{r}
 set_default_project(mermaidr_project)
-get_mermaid_project_endpoint(endpoint = "beltfishes")
+get_mermaid_project_endpoint("beltfishes")
 ```
 

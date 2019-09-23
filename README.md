@@ -128,7 +128,7 @@ available: “beltfishtransectmethods”, “beltfishes”,
 For example, to see the sites in this project:
 
 ``` r
-get_mermaid_project_endpoint(mermaidr_project, "sites")
+get_mermaid_project_endpoint("sites", mermaidr_project)
 #> # A tibble: 2 x 12
 #>   id    name  notes project location$type $coordinates country reef_type
 #>   <chr> <chr> <chr> <chr>   <chr>         <list>       <chr>   <chr>    
@@ -145,7 +145,7 @@ collect
 app.
 
 ``` r
-get_mermaid_project_endpoint("e477b009-cfd9-4d71-9b8c-d1684f38b954", "managements")
+get_mermaid_project_endpoint("managements", "e477b009-cfd9-4d71-9b8c-d1684f38b954")
 #> # A tibble: 1 x 17
 #>   id    name  name_secondary project notes est_year no_take
 #>   <chr> <chr> <chr>          <chr>   <chr>    <int> <lgl>  
@@ -163,7 +163,7 @@ Then, you can just supply the endpoint, and the default project is used.
 
 ``` r
 set_default_project(mermaidr_project)
-get_mermaid_project_endpoint(endpoint = "beltfishes")
+get_mermaid_project_endpoint("beltfishes")
 #> # A tibble: 1 x 4
 #>   id                 transect             created_on       updated_on      
 #>   <chr>              <chr>                <chr>            <chr>           

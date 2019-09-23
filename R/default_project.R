@@ -10,7 +10,7 @@
 #' test_project <- search_projects("mermaidr testing", exact_name = TRUE)
 #' set_default_project(test_project)
 #' get_default_project()
-#' get_mermaid_project_endpoint(endpoint = "sites")
+#' get_mermaid_project_endpoint("sites")
 #' }
 set_default_project <- function (project) {
   project_id <- as_id(project)
