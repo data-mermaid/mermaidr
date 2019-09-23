@@ -233,5 +233,3 @@ access_token <- function() {
   }
   .state$token$credentials$access_token
 }
-
-spf <- function(...) stop(sprintf(...), call. = FALSE)

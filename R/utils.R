@@ -67,3 +67,7 @@ check_endpoint <- function(x, endpoints) {
     x
   }
 }
+
+spf <- function(...) {
+  stop(sprintf(...), call. = FALSE)
+}

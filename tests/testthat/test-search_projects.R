@@ -14,8 +14,7 @@ test_that("search_projects returns a zero row tibble if the project is not found
   output <- search_projects(id = id)
   expect_equal(nrow(output), 0)
   expect_is(output, "tbl_df")
-}
-)
+})
 
 test_that("check_single_project returns a warning if more than one result is returned", {
   x <- data.frame(a = 1:2)
