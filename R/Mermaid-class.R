@@ -52,10 +52,9 @@ renew_mermaid2.0 <- function(credentials) {
 
 Mermaid2.0 <- R6::R6Class("Mermaid2.0", inherit = httr::Token2.0, list(
   initialize = function(app, endpoint, params = list(), credentials = NULL,
-                        private_key = NULL,
-                        cache_path = getOption("httr_oauth_cache"),
-                        refresh = FALSE) {
-
+                          private_key = NULL,
+                          cache_path = getOption("httr_oauth_cache"),
+                          refresh = FALSE) {
     self$app <- app
     self$endpoint <- endpoint
     self$params <- params
