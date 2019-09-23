@@ -1,5 +1,12 @@
 context("test-utils")
 
+test_that("check_internet throws an error when there is no internet", {
+  with_mock(
+    "curl::has_internet" = function() FALSE,
+    expect_error(check_internet())
+  )
+})
+
 test_that("as_id throws error when passed a data frame that is not 1 row.", {
   expect_error(
     as_id(
@@ -54,6 +61,11 @@ test_that('as_id returns the contents of the "id" column when it is passed a 1 r
   )
 })
 
+test_that("as_id returns the object when passed a length 1 character vector", {
+  name <- "test"
+  expect_equal(as_id(name), name)
+})
+
 test_that('check_id_in_df returns an error when passed a data frame that doesn\'t contain an "id" column.', {
   x <- data.frame(a = 1)
   expect_error(
@@ -68,4 +80,44 @@ test_that('check_id_in_df returns the "id" column when present.', {
     names(res),
     "id"
   )
+})
+
+test_that("check_limit returns error if limit is not a length 1 positive integer.", {
+  expect_error(
+    check_limit(limit = -1),
+    "`limit` must be a positive integer."
+  )
+  expect_error(
+    check_limit(limit = 0),
+    "`limit` must be a positive integer."
+  )
+  expect_error(
+    check_limit(limit = -Inf),
+    "`limit` must be a positive integer."
+  )
+  expect_error(
+    check_limit(limit = 1.2),
+    "`limit` must be a positive integer."
+  )
+  expect_error(
+    check_limit(limit = c(1, 2)),
+    "`limit` must be a length 1 positive integer."
+  )
+})
+
+test_that("check_limit returns the limit if it is a length 1 positive integer.", {
+  limit <- 1
+  expect_equal(check_limit(limit), limit)
+})
+
+test_that("check_endpoint returns an error if more than one endpoint is passed.", {
+  expect_error(check_endpoint(x = c("a", "b"), endpoints = list(a = "a")))
+})
+
+test_that("check_endpoint returns an error if the endpoint passed is not in the specified list of endpoints.", {
+  expect_error(check_endpoint("b", endpoints = list(a = "a")))
+})
+
+test_that("check_endpoint returns the endpoint if a single, matching endpoint is passed.", {
+  expect_equal(check_endpoint("a", endpoints = list(a = "a")), "a")
 })
