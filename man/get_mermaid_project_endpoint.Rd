@@ -4,7 +4,7 @@
 \alias{get_mermaid_project_endpoint}
 \title{Get endpoint from a specified MERMAID project.}
 \usage{
-get_mermaid_project_endpoint(project,
+get_mermaid_project_endpoint(project = get_default_project(),
   endpoint = c("beltfishtransectmethods", "beltfishes",
   "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits",
   "benthictransects", "collectrecords", "fishbelttransects",
@@ -14,7 +14,7 @@ get_mermaid_project_endpoint(project,
   limit = 50, url = base_url, token = mermaid_token())
 }
 \arguments{
-\item{project}{A way to identify the project. Can be a project ID (passed as a character vector directly) or a single package resulting from \code{\link{get_mermaid_endpoint}} or \code{\link{search_projects}}.}
+\item{project}{A way to identify the project. Can be a project ID (passed as a character vector directly) or a single project resulting from \code{\link{get_mermaid_endpoint}} or \code{\link{search_projects}}. Defaults to the project listed via \code{get_default_project}, if available.}
 
 \item{endpoint}{Endpoint}
 
@@ -29,10 +29,7 @@ Get endpoint from a specified MERMAID project.
 }
 \examples{
 \dontrun{
-
-project_name <- "Beta testing"
-projects <- get_mermaid_endpoint("projects")
-project_id <- dplyr::filter(projects, name == project_name)[["id"]]
-get_mermaid_project_endpoint(project_id, "sampleevents")
+test_project <- search_projects("mermaidr testing", exact_name = TRUE)
+get_mermaid_project_endpoint(test_project, "sampleevents")
 }
 }

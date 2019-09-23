@@ -155,3 +155,17 @@ get_mermaid_project_endpoint("e477b009-cfd9-4d71-9b8c-d1684f38b954", "management
 #> #   compliance <chr>, predecessor <chr>, parties <list>, created_on <chr>,
 #> #   updated_on <chr>
 ```
+
+If you want to access data from the same project multiple times within a
+session, it may be useful to set the default project, rather than having
+to supply it every time. You can do this using `set_default_project()`.
+Then, you can just supply the endpoint, and the default project is used.
+
+``` r
+set_default_project(mermaidr_project)
+get_mermaid_project_endpoint(endpoint = "beltfishes")
+#> # A tibble: 1 x 4
+#>   id                 transect             created_on       updated_on      
+#>   <chr>              <chr>                <chr>            <chr>           
+#> 1 756dcdf1-df8a-4f5… 2690439d-9984-4037-… 2019-08-26T23:2… 2019-08-26T23:2…
+```
