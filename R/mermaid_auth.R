@@ -86,7 +86,7 @@ mermaid_auth <- function(token = NULL,
       access = mermaid_access_url
     )
     mermaid_app <- httr::oauth_app("mermaidr", key = key, secret = NULL)
-    mermaid_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, cache = cache)
+    mermaid_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, cache = cache, query_authorize_extra = list(audience = mermaid_audience))
     stopifnot(is_legit_token(mermaid_token, verbose = TRUE))
     .state$token <- mermaid_token
   } else if (inherits(token, "Mermaid2.0")) {
