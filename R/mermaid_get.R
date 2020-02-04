@@ -8,7 +8,7 @@ mermaid_GET <- function(endpoint, limit = 50, url = base_url, token = NULL) {
   check_internet()
 
   limit <- check_limit(limit)
-  path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit))
+  path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit, showall = TRUE))
   resp <- httr::GET(path, ua, token)
 
   check_errors(resp)
