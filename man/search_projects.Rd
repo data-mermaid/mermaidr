@@ -4,14 +4,12 @@
 \alias{search_projects}
 \title{Search projects by name or ID}
 \usage{
-search_projects(name = NULL, id = NULL, exact_name = FALSE)
+search_projects(name = NULL, id = NULL)
 }
 \arguments{
 \item{name}{Project name}
 
 \item{id}{Project ID}
-
-\item{exact_name}{Whether the search should be by the exact \code{name} only (as opposed to the package name just needing to contain \code{name} - however, both are case insensitive). Defaults to FALSE, and is not used if \code{id} is supplied.}
 }
 \description{
 Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.

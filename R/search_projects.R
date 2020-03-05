@@ -4,22 +4,20 @@
 #'
 #' @param name Project name
 #' @param id Project ID
-#' @param exact_name Whether the search should be by the exact \code{name} only (as opposed to the package name just needing to contain \code{name} - however, both are case insensitive). Defaults to FALSE, and is not used if \code{id} is supplied.
 #'
 #' @export
-search_projects <- function(name = NULL, id = NULL, exact_name = FALSE) {
-  projects <- get_mermaid_endpoint("projects", limit = 99999)
-  if (!is.null(id)) {
-    projects[projects[["id"]] == id, ]
-  } else if (!is.null(name)) {
-    if (exact_name) {
-      res <- projects[tolower(name) == tolower(projects[["name"]]), ]
-      check_single_project(res, name)
-      res
-    } else {
-      projects[grepl(tolower(name), tolower(projects[["name"]])), ]
-    }
+search_projects <- function(name = NULL, id = NULL) {
+  if(is.null(name) & is.null(id)) {
+    stop("Please supply a `name` or `id` to search by.", call. = FALSE)
   }
+  if (!is.null(name)) {
+    projects <- get_mermaid_endpoint("projects", name = name)
+    check_single_project(projects, name)
+  } else if (!is.null(id)) {
+    projects <- get_mermaid_endpoint("projects", id = id)
+  }
+
+  projects
 }
 
 check_single_project <- function(projects, name) {

@@ -3,9 +3,9 @@
 #' @inheritParams mermaid_GET
 #'
 #' @export
-get_mermaid_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishattributes", "fishfamilies", "fishgenera", "fishspecies", "managements", "projects", "sites"), limit = 50, url = base_url) {
+get_mermaid_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishattributes", "fishfamilies", "fishgenera", "fishspecies", "managements", "projects", "sites"), limit = 50, url = base_url, ...) {
   endpoint <- check_endpoint(endpoint, mermaid_endpoint_columns)
-  res <- mermaid_GET(endpoint, limit = limit, url = url)
+  res <- mermaid_GET(endpoint, limit = limit, url = url, ...)
 
   if (nrow(res) == 0) {
     cols <- mermaid_endpoint_columns[[endpoint]]

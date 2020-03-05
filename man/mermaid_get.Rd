@@ -4,7 +4,7 @@
 \alias{mermaid_GET}
 \title{Get MERMAID endpoint}
 \usage{
-mermaid_GET(endpoint, limit = 50, url = base_url, token = NULL)
+mermaid_GET(endpoint, limit = 50, url = base_url, token = NULL, ...)
 }
 \arguments{
 \item{endpoint}{Endpoint}
@@ -14,6 +14,8 @@ mermaid_GET(endpoint, limit = 50, url = base_url, token = NULL)
 \item{url}{API URL. Defaults to https://dev-api.datamermaid.org}
 
 \item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
+
+\item{...}{Additional parameters used as needed in \code{\link{search_projects}}}
 }
 \description{
 Get MERMAID endpoint
