@@ -54,40 +54,38 @@ get_mermaid_endpoint("projects")
 #> # A tibble: 50 x 14
 #>    id    name  countries num_sites tags  notes status data_policy_bel…
 #>    <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
-#>  1 9b07… Abel… <chr [1]>         1 <chr… ""        90               50
-#>  2 834a… Admi… <chr [1]>         3 <chr… ""        90               50
-#>  3 eab7… Admi… <chr [1]>         2 <chr… ""        80               50
-#>  4 8701… Ahus… <chr [1]>         1 <chr… Offl…     90               50
-#>  5 a515… Ashi… <chr [1]>         1 <chr… Play…     90               50
-#>  6 cbb3… Auto… <chr [1]>         3 <chr… ""        80               50
-#>  7 cc0d… Awal… <chr [0]>         0 <chr… Lear…     90               50
-#>  8 7d38… Awal… <chr [0]>         0 <chr… Lear…     90               50
-#>  9 1243… Bana… <chr [2]>         4 <chr… ""        90               50
-#> 10 1ee5… Bana… <chr [1]>         4 <chr… ""        90               50
+#>  1 60dd… 2013… <chr [1]>        17 <chr… ""        90               10
+#>  2 7376… 2014… <chr [1]>        24 <chr… "Thi…     90               10
+#>  3 ac93… 2016… <chr [1]>        24 <chr… "Thi…     90               10
+#>  4 e1ef… 2016… <chr [1]>         8 <chr… "Nam…     90               10
+#>  5 d549… 2017… <chr [1]>        31 <chr… "Thi…     90               10
+#>  6 c0ba… 2018… <chr [1]>        22 <chr… "Thi…     90               10
+#>  7 170e… 2018… <chr [1]>        10 <chr… "Thi…     90               10
+#>  8 95e0… 2019… <chr [1]>        44 <chr… ""        90               10
+#>  9 d065… 2019… <chr [1]>        31 <chr… "Ble…     90               10
+#> 10 6c6c… 2019… <chr [1]>        18 <chr… "Mac…     90               10
 #> # … with 40 more rows, and 6 more variables: data_policy_benthiclit <int>,
 #> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
 #> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
 ```
 
+By default, the function returns 50 results - to get more (or less\!),
+use the `limit` argument:
+
 ``` r
-get_mermaid_endpoint("managements")
-#> # A tibble: 50 x 19
-#>    id    name  name_secondary project project_name rules notes est_year
-#>    <chr> <chr> <chr>          <chr>   <chr>        <chr> <chr>    <int>
-#>  1 781a… a ne… j              5a57df… fishman pro… Open… ""        1990
-#>  2 6fb5… Aqua… Use Zone       e0119b… Cañada Test  ""    ""          NA
-#>  3 6f79… Aqua… Use Zone       f123d4… Test Zoom 1  ""    ""          NA
-#>  4 7f35… Aqua… Use Zone       13b516… Collector I… ""    ""        2017
-#>  5 469c… Aqua… Use Zone       834aa6… Admin Is Te… ""    ""        2017
-#>  6 c19f… Aqua… Use Zone       9de827… XPDC Kei Ke… ""    ""          NA
-#>  7 9517… Aqua… Use Zone       30e47b… Lamu         ""    ""          NA
-#>  8 7631… Aqua… Use Zone       bbd8b9… Test Projec… ""    ""        2017
-#>  9 f50f… Aqua… Use Zone       99f71b… Golem Autom… ""    ""        2017
-#> 10 7234… Aqua… Use Zone       1d0c0f… Collector I… ""    ""        2017
-#> # … with 40 more rows, and 11 more variables: no_take <lgl>,
-#> #   periodic_closure <lgl>, open_access <lgl>, size_limits <lgl>,
-#> #   gear_restriction <lgl>, species_restriction <lgl>, compliance <chr>,
-#> #   predecessor <chr>, parties <list>, created_on <chr>, updated_on <chr>
+get_mermaid_endpoint("managements", limit = 5)
+#> # A tibble: 5 x 19
+#>   id    name  name_secondary project project_name rules notes est_year no_take
+#>   <chr> <chr> <chr>          <chr>   <chr>        <chr> <chr>    <int> <lgl>  
+#> 1 d007… Amba… ""             c29a9e… tesst adc    No T… ""        2013 TRUE   
+#> 2 704e… Amba… ""             c29a9e… tesst adc    No T… ""        2013 TRUE   
+#> 3 bbe7… Amba… ""             3d6edb… WILELIFE OC… No T… ""        2013 TRUE   
+#> 4 9ee6… Amba… ""             81e144… FIsh Patch … No T… ""        2013 TRUE   
+#> 5 f0be… Amba… ""             c9fc25… Test Project No T… ""        2013 TRUE   
+#> # … with 10 more variables: periodic_closure <lgl>, open_access <lgl>,
+#> #   size_limits <lgl>, gear_restriction <lgl>, species_restriction <lgl>,
+#> #   compliance <chr>, predecessor <chr>, parties <list>, created_on <chr>,
+#> #   updated_on <chr>
 ```
 
 ### Accessing project data
@@ -100,21 +98,19 @@ above), a `project_id` directly, or a project from `search_projects()`.
 For example:
 
 ``` r
-library(dplyr)
-
-mermaidr_project <- search_projects(name = "mermaidr testing", exact_name = TRUE)
+mermaidr_project <- search_projects(name = "Sharla test")
 
 mermaidr_project
 #> # A tibble: 1 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
 #>   <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
-#> 1 e477… merm… <chr [2]>         2 <chr… ""        80               50
+#> 1 2c0c… Shar… <chr [1]>         1 <chr… ""        80               50
 #> # … with 6 more variables: data_policy_benthiclit <int>,
 #> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
 #> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
 ```
 
-returns a single project with the exact name “mermaidr testing”.
+returns a single project with the exact name “Sharla test”.
 
 You can use this to access an endpoint for the project, using
 `get_mermaid_project_endpoint()`. The following project endpoints are
@@ -125,17 +121,26 @@ available: “beltfishtransectmethods”, “beltfishes”,
 “obstransectbeltfishs”, “managements”, “observers”,
 “project\_profiles”, “sampleevents”, “sites”.
 
+At this point, you will have to authenticate to the Collect app. R will
+help you do this automatically by opening a browser window for you to
+log in to Collect, either via Google sign-in or username and password -
+however you normally do\!
+
+Once you’ve logged in, come back to R. Your login credentials will be
+stored for a day, until they expire, and you will need to login again.
+The package handles the expiration for you, so just log in again when
+prompted.
+
 For example, to see the sites in this project:
 
 ``` r
 get_mermaid_project_endpoint("sites", mermaidr_project)
-#> # A tibble: 2 x 12
+#> # A tibble: 1 x 12
 #>   id    name  notes project location$type $coordinates country reef_type
 #>   <chr> <chr> <chr> <chr>   <chr>         <list>       <chr>   <chr>    
-#> 1 42c5… Belo… site… e477b0… Point         <dbl [2]>    dd865c… 2b99cdf4…
-#> 2 14cd… Belo… ""    e477b0… Point         <dbl [2]>    c570ff… 19534716…
-#> # … with 5 more variables: reef_zone <chr>, exposure <chr>,
-#> #   predecessor <chr>, created_on <chr>, updated_on <chr>
+#> 1 7465… 1201  Pula… 2c0c98… Point         <dbl [2]>    c570ff… 19534716…
+#> # … with 5 more variables: reef_zone <chr>, exposure <chr>, predecessor <chr>,
+#> #   created_on <chr>, updated_on <chr>
 ```
 
 You can also use the `project_id` directly to access data from a
@@ -145,15 +150,13 @@ collect
 app.
 
 ``` r
-get_mermaid_project_endpoint("managements", "e477b009-cfd9-4d71-9b8c-d1684f38b954")
-#> # A tibble: 1 x 17
-#>   id    name  name_secondary project notes est_year no_take
-#>   <chr> <chr> <chr>          <chr>   <chr>    <int> <lgl>  
-#> 1 4fb1… Test… For Testing 1… e477b0… Addi…     1970 NA     
-#> # … with 10 more variables: periodic_closure <lgl>, open_access <lgl>,
-#> #   size_limits <lgl>, gear_restriction <lgl>, species_restriction <lgl>,
-#> #   compliance <chr>, predecessor <chr>, parties <list>, created_on <chr>,
-#> #   updated_on <chr>
+get_mermaid_project_endpoint("managements", "2c0c9857-b11c-4b82-b7ef-e9b383d1233c")
+#> # A tibble: 0 x 17
+#> # … with 17 variables: id <lgl>, name <lgl>, name_secondary <lgl>,
+#> #   project <lgl>, notes <lgl>, est_year <lgl>, no_take <lgl>,
+#> #   periodic_closure <lgl>, open_access <lgl>, size_limits <lgl>,
+#> #   gear_restriction <lgl>, species_restriction <lgl>, compliance <lgl>,
+#> #   predecessor <lgl>, parties <lgl>, created_on <lgl>, updated_on <lgl>
 ```
 
 If you want to access data from the same project multiple times within a
@@ -164,8 +167,7 @@ Then, you can just supply the endpoint, and the default project is used.
 ``` r
 set_default_project(mermaidr_project)
 get_mermaid_project_endpoint("beltfishes")
-#> # A tibble: 1 x 4
-#>   id                 transect             created_on       updated_on      
-#>   <chr>              <chr>                <chr>            <chr>           
-#> 1 756dcdf1-df8a-4f5… 2690439d-9984-4037-… 2019-08-26T23:2… 2019-08-26T23:2…
+#> # A tibble: 0 x 4
+#> # … with 4 variables: id <lgl>, transect <lgl>, created_on <lgl>,
+#> #   updated_on <lgl>
 ```
