@@ -14,7 +14,10 @@ search_projects <- function(name = NULL, id = NULL) {
     projects <- get_mermaid_endpoint("projects", name = name)
     check_single_project(projects, name)
   } else if (!is.null(id)) {
-    projects <- get_mermaid_endpoint("projects", id = id)
+    projects <- try(get_mermaid_endpoint("projects", id = id), silent = TRUE)
+    if(inherits(projects, "try-error")){
+      projects <- tibble::tribble(~id, ~name, ~countries, ~num_sites, ~tags, ~notes, ~status, ~data_policy_beltfish, ~data_policy_benthiclit, ~data_policy_benthicpit, ~data_policy_habitatcomplexity, ~data_policy_bleachingqc, ~created_on, ~updated_on)
+}
   }
 
   projects

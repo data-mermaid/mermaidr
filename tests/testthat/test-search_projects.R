@@ -1,6 +1,6 @@
-test_that("search_projects throws a message if exact_name is TRUE and it returns more than one project (but doesn't if exact_name is FALSE)", {
-  expect_message(search_projects("mermaid lagoon", exact_name = TRUE))
-  expect_silent(search_projects("mermaid lagoon"))
+test_that("search_projects throws a message if it returns more than one project, and doesn't if it only returns one", {
+  expect_message(search_projects("test"))
+  expect_silent(search_projects("Sharla test"))
 })
 
 test_that("search_projects returns a zero row tibble if the project is not found", {
@@ -14,6 +14,15 @@ test_that("search_projects returns a zero row tibble if the project is not found
   output <- search_projects(id = id)
   expect_equal(nrow(output), 0)
   expect_is(output, "tbl_df")
+})
+
+test_that("search_projects returns a zero row tibble if a project is not found, and it has the same names as if a project was found", {
+  set.seed(1234)
+  id <- paste0(sample(1:1000, 3), collapse = "")
+  output <- search_projects(id = id)
+
+  output_exists <- search_projects("test")
+  expect_equal(names(output), names(output_exists))
 })
 
 test_that("check_single_project returns a warning if more than one result is returned", {
