@@ -1,16 +1,14 @@
-context("test-get_mermaid_project_endpoint")
-
 test_that("get_mermaid_project_endpoint throws an error when no project is passed, when trying to get data from a project you don't have access to, and when an unexpected endpoint is passed", {
   skip_if_offline()
   expect_error(get_mermaid_project_endpoint())
-  beta_project <- search_projects("beta")
-  expect_error(get_mermaid_project_endpoint("ites", beta_project), regexp = "endpoint must be one of")
-  expect_error(get_mermaid_project_endpoint("sites", beta_project), regexp = "Forbidden")
+  test_project <- search_projects("Sharla test")
+  expect_error(get_mermaid_project_endpoint("ites", test_project), regexp = "endpoint must be one of")
+  expect_error(get_mermaid_project_endpoint("sites", "bd115221-fde4-4e4c-bc73-1ce01b9d9fdc"), regexp = "Forbidden")
 })
 
 test_that("get_mermaid_project_endpoint returns a tibble when passed a known endpoint.", {
   skip_if_offline()
-  test_project <- search_projects("mermaidr testing", exact_name = TRUE)
+  test_project <- search_projects("Sharla test")
   set_default_project(test_project)
   expect_is(get_mermaid_project_endpoint("sites"), "tbl_df")
   output <- get_mermaid_project_endpoint("beltfishtransectmethods")
@@ -49,6 +47,6 @@ test_that("get_mermaid_project_endpoint returns a tibble when passed a known end
 
 test_that("get_mermaid_project_endpoint returns a tibble when passed a known endpoint, even if there is no data.", {
   skip_if_offline()
-  test_project <- search_projects("mermaidr testing no data")
-  expect_is(get_mermaid_project_endpoint("sites", test_project), "tbl_df")
+  test_project <- search_projects("Sharla test")
+  expect_is(get_mermaid_project_endpoint("obsbenthicpits", test_project), "tbl_df")
 })
