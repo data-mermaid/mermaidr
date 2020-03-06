@@ -12,7 +12,7 @@ get_all_mermaid_project_endpoints(project = get_default_project(),
 
 \item{limit}{Number of records to get. Defaults to 50.}
 
-\item{url}{API URL. Defaults to https://dev-api.datamermaid.org}
+\item{url}{API URL. Defaults to https://api.datamermaid.org}
 
 \item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
 }

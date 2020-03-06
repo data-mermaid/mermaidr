@@ -13,7 +13,7 @@ get_mermaid_endpoint(endpoint = c("benthicattributes", "choices",
 
 \item{limit}{Number of records to get. Defaults to 50.}
 
-\item{url}{API URL. Defaults to https://dev-api.datamermaid.org}
+\item{url}{API URL. Defaults to https://api.datamermaid.org}
 
 \item{...}{Additional parameters used as needed in \code{\link{search_projects}}}
 }

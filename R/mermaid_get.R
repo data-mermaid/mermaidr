@@ -2,7 +2,7 @@
 #'
 #' @param endpoint Endpoint
 #' @param limit Number of records to get. Defaults to 50.
-#' @param url API URL. Defaults to https://dev-api.datamermaid.org
+#' @param url API URL. Defaults to https://api.datamermaid.org
 #' @param token API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}
 #' @param ... Additional parameters used as needed in \code{\link{search_projects}}
 mermaid_GET <- function(endpoint, limit = 50, url = base_url, token = NULL, ...) {
