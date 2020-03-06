@@ -1,6 +1,6 @@
 test_that("get_mermaid_project_endpoint throws an error when no project is passed, when trying to get data from a project you don't have access to, and when an unexpected endpoint is passed", {
   skip_if_offline()
-  expect_error(get_mermaid_project_endpoint())
+  expect_error(get_mermaid_project_endpoint(), "Please supply a project to get data from")
   test_project <- search_projects("Sharla test")
   expect_error(get_mermaid_project_endpoint("ites", test_project), regexp = "endpoint must be one of")
   expect_error(get_mermaid_project_endpoint("sites", "bd115221-fde4-4e4c-bc73-1ce01b9d9fdc"), regexp = "Forbidden")
