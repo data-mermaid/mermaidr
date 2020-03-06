@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_mermaid_project_endpoint.R
 \name{get_mermaid_project_endpoint}
 \alias{get_mermaid_project_endpoint}
-\title{Get endpoint from a specified MERMAID project.}
+\title{Get endpoint from a specified MERMAID project}
 \usage{
 get_mermaid_project_endpoint(endpoint = c("beltfishtransectmethods",
   "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods",
@@ -25,11 +25,11 @@ get_mermaid_project_endpoint(endpoint = c("beltfishtransectmethods",
 \item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
 }
 \description{
-Get endpoint from a specified MERMAID project.
+Get endpoint from a specified MERMAID project
 }
 \examples{
 \dontrun{
-test_project <- search_projects("mermaidr testing", exact_name = TRUE)
+test_project <- search_projects("Sharla test")
 get_mermaid_project_endpoint("sampleevents", test_project)
 }
 }

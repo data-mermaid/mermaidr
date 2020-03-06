@@ -1,4 +1,4 @@
-#' Get endpoint from a specified MERMAID project.
+#' Get endpoint from a specified MERMAID project
 #'
 #' @inheritParams mermaid_GET
 #' @param project A way to identify the project. Can be a project ID (passed as a character vector directly) or a single project resulting from \code{\link{get_mermaid_endpoint}} or \code{\link{search_projects}}. Defaults to the project listed via \code{get_default_project}, if available.
@@ -6,7 +6,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' test_project <- search_projects("mermaidr testing", exact_name = TRUE)
+#' test_project <- search_projects("Sharla test")
 #' get_mermaid_project_endpoint("sampleevents", test_project)
 #' }
 get_mermaid_project_endpoint <- function(endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "profiles", "project_profiles", "sampleevents", "sites"), project = get_default_project(), limit = 50, url = base_url, token = mermaid_token()) {
