@@ -1,5 +1,3 @@
-context("test-utils")
-
 test_that("check_internet throws an error when there is no internet", {
   with_mock(
     "curl::has_internet" = function() FALSE,
