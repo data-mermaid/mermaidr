@@ -7,17 +7,16 @@
 #' @param ... Additional parameters used as needed in \code{\link{search_projects}}
 mermaid_GET <- function(endpoint, limit = 50, url = base_url, token = NULL, ...) {
   check_internet()
-
   limit <- check_limit(limit)
-  if(endpoint == "projects" & is.null(token)) {
-  path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit, showall = TRUE, ...))
+
+  if (endpoint == "projects" & is.null(token)) {
+    path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit, showall = TRUE, ...))
   } else {
     path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit, ...))
   }
+
   resp <- httr::GET(path, ua, token)
-
   check_errors(resp)
-
   parsed <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyDataFrame = TRUE)
 
   if (endpoint == "choices") {

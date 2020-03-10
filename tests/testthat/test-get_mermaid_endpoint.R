@@ -11,8 +11,8 @@ test_that("get_mermaid_endpoint returns the correct columns given the endpoint."
   skip_if_offline()
   output <- get_mermaid_endpoint("benthicattributes")
   expect_equal(names(output), mermaid_endpoint_columns[["benthicattributes"]])
-  #output <- get_mermaid_endpoint("fishattributes") 500 error
-  #expect_equal(names(output), mermaid_endpoint_columns[["fishattributes"]])
+  # output <- get_mermaid_endpoint("fishattributes") 500 error
+  # expect_equal(names(output), mermaid_endpoint_columns[["fishattributes"]])
   output <- get_mermaid_endpoint("fishfamilies")
   expect_equal(names(output), mermaid_endpoint_columns[["fishfamilies"]])
   output <- get_mermaid_endpoint("fishgenera")

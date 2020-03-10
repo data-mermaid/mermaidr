@@ -10,7 +10,6 @@
 #' get_mermaid_project_endpoint(test_project, "sites")
 #' }
 get_mermaid_project_endpoint <- function(project = get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "profiles", "project_profiles", "sampleevents", "sites"), limit = 50, url = base_url, token = mermaid_token()) {
-
   project_id <- as_id(project)
   check_project(project_id)
 
@@ -48,7 +47,7 @@ mermaid_project_endpoint_columns <- list(
 )
 
 check_project <- function(project) {
-  if(project == "") {
+  if (project == "") {
     stop("Please supply a project to get data from, either via the `project` argument or by using `set_default_project()`.", call. = FALSE)
   }
 }
