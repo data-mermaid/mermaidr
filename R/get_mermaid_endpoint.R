@@ -26,5 +26,5 @@ mermaid_endpoint_columns <- list(
   fishspecies = c("id", "name", "display_name", "notes", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "climate_score", "vulnerability", "max_length", "trophic_level", "max_length_type", "genus", "group_size", "trophic_group", "functional_group", "created_on", "updated_on"),
   managements = c("id", "name", "name_secondary", "project", "project_name", "rules", "notes", "est_year", "no_take", "periodic_closure", "open_access", "size_limits", "gear_restriction", "species_restriction", "compliance", "predecessor", "parties", "created_on", "updated_on"),
   projects = c("id", "name", "countries", "num_sites", "tags", "notes", "status", "data_policy_beltfish", "data_policy_benthiclit", "data_policy_benthicpit", "data_policy_habitatcomplexity", "data_policy_bleachingqc", "created_on", "updated_on"),
-  sites = c("id", "name", "notes", "project", "location", "country", "reef_type", "reef_zone", "exposure", "predecessor", "created_on", "updated_on")
+  sites = c("id", "name", "notes", "project", "latitude", "longitude", "country_name", "reef_type_name", "reef_zone_name", "exposure_name", "predecessor", "created_on", "updated_on")
 )

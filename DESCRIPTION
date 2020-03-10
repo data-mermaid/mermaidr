@@ -18,7 +18,9 @@ Imports:
     jsonlite,
     magrittr,
     tibble,
-    curl
+    curl,
+    tidyr,
+    dplyr
 RoxygenNote: 6.1.1
 Suggests: 
     testthat (>= 2.1.0)
