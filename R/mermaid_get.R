@@ -52,7 +52,7 @@ results_lookup_choices <- function(results, choices, endpoint) {
   choices <- tibble::as_tibble(choices)
   choices[["data"]] <- sapply(choices[["data"]], tibble::as_tibble)
 
-  switch(endpoint,
+  switch(basename(endpoint),
     sites = {
       results <- results %>%
         lookup_variable(choices, "country") %>%

@@ -43,7 +43,7 @@ mermaid_project_endpoint_columns <- list(
   observers = c("id", "profile", "profile_name", "rank", "transectmethod", "created_on", "created_by"),
   project_profiles = c("id", "profile", "profile_name", "project", "is_collector", "is_admin", "role", "created_on", "updated_on"),
   sampleevents = c("id", "depth", "data", "sample_date", "sample_time", "notes", "created_by", "site", "management", "visibility", "current", "relative_depth", "tide", "created_on", "updated_on"),
-  sites = c("id", "name", "notes", "project", "location", "country", "reef_type", "reef_zone", "exposure", "predecessor", "created_on", "updated_on")
+  sites = c("id", "name", "notes", "project", "latitude", "longitude", "country_name", "reef_type_name", "reef_zone_name", "exposure_name", "predecessor", "created_on", "updated_on")
 )
 
 check_project <- function(project) {
