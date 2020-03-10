@@ -21,7 +21,9 @@ mermaid_GET <- function(endpoint, limit = 50, url = base_url, token = NULL, ...)
   parsed <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyDataFrame = TRUE)
 
   if (endpoint == "choices") {
-    parsed
+    res <- tibble::as_tibble(parsed)
+    res[["data"]] <- sapply(res[["data"]], tibble::as_tibble)
+    res
   } else {
     tibble::as_tibble(parsed[["results"]])
   }
