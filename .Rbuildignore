@@ -3,3 +3,4 @@
 ^LICENSE\.md$
 ^\.httr-oauth$
 ^README.Rmd
+^data-raw$
