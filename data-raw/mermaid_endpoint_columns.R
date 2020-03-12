@@ -22,7 +22,7 @@ mermaid_endpoint_columns <- list(
   projects = c("id", "name", "countries", "num_sites", "tags", "notes", "status", "data_policy_beltfish", "data_policy_benthiclit", "data_policy_benthicpit", "data_policy_habitatcomplexity", "data_policy_bleachingqc", "created_on", "updated_on"),
   project_profiles = c("id", "profile", "profile_name", "project", "is_collector", "is_admin", "role", "created_on", "updated_on"),
   sampleevents = c("id", "depth", "data", "sample_date", "sample_time", "notes", "created_by", "site", "management", "visibility", "current", "relative_depth", "tide", "created_on", "updated_on"),
-  sites = c("id", "name", "notes", "project", "latitude", "longitude", "country_name", "reef_type_name", "reef_zone_name", "exposure_name", "predecessor", "created_on", "updated_on")
+  sites = c("id", "name", "notes", "project", "latitude", "longitude", "country_id", "country_name", "reef_type_id", "reef_type_name", "reef_zone_id", "reef_zone_name", "exposure_id", "exposure_name", "predecessor", "created_on", "updated_on")
 )
 
 usethis::use_data(mermaid_endpoint_columns, overwrite = TRUE)
