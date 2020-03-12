@@ -1,5 +1,5 @@
 test_that("get_mermaid_endpoint throws an error when an unexpected endpoint is passed", {
-  expect_error(get_mermaid_endpoint("ldkgjdgk"), "endpoint must be one of 'benthicattributes', 'choices', 'fishattributes', 'fishfamilies', 'fishgenera', 'fishspecies', 'managements', 'projects', 'sites'.", fixed = TRUE)
+  expect_error(get_mermaid_endpoint("ldkgjdgk"), "should be one of")
 })
 
 test_that("get_mermaid_endpoint returns a tibble when passed a known endpoint.", {

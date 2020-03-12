@@ -107,15 +107,3 @@ test_that("check_limit returns the limit if it is a length 1 positive integer.",
   limit <- 1
   expect_equal(check_limit(limit), limit)
 })
-
-test_that("check_endpoint returns an error if more than one endpoint is passed.", {
-  expect_error(check_endpoint(x = c("a", "b"), endpoints = list(a = "a")))
-})
-
-test_that("check_endpoint returns an error if the endpoint passed is not in the specified list of endpoints.", {
-  expect_error(check_endpoint("b", endpoints = list(a = "a")))
-})
-
-test_that("check_endpoint returns the endpoint if a single, matching endpoint is passed.", {
-  expect_equal(check_endpoint("a", endpoints = list(a = "a")), "a")
-})
