@@ -1,26 +1,47 @@
-#' Search projects by name or ID
+#' Search MERMAID projects
 #'
 #' Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
 #'
 #' @param name Project name
-#' @param id Project ID
+#' @param country Project country
+#' @param tag Project tag
+#' @param limit Maximum number of results to return. Defaults to 50
 #'
 #' @export
-mermaid_search_projects <- function(name = NULL, id = NULL) {
-  if (is.null(name) & is.null(id)) {
-    stop("Please supply a `name` or `id` to search by.", call. = FALSE)
-  }
-  if (!is.null(name)) {
+#' @example
+#' mermaid_search_projects(name = "test")
+#' mermaid_search_projects(country = "Fiji")
+#' mermaid_search_projects(tag = "WCS Fiji")
+#' mermaid_search_projects(country = "Fiji", tag = "WWF-UK")
+mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, limit = 50) {
+  if (is.null(name) & is.null(country) & is.null(tag)) {
+    warning("You haven't provided a `name`, `country`, or `tag` to search by. Just returning ", limit, " projects.", call. = FALSE)
+    return(
+      mermaid_list_projects(limit = limit)
+    )
+  } else if (!is.null(name)) {
     projects <- mermaid_get_endpoint("projects", name = name)
+    if(is.null(country) & is.null(tag)) {
     check_single_project(projects, name)
-  } else if (!is.null(id)) {
-    projects <- try(mermaid_get_endpoint("projects", id = id), silent = TRUE)
-    if (inherits(projects, "try-error")) {
-      projects <- tibble::tribble(~id, ~name, ~countries, ~num_sites, ~tags, ~notes, ~status, ~data_policy_beltfish, ~data_policy_benthiclit, ~data_policy_benthicpit, ~data_policy_habitatcomplexity, ~data_policy_bleachingqc, ~created_on, ~updated_on)
     }
+  } else if (!is.null(country) | !is.null(tag)) {
+    projects <- mermaid_list_projects(limit = 99999999)
   }
 
-  projects
+  if(!is.null(country)) {
+    projects <- projects %>%
+      dplyr::rowwise() %>%
+      dplyr::filter(country %in% unlist(countries)) %>%
+      dplyr::ungroup()
+  }
+  if(!is.null(tag)) {
+    projects <- projects %>%
+      dplyr::rowwise() %>%
+      dplyr::filter(tag %in% unlist(tags)) %>%
+      dplyr::ungroup()
+  }
+
+  head(projects, limit)
 }
 
 check_single_project <- function(projects, name) {

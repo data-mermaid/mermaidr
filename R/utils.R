@@ -57,3 +57,9 @@ check_id_in_df <- function(x, name) {
 spf <- function(...) {
   stop(sprintf(...), call. = FALSE)
 }
+
+all_contain_value <- function(output, value) {
+  all(unlist(
+    lapply(output, FUN = function(x) any(x == value))
+  ) == TRUE)
+}
