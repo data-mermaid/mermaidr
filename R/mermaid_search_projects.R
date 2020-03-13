@@ -6,15 +6,15 @@
 #' @param id Project ID
 #'
 #' @export
-search_projects <- function(name = NULL, id = NULL) {
+mermaid_search_projects <- function(name = NULL, id = NULL) {
   if (is.null(name) & is.null(id)) {
     stop("Please supply a `name` or `id` to search by.", call. = FALSE)
   }
   if (!is.null(name)) {
-    projects <- get_mermaid_endpoint("projects", name = name)
+    projects <- mermaid_get_endpoint("projects", name = name)
     check_single_project(projects, name)
   } else if (!is.null(id)) {
-    projects <- try(get_mermaid_endpoint("projects", id = id), silent = TRUE)
+    projects <- try(mermaid_get_endpoint("projects", id = id), silent = TRUE)
     if (inherits(projects, "try-error")) {
       projects <- tibble::tribble(~id, ~name, ~countries, ~num_sites, ~tags, ~notes, ~status, ~data_policy_beltfish, ~data_policy_benthiclit, ~data_policy_benthicpit, ~data_policy_habitatcomplexity, ~data_policy_bleachingqc, ~created_on, ~updated_on)
     }

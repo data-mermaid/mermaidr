@@ -2,16 +2,16 @@
 #'
 #' Configure default MERMAID settings
 #
-#' @param project A way to identify a MERMAID project. Can be a project ID (passed as a character vector directly) or a single project resulting from \code{\link{get_mermaid_endpoint}} or \code{\link{search_projects}}.
+#' @param project A way to identify a MERMAID project. Can be a project ID (passed as a character vector directly) or a single project resulting from \code{\link{mermaid_get_endpoint}} or \code{\link{mermaid_search_projects}}.
 #'
 #' @export
 #' @rdname mermaid_settings
 #' @examples
 #' \dontrun{
-#' test_project <- search_projects("mermaidr testing", exact_name = TRUE)
+#' test_project <- mermaid_search_projects("mermaidr testing")
 #' set_default_project(test_project)
 #' get_default_project()
-#' get_mermaid_project_endpoint("sites")
+#' mermaid_get_project_endpoint("sites")
 #' }
 set_default_project <- function(project) {
   project_id <- as_id(project)
