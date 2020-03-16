@@ -18,11 +18,11 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `mermaidr` is to access [MERMAID Collect](https://collect.datamermaid.org/) data directly from R. The package is presently set to access the [dev MERMAID Collect](https://dev-collect.datamermaid.org/) only.
+The goal of `mermaidr` is to access [MERMAID Collect](https://collect.datamermaid.org/) data directly from R.
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/) with:
+You can install the development version from GitHub with:
 
 ``` r
 # install.packages("devtools")
@@ -137,7 +137,7 @@ all_endpoints <- mermaid_get_all_project_endpoints()
 
 names(all_endpoints)
 
-all_endpoints
+all_endpoints[["sites"]]
 ```
 
 Keep in mind that the default `limit` is 50, and should be increased if you want more records from each endpoint.

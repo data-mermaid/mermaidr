@@ -8,14 +8,11 @@
 <!-- badges: end -->
 
 The goal of `mermaidr` is to access [MERMAID
-Collect](https://collect.datamermaid.org/) data directly from R. The
-package is presently set to access the [dev MERMAID
-Collect](https://dev-collect.datamermaid.org/) only.
+Collect](https://collect.datamermaid.org/) data directly from R.
 
 ## Installation
 
-You can install the development version from
-[GitHub](https://github.com/) with:
+You can install the development version from GitHub with:
 
 ``` r
 # install.packages("devtools")
@@ -288,98 +285,7 @@ names(all_endpoints)
 #> [15] "observers"                 "project_profiles"         
 #> [17] "sampleevents"              "sites"
 
-all_endpoints
-#> $beltfishtransectmethods
-#> # A tibble: 0 x 8
-#> # … with 8 variables: id <lgl>, transect <lgl>, sample_event <lgl>,
-#> #   fishbelt_transect <lgl>, observers <lgl>, obs_belt_fishes <lgl>,
-#> #   created_on <lgl>, updated_on <lgl>
-#> 
-#> $beltfishes
-#> # A tibble: 0 x 4
-#> # … with 4 variables: id <lgl>, transect <lgl>, created_on <lgl>,
-#> #   updated_on <lgl>
-#> 
-#> $benthiclittransectmethods
-#> # A tibble: 0 x 0
-#> 
-#> $benthicpittransectmethods
-#> # A tibble: 0 x 9
-#> # … with 9 variables: id <lgl>, transect <lgl>, interval_size <lgl>,
-#> #   sample_event <lgl>, benthic_transect <lgl>, observers <lgl>,
-#> #   obs_benthic_pits <lgl>, created_on <lgl>, updated_on <lgl>
-#> 
-#> $benthicpits
-#> # A tibble: 0 x 5
-#> # … with 5 variables: id <lgl>, transect <lgl>, interval_size <lgl>,
-#> #   created_on <lgl>, updated_on <lgl>
-#> 
-#> $benthictransects
-#> # A tibble: 0 x 0
-#> 
-#> $collectrecords
-#> # A tibble: 0 x 8
-#> # … with 8 variables: id <lgl>, project <lgl>, profile <lgl>, stage <lgl>,
-#> #   data <lgl>, validations <lgl>, created_on <lgl>, updated_on <lgl>
-#> 
-#> $fishbelttransects
-#> # A tibble: 0 x 0
-#> 
-#> $habitatcomplexities
-#> # A tibble: 0 x 5
-#> # … with 5 variables: id <lgl>, transect <lgl>, interval_size <lgl>,
-#> #   created_on <lgl>, updated_on <lgl>
-#> 
-#> $obsbenthiclits
-#> # A tibble: 0 x 0
-#> 
-#> $obsbenthicpits
-#> # A tibble: 0 x 10
-#> # … with 10 variables: id <lgl>, data <lgl>, interval <lgl>, include <lgl>,
-#> #   notes <lgl>, benthicpit <lgl>, attribute <lgl>, growth_form <lgl>,
-#> #   created_on <lgl>, updated_on <lgl>
-#> 
-#> $obshabitatcomplexities
-#> # A tibble: 0 x 9
-#> # … with 9 variables: id <lgl>, data <lgl>, interval <lgl>, include <lgl>,
-#> #   notes <lgl>, habitatcomplexity <lgl>, score <lgl>, created_on <lgl>,
-#> #   updated_on <lgl>
-#> 
-#> $obstransectbeltfishs
-#> # A tibble: 0 x 11
-#> # … with 11 variables: id <lgl>, data <lgl>, size <lgl>, count <lgl>,
-#> #   include <lgl>, notes <lgl>, beltfish <lgl>, fish_attribute <lgl>,
-#> #   size_bin <lgl>, created_on <lgl>, updated_on <lgl>
-#> 
-#> $managements
-#> # A tibble: 1 x 17
-#>   id    name  name_secondary project notes est_year no_take periodic_closure
-#>   <chr> <chr> <chr>          <chr>   <chr> <lgl>    <lgl>   <lgl>           
-#> 1 0c2b… test  ""             2c0c98… ""    NA       FALSE   TRUE            
-#> # … with 9 more variables: open_access <lgl>, size_limits <lgl>,
-#> #   gear_restriction <lgl>, species_restriction <lgl>, compliance <lgl>,
-#> #   predecessor <lgl>, parties <list>, created_on <chr>, updated_on <chr>
-#> 
-#> $observers
-#> # A tibble: 0 x 7
-#> # … with 7 variables: id <lgl>, profile <lgl>, profile_name <lgl>, rank <lgl>,
-#> #   transectmethod <lgl>, created_on <lgl>, created_by <lgl>
-#> 
-#> $project_profiles
-#> # A tibble: 1 x 9
-#>   id    profile profile_name project is_collector is_admin  role created_on
-#>   <chr> <chr>   <chr>        <chr>   <lgl>        <lgl>    <int> <chr>     
-#> 1 b9e9… 746464… Sharla Gelf… 2c0c98… TRUE         TRUE        90 2020-02-0…
-#> # … with 1 more variable: updated_on <chr>
-#> 
-#> $sampleevents
-#> # A tibble: 0 x 15
-#> # … with 15 variables: id <lgl>, depth <lgl>, data <lgl>, sample_date <lgl>,
-#> #   sample_time <lgl>, notes <lgl>, created_by <lgl>, site <lgl>,
-#> #   management <lgl>, visibility <lgl>, current <lgl>, relative_depth <lgl>,
-#> #   tide <lgl>, created_on <lgl>, updated_on <lgl>
-#> 
-#> $sites
+all_endpoints[["sites"]]
 #> # A tibble: 2 x 17
 #>   id    name  notes project latitude longitude country_id country_name
 #>   <chr> <chr> <chr> <chr>      <dbl>     <dbl> <chr>      <chr>       
