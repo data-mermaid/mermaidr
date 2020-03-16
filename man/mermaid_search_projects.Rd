@@ -2,15 +2,29 @@
 % Please edit documentation in R/mermaid_search_projects.R
 \name{mermaid_search_projects}
 \alias{mermaid_search_projects}
-\title{Search projects by name or ID}
+\title{Search MERMAID projects}
 \usage{
-mermaid_search_projects(name = NULL, id = NULL)
+mermaid_search_projects(name = NULL, country = NULL, tag = NULL,
+  limit = 50, ...)
 }
 \arguments{
 \item{name}{Project name}
 
-\item{id}{Project ID}
+\item{country}{Project country}
+
+\item{tag}{Project tag}
+
+\item{...}{}
 }
 \description{
 Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
+}
+\examples{
+mermaid_search_projects(name = "test")
+mermaid_search_projects(country = "Fiji")
+mermaid_search_projects(tag = "WCS Fiji")
+mermaid_search_projects(country = "Fiji", tag = "WWF-UK")
+
+# To search within your projects only:
+mermaid_search_projects(country = "Fiji", token = mermaid_token())
 }

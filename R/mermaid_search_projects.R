@@ -5,27 +5,30 @@
 #' @param name Project name
 #' @param country Project country
 #' @param tag Project tag
-#' @param limit Maximum number of results to return. Defaults to 50
+#' @param ...
 #'
 #' @export
-#' @example
+#' @examples
 #' mermaid_search_projects(name = "test")
 #' mermaid_search_projects(country = "Fiji")
 #' mermaid_search_projects(tag = "WCS Fiji")
 #' mermaid_search_projects(country = "Fiji", tag = "WWF-UK")
-mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, limit = 50, url = base_url) {
+#'
+#' # To search within your projects only:
+#' mermaid_search_projects(country = "Fiji", token = mermaid_token())
+mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, limit = 50, ...) {
   if (is.null(name) & is.null(country) & is.null(tag)) {
     warning("You haven't provided a `name`, `country`, or `tag` to search by. Just returning ", limit, " projects.", call. = FALSE)
     return(
-      mermaid_list_projects(limit = limit, url = url)
+      mermaid_list_projects(limit = limit, ...)
     )
   } else if (!is.null(name)) {
-    projects <- mermaid_get_endpoint("projects", name = name, url = url)
+    projects <- mermaid_get_endpoint("projects", name = name, ...)
     if(is.null(country) & is.null(tag)) {
     check_single_project(projects, name)
     }
   } else if (!is.null(country) | !is.null(tag)) {
-    projects <- mermaid_list_projects(limit = 99999999, url = url)
+    projects <- mermaid_list_projects(limit = 99999999, ...)
   }
 
   if(!is.null(country)) {
