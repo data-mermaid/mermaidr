@@ -107,3 +107,14 @@ test_that("check_limit returns the limit if it is a length 1 positive integer.",
   limit <- 1
   expect_equal(check_limit(limit), limit)
 })
+
+test_that("spf does string formatting and produces an error", {
+  x <- 1
+  expect_error(spf("x is %s", x), "x is 1")
+})
+
+test_that("all_contain_value returns TRUE if all list elements contain the value, FALSE if not", {
+  x <- list(a = c("A", "B"), b = c("A"))
+  expect_true(all_contain_value(x, "A"))
+  expect_false(all_contain_value(x, "B"))
+})

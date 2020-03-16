@@ -9,17 +9,17 @@
 #' @examples
 #' \dontrun{
 #' test_project <- mermaid_search_projects("mermaidr testing")
-#' set_default_project(test_project)
-#' get_default_project()
+#' mermaid_set_default_project(test_project)
+#' mermaid_get_default_project()
 #' mermaid_get_project_endpoint("sites")
 #' }
-set_default_project <- function(project) {
+mermaid_set_default_project <- function(project) {
   project_id <- as_id(project)
   Sys.setenv(MERMAIDR_DEFAULT_PROJECT = project_id)
 }
 
 #' @rdname mermaid_settings
 #' @export
-get_default_project <- function() {
+mermaid_get_default_project <- function() {
   Sys.getenv("MERMAIDR_DEFAULT_PROJECT")
 }

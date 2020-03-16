@@ -58,8 +58,8 @@ spf <- function(...) {
   stop(sprintf(...), call. = FALSE)
 }
 
-all_contain_value <- function(output, value) {
+all_contain_value <- function(x, value) {
   all(unlist(
-    lapply(output, FUN = function(x) any(x == value))
+    lapply(x, FUN = function(x) any(x == value))
   ) == TRUE)
 }
