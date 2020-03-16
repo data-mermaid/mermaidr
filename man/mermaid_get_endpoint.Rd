@@ -15,7 +15,7 @@ mermaid_get_endpoint(endpoint = c("benthicattributes", "choices",
 
 \item{url}{API URL. Defaults to https://api.datamermaid.org}
 
-\item{...}{Additional parameters used as needed in \code{\link{search_projects}}}
+\item{...}{Additional parameters used as needed in \code{\link{mermaid_search_projects}}}
 }
 \description{
 Get MERMAID Endpoint

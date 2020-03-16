@@ -23,6 +23,6 @@ A list of tibbles, one for each of the MERMAID project endpoints (beltfishtranse
 Get all endpoints from a specified MERMAID project
 }
 \examples{
-test_project <- search_projects("Sharla test")
+test_project <- mermaid_search_projects("Sharla test")
 mermaid_get_all_project_endpoints(test_project)
 }

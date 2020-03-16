@@ -14,6 +14,8 @@ mermaid_search_projects(name = NULL, country = NULL, tag = NULL,
 
 \item{tag}{Project tag}
 
+\item{limit}{Number of records to get. Defaults to 50.}
+
 \item{...}{}
 }
 \description{

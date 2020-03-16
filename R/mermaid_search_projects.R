@@ -5,6 +5,7 @@
 #' @param name Project name
 #' @param country Project country
 #' @param tag Project tag
+#' @inheritParams mermaid_GET
 #' @param ...
 #'
 #' @export
