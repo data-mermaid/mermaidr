@@ -13,19 +13,19 @@
 #' mermaid_search_projects(country = "Fiji")
 #' mermaid_search_projects(tag = "WCS Fiji")
 #' mermaid_search_projects(country = "Fiji", tag = "WWF-UK")
-mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, limit = 50) {
+mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, limit = 50, url = base_url) {
   if (is.null(name) & is.null(country) & is.null(tag)) {
     warning("You haven't provided a `name`, `country`, or `tag` to search by. Just returning ", limit, " projects.", call. = FALSE)
     return(
-      mermaid_list_projects(limit = limit)
+      mermaid_list_projects(limit = limit, url = url)
     )
   } else if (!is.null(name)) {
-    projects <- mermaid_get_endpoint("projects", name = name)
+    projects <- mermaid_get_endpoint("projects", name = name, url = url)
     if(is.null(country) & is.null(tag)) {
     check_single_project(projects, name)
     }
   } else if (!is.null(country) | !is.null(tag)) {
-    projects <- mermaid_list_projects(limit = 99999999)
+    projects <- mermaid_list_projects(limit = 99999999, url = url)
   }
 
   if(!is.null(country)) {
