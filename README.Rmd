@@ -105,6 +105,12 @@ At this point, you will have to authenticate to the Collect app. R will help you
 
 Once you've logged in, come back to R. Your login credentials will be stored for a day, until they expire, and you will need to login again. The package handles the expiration for you, so just log in again when prompted.
 
+#### Raw endpoints
+
+The following endpoints contain raw data: "beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "collectrecords", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes/", "beltfishes/sampleunits/", and "beltfishes/sampleevents/".
+
+Cleaner endpoints are covered in the next section. These are: "beltfishes/obstransectbeltfishes/", "beltfishes/sampleunits/", and "beltfishes/sampleevents/".
+
 For example, to see the sites in this project:
 
 ```{r}
@@ -136,3 +142,29 @@ all_endpoints
 
 Keep in mind that the default `limit` is 50, and should be increased if you want more records from each endpoint.
 
+#### Clean Endpoints
+
+The "clean" endpoints currently available are for beltfish records: "beltfishes/obstransectbeltfishes/", "beltfishes/sampleunits/", and "beltfishes/sampleevents/".
+
+You can query them the same way, using 
+`mermaid_get_project_endpoint()`:
+
+"beltfishes/obstransectbeltfishes" are individual observations:
+
+```{r}
+xpdc <- mermaid_search_projects("XPDC Kei Kecil 2018")
+
+mermaid_get_project_endpoint(xpdc, "beltfishes/obstransectbeltfishes", limit = 5)
+```
+
+"beltfishes/sampleunits/" are aggregated to the sample unit, and contain total biomass in kg/ha per sample unit, by trophic group:
+
+```{r}
+mermaid_get_project_endpoint(xpdc, "beltfishes/sampleunits", limit = 5)
+```
+
+"beltfishes/sampleevents/" are aggregated to the sample event, and contain *mean* total biomass in kg/ha per sample event and by trophic group:
+
+```{r}
+mermaid_get_project_endpoint(xpdc, "beltfishes/sampleevents", limit = 5)
+```

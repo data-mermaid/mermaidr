@@ -50,3 +50,10 @@ test_that("mermaid_get_project_endpoint returns a tibble when passed a known end
   test_project <- mermaid_search_projects("Sharla test")
   expect_is(mermaid_get_project_endpoint(test_project, "obsbenthicpits"), "tbl_df")
 })
+
+test_that("mermaid_get_project_endpoint works for the new endpoints", {
+  test_project <- mermaid_search_projects("Sharla test")
+  expect_s3_class(mermaid_get_project_endpoint(test_project, "beltfishes/obstransectbeltfishes/"), "tbl_df")
+  expect_s3_class(mermaid_get_project_endpoint(test_project, "beltfishes/sampleunits/"), "tbl_df")
+  expect_s3_class(mermaid_get_project_endpoint(test_project, "beltfishes/sampleevents/"), "tbl_df")
+})
