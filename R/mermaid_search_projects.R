@@ -17,19 +17,23 @@
 #'
 #' # To search within your projects only:
 #' mermaid_search_projects(country = "Fiji", token = mermaid_token())
-mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, limit = 50, ...) {
+mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, limit = 50, token = NULL) {
   if (is.null(name) & is.null(country) & is.null(tag)) {
     warning("You haven't provided a `name`, `country`, or `tag` to search by. Just returning ", limit, " projects.", call. = FALSE)
     return(
-      mermaid_list_projects(limit = limit, ...)
+      mermaid_get_endpoint("projects", name = name, limit = limit, token = token)
     )
   } else if (!is.null(name)) {
-    projects <- mermaid_get_endpoint("projects", name = name, ...)
+    projects <- mermaid_get_endpoint("projects", name = name, token = token)
     if(is.null(country) & is.null(tag)) {
     check_single_project(projects, name)
     }
   } else if (!is.null(country) | !is.null(tag)) {
-    projects <- mermaid_list_projects(limit = 99999999, ...)
+    if(is.null(token)) {
+      projects <- mermaid_list_projects(limit = 99999)
+    } else {
+      projects <- mermaid_list_my_projects(limit = 99999, token = token)
+    }
   }
 
   if(!is.null(country)) {

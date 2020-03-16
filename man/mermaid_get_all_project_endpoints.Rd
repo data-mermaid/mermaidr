@@ -4,7 +4,8 @@
 \alias{mermaid_get_all_project_endpoints}
 \title{Get all endpoints from a specified MERMAID project}
 \usage{
-mermaid_get_all_project_endpoints(project = get_default_project(),
+
+  mermaid_get_all_project_endpoints(project = mermaid_get_default_project(),
   limit = 50, url = base_url, token = mermaid_token())
 }
 \arguments{

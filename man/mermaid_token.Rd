@@ -22,4 +22,3 @@ rather, prepared for inclusion in downstream requests. Use
 \code{access_token()} to reveal the actual access token, suitable for use
 with \code{curl}.
 }
-\keyword{internal}

@@ -120,7 +120,7 @@ mermaid_auth <- function(token = NULL,
 #'
 #' @return a \code{request} object (an S3 class provided by \code{httr})
 #'
-#' @keywords internal
+#' @export
 mermaid_token <- function(verbose = FALSE) {
   if (!token_available(verbose = verbose)) mermaid_auth(verbose = verbose)
   httr::config(token = .state$token)

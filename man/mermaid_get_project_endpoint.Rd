@@ -4,7 +4,7 @@
 \alias{mermaid_get_project_endpoint}
 \title{Get endpoint from a specified MERMAID project}
 \usage{
-mermaid_get_project_endpoint(project = get_default_project(),
+mermaid_get_project_endpoint(project = mermaid_get_default_project(),
   endpoint = c("beltfishtransectmethods", "beltfishes",
   "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits",
   "benthictransects", "collectrecords", "fishbelttransects",
