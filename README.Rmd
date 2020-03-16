@@ -39,35 +39,65 @@ The login credentials expire every 24 hours. Once your credentials are expired, 
 
 ## Usage
 
-To access the unauthenticated API endpoints, use `get_mermaid_endpoints()`. The results will return as a `tibble.` The following endpoints are available: "benthicattributes", "fishattributes", "fishfamilies", "fishgenera", "fishspecies", "managements", "projects", "sites".
+All functions in `mermaidr` are of the form `mermaid_*()`, to make functions easier to find and use when loaded with other packages!
+
+To access the unauthenticated API endpoints, use `mermaid_get_endpoint()`. The results will return as a `tibble.` The following endpoints are available: "benthicattributes", "fishattributes", "fishfamilies", "fishgenera", "fishspecies", "managements", "projects", "sites".
 
 For example,
 
 ```{r}
 library(mermaidr)
 
-get_mermaid_endpoint("projects")
+mermaid_get_endpoint("sites")
 ```
 
 By default, the function returns 50 results - to get more (or less!), use the `limit` argument:
 
 ```{r}
-get_mermaid_endpoint("managements", limit = 5)
+mermaid_get_endpoint("managements", limit = 5)
 ```
+
+For specifically listing projects, there is a wrapper function `mermaid_list_projects()`:
+
+```{r}
+mermaid_list_projects(limit = 5)
+```
+
+This will list all (as many as `limit`) projects.
+
+To specifically access projects that you *have access to*, use `mermaid_list_my_projects()`:
+
+```{r}
+mermaid_list_my_projects(limit = 1)
+```
+
+This will return a list of projects that you have access to in Collect.
 
 ### Accessing project data
 
-You will be able to access data from a specific project, provided that you have access to it in the Collect app. To access data for a project, you can either use a project from `get_mermaid_endpoint("projects")` (as above), a `project_id` directly, or a project from `search_projects()`. 
+You will be able to access data from a specific project, provided that you have access to it in the Collect app. To access data for a project, you can either use a project from `mermaid_list_my_projects()` (as above), a `project_id` directly, or a project from `mermaid_search_projects()`. 
 
 For example:
 
 ```{r}
-mermaidr_project <- search_projects(name = "Sharla test")
+mermaidr_project <- mermaid_search_projects(name = "Sharla test")
 
 mermaidr_project
 ```
 
-returns a single project with the exact name "Sharla test".
+returns a single project with the name "Sharla test".
+
+You can also search projects by country or tag:
+
+```{r}
+mermaid_search_projects(country = "Fiji")
+```
+
+and if you only want to search *your* projects, pass your token to the function:
+
+```{r}
+mermaid_search_projects(country = "Fiji", token = mermaid_token())
+```
 
 You can use this to access an endpoint for the project, using `get_mermaid_project_endpoint()`. The following project endpoints are available: "beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "collectrecords", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites".
 
@@ -78,18 +108,31 @@ Once you've logged in, come back to R. Your login credentials will be stored for
 For example, to see the sites in this project:
 
 ```{r}
-get_mermaid_project_endpoint("sites", mermaidr_project)
+mermaid_get_project_endpoint(mermaidr_project, "sites")
 ```
 
 You can also use the `project_id` directly to access data from a project, without having to search for it first. This may be handy since the `project_id` is directly available from the URL when using the collect app.
 
 ```{r}
-get_mermaid_project_endpoint("managements", "2c0c9857-b11c-4b82-b7ef-e9b383d1233c")
+mermaid_get_project_endpoint("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", "managements")
 ```
 
-If you want to access data from the same project multiple times within a session, it may be useful to set the default project, rather than having to supply it every time. You can do this using `set_default_project()`. Then, you can just supply the endpoint, and the default project is used.
+If you want to access data from the same project multiple times within a session, it may be useful to set the default project, rather than having to supply it every time. You can do this using `mermaid_set_default_project()`. Then, you can just supply the endpoint, and the default project is used.
 
 ```{r}
-set_default_project(mermaidr_project)
-get_mermaid_project_endpoint("beltfishes")
+mermaid_set_default_project(mermaidr_project)
+mermaid_get_project_endpoint(endpoint = "beltfishes")
 ```
+
+To get data for *all* endpoints associated with a project, use `mermaid_get_all_project_endpoints()`. This will return a list of tibbles, one for each endpoint.
+
+```{r}
+all_endpoints <- mermaid_get_all_project_endpoints()
+
+names(all_endpoints)
+
+all_endpoints
+```
+
+Keep in mind that the default `limit` is 50, and should be increased if you want more records from each endpoint.
+

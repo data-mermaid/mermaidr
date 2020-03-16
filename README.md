@@ -39,8 +39,11 @@ needed.
 
 ## Usage
 
+All functions in `mermaidr` are of the form `mermaid_*()`, to make
+functions easier to find and use when loaded with other packages\!
+
 To access the unauthenticated API endpoints, use
-`get_mermaid_endpoints()`. The results will return as a `tibble.` The
+`mermaid_get_endpoint()`. The results will return as a `tibble.` The
 following endpoints are available: “benthicattributes”,
 “fishattributes”, “fishfamilies”, “fishgenera”, “fishspecies”,
 “managements”, “projects”, “sites”.
@@ -50,11 +53,114 @@ For example,
 ``` r
 library(mermaidr)
 
-get_mermaid_endpoint("projects")
-#> # A tibble: 50 x 14
+mermaid_get_endpoint("sites")
+#> # A tibble: 50 x 17
+#>    id    name  notes project latitude longitude country_id country_name
+#>    <chr> <chr> <chr> <chr>      <dbl>     <dbl> <chr>      <chr>       
+#>  1 c7e2… 1201  "Pul… 988e75…    -2.02      134. c570ff86-… Indonesia   
+#>  2 95ad… 1201  "Pul… 3d6edb…    -2.02      134. c570ff86-… Indonesia   
+#>  3 e981… 1201  "Pul… c29a9e…    -2.02      134. c570ff86-… Indonesia   
+#>  4 9fe1… 1201  "Pul… 07df6a…    -2.02      134. c570ff86-… Indonesia   
+#>  5 6e7f… 1201  "Pul… c08ff9…    -2.02      134. c570ff86-… Indonesia   
+#>  6 d74d… 1202  "Nap… 3d6edb…    -2.91      135. c570ff86-… Indonesia   
+#>  7 a467… 1202  "Nap… 07df6a…    -2.91      135. c570ff86-… Indonesia   
+#>  8 46ac… 1203  "Pul… 07df6a…    -3.06      135. c570ff86-… Indonesia   
+#>  9 b0fd… 1204  "Kwa… 07df6a…    -3.22      135. c570ff86-… Indonesia   
+#> 10 5a62… 1205  "Pul… 07df6a…    -3.10      135. c570ff86-… Indonesia   
+#> # … with 40 more rows, and 9 more variables: reef_type_id <chr>,
+#> #   reef_type_name <chr>, reef_zone_id <chr>, reef_zone_name <chr>,
+#> #   exposure_id <chr>, exposure_name <chr>, predecessor <chr>,
+#> #   created_on <chr>, updated_on <chr>
+```
+
+By default, the function returns 50 results - to get more (or less\!),
+use the `limit` argument:
+
+``` r
+mermaid_get_endpoint("managements", limit = 5)
+#> # A tibble: 5 x 19
+#>   id    name  name_secondary project project_name rules notes est_year no_take
+#>   <chr> <chr> <chr>          <chr>   <chr>        <chr> <chr>    <int> <lgl>  
+#> 1 2374… Amba… ""             5679ef… Madagascar … No T… ""        2013 TRUE   
+#> 2 bbe7… Amba… ""             3d6edb… WILELIFE OC… No T… ""        2013 TRUE   
+#> 3 704e… Amba… ""             c29a9e… tesst adc    No T… ""        2013 TRUE   
+#> 4 d007… Amba… ""             c29a9e… tesst adc    No T… ""        2013 TRUE   
+#> 5 23c6… Amba… ""             408067… Madagascar … No T… ""        2013 TRUE   
+#> # … with 10 more variables: periodic_closure <lgl>, open_access <lgl>,
+#> #   size_limits <lgl>, gear_restriction <lgl>, species_restriction <lgl>,
+#> #   compliance <chr>, predecessor <chr>, parties <list>, created_on <chr>,
+#> #   updated_on <chr>
+```
+
+For specifically listing projects, there is a wrapper function
+`mermaid_list_projects()`:
+
+``` r
+mermaid_list_projects(limit = 5)
+#> # A tibble: 5 x 14
+#>   id    name  countries num_sites tags  notes status data_policy_bel…
+#>   <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
+#> 1 60dd… 2013… <chr [1]>         6 <chr… ""        90               10
+#> 2 7376… 2014… <chr [1]>        24 <chr… "Thi…     90               10
+#> 3 ac93… 2016… <chr [1]>        24 <chr… "Thi…     90               10
+#> 4 e1ef… 2016… <chr [1]>         8 <chr… "Nam…     90               10
+#> 5 d549… 2017… <chr [1]>        31 <chr… "Thi…     90               10
+#> # … with 6 more variables: data_policy_benthiclit <int>,
+#> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
+#> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
+```
+
+This will list all (as many as `limit`) projects.
+
+To specifically access projects that you *have access to*, use
+`mermaid_list_my_projects()`:
+
+``` r
+mermaid_list_my_projects(limit = 1)
+#> # A tibble: 1 x 14
+#>   id    name  countries num_sites tags  notes status data_policy_bel…
+#>   <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
+#> 1 ac93… 2016… <chr [1]>        24 <chr… This…     90               10
+#> # … with 6 more variables: data_policy_benthiclit <int>,
+#> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
+#> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
+```
+
+This will return a list of projects that you have access to in Collect.
+
+### Accessing project data
+
+You will be able to access data from a specific project, provided that
+you have access to it in the Collect app. To access data for a project,
+you can either use a project from `mermaid_list_my_projects()` (as
+above), a `project_id` directly, or a project from
+`mermaid_search_projects()`.
+
+For example:
+
+``` r
+mermaidr_project <- mermaid_search_projects(name = "Sharla test")
+
+mermaidr_project
+#> # A tibble: 1 x 14
+#>   id    name  countries num_sites tags  notes status data_policy_bel…
+#>   <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
+#> 1 2c0c… Shar… <chr [2]>         2 <lis… ""        80               50
+#> # … with 6 more variables: data_policy_benthiclit <int>,
+#> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
+#> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
+```
+
+returns a single project with the name “Sharla test”.
+
+You can also search projects by country or tag:
+
+``` r
+mermaid_search_projects(country = "Fiji")
+#> # A tibble: 37 x 14
 #>    id    name  countries num_sites tags  notes status data_policy_bel…
 #>    <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
-#>  1 60dd… 2013… <chr [1]>        17 <chr… ""        90               10
+#>  1 60dd… 2013… <chr [1]>         6 <chr… ""        90               10
 #>  2 7376… 2014… <chr [1]>        24 <chr… "Thi…     90               10
 #>  3 ac93… 2016… <chr [1]>        24 <chr… "Thi…     90               10
 #>  4 e1ef… 2016… <chr [1]>         8 <chr… "Nam…     90               10
@@ -64,53 +170,26 @@ get_mermaid_endpoint("projects")
 #>  8 95e0… 2019… <chr [1]>        44 <chr… ""        90               10
 #>  9 d065… 2019… <chr [1]>        31 <chr… "Ble…     90               10
 #> 10 6c6c… 2019… <chr [1]>        18 <chr… "Mac…     90               10
-#> # … with 40 more rows, and 6 more variables: data_policy_benthiclit <int>,
+#> # … with 27 more rows, and 6 more variables: data_policy_benthiclit <int>,
 #> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
 #> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
 ```
 
-By default, the function returns 50 results - to get more (or less\!),
-use the `limit` argument:
+and if you only want to search *your* projects, pass your token to the
+function:
 
 ``` r
-get_mermaid_endpoint("managements", limit = 5)
-#> # A tibble: 5 x 19
-#>   id    name  name_secondary project project_name rules notes est_year no_take
-#>   <chr> <chr> <chr>          <chr>   <chr>        <chr> <chr>    <int> <lgl>  
-#> 1 d007… Amba… ""             c29a9e… tesst adc    No T… ""        2013 TRUE   
-#> 2 704e… Amba… ""             c29a9e… tesst adc    No T… ""        2013 TRUE   
-#> 3 bbe7… Amba… ""             3d6edb… WILELIFE OC… No T… ""        2013 TRUE   
-#> 4 9ee6… Amba… ""             81e144… FIsh Patch … No T… ""        2013 TRUE   
-#> 5 f0be… Amba… ""             c9fc25… Test Project No T… ""        2013 TRUE   
-#> # … with 10 more variables: periodic_closure <lgl>, open_access <lgl>,
-#> #   size_limits <lgl>, gear_restriction <lgl>, species_restriction <lgl>,
-#> #   compliance <chr>, predecessor <chr>, parties <list>, created_on <chr>,
-#> #   updated_on <chr>
-```
-
-### Accessing project data
-
-You will be able to access data from a specific project, provided that
-you have access to it in the Collect app. To access data for a project,
-you can either use a project from `get_mermaid_endpoint("projects")` (as
-above), a `project_id` directly, or a project from `search_projects()`.
-
-For example:
-
-``` r
-mermaidr_project <- search_projects(name = "Sharla test")
-
-mermaidr_project
-#> # A tibble: 1 x 14
+mermaid_search_projects(country = "Fiji", token = mermaid_token())
+#> # A tibble: 3 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
 #>   <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
-#> 1 2c0c… Shar… <chr [1]>         1 <chr… ""        80               50
+#> 1 ac93… 2016… <chr [1]>        24 <chr… "Thi…     90               10
+#> 2 95e0… 2019… <chr [1]>        44 <chr… ""        90               10
+#> 3 6c6c… 2019… <chr [1]>        18 <chr… "Mac…     90               10
 #> # … with 6 more variables: data_policy_benthiclit <int>,
 #> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
 #> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
 ```
-
-returns a single project with the exact name “Sharla test”.
 
 You can use this to access an endpoint for the project, using
 `get_mermaid_project_endpoint()`. The following project endpoints are
@@ -134,13 +213,15 @@ prompted.
 For example, to see the sites in this project:
 
 ``` r
-get_mermaid_project_endpoint("sites", mermaidr_project)
-#> # A tibble: 1 x 12
-#>   id    name  notes project location$type $coordinates country reef_type
-#>   <chr> <chr> <chr> <chr>   <chr>         <list>       <chr>   <chr>    
-#> 1 7465… 1201  Pula… 2c0c98… Point         <dbl [2]>    c570ff… 19534716…
-#> # … with 5 more variables: reef_zone <chr>, exposure <chr>, predecessor <chr>,
-#> #   created_on <chr>, updated_on <chr>
+mermaid_get_project_endpoint(mermaidr_project, "sites")
+#> # A tibble: 2 x 17
+#>   id    name  notes project latitude longitude country_id country_name
+#>   <chr> <chr> <chr> <chr>      <dbl>     <dbl> <chr>      <chr>       
+#> 1 7465… 1201  "Pul… 2c0c98…    -2.02     134.  c570ff86-… Indonesia   
+#> 2 7c02… Amba… ""    2c0c98…   -13.6       47.8 daa14665-… Madagascar  
+#> # … with 9 more variables: reef_type_id <chr>, reef_type_name <chr>,
+#> #   reef_zone_id <chr>, reef_zone_name <chr>, exposure_id <chr>,
+#> #   exposure_name <chr>, predecessor <chr>, created_on <chr>, updated_on <chr>
 ```
 
 You can also use the `project_id` directly to access data from a
@@ -150,24 +231,58 @@ collect
 app.
 
 ``` r
-get_mermaid_project_endpoint("managements", "2c0c9857-b11c-4b82-b7ef-e9b383d1233c")
-#> # A tibble: 0 x 17
-#> # … with 17 variables: id <lgl>, name <lgl>, name_secondary <lgl>,
-#> #   project <lgl>, notes <lgl>, est_year <lgl>, no_take <lgl>,
-#> #   periodic_closure <lgl>, open_access <lgl>, size_limits <lgl>,
+mermaid_get_project_endpoint("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", "managements")
+#> # A tibble: 1 x 17
+#>   id    name  name_secondary project notes est_year no_take periodic_closure
+#>   <chr> <chr> <chr>          <chr>   <chr> <lgl>    <lgl>   <lgl>           
+#> 1 0c2b… test  ""             2c0c98… ""    NA       FALSE   TRUE            
+#> # … with 9 more variables: open_access <lgl>, size_limits <lgl>,
 #> #   gear_restriction <lgl>, species_restriction <lgl>, compliance <lgl>,
-#> #   predecessor <lgl>, parties <lgl>, created_on <lgl>, updated_on <lgl>
+#> #   predecessor <lgl>, parties <list>, created_on <chr>, updated_on <chr>
 ```
 
 If you want to access data from the same project multiple times within a
 session, it may be useful to set the default project, rather than having
-to supply it every time. You can do this using `set_default_project()`.
-Then, you can just supply the endpoint, and the default project is used.
+to supply it every time. You can do this using
+`mermaid_set_default_project()`. Then, you can just supply the endpoint,
+and the default project is used.
 
 ``` r
-set_default_project(mermaidr_project)
-get_mermaid_project_endpoint("beltfishes")
+mermaid_set_default_project(mermaidr_project)
+mermaid_get_project_endpoint(endpoint = "beltfishes")
 #> # A tibble: 0 x 4
 #> # … with 4 variables: id <lgl>, transect <lgl>, created_on <lgl>,
 #> #   updated_on <lgl>
 ```
+
+To get data for *all* endpoints associated with a project, use
+`mermaid_get_all_project_endpoints()`. This will return a list of
+tibbles, one for each endpoint.
+
+``` r
+all_endpoints <- mermaid_get_all_project_endpoints()
+
+names(all_endpoints)
+#>  [1] "beltfishtransectmethods"   "beltfishes"               
+#>  [3] "benthiclittransectmethods" "benthicpittransectmethods"
+#>  [5] "benthicpits"               "benthictransects"         
+#>  [7] "collectrecords"            "fishbelttransects"        
+#>  [9] "habitatcomplexities"       "obsbenthiclits"           
+#> [11] "obsbenthicpits"            "obshabitatcomplexities"   
+#> [13] "obstransectbeltfishs"      "managements"              
+#> [15] "observers"                 "project_profiles"         
+#> [17] "sampleevents"              "sites"
+
+all_endpoints[["sites"]]
+#> # A tibble: 2 x 17
+#>   id    name  notes project latitude longitude country_id country_name
+#>   <chr> <chr> <chr> <chr>      <dbl>     <dbl> <chr>      <chr>       
+#> 1 7465… 1201  "Pul… 2c0c98…    -2.02     134.  c570ff86-… Indonesia   
+#> 2 7c02… Amba… ""    2c0c98…   -13.6       47.8 daa14665-… Madagascar  
+#> # … with 9 more variables: reef_type_id <chr>, reef_type_name <chr>,
+#> #   reef_zone_id <chr>, reef_zone_name <chr>, exposure_id <chr>,
+#> #   exposure_name <chr>, predecessor <chr>, created_on <chr>, updated_on <chr>
+```
+
+Keep in mind that the default `limit` is 50, and should be increased if
+you want more records from each endpoint.
