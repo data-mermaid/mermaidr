@@ -1,4 +1,5 @@
 test_that("mermaid_get_all_project_endpoints returns a list of tibbles for all project endpoints", {
+  skip_if_offline()
   test_project <- mermaid_search_projects("Sharla test")
   output <- mermaid_get_all_project_endpoints(test_project, limit = 1)
   expect_is(output, "list")
