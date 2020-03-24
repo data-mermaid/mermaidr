@@ -45,7 +45,7 @@ get_and_parse <- function(path, ua, token) {
 
 results_lookup_choices <- function(results, endpoint, url, ua, token) {
   results <- tibble::as_tibble(results)
-  if(basename(endpoint) == "sites") {
+  if (basename(endpoint) == "sites") {
     choices <- get_and_parse(
       path = httr::modify_url(url, path = "v1/choices"),
       ua = ua, token = token
@@ -62,13 +62,20 @@ results_lookup_choices <- function(results, endpoint, url, ua, token) {
     results <- results %>%
       tidyr::unpack(cols = c(location)) %>%
       tidyr::hoist(coordinates,
-                   latitude = 2,
-                   longitude = 1
+        latitude = 2,
+        longitude = 1
       ) %>%
       dplyr::select(-type)
+  } else if (endpoint == "projects") {
+    results <- results %>%
+      dplyr::mutate(status = dplyr::recode(status, `10` = "Locked", `80` = "Test", `90` = "Open")) %>%
+      dplyr::mutate_at(
+        dplyr::vars(dplyr::starts_with("data_policy_")),
+        ~ dplyr::recode(.x, `10` = "Private", `50` = "Public Summary", `100` = "Public")
+      )
   }
 
-results
+  results
 }
 
 lookup_variable <- function(.data, choices, variable) {
