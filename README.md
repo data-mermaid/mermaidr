@@ -12,7 +12,7 @@ Collect](https://collect.datamermaid.org/) data directly from R.
 
 ## Installation
 
-You can install the development version from GitHub with:
+You can install mermaidr from GitHub with:
 
 ``` r
 # install.packages("devtools")
@@ -21,7 +21,7 @@ devtools::install_github("data-mermaid/mermaidr@package", upgrade = "never")
 
 Next, load the package:
 
-```{r}
+``` r
 library(mermaidr)
 ```
 
@@ -60,16 +60,16 @@ mermaid_get_endpoint("sites")
 #> # A tibble: 50 x 17
 #>    id    name  notes project latitude longitude country_id country_name
 #>    <chr> <chr> <chr> <chr>      <dbl>     <dbl> <chr>      <chr>       
-#>  1 c7e2… 1201  "Pul… 988e75…    -2.02      134. c570ff86-… Indonesia   
-#>  2 95ad… 1201  "Pul… 3d6edb…    -2.02      134. c570ff86-… Indonesia   
-#>  3 e981… 1201  "Pul… c29a9e…    -2.02      134. c570ff86-… Indonesia   
-#>  4 9fe1… 1201  "Pul… 07df6a…    -2.02      134. c570ff86-… Indonesia   
-#>  5 6e7f… 1201  "Pul… c08ff9…    -2.02      134. c570ff86-… Indonesia   
-#>  6 d74d… 1202  "Nap… 3d6edb…    -2.91      135. c570ff86-… Indonesia   
-#>  7 a467… 1202  "Nap… 07df6a…    -2.91      135. c570ff86-… Indonesia   
-#>  8 46ac… 1203  "Pul… 07df6a…    -3.06      135. c570ff86-… Indonesia   
-#>  9 b0fd… 1204  "Kwa… 07df6a…    -3.22      135. c570ff86-… Indonesia   
-#> 10 5a62… 1205  "Pul… 07df6a…    -3.10      135. c570ff86-… Indonesia   
+#>  1 9fe1… 1201  "Pul… 07df6a…    -2.02      134. c570ff86-… Indonesia   
+#>  2 baaa… 1201  "Pul… 841534…    -2.02      134. c570ff86-… Indonesia   
+#>  3 6e7f… 1201  "Pul… c08ff9…    -2.02      134. c570ff86-… Indonesia   
+#>  4 e981… 1201  "Pul… c29a9e…    -2.02      134. c570ff86-… Indonesia   
+#>  5 95ad… 1201  "Pul… 3d6edb…    -2.02      134. c570ff86-… Indonesia   
+#>  6 0a26… 1201  "Pul… 841534…    -2.02      134. c570ff86-… Indonesia   
+#>  7 c7e2… 1201  "Pul… 988e75…    -2.02      134. c570ff86-… Indonesia   
+#>  8 d74d… 1202  "Nap… 3d6edb…    -2.91      135. c570ff86-… Indonesia   
+#>  9 a467… 1202  "Nap… 07df6a…    -2.91      135. c570ff86-… Indonesia   
+#> 10 46ac… 1203  "Pul… 07df6a…    -3.06      135. c570ff86-… Indonesia   
 #> # … with 40 more rows, and 9 more variables: reef_type_id <chr>,
 #> #   reef_type_name <chr>, reef_zone_id <chr>, reef_zone_name <chr>,
 #> #   exposure_id <chr>, exposure_name <chr>, predecessor <chr>,
@@ -84,11 +84,11 @@ mermaid_get_endpoint("managements", limit = 5)
 #> # A tibble: 5 x 19
 #>   id    name  name_secondary project project_name rules notes est_year no_take
 #>   <chr> <chr> <chr>          <chr>   <chr>        <chr> <chr>    <int> <lgl>  
-#> 1 2374… Amba… ""             5679ef… Madagascar … No T… ""        2013 TRUE   
-#> 2 bbe7… Amba… ""             3d6edb… WILELIFE OC… No T… ""        2013 TRUE   
+#> 1 23c6… Amba… ""             408067… Madagascar … No T… ""        2013 TRUE   
+#> 2 d007… Amba… ""             c29a9e… tesst adc    No T… ""        2013 TRUE   
 #> 3 704e… Amba… ""             c29a9e… tesst adc    No T… ""        2013 TRUE   
-#> 4 d007… Amba… ""             c29a9e… tesst adc    No T… ""        2013 TRUE   
-#> 5 23c6… Amba… ""             408067… Madagascar … No T… ""        2013 TRUE   
+#> 4 bbe7… Amba… ""             3d6edb… WILELIFE OC… No T… ""        2013 TRUE   
+#> 5 2374… Amba… ""             5679ef… Madagascar … No T… ""        2013 TRUE   
 #> # … with 10 more variables: periodic_closure <lgl>, open_access <lgl>,
 #> #   size_limits <lgl>, gear_restriction <lgl>, species_restriction <lgl>,
 #> #   compliance <chr>, predecessor <chr>, parties <list>, created_on <chr>,
@@ -103,17 +103,19 @@ mermaid_list_projects(limit = 5)
 #> # A tibble: 5 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
 #>   <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
-#> 1 60dd… 2013… <chr [1]>         6 <chr… ""        90               10
-#> 2 7376… 2014… <chr [1]>        24 <chr… "Thi…     90               10
-#> 3 ac93… 2016… <chr [1]>        24 <chr… "Thi…     90               10
-#> 4 e1ef… 2016… <chr [1]>         8 <chr… "Nam…     90               10
-#> 5 d549… 2017… <chr [1]>        31 <chr… "Thi…     90               10
+#> 1 fe3f… 1000… <chr [0]>         0 <chr… "The…     90               50
+#> 2 60dd… 2013… <chr [1]>        17 <chr… ""        90               10
+#> 3 7376… 2014… <chr [1]>        24 <chr… "Thi…     90               10
+#> 4 ac93… 2016… <chr [1]>        24 <chr… "Thi…     90               10
+#> 5 e1ef… 2016… <chr [1]>         8 <chr… "Nam…     90               10
 #> # … with 6 more variables: data_policy_benthiclit <int>,
 #> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
 #> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
 ```
 
-This will list all (as many as `limit`) projects.
+This will list all (as many as `limit`) projects. By default, it does
+*not* include test projects. To include test projects, set
+`include_test_projects = TRUE`.
 
 To specifically access projects that you *have access to*, use
 `mermaid_list_my_projects()`:
@@ -123,13 +125,14 @@ mermaid_list_my_projects(limit = 1)
 #> # A tibble: 1 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
 #>   <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
-#> 1 ac93… 2016… <chr [1]>        24 <chr… This…     90               10
+#> 1 d549… 2017… <chr [1]>        31 <chr… This…     90               10
 #> # … with 6 more variables: data_policy_benthiclit <int>,
 #> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
 #> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
 ```
 
 This will return a list of projects that you have access to in Collect.
+Again, this does not include test projects.
 
 ### Accessing project data
 
@@ -148,7 +151,7 @@ mermaidr_project
 #> # A tibble: 1 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
 #>   <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
-#> 1 2c0c… Shar… <chr [2]>         2 <lis… ""        80               50
+#> 1 2c0c… Shar… <chr [1]>         1 <lis… "dhf…     80               50
 #> # … with 6 more variables: data_policy_benthiclit <int>,
 #> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
 #> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
@@ -160,10 +163,10 @@ You can also search projects by country or tag:
 
 ``` r
 mermaid_search_projects(country = "Fiji")
-#> # A tibble: 37 x 14
+#> # A tibble: 43 x 14
 #>    id    name  countries num_sites tags  notes status data_policy_bel…
 #>    <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
-#>  1 60dd… 2013… <chr [1]>         6 <chr… ""        90               10
+#>  1 60dd… 2013… <chr [1]>        17 <chr… ""        90               10
 #>  2 7376… 2014… <chr [1]>        24 <chr… "Thi…     90               10
 #>  3 ac93… 2016… <chr [1]>        24 <chr… "Thi…     90               10
 #>  4 e1ef… 2016… <chr [1]>         8 <chr… "Nam…     90               10
@@ -173,7 +176,7 @@ mermaid_search_projects(country = "Fiji")
 #>  8 95e0… 2019… <chr [1]>        44 <chr… ""        90               10
 #>  9 d065… 2019… <chr [1]>        31 <chr… "Ble…     90               10
 #> 10 6c6c… 2019… <chr [1]>        18 <chr… "Mac…     90               10
-#> # … with 27 more rows, and 6 more variables: data_policy_benthiclit <int>,
+#> # … with 33 more rows, and 6 more variables: data_policy_benthiclit <int>,
 #> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
 #> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
 ```
@@ -183,12 +186,10 @@ function:
 
 ``` r
 mermaid_search_projects(country = "Fiji", token = mermaid_token())
-#> # A tibble: 3 x 14
+#> # A tibble: 1 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
 #>   <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
-#> 1 ac93… 2016… <chr [1]>        24 <chr… "Thi…     90               10
-#> 2 95e0… 2019… <chr [1]>        44 <chr… ""        90               10
-#> 3 6c6c… 2019… <chr [1]>        18 <chr… "Mac…     90               10
+#> 1 d549… 2017… <chr [1]>        31 <chr… This…     90               10
 #> # … with 6 more variables: data_policy_benthiclit <int>,
 #> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
 #> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
@@ -232,11 +233,10 @@ For example, to see the sites in this project:
 
 ``` r
 mermaid_get_project_endpoint(mermaidr_project, "sites")
-#> # A tibble: 2 x 17
+#> # A tibble: 1 x 17
 #>   id    name  notes project latitude longitude country_id country_name
 #>   <chr> <chr> <chr> <chr>      <dbl>     <dbl> <chr>      <chr>       
-#> 1 7465… 1201  "Pul… 2c0c98…    -2.02     134.  c570ff86-… Indonesia   
-#> 2 7c02… Amba… ""    2c0c98…   -13.6       47.8 daa14665-… Madagascar  
+#> 1 7465… 1201  Pula… 2c0c98…    -2.02      134. c570ff86-… Indonesia   
 #> # … with 9 more variables: reef_type_id <chr>, reef_type_name <chr>,
 #> #   reef_zone_id <chr>, reef_zone_name <chr>, exposure_id <chr>,
 #> #   exposure_name <chr>, predecessor <chr>, created_on <chr>, updated_on <chr>
@@ -250,13 +250,14 @@ app.
 
 ``` r
 mermaid_get_project_endpoint("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", "managements")
-#> # A tibble: 1 x 17
+#> # A tibble: 2 x 17
 #>   id    name  name_secondary project notes est_year no_take periodic_closure
-#>   <chr> <chr> <chr>          <chr>   <chr> <lgl>    <lgl>   <lgl>           
-#> 1 0c2b… test  ""             2c0c98… ""    NA       FALSE   TRUE            
+#>   <chr> <chr> <chr>          <chr>   <chr>    <int> <lgl>   <lgl>           
+#> 1 cffd… Fake… ""             2c0c98… ""        2018 FALSE   TRUE            
+#> 2 ea09… Fish… ""             2c0c98… ""        2019 FALSE   FALSE           
 #> # … with 9 more variables: open_access <lgl>, size_limits <lgl>,
-#> #   gear_restriction <lgl>, species_restriction <lgl>, compliance <lgl>,
-#> #   predecessor <lgl>, parties <list>, created_on <chr>, updated_on <chr>
+#> #   gear_restriction <lgl>, species_restriction <lgl>, compliance <chr>,
+#> #   predecessor <chr>, parties <list>, created_on <chr>, updated_on <chr>
 ```
 
 If you want to access data from the same project multiple times within a
@@ -268,9 +269,10 @@ and the default project is used.
 ``` r
 mermaid_set_default_project(mermaidr_project)
 mermaid_get_project_endpoint(endpoint = "beltfishes")
-#> # A tibble: 0 x 4
-#> # … with 4 variables: id <lgl>, transect <lgl>, created_on <lgl>,
-#> #   updated_on <lgl>
+#> # A tibble: 1 x 4
+#>   id                  transect              created_on         updated_on       
+#>   <chr>               <chr>                 <chr>              <chr>            
+#> 1 5b16efbc-0910-4576… 0b325bfe-eefc-4c6c-a… 2020-03-09T14:36:… 2020-03-09T14:36…
 ```
 
 To get data for *all* endpoints associated with a project, use
@@ -292,11 +294,10 @@ names(all_endpoints)
 #> [17] "sampleevents"              "sites"
 
 all_endpoints[["sites"]]
-#> # A tibble: 2 x 17
+#> # A tibble: 1 x 17
 #>   id    name  notes project latitude longitude country_id country_name
 #>   <chr> <chr> <chr> <chr>      <dbl>     <dbl> <chr>      <chr>       
-#> 1 7465… 1201  "Pul… 2c0c98…    -2.02     134.  c570ff86-… Indonesia   
-#> 2 7c02… Amba… ""    2c0c98…   -13.6       47.8 daa14665-… Madagascar  
+#> 1 7465… 1201  Pula… 2c0c98…    -2.02      134. c570ff86-… Indonesia   
 #> # … with 9 more variables: reef_type_id <chr>, reef_type_name <chr>,
 #> #   reef_zone_id <chr>, reef_zone_name <chr>, exposure_id <chr>,
 #> #   exposure_name <chr>, predecessor <chr>, created_on <chr>, updated_on <chr>

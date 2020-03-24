@@ -4,7 +4,7 @@
 #' @param limit Number of records to get. Defaults to 50.
 #' @param url API URL. Defaults to https://api.datamermaid.org
 #' @param token API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}
-#' @param ... Additional parameters used as needed in \code{\link{mermaid_search_projects}}
+#' @param ... Additional parameters used as needed
 mermaid_GET <- function(endpoint, limit = 50, url = base_url, token = NULL, ...) {
   check_internet()
   limit <- check_limit(limit)
@@ -22,11 +22,7 @@ mermaid_GET <- function(endpoint, limit = 50, url = base_url, token = NULL, ...)
     res[["data"]] <- sapply(res[["data"]], tibble::as_tibble)
     res
   } else {
-    choices <- get_and_parse(
-      path = httr::modify_url(url, path = "v1/choices"),
-      ua = ua, token = token
-    )
-    results_lookup_choices(results = parsed[["results"]], choices = choices, endpoint = endpoint)
+    results_lookup_choices(results = parsed[["results"]], endpoint = endpoint, url = url, ua = ua, token = token)
   }
 }
 
@@ -47,29 +43,32 @@ get_and_parse <- function(path, ua, token) {
   jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyDataFrame = TRUE)
 }
 
-results_lookup_choices <- function(results, choices, endpoint) {
+results_lookup_choices <- function(results, endpoint, url, ua, token) {
   results <- tibble::as_tibble(results)
-  choices <- tibble::as_tibble(choices)
-  choices[["data"]] <- sapply(choices[["data"]], tibble::as_tibble)
+  if(basename(endpoint) == "sites") {
+    choices <- get_and_parse(
+      path = httr::modify_url(url, path = "v1/choices"),
+      ua = ua, token = token
+    )
+    choices <- tibble::as_tibble(choices)
+    choices[["data"]] <- sapply(choices[["data"]], tibble::as_tibble)
 
-  switch(basename(endpoint),
-    sites = {
-      results <- results %>%
-        lookup_variable(choices, "country") %>%
-        lookup_variable(choices, "reef_type") %>%
-        lookup_variable(choices, "reef_zone") %>%
-        lookup_variable(choices, "exposure")
+    results <- results %>%
+      lookup_variable(choices, "country") %>%
+      lookup_variable(choices, "reef_type") %>%
+      lookup_variable(choices, "reef_zone") %>%
+      lookup_variable(choices, "exposure")
 
-      results %>%
-        tidyr::unpack(cols = c(location)) %>%
-        tidyr::hoist(coordinates,
-          latitude = 2,
-          longitude = 1
-        ) %>%
-        dplyr::select(-type)
-    },
-    results
-  )
+    results <- results %>%
+      tidyr::unpack(cols = c(location)) %>%
+      tidyr::hoist(coordinates,
+                   latitude = 2,
+                   longitude = 1
+      ) %>%
+      dplyr::select(-type)
+  }
+
+results
 }
 
 lookup_variable <- function(.data, choices, variable) {
