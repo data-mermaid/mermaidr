@@ -16,7 +16,7 @@ You can install the development version from GitHub with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("mermaidr/mermaidr@package")
+devtools::install_github("data-mermaid/mermaidr@package", upgrade = "never")
 ```
 
 ## Authentication

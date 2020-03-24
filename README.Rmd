@@ -22,11 +22,11 @@ The goal of `mermaidr` is to access [MERMAID Collect](https://collect.datamermai
 
 ## Installation
 
-You can install the development version from GitHub with:
+You can install mermaidr from GitHub with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("mermaidr/mermaidr@package")
+devtools::install_github("data-mermaid/mermaidr@package", upgrade = "never")
 ```
 
 ## Authentication
