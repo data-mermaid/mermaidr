@@ -19,6 +19,12 @@ You can install the development version from GitHub with:
 devtools::install_github("data-mermaid/mermaidr@package", upgrade = "never")
 ```
 
+Next, load the package:
+
+```{r}
+library(mermaidr)
+```
+
 ## Authentication
 
 `mermaidr` will help you interact with MERMAID Collect as an

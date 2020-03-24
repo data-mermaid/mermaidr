@@ -29,6 +29,12 @@ You can install mermaidr from GitHub with:
 devtools::install_github("data-mermaid/mermaidr@package", upgrade = "never")
 ```
 
+Next, load the package:
+
+```{r}
+library(mermaidr)
+```
+
 ## Authentication
 
 `mermaidr` will help you interact with MERMAID Collect as an authenticated user, as soon as you need. This is only required for accessing project specific data. To access a list of projects, sites, etc, you do not need to be authenticated.

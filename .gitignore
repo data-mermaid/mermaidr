@@ -3,3 +3,4 @@
 .httr-oauth
 *.rds
 tests/testthat/mermaidr_token.rds
+*.DS_Store
