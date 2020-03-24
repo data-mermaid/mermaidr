@@ -10,7 +10,7 @@
 #' @examples
 #' mermaid_list_my_projects(limit = 5)
 mermaid_list_my_projects <- function(limit = 50, url = base_url, token = mermaid_token()) {
-  res <- mermaid_GET("projects", limit = limit, url = url, token = mermaid_token())
+  res <- mermaid_GET("projects", limit = limit, url = url, token = token)
 
   if (nrow(res) == 0) {
     cols <- mermaid_endpoint_columns[["projects"]]
