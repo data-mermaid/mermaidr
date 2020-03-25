@@ -9,7 +9,7 @@
 #' @examples
 #' mermaid_list_projects(limit = 5)
 mermaid_list_projects <- function(include_test_projects = FALSE, limit = NULL, url = base_url) {
-  if(include_test_projects) {
+  if (include_test_projects) {
     res <- mermaid_GET("projects", limit = limit, url = url)
   } else {
     res <- mermaid_GET("projects", limit = limit, url = url, status = 90)

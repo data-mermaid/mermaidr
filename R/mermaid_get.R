@@ -13,7 +13,7 @@ mermaid_GET <- function(endpoint, limit = NULL, url = base_url, token = NULL, ..
   path <- construct_api_path(endpoint = endpoint, token = token, url = url, limit = limit, ...)
 
   # Call API and return if "choices" endpoint
-  if(endpoint == "choices") {
+  if (endpoint == "choices") {
     parsed <- get_and_parse(path = path, ua = ua, token = token)
     res <- tibble::as_tibble(parsed)
     res[["data"]] <- sapply(res[["data"]], tibble::as_tibble)
@@ -57,7 +57,7 @@ get_paginated_response <- function(path, ua, token, limit) {
   all_res[[i]] <- res[["results"]]
   n_res <- nrow(all_res[[i]])
 
-  while(!is.null(res$`next`) && (is.null(limit) || n_res < limit)){
+  while (!is.null(res$`next`) && (is.null(limit) || n_res < limit)) {
     path <- res$`next`
     i <- i + 1
     res <- get_and_parse(path = path, ua = ua, token = token)
@@ -67,9 +67,9 @@ get_paginated_response <- function(path, ua, token, limit) {
 
   res <- do.call("rbind", all_res)
 
-  if(is.null(limit)) {
+  if (is.null(limit)) {
     res
-  } else{
+  } else {
     head(res, limit)
   }
 }
@@ -83,7 +83,7 @@ get_and_parse <- function(path, ua, token) {
 results_lookup_choices <- function(results, endpoint, url, ua, token) {
   results <- tibble::as_tibble(results)
 
-  if(nrow(results) == 0 || ncol(results) == 0) {
+  if (nrow(results) == 0 || ncol(results) == 0) {
     return(
       tibble::tibble()
     )
@@ -110,7 +110,6 @@ results_lookup_choices <- function(results, endpoint, url, ua, token) {
       ) %>%
       dplyr::select(-type)
   } else if (endpoint == "projects") {
-
     results <- results %>%
       dplyr::mutate(status = dplyr::recode(status, `10` = "Locked", `80` = "Test", `90` = "Open")) %>%
       dplyr::mutate_at(
@@ -118,8 +117,10 @@ results_lookup_choices <- function(results, endpoint, url, ua, token) {
         ~ dplyr::recode(.x, `10` = "Private", `50` = "Public Summary", `100` = "Public")
       ) %>%
       dplyr::rowwise() %>%
-      dplyr::mutate(countries = paste0(countries, collapse = "; "),
-                    tags = paste0(tags, collapse = "; ")) %>%
+      dplyr::mutate(
+        countries = paste0(countries, collapse = "; "),
+        tags = paste0(tags, collapse = "; ")
+      ) %>%
       dplyr::ungroup()
   }
 

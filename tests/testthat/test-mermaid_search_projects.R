@@ -49,7 +49,7 @@ test_that("mermaid_search_projects searches by name, then filters by country if 
   expect_true(nrow(output) == 0)
 })
 
-test_that("mermaid_search_projects searches by name, then filters by tag if both are specified." , {
+test_that("mermaid_search_projects searches by name, then filters by tag if both are specified.", {
   skip_if_offline()
   output <- mermaid_search_projects(name = "Test Project", tag = "Cytonn", include_test_projects = TRUE)
   expect_equal(unique(output[["name"]]), "Test Project")

@@ -26,41 +26,41 @@
 mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, include_test_projects = FALSE, limit = NULL, url = base_url, token = NULL) {
   if (is.null(name) & is.null(country) & is.null(tag)) {
     stop("You haven't provided a `name`, `country`, or `tag` to search by.",
-         call. = FALSE)
+      call. = FALSE
+    )
   }
 
   if (!is.null(name)) {
-
     if (include_test_projects) {
       projects <- mermaid_GET("projects", limit = limit, url = url, token = token, name = name)
     } else {
       projects <- mermaid_GET("projects", limit = limit, url = url, token = token, name = name, status = 90)
     }
 
-    if(is.null(country) & is.null(tag)) {
+    if (is.null(country) & is.null(tag)) {
       check_single_project(projects, name)
     }
   } else if (!is.null(country) | !is.null(tag)) {
-    if(is.null(token)) {
+    if (is.null(token)) {
       projects <- mermaid_list_projects(url = url, include_test_projects = include_test_projects)
     } else {
       projects <- mermaid_list_my_projects(url = url, include_test_projects = include_test_projects, token = token)
     }
   }
 
-  if(!is.null(country)) {
+  if (!is.null(country)) {
     projects <- projects %>%
       dplyr::filter(grepl(country, countries))
   }
-  if(!is.null(tag)) {
+  if (!is.null(tag)) {
     projects <- projects %>%
       dplyr::filter(grepl(tag, tags))
   }
 
-  if(is.null(limit)) {
+  if (is.null(limit)) {
     projects
   } else {
-  head(projects, limit)
+    head(projects, limit)
   }
 }
 

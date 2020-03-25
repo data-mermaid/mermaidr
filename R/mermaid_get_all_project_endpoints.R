@@ -18,6 +18,7 @@ mermaid_get_all_project_endpoints <- function(project = mermaid_get_default_proj
   )
 }
 
-mermaid_project_endpoint_columns <- c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites" #,
-                                      # "profiles"
-                                      )
+mermaid_project_endpoint_columns <- c(
+  "beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites" # ,
+  # "profiles"
+)
