@@ -17,13 +17,13 @@ mermaid_GET <- function(endpoint, limit = NULL, url = base_url, token = NULL, ..
   path <- purrr::map(names(endpoints), construct_api_path, token = token, url = url, limit = limit, ...)
   names(path) <- endpoint
 
-  # Call API and return if "choices" endpoint
+  # Call API and return results
   parsed <- purrr::map2(
-    path, names(path), ~ get_response(.x, .y, ua = ua, token = token, limit = limit)
+    path, basename(names(path)), ~ get_response(.x, .y, ua = ua, token = token, limit = limit)
   )
 
   # Convert to tibble and lookup values
-  parsed_with_lookup <- purrr::map2(parsed, names(parsed), ~ results_lookup_choices(results = .x, endpoint = .y, url = url, ua = ua, token = token))
+  parsed_with_lookup <- purrr::map2(parsed, basename(names(parsed)), ~ results_lookup_choices(results = .x, endpoint = .y, url = url, ua = ua, token = token))
 
   if (length(endpoint) == 1) {
     parsed_with_lookup[[1]]
@@ -139,16 +139,17 @@ results_lookup_choices <- function(results, endpoint, url, ua, token) {
       dplyr::mutate_at(
         dplyr::vars(dplyr::starts_with("data_policy_")),
         ~ dplyr::recode(.x, `10` = "Private", `50` = "Public Summary", `100` = "Public")
-      ) %>%
-      dplyr::rowwise() %>%
-      dplyr::mutate(
-        countries = paste0(countries, collapse = "; "),
-        tags = paste0(tags, collapse = "; ")
-      ) %>%
-      dplyr::ungroup()
+      )
   }
 
-  results
+  results %>%
+  dplyr::rowwise() %>%
+    dplyr::mutate_if(is_list_col, ~ paste0(.x, collapse = "; ")) %>%
+    dplyr::ungroup()
+}
+
+is_list_col <- function(x) {
+  is.list(x) && !is.data.frame(x)
 }
 
 lookup_variable <- function(.data, choices, variable) {
