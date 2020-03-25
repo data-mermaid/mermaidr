@@ -105,6 +105,20 @@ and if you only want to search *your* projects, pass your token to the function:
 mermaid_search_projects(country = "Fiji", token = mermaid_token())
 ```
 
+Note that the country and tag searches search if the countries/tag fields *contain* that value, since they may not always be exactly what you expect. For example, to search projects in Tanzania:
+
+```{r}
+mermaid_search_projects(country = "Tanzania", limit = 1)[["countries"]]
+```
+
+If you need help figuring out what a country is named, use `mermaid_countries()`, which will list how countries are named in MERMAID:
+
+```{r}
+head(
+  mermaid_countries()
+)
+```
+
 You can use this to access an endpoint for the project, using `get_mermaid_project_endpoint()`. The following project endpoints are available: "beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "collectrecords", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites".
 
 At this point, you will have to authenticate to the Collect app. R will help you do this automatically by opening a browser window for you to log in to Collect, either via Google sign-in or username and password - however you normally do!

@@ -102,12 +102,12 @@ For specifically listing projects, there is a wrapper function
 mermaid_list_projects(limit = 5)
 #> # A tibble: 5 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
-#>   <chr> <chr> <list>        <int> <lis> <chr> <chr>  <chr>           
-#> 1 fe3f… 1000… <chr [0]>         0 <chr… "The… Open   Public Summary  
-#> 2 60dd… 2013… <chr [1]>        17 <chr… ""    Open   Private         
-#> 3 7376… 2014… <chr [1]>        24 <chr… "Thi… Open   Private         
-#> 4 ac93… 2016… <chr [1]>        24 <chr… "Thi… Open   Private         
-#> 5 e1ef… 2016… <chr [1]>         8 <chr… "Nam… Open   Private         
+#>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
+#> 1 fe3f… 1000… ""                0 ""    "The… Open   Public Summary  
+#> 2 60dd… 2013… "Fiji"           17 "WCS… ""    Open   Private         
+#> 3 7376… 2014… "Fiji"           24 "WCS… "Thi… Open   Private         
+#> 4 ac93… 2016… "Fiji"           24 "WCS… "Thi… Open   Private         
+#> 5 e1ef… 2016… "Fiji"            8 "WCS… "Nam… Open   Private         
 #> # … with 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
@@ -124,8 +124,8 @@ To specifically access projects that you *have access to*, use
 mermaid_list_my_projects(limit = 1)
 #> # A tibble: 1 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
-#>   <chr> <chr> <list>        <int> <lis> <chr> <chr>  <chr>           
-#> 1 d549… 2017… <chr [1]>        31 <chr… This… Open   Private         
+#>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
+#> 1 d549… 2017… Fiji             31 WCS … This… Open   Private         
 #> # … with 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
@@ -150,8 +150,8 @@ mermaidr_project <- mermaid_search_projects(name = "Sharla test")
 mermaidr_project
 #> # A tibble: 1 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
-#>   <chr> <chr> <list>        <int> <lis> <chr> <chr>  <chr>           
-#> 1 2c0c… Shar… <chr [1]>         1 <lis… "dhf… Test   Public Summary  
+#>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
+#> 1 2c0c… Shar… Indonesia         1 ""    "dhf… Test   Public Summary  
 #> # … with 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
@@ -165,17 +165,17 @@ You can also search projects by country or tag:
 mermaid_search_projects(country = "Fiji")
 #> # A tibble: 23 x 14
 #>    id    name  countries num_sites tags  notes status data_policy_bel…
-#>    <chr> <chr> <list>        <int> <lis> <chr> <chr>  <chr>           
-#>  1 60dd… 2013… <chr [1]>        17 <chr… ""    Open   Private         
-#>  2 7376… 2014… <chr [1]>        24 <chr… "Thi… Open   Private         
-#>  3 ac93… 2016… <chr [1]>        24 <chr… "Thi… Open   Private         
-#>  4 e1ef… 2016… <chr [1]>         8 <chr… "Nam… Open   Private         
-#>  5 d549… 2017… <chr [1]>        31 <chr… "Thi… Open   Private         
-#>  6 c0ba… 2018… <chr [1]>        22 <chr… "Thi… Open   Private         
-#>  7 170e… 2018… <chr [1]>        10 <chr… "Thi… Open   Private         
-#>  8 95e0… 2019… <chr [1]>        44 <chr… ""    Open   Private         
-#>  9 d065… 2019… <chr [1]>        31 <chr… "Ble… Open   Private         
-#> 10 6c6c… 2019… <chr [1]>        18 <chr… "Mac… Open   Private         
+#>    <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
+#>  1 60dd… 2013… Fiji             17 WCS … ""    Open   Private         
+#>  2 7376… 2014… Fiji             24 WCS … "Thi… Open   Private         
+#>  3 ac93… 2016… Fiji             24 WCS … "Thi… Open   Private         
+#>  4 e1ef… 2016… Fiji              8 WCS … "Nam… Open   Private         
+#>  5 d549… 2017… Fiji             31 WCS … "Thi… Open   Private         
+#>  6 c0ba… 2018… Fiji             22 WCS … "Thi… Open   Private         
+#>  7 170e… 2018… Fiji             10 WCS … "Thi… Open   Private         
+#>  8 95e0… 2019… Fiji             44 WCS … ""    Open   Private         
+#>  9 d065… 2019… Fiji             31 WCS … "Ble… Open   Private         
+#> 10 6c6c… 2019… Fiji             18 WCS … "Mac… Open   Private         
 #> # … with 13 more rows, and 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
@@ -188,11 +188,32 @@ function:
 mermaid_search_projects(country = "Fiji", token = mermaid_token())
 #> # A tibble: 1 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
-#>   <chr> <chr> <list>        <int> <lis> <chr> <chr>  <chr>           
-#> 1 d549… 2017… <chr [1]>        31 <chr… This… Open   Private         
+#>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
+#> 1 d549… 2017… Fiji             31 WCS … This… Open   Private         
 #> # … with 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
+```
+
+Note that the country and tag searches search if the countries/tag
+fields *contain* that value, since they may not always be exactly what
+you expect. For example, to search projects in Tanzania:
+
+``` r
+mermaid_search_projects(country = "Tanzania", limit = 1)[["countries"]]
+#> [1] "Tanzania, United Republic of"
+```
+
+If you need help figuring out what a country is named, use
+`mermaid_countries()`, which will list how countries are named in
+MERMAID:
+
+``` r
+head(
+  mermaid_countries()
+)
+#> [1] "Afghanistan"    "Åland Islands"  "Albania"        "Algeria"       
+#> [5] "American Samoa" "Andorra"
 ```
 
 You can use this to access an endpoint for the project, using
