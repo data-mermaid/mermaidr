@@ -11,7 +11,7 @@
 #' @export
 #' @examples
 #' mermaid_search_projects(name = "test")
-#' mermaid_search_projects(country = "Fiji")
+#' mermaid_search_projects(country = "Tanzania")
 #' mermaid_search_projects(tag = "WCS Fiji")
 #' mermaid_search_projects(country = "Fiji", tag = "WWF-UK")
 #'
@@ -38,15 +38,11 @@ mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, lim
 
   if(!is.null(country)) {
     projects <- projects %>%
-      dplyr::rowwise() %>%
-      dplyr::filter(country %in% unlist(countries)) %>%
-      dplyr::ungroup()
+      dplyr::filter(grepl(country, countries))
   }
   if(!is.null(tag)) {
     projects <- projects %>%
-      dplyr::rowwise() %>%
-      dplyr::filter(tag %in% unlist(tags)) %>%
-      dplyr::ungroup()
+      dplyr::filter(grepl(tag, tags))
   }
 
   if(is.null(limit)) {
