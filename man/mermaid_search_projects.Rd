@@ -10,9 +10,9 @@ mermaid_search_projects(name = NULL, country = NULL, tag = NULL,
 \arguments{
 \item{name}{Project name}
 
-\item{country}{Project country}
+\item{country}{Project country. Projects are returned if the \code{countries} field contains \code{country}, not just if it is exactly the same. For a list of countries used in MERMAID, see \code{\link{mermaid_countries}}}
 
-\item{tag}{Project tag}
+\item{tag}{Project tag. Projects are returned if the \code{tags} field contains \code{tag}, not just if it is exactly the same.}
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
@@ -25,9 +25,12 @@ Returns metadata on project, including ID, name, countries, number of sites, tag
 }
 \examples{
 mermaid_search_projects(name = "test")
-mermaid_search_projects(country = "Fiji")
 mermaid_search_projects(tag = "WCS Fiji")
 mermaid_search_projects(country = "Fiji", tag = "WWF-UK")
+
+# The country (or tag) do not have to be exactly the same
+# A project is returned if it *contains* the country/tag:
+mermaid_search_projects(country = "Tanzania", limit = 1)[["countries"]]
 
 # To search within your projects only:
 mermaid_search_projects(country = "Fiji", token = mermaid_token())

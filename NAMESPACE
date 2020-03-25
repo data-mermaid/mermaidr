@@ -2,6 +2,7 @@
 
 export("%>%")
 export(mermaid_auth)
+export(mermaid_countries)
 export(mermaid_deauth)
 export(mermaid_get_all_project_endpoints)
 export(mermaid_get_default_project)

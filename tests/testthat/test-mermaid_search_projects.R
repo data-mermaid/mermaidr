@@ -76,3 +76,15 @@ test_that("mermaid_search_projects just returns `limit` projects if nothing is p
   expect_warning(mermaid_search_projects(limit = 1))
   expect_true(nrow(mermaid_search_projects(limit = 1)) == 1)
 })
+
+test_that("mermaid_list_projects returns `countries` and `tags` that are character columns", {
+  output <- mermaid_list_projects()
+  expect_is(output[["countries"]], "character")
+  expect_is(output[["tags"]], "character")
+})
+
+test_that("mermaid_list_projects returns `countries` and `tags` that are semi-colon separated", {
+  output <- mermaid_list_projects()
+  expect_true(any(grepl(";", output[["countries"]])))
+  expect_true(any(grepl(";", output[["tags"]])))
+})

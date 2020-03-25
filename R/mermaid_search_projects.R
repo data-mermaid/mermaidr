@@ -3,17 +3,20 @@
 #' Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
 #'
 #' @param name Project name
-#' @param country Project country
-#' @param tag Project tag
+#' @param country Project country. Projects are returned if the \code{countries} field contains \code{country}, not just if it is exactly the same. For a list of countries used in MERMAID, see \code{\link{mermaid_countries}}
+#' @param tag Project tag. Projects are returned if the \code{tags} field contains \code{tag}, not just if it is exactly the same.
 #' @inheritParams mermaid_GET
 #' @param ...
 #'
 #' @export
 #' @examples
 #' mermaid_search_projects(name = "test")
-#' mermaid_search_projects(country = "Tanzania")
 #' mermaid_search_projects(tag = "WCS Fiji")
 #' mermaid_search_projects(country = "Fiji", tag = "WWF-UK")
+#'
+#' # The country (or tag) do not have to be exactly the same
+#' # A project is returned if it *contains* the country/tag:
+#' mermaid_search_projects(country = "Tanzania", limit = 1)[["countries"]]
 #'
 #' # To search within your projects only:
 #' mermaid_search_projects(country = "Fiji", token = mermaid_token())

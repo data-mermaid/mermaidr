@@ -62,6 +62,6 @@ spf <- function(...) {
 
 all_contain_value <- function(x, value) {
   all(unlist(
-    lapply(x, FUN = function(x) any(x == value))
+    lapply(x, FUN = function(x) any(grepl(value, x)))
   ) == TRUE)
 }
