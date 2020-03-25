@@ -7,16 +7,15 @@
 #' @param ... Additional parameters used as needed
 mermaid_GET <- function(endpoint, limit = 50, url = base_url, token = NULL, ...) {
   check_internet()
-  limit <- check_limit(limit)
+  # limit <- check_limit(limit)
 
-  if (endpoint == "projects" & is.null(token)) {
-    path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit, showall = TRUE, ...))
-  } else {
-    path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit, ...))
-  }
+  # Construct API path
+  path <- construct_api_path(endpoint = endpoint, token = token, url = url, limit = limit, ...)
 
-  parsed <- get_and_parse(path = path, ua = ua, token = token)
+  # Call the API and parse results
+  parsed <- get_paginated_response(path = path, ua = ua, token = token, limit = limit)
 
+  # Convert to tibble and lookup values
   if (endpoint == "choices") {
     res <- tibble::as_tibble(parsed)
     res[["data"]] <- sapply(res[["data"]], tibble::as_tibble)
@@ -35,6 +34,34 @@ check_errors <- function(response) {
     call. = FALSE
     )
   }
+}
+
+construct_api_path <- function(endpoint, token, url, limit, ...) {
+  if (endpoint == "projects" & is.null(token)) { # Need showall = TRUE if it's the "projects" endpoint and not an authenticated call
+    path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit, showall = TRUE, ...))
+  } else {
+    path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit, ...))
+  }
+}
+
+get_paginated_response <- function(path, ua, token, limit) {
+  all_res <- list()
+  paths <- list()
+  i <- 1
+  res <- get_and_parse(path = path, ua = ua, token = token)
+  paths[[i]] <- res$`next`
+  all_res[[i]] <- res[["results"]]
+  n_res <- nrow(all_res[[i]])
+  while(!is.null(paths[[i]]) && n_res < limit){
+    path <- paths[[i]]
+    i <- i + 1
+    res <- get_and_parse(path = path, ua = ua, token = token)
+    paths[[i]] <- res$`next`
+    all_res[[i]] <- res[["results"]]
+    n_res <- n_res + nrow(all_res[[i]])
+  }
+
+  dplyr::bind_rows(all_res)
 }
 
 get_and_parse <- function(path, ua, token) {
