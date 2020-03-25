@@ -10,14 +10,14 @@ check_limit <- function(limit) {
   if (is.null(limit)) {
     limit
   } else if (length(limit) != 1) {
-    stop("`limit` must be NULL or a length 1 positive integer vector.",
+    stop("`limit` must be NULL or a length 1 positive integer.",
       call. = FALSE
     )
   } else if (!is.numeric(limit) ||
     !(limit %% 1 == 0) ||
     limit <= 0 ||
     limit == Inf) {
-    stop("`limit` must be NULL or a positive integer.",
+    stop("`limit` must be NULL or a length 1 positive integer.",
       call. = FALSE
     )
   } else {

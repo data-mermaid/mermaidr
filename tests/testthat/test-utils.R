@@ -80,32 +80,37 @@ test_that('check_id_in_df returns the "id" column when present.', {
   )
 })
 
-test_that("check_limit returns error if limit is not a length 1 positive integer.", {
+test_that("check_limit returns error if limit is not a length 1 positive integer or NULL.", {
   expect_error(
     check_limit(limit = -1),
-    "`limit` must be a positive integer."
+    "must be NULL or a length 1 positive integer"
   )
   expect_error(
     check_limit(limit = 0),
-    "`limit` must be a positive integer."
+    "must be NULL or a length 1 positive integer"
   )
   expect_error(
     check_limit(limit = -Inf),
-    "`limit` must be a positive integer."
+    "must be NULL or a length 1 positive integer"
   )
   expect_error(
     check_limit(limit = 1.2),
-    "`limit` must be a positive integer."
+    "must be NULL or a length 1 positive integer"
   )
   expect_error(
     check_limit(limit = c(1, 2)),
-    "`limit` must be a length 1 positive integer."
+    "must be NULL or a length 1 positive integer"
   )
 })
 
 test_that("check_limit returns the limit if it is a length 1 positive integer.", {
   limit <- 1
   expect_equal(check_limit(limit), limit)
+})
+
+test_that("check_limit does not error if limit is NULL, returns NULL", {
+  expect_equal(check_limit(NULL), NULL)
+  expect_silent(check_limit(NULL))
 })
 
 test_that("spf does string formatting and produces an error", {
