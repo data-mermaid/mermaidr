@@ -8,7 +8,7 @@ test_that("mermaid_get_project_endpoint throws an error when no project is passe
 
 test_that("mermaid_get_project_endpoint returns a tibble when passed a known endpoint.", {
   skip_if_offline()
-  test_project <- mermaid_search_projects("Sharla test")
+  test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
   expect_is(mermaid_get_project_endpoint(test_project, "sites", limit = 1), "tbl_df")
   output <- mermaid_get_project_endpoint(test_project, "beltfishtransectmethods", limit = 1)
   expect_equal(names(output), mermaid_endpoint_columns[["beltfishtransectmethods"]])
@@ -46,14 +46,27 @@ test_that("mermaid_get_project_endpoint returns a tibble when passed a known end
 
 test_that("mermaid_get_project_endpoint returns a tibble when passed a known endpoint, even if there is no data.", {
   skip_if_offline()
-  test_project <- mermaid_search_projects("Sharla test")
+  test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
   expect_is(mermaid_get_project_endpoint(test_project, "obsbenthicpits", limit = 1), "tbl_df")
 })
 
 test_that("mermaid_get_project_endpoint works for the new endpoints", {
   skip_if_offline()
-  test_project <- mermaid_search_projects("Sharla test")
+  test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
   expect_s3_class(mermaid_get_project_endpoint(test_project, "beltfishes/obstransectbeltfishes/", limit = 1), "tbl_df")
   expect_s3_class(mermaid_get_project_endpoint(test_project, "beltfishes/sampleunits/", limit = 1), "tbl_df")
   expect_s3_class(mermaid_get_project_endpoint(test_project, "beltfishes/sampleevents/", limit = 1), "tbl_df")
+})
+
+test_that("mermaid_get_project_endpoint allows multiple projects, and combines the results", {
+  p <- mermaid_list_my_projects(include_test_projects = TRUE)
+  output <- mermaid_get_project_endpoint(p, "sites", limit = 1)
+  expect_is(output, "tbl_df")
+
+  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "sites")
+  expect_is(output, "tbl_df")
+
+  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "beltfishes/sampleunits/")
+  expect_is(output, "tbl_df")
+
 })

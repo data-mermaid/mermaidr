@@ -17,8 +17,43 @@ mermaid_get_project_endpoint <- function(project = mermaid_get_default_project()
   full_endpoint <- paste0("projects/", project_id, "/", endpoint)
   res <- mermaid_GET(full_endpoint, limit = limit, url = url, token = token)
 
+  # Clean up results
+  if (inherits(res, "list")) {
+    clean_res <- purrr::map2(res, endpoint, clean_project_endpoint)
+    names(clean_res) <- project_id
+    clean_res_rbind <- rbind_project_endpoints(clean_res)
+
+    if (all(c("name", "id") %in% names(project))) {
+      if(all(c("project_name", "project_id") %in% names(clean_res_rbind))) {
+        clean_res_rbind %>%
+          dplyr::select(project_id, project_name, dplyr::everything())
+      } else {
+        clean_res_rbind %>%
+        dplyr::left_join(project %>%
+          dplyr::select(id, project_name = name), by = c("project_id" = "id")) %>%
+          dplyr::select(project_id, project_name, dplyr::everything())
+      }
+    } else {
+      clean_res_rbind
+    }
+  } else {
+    clean_project_endpoint(res, endpoint)
+  }
+}
+
+check_project <- function(project) {
+  if (all(project == "")) {
+    stop("Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.", call. = FALSE)
+  }
+}
+
+new_endpoints <- c("beltfishes/obstransectbeltfishes/", "beltfishes/sampleunits/", "beltfishes/sampleevents/")
+
+clean_project_endpoint <- function(res, endpoint) {
   if (endpoint %in% new_endpoints) {
-    res
+    return(
+      res
+    )
   } else {
     if (nrow(res) == 0 || ncol(res) == 0) {
       cols <- mermaid_endpoint_columns[[ifelse(endpoint == "managements", "managements_project", endpoint)]]
@@ -31,10 +66,53 @@ mermaid_get_project_endpoint <- function(project = mermaid_get_default_project()
   }
 }
 
-check_project <- function(project) {
-  if (project == "") {
-    stop("Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.", call. = FALSE)
+rbind_project_endpoints <- function(x) {
+  df_cols <- sapply(x, inherits, "data.frame")
+  df_cols <- names(df_cols[df_cols])
+  if (length(df_cols) == 0) {
+    purrr::map_dfr(x, tibble::as_tibble, .id = "project_id")
+  } else {
+    x_unpack <- purrr::map(x, unpack_df_cols)
+    col_order <- attr(x_unpack[[1]], "col_order")
+
+    if (all(unlist(purrr::map(x_unpack, ~ "project_id" %in% names(.x))))) {
+      x_rbind <- purrr::map_dfr(x_unpack, tibble::as_tibble)
+    } else {
+      x_rbind <- purrr::map_dfr(x_unpack, tibble::as_tibble, .id = "project_id")
+      col_order <- c("project_id", col_order)
+    }
+
+    attr(x_rbind, "df_cols") <- attr(x_unpack[[1]], "df_cols")
+    attr(x_rbind, "col_order") <- col_order
+    repack_df_cols(x_rbind)
   }
 }
 
-new_endpoints <- c("beltfishes/obstransectbeltfishes/", "beltfishes/sampleunits/", "beltfishes/sampleevents/")
+unpack_df_cols <- function(x) {
+  df_cols <- sapply(x, inherits, "data.frame")
+  df_cols <- names(df_cols[df_cols])
+
+  x_unpack <- x %>%
+    tidyr::unpack(cols = df_cols,
+                  names_sep = "_")
+
+  attr(x_unpack, "df_cols") <- df_cols
+  attr(x_unpack, "col_order") <- names(x)
+
+  x_unpack
+}
+
+repack_df_cols <- function(x) {
+  df_cols <- attr(x, "df_cols")
+  col_order <- attr(x, "col_order")
+
+  for(i in seq_along(df_cols)) {
+    x <- x %>%
+      tidyr::pack(!!df_cols[[i]] := dplyr::starts_with(paste0(df_cols[[i]], "_")))
+
+    x[[df_cols[[i]]]] <- x[[df_cols[[i]]]] %>%
+      dplyr::rename_all(~ stringr::str_replace(.x, paste0(df_cols[[i]], "_"), ""))
+  }
+
+  dplyr::select(x, col_order)
+}
