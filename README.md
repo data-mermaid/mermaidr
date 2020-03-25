@@ -57,27 +57,27 @@ For example,
 library(mermaidr)
 
 mermaid_get_endpoint("sites")
-#> # A tibble: 50 x 17
+#> # A tibble: 1,404 x 17
 #>    id    name  notes project latitude longitude country_id country_name
 #>    <chr> <chr> <chr> <chr>      <dbl>     <dbl> <chr>      <chr>       
-#>  1 9fe1… 1201  "Pul… 07df6a…    -2.02      134. c570ff86-… Indonesia   
-#>  2 baaa… 1201  "Pul… 841534…    -2.02      134. c570ff86-… Indonesia   
-#>  3 6e7f… 1201  "Pul… c08ff9…    -2.02      134. c570ff86-… Indonesia   
-#>  4 e981… 1201  "Pul… c29a9e…    -2.02      134. c570ff86-… Indonesia   
+#>  1 6e7f… 1201  "Pul… c08ff9…    -2.02      134. c570ff86-… Indonesia   
+#>  2 c7e2… 1201  "Pul… 988e75…    -2.02      134. c570ff86-… Indonesia   
+#>  3 baaa… 1201  "Pul… 841534…    -2.02      134. c570ff86-… Indonesia   
+#>  4 0a26… 1201  "Pul… 841534…    -2.02      134. c570ff86-… Indonesia   
 #>  5 95ad… 1201  "Pul… 3d6edb…    -2.02      134. c570ff86-… Indonesia   
-#>  6 0a26… 1201  "Pul… 841534…    -2.02      134. c570ff86-… Indonesia   
-#>  7 c7e2… 1201  "Pul… 988e75…    -2.02      134. c570ff86-… Indonesia   
-#>  8 d74d… 1202  "Nap… 3d6edb…    -2.91      135. c570ff86-… Indonesia   
-#>  9 a467… 1202  "Nap… 07df6a…    -2.91      135. c570ff86-… Indonesia   
+#>  6 e981… 1201  "Pul… c29a9e…    -2.02      134. c570ff86-… Indonesia   
+#>  7 9fe1… 1201  "Pul… 07df6a…    -2.02      134. c570ff86-… Indonesia   
+#>  8 a467… 1202  "Nap… 07df6a…    -2.91      135. c570ff86-… Indonesia   
+#>  9 d74d… 1202  "Nap… 3d6edb…    -2.91      135. c570ff86-… Indonesia   
 #> 10 46ac… 1203  "Pul… 07df6a…    -3.06      135. c570ff86-… Indonesia   
-#> # … with 40 more rows, and 9 more variables: reef_type_id <chr>,
+#> # … with 1,394 more rows, and 9 more variables: reef_type_id <chr>,
 #> #   reef_type_name <chr>, reef_zone_id <chr>, reef_zone_name <chr>,
 #> #   exposure_id <chr>, exposure_name <chr>, predecessor <chr>,
 #> #   created_on <chr>, updated_on <chr>
 ```
 
-By default, the function returns 50 results - to get more (or less\!),
-use the `limit` argument:
+By default, the function returns all results - to get less, use the
+`limit` argument:
 
 ``` r
 mermaid_get_endpoint("managements", limit = 5)
@@ -102,15 +102,15 @@ For specifically listing projects, there is a wrapper function
 mermaid_list_projects(limit = 5)
 #> # A tibble: 5 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
-#>   <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
-#> 1 fe3f… 1000… <chr [0]>         0 <chr… "The…     90               50
-#> 2 60dd… 2013… <chr [1]>        17 <chr… ""        90               10
-#> 3 7376… 2014… <chr [1]>        24 <chr… "Thi…     90               10
-#> 4 ac93… 2016… <chr [1]>        24 <chr… "Thi…     90               10
-#> 5 e1ef… 2016… <chr [1]>         8 <chr… "Nam…     90               10
-#> # … with 6 more variables: data_policy_benthiclit <int>,
-#> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
-#> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
+#>   <chr> <chr> <list>        <int> <lis> <chr> <chr>  <chr>           
+#> 1 fe3f… 1000… <chr [0]>         0 <chr… "The… Open   Public Summary  
+#> 2 60dd… 2013… <chr [1]>        17 <chr… ""    Open   Private         
+#> 3 7376… 2014… <chr [1]>        24 <chr… "Thi… Open   Private         
+#> 4 ac93… 2016… <chr [1]>        24 <chr… "Thi… Open   Private         
+#> 5 e1ef… 2016… <chr [1]>         8 <chr… "Nam… Open   Private         
+#> # … with 6 more variables: data_policy_benthiclit <chr>,
+#> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
+#> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
 ```
 
 This will list all (as many as `limit`) projects. By default, it does
@@ -124,11 +124,11 @@ To specifically access projects that you *have access to*, use
 mermaid_list_my_projects(limit = 1)
 #> # A tibble: 1 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
-#>   <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
-#> 1 d549… 2017… <chr [1]>        31 <chr… This…     90               10
-#> # … with 6 more variables: data_policy_benthiclit <int>,
-#> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
-#> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
+#>   <chr> <chr> <list>        <int> <lis> <chr> <chr>  <chr>           
+#> 1 d549… 2017… <chr [1]>        31 <chr… This… Open   Private         
+#> # … with 6 more variables: data_policy_benthiclit <chr>,
+#> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
+#> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
 ```
 
 This will return a list of projects that you have access to in Collect.
@@ -150,11 +150,11 @@ mermaidr_project <- mermaid_search_projects(name = "Sharla test")
 mermaidr_project
 #> # A tibble: 1 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
-#>   <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
-#> 1 2c0c… Shar… <chr [1]>         1 <lis… "dhf…     80               50
-#> # … with 6 more variables: data_policy_benthiclit <int>,
-#> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
-#> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
+#>   <chr> <chr> <list>        <int> <lis> <chr> <chr>  <chr>           
+#> 1 2c0c… Shar… <chr [1]>         1 <lis… "dhf… Test   Public Summary  
+#> # … with 6 more variables: data_policy_benthiclit <chr>,
+#> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
+#> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
 ```
 
 returns a single project with the name “Sharla test”.
@@ -163,22 +163,22 @@ You can also search projects by country or tag:
 
 ``` r
 mermaid_search_projects(country = "Fiji")
-#> # A tibble: 43 x 14
+#> # A tibble: 23 x 14
 #>    id    name  countries num_sites tags  notes status data_policy_bel…
-#>    <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
-#>  1 60dd… 2013… <chr [1]>        17 <chr… ""        90               10
-#>  2 7376… 2014… <chr [1]>        24 <chr… "Thi…     90               10
-#>  3 ac93… 2016… <chr [1]>        24 <chr… "Thi…     90               10
-#>  4 e1ef… 2016… <chr [1]>         8 <chr… "Nam…     90               10
-#>  5 d549… 2017… <chr [1]>        31 <chr… "Thi…     90               10
-#>  6 c0ba… 2018… <chr [1]>        22 <chr… "Thi…     90               10
-#>  7 170e… 2018… <chr [1]>        10 <chr… "Thi…     90               10
-#>  8 95e0… 2019… <chr [1]>        44 <chr… ""        90               10
-#>  9 d065… 2019… <chr [1]>        31 <chr… "Ble…     90               10
-#> 10 6c6c… 2019… <chr [1]>        18 <chr… "Mac…     90               10
-#> # … with 33 more rows, and 6 more variables: data_policy_benthiclit <int>,
-#> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
-#> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
+#>    <chr> <chr> <list>        <int> <lis> <chr> <chr>  <chr>           
+#>  1 60dd… 2013… <chr [1]>        17 <chr… ""    Open   Private         
+#>  2 7376… 2014… <chr [1]>        24 <chr… "Thi… Open   Private         
+#>  3 ac93… 2016… <chr [1]>        24 <chr… "Thi… Open   Private         
+#>  4 e1ef… 2016… <chr [1]>         8 <chr… "Nam… Open   Private         
+#>  5 d549… 2017… <chr [1]>        31 <chr… "Thi… Open   Private         
+#>  6 c0ba… 2018… <chr [1]>        22 <chr… "Thi… Open   Private         
+#>  7 170e… 2018… <chr [1]>        10 <chr… "Thi… Open   Private         
+#>  8 95e0… 2019… <chr [1]>        44 <chr… ""    Open   Private         
+#>  9 d065… 2019… <chr [1]>        31 <chr… "Ble… Open   Private         
+#> 10 6c6c… 2019… <chr [1]>        18 <chr… "Mac… Open   Private         
+#> # … with 13 more rows, and 6 more variables: data_policy_benthiclit <chr>,
+#> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
+#> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
 ```
 
 and if you only want to search *your* projects, pass your token to the
@@ -188,11 +188,11 @@ function:
 mermaid_search_projects(country = "Fiji", token = mermaid_token())
 #> # A tibble: 1 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
-#>   <chr> <chr> <list>        <int> <lis> <chr>  <int>            <int>
-#> 1 d549… 2017… <chr [1]>        31 <chr… This…     90               10
-#> # … with 6 more variables: data_policy_benthiclit <int>,
-#> #   data_policy_benthicpit <int>, data_policy_habitatcomplexity <int>,
-#> #   data_policy_bleachingqc <int>, created_on <chr>, updated_on <chr>
+#>   <chr> <chr> <list>        <int> <lis> <chr> <chr>  <chr>           
+#> 1 d549… 2017… <chr [1]>        31 <chr… This… Open   Private         
+#> # … with 6 more variables: data_policy_benthiclit <chr>,
+#> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
+#> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
 ```
 
 You can use this to access an endpoint for the project, using

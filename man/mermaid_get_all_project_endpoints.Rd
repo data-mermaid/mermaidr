@@ -6,12 +6,12 @@
 \usage{
 
   mermaid_get_all_project_endpoints(project = mermaid_get_default_project(),
-  limit = 50, url = base_url, token = mermaid_token())
+  limit = NULL, url = base_url, token = mermaid_token())
 }
 \arguments{
 \item{project}{A way to identify the project. Can be a project ID (passed as a character vector directly) or a single project resulting from \code{\link{mermaid_get_endpoint}} or \code{\link{mermaid_search_projects}}. Defaults to the project listed via \code{get_default_project}, if available.}
 
-\item{limit}{Number of records to get. Defaults to 50.}
+\item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
 \item{url}{API URL. Defaults to https://api.datamermaid.org}
 

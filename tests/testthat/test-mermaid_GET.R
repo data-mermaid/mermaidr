@@ -17,6 +17,6 @@ test_that("mermaid_GET returns a tibble with column data of nested tibbles if th
 
 test_that("mermaid_GET does value lookups if endpoint is sites", {
   skip_if_offline()
-  output <- mermaid_GET("sites")
+  output <- mermaid_GET("sites", limit = 5)
   expect_true(all(c("country_id", "country_name") %in% names(output)))
 })

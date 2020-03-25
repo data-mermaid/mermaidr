@@ -12,7 +12,7 @@ mermaid_get_project_endpoint(project = mermaid_get_default_project(),
   "obshabitatcomplexities", "obstransectbeltfishs", "managements",
   "observers", "profiles", "project_profiles", "sampleevents", "sites",
   "beltfishes/obstransectbeltfishes/", "beltfishes/sampleunits/",
-  "beltfishes/sampleevents/"), limit = 50, url = base_url,
+  "beltfishes/sampleevents/"), limit = NULL, url = base_url,
   token = mermaid_token())
 }
 \arguments{
@@ -20,7 +20,7 @@ mermaid_get_project_endpoint(project = mermaid_get_default_project(),
 
 \item{endpoint}{Endpoint}
 
-\item{limit}{Number of records to get. Defaults to 50.}
+\item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
 \item{url}{API URL. Defaults to https://api.datamermaid.org}
 

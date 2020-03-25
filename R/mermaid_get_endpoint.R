@@ -3,7 +3,7 @@
 #' @inheritParams mermaid_GET
 #'
 #' @export
-mermaid_get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishattributes", "fishfamilies", "fishgenera", "fishspecies", "managements", "projects", "sites"), limit = 50, url = base_url, ...) {
+mermaid_get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishattributes", "fishfamilies", "fishgenera", "fishspecies", "managements", "projects", "sites"), limit = NULL, url = base_url, ...) {
   endpoint <- match.arg(endpoint)
   res <- mermaid_GET(endpoint, limit = limit, url = url, ...)
 

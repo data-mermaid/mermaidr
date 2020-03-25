@@ -57,7 +57,7 @@ library(mermaidr)
 mermaid_get_endpoint("sites")
 ```
 
-By default, the function returns 50 results - to get more (or less!), use the `limit` argument:
+By default, the function returns all results - to get less, use the `limit` argument:
 
 ```{r}
 mermaid_get_endpoint("managements", limit = 5)

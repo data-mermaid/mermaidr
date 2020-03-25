@@ -4,13 +4,13 @@
 \alias{mermaid_list_projects}
 \title{List MERMAID Projects}
 \usage{
-mermaid_list_projects(limit = 50, include_test_projects = FALSE,
+mermaid_list_projects(include_test_projects = FALSE, limit = NULL,
   url = base_url)
 }
 \arguments{
-\item{limit}{Number of records to get. Defaults to 50.}
-
 \item{include_test_projects}{Whether to include test projects. Defaults to FALSE.}
+
+\item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
 \item{url}{API URL. Defaults to https://api.datamermaid.org}
 }

@@ -6,12 +6,13 @@
 \usage{
 mermaid_get_endpoint(endpoint = c("benthicattributes", "choices",
   "fishattributes", "fishfamilies", "fishgenera", "fishspecies",
-  "managements", "projects", "sites"), limit = 50, url = base_url, ...)
+  "managements", "projects", "sites"), limit = NULL, url = base_url,
+  ...)
 }
 \arguments{
 \item{endpoint}{Endpoint}
 
-\item{limit}{Number of records to get. Defaults to 50.}
+\item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
 \item{url}{API URL. Defaults to https://api.datamermaid.org}
 

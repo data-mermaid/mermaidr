@@ -17,7 +17,7 @@
 #'
 #' # To search within your projects only:
 #' mermaid_search_projects(country = "Fiji", token = mermaid_token())
-mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, limit = 50, token = NULL) {
+mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, limit = NULL, token = NULL) {
   if (is.null(name) & is.null(country) & is.null(tag)) {
     warning("You haven't provided a `name`, `country`, or `tag` to search by. Just returning ", limit, " projects.", call. = FALSE)
     return(
@@ -49,7 +49,11 @@ mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, lim
       dplyr::ungroup()
   }
 
+  if(is.null(limit)) {
+    projects
+  } else {
   head(projects, limit)
+  }
 }
 
 check_single_project <- function(projects, name) {

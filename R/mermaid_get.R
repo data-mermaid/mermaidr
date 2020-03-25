@@ -1,28 +1,30 @@
 #' Get MERMAID endpoint
 #'
 #' @param endpoint Endpoint
-#' @param limit Number of records to get. Defaults to 50.
+#' @param limit Number of records to get. Use NULL (the default) to get all records.
 #' @param url API URL. Defaults to https://api.datamermaid.org
 #' @param token API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}
 #' @param ... Additional parameters used as needed
-mermaid_GET <- function(endpoint, limit = 50, url = base_url, token = NULL, ...) {
+mermaid_GET <- function(endpoint, limit = NULL, url = base_url, token = NULL, ...) {
   check_internet()
-  # limit <- check_limit(limit)
+  limit <- check_limit(limit)
 
   # Construct API path
   path <- construct_api_path(endpoint = endpoint, token = token, url = url, limit = limit, ...)
+
+  # Call API and return if "choices" endpoint
+  if(endpoint == "choices") {
+    parsed <- get_and_parse(path = path, ua = ua, token = token)
+    res <- tibble::as_tibble(parsed)
+    res[["data"]] <- sapply(res[["data"]], tibble::as_tibble)
+    return(res)
+  }
 
   # Call the API and parse results
   parsed <- get_paginated_response(path = path, ua = ua, token = token, limit = limit)
 
   # Convert to tibble and lookup values
-  if (endpoint == "choices") {
-    res <- tibble::as_tibble(parsed)
-    res[["data"]] <- sapply(res[["data"]], tibble::as_tibble)
-    res
-  } else {
-    results_lookup_choices(results = parsed[["results"]], endpoint = endpoint, url = url, ua = ua, token = token)
-  }
+  results_lookup_choices(results = parsed, endpoint = endpoint, url = url, ua = ua, token = token)
 }
 
 check_errors <- function(response) {
@@ -37,7 +39,11 @@ check_errors <- function(response) {
 }
 
 construct_api_path <- function(endpoint, token, url, limit, ...) {
-  if (endpoint == "projects" & is.null(token)) { # Need showall = TRUE if it's the "projects" endpoint and not an authenticated call
+  # Construct first page - maximum size is 5000
+  limit <- ifelse(is.null(limit) || limit > 5000, 5000, limit)
+
+  if (endpoint == "projects" & is.null(token)) {
+    # Need showall = TRUE if it's the "projects" endpoint and not an authenticated call
     path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit, showall = TRUE, ...))
   } else {
     path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit, ...))
@@ -46,22 +52,24 @@ construct_api_path <- function(endpoint, token, url, limit, ...) {
 
 get_paginated_response <- function(path, ua, token, limit) {
   all_res <- list()
-  paths <- list()
   i <- 1
   res <- get_and_parse(path = path, ua = ua, token = token)
-  paths[[i]] <- res$`next`
   all_res[[i]] <- res[["results"]]
   n_res <- nrow(all_res[[i]])
-  while(!is.null(paths[[i]]) && n_res < limit){
-    path <- paths[[i]]
+  while(!is.null(res$`next`) && (is.null(limit) || n_res < limit)){
+    path <- res$`next`
     i <- i + 1
     res <- get_and_parse(path = path, ua = ua, token = token)
-    paths[[i]] <- res$`next`
     all_res[[i]] <- res[["results"]]
     n_res <- n_res + nrow(all_res[[i]])
   }
 
-  dplyr::bind_rows(all_res)
+  res <- do.call("rbind", all_res)
+  if(is.null(limit)) {
+    res
+  } else{
+    head(res, limit)
+  }
 }
 
 get_and_parse <- function(path, ua, token) {
@@ -72,6 +80,12 @@ get_and_parse <- function(path, ua, token) {
 
 results_lookup_choices <- function(results, endpoint, url, ua, token) {
   results <- tibble::as_tibble(results)
+
+  if(nrow(results) == 0 || ncol(results) == 0) {
+    return(
+      tibble::tibble()
+    )
+  }
   if (basename(endpoint) == "sites") {
     choices <- get_and_parse(
       path = httr::modify_url(url, path = "v1/choices"),

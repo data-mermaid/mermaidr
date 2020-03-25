@@ -7,15 +7,17 @@ check_internet <- function() {
 }
 
 check_limit <- function(limit) {
-  if (length(limit) != 1) {
-    stop("`limit` must be a length 1 positive integer vector.",
+  if (is.null(limit)) {
+    limit
+  } else if (length(limit) != 1) {
+    stop("`limit` must be NULL or a length 1 positive integer vector.",
       call. = FALSE
     )
   } else if (!is.numeric(limit) ||
     !(limit %% 1 == 0) ||
     limit <= 0 ||
     limit == Inf) {
-    stop("`limit` must be a positive integer.",
+    stop("`limit` must be NULL or a positive integer.",
       call. = FALSE
     )
   } else {

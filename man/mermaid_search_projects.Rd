@@ -5,7 +5,7 @@
 \title{Search MERMAID projects}
 \usage{
 mermaid_search_projects(name = NULL, country = NULL, tag = NULL,
-  limit = 50, token = NULL)
+  limit = NULL, token = NULL)
 }
 \arguments{
 \item{name}{Project name}
@@ -14,7 +14,7 @@ mermaid_search_projects(name = NULL, country = NULL, tag = NULL,
 
 \item{tag}{Project tag}
 
-\item{limit}{Number of records to get. Defaults to 50.}
+\item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
 \item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
 

@@ -4,12 +4,13 @@
 \alias{mermaid_GET}
 \title{Get MERMAID endpoint}
 \usage{
-mermaid_GET(endpoint, limit = 50, url = base_url, token = NULL, ...)
+mermaid_GET(endpoint, limit = NULL, url = base_url, token = NULL,
+  ...)
 }
 \arguments{
 \item{endpoint}{Endpoint}
 
-\item{limit}{Number of records to get. Defaults to 50.}
+\item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
 \item{url}{API URL. Defaults to https://api.datamermaid.org}
 

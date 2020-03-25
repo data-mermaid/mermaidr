@@ -8,7 +8,7 @@
 #' @examples
 #' test_project <- mermaid_search_projects("Sharla test")
 #' mermaid_get_all_project_endpoints(test_project)
-mermaid_get_all_project_endpoints <- function(project = mermaid_get_default_project(), limit = 50, url = base_url, token = mermaid_token()) {
+mermaid_get_all_project_endpoints <- function(project = mermaid_get_default_project(), limit = NULL, url = base_url, token = mermaid_token()) {
   project_id <- as_id(project)
   check_project(project_id)
 

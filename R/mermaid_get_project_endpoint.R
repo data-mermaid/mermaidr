@@ -9,7 +9,7 @@
 #' test_project <- mermaid_search_projects("Sharla test")
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
-mermaid_get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "profiles", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes/", "beltfishes/sampleunits/", "beltfishes/sampleevents/"), limit = 50, url = base_url, token = mermaid_token()) {
+mermaid_get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "profiles", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes/", "beltfishes/sampleunits/", "beltfishes/sampleevents/"), limit = NULL, url = base_url, token = mermaid_token()) {
   project_id <- as_id(project)
   check_project(project_id)
   endpoint <- match.arg(endpoint)
@@ -20,7 +20,7 @@ mermaid_get_project_endpoint <- function(project = mermaid_get_default_project()
   if (endpoint %in% new_endpoints) {
     res
   } else {
-    if (nrow(res) == 0) {
+    if (nrow(res) == 0 || ncol(res) == 0) {
       cols <- mermaid_endpoint_columns[[ifelse(endpoint == "managements", "managements_project", endpoint)]]
       res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)), .name_repair = "minimal")
       names(res) <- cols

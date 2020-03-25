@@ -6,8 +6,8 @@ test_that("mermaid_list_my_projects returns a list of projects that the authenti
 
 test_that("mermaid_list_projects by default only returns non-test projects, test projects too if flagged", {
   output <- mermaid_list_my_projects(limit = 10)
-  expect_true(all(output[["status"]] == 90))
+  expect_true(all(output[["status"]] == "Open"))
 
   output <- mermaid_list_my_projects(limit = 10, include_test_projects = TRUE)
-  expect_false(all(output[["status"]] == 90))
+  expect_false(all(output[["status"]] == "Open"))
 })
