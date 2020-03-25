@@ -6,11 +6,11 @@
 #' @param country Project country. Projects are returned if the \code{countries} field contains \code{country}, not just if it is exactly the same. For a list of countries used in MERMAID, see \code{\link{mermaid_countries}}
 #' @param tag Project tag. Projects are returned if the \code{tags} field contains \code{tag}, not just if it is exactly the same.
 #' @inheritParams mermaid_GET
+#' @inheritParams mermaid_list_my_projects
 #' @param ...
 #'
 #' @export
 #' @examples
-#' mermaid_search_projects(name = "test")
 #' mermaid_search_projects(tag = "WCS Fiji")
 #' mermaid_search_projects(country = "Fiji", tag = "WWF-UK")
 #'
@@ -20,22 +20,31 @@
 #'
 #' # To search within your projects only:
 #' mermaid_search_projects(country = "Fiji", token = mermaid_token())
-mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, limit = NULL, token = NULL) {
+#'
+#' # To include test projects:
+#' mermaid_search_projects(name = "test", include_test_projects = TRUE)
+mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, include_test_projects = FALSE, limit = NULL, url = base_url, token = NULL) {
   if (is.null(name) & is.null(country) & is.null(tag)) {
-    warning("You haven't provided a `name`, `country`, or `tag` to search by. Just returning ", limit, " projects.", call. = FALSE)
-    return(
-      mermaid_get_endpoint("projects", name = name, limit = limit, token = token)
-    )
-  } else if (!is.null(name)) {
-    projects <- mermaid_get_endpoint("projects", name = name, token = token)
+    stop("You haven't provided a `name`, `country`, or `tag` to search by.",
+         call. = FALSE)
+  }
+
+  if (!is.null(name)) {
+
+    if (include_test_projects) {
+      projects <- mermaid_GET("projects", limit = limit, url = url, token = token, name = name)
+    } else {
+      projects <- mermaid_GET("projects", limit = limit, url = url, token = token, name = name, status = 90)
+    }
+
     if(is.null(country) & is.null(tag)) {
-    check_single_project(projects, name)
+      check_single_project(projects, name)
     }
   } else if (!is.null(country) | !is.null(tag)) {
     if(is.null(token)) {
-      projects <- mermaid_list_projects()
+      projects <- mermaid_list_projects(url = url, include_test_projects = include_test_projects)
     } else {
-      projects <- mermaid_list_my_projects(token = token)
+      projects <- mermaid_list_my_projects(url = url, include_test_projects = include_test_projects, token = token)
     }
   }
 

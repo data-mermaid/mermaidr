@@ -1,7 +1,7 @@
 test_that("mermaid_search_projects throws a message if it returns more than one project (when searched by name only), and doesn't if it only returns one", {
   skip_if_offline()
-  expect_message(mermaid_search_projects("test"))
-  expect_silent(mermaid_search_projects("Sharla test"))
+  expect_message(mermaid_search_projects("test", include_test_projects = TRUE))
+  expect_silent(mermaid_search_projects("Sharla test", include_test_projects = TRUE))
 })
 
 test_that("mermaid_search_projects returns a zero row tibble if the project is not found", {
@@ -30,18 +30,18 @@ test_that("check_single_project returns a warning if more than one result is ret
 
 test_that("mermaid_search_projects returns projects with matching name `name` is used for searching. If there is more than one, there's a message", {
   skip_if_offline()
-  expect_message(mermaid_search_projects("test"), "More than one project with the name")
-  expect_equal(unique(mermaid_search_projects("test")[["name"]]), "test")
+  expect_message(mermaid_search_projects("test", include_test_projects = TRUE), "More than one project with the name")
+  expect_equal(unique(mermaid_search_projects("test", include_test_projects = TRUE)[["name"]]), "test")
   expect_equal(unique(mermaid_search_projects("2016_Macmon_Bua_Ra_Ovalau surveys")[["name"]]), "2016_Macmon_Bua_Ra_Ovalau surveys")
 })
 
 test_that("mermaid_search_projects searches by name, then filters by country if both are specified. There is no message if more than one with the name exists", {
   skip_if_offline()
   expect_silent(mermaid_search_projects(name = "test", country = "Indonesia"))
-  output <- mermaid_search_projects(name = "test", country = "Indonesia")
+  output <- mermaid_search_projects(name = "test", country = "Indonesia", include_test_projects = TRUE)
   expect_equal(unique(output[["name"]]), "test")
   expect_true(all_contain_value(output[["countries"]], "Indonesia"))
-  output <- mermaid_search_projects(name = "Test Project", country = "Fiji")
+  output <- mermaid_search_projects(name = "Test Project", country = "Fiji", include_test_projects = TRUE)
   expect_equal(unique(output[["name"]]), "Test Project")
   expect_true(all_contain_value(output[["countries"]], "Fiji"))
 
@@ -51,11 +51,11 @@ test_that("mermaid_search_projects searches by name, then filters by country if 
 
 test_that("mermaid_search_projects searches by name, then filters by tag if both are specified." , {
   skip_if_offline()
-  output <- mermaid_search_projects(name = "Test Project", tag = "Cytonn")
+  output <- mermaid_search_projects(name = "Test Project", tag = "Cytonn", include_test_projects = TRUE)
   expect_equal(unique(output[["name"]]), "Test Project")
   expect_true(all_contain_value(output[["tags"]], "Cytonn"))
 
-  output <- mermaid_search_projects(name = "Test Project", tag = "Fiji")
+  output <- mermaid_search_projects(name = "Test Project", tag = "Fiji", include_test_projects = TRUE)
   expect_true(nrow(output) == 0)
 })
 
@@ -71,10 +71,9 @@ test_that("mermaid_search_projects returns projects that all have tag if Tag fil
   expect_true(all_contain_value(output[["tags"]], "WCS Fiji"))
 })
 
-test_that("mermaid_search_projects just returns `limit` projects if nothing is provided to search by, and returns a warning", {
+test_that("mermaid_search_projects errors if nothing is provided to search by", {
   skip_if_offline()
-  expect_warning(mermaid_search_projects(limit = 1))
-  expect_true(nrow(mermaid_search_projects(limit = 1)) == 1)
+  expect_error(mermaid_search_projects(limit = 1), "haven't provided")
 })
 
 test_that("mermaid_list_projects returns `countries` and `tags` that are character columns", {

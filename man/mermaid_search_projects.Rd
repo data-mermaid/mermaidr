@@ -5,7 +5,8 @@
 \title{Search MERMAID projects}
 \usage{
 mermaid_search_projects(name = NULL, country = NULL, tag = NULL,
-  limit = NULL, token = NULL)
+  include_test_projects = FALSE, limit = NULL, url = base_url,
+  token = NULL)
 }
 \arguments{
 \item{name}{Project name}
@@ -14,7 +15,11 @@ mermaid_search_projects(name = NULL, country = NULL, tag = NULL,
 
 \item{tag}{Project tag. Projects are returned if the \code{tags} field contains \code{tag}, not just if it is exactly the same.}
 
+\item{include_test_projects}{Whether to include test projects. Defaults to FALSE.}
+
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
+
+\item{url}{API URL. Defaults to https://api.datamermaid.org}
 
 \item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
 
@@ -24,7 +29,6 @@ mermaid_search_projects(name = NULL, country = NULL, tag = NULL,
 Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
 }
 \examples{
-mermaid_search_projects(name = "test")
 mermaid_search_projects(tag = "WCS Fiji")
 mermaid_search_projects(country = "Fiji", tag = "WWF-UK")
 
@@ -34,4 +38,7 @@ mermaid_search_projects(country = "Tanzania", limit = 1)[["countries"]]
 
 # To search within your projects only:
 mermaid_search_projects(country = "Fiji", token = mermaid_token())
+
+# To include test projects:
+mermaid_search_projects(name = "test", include_test_projects = TRUE)
 }
