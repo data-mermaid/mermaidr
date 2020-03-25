@@ -20,3 +20,15 @@ test_that("mermaid_GET does value lookups if endpoint is sites", {
   output <- mermaid_GET("sites", limit = 5)
   expect_true(all(c("country_id", "country_name") %in% names(output)))
 })
+
+test_that("mermaid_GET allows the return of two endpoints as a named list", {
+  output <- mermaid_GET(c("choices", "sites"), limit = 1)
+  expect_is(output, "list")
+  expect_named(output, c("choices", "sites"))
+  expect_equal(unname(unlist(lapply(output, nrow))), c(1, 1))
+
+  output <- mermaid_GET(c("sites", "sites"), limit = 1)
+  expect_is(output, "list")
+  expect_named(output, c("sites", "sites"))
+  expect_equal(unname(unlist(lapply(output, nrow))), c(1, 1))
+})

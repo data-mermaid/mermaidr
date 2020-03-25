@@ -9,22 +9,27 @@ mermaid_GET <- function(endpoint, limit = NULL, url = base_url, token = NULL, ..
   check_internet()
   limit <- check_limit(limit)
 
+  # Convert endpoint(s) into list
+  endpoints <- vector("list", length = length(endpoint))
+  names(endpoints) <- endpoint
+
   # Construct API path
-  path <- construct_api_path(endpoint = endpoint, token = token, url = url, limit = limit, ...)
+  path <- purrr::map(names(endpoints), construct_api_path, token = token, url = url, limit = limit, ...)
+  names(path) <- endpoint
 
   # Call API and return if "choices" endpoint
-  if (endpoint == "choices") {
-    parsed <- get_and_parse(path = path, ua = ua, token = token)
-    res <- tibble::as_tibble(parsed)
-    res[["data"]] <- sapply(res[["data"]], tibble::as_tibble)
-    return(res)
-  }
-
-  # Call the API and parse results
-  parsed <- get_paginated_response(path = path, ua = ua, token = token, limit = limit)
+  parsed <- purrr::map2(
+    path, names(path), ~ get_response(.x, .y, ua = ua, token = token, limit = limit)
+  )
 
   # Convert to tibble and lookup values
-  results_lookup_choices(results = parsed, endpoint = endpoint, url = url, ua = ua, token = token)
+  parsed_with_lookup <- purrr::map2(parsed, names(parsed), ~ results_lookup_choices(results = .x, endpoint = .y, url = url, ua = ua, token = token))
+
+  if (length(endpoint) == 1) {
+    parsed_with_lookup[[1]]
+  } else {
+    parsed_with_lookup
+  }
 }
 
 check_errors <- function(response) {
@@ -50,6 +55,26 @@ construct_api_path <- function(endpoint, token, url, limit, ...) {
   }
 }
 
+get_response <- function(path, endpoint, ua, token, limit) {
+  if(endpoint == "choices") {
+    get_choices_response(path, endpoint, ua, token, limit)
+  } else {
+    get_paginated_response(path, ua, token, limit)
+  }
+}
+
+get_choices_response <- function(path, endpoint, ua, token, limit) {
+    parsed <- get_and_parse(path = path, ua = ua, token = token)
+    res <- tibble::as_tibble(parsed)
+    res[["data"]] <- sapply(res[["data"]], tibble::as_tibble)
+
+    if (is.null(limit)) {
+      res
+    } else {
+      head(res, limit)
+    }
+}
+
 get_paginated_response <- function(path, ua, token, limit) {
   all_res <- list()
   i <- 1
@@ -66,6 +91,7 @@ get_paginated_response <- function(path, ua, token, limit) {
   }
 
   res <- do.call("rbind", all_res)
+  res <- tibble::as_tibble(res)
 
   if (is.null(limit)) {
     res
@@ -81,8 +107,6 @@ get_and_parse <- function(path, ua, token) {
 }
 
 results_lookup_choices <- function(results, endpoint, url, ua, token) {
-  results <- tibble::as_tibble(results)
-
   if (nrow(results) == 0 || ncol(results) == 0) {
     return(
       tibble::tibble()
