@@ -30,9 +30,9 @@ mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, lim
     }
   } else if (!is.null(country) | !is.null(tag)) {
     if(is.null(token)) {
-      projects <- mermaid_list_projects(limit = 99999)
+      projects <- mermaid_list_projects()
     } else {
-      projects <- mermaid_list_my_projects(limit = 99999, token = token)
+      projects <- mermaid_list_my_projects(token = token)
     }
   }
 

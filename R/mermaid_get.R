@@ -56,6 +56,7 @@ get_paginated_response <- function(path, ua, token, limit) {
   res <- get_and_parse(path = path, ua = ua, token = token)
   all_res[[i]] <- res[["results"]]
   n_res <- nrow(all_res[[i]])
+
   while(!is.null(res$`next`) && (is.null(limit) || n_res < limit)){
     path <- res$`next`
     i <- i + 1
@@ -65,6 +66,7 @@ get_paginated_response <- function(path, ua, token, limit) {
   }
 
   res <- do.call("rbind", all_res)
+
   if(is.null(limit)) {
     res
   } else{
@@ -108,12 +110,17 @@ results_lookup_choices <- function(results, endpoint, url, ua, token) {
       ) %>%
       dplyr::select(-type)
   } else if (endpoint == "projects") {
+
     results <- results %>%
       dplyr::mutate(status = dplyr::recode(status, `10` = "Locked", `80` = "Test", `90` = "Open")) %>%
       dplyr::mutate_at(
         dplyr::vars(dplyr::starts_with("data_policy_")),
         ~ dplyr::recode(.x, `10` = "Private", `50` = "Public Summary", `100` = "Public")
-      )
+      ) %>%
+      dplyr::rowwise() %>%
+      dplyr::mutate(countries = paste0(countries, collapse = "; "),
+                    tags = paste0(tags, collapse = "; ")) %>%
+      dplyr::ungroup()
   }
 
   results
