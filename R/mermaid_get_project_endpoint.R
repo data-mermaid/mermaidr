@@ -111,5 +111,5 @@ repack_df_cols <- function(x) {
       dplyr::rename_all(~ gsub(paste0("^", df_cols[[i]], "_"), "", .x))
   }
 
-  dplyr::select(x, col_order)
+  dplyr::select(x, tidyselect::all_of(col_order))
 }

@@ -22,7 +22,9 @@ Imports:
     tibble,
     curl,
     tidyr,
-    dplyr
+    dplyr,
+    tidyselect,
+    purrr
 RoxygenNote: 6.1.1
 Suggests: 
     testthat (>= 2.1.0)

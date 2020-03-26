@@ -70,3 +70,36 @@ test_that("mermaid_get_project_endpoint allows multiple projects, and combines t
   expect_is(output, "tbl_df")
 
 })
+
+test_that("unpack_df_cols and repack_df_cols work as expected", {
+  df <- tibble::tibble(x = tibble::tibble(a = 1, b = 2),
+                       y = tibble::tibble(c = 1, d = 2),
+                       z = 1)
+
+  df_unpack <- unpack_df_cols(df)
+  expect_named(df_unpack, c("x_a", "x_b", "y_c", "y_d", "z"))
+  expect_true(nrow(df_unpack) == 1)
+
+  df_repack <- repack_df_cols(df_unpack)
+  expect_named(df_repack, names(df))
+  expect_true(nrow(df_repack) == 1)
+})
+
+test_that("a data frame can be unpacked, rbinded, and repacked", {
+  df <- tibble::tibble(x = tibble::tibble(a = 1, b = 2),
+                       y = tibble::tibble(c = 1, d = 2),
+                       z = 1)
+
+  df_unpack <- unpack_df_cols(df)
+  df_unpack_rbind <- df_unpack %>%
+    dplyr::bind_rows(df_unpack)
+
+  attr(df_unpack_rbind, "df_cols") <- attr(df_unpack, "df_cols")
+  attr(df_unpack_rbind, "col_order") <- attr(df_unpack, "col_order")
+
+  df_repack <- df_unpack_rbind %>%
+    repack_df_cols()
+
+  expect_named(df_repack, names(df))
+  expect_true(nrow(df_repack) == nrow(df)*2)
+})
