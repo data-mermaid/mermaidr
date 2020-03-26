@@ -23,16 +23,11 @@ mermaid_get_project_endpoint <- function(project = mermaid_get_default_project()
     names(clean_res) <- project_id
     clean_res_rbind <- rbind_project_endpoints(clean_res)
 
-    if (all(c("name", "id") %in% names(project))) {
-      if(all(c("project_name", "project_id") %in% names(clean_res_rbind))) {
-        clean_res_rbind %>%
-          dplyr::select(project_id, project_name, dplyr::everything())
-      } else {
-        clean_res_rbind %>%
+    if (all(c("name", "id") %in% names(project)) && !all(c("project_name", "project_id") %in% names(clean_res_rbind))) {
+      clean_res_rbind %>%
         dplyr::left_join(project %>%
           dplyr::select(id, project_name = name), by = c("project_id" = "id")) %>%
-          dplyr::select(project_id, project_name, dplyr::everything())
-      }
+        dplyr::select(project_id, project_name, dplyr::everything())
     } else {
       clean_res_rbind
     }
@@ -70,20 +65,22 @@ rbind_project_endpoints <- function(x) {
   df_cols <- sapply(x, inherits, "data.frame")
   df_cols <- names(df_cols[df_cols])
   if (length(df_cols) == 0) {
-    purrr::map_dfr(x, tibble::as_tibble, .id = "project_id")
+    if ("project_id" %in% names(x)) {
+      purrr::map_dfr(x, tibble::as_tibble)
+    } else {
+      purrr::map_dfr(x, tibble::as_tibble, .id = "project_id")
+    }
   } else {
     x_unpack <- purrr::map(x, unpack_df_cols)
-    col_order <- attr(x_unpack[[1]], "col_order")
 
     if (all(unlist(purrr::map(x_unpack, ~ "project_id" %in% names(.x))))) {
       x_rbind <- purrr::map_dfr(x_unpack, tibble::as_tibble)
     } else {
       x_rbind <- purrr::map_dfr(x_unpack, tibble::as_tibble, .id = "project_id")
-      col_order <- c("project_id", col_order)
     }
 
     attr(x_rbind, "df_cols") <- attr(x_unpack[[1]], "df_cols")
-    attr(x_rbind, "col_order") <- col_order
+    attr(x_rbind, "col_order") <- c("project_id", attr(x_unpack[[1]], "col_order"))
     repack_df_cols(x_rbind)
   }
 }
@@ -111,7 +108,7 @@ repack_df_cols <- function(x) {
       tidyr::pack(!!df_cols[[i]] := dplyr::starts_with(paste0(df_cols[[i]], "_")))
 
     x[[df_cols[[i]]]] <- x[[df_cols[[i]]]] %>%
-      dplyr::rename_all(~ stringr::str_replace(.x, paste0(df_cols[[i]], "_"), ""))
+      dplyr::rename_all(~ gsub(paste0("^", df_cols[[i]], "_"), "", .x))
   }
 
   dplyr::select(x, col_order)
