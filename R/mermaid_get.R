@@ -142,10 +142,15 @@ results_lookup_choices <- function(results, endpoint, url, ua, token) {
       )
   }
 
-  results %>%
+  if (basename(endpoint) != "choices") {
+  results <- results %>%
   dplyr::rowwise() %>%
     dplyr::mutate_if(is_list_col, ~ paste0(.x, collapse = "; ")) %>%
     dplyr::ungroup()
+  }
+
+  results
+
 }
 
 is_list_col <- function(x) {
