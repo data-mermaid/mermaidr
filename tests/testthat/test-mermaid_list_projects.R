@@ -5,6 +5,7 @@ test_that("mermaid_list_projects returns a list of projects depending on limit",
 })
 
 test_that("mermaid_list_projects by default only returns non-test projects, test projects too if flagged", {
+  skip_if_offline()
   output <- mermaid_list_projects()
   expect_true(all(output[["status"]] == "Open"))
 

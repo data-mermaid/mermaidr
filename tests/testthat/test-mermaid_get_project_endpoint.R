@@ -59,6 +59,7 @@ test_that("mermaid_get_project_endpoint works for the new endpoints", {
 })
 
 test_that("mermaid_get_project_endpoint allows multiple projects, and combines the results", {
+  skip_if_offline()
   p <- mermaid_list_my_projects(include_test_projects = TRUE)
   output <- mermaid_get_project_endpoint(p, "sites", limit = 1)
   expect_is(output, "tbl_df")
@@ -102,4 +103,10 @@ test_that("a data frame can be unpacked, rbinded, and repacked", {
 
   expect_named(df_repack, names(df))
   expect_true(nrow(df_repack) == nrow(df)*2)
+})
+
+test_that("pagination works to return all records", {
+  skip_if_offline()
+  output <- mermaid_get_project_endpoint("a3d1e110-1394-4b64-a3c1-fbb7852c80e1", endpoint = "beltfishes/obstransectbeltfishes")
+  expect_true(nrow(output) > 5000)
 })

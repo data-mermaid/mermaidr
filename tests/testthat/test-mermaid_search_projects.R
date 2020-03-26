@@ -63,6 +63,9 @@ test_that("mermaid_search_projects returns projects that all have Country if Cou
   skip_if_offline()
   output <- mermaid_search_projects(country = "Fiji")
   expect_true(all_contain_value(output[["countries"]], "Fiji"))
+
+  output <- mermaid_search_projects(country = "Fiji", token = mermaid_token())
+  expect_true(nrow(output) > 0)
 })
 
 test_that("mermaid_search_projects returns projects that all have tag if Tag filter is used", {
@@ -76,14 +79,22 @@ test_that("mermaid_search_projects errors if nothing is provided to search by", 
   expect_error(mermaid_search_projects(limit = 1), "haven't provided")
 })
 
-test_that("mermaid_list_projects returns `countries` and `tags` that are character columns", {
-  output <- mermaid_list_projects()
+test_that("mermaid_search_projects returns `countries` and `tags` that are character columns", {
+  skip_if_offline()
+  output <- mermaid_search_projects(country = "Fiji")
   expect_is(output[["countries"]], "character")
   expect_is(output[["tags"]], "character")
 })
 
-test_that("mermaid_list_projects returns `countries` and `tags` that are semi-colon separated", {
-  output <- mermaid_list_projects()
+test_that("mermaid_search_projects returns `countries` and `tags` that are semi-colon separated", {
+  skip_if_offline()
+  output <- mermaid_search_projects(country = "Fiji")
   expect_true(any(grepl(";", output[["countries"]])))
   expect_true(any(grepl(";", output[["tags"]])))
+})
+
+test_that("mermaid_search_projects respects limit", {
+  skip_if_offline()
+  output <- mermaid_search_projects(country = "Fiji", limit = 1)
+  expect_true(nrow(output) == 1)
 })

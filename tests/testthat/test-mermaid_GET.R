@@ -22,6 +22,7 @@ test_that("mermaid_GET does value lookups if endpoint is sites", {
 })
 
 test_that("mermaid_GET allows the return of two endpoints as a named list", {
+  skip_if_offline()
   output <- mermaid_GET(c("choices", "sites"), limit = 1)
   expect_is(output, "list")
   expect_named(output, c("choices", "sites"))
