@@ -98,3 +98,9 @@ test_that("mermaid_search_projects respects limit", {
   output <- mermaid_search_projects(country = "Fiji", limit = 1)
   expect_true(nrow(output) == 1)
 })
+
+test_that("mermaid_search_projects returns same columns", {
+  expect_named(mermaid_search_projects("Test", include_test_projects = TRUE), mermaid_endpoint_columns[["projects"]])
+  expect_named(mermaid_search_projects(country = "Fiji"), mermaid_endpoint_columns[["projects"]])
+  expect_named(mermaid_search_projects(tag = "WCS Fiji"), mermaid_endpoint_columns[["projects"]])
+})
