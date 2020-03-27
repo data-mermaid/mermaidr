@@ -89,15 +89,17 @@ rbind_project_endpoints <- function(x) {
 }
 
 unpack_df_cols <- function(x, df_cols = NULL) {
-  if(is.null(df_cols)) {
+  if (is.null(df_cols)) {
     df_cols <- sapply(x, inherits, "data.frame")
     df_cols <- names(df_cols[df_cols])
   }
 
   if (all(sapply(x[df_cols], inherits, "data.frame"))) {
     x_unpack <- x %>%
-      tidyr::unpack(cols = df_cols,
-                    names_sep = "_")
+      tidyr::unpack(
+        cols = df_cols,
+        names_sep = "_"
+      )
   } else {
     x_unpack <- x %>%
       dplyr::select(-tidyselect::any_of(df_cols))
@@ -113,7 +115,7 @@ repack_df_cols <- function(x) {
   df_cols <- attr(x, "df_cols")
   col_order <- attr(x, "col_order")
 
-  for(i in seq_along(df_cols)) {
+  for (i in seq_along(df_cols)) {
     x <- x %>%
       tidyr::pack(!!df_cols[[i]] := dplyr::starts_with(paste0(df_cols[[i]], "_")))
 
