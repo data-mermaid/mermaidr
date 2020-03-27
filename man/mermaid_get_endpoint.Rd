@@ -24,3 +24,6 @@ mermaid_get_endpoint(
 \description{
 Get MERMAID Endpoint
 }
+\examples{
+mermaid_get_endpoint("sites", limit = 1)
+}

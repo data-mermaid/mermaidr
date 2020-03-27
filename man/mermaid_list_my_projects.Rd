@@ -27,5 +27,7 @@ A tibble of MERMAID projects that you have access to, including project name, co
 List MERMAID projects that you have access to. Requires authorization.
 }
 \examples{
+\dontrun{
 mermaid_list_my_projects(limit = 5)
+}
 }

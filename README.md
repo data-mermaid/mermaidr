@@ -176,21 +176,13 @@ example:
 mermaidr_project <- mermaid_search_projects(name = "Sharla test", include_test_projects = TRUE)
 
 mermaidr_project
-#> # A tibble: 1 x 36
-#>   id    updated_by countries num_sites tags  observers project_profiles psites
-#>   <chr> <chr>      <chr>         <int> <chr> <chr>     <chr>            <chr> 
-#> 1 2c0c… 746464f0-… Indonesia         1 ""    https://… https://dev-api… https…
-#> # … with 28 more variables: pmanagements <chr>, sampleevents <chr>,
-#> #   beltfishs <chr>, benthiclits <chr>, benthicpits <chr>,
-#> #   habitatcomplexitys <chr>, benthictransects <chr>, fishbelttransects <chr>,
-#> #   obstransectbeltfishs <chr>, obsbenthiclits <chr>, obsbenthicpits <chr>,
-#> #   obshabitatcomplexitys <chr>, collectrecordss <chr>,
-#> #   beltfishtransectmethods <chr>, benthiclittransectmethods <chr>,
-#> #   benthicpittransectmethods <chr>, habitatcomplexitytransectmethods <chr>,
-#> #   created_on <chr>, updated_on <chr>, name <chr>, notes <chr>, status <chr>,
-#> #   data_policy_beltfish <chr>, data_policy_benthiclit <chr>,
+#> # A tibble: 1 x 14
+#>   id    name  countries num_sites tags  notes status data_policy_bel…
+#>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
+#> 1 2c0c… Shar… Indonesia         1 ""    "dhf… Test   Public Summary  
+#> # … with 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
-#> #   data_policy_bleachingqc <chr>, created_by <chr>
+#> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
 ```
 
 returns a single project with the name “Sharla test”.
@@ -279,12 +271,12 @@ The following endpoints contain raw data: “beltfishtransectmethods”,
 “habitatcomplexities”, “obsbenthiclits”, “obsbenthicpits”,
 “obshabitatcomplexities”, “obstransectbeltfishs”, “managements”,
 “observers”, “project\_profiles”, “sampleevents”, “sites”,
-“beltfishes/obstransectbeltfishes/”, “beltfishes/sampleunits/”, and
-“beltfishes/sampleevents/”.
+“beltfishes/obstransectbeltfishes”, “beltfishes/sampleunits”, and
+“beltfishes/sampleevents”.
 
 Cleaner endpoints are covered in the next section. These are:
-“beltfishes/obstransectbeltfishes/”, “beltfishes/sampleunits/”, and
-“beltfishes/sampleevents/”.
+“beltfishes/obstransectbeltfishes”, “beltfishes/sampleunits”, and
+“beltfishes/sampleevents”.
 
 For example, to see the sites in this project:
 
@@ -388,8 +380,6 @@ If you want multiple endpoints for multiple projects, the results will
 be a list of tibbles:
 
 ``` r
-library(dplyr)
-
 mermaid_list_my_projects(include_test_projects = TRUE) %>%
   filter(status == "Test") %>%
   mermaid_get_project_endpoint(c("managements", "sites"), limit = 1)
@@ -418,8 +408,8 @@ mermaid_list_my_projects(include_test_projects = TRUE) %>%
 #### Clean Endpoints
 
 The “clean” endpoints currently available are for beltfish records:
-“beltfishes/obstransectbeltfishes/”, “beltfishes/sampleunits/”, and
-“beltfishes/sampleevents/”.
+“beltfishes/obstransectbeltfishes”, “beltfishes/sampleunits”, and
+“beltfishes/sampleevents”.
 
 You can query them the same way, using `mermaid_get_project_endpoint()`:
 
@@ -455,7 +445,7 @@ mermaid_get_project_endpoint(xpdc, "beltfishes/obstransectbeltfishes", limit = 5
 #> #   biomass_kgha <dbl>, observation_notes <chr>, data_policy_beltfish <chr>
 ```
 
-“beltfishes/sampleunits/” are aggregated to the sample unit, and contain
+“beltfishes/sampleunits” are aggregated to the sample unit, and contain
 total biomass in kg/ha per sample unit, by trophic group:
 
 ``` r
@@ -483,7 +473,7 @@ mermaid_get_project_endpoint(xpdc, "beltfishes/sampleunits", limit = 5)
 #> #   contact_link <chr>
 ```
 
-“beltfishes/sampleevents/” are aggregated to the sample event, and
+“beltfishes/sampleevents” are aggregated to the sample event, and
 contain *mean* total biomass in kg/ha per sample event and by trophic
 group:
 

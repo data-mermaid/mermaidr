@@ -9,7 +9,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' mermaid_list_my_projects(limit = 5)
+#' }
 mermaid_list_my_projects <- function(include_test_projects = FALSE, limit = NULL, url = base_url, token = mermaid_token()) {
   if (include_test_projects) {
     res <- mermaid_GET("projects", limit = limit, url = url, token = token)

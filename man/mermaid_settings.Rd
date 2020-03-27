@@ -10,16 +10,16 @@ mermaid_set_default_project(project)
 mermaid_get_default_project()
 }
 \arguments{
-\item{project}{A way to identify a MERMAID project. Can be a project ID (passed as a character vector directly) or a single project resulting from \code{\link{mermaid_get_endpoint}} or \code{\link{mermaid_search_projects}}.}
+\item{project}{A way to identify a MERMAID project. Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_endpoint}} or \code{\link{mermaid_search_projects}}.}
 }
 \description{
 Configure default MERMAID settings
 }
 \examples{
-\dontrun{
-test_project <- mermaid_search_projects("mermaidr testing")
+test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 mermaid_set_default_project(test_project)
 mermaid_get_default_project()
-mermaid_get_project_endpoint("sites")
+\dontrun{
+mermaid_get_project_endpoint(endpoint = "sites")
 }
 }

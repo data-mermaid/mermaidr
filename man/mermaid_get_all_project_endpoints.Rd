@@ -27,6 +27,8 @@ A list of tibbles, one for each of the MERMAID project endpoints (beltfishtranse
 Get all endpoints from a specified MERMAID project
 }
 \examples{
+\dontrun{
 test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
-mermaid_get_all_project_endpoints(test_project)
+mermaid_get_all_project_endpoints(test_project, limit = 1)
+}
 }
