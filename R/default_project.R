@@ -15,11 +15,22 @@
 #' }
 mermaid_set_default_project <- function(project) {
   project_id <- as_id(project)
-  Sys.setenv(MERMAIDR_DEFAULT_PROJECT = project_id)
+
+  if(length(project_id) > 1) {
+    project_ids <- paste0(project_id, collapse = ",")
+    Sys.setenv(MERMAIDR_DEFAULT_PROJECT = project_ids)
+  } else {
+    Sys.setenv(MERMAIDR_DEFAULT_PROJECT = project_id)
+  }
 }
 
 #' @rdname mermaid_settings
 #' @export
 mermaid_get_default_project <- function() {
-  Sys.getenv("MERMAIDR_DEFAULT_PROJECT")
+  project_id <- Sys.getenv("MERMAIDR_DEFAULT_PROJECT")
+  if (grepl(",", project_id)) {
+    strsplit(project_id, ",")[[1]]
+  } else {
+    project_id
+  }
 }
