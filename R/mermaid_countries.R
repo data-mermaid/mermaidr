@@ -9,6 +9,7 @@
 #' @examples
 #' mermaid_countries()
 mermaid_countries <- function(url = base_url) {
+  check_internet()
   choices <- mermaid_get_endpoint("choices", url = url, limit = NULL)
   dplyr::filter(choices, name == "countries")[["data"]][[1]][["name"]]
 }

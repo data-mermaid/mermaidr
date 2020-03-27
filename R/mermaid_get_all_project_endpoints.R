@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @examples
-#' test_project <- mermaid_search_projects("Sharla test")
+#' test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 #' mermaid_get_all_project_endpoints(test_project)
 mermaid_get_all_project_endpoints <- function(project = mermaid_get_default_project(), limit = NULL, url = base_url, token = mermaid_token()) {
   project_id <- as_id(project)

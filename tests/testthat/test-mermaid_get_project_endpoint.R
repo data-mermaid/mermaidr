@@ -173,3 +173,9 @@ test_that("pagination works to return all records", {
   output <- mermaid_get_project_endpoint("a3d1e110-1394-4b64-a3c1-fbb7852c80e1", endpoint = "beltfishes/obstransectbeltfishes")
   expect_true(nrow(output) > 5000)
 })
+
+test_that("mermaid_get_project_endpoint allows multiple projects and multiple endpoints", {
+  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), c("sites", "managements"), limit = 1)
+  expect_is(output, "list")
+  expect_named(output, c("sites", "managements"))
+})

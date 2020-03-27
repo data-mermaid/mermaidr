@@ -6,15 +6,25 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' test_project <- mermaid_search_projects("Sharla test")
+#' test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
 mermaid_get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents"), limit = NULL, url = base_url, token = mermaid_token()) {
   project_id <- as_id(project)
   check_project(project_id)
-  endpoint <- match.arg(endpoint)
+  endpoint <- match.arg(endpoint, several.ok = TRUE)
+  if (length(endpoint) == 1) {
+    full_endpoint <- paste0("projects/", project_id, "/", endpoint)
+    get_single_project_endpoint(endpoint, full_endpoint, limit = limit, url = url, token = token, project_id = project_id, project = project)
+  } else {
+    endpoints_res <- purrr::map(endpoint, ~ paste0("projects/", project_id, "/", .x))
+    endpoints_res <- purrr::map2(endpoint, endpoints_res, get_single_project_endpoint, limit = limit, url = url, token = token, project_id = project_id, project = project)
+    names(endpoints_res) <- endpoint
+    endpoints_res
+  }
+}
 
-  full_endpoint <- paste0("projects/", project_id, "/", endpoint)
+get_single_project_endpoint <- function(endpoint, full_endpoint, limit = NULL, url = base_url, token = mermaid_token(), project_id, project) {
   res <- mermaid_GET(full_endpoint, limit = limit, url = url, token = token)
 
   # Clean up results
@@ -42,10 +52,10 @@ check_project <- function(project) {
   }
 }
 
-new_endpoints <- c("beltfishes/obstransectbeltfishes/", "beltfishes/sampleunits/", "beltfishes/sampleevents/")
+new_endpoints <- c("beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents")
 
 clean_project_endpoint <- function(res, endpoint) {
-  if(endpoint == "beltfishes/obstransectbeltfishes/") {
+  if (endpoint == "beltfishes/obstransectbeltfishes") {
     return(res)
   }
   if (nrow(res) == 0 || ncol(res) == 0) {

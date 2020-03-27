@@ -26,3 +26,9 @@ test_that("mermaid_get_endpoint returns the correct columns given the endpoint."
   output <- mermaid_get_endpoint("sites", limit = 1)
   expect_equal(names(output), mermaid_endpoint_columns[["sites"]])
 })
+
+test_that("mermaid_get_endpoint can return for multiple endpoints", {
+  output <- mermaid_get_endpoint(c("sites", "managements"), limit = 1)
+  expect_is(output, "list")
+  expect_named(output, c("sites", "managements"))
+})
