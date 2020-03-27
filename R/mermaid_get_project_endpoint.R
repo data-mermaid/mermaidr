@@ -9,7 +9,7 @@
 #' test_project <- mermaid_search_projects("Sharla test")
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
-mermaid_get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "profiles", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes/", "beltfishes/sampleunits/", "beltfishes/sampleevents/"), limit = NULL, url = base_url, token = mermaid_token()) {
+mermaid_get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents"), limit = NULL, url = base_url, token = mermaid_token()) {
   project_id <- as_id(project)
   check_project(project_id)
   endpoint <- match.arg(endpoint)
@@ -62,7 +62,10 @@ clean_project_endpoint <- function(res, endpoint) {
 }
 
 rbind_project_endpoints <- function(x) {
-  df_cols <- sapply(x, inherits, "data.frame")
+  df_cols <- purrr::map(x, ~ purrr::map(.x, inherits, "data.frame")) %>%
+    purrr::transpose() %>%
+    purrr::map(~ any(unlist(.x))) %>%
+    unlist()
   df_cols <- names(df_cols[df_cols])
   if (length(df_cols) == 0) {
     if ("project_id" %in% names(x)) {
@@ -71,12 +74,12 @@ rbind_project_endpoints <- function(x) {
       purrr::map_dfr(x, tibble::as_tibble, .id = "project_id")
     }
   } else {
-    x_unpack <- purrr::map(x, unpack_df_cols)
+    x_unpack <- purrr::map(x, unpack_df_cols, df_cols = df_cols)
 
     if (all(unlist(purrr::map(x_unpack, ~ "project_id" %in% names(.x))))) {
-      x_rbind <- purrr::map_dfr(x_unpack, tibble::as_tibble)
+      x_rbind <- dplyr::bind_rows(x_unpack)
     } else {
-      x_rbind <- purrr::map_dfr(x_unpack, tibble::as_tibble, .id = "project_id")
+      x_rbind <- dplyr::bind_rows(x_unpack, .id = "project_id")
     }
 
     attr(x_rbind, "df_cols") <- attr(x_unpack[[1]], "df_cols")
@@ -85,13 +88,20 @@ rbind_project_endpoints <- function(x) {
   }
 }
 
-unpack_df_cols <- function(x) {
-  df_cols <- sapply(x, inherits, "data.frame")
-  df_cols <- names(df_cols[df_cols])
+unpack_df_cols <- function(x, df_cols = NULL) {
+  if(is.null(df_cols)) {
+    df_cols <- sapply(x, inherits, "data.frame")
+    df_cols <- names(df_cols[df_cols])
+  }
 
-  x_unpack <- x %>%
-    tidyr::unpack(cols = df_cols,
-                  names_sep = "_")
+  if (all(sapply(x[df_cols], inherits, "data.frame"))) {
+    x_unpack <- x %>%
+      tidyr::unpack(cols = df_cols,
+                    names_sep = "_")
+  } else {
+    x_unpack <- x %>%
+      dplyr::select(-tidyselect::any_of(df_cols))
+  }
 
   attr(x_unpack, "df_cols") <- df_cols
   attr(x_unpack, "col_order") <- names(x)

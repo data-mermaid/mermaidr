@@ -4,8 +4,7 @@
 \alias{mermaid_GET}
 \title{Get MERMAID endpoint}
 \usage{
-mermaid_GET(endpoint, limit = NULL, url = base_url, token = NULL,
-  ...)
+mermaid_GET(endpoint, limit = NULL, url = base_url, token = NULL, ...)
 }
 \arguments{
 \item{endpoint}{Endpoint}

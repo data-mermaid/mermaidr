@@ -4,8 +4,12 @@
 \alias{mermaid_list_my_projects}
 \title{List your MERMAID Projects}
 \usage{
-mermaid_list_my_projects(include_test_projects = FALSE, limit = NULL,
-  url = base_url, token = mermaid_token())
+mermaid_list_my_projects(
+  include_test_projects = FALSE,
+  limit = NULL,
+  url = base_url,
+  token = mermaid_token()
+)
 }
 \arguments{
 \item{include_test_projects}{Whether to include test projects. Defaults to FALSE.}
