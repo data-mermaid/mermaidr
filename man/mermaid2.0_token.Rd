@@ -4,18 +4,29 @@
 \alias{mermaid2.0_token}
 \title{Generate a mermaid token}
 \usage{
-mermaid2.0_token(endpoint, app, scope = NULL, user_params = NULL,
-  type = NULL, use_oob = getOption("httr_oob_default"),
-  oob_value = NULL, as_header = TRUE, use_basic_auth = FALSE,
-  cache = getOption("httr_oauth_cache"), config_init = list(),
-  client_credentials = FALSE, credentials = NULL,
-  query_authorize_extra = list(), refresh = FALSE)
+mermaid2.0_token(
+  endpoint,
+  app,
+  scope = NULL,
+  user_params = NULL,
+  type = NULL,
+  use_oob = getOption("httr_oob_default"),
+  oob_value = NULL,
+  as_header = TRUE,
+  use_basic_auth = FALSE,
+  cache = getOption("httr_oauth_cache"),
+  config_init = list(),
+  client_credentials = FALSE,
+  credentials = NULL,
+  query_authorize_extra = list(),
+  refresh = FALSE
+)
 }
 \arguments{
-\item{endpoint}{An OAuth endpoint, created by \code{\link[=oauth_endpoint]{oauth_endpoint()}}}
+\item{endpoint}{An OAuth endpoint, created by \code{\link[httr:oauth_endpoint]{oauth_endpoint()}}}
 
 \item{app}{An OAuth consumer application, created by
-\code{\link[=oauth_app]{oauth_app()}}}
+\code{\link[httr:oauth_app]{oauth_app()}}}
 
 \item{scope}{a character vector of scopes to request.}
 
@@ -50,7 +61,7 @@ don't cache, and \code{NA} means to guess using some sensible heuristics.
 A string means use the specified path as the cache file.}
 
 \item{config_init}{Additional configuration settings sent to
-\code{\link[=POST]{POST()}}, e.g. \code{\link[=user_agent]{user_agent()}}.}
+\code{\link[httr:POST]{POST()}}, e.g. \code{\link[httr:user_agent]{user_agent()}}.}
 
 \item{client_credentials}{Default to \code{FALSE}. Set to \code{TRUE} to use
 \emph{Client Credentials Grant} instead of \emph{Authorization

@@ -4,9 +4,12 @@
 \alias{mermaid_get_all_project_endpoints}
 \title{Get all endpoints from a specified MERMAID project}
 \usage{
-
-  mermaid_get_all_project_endpoints(project = mermaid_get_default_project(),
-  limit = NULL, url = base_url, token = mermaid_token())
+mermaid_get_all_project_endpoints(
+  project = mermaid_get_default_project(),
+  limit = NULL,
+  url = base_url,
+  token = mermaid_token()
+)
 }
 \arguments{
 \item{project}{A way to identify the project. Can be a project ID (passed as a character vector directly) or a single project resulting from \code{\link{mermaid_get_endpoint}} or \code{\link{mermaid_search_projects}}. Defaults to the project listed via \code{get_default_project}, if available.}
@@ -18,7 +21,7 @@
 \item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
 }
 \value{
-A list of tibbles, one for each of the MERMAID project endpoints (beltfishtransectmethods, beltfishes, benthiclittransectmethods, benthicpittransectmethods, benthicpits, benthictransects, collectrecords, fishbelttransects, habitatcomplexities, obsbenthiclits, obsbenthicpits, obshabitatcomplexities, obstransectbeltfishs, managements, observers, profiles, project_profiles, sampleevents, sites).
+A list of tibbles, one for each of the MERMAID project endpoints (beltfishtransectmethods, beltfishes, benthiclittransectmethods, benthicpittransectmethods, benthicpits, benthictransects, collectrecords, fishbelttransects, habitatcomplexities, obsbenthiclits, obsbenthicpits, obshabitatcomplexities, obstransectbeltfishs, managements, observers, project_profiles, sampleevents, sites, beltfishes/obstransectbeltfishes, beltfishes/sampleunits, beltfishes/sampleevents.
 }
 \description{
 Get all endpoints from a specified MERMAID project

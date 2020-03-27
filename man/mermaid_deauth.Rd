@@ -23,6 +23,7 @@ mermaid_deauth()
 }
 }
 \seealso{
-Other auth functions: \code{\link{mermaid_auth}}
+Other auth functions: 
+\code{\link{mermaid_auth}()}
 }
 \concept{auth functions}

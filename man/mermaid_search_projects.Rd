@@ -4,9 +4,15 @@
 \alias{mermaid_search_projects}
 \title{Search MERMAID projects}
 \usage{
-mermaid_search_projects(name = NULL, country = NULL, tag = NULL,
-  include_test_projects = FALSE, limit = NULL, url = base_url,
-  token = NULL)
+mermaid_search_projects(
+  name = NULL,
+  country = NULL,
+  tag = NULL,
+  include_test_projects = FALSE,
+  limit = NULL,
+  url = base_url,
+  token = NULL
+)
 }
 \arguments{
 \item{name}{Project name}

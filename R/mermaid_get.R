@@ -56,7 +56,7 @@ construct_api_path <- function(endpoint, token, url, limit, ...) {
 }
 
 get_response <- function(path, endpoint, ua, token, limit) {
-  if(endpoint == "choices") {
+  if (endpoint == "choices") {
     get_choices_response(path, endpoint, ua, token, limit)
   } else {
     get_paginated_response(path, ua, token, limit)
@@ -64,15 +64,15 @@ get_response <- function(path, endpoint, ua, token, limit) {
 }
 
 get_choices_response <- function(path, endpoint, ua, token, limit) {
-    parsed <- get_and_parse(path = path, ua = ua, token = token)
-    res <- tibble::as_tibble(parsed)
-    res[["data"]] <- sapply(res[["data"]], tibble::as_tibble)
+  parsed <- get_and_parse(path = path, ua = ua, token = token)
+  res <- tibble::as_tibble(parsed)
+  res[["data"]] <- sapply(res[["data"]], tibble::as_tibble)
 
-    if (is.null(limit)) {
-      res
-    } else {
-      head(res, limit)
-    }
+  if (is.null(limit)) {
+    res
+  } else {
+    head(res, limit)
+  }
 }
 
 get_paginated_response <- function(path, ua, token, limit) {
@@ -143,14 +143,13 @@ results_lookup_choices <- function(results, endpoint, url, ua, token) {
   }
 
   if (basename(endpoint) != "choices") {
-  results <- results %>%
-  dplyr::rowwise() %>%
-    dplyr::mutate_if(is_list_col, ~ paste0(.x, collapse = "; ")) %>%
-    dplyr::ungroup()
+    results <- results %>%
+      dplyr::rowwise() %>%
+      dplyr::mutate_if(is_list_col, ~ paste0(.x, collapse = "; ")) %>%
+      dplyr::ungroup()
   }
 
   results
-
 }
 
 is_list_col <- function(x) {

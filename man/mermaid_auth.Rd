@@ -4,8 +4,13 @@
 \alias{mermaid_auth}
 \title{Authorize \code{mermaidr}}
 \usage{
-mermaid_auth(token = NULL, new_user = FALSE, key = mermaid_key,
-  cache = getOption("mermaidr.httr_oauth_cache"), verbose = TRUE)
+mermaid_auth(
+  token = NULL,
+  new_user = FALSE,
+  key = mermaid_key,
+  cache = getOption("mermaidr.httr_oauth_cache"),
+  verbose = TRUE
+)
 }
 \arguments{
 \item{token}{optional; an actual token object or the path to a valid token
@@ -79,6 +84,7 @@ mermaid_auth(token = "ttt.rds") # from .rds file
 }
 }
 \seealso{
-Other auth functions: \code{\link{mermaid_deauth}}
+Other auth functions: 
+\code{\link{mermaid_deauth}()}
 }
 \concept{auth functions}

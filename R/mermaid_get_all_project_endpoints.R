@@ -2,7 +2,7 @@
 #'
 #' @inheritParams mermaid_get_project_endpoint
 #'
-#' @return A list of tibbles, one for each of the MERMAID project endpoints (beltfishtransectmethods, beltfishes, benthiclittransectmethods, benthicpittransectmethods, benthicpits, benthictransects, collectrecords, fishbelttransects, habitatcomplexities, obsbenthiclits, obsbenthicpits, obshabitatcomplexities, obstransectbeltfishs, managements, observers, profiles, project_profiles, sampleevents, sites).
+#' @return A list of tibbles, one for each of the MERMAID project endpoints (beltfishtransectmethods, beltfishes, benthiclittransectmethods, benthicpittransectmethods, benthicpits, benthictransects, collectrecords, fishbelttransects, habitatcomplexities, obsbenthiclits, obsbenthicpits, obshabitatcomplexities, obstransectbeltfishs, managements, observers, project_profiles, sampleevents, sites, beltfishes/obstransectbeltfishes, beltfishes/sampleunits, beltfishes/sampleevents.
 #' @export
 #'
 #' @examples
@@ -12,13 +12,15 @@ mermaid_get_all_project_endpoints <- function(project = mermaid_get_default_proj
   project_id <- as_id(project)
   check_project(project_id)
 
-  sapply(mermaid_project_endpoint_columns,
-    FUN = mermaid_get_project_endpoint,
+  res <- purrr::map(mermaid_project_endpoint_columns, mermaid_get_project_endpoint,
     project = project, limit = limit, url = url, token = token
   )
+
+  names(res) <- mermaid_project_endpoint_columns
+
+  res
 }
 
 mermaid_project_endpoint_columns <- c(
-  "beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites" # ,
-  # "profiles"
+  "beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents"
 )

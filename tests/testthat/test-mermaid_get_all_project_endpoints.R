@@ -21,3 +21,13 @@ test_that("mermaid_get_all_project_endpoints uses limit all throughout", {
   output <- mermaid_get_all_project_endpoints(test_project)
   expect_true(length(unique(sapply(output, nrow))) > 2)
 })
+
+test_that("mermaid_get_all_project_endpoints can handle multiple projects (and so, all endpoints can handle it)", {
+  library(dplyr)
+  test_projects <- mermaid_list_my_projects(TRUE) %>%
+    filter(status == "Test")
+
+  output <- mermaid_get_all_project_endpoints(test_projects, limit = 1)
+  expect_true(all(sapply(output, nrow) <= 2))
+  expect_true(any(sapply(output, nrow) == 2))
+})
