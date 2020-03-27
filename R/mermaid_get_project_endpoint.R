@@ -45,19 +45,16 @@ check_project <- function(project) {
 new_endpoints <- c("beltfishes/obstransectbeltfishes/", "beltfishes/sampleunits/", "beltfishes/sampleevents/")
 
 clean_project_endpoint <- function(res, endpoint) {
-  if (endpoint %in% new_endpoints) {
-    return(
-      res
-    )
+  if(endpoint == "beltfishes/obstransectbeltfishes/") {
+    return(res)
+  }
+  if (nrow(res) == 0 || ncol(res) == 0) {
+    cols <- mermaid_endpoint_columns[[ifelse(endpoint == "managements", "managements_project", endpoint)]]
+    res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)), .name_repair = "minimal")
+    names(res) <- cols
+    res
   } else {
-    if (nrow(res) == 0 || ncol(res) == 0) {
-      cols <- mermaid_endpoint_columns[[ifelse(endpoint == "managements", "managements_project", endpoint)]]
-      res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)), .name_repair = "minimal")
-      names(res) <- cols
-      res
-    } else {
-      res[, mermaid_endpoint_columns[[ifelse(endpoint == "managements", "managements_project", endpoint)]]]
-    }
+    res[, mermaid_endpoint_columns[[ifelse(endpoint == "managements", "managements_project", endpoint)]]]
   }
 }
 
