@@ -9,11 +9,60 @@ mermaid_get_endpoint <- function(endpoint = c("benthicattributes", "choices", "f
   endpoint <- match.arg(endpoint, several.ok = TRUE)
   res <- mermaid_GET(endpoint, limit = limit, url = url, ...)
 
-  if (length(endpoint) == 1) {
-    construct_endpoint_columns(res, endpoint)
+  res_lookups <- purrr::map2(res, names(res), lookup_choices, url = url)
+
+  res_columns <- purrr::map2(res_lookups, names(res_lookups), construct_endpoint_columns)
+
+  if (length(res_columns) > 1) {
+    res_columns
   } else {
-    purrr::map2(res, names(res), construct_endpoint_columns)
+    res_columns[[endpoint]]
   }
+}
+
+lookup_choices <- function(results, endpoint, url) {
+  if (basename(endpoint) == "sites") {
+    choices <- mermaid_GET("choices", url = url)[["choices"]]
+
+    results <- results %>%
+      lookup_variable(choices, "country") %>%
+      lookup_variable(choices, "reef_type") %>%
+      lookup_variable(choices, "reef_zone") %>%
+      lookup_variable(choices, "exposure") %>%
+      dplyr::rename_at(dplyr::vars(country_name, reef_type_name, reef_zone_name, exposure_name), ~ gsub("_name", "", .x))
+
+  } else if (endpoint == "projects") {
+    results <- results %>%
+      dplyr::mutate(status = dplyr::recode(status, `10` = "Locked", `80` = "Test", `90` = "Open")) %>%
+      dplyr::mutate_at(
+        dplyr::vars(dplyr::starts_with("data_policy_")),
+        ~ dplyr::recode(.x, `10` = "Private", `50` = "Public Summary", `100` = "Public")
+      )
+  }
+
+  results
+}
+
+lookup_variable <- function(.data, choices, variable) {
+  name <- switch(variable,
+    country = "countries",
+    reef_type = "reeftypes",
+    reef_zone = "reefzones",
+    exposure = "reefexposures"
+  )
+
+  variable_names <- choices %>%
+    dplyr::filter(name == !!name) %>%
+    dplyr::select(-name) %>%
+    tidyr::unnest(data) %>%
+    dplyr::select(id, name) %>%
+    dplyr::rename_all(~ paste0(variable, "_", .x))
+
+  join_by <- variable
+  names(join_by) <- paste0(variable, "_id")
+
+  variable_names %>%
+    dplyr::right_join(.data, by = join_by)
 }
 
 construct_endpoint_columns <- function(x, endpoint) {
