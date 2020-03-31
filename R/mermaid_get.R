@@ -18,17 +18,17 @@ mermaid_GET <- function(endpoint, limit = NULL, url = base_url, token = NULL, ..
   names(path) <- endpoint
 
   # Call API and return results
-  parsed <- purrr::map2(
-    path, basename(names(path)), ~ get_response(.x, .y, ua = ua, token = token, limit = limit)
-  )
+  res <- purrr::map2(
+    path, basename(names(path)), get_response, ua = ua, token = token, limit = limit)
 
-  # Convert to tibble and lookup values
-  parsed_with_lookup <- purrr::map2(parsed, basename(names(parsed)), ~ results_lookup_choices(results = .x, endpoint = .y, url = url, ua = ua, token = token))
+  # Remove validation column, collapse list-cols
+  res_cols <- purrr::map2(res, basename(names(res)), initial_cleanup)
 
+  # Return results
   if (length(endpoint) == 1) {
-    parsed_with_lookup[[1]]
+    res_cols[[1]]
   } else {
-    parsed_with_lookup
+    res_cols
   }
 }
 
@@ -106,43 +106,29 @@ get_and_parse <- function(path, ua, token) {
   jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyDataFrame = TRUE)
 }
 
-results_lookup_choices <- function(results, endpoint, url, ua, token) {
+initial_cleanup <- function(results, endpoint) {
   if (nrow(results) == 0 || ncol(results) == 0) {
     return(
       tibble::tibble()
     )
   }
-  if (basename(endpoint) == "sites") {
-    choices <- get_and_parse(
-      path = httr::modify_url(url, path = "v1/choices"),
-      ua = ua, token = token
-    )
-    choices <- tibble::as_tibble(choices)
-    choices[["data"]] <- sapply(choices[["data"]], tibble::as_tibble)
 
+  if ("validations" %in% names(results)) {
     results <- results %>%
-      lookup_variable(choices, "country") %>%
-      lookup_variable(choices, "reef_type") %>%
-      lookup_variable(choices, "reef_zone") %>%
-      lookup_variable(choices, "exposure")
+      dplyr::select(-validations)
+  }
 
+  if (endpoint == "sites") {
     results <- results %>%
       tidyr::unpack(cols = c(location)) %>%
       tidyr::hoist(coordinates,
-        latitude = 2,
-        longitude = 1
+                   latitude = 2,
+                   longitude = 1
       ) %>%
       dplyr::select(-type)
-  } else if (endpoint == "projects") {
-    results <- results %>%
-      dplyr::mutate(status = dplyr::recode(status, `10` = "Locked", `80` = "Test", `90` = "Open")) %>%
-      dplyr::mutate_at(
-        dplyr::vars(dplyr::starts_with("data_policy_")),
-        ~ dplyr::recode(.x, `10` = "Private", `50` = "Public Summary", `100` = "Public")
-      )
   }
 
-  if (basename(endpoint) != "choices") {
+  if (endpoint != "choices") {
     results <- results %>%
       dplyr::rowwise() %>%
       dplyr::mutate_if(is_list_col, ~ paste0(.x, collapse = "; ")) %>%
@@ -154,26 +140,4 @@ results_lookup_choices <- function(results, endpoint, url, ua, token) {
 
 is_list_col <- function(x) {
   is.list(x) && !is.data.frame(x)
-}
-
-lookup_variable <- function(.data, choices, variable) {
-  name <- switch(variable,
-    country = "countries",
-    reef_type = "reeftypes",
-    reef_zone = "reefzones",
-    exposure = "reefexposures"
-  )
-
-  variable_names <- choices %>%
-    dplyr::filter(name == !!name) %>%
-    dplyr::select(-name) %>%
-    tidyr::unnest(data) %>%
-    dplyr::select(id, name) %>%
-    dplyr::rename_all(~ paste0(variable, "_", .x))
-
-  join_by <- variable
-  names(join_by) <- paste0(variable, "_id")
-
-  variable_names %>%
-    dplyr::right_join(.data, by = join_by)
 }
