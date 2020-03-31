@@ -22,14 +22,7 @@ mermaid_GET <- function(endpoint, limit = NULL, url = base_url, token = NULL, ..
     path, basename(names(path)), get_response, ua = ua, token = token, limit = limit)
 
   # Remove validation column, collapse list-cols
-  res_cols <- purrr::map2(res, basename(names(res)), initial_cleanup)
-
-  # Return results
-  if (length(endpoint) == 1) {
-    res_cols[[1]]
-  } else {
-    res_cols
-  }
+  purrr::map2(res, basename(names(res)), initial_cleanup)
 }
 
 check_errors <- function(response) {
