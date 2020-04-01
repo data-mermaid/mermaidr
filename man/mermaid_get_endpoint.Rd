@@ -5,8 +5,8 @@
 \title{Get MERMAID Endpoint}
 \usage{
 mermaid_get_endpoint(
-  endpoint = c("benthicattributes", "choices", "fishattributes", "fishfamilies",
-    "fishgenera", "fishspecies", "managements", "projects", "sites"),
+  endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera",
+    "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites"),
   limit = NULL,
   url = base_url,
   ...

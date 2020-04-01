@@ -15,12 +15,6 @@ test_that("mermaid_GET returns a tibble with column data of nested tibbles if th
   expect_s3_class(output[["data"]][[1]], "tbl_df")
 })
 
-test_that("mermaid_GET does value lookups if endpoint is sites", {
-  skip_if_offline()
-  output <- mermaid_GET("sites", limit = 5)
-  expect_true(all(c("country_id", "country_name") %in% names(output)))
-})
-
 test_that("mermaid_GET allows the return of two endpoints as a named list", {
   skip_if_offline()
   output <- mermaid_GET(c("choices", "sites"), limit = 1)
@@ -32,4 +26,11 @@ test_that("mermaid_GET allows the return of two endpoints as a named list", {
   expect_is(output, "list")
   expect_named(output, c("sites", "sites"))
   expect_equal(unname(unlist(lapply(output, nrow))), c(1, 1))
+})
+
+test_that("mermaid_GET returns a single endpoint in a named list", {
+  skip_if_offline()
+  output <- mermaid_GET("sites", limit = 1)
+  expect_is(output, "list")
+  expect_named(output, "sites")
 })
