@@ -12,7 +12,7 @@ mermaid_get_all_project_endpoints(
 )
 }
 \arguments{
-\item{project}{A way to identify the project. Can be a project ID (passed as a character vector directly) or a single project resulting from \code{\link{mermaid_get_endpoint}} or \code{\link{mermaid_search_projects}}. Defaults to the project listed via \code{get_default_project}, if available.}
+\item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_endpoint}} or \code{\link{mermaid_search_projects}}. Defaults to the projects listed via \code{get_default_project}, if available.}
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 

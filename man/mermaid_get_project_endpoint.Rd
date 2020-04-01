@@ -2,7 +2,7 @@
 % Please edit documentation in R/mermaid_get_project_endpoint.R
 \name{mermaid_get_project_endpoint}
 \alias{mermaid_get_project_endpoint}
-\title{Get endpoint from a specified MERMAID project}
+\title{Get endpoint from specified MERMAID project(s)}
 \usage{
 mermaid_get_project_endpoint(
   project = mermaid_get_default_project(),
@@ -18,7 +18,7 @@ mermaid_get_project_endpoint(
 )
 }
 \arguments{
-\item{project}{A way to identify the project. Can be a project ID (passed as a character vector directly) or a single project resulting from \code{\link{mermaid_get_endpoint}} or \code{\link{mermaid_search_projects}}. Defaults to the project listed via \code{get_default_project}, if available.}
+\item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_endpoint}} or \code{\link{mermaid_search_projects}}. Defaults to the projects listed via \code{get_default_project}, if available.}
 
 \item{endpoint}{Endpoint}
 
@@ -29,7 +29,7 @@ mermaid_get_project_endpoint(
 \item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
 }
 \description{
-Get endpoint from a specified MERMAID project
+Get endpoint from specified MERMAID project(s)
 }
 \examples{
 \dontrun{

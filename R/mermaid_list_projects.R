@@ -15,5 +15,6 @@ mermaid_list_projects <- function(include_test_projects = FALSE, limit = NULL, u
     res <- mermaid_GET("projects", limit = limit, url = url, status = 90)
   }
 
+  res <- res[["projects"]]
   res[, mermaid_endpoint_columns[["projects"]]]
 }

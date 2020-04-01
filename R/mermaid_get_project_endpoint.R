@@ -1,7 +1,7 @@
-#' Get endpoint from a specified MERMAID project
+#' Get endpoint from specified MERMAID project(s)
 #'
 #' @inheritParams mermaid_GET
-#' @param project A way to identify the project. Can be a project ID (passed as a character vector directly) or a single project resulting from \code{\link{mermaid_get_endpoint}} or \code{\link{mermaid_search_projects}}. Defaults to the project listed via \code{get_default_project}, if available.
+#' @param project A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_endpoint}} or \code{\link{mermaid_search_projects}}. Defaults to the projects listed via \code{get_default_project}, if available.
 #'
 #' @export
 #' @examples
@@ -10,40 +10,41 @@
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
 mermaid_get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents"), limit = NULL, url = base_url, token = mermaid_token()) {
+
   project_id <- as_id(project)
   check_project(project_id)
   endpoint <- match.arg(endpoint, several.ok = TRUE)
-  if (length(endpoint) == 1) {
-    full_endpoint <- paste0("projects/", project_id, "/", endpoint)
-    get_single_project_endpoint(endpoint, full_endpoint, limit = limit, url = url, token = token, project_id = project_id, project = project)
-  } else {
-    endpoints_res <- purrr::map(endpoint, ~ paste0("projects/", project_id, "/", .x))
-    endpoints_res <- purrr::map2(endpoint, endpoints_res, get_single_project_endpoint, limit = limit, url = url, token = token, project_id = project_id, project = project)
-    names(endpoints_res) <- endpoint
+
+  # Construct full endpoints (with project id)
+  full_endpoints <- purrr::map(endpoint, ~ paste0("projects/", project_id, "/", .x))
+
+  # Get endpoint results
+  endpoints_res <- purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, url = url, token = token, project_id = project_id, project = project)
+  names(endpoints_res) <- endpoint
+
+  # Return endpoints
+  if (length(endpoints_res) > 1) {
     endpoints_res
+  } else {
+    endpoints_res[[endpoint]]
   }
 }
 
-get_single_project_endpoint <- function(endpoint, full_endpoint, limit = NULL, url = base_url, token = mermaid_token(), project_id, project) {
+get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, url = base_url, token = mermaid_token(), project_id, project) {
+
   res <- mermaid_GET(full_endpoint, limit = limit, url = url, token = token)
 
-  # Clean up results
-  if (inherits(res, "list")) {
-    clean_res <- purrr::map2(res, endpoint, clean_project_endpoint)
-    names(clean_res) <- project_id
-    clean_res_rbind <- rbind_project_endpoints(clean_res)
-
-    if (all(c("name", "id") %in% names(project)) && !all(c("project_name", "project_id") %in% names(clean_res_rbind))) {
-      clean_res_rbind %>%
-        dplyr::left_join(project %>%
-          dplyr::select(id, project_name = name), by = c("project_id" = "id")) %>%
-        dplyr::select(project_id, project_name, dplyr::everything())
-    } else {
-      clean_res_rbind
-    }
+  # Combine multiple projects
+  if (length(res) > 1) {
+    names(res) <- project_id
+    res <- rbind_project_endpoints(res)
+    res <- add_project_identifiers(res, project)
   } else {
-    clean_project_endpoint(res, endpoint)
+    res <- res[[full_endpoint]]
   }
+
+  res_lookups <- lookup_choices(res, endpoint, url = url)
+  construct_project_endpoint_columns(res_lookups, endpoint)
 }
 
 check_project <- function(project) {
@@ -52,9 +53,7 @@ check_project <- function(project) {
   }
 }
 
-new_endpoints <- c("beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents")
-
-clean_project_endpoint <- function(res, endpoint) {
+construct_project_endpoint_columns <- function(res, endpoint) {
   if (endpoint == "beltfishes/obstransectbeltfishes") {
     return(res)
   }
@@ -64,7 +63,7 @@ clean_project_endpoint <- function(res, endpoint) {
     names(res) <- cols
     res
   } else {
-    res[, mermaid_project_endpoint_columns[[endpoint]]]
+    dplyr::select(res, tidyselect::any_of(c("project_id", "project")), tidyselect::all_of(mermaid_project_endpoint_columns[[endpoint]]))
   }
 }
 
@@ -131,4 +130,21 @@ repack_df_cols <- function(x) {
   }
 
   dplyr::select(x, tidyselect::all_of(col_order))
+}
+
+add_project_identifiers <- function(res, project) {
+  if ("project_name" %in% names(res)) {
+    res <- dplyr::select(res, project = project_name, dplyr::everything())
+  } else if ("name" %in% names(project)) {
+    res <- res %>%
+      dplyr::select(-tidyselect::any_of("project")) %>%
+      dplyr::left_join(dplyr::select(project, id, project = name), by = c("project_id" = "id")) %>%
+      dplyr::select(project, dplyr::everything())
+  }
+
+  if (all(c("project", "project_id") %in% names(res))) {
+    res <- dplyr::select(res, -project_id)
+  }
+
+  res
 }

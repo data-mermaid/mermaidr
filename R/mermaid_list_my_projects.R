@@ -19,6 +19,8 @@ mermaid_list_my_projects <- function(include_test_projects = FALSE, limit = NULL
     res <- mermaid_GET("projects", limit = limit, url = url, token = token, status = 90)
   }
 
+  res <- res[["projects"]]
+
   if (nrow(res) == 0) {
     cols <- mermaid_endpoint_columns[["projects"]]
     res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)), .name_repair = "minimal")

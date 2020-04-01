@@ -6,6 +6,7 @@
 #' @examples
 #' mermaid_get_endpoint("sites", limit = 1)
 mermaid_get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites"), limit = NULL, url = base_url, ...) {
+
   endpoint <- match.arg(endpoint, several.ok = TRUE)
   res <- mermaid_GET(endpoint, limit = limit, url = url, ...)
 
@@ -21,8 +22,7 @@ mermaid_get_endpoint <- function(endpoint = c("benthicattributes", "choices", "f
 }
 
 lookup_choices <- function(results, endpoint, url) {
-  if (basename(endpoint) == "sites") {
-
+  if (endpoint == "sites") {
     choices <- mermaid_GET("choices", url = url)[["choices"]]
 
     results <- results %>%
@@ -32,10 +32,13 @@ lookup_choices <- function(results, endpoint, url) {
       lookup_variable(choices, "exposure") %>%
       dplyr::rename_at(dplyr::vars(country_name, reef_type_name, reef_zone_name, exposure_name), ~ gsub("_name", "", .x))
 
-  } else if (basename(endpoint) == "managements") {
-    results <- results %>%
-      dplyr::select(-project) %>%
-      dplyr::rename(project = project_name)
+  } else if (endpoint == "managements") {
+
+    results <-  dplyr::select(results, -project)
+
+    if ("project_name" %in% names(results)) {
+      results <- dplyr::rename(results, project = project_name)
+    }
   }
 
   if ("status" %in% mermaid_endpoint_columns[[endpoint]]) {
