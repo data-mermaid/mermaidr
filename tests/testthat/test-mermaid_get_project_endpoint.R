@@ -5,130 +5,63 @@ test_that("mermaid_get_project_endpoint throws an error when no project is passe
   expect_error(mermaid_get_project_endpoint("bd115221-fde4-4e4c-bc73-1ce01b9d9fdc", "sites"), regexp = "Forbidden")
 })
 
-test_that("mermaid_get_project_endpoint returns a tibble when passed a known endpoint.", {
+test_that("mermaid_get_project_endpoint returns a tibble with specified names when passed a known endpoint.", {
   skip_if_offline()
   test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
-  expect_is(mermaid_get_project_endpoint(test_project, "sites", limit = 1), "tbl_df")
-  output <- mermaid_get_project_endpoint(test_project, "beltfishtransectmethods", limit = 1)
-  expect_equal(names(output), mermaid_project_endpoint_columns[["beltfishtransectmethods"]])
-  output <- mermaid_get_project_endpoint(test_project, "beltfishes", limit = 1)
-  expect_equal(names(output), mermaid_project_endpoint_columns[["beltfishes"]])
-  output <- mermaid_get_project_endpoint(test_project, "benthiclittransectmethods", limit = 1)
-  expect_equal(names(output), mermaid_project_endpoint_columns[["benthiclittransectmethods"]])
-  output <- mermaid_get_project_endpoint(test_project, "benthicpittransectmethods", limit = 1)
-  expect_equal(names(output), mermaid_project_endpoint_columns[["benthicpittransectmethods"]])
-  output <- mermaid_get_project_endpoint(test_project, "benthicpits", limit = 1)
-  expect_equal(names(output), mermaid_project_endpoint_columns[["benthicpits"]])
-  output <- mermaid_get_project_endpoint(test_project, "collectrecords", limit = 1)
-  expect_equal(names(output), mermaid_project_endpoint_columns[["collectrecords"]])
-  output <- mermaid_get_project_endpoint(test_project, "habitatcomplexities", limit = 1)
-  expect_equal(names(output), mermaid_project_endpoint_columns[["habitatcomplexities"]])
-  output <- mermaid_get_project_endpoint(test_project, "obsbenthiclits", limit = 1)
-  expect_equal(names(output), mermaid_project_endpoint_columns[["obsbenthiclits"]])
-  output <- mermaid_get_project_endpoint(test_project, "obsbenthicpits", limit = 1)
-  expect_equal(names(output), mermaid_project_endpoint_columns[["obsbenthicpits"]])
-  output <- mermaid_get_project_endpoint(test_project, "obshabitatcomplexities", limit = 1)
-  expect_equal(names(output), mermaid_project_endpoint_columns[["obshabitatcomplexities"]])
-  output <- mermaid_get_project_endpoint(test_project, "obstransectbeltfishs", limit = 1)
-  expect_equal(names(output), mermaid_project_endpoint_columns[["obstransectbeltfishs"]])
-  output <- mermaid_get_project_endpoint(test_project, "managements", limit = 1)
-  expect_equal(names(output), mermaid_project_endpoint_columns[["managements"]])
-  output <- mermaid_get_project_endpoint(test_project, "observers", limit = 1)
-  expect_equal(names(output), mermaid_project_endpoint_columns[["observers"]])
-  output <- mermaid_get_project_endpoint(test_project, "project_profiles", limit = 1)
-  expect_equal(names(output), mermaid_project_endpoint_columns[["project_profiles"]])
-  output <- mermaid_get_project_endpoint(test_project, "sampleevents", limit = 1)
-  expect_equal(names(output), mermaid_project_endpoint_columns[["sampleevents"]])
-  output <- mermaid_get_project_endpoint(test_project, "sites", limit = 1)
-  expect_equal(names(output), mermaid_project_endpoint_columns[["sites"]])
-  # TODO: NEW ENDPOINTS
+  expect_named(mermaid_get_project_endpoint(test_project, "beltfishtransectmethods", limit = 1), mermaid_project_endpoint_columns[["beltfishtransectmethods"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "beltfishes", limit = 1), mermaid_project_endpoint_columns[["beltfishes"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "benthiclittransectmethods", limit = 1), mermaid_project_endpoint_columns[["benthiclittransectmethods"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "benthicpittransectmethods", limit = 1), mermaid_project_endpoint_columns[["benthicpittransectmethods"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "benthicpits", limit = 1), mermaid_project_endpoint_columns[["benthicpits"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "collectrecords", limit = 1), mermaid_project_endpoint_columns[["collectrecords"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "fishbelttransects", limit = 1), mermaid_project_endpoint_columns[["fishbelttransects"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "habitatcomplexities", limit = 1), mermaid_project_endpoint_columns[["habitatcomplexities"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "obsbenthiclits", limit = 1), mermaid_project_endpoint_columns[["obsbenthiclits"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "obsbenthicpits", limit = 1), mermaid_project_endpoint_columns[["obsbenthicpits"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "obshabitatcomplexities", limit = 1), mermaid_project_endpoint_columns[["obshabitatcomplexities"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "obstransectbeltfishs", limit = 1), mermaid_project_endpoint_columns[["obstransectbeltfishs"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "managements", limit = 1), mermaid_project_endpoint_columns[["managements"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "observers", limit = 1), mermaid_project_endpoint_columns[["observers"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "project_profiles", limit = 1), mermaid_project_endpoint_columns[["project_profiles"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "sampleevents", limit = 1), mermaid_project_endpoint_columns[["sampleevents"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "sites", limit = 1), mermaid_project_endpoint_columns[["sites"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "beltfishes/obstransectbeltfishes", limit = 1), mermaid_project_endpoint_columns[["beltfishes/obstransectbeltfishes"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "beltfishes/sampleunits", limit = 1), mermaid_project_endpoint_columns[["beltfishes/sampleunits"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "beltfishes/sampleevents", limit = 1), mermaid_project_endpoint_columns[["beltfishes/sampleevents"]])
 })
 
 test_that("mermaid_get_project_endpoint returns a tibble when passed a known endpoint, even if there is no data.", {
   skip_if_offline()
   test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
-  expect_is(mermaid_get_project_endpoint(test_project, "obsbenthicpits", limit = 1), "tbl_df")
+  expect_named(mermaid_get_project_endpoint(test_project, "obsbenthicpits", limit = 1), mermaid_project_endpoint_columns[["obsbenthicpits"]])
 })
 
-test_that("mermaid_get_project_endpoint works for the new endpoints", {
-  skip_if_offline()
-  test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
-  expect_s3_class(mermaid_get_project_endpoint(test_project, "beltfishes/obstransectbeltfishes", limit = 1), "tbl_df")
-  expect_s3_class(mermaid_get_project_endpoint(test_project, "beltfishes/sampleunits", limit = 1), "tbl_df")
-  expect_s3_class(mermaid_get_project_endpoint(test_project, "beltfishes/sampleevents", limit = 1), "tbl_df")
-})
-
-test_that("mermaid_get_project_endpoint allows multiple projects, and combines the results", {
+test_that("mermaid_get_project_endpoint allows multiple projects, and combines the results, adding a project identifier", {
   skip_if_offline()
   p <- mermaid_list_my_projects(include_test_projects = TRUE)
-  output <- mermaid_get_project_endpoint(p, "sites", limit = 1)
-  expect_is(output, "tbl_df")
+  expect_named(mermaid_get_project_endpoint(p, "sites", limit = 1), c("project", mermaid_project_endpoint_columns[["sites"]]))
 
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "sites")
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "beltfishtransectmethods", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "beltfishes", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "benthiclittransectmethods", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "benthicpittransectmethods", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "benthicpits", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "benthictransects", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "collectrecords", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "fishbelttransects", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "habitatcomplexities", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "obsbenthiclits", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "obsbenthicpits", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "obshabitatcomplexities", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "obstransectbeltfishs", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "managements", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "observers", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "project_profiles", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "sampleevents", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "sites", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "beltfishes/obstransectbeltfishes", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "beltfishes/sampleunits", limit = 1)
-  expect_is(output, "tbl_df")
-
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), "beltfishes/sampleevents", limit = 1)
-  expect_is(output, "tbl_df")
+  p <- c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997")
+  expect_named(mermaid_get_project_endpoint(p, "beltfishtransectmethods", limit = 1), c("project_id", mermaid_project_endpoint_columns[["beltfishtransectmethods"]]))
+  expect_named(mermaid_get_project_endpoint(p, "beltfishes", limit = 1), c("project_id", mermaid_project_endpoint_columns[["beltfishes"]]))
+  expect_named(mermaid_get_project_endpoint(p, "benthiclittransectmethods", limit = 1), c("project_id", mermaid_project_endpoint_columns[["benthiclittransectmethods"]]))
+  expect_named(mermaid_get_project_endpoint(p, "benthicpittransectmethods", limit = 1), c("project_id", mermaid_project_endpoint_columns[["benthicpittransectmethods"]]))
+  expect_named(mermaid_get_project_endpoint(p, "benthicpits", limit = 1), c("project_id", mermaid_project_endpoint_columns[["benthicpits"]]))
+  expect_named(mermaid_get_project_endpoint(p, "collectrecords", limit = 1), c("project_id", mermaid_project_endpoint_columns[["collectrecords"]]))
+  expect_named(mermaid_get_project_endpoint(p, "fishbelttransects", limit = 1), c("project_id", mermaid_project_endpoint_columns[["fishbelttransects"]]))
+  expect_named(mermaid_get_project_endpoint(p, "habitatcomplexities", limit = 1), c("project_id", mermaid_project_endpoint_columns[["habitatcomplexities"]]))
+  expect_named(mermaid_get_project_endpoint(p, "obsbenthiclits", limit = 1), c("project_id", mermaid_project_endpoint_columns[["obsbenthiclits"]]))
+  expect_named(mermaid_get_project_endpoint(p, "obsbenthicpits", limit = 1), c("project_id", mermaid_project_endpoint_columns[["obsbenthicpits"]]))
+  expect_named(mermaid_get_project_endpoint(p, "obshabitatcomplexities", limit = 1), c("project_id", mermaid_project_endpoint_columns[["obshabitatcomplexities"]]))
+  expect_named(mermaid_get_project_endpoint(p, "obstransectbeltfishs", limit = 1), c("project_id", mermaid_project_endpoint_columns[["obstransectbeltfishs"]]))
+  expect_named(mermaid_get_project_endpoint(p, "managements", limit = 1), c("project_id", mermaid_project_endpoint_columns[["managements"]]))
+  expect_named(mermaid_get_project_endpoint(p, "observers", limit = 1), c("project_id", mermaid_project_endpoint_columns[["observers"]]))
+  expect_named(mermaid_get_project_endpoint(p, "project_profiles", limit = 1), c("project_id", mermaid_project_endpoint_columns[["project_profiles"]]))
+  expect_named(mermaid_get_project_endpoint(p, "sampleevents", limit = 1), c("project_id", mermaid_project_endpoint_columns[["sampleevents"]]))
+  expect_named(mermaid_get_project_endpoint(p, "sites", limit = 1), c("project_id", mermaid_project_endpoint_columns[["sites"]]))
+  expect_named(mermaid_get_project_endpoint(p, "beltfishes/obstransectbeltfishes", limit = 1), c("project", mermaid_project_endpoint_columns[["beltfishes/obstransectbeltfishes"]]))
+  expect_named(mermaid_get_project_endpoint(p, "beltfishes/sampleunits", limit = 1), c("project", mermaid_project_endpoint_columns[["beltfishes/sampleunits"]]))
+  expect_named(mermaid_get_project_endpoint(p, "beltfishes/sampleevents", limit = 1), c("project", mermaid_project_endpoint_columns[["beltfishes/sampleevents"]]))
 })
 
 test_that("unpack_df_cols and repack_df_cols work as expected", {

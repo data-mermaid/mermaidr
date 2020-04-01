@@ -44,7 +44,7 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, u
     res <- dplyr::select(res, -tidyselect::any_of("project"))
   }
 
-  res_lookups <- lookup_choices(res, endpoint, url = url)
+  res_lookups <- lookup_choices(res, endpoint, url = url, endpoint_type = "project")
   construct_project_endpoint_columns(res_lookups, endpoint)
 }
 
@@ -55,7 +55,7 @@ check_project <- function(project) {
 }
 
 construct_project_endpoint_columns <- function(res, endpoint) {
-  if (nrow(res) == 0 || ncol(res) == 0) {
+  if (nrow(res) == 0 && ncol(res) == 0) {
     cols <- mermaid_project_endpoint_columns[[endpoint]]
     res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)), .name_repair = "minimal")
     names(res) <- cols
@@ -143,7 +143,11 @@ add_project_identifiers <- function(res, project) {
   }
 
   if (all(c("project", "project_id") %in% names(res))) {
-    res <- dplyr::select(res, -project_id)
+    if (all(res[["project"]] == res[["project_id"]])) {
+      res <- dplyr::select(res, -project)
+    } else {
+      res <- dplyr::select(res, -project_id)
+    }
   }
 
   res

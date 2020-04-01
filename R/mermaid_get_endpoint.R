@@ -21,10 +21,17 @@ mermaid_get_endpoint <- function(endpoint = c("benthicattributes", "choices", "f
   }
 }
 
-lookup_choices <- function(results, endpoint, url) {
+lookup_choices <- function(results, endpoint, url, endpoint_type = "main") {
 
   if (nrow(results) == 0) {
-    cols <- mermaid_endpoint_columns[[endpoint]]
+    if (endpoint_type == "main") {
+      cols <- mermaid_endpoint_columns[[endpoint]]
+    } else if (endpoint_type == "project") {
+      cols <- mermaid_project_endpoint_columns[[endpoint]]
+    }
+    if (ncol(results) != 0) {
+      cols <- c(names(results), cols)
+    }
     results <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)), .name_repair = "minimal")
     names(results) <- cols
     return(results)
@@ -65,7 +72,7 @@ lookup_choices <- function(results, endpoint, url) {
   res_names <- gsub("_name", "", res_names)
   names(results) <- res_names
 
-  results[, !grepl("_id$", names(results))]
+  results[, !grepl("_id$", names(results)) | names(results) == "project_id"]
 }
 
 lookup_variable <- function(.data, choices, variable) {
