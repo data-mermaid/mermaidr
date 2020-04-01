@@ -41,6 +41,7 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, u
     res <- add_project_identifiers(res, project)
   } else {
     res <- res[[full_endpoint]]
+    res <- dplyr::select(res, -tidyselect::any_of("project"))
   }
 
   res_lookups <- lookup_choices(res, endpoint, url = url)
@@ -54,9 +55,6 @@ check_project <- function(project) {
 }
 
 construct_project_endpoint_columns <- function(res, endpoint) {
-  if (endpoint == "beltfishes/obstransectbeltfishes") {
-    return(res)
-  }
   if (nrow(res) == 0 || ncol(res) == 0) {
     cols <- mermaid_project_endpoint_columns[[endpoint]]
     res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)), .name_repair = "minimal")
@@ -68,13 +66,15 @@ construct_project_endpoint_columns <- function(res, endpoint) {
 }
 
 rbind_project_endpoints <- function(x) {
+
   df_cols <- purrr::map(x, ~ purrr::map(.x, inherits, "data.frame")) %>%
     purrr::transpose() %>%
     purrr::map(~ any(unlist(.x))) %>%
     unlist()
   df_cols <- names(df_cols[df_cols])
+
   if (length(df_cols) == 0) {
-    if ("project_id" %in% names(x)) {
+    if (all(purrr::map_lgl(purrr::map(x, names), ~ "project_id" %in% .x))) {
       purrr::map_dfr(x, tibble::as_tibble)
     } else {
       purrr::map_dfr(x, tibble::as_tibble, .id = "project_id")

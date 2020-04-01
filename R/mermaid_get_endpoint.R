@@ -22,6 +22,14 @@ mermaid_get_endpoint <- function(endpoint = c("benthicattributes", "choices", "f
 }
 
 lookup_choices <- function(results, endpoint, url) {
+
+  if (nrow(results) == 0) {
+    cols <- mermaid_endpoint_columns[[endpoint]]
+    results <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)), .name_repair = "minimal")
+    names(results) <- cols
+    return(results)
+  }
+
   if (endpoint == "sites") {
     choices <- mermaid_GET("choices", url = url)[["choices"]]
 
@@ -29,16 +37,16 @@ lookup_choices <- function(results, endpoint, url) {
       lookup_variable(choices, "country") %>%
       lookup_variable(choices, "reef_type") %>%
       lookup_variable(choices, "reef_zone") %>%
-      lookup_variable(choices, "exposure") %>%
-      dplyr::rename_at(dplyr::vars(country_name, reef_type_name, reef_zone_name, exposure_name), ~ gsub("_name", "", .x))
+      lookup_variable(choices, "exposure")
 
   } else if (endpoint == "managements") {
-
-    results <-  dplyr::select(results, -project)
+    results <- dplyr::select(results, -tidyselect::any_of("project"))
 
     if ("project_name" %in% names(results)) {
       results <- dplyr::rename(results, project = project_name)
     }
+  } else if (endpoint %in% c("observers", "project_profiles")) {
+    results <- dplyr::select(results, -profile)
   }
 
   if ("status" %in% mermaid_endpoint_columns[[endpoint]]) {
@@ -53,7 +61,11 @@ lookup_choices <- function(results, endpoint, url) {
         ~ dplyr::recode(.x, `10` = "Private", `50` = "Public Summary", `100` = "Public"))
   }
 
-  results
+  res_names <- names(results)
+  res_names <- gsub("_name", "", res_names)
+  names(results) <- res_names
+
+  results[, !grepl("_id$", names(results))]
 }
 
 lookup_variable <- function(.data, choices, variable) {
@@ -79,12 +91,5 @@ lookup_variable <- function(.data, choices, variable) {
 }
 
 construct_endpoint_columns <- function(x, endpoint) {
-  if (nrow(x) == 0) {
-    cols <- mermaid_endpoint_columns[[endpoint]]
-    x <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)), .name_repair = "minimal")
-    names(x) <- cols
-    x
-  } else {
     x[, mermaid_endpoint_columns[[endpoint]]]
-  }
 }
