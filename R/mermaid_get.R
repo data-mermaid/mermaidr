@@ -18,8 +18,7 @@ mermaid_GET <- function(endpoint, limit = NULL, url = base_url, token = NULL, ..
   names(path) <- endpoint
 
   # Call API and return results
-  res <- purrr::map2(
-    path, basename(names(path)), get_response, ua = ua, token = token, limit = limit)
+  res <- purrr::map2(path, basename(names(path)), get_response, ua = ua, token = token, limit = limit)
 
   # Remove validation column, collapse list-cols
   purrr::map2(res, basename(names(res)), initial_cleanup)
@@ -126,6 +125,14 @@ initial_cleanup <- function(results, endpoint) {
       dplyr::rowwise() %>%
       dplyr::mutate_if(is_list_col, ~ paste0(.x, collapse = "; ")) %>%
       dplyr::ungroup()
+  }
+
+  if (all(c("profile", "profile_name") %in% names(results))) {
+    results <- dplyr::select(results, -profile, profile = profile_name)
+  }
+
+  if (all(c("project", "project_name") %in% names(results))) {
+    results <- dplyr::select(results, -project, project = project_name)
   }
 
   results

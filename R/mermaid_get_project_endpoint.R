@@ -32,20 +32,21 @@ mermaid_get_project_endpoint <- function(project = mermaid_get_default_project()
 
 get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, url = base_url, token = mermaid_token(), project_id, project) {
 
-  res <- mermaid_GET(full_endpoint, limit = limit, url = url, token = token)
+  initial_res <- mermaid_GET(full_endpoint, limit = limit, url = url, token = token)
 
   # Combine multiple projects
-  if (length(res) > 1) {
-    names(res) <- project_id
-    res <- rbind_project_endpoints(res)
+  if (length(initial_res) > 1) {
+    names(initial_res) <- project_id
+    res <- rbind_project_endpoints(initial_res, endpoint)
     res <- add_project_identifiers(res, project)
   } else {
-    res <- res[[full_endpoint]]
+    res <- initial_res[[full_endpoint]]
     res <- dplyr::select(res, -tidyselect::any_of("project"))
   }
 
   res_lookups <- lookup_choices(res, endpoint, url = url, endpoint_type = "project")
-  construct_project_endpoint_columns(res_lookups, endpoint)
+  res_strip_suffix <- strip_name_suffix(res_lookups)
+  construct_project_endpoint_columns(res_strip_suffix, endpoint, multiple_projects = length(initial_res) > 1)
 }
 
 check_project <- function(project) {
@@ -54,18 +55,21 @@ check_project <- function(project) {
   }
 }
 
-construct_project_endpoint_columns <- function(res, endpoint) {
+construct_project_endpoint_columns <- function(res, endpoint, multiple_projects = FALSE) {
   if (nrow(res) == 0 && ncol(res) == 0) {
     cols <- mermaid_project_endpoint_columns[[endpoint]]
     res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)), .name_repair = "minimal")
     names(res) <- cols
     res
+  } else if (multiple_projects) {
+    dplyr::select(res, tidyselect::any_of(c("project_id", "project")), mermaid_project_endpoint_columns[[endpoint]])
   } else {
-    dplyr::select(res, tidyselect::any_of(c("project_id", "project")), tidyselect::all_of(mermaid_project_endpoint_columns[[endpoint]]))
+    dplyr::select(res, mermaid_project_endpoint_columns[[endpoint]])
   }
 }
 
-rbind_project_endpoints <- function(x) {
+rbind_project_endpoints <- function(x, endpoint) {
+  x <- make_consistent_columns(x)
 
   df_cols <- purrr::map(x, ~ purrr::map(.x, inherits, "data.frame")) %>%
     purrr::transpose() %>%
@@ -92,6 +96,28 @@ rbind_project_endpoints <- function(x) {
     attr(x_rbind, "col_order") <- c("project_id", attr(x_unpack[[1]], "col_order"))
     repack_df_cols(x_rbind)
   }
+}
+
+make_consistent_columns <- function(x) {
+  res_names <- purrr::map(x, names)
+  res_names_length <- purrr::map_dbl(res_names, length)
+  res_lengths <- unname(res_names_length)
+
+  if(all(res_lengths == 0) | all(res_lengths > 0)) {
+    return(x)
+  }
+
+  res_empty <- names(res_names_length[res_names_length == 0])
+  res_longest <- res_names_length[res_names_length == max(res_names_length)][1]
+
+  x[res_empty] <- x[res_empty] %>%
+    purrr::map(~ {
+      .x <- tibble::as_tibble(matrix(nrow = 0, ncol = unname(res_longest)), .name_repair = "minimal")
+      names(.x) <- res_names[names(res_longest)][[names(res_longest)]]
+      return(.x)
+    })
+
+  x
 }
 
 unpack_df_cols <- function(x, df_cols = NULL) {

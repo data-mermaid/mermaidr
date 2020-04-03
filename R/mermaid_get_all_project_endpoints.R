@@ -14,11 +14,9 @@ mermaid_get_all_project_endpoints <- function(project = mermaid_get_default_proj
   project_id <- as_id(project)
   check_project(project_id)
 
-  res <- purrr::map(mermaid_project_endpoint_columns, mermaid_get_project_endpoint,
-    project = project, limit = limit, url = url, token = token
-  )
+  res <- purrr::map(names(mermaid_project_endpoint_columns), mermaid_get_project_endpoint, project = project, limit = limit, url = url, token = token)
 
-  names(res) <- mermaid_project_endpoint_columns
+  names(res) <- names(mermaid_project_endpoint_columns)
 
   res
 }

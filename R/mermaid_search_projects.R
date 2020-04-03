@@ -60,9 +60,10 @@ mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, inc
   }
 
   if (is.null(limit)) {
-    projects
+    lookup_choices(projects, endpoint = "projects", url = url)
   } else {
-    head(projects, limit)
+    head(
+      lookup_choices(projects, endpoint = "projects", url = url), limit)
   }
 }
 

@@ -16,5 +16,6 @@ mermaid_list_projects <- function(include_test_projects = FALSE, limit = NULL, u
   }
 
   res <- res[["projects"]]
-  res[, mermaid_endpoint_columns[["projects"]]]
+  res <- res[, mermaid_endpoint_columns[["projects"]]]
+  lookup_choices(res, endpoint = "projects", url = url)
 }

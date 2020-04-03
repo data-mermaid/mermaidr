@@ -5,12 +5,12 @@ test_that("mermaid_GET throws error when endpoint does not exist", {
 
 test_that("mermaid_GET returns projects using showall query parameter", {
   skip_if_offline()
-  expect_equal(nrow(mermaid_GET("projects", limit = 1)), 1)
+  expect_equal(nrow(mermaid_GET("projects", limit = 1)[["projects"]]), 1)
 })
 
 test_that("mermaid_GET returns a tibble with column data of nested tibbles if the endpoint is choices", {
   skip_if_offline()
-  output <- mermaid_GET("choices")
+  output <- mermaid_GET("choices")[["choices"]]
   expect_s3_class(output, "tbl_df")
   expect_s3_class(output[["data"]][[1]], "tbl_df")
 })
