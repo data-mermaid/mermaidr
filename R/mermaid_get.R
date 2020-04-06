@@ -121,6 +121,8 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if (endpoint != "choices") {
+    results <- collapse_id_name_lists(results)
+
     results <- results %>%
       dplyr::rowwise() %>%
       dplyr::mutate_if(is_list_col, ~ paste0(.x, collapse = "; ")) %>%
@@ -146,4 +148,20 @@ initial_cleanup <- function(results, endpoint) {
 
 is_list_col <- function(x) {
   is.list(x) && !is.data.frame(x)
+}
+
+collapse_id_name_lists <- function(results) {
+  list_col_lgl <- purrr::map_lgl(results, inherits, "list")
+  list_cols <- names(list_col_lgl[list_col_lgl])
+
+  for (i in seq_along(list_cols)) {
+    if (all(c("id", "name") %in% names(results[[list_cols[[i]]]][[1]]))) {
+    results <- results %>%
+      tidyr::hoist(list_cols[[i]], list_name = "name") %>%
+      dplyr::select(-list_cols[[i]]) %>%
+      dplyr::rename(!!list_cols[[i]] := list_name)
+    }
+  }
+
+  results
 }
