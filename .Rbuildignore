@@ -4,3 +4,4 @@
 ^\.httr-oauth$
 ^README.Rmd
 ^data-raw$
+^README\.Rmd$

@@ -57,23 +57,21 @@ For example,
 library(mermaidr)
 
 mermaid_get_endpoint("sites")
-#> # A tibble: 1,404 x 17
-#>    id    name  notes project latitude longitude country_id country_name
-#>    <chr> <chr> <chr> <chr>      <dbl>     <dbl> <chr>      <chr>       
-#>  1 6e7f… 1201  "Pul… c08ff9…    -2.02      134. c570ff86-… Indonesia   
-#>  2 c7e2… 1201  "Pul… 988e75…    -2.02      134. c570ff86-… Indonesia   
-#>  3 baaa… 1201  "Pul… 841534…    -2.02      134. c570ff86-… Indonesia   
-#>  4 0a26… 1201  "Pul… 841534…    -2.02      134. c570ff86-… Indonesia   
-#>  5 95ad… 1201  "Pul… 3d6edb…    -2.02      134. c570ff86-… Indonesia   
-#>  6 e981… 1201  "Pul… c29a9e…    -2.02      134. c570ff86-… Indonesia   
-#>  7 9fe1… 1201  "Pul… 07df6a…    -2.02      134. c570ff86-… Indonesia   
-#>  8 a467… 1202  "Nap… 07df6a…    -2.91      135. c570ff86-… Indonesia   
-#>  9 d74d… 1202  "Nap… 3d6edb…    -2.91      135. c570ff86-… Indonesia   
-#> 10 46ac… 1203  "Pul… 07df6a…    -3.06      135. c570ff86-… Indonesia   
-#> # … with 1,394 more rows, and 9 more variables: reef_type_id <chr>,
-#> #   reef_type_name <chr>, reef_zone_id <chr>, reef_zone_name <chr>,
-#> #   exposure_id <chr>, exposure_name <chr>, predecessor <chr>,
-#> #   created_on <chr>, updated_on <chr>
+#> # A tibble: 1,404 x 13
+#>    id    name  notes project latitude longitude country reef_type reef_zone
+#>    <chr> <chr> <chr> <chr>      <dbl>     <dbl> <chr>   <chr>     <chr>    
+#>  1 6e7f… 1201  "Pul… c08ff9…    -2.02      134. Indone… fringing  fore reef
+#>  2 c7e2… 1201  "Pul… 988e75…    -2.02      134. Indone… fringing  fore reef
+#>  3 baaa… 1201  "Pul… 841534…    -2.02      134. Indone… fringing  fore reef
+#>  4 0a26… 1201  "Pul… 841534…    -2.02      134. Indone… fringing  fore reef
+#>  5 95ad… 1201  "Pul… 3d6edb…    -2.02      134. Indone… fringing  fore reef
+#>  6 e981… 1201  "Pul… c29a9e…    -2.02      134. Indone… fringing  fore reef
+#>  7 9fe1… 1201  "Pul… 07df6a…    -2.02      134. Indone… fringing  fore reef
+#>  8 a467… 1202  "Nap… 07df6a…    -2.91      135. Indone… fringing  fore reef
+#>  9 d74d… 1202  "Nap… 3d6edb…    -2.91      135. Indone… fringing  fore reef
+#> 10 46ac… 1203  "Pul… 07df6a…    -3.06      135. Indone… fringing  back reef
+#> # … with 1,394 more rows, and 4 more variables: exposure <chr>,
+#> #   predecessor <chr>, created_on <chr>, updated_on <chr>
 ```
 
 By default, the function returns all results - to get less, use the
@@ -81,18 +79,17 @@ By default, the function returns all results - to get less, use the
 
 ``` r
 mermaid_get_endpoint("managements", limit = 5)
-#> # A tibble: 5 x 19
-#>   id    name  name_secondary project project_name rules notes est_year no_take
-#>   <chr> <chr> <chr>          <chr>   <chr>        <chr> <chr>    <int> <lgl>  
-#> 1 23c6… Amba… ""             408067… Madagascar … No T… ""        2013 TRUE   
-#> 2 d007… Amba… ""             c29a9e… tesst adc    No T… ""        2013 TRUE   
-#> 3 704e… Amba… ""             c29a9e… tesst adc    No T… ""        2013 TRUE   
-#> 4 bbe7… Amba… ""             3d6edb… WILELIFE OC… No T… ""        2013 TRUE   
-#> 5 2374… Amba… ""             5679ef… Madagascar … No T… ""        2013 TRUE   
-#> # … with 10 more variables: periodic_closure <lgl>, open_access <lgl>,
-#> #   size_limits <lgl>, gear_restriction <lgl>, species_restriction <lgl>,
-#> #   compliance <chr>, predecessor <chr>, parties <chr>, created_on <chr>,
-#> #   updated_on <chr>
+#> # A tibble: 5 x 17
+#>   id    name  name_secondary rules notes est_year no_take periodic_closure
+#>   <chr> <chr> <chr>          <chr> <chr>    <int> <lgl>   <lgl>           
+#> 1 23c6… Amba… ""             No T… ""        2013 TRUE    FALSE           
+#> 2 d007… Amba… ""             No T… ""        2013 TRUE    FALSE           
+#> 3 704e… Amba… ""             No T… ""        2013 TRUE    FALSE           
+#> 4 bbe7… Amba… ""             No T… ""        2013 TRUE    FALSE           
+#> 5 2374… Amba… ""             No T… ""        2013 TRUE    FALSE           
+#> # … with 9 more variables: open_access <lgl>, size_limits <lgl>,
+#> #   gear_restriction <lgl>, species_restriction <lgl>, compliance <chr>,
+#> #   predecessor <chr>, parties <chr>, created_on <chr>, updated_on <chr>
 ```
 
 For specifically listing projects, there is a wrapper function
@@ -142,23 +139,21 @@ will get a list of tibbles:
 ``` r
 mermaid_get_endpoint(c("managements", "sites"), limit = 1)
 #> $managements
-#> # A tibble: 1 x 19
-#>   id    name  name_secondary project project_name rules notes est_year no_take
-#>   <chr> <chr> <chr>          <chr>   <chr>        <chr> <chr>    <int> <lgl>  
-#> 1 bbe7… Amba… ""             3d6edb… WILELIFE OC… No T… ""        2013 TRUE   
-#> # … with 10 more variables: periodic_closure <lgl>, open_access <lgl>,
-#> #   size_limits <lgl>, gear_restriction <lgl>, species_restriction <lgl>,
-#> #   compliance <chr>, predecessor <chr>, parties <chr>, created_on <chr>,
-#> #   updated_on <chr>
+#> # A tibble: 1 x 17
+#>   id    name  name_secondary rules notes est_year no_take periodic_closure
+#>   <chr> <chr> <chr>          <chr> <chr>    <int> <lgl>   <lgl>           
+#> 1 bbe7… Amba… ""             No T… ""        2013 TRUE    FALSE           
+#> # … with 9 more variables: open_access <lgl>, size_limits <lgl>,
+#> #   gear_restriction <lgl>, species_restriction <lgl>, compliance <chr>,
+#> #   predecessor <chr>, parties <chr>, created_on <chr>, updated_on <chr>
 #> 
 #> $sites
-#> # A tibble: 1 x 17
-#>   id    name  notes project latitude longitude country_id country_name
-#>   <chr> <chr> <chr> <chr>      <dbl>     <dbl> <chr>      <chr>       
-#> 1 9fe1… 1201  Pula… 07df6a…    -2.02      134. c570ff86-… Indonesia   
-#> # … with 9 more variables: reef_type_id <chr>, reef_type_name <chr>,
-#> #   reef_zone_id <chr>, reef_zone_name <chr>, exposure_id <chr>,
-#> #   exposure_name <chr>, predecessor <lgl>, created_on <chr>, updated_on <chr>
+#> # A tibble: 1 x 13
+#>   id    name  notes project latitude longitude country reef_type reef_zone
+#>   <chr> <chr> <chr> <chr>      <dbl>     <dbl> <chr>   <chr>     <chr>    
+#> 1 9fe1… 1201  Pula… 07df6a…    -2.02      134. Indone… fringing  fore reef
+#> # … with 4 more variables: exposure <chr>, predecessor <lgl>, created_on <chr>,
+#> #   updated_on <chr>
 ```
 
 ### Accessing project data
@@ -282,13 +277,12 @@ For example, to see the sites in this project:
 
 ``` r
 mermaid_get_project_endpoint(mermaidr_project, "sites")
-#> # A tibble: 1 x 17
-#>   id    name  notes project latitude longitude country_id country_name
-#>   <chr> <chr> <chr> <chr>      <dbl>     <dbl> <chr>      <chr>       
-#> 1 7465… 1201  Pula… 2c0c98…    -2.02      134. c570ff86-… Indonesia   
-#> # … with 9 more variables: reef_type_id <chr>, reef_type_name <chr>,
-#> #   reef_zone_id <chr>, reef_zone_name <chr>, exposure_id <chr>,
-#> #   exposure_name <chr>, predecessor <chr>, created_on <chr>, updated_on <chr>
+#> # A tibble: 1 x 12
+#>   id    name  notes latitude longitude country reef_type reef_zone exposure
+#>   <chr> <chr> <chr>    <dbl>     <dbl> <chr>   <chr>     <chr>     <chr>   
+#> 1 7465… 1201  Pula…    -2.02      134. Indone… fringing  fore reef exposed 
+#> # … with 3 more variables: predecessor <chr>, created_on <chr>,
+#> #   updated_on <chr>
 ```
 
 You can also use the `project_id` directly to access data from a
@@ -299,14 +293,14 @@ app.
 
 ``` r
 mermaid_get_project_endpoint("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", "managements")
-#> # A tibble: 2 x 17
-#>   id    name  name_secondary project notes est_year no_take periodic_closure
-#>   <chr> <chr> <chr>          <chr>   <chr>    <int> <lgl>   <lgl>           
-#> 1 cffd… Fake… ""             2c0c98… ""        2018 FALSE   TRUE            
-#> 2 ea09… Fish… ""             2c0c98… ""        2019 FALSE   FALSE           
-#> # … with 9 more variables: open_access <lgl>, size_limits <lgl>,
-#> #   gear_restriction <lgl>, species_restriction <lgl>, compliance <chr>,
-#> #   predecessor <chr>, parties <chr>, created_on <chr>, updated_on <chr>
+#> # A tibble: 2 x 16
+#>   id    name  name_secondary notes est_year no_take periodic_closure open_access
+#>   <chr> <chr> <chr>          <chr>    <int> <lgl>   <lgl>            <lgl>      
+#> 1 cffd… Fake… ""             ""        2018 FALSE   TRUE             FALSE      
+#> 2 ea09… Fish… ""             ""        2019 FALSE   FALSE            FALSE      
+#> # … with 8 more variables: size_limits <lgl>, gear_restriction <lgl>,
+#> #   species_restriction <lgl>, compliance <chr>, predecessor <chr>,
+#> #   parties <chr>, created_on <chr>, updated_on <chr>
 ```
 
 If you want to access data from the same project multiple times within a
@@ -334,24 +328,22 @@ all_endpoints <- mermaid_get_all_project_endpoints()
 names(all_endpoints)
 #>  [1] "beltfishtransectmethods"          "beltfishes"                      
 #>  [3] "benthiclittransectmethods"        "benthicpittransectmethods"       
-#>  [5] "benthicpits"                      "benthictransects"                
-#>  [7] "collectrecords"                   "fishbelttransects"               
-#>  [9] "habitatcomplexities"              "obsbenthiclits"                  
-#> [11] "obsbenthicpits"                   "obshabitatcomplexities"          
-#> [13] "obstransectbeltfishs"             "managements"                     
-#> [15] "observers"                        "project_profiles"                
-#> [17] "sampleevents"                     "sites"                           
-#> [19] "beltfishes/obstransectbeltfishes" "beltfishes/sampleunits"          
-#> [21] "beltfishes/sampleevents"
+#>  [5] "benthicpits"                      "collectrecords"                  
+#>  [7] "fishbelttransects"                "habitatcomplexities"             
+#>  [9] "obsbenthiclits"                   "obsbenthicpits"                  
+#> [11] "obshabitatcomplexities"           "obstransectbeltfishs"            
+#> [13] "managements"                      "observers"                       
+#> [15] "project_profiles"                 "sampleevents"                    
+#> [17] "sites"                            "beltfishes/obstransectbeltfishes"
+#> [19] "beltfishes/sampleunits"           "beltfishes/sampleevents"
 
 all_endpoints[["sites"]]
-#> # A tibble: 1 x 17
-#>   id    name  notes project latitude longitude country_id country_name
-#>   <chr> <chr> <chr> <chr>      <dbl>     <dbl> <chr>      <chr>       
-#> 1 7465… 1201  Pula… 2c0c98…    -2.02      134. c570ff86-… Indonesia   
-#> # … with 9 more variables: reef_type_id <chr>, reef_type_name <chr>,
-#> #   reef_zone_id <chr>, reef_zone_name <chr>, exposure_id <chr>,
-#> #   exposure_name <chr>, predecessor <chr>, created_on <chr>, updated_on <chr>
+#> # A tibble: 1 x 12
+#>   id    name  notes latitude longitude country reef_type reef_zone exposure
+#>   <chr> <chr> <chr>    <dbl>     <dbl> <chr>   <chr>     <chr>     <chr>   
+#> 1 7465… 1201  Pula…    -2.02      134. Indone… fringing  fore reef exposed 
+#> # … with 3 more variables: predecessor <chr>, created_on <chr>,
+#> #   updated_on <chr>
 ```
 
 #### Multiple projects
@@ -365,15 +357,13 @@ library(dplyr)
 mermaid_list_my_projects(include_test_projects = TRUE) %>%
   filter(status == "Test") %>%
   mermaid_get_project_endpoint("sites", limit = 1)
-#> # A tibble: 2 x 19
-#>   project_id project_name id    name  notes project latitude longitude
-#>   <chr>      <chr>        <chr> <chr> <chr> <chr>      <dbl>     <dbl>
-#> 1 2c0c9857-… Sharla test  7465… 1201  Pula… 2c0c98…    -2.02      134.
-#> 2 8cb470a9-… sharla test2 fcb0… 1201  Pula… 8cb470…    -2.02      134.
-#> # … with 11 more variables: country_id <chr>, country_name <chr>,
-#> #   reef_type_id <chr>, reef_type_name <chr>, reef_zone_id <chr>,
-#> #   reef_zone_name <chr>, exposure_id <chr>, exposure_name <chr>,
-#> #   predecessor <chr>, created_on <chr>, updated_on <chr>
+#> # A tibble: 2 x 13
+#>   project id    name  notes latitude longitude country reef_type reef_zone
+#>   <chr>   <chr> <chr> <chr>    <dbl>     <dbl> <chr>   <chr>     <chr>    
+#> 1 Sharla… 7465… 1201  Pula…    -2.02      134. Indone… fringing  fore reef
+#> 2 sharla… fcb0… 1201  Pula…    -2.02      134. Indone… fringing  fore reef
+#> # … with 4 more variables: exposure <chr>, predecessor <chr>, created_on <chr>,
+#> #   updated_on <chr>
 ```
 
 If you want multiple endpoints for multiple projects, the results will
@@ -384,25 +374,22 @@ mermaid_list_my_projects(include_test_projects = TRUE) %>%
   filter(status == "Test") %>%
   mermaid_get_project_endpoint(c("managements", "sites"), limit = 1)
 #> $managements
-#> # A tibble: 1 x 19
-#>   project_id project_name id    name  name_secondary project notes est_year
-#>   <chr>      <chr>        <chr> <chr> <chr>          <chr>   <chr>    <int>
-#> 1 2c0c9857-… Sharla test  cffd… Fake… ""             2c0c98… ""        2018
-#> # … with 11 more variables: no_take <lgl>, periodic_closure <lgl>,
-#> #   open_access <lgl>, size_limits <lgl>, gear_restriction <lgl>,
+#> # A tibble: 1 x 16
+#>   id    name  name_secondary notes est_year no_take periodic_closure open_access
+#>   <chr> <chr> <chr>          <chr>    <int> <lgl>   <lgl>            <lgl>      
+#> 1 cffd… Fake… ""             ""        2018 FALSE   TRUE             FALSE      
+#> # … with 8 more variables: size_limits <lgl>, gear_restriction <lgl>,
 #> #   species_restriction <lgl>, compliance <chr>, predecessor <chr>,
 #> #   parties <chr>, created_on <chr>, updated_on <chr>
 #> 
 #> $sites
-#> # A tibble: 2 x 19
-#>   project_id project_name id    name  notes project latitude longitude
-#>   <chr>      <chr>        <chr> <chr> <chr> <chr>      <dbl>     <dbl>
-#> 1 2c0c9857-… Sharla test  7465… 1201  Pula… 2c0c98…    -2.02      134.
-#> 2 8cb470a9-… sharla test2 fcb0… 1201  Pula… 8cb470…    -2.02      134.
-#> # … with 11 more variables: country_id <chr>, country_name <chr>,
-#> #   reef_type_id <chr>, reef_type_name <chr>, reef_zone_id <chr>,
-#> #   reef_zone_name <chr>, exposure_id <chr>, exposure_name <chr>,
-#> #   predecessor <chr>, created_on <chr>, updated_on <chr>
+#> # A tibble: 2 x 13
+#>   project id    name  notes latitude longitude country reef_type reef_zone
+#>   <chr>   <chr> <chr> <chr>    <dbl>     <dbl> <chr>   <chr>     <chr>    
+#> 1 Sharla… 7465… 1201  Pula…    -2.02      134. Indone… fringing  fore reef
+#> 2 sharla… fcb0… 1201  Pula…    -2.02      134. Indone… fringing  fore reef
+#> # … with 4 more variables: exposure <chr>, predecessor <chr>, created_on <chr>,
+#> #   updated_on <chr>
 ```
 
 #### Clean Endpoints
@@ -419,30 +406,27 @@ You can query them the same way, using `mermaid_get_project_endpoint()`:
 xpdc <- mermaid_search_projects("XPDC Kei Kecil 2018")
 
 mermaid_get_project_endpoint(xpdc, "beltfishes/obstransectbeltfishes", limit = 5)
-#> # A tibble: 5 x 56
-#>   id    latitude longitude project_id project_name project_notes contact_link
-#>   <chr>    <dbl>     <dbl> <chr>      <chr>        <chr>         <chr>       
-#> 1 bb30…    -5.44      133. 9de82789-… XPDC Kei Ke… XPDC Kei Kec… https://dat…
-#> 2 e4c2…    -5.44      133. 9de82789-… XPDC Kei Ke… XPDC Kei Kec… https://dat…
-#> 3 8ee0…    -5.44      133. 9de82789-… XPDC Kei Ke… XPDC Kei Kec… https://dat…
-#> 4 39ba…    -5.44      133. 9de82789-… XPDC Kei Ke… XPDC Kei Kec… https://dat…
-#> 5 258f…    -5.44      133. 9de82789-… XPDC Kei Ke… XPDC Kei Kec… https://dat…
-#> # … with 49 more variables: tags <lgl>, site_id <chr>, site_name <chr>,
-#> #   site_notes <chr>, country_id <chr>, country_name <chr>, reef_type <chr>,
-#> #   reef_zone <chr>, reef_exposure <chr>, management_id <chr>,
-#> #   management_name <chr>, management_name_secondary <chr>,
-#> #   management_est_year <lgl>, management_size <lgl>, management_parties <lgl>,
-#> #   management_compliance <chr>, management_rules <chr>,
-#> #   management_notes <chr>, sample_event_id <chr>, sample_date <chr>,
-#> #   sample_time <chr>, current_name <chr>, tide_name <chr>,
-#> #   visibility_name <chr>, depth <dbl>, sample_event_notes <chr>,
-#> #   sample_unit_id <chr>, transect_number <int>, label <chr>,
-#> #   transect_len_surveyed <int>, reef_slope <lgl>, transect_width <int>,
-#> #   observers <chr>, fish_family <chr>, fish_genus <chr>, fish_taxon <chr>,
-#> #   trophic_group <chr>, trophic_level <dbl>, functional_group <chr>,
-#> #   vulnerability <dbl>, biomass_constant_a <dbl>, biomass_constant_b <dbl>,
-#> #   biomass_constant_c <dbl>, size_bin <int>, size <dbl>, count <int>,
-#> #   biomass_kgha <dbl>, observation_notes <chr>, data_policy_beltfish <chr>
+#> # A tibble: 5 x 44
+#>   project tags  country site  latitude longitude reef_type reef_zone
+#>   <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
+#> 1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
+#> 2 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
+#> 3 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
+#> 4 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
+#> 5 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
+#> # … with 36 more variables: reef_exposure <chr>, reef_slope <lgl>, tide <chr>,
+#> #   current <chr>, visibility <chr>, management <chr>,
+#> #   management_secondary <chr>, management_est_year <lgl>,
+#> #   management_size <lgl>, management_parties <lgl>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <chr>,
+#> #   sample_time <chr>, transect_width <chr>, size_bin <int>,
+#> #   transect_len_surveyed <int>, observers <chr>, transect_number <int>,
+#> #   label <chr>, fish_family <chr>, fish_genus <chr>, fish_taxon <chr>,
+#> #   size <dbl>, biomass_constant_a <dbl>, biomass_constant_b <dbl>,
+#> #   biomass_constant_c <dbl>, biomass_kgha <dbl>, trophic_level <dbl>,
+#> #   functional_group <chr>, vulnerability <dbl>, data_policy_beltfish <chr>,
+#> #   project_notes <chr>, site_notes <chr>, management_notes <chr>,
+#> #   contact_link <chr>
 ```
 
 “beltfishes/sampleunits” are aggregated to the sample unit, and contain
@@ -450,25 +434,24 @@ total biomass in kg/ha per sample unit, by trophic group:
 
 ``` r
 mermaid_get_project_endpoint(xpdc, "beltfishes/sampleunits", limit = 5)
-#> # A tibble: 5 x 33
-#>   project_id project_name tags  country_name site_name latitude longitude
-#>   <chr>      <chr>        <lgl> <chr>        <chr>        <dbl>     <dbl>
-#> 1 9de82789-… XPDC Kei Ke… NA    Indonesia    KE02         -5.44      133.
-#> 2 9de82789-… XPDC Kei Ke… NA    Indonesia    KE02         -5.44      133.
-#> 3 9de82789-… XPDC Kei Ke… NA    Indonesia    KE02         -5.44      133.
-#> 4 9de82789-… XPDC Kei Ke… NA    Indonesia    KE02         -5.44      133.
-#> 5 9de82789-… XPDC Kei Ke… NA    Indonesia    KE02         -5.44      133.
-#> # … with 30 more variables: reef_type <chr>, reef_zone <chr>,
-#> #   reef_exposure <chr>, reef_slope <lgl>, tide_name <chr>, current_name <chr>,
-#> #   visibility_name <chr>, management_name <chr>,
-#> #   management_name_secondary <chr>, management_est_year <lgl>,
+#> # A tibble: 5 x 32
+#>   project tags  country site  latitude longitude reef_type reef_zone
+#>   <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
+#> 1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
+#> 2 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
+#> 3 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
+#> 4 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
+#> 5 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
+#> # … with 28 more variables: reef_exposure <chr>, reef_slope <lgl>, tide <chr>,
+#> #   current <chr>, visibility <chr>, management <chr>,
+#> #   management_secondary <chr>, management_est_year <lgl>,
 #> #   management_size <lgl>, management_parties <lgl>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <chr>,
 #> #   transect_number <int>, size_bin <int>, transect_len_surveyed <int>,
-#> #   transect_width <int>, biomass_kgha <dbl>,
-#> #   biomass_kgha_by_trophic_group$piscivore <dbl>,
-#> #   $`herbivore-detritivore` <dbl>, $omnivore <dbl>, $planktivore <dbl>,
-#> #   $`invertivore-mobile` <dbl>, data_policy_beltfish <chr>,
+#> #   transect_width <chr>, biomass_kgha <dbl>,
+#> #   biomass_kgha_by_trophic_group$omnivore <dbl>, $piscivore <dbl>,
+#> #   $planktivore <dbl>, $`invertivore-mobile` <dbl>,
+#> #   $`herbivore-detritivore` <dbl>, data_policy_beltfish <chr>,
 #> #   project_notes <chr>, site_notes <chr>, management_notes <chr>,
 #> #   contact_link <chr>
 ```
@@ -479,17 +462,16 @@ group:
 
 ``` r
 mermaid_get_project_endpoint(xpdc, "beltfishes/sampleevents", limit = 5)
-#> # A tibble: 5 x 25
-#>   project_id project_name tags  country_name site_name latitude longitude
-#>   <chr>      <chr>        <lgl> <chr>        <chr>        <dbl>     <dbl>
-#> 1 9de82789-… XPDC Kei Ke… NA    Indonesia    KE02         -5.44      133.
-#> 2 9de82789-… XPDC Kei Ke… NA    Indonesia    KE03         -5.61      132.
-#> 3 9de82789-… XPDC Kei Ke… NA    Indonesia    KE04         -5.58      132.
-#> 4 9de82789-… XPDC Kei Ke… NA    Indonesia    KE05         -5.47      133.
-#> 5 9de82789-… XPDC Kei Ke… NA    Indonesia    KE06         -5.52      132.
-#> # … with 24 more variables: reef_type <chr>, reef_zone <chr>,
-#> #   reef_exposure <chr>, management_name <chr>,
-#> #   management_name_secondary <chr>, management_est_year <lgl>,
+#> # A tibble: 5 x 24
+#>   project tags  country site  latitude longitude reef_type reef_zone
+#>   <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
+#> 1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
+#> 2 XPDC K… NA    Indone… KE03     -5.61      132. fringing  crest    
+#> 3 XPDC K… NA    Indone… KE04     -5.58      132. fringing  crest    
+#> 4 XPDC K… NA    Indone… KE05     -5.47      133. fringing  crest    
+#> 5 XPDC K… NA    Indone… KE06     -5.52      132. fringing  crest    
+#> # … with 22 more variables: reef_exposure <chr>, management <chr>,
+#> #   management_secondary <chr>, management_est_year <lgl>,
 #> #   management_size <lgl>, management_parties <lgl>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <chr>,
 #> #   biomass_kgha_avg <dbl>, biomass_kgha_by_trophic_group_avg$omnivore <dbl>,
