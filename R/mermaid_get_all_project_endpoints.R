@@ -1,8 +1,8 @@
-#' Get all endpoints from a specified MERMAID project
+#' Get all endpoints from specified MERMAID project(s)
 #'
 #' @inheritParams mermaid_get_project_endpoint
 #'
-#' @return A list of tibbles, one for each of the MERMAID project endpoints (beltfishtransectmethods, beltfishes, benthiclittransectmethods, benthicpittransectmethods, benthicpits, benthictransects, collectrecords, fishbelttransects, habitatcomplexities, obsbenthiclits, obsbenthicpits, obshabitatcomplexities, obstransectbeltfishs, managements, observers, project_profiles, sampleevents, sites, beltfishes/obstransectbeltfishes, beltfishes/sampleunits, beltfishes/sampleevents.
+#' @return A list of tibbles, one for each of the MERMAID project endpoints.
 #' @export
 #'
 #' @examples

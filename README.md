@@ -15,8 +15,8 @@ Collect](https://collect.datamermaid.org/) data directly from R.
 You can install mermaidr from GitHub with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("data-mermaid/mermaidr@package", upgrade = "never")
+# install.packages("remotes")
+remotes::install_github("data-mermaid/mermaidr@package", upgrade = "never")
 ```
 
 Next, load the package:

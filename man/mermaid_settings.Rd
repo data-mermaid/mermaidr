@@ -3,23 +3,25 @@
 \name{mermaid_set_default_project}
 \alias{mermaid_set_default_project}
 \alias{mermaid_get_default_project}
-\title{Get or set mermaidr MERMAID settings}
+\title{Get or set mermaidr MERMAID projects}
 \usage{
 mermaid_set_default_project(project)
 
 mermaid_get_default_project()
 }
 \arguments{
-\item{project}{A way to identify a MERMAID project. Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_endpoint}} or \code{\link{mermaid_search_projects}}.}
+\item{project}{A way to identify MERMAID project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_endpoint}} or \code{\link{mermaid_search_projects}}.}
 }
 \description{
-Configure default MERMAID settings
+Configure default MERMAID projects \code{mermaid_set_default_project} sets project(s) as the default to be used automatically in \code{mermaid_get_project_endpoint}. \code{mermaid_get_default_project} lists the default projects.
 }
 \examples{
 test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 mermaid_set_default_project(test_project)
 mermaid_get_default_project()
 \dontrun{
+# Since a default project is set, you can use mermaid_get_project_endpoint
+# without explicitly supplying a project
 mermaid_get_project_endpoint(endpoint = "sites")
 }
 }

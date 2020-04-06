@@ -25,8 +25,8 @@ The goal of `mermaidr` is to access [MERMAID Collect](https://collect.datamermai
 You can install mermaidr from GitHub with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("data-mermaid/mermaidr@package", upgrade = "never")
+# install.packages("remotes")
+remotes::install_github("data-mermaid/mermaidr@package", upgrade = "never")
 ```
 
 Next, load the package:

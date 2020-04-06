@@ -28,8 +28,6 @@ mermaid_search_projects(
 \item{url}{API URL. Defaults to https://api.datamermaid.org}
 
 \item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
-
-\item{...}{}
 }
 \description{
 Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.

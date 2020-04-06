@@ -2,7 +2,7 @@
 % Please edit documentation in R/mermaid_get_all_project_endpoints.R
 \name{mermaid_get_all_project_endpoints}
 \alias{mermaid_get_all_project_endpoints}
-\title{Get all endpoints from a specified MERMAID project}
+\title{Get all endpoints from specified MERMAID project(s)}
 \usage{
 mermaid_get_all_project_endpoints(
   project = mermaid_get_default_project(),
@@ -21,10 +21,10 @@ mermaid_get_all_project_endpoints(
 \item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
 }
 \value{
-A list of tibbles, one for each of the MERMAID project endpoints (beltfishtransectmethods, beltfishes, benthiclittransectmethods, benthicpittransectmethods, benthicpits, benthictransects, collectrecords, fishbelttransects, habitatcomplexities, obsbenthiclits, obsbenthicpits, obshabitatcomplexities, obstransectbeltfishs, managements, observers, project_profiles, sampleevents, sites, beltfishes/obstransectbeltfishes, beltfishes/sampleunits, beltfishes/sampleevents.
+A list of tibbles, one for each of the MERMAID project endpoints.
 }
 \description{
-Get all endpoints from a specified MERMAID project
+Get all endpoints from specified MERMAID project(s)
 }
 \examples{
 \dontrun{

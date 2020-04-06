@@ -10,7 +10,6 @@
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
 mermaid_get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents"), limit = NULL, url = base_url, token = mermaid_token()) {
-
   project_id <- as_id(project)
   check_project(project_id)
   endpoint <- match.arg(endpoint, several.ok = TRUE)
@@ -31,7 +30,6 @@ mermaid_get_project_endpoint <- function(project = mermaid_get_default_project()
 }
 
 get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, url = base_url, token = mermaid_token(), project_id, project) {
-
   initial_res <- mermaid_GET(full_endpoint, limit = limit, url = url, token = token)
 
   # Combine multiple projects
@@ -103,7 +101,7 @@ make_consistent_columns <- function(x) {
   res_names_length <- purrr::map_dbl(res_names, length)
   res_lengths <- unname(res_names_length)
 
-  if(all(res_lengths == 0) | all(res_lengths > 0)) {
+  if (all(res_lengths == 0) | all(res_lengths > 0)) {
     return(x)
   }
 

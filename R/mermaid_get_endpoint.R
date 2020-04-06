@@ -1,4 +1,4 @@
-#' Get MERMAID Endpoint
+#' Get MERMAID endpoint
 #'
 #' @inheritParams mermaid_GET
 #'
@@ -6,7 +6,6 @@
 #' @examples
 #' mermaid_get_endpoint("sites", limit = 1)
 mermaid_get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites"), limit = NULL, url = base_url, ...) {
-
   endpoint <- match.arg(endpoint, several.ok = TRUE)
   res <- mermaid_GET(endpoint, limit = limit, url = url, ...)
 
@@ -23,7 +22,6 @@ mermaid_get_endpoint <- function(endpoint = c("benthicattributes", "choices", "f
 }
 
 lookup_choices <- function(results, endpoint, url, endpoint_type = "main") {
-
   if (nrow(results) == 0) {
     if (endpoint_type == "main") {
       cols <- mermaid_endpoint_columns[[endpoint]]
@@ -47,7 +45,6 @@ lookup_choices <- function(results, endpoint, url, endpoint_type = "main") {
       lookup_variable(choices, "reef_zone") %>%
       lookup_variable(choices, "exposure") %>%
       dplyr::rename_at(dplyr::vars(country_name, reef_type_name, reef_zone_name, exposure_name), ~ gsub("_name", "", .x))
-
   } else if (endpoint == "managements") {
     results <- dplyr::select(results, -tidyselect::any_of("project"))
 
@@ -65,7 +62,8 @@ lookup_choices <- function(results, endpoint, url, endpoint_type = "main") {
     results <- results %>%
       dplyr::mutate_at(
         dplyr::vars(dplyr::starts_with("data_policy_")),
-        ~ dplyr::recode(.x, `10` = "Private", `50` = "Public Summary", `100` = "Public"))
+        ~ dplyr::recode(.x, `10` = "Private", `50` = "Public Summary", `100` = "Public")
+      )
   }
 
   results

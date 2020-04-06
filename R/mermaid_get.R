@@ -114,8 +114,8 @@ initial_cleanup <- function(results, endpoint) {
     results <- results %>%
       tidyr::unpack(cols = c(location)) %>%
       tidyr::hoist(coordinates,
-                   latitude = 2,
-                   longitude = 1
+        latitude = 2,
+        longitude = 1
       ) %>%
       dplyr::select(-type)
   }
@@ -156,10 +156,10 @@ collapse_id_name_lists <- function(results) {
 
   for (i in seq_along(list_cols)) {
     if (all(c("id", "name") %in% names(results[[list_cols[[i]]]][[1]]))) {
-    results <- results %>%
-      tidyr::hoist(list_cols[[i]], list_name = "name") %>%
-      dplyr::select(-list_cols[[i]]) %>%
-      dplyr::rename(!!list_cols[[i]] := list_name)
+      results <- results %>%
+        tidyr::hoist(list_cols[[i]], list_name = "name") %>%
+        dplyr::select(-list_cols[[i]]) %>%
+        dplyr::rename(!!list_cols[[i]] := list_name)
     }
   }
 

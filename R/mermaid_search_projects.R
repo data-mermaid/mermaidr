@@ -7,7 +7,6 @@
 #' @param tag Project tag. Projects are returned if the \code{tags} field contains \code{tag}, not just if it is exactly the same.
 #' @inheritParams mermaid_GET
 #' @inheritParams mermaid_list_my_projects
-#' @param ...
 #'
 #' @export
 #' @examples
@@ -63,7 +62,8 @@ mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, inc
     lookup_choices(projects, endpoint = "projects", url = url)
   } else {
     head(
-      lookup_choices(projects, endpoint = "projects", url = url), limit)
+      lookup_choices(projects, endpoint = "projects", url = url), limit
+    )
   }
 }
 

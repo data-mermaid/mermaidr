@@ -13,4 +13,3 @@ test_that("mermaid_set_default_project and get_default_project work with multipl
   expect_is(output, "tbl_df")
   expect_true(all(output[["project_id"]] == p[["id"]]))
 })
-

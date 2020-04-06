@@ -2,7 +2,7 @@
 % Please edit documentation in R/mermaid_get_endpoint.R
 \name{mermaid_get_endpoint}
 \alias{mermaid_get_endpoint}
-\title{Get MERMAID Endpoint}
+\title{Get MERMAID endpoint}
 \usage{
 mermaid_get_endpoint(
   endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera",
@@ -22,7 +22,7 @@ mermaid_get_endpoint(
 \item{...}{Additional parameters used as needed}
 }
 \description{
-Get MERMAID Endpoint
+Get MERMAID endpoint
 }
 \examples{
 mermaid_get_endpoint("sites", limit = 1)
