@@ -128,11 +128,17 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if (all(c("profile", "profile_name") %in% names(results))) {
-    results <- dplyr::select(results, -profile, profile = profile_name)
+    results <- dplyr::select(results, -profile) %>%
+      dplyr::rename(profile = profile_name)
   }
 
   if (all(c("project", "project_name") %in% names(results))) {
-    results <- dplyr::select(results, -project, project = project_name)
+    results <- dplyr::select(results, -project) %>%
+      dplyr::rename(project = project_name)
+  }
+
+  if ("transect_len_surveyed" %in% names(results)) {
+    results <- dplyr::rename(results, transect_length = transect_len_surveyed)
   }
 
   results
