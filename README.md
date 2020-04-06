@@ -406,7 +406,7 @@ You can query them the same way, using `mermaid_get_project_endpoint()`:
 xpdc <- mermaid_search_projects("XPDC Kei Kecil 2018")
 
 mermaid_get_project_endpoint(xpdc, "beltfishes/obstransectbeltfishes", limit = 5)
-#> # A tibble: 5 x 44
+#> # A tibble: 5 x 45
 #>   project tags  country site  latitude longitude reef_type reef_zone
 #>   <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #> 1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
@@ -414,15 +414,15 @@ mermaid_get_project_endpoint(xpdc, "beltfishes/obstransectbeltfishes", limit = 5
 #> 3 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
 #> 4 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
 #> 5 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#> # … with 36 more variables: reef_exposure <chr>, reef_slope <lgl>, tide <chr>,
+#> # … with 37 more variables: reef_exposure <chr>, reef_slope <lgl>, tide <chr>,
 #> #   current <chr>, visibility <chr>, management <chr>,
 #> #   management_secondary <chr>, management_est_year <lgl>,
 #> #   management_size <lgl>, management_parties <lgl>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <chr>,
 #> #   sample_time <chr>, transect_length <int>, transect_width <chr>,
-#> #   size_bin <int>, observers <chr>, transect_number <int>, label <chr>,
-#> #   fish_family <chr>, fish_genus <chr>, fish_taxon <chr>, size <dbl>,
-#> #   biomass_constant_a <dbl>, biomass_constant_b <dbl>,
+#> #   size_bin <int>, observers <chr>, depth <dbl>, transect_number <int>,
+#> #   label <chr>, fish_family <chr>, fish_genus <chr>, fish_taxon <chr>,
+#> #   size <dbl>, biomass_constant_a <dbl>, biomass_constant_b <dbl>,
 #> #   biomass_constant_c <dbl>, biomass_kgha <dbl>, trophic_level <dbl>,
 #> #   functional_group <chr>, vulnerability <dbl>, data_policy_beltfish <chr>,
 #> #   project_notes <chr>, site_notes <chr>, management_notes <chr>,
@@ -434,7 +434,7 @@ total biomass in kg/ha per sample unit, by trophic group:
 
 ``` r
 mermaid_get_project_endpoint(xpdc, "beltfishes/sampleunits", limit = 5)
-#> # A tibble: 5 x 32
+#> # A tibble: 5 x 34
 #>   project tags  country site  latitude longitude reef_type reef_zone
 #>   <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #> 1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
@@ -442,17 +442,17 @@ mermaid_get_project_endpoint(xpdc, "beltfishes/sampleunits", limit = 5)
 #> 3 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
 #> 4 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
 #> 5 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#> # … with 28 more variables: reef_exposure <chr>, reef_slope <lgl>, tide <chr>,
+#> # … with 30 more variables: reef_exposure <chr>, reef_slope <lgl>, tide <chr>,
 #> #   current <chr>, visibility <chr>, management <chr>,
 #> #   management_secondary <chr>, management_est_year <lgl>,
 #> #   management_size <lgl>, management_parties <lgl>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <chr>,
-#> #   transect_number <int>, size_bin <int>, transect_length <int>,
+#> #   depth <dbl>, transect_number <int>, size_bin <int>, transect_length <int>,
 #> #   transect_width <chr>, biomass_kgha <dbl>,
 #> #   biomass_kgha_by_trophic_group$omnivore <dbl>, $piscivore <dbl>,
 #> #   $planktivore <dbl>, $`invertivore-mobile` <dbl>,
 #> #   $`herbivore-detritivore` <dbl>, data_policy_beltfish <chr>,
-#> #   project_notes <chr>, site_notes <chr>, management_notes <chr>,
+#> #   project_notes <chr>, site_notes <chr>, management_notes <chr>, id <chr>,
 #> #   contact_link <chr>
 ```
 
@@ -462,7 +462,7 @@ group:
 
 ``` r
 mermaid_get_project_endpoint(xpdc, "beltfishes/sampleevents", limit = 5)
-#> # A tibble: 5 x 24
+#> # A tibble: 5 x 26
 #>   project tags  country site  latitude longitude reef_type reef_zone
 #>   <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #> 1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
@@ -470,14 +470,15 @@ mermaid_get_project_endpoint(xpdc, "beltfishes/sampleevents", limit = 5)
 #> 3 XPDC K… NA    Indone… KE04     -5.58      132. fringing  crest    
 #> 4 XPDC K… NA    Indone… KE05     -5.47      133. fringing  crest    
 #> 5 XPDC K… NA    Indone… KE06     -5.52      132. fringing  crest    
-#> # … with 22 more variables: reef_exposure <chr>, management <chr>,
+#> # … with 24 more variables: reef_exposure <chr>, management <chr>,
 #> #   management_secondary <chr>, management_est_year <lgl>,
 #> #   management_size <lgl>, management_parties <lgl>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <chr>,
-#> #   biomass_kgha_avg <dbl>, biomass_kgha_by_trophic_group_avg$omnivore <dbl>,
-#> #   $piscivore <dbl>, $planktivore <dbl>, $`invertivore-mobile` <dbl>,
+#> #   depth_avg <dbl>, biomass_kgha_avg <dbl>,
+#> #   biomass_kgha_by_trophic_group_avg$omnivore <dbl>, $piscivore <dbl>,
+#> #   $planktivore <dbl>, $`invertivore-mobile` <dbl>,
 #> #   $`herbivore-detritivore` <dbl>, $`invertivore-sessile` <dbl>,
 #> #   $`herbivore-macroalgae` <dbl>, data_policy_beltfish <chr>,
 #> #   project_notes <chr>, site_notes <chr>, management_notes <chr>,
-#> #   contact_link <chr>
+#> #   sample_unit_count <int>, contact_link <chr>
 ```
