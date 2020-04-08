@@ -11,7 +11,9 @@ mermaid_get_project_endpoint(
     "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits",
     "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers",
     "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes",
-    "beltfishes/sampleunits", "beltfishes/sampleevents"),
+    "beltfishes/sampleunits", "beltfishes/sampleevents",
+    "benthicpits/obstransectbenthicpits", "benthicpits/sampleunits",     
+    "benthicpits/sampleevents"),
   limit = NULL,
   url = base_url,
   token = mermaid_token()
