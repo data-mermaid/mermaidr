@@ -47,7 +47,7 @@ The login credentials expire every 24 hours. Once your credentials are expired, 
 
 All functions in `mermaidr` are of the form `mermaid_*()`, to make functions easier to find and use when loaded with other packages!
 
-To access the unauthenticated API endpoints, use `mermaid_get_endpoint()`. The results will return as a `tibble.` The following endpoints are available: "benthicattributes", "fishattributes", "fishfamilies", "fishgenera", "fishspecies", "managements", "projects", "sites".
+To access the unauthenticated API endpoints (e.g. endpoints that are not related to a specific project), use `mermaid_get_endpoint()`. The results will return as a `tibble.` The following endpoints are available: "benthicattributes", "choices" (a way to lookup values from IDs),  "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites".
 
 For example,
 
@@ -89,6 +89,8 @@ mermaid_get_endpoint(c("managements", "sites"), limit = 1)
 
 ### Accessing project data
 
+#### Getting projects
+
 You will be able to access data from a specific project, provided that you have access to it in the Collect app. To access data for a project, you can either use a project from `mermaid_list_my_projects()` (as above), a `project_id` directly, or a project from `mermaid_search_projects()`. 
 
 For example:
@@ -122,22 +124,67 @@ mermaid_search_projects(country = "Tanzania", limit = 1)[["countries"]]
 If you need help figuring out what a country is named, use `mermaid_countries()`, which will list how countries are named in MERMAID:
 
 ```{r}
-head(
-  mermaid_countries()
-)
+head(mermaid_countries())
 ```
 
-You can use this to access an endpoint for the project, using `get_mermaid_project_endpoint()`. The following project endpoints are available: "beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "collectrecords", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites".
+#### Getting the data
+
+You can use this project result to access an endpoint for the project, using `mermaid_get_project_endpoint()`. Details on the endpoints available are below.
 
 At this point, you will have to authenticate to the Collect app. R will help you do this automatically by opening a browser window for you to log in to Collect, either via Google sign-in or username and password - however you normally do!
 
 Once you've logged in, come back to R. Your login credentials will be stored for a day, until they expire, and you will need to login again. The package handles the expiration for you, so just log in again when prompted.
 
-#### Raw endpoints
+#### Aggregated endpoints
 
-The following endpoints contain raw data: "beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "collectrecords", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", and "beltfishes/sampleevents".
+The "clean", aggregated endpoints currently available are for beltfish records: "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", and "beltfishes/sampleevents" and Benthic PIT records: ...
 
-Cleaner endpoints are covered in the next section. These are: "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", and "beltfishes/sampleevents".
+##### Observations
+
+The "obs" endpoints show individual observations:
+
+```{r}
+xpdc <- mermaid_search_projects("XPDC Kei Kecil 2018")
+
+mermaid_get_project_endpoint(xpdc, "beltfishes/obstransectbeltfishes", limit = 5)
+mermaid_get_project_endpoint(xpdc, "benthicpits/obstransectbenthicpits", limit = 5)
+```
+
+##### Sample Units
+
+The "sampleunits" endpoints are aggregated to the sample unit level. 
+
+Fishbelt sample units contain total biomass in kg/ha per sample unit, by trophic group:
+
+```{r}
+mermaid_get_project_endpoint(xpdc, "beltfishes/sampleunits", limit = 5)
+```
+
+Benthic PIT sample units contain percent cover per sample unit, by benthic category:
+
+```{r}
+mermaid_get_project_endpoint(xpdc, "benthicpits/sampleunits", limit = 5)
+```
+
+##### Sample Events
+
+The "sampleevents" endpoints are aggregated further, to the sample event level. 
+
+Fishbelt sample events contain *mean* total biomass in kg/ha per sample event and by trophic group:
+
+```{r}
+mermaid_get_project_endpoint(xpdc, "beltfishes/sampleevents", limit = 5)
+```
+
+Benthic PIT sample events contain *mean* percent cover per sample event by benthic category:
+
+```{r}
+mermaid_get_project_endpoint(xpdc, "benthicpits/sampleevents", limit = 5)
+```
+
+#### Raw project endpoints
+
+The following endpoints contain raw project data: "beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites".
 
 For example, to see the sites in this project:
 
@@ -145,72 +192,27 @@ For example, to see the sites in this project:
 mermaid_get_project_endpoint(mermaidr_project, "sites")
 ```
 
-You can also use the `project_id` directly to access data from a project, without having to search for it first. This may be handy since the `project_id` is directly available from the URL when using the collect app.
-
-```{r}
-mermaid_get_project_endpoint("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", "managements")
-```
+### How to specify projects
 
 If you want to access data from the same project multiple times within a session, it may be useful to set the default project, rather than having to supply it every time. You can do this using `mermaid_set_default_project()`. Then, you can just supply the endpoint, and the default project is used.
 
 ```{r}
-mermaid_set_default_project(mermaidr_project)
-mermaid_get_project_endpoint(endpoint = "beltfishes")
+mermaid_set_default_project(xpdc)
+mermaid_get_project_endpoint(endpoint = "sites", limit = 1)
 ```
 
-To get data for *all* endpoints associated with a project, use `mermaid_get_all_project_endpoints()`. This will return a list of tibbles, one for each endpoint.
+You can also use the `project_id` directly to access data from a project, without having to search for it first. This may be handy since the `project_id` is directly available from the URL when using the Collect app.
 
 ```{r}
-all_endpoints <- mermaid_get_all_project_endpoints()
-
-names(all_endpoints)
-
-all_endpoints[["sites"]]
+mermaid_get_project_endpoint("9de82789-c38e-462e-a1a8-e02c020c7a35", endpoint = "managements", limit = 1)
 ```
 
-#### Multiple projects
-
-You can get endpoint data for multiple projects. The results will be in a single tibble:
+And you can access data from multiple project simultaneously:
 
 ```{r}
-library(dplyr)
+my_projects <- mermaid_list_my_projects()
 
-mermaid_list_my_projects(include_test_projects = TRUE) %>%
-  filter(status == "Test") %>%
-  mermaid_get_project_endpoint("sites", limit = 1)
-```
+my_projects
 
-If you want multiple endpoints for multiple projects, the results will be a list of tibbles:
-
-```{r}
-mermaid_list_my_projects(include_test_projects = TRUE) %>%
-  filter(status == "Test") %>%
-  mermaid_get_project_endpoint(c("managements", "sites"), limit = 1)
-```
-
-#### Clean Endpoints
-
-The "clean" endpoints currently available are for beltfish records: "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", and "beltfishes/sampleevents".
-
-You can query them the same way, using 
-`mermaid_get_project_endpoint()`:
-
-"beltfishes/obstransectbeltfishes" are individual observations:
-
-```{r}
-xpdc <- mermaid_search_projects("XPDC Kei Kecil 2018")
-
-mermaid_get_project_endpoint(xpdc, "beltfishes/obstransectbeltfishes", limit = 5)
-```
-
-"beltfishes/sampleunits" are aggregated to the sample unit, and contain total biomass in kg/ha per sample unit, by trophic group:
-
-```{r}
-mermaid_get_project_endpoint(xpdc, "beltfishes/sampleunits", limit = 5)
-```
-
-"beltfishes/sampleevents" are aggregated to the sample event, and contain *mean* total biomass in kg/ha per sample event and by trophic group:
-
-```{r}
-mermaid_get_project_endpoint(xpdc, "beltfishes/sampleevents", limit = 5)
+mermaid_get_project_endpoint(my_projects, "sites", limit = 1)
 ```
