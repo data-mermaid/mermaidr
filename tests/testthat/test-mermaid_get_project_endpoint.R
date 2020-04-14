@@ -45,13 +45,13 @@ test_that("mermaid_get_project_endpoint allows multiple projects, and combines t
   expect_named(mermaid_get_project_endpoint(p, "sites", limit = 1), c("project", mermaid_project_endpoint_columns[["sites"]]))
   expect_named(mermaid_get_project_endpoint(p, "beltfishes/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["beltfishes/sampleunits"]]))
 
-  p <- c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997")
+  p <- c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a")
   expect_named(mermaid_get_project_endpoint(p, "beltfishtransectmethods", limit = 1), c("project_id", mermaid_project_endpoint_columns[["beltfishtransectmethods"]]))
   expect_named(mermaid_get_project_endpoint(p, "beltfishes", limit = 1), c("project_id", mermaid_project_endpoint_columns[["beltfishes"]]))
   expect_named(mermaid_get_project_endpoint(p, "benthiclittransectmethods", limit = 1), c("project_id", mermaid_project_endpoint_columns[["benthiclittransectmethods"]]))
   expect_named(mermaid_get_project_endpoint(p, "benthicpittransectmethods", limit = 1), c("project_id", mermaid_project_endpoint_columns[["benthicpittransectmethods"]]))
   expect_named(mermaid_get_project_endpoint(p, "benthicpits", limit = 1), c("project_id", mermaid_project_endpoint_columns[["benthicpits"]]))
-  expect_named(mermaid_get_project_endpoint(p, "collectrecords", limit = 1), c("project_id", mermaid_project_endpoint_columns[["collectrecords"]]))
+  #expect_named(mermaid_get_project_endpoint(p, "collectrecords", limit = 1), c("project_id", mermaid_project_endpoint_columns[["collectrecords"]]))
   expect_named(mermaid_get_project_endpoint(p, "fishbelttransects", limit = 1), c("project_id", mermaid_project_endpoint_columns[["fishbelttransects"]]))
   expect_named(mermaid_get_project_endpoint(p, "habitatcomplexities", limit = 1), c("project_id", mermaid_project_endpoint_columns[["habitatcomplexities"]]))
   expect_named(mermaid_get_project_endpoint(p, "obsbenthiclits", limit = 1), c("project_id", mermaid_project_endpoint_columns[["obsbenthiclits"]]))
@@ -110,12 +110,12 @@ test_that("a data frame can be unpacked, rbinded, and repacked", {
 
 test_that("pagination works to return all records", {
   skip_if_offline()
-  output <- mermaid_get_project_endpoint("a3d1e110-1394-4b64-a3c1-fbb7852c80e1", endpoint = "beltfishes/obstransectbeltfishes")
+  output <- mermaid_get_project_endpoint("9de82789-c38e-462e-a1a8-e02c020c7a35", endpoint = "benthicpits/obstransectbenthicpits")
   expect_true(nrow(output) > 5000)
 })
 
 test_that("mermaid_get_project_endpoint allows multiple projects and multiple endpoints", {
-  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), c("sites", "managements"), limit = 1)
+  output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a"), c("sites", "managements"), limit = 1)
   expect_is(output, "list")
   expect_named(output, c("sites", "managements"))
 })

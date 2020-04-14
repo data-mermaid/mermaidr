@@ -137,7 +137,7 @@ Once you've logged in, come back to R. Your login credentials will be stored for
 
 #### Aggregated endpoints
 
-The "clean", aggregated endpoints currently available are for beltfish records: "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", and "beltfishes/sampleevents" and Benthic PIT records: ...
+The "clean", aggregated endpoints currently available are for beltfish records: "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", and "beltfishes/sampleevents" and Benthic PIT records: "benthicpits/obstransectbenthicpits", "benthicpits/sampleunits", and "benthicpits/sampleevents".
 
 ##### Observations
 
