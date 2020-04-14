@@ -143,6 +143,10 @@ initial_cleanup <- function(results, endpoint) {
     results <- dplyr::rename(results, transect_length = transect_len_surveyed)
   }
 
+  if ("sample_date" %in% names(results)) {
+    results <- dplyr::mutate(results, sample_date = as.Date(sample_date))
+  }
+
   results
 }
 
