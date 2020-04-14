@@ -28,6 +28,9 @@ test_that("mermaid_get_project_endpoint returns a tibble with specified names wh
   expect_named(mermaid_get_project_endpoint(test_project, "beltfishes/obstransectbeltfishes", limit = 1), mermaid_project_endpoint_columns[["beltfishes/obstransectbeltfishes"]])
   expect_named(mermaid_get_project_endpoint(test_project, "beltfishes/sampleunits", limit = 1), mermaid_project_endpoint_columns[["beltfishes/sampleunits"]])
   expect_named(mermaid_get_project_endpoint(test_project, "beltfishes/sampleevents", limit = 1), mermaid_project_endpoint_columns[["beltfishes/sampleevents"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "benthicpits/obstransectbenthicpits", limit = 1), mermaid_project_endpoint_columns[["benthicpits/obstransectbenthicpits"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "benthicpits/sampleunits", limit = 1), mermaid_project_endpoint_columns[["benthicpits/sampleunits"]])
+  expect_named(mermaid_get_project_endpoint(test_project, "benthicpits/sampleevents", limit = 1), mermaid_project_endpoint_columns[["benthicpits/sampleevents"]])
 })
 
 test_that("mermaid_get_project_endpoint returns a tibble when passed a known endpoint, even if there is no data.", {
@@ -63,6 +66,9 @@ test_that("mermaid_get_project_endpoint allows multiple projects, and combines t
   expect_named(mermaid_get_project_endpoint(p, "beltfishes/obstransectbeltfishes", limit = 1), c(mermaid_project_endpoint_columns[["beltfishes/obstransectbeltfishes"]]))
   expect_named(mermaid_get_project_endpoint(p, "beltfishes/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["beltfishes/sampleunits"]]))
   expect_named(mermaid_get_project_endpoint(p, "beltfishes/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["beltfishes/sampleevents"]]))
+  expect_named(mermaid_get_project_endpoint(p, "benthicpits/obstransectbenthicpits", limit = 1), c(mermaid_project_endpoint_columns[["benthicpits/obstransectbenthicpits"]]))
+  expect_named(mermaid_get_project_endpoint(p, "benthicpits/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["benthicpits/sampleunits"]]))
+  expect_named(mermaid_get_project_endpoint(p, "benthicpits/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["benthicpits/sampleevents"]]))
 })
 
 test_that("unpack_df_cols and repack_df_cols work as expected", {
@@ -112,4 +118,9 @@ test_that("mermaid_get_project_endpoint allows multiple projects and multiple en
   output <- mermaid_get_project_endpoint(c("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "5679ef3d-bafc-453d-9e1a-a4b282a8a997"), c("sites", "managements"), limit = 1)
   expect_is(output, "list")
   expect_named(output, c("sites", "managements"))
+})
+
+test_that("sample_date is converted to a date", {
+  output <- mermaid_get_project_endpoint("d5491b25-4a5f-401b-a50f-bb80fd1df78f", "beltfishes/obstransectbeltfishes", limit = 1)
+  expect_true(inherits(output[["sample_date"]], "Date"))
 })
