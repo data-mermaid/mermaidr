@@ -147,12 +147,6 @@ initial_cleanup <- function(results, endpoint) {
     results <- dplyr::mutate(results, sample_date = as.Date(sample_date))
   }
 
-  if ("percent_avgs" %in% names(results)) {
-    results <- dplyr::rename(results, percent_cover_by_benthic_category = percent_avgs)
-  } else if ("benthicpit_by_cat_avg" %in% names(results)) {
-    results <- dplyr::rename(results, percent_cover_by_benthic_category_avg = benthicpit_by_cat_avg)
-  }
-
   results
 }
 
