@@ -1,4 +1,4 @@
-#' List your MERMAID Projects
+#' Get a list of your MERMAID Projects
 #'
 #' List MERMAID projects that you have access to. Requires authorization.
 #'
@@ -10,9 +10,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' mermaid_list_my_projects(limit = 5)
+#' mermaid_get_my_projects(limit = 5)
 #' }
-mermaid_list_my_projects <- function(include_test_projects = FALSE, limit = NULL, url = base_url, token = mermaid_token()) {
+mermaid_get_my_projects <- function(include_test_projects = FALSE, limit = NULL, url = base_url, token = mermaid_token()) {
   if (include_test_projects) {
     res <- mermaid_GET("projects", limit = limit, url = url, token = token)
   } else {

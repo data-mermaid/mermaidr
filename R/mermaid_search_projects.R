@@ -6,7 +6,7 @@
 #' @param country Project country. Projects are returned if the \code{countries} field contains \code{country}, not just if it is exactly the same. For a list of countries used in MERMAID, see \code{\link{mermaid_countries}}
 #' @param tag Project tag. Projects are returned if the \code{tags} field contains \code{tag}, not just if it is exactly the same.
 #' @inheritParams mermaid_GET
-#' @inheritParams mermaid_list_my_projects
+#' @inheritParams mermaid_get_my_projects
 #'
 #' @export
 #' @examples
