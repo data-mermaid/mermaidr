@@ -33,9 +33,9 @@ mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, inc
 
   if (!is.null(name)) {
     if (include_test_projects) {
-      projects <- mermaid_get_endpoint("projects", limit = limit, url = url, token = token, name = name)
+      projects <- get_endpoint("projects", limit = limit, url = url, token = token, name = name)
     } else {
-      projects <- mermaid_get_endpoint("projects", limit = limit, url = url, token = token, name = name, status = 90)
+      projects <- get_endpoint("projects", limit = limit, url = url, token = token, name = name, status = 90)
     }
 
     if (is.null(country) & is.null(tag)) {

@@ -64,7 +64,7 @@ test_that("mermaid_search_projects returns projects that all have Country if Cou
   output <- mermaid_search_projects(country = "Fiji")
   expect_true(all_contain_value(output[["countries"]], "Fiji"))
 
-  output <- mermaid_search_projects(country = "Fiji", token = mermaid_token())
+  output <- mermaid_search_projects(country = "Indonesia", token = mermaid_token())
   expect_true(nrow(output) > 0)
 })
 
