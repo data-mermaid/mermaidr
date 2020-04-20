@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' projects <- mermaid_get_my_projects(include_test_projects = TRUE)
+#' projects <- mermaid_get_my_projects()
 #' projects %>%
 #'   mermaid_get_project_data(method = "beltfishes", data = "sampleevents", limit = 10)
 mermaid_get_project_data <- function(project, method = c("beltfishes", "benthicpit"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, url = base_url, token = mermaid_token(), ...) {

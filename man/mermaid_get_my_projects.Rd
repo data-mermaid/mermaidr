@@ -28,6 +28,6 @@ List MERMAID projects that you have access to. Requires authorization.
 }
 \examples{
 \dontrun{
-mermaid_get_my_projects(limit = 5)
+mermaid_get_my_projects()
 }
 }
