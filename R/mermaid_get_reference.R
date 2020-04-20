@@ -12,6 +12,10 @@
 #' mermaid_get_reference(c("fishfamilies", "fishgenera"))
 mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "fishspecies", "benthicattributes"), limit = NULL, url = base_url) {
 
+  if (!all(reference %in% c("fishfamilies", "fishgenera", "fishspecies", "benthicattributes"))) {
+    stop('`reference` must be one of: "fishfamilies", "fishgenera", "fishspecies", "benthicattributes"', call. = FALSE)
+  }
+
   reference <- match.arg(reference, several.ok = TRUE)
 
   get_endpoint(reference, limit = limit, url = base_url)
