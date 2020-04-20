@@ -2,7 +2,7 @@
 #'
 #' Find the names and information of the fish and benthic attributes you can choose in MERMAID.
 #'
-#' @param reference MERMAID reference. One of fishfamilies, fishgenera, fishspecies, benthicattributes
+#' @param reference MERMAID reference. One of "fishfamilies", "fishgenera", "fishspecies", "benthicattributes".
 #' @inheritParams mermaid_GET
 #'
 #' @export
@@ -17,3 +17,9 @@ mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "f
   get_endpoint(reference, limit = limit, url = base_url)
 
 }
+
+fishfamilies_columns <- c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "created_on", "updated_on")
+fishgenera_columns <- c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "family", "created_on", "updated_on")
+fishspecies_columns <- c("id", "name", "display", "notes", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "climate_score", "vulnerability", "max_length", "trophic_level", "max_length_type", "genus", "group_size", "trophic_group", "functional_group", "created_on", "updated_on")
+benthicattributes_columns <- c("id", "name", "status", "parent", "updated_on", "created_on")
+

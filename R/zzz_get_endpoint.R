@@ -2,9 +2,8 @@
 #'
 #' @inheritParams mermaid_GET
 #'
-#' @export
 #' @examples
-#' mermaid_get_endpoint("sites", limit = 1)
+#' get_endpoint("sites", limit = 1)
 get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites"), limit = NULL, url = base_url, ...) {
   endpoint <- match.arg(endpoint, several.ok = TRUE)
   res <- mermaid_GET(endpoint, limit = limit, url = url, ...)
@@ -103,15 +102,16 @@ strip_name_suffix <- function(results) {
   results[, !grepl("_id$", names(results)) | names(results) == "project_id"]
 }
 
+# Defined in respective function files
 mermaid_endpoint_columns <- list(
-  benthicattributes = c("id", "name", "status", "parent", "updated_on", "created_on"),
-  choices = c("name", "data"),
-  fishfamilies = c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "created_on", "updated_on"),
-  fishgenera = c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "family", "created_on", "updated_on"),
-  fishspecies = c("id", "name", "display", "notes", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "climate_score", "vulnerability", "max_length", "trophic_level", "max_length_type", "genus", "group_size", "trophic_group", "functional_group", "created_on", "updated_on"),
-  fishsizes = c("id", "name", "val", "fish_bin_size", "created_on", "updated_on"),
-  managements = c("id", "name", "name_secondary", "rules", "notes", "est_year", "no_take", "periodic_closure", "open_access", "size_limits", "gear_restriction", "species_restriction", "compliance", "predecessor", "parties", "created_on", "updated_on"),
-  projects = c("id", "name", "countries", "num_sites", "tags", "notes", "status", "data_policy_beltfish", "data_policy_benthiclit", "data_policy_benthicpit", "data_policy_habitatcomplexity", "data_policy_bleachingqc", "created_on", "updated_on"),
-  projecttags = c("id", "name", "slug", "description", "created_on", "updated_on"),
-  sites = c("id", "name", "notes", "project", "latitude", "longitude", "country", "reef_type", "reef_zone", "exposure", "predecessor", "created_on", "updated_on")
+  benthicattributes = benthicattributes_columns,
+  choices = choices_columns,
+  fishfamilies = fishfamilies_columns,
+  fishgenera = fishgenera_columns,
+  fishspecies = fishspecies_columns,
+  fishsizes = fishsizes_columns,
+  managements = managements_columns,
+  projects = projects_columns,
+  projecttags = projecttags_columns,
+  sites = sites_columns
 )
