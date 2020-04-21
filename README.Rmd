@@ -95,7 +95,7 @@ You can also currently access data on your projects' fish belt and benthic PIT m
 
 #### Fish Belt data
 
-To access fish belt data for a project, use `mermaid_get_project_data()` with `method = "beltfishes"`. 
+To access fish belt data for a project, use `mermaid_get_project_data()` with `method = "fishbelt"`. 
 
 You can access individual observations (i.e., a record of each observation) by setting `data = "observations`":
 
@@ -104,30 +104,30 @@ xpdc <- my_projects %>%
   filter(name == "XPDC Kei Kecil 2018")
 
 xpdc %>%
-  mermaid_get_project_data(method = "beltfishes", data = "observations")
+  mermaid_get_project_data(method = "fishbelt", data = "observations")
 ```
 
 You can access sample units data, which are observations aggregated to the sample units level. Fish belt sample units contain total biomass in kg/ha per sample unit, by trophic group:
 
 ```{r}
 xpdc %>%
-  mermaid_get_project_data("beltfishes", "sampleunits")
+  mermaid_get_project_data("fishbelt", "sampleunits")
 ```
 
 And finally, sample events data, which are aggregated further, to the sample event level. Fish belt sample events contain *mean* total biomass in kg/ha per sample event and by trophic group:
 
 ```{r}
 xpdc %>%
-  mermaid_get_project_data("beltfishes", "sampleevents")
+  mermaid_get_project_data("fishbelt", "sampleevents")
 ```
 
 #### Benthic PIT data
 
-Accessing Benthic PIT data works the exact same way as Fish Belt data, except you change `method` to "benthicpits":
+Accessing Benthic PIT data works the exact same way as Fish Belt data, except you change `method` to "benthicpit":
 
 ```{r}
 xpdc %>%
-  mermaid_get_project_data(method = "benthicpits", data = "observations")
+  mermaid_get_project_data(method = "benthicpit", data = "observations")
 ```
 
 You can access sample units and sample events the same way. 
@@ -138,7 +138,7 @@ You can return both of these by setting the `data` argument. This will return a 
 
 ```{r}
 xpdc_sample_units_events <- xpdc %>%
-  mermaid_get_project_data(method = "benthicpits", data = c("sampleunits", "sampleevents"))
+  mermaid_get_project_data(method = "benthicpit", data = c("sampleunits", "sampleevents"))
 
 names(xpdc_sample_units_events)
 xpdc_sample_units_events[["sampleunits"]]
@@ -150,7 +150,7 @@ To pull data for both fish belt and benthic PIT methods, you can set `method` to
 
 ```{r}
 xpdc_sample_events <- xpdc %>%
-  mermaid_get_project_data(method = c("beltfishes", "benthicpits"), data = "sampleevents")
+  mermaid_get_project_data(method = c("fishbelt", "benthicpit"), data = "sampleevents")
 ```
 
 The result is a list of data frames, containing sample events for both fish belt and benthic PIT methods:
@@ -158,8 +158,20 @@ The result is a list of data frames, containing sample events for both fish belt
 ```{r}
 names(xpdc_sample_events)
 
-xpdc_sample_events[["benthicpits"]]
+xpdc_sample_events[["benthicpit"]]
 ```
+
+Alternatively, you can set `method` to "all" to pull for all methods! This will be handy once there are more than two methods. Similarly, you can set `data` to "all" to pull all types of data:
+
+```{r}
+all_project_data <- xpdc %>%
+  mermaid_get_project_data(method = "all", data = "all", limit = 1)
+
+names(all_project_data)
+
+names(all_project_data[["benthicpit"]])
+```
+
 
 #### Multiple projects
 
@@ -171,7 +183,7 @@ my_projects
 
 ```{r}
 my_projects %>%
-  mermaid_get_project_data("beltfishes", "sampleevents", limit = 1)
+  mermaid_get_project_data("fishbelt", "sampleevents", limit = 1)
 ```
 
 Note the `limit` argument here, which just limits the data pulled to one record (per project, method, and data combination). This is useful if you want to get a preview of what your data will look like without having to pull it all in.

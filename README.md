@@ -158,7 +158,7 @@ following sections.
 #### Fish Belt data
 
 To access fish belt data for a project, use `mermaid_get_project_data()`
-with `method = "beltfishes"`.
+with `method = "fishbelt"`.
 
 You can access individual observations (i.e., a record of each
 observation) by setting `data = "observations`":
@@ -168,7 +168,7 @@ xpdc <- my_projects %>%
   filter(name == "XPDC Kei Kecil 2018")
 
 xpdc %>%
-  mermaid_get_project_data(method = "beltfishes", data = "observations")
+  mermaid_get_project_data(method = "fishbelt", data = "observations")
 #> # A tibble: 3,069 x 45
 #>    project tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
@@ -203,7 +203,7 @@ kg/ha per sample unit, by trophic group:
 
 ``` r
 xpdc %>%
-  mermaid_get_project_data("beltfishes", "sampleunits")
+  mermaid_get_project_data("fishbelt", "sampleunits")
 #> # A tibble: 335 x 34
 #>    project tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
@@ -238,7 +238,7 @@ in kg/ha per sample event and by trophic group:
 
 ``` r
 xpdc %>%
-  mermaid_get_project_data("beltfishes", "sampleevents")
+  mermaid_get_project_data("fishbelt", "sampleevents")
 #> # A tibble: 46 x 29
 #>    project tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
@@ -269,11 +269,11 @@ xpdc %>%
 #### Benthic PIT data
 
 Accessing Benthic PIT data works the exact same way as Fish Belt data,
-except you change `method` to “benthicpits”:
+except you change `method` to “benthicpit”:
 
 ``` r
 xpdc %>%
-  mermaid_get_project_data(method = "benthicpits", data = "observations")
+  mermaid_get_project_data(method = "benthicpit", data = "observations")
 #> # A tibble: 11,100 x 39
 #>    project tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
@@ -312,7 +312,7 @@ other sample events.
 
 ``` r
 xpdc_sample_units_events <- xpdc %>%
-  mermaid_get_project_data(method = "benthicpits", data = c("sampleunits", "sampleevents"))
+  mermaid_get_project_data(method = "benthicpit", data = c("sampleunits", "sampleevents"))
 
 names(xpdc_sample_units_events)
 #> [1] "sampleunits"  "sampleevents"
@@ -351,7 +351,7 @@ To pull data for both fish belt and benthic PIT methods, you can set
 
 ``` r
 xpdc_sample_events <- xpdc %>%
-  mermaid_get_project_data(method = c("beltfishes", "benthicpits"), data = "sampleevents")
+  mermaid_get_project_data(method = c("fishbelt", "benthicpit"), data = "sampleevents")
 ```
 
 The result is a list of data frames, containing sample events for both
@@ -359,9 +359,9 @@ fish belt and benthic PIT methods:
 
 ``` r
 names(xpdc_sample_events)
-#> [1] "beltfishes"  "benthicpits"
+#> [1] "fishbelt"   "benthicpit"
 
-xpdc_sample_events[["benthicpits"]]
+xpdc_sample_events[["benthicpit"]]
 #> # A tibble: 38 x 28
 #>    project tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
@@ -387,6 +387,21 @@ xpdc_sample_events[["benthicpits"]]
 #> #   management_notes <chr>, sample_unit_count <int>, contact_link <chr>
 ```
 
+Alternatively, you can set `method` to “all” to pull for all methods\!
+This will be handy once there are more than two methods. Similarly, you
+can set `data` to “all” to pull all types of data:
+
+``` r
+all_project_data <- xpdc %>%
+  mermaid_get_project_data(method = "all", data = "all", limit = 1)
+
+names(all_project_data)
+#> [1] "fishbelt"   "benthicpit"
+
+names(all_project_data[["benthicpit"]])
+#> [1] "observations" "sampleunits"  "sampleevents"
+```
+
 #### Multiple projects
 
 Pulling data for multiple projects is the exact same, except there will
@@ -410,7 +425,7 @@ my_projects
 
 ``` r
 my_projects %>%
-  mermaid_get_project_data("beltfishes", "sampleevents", limit = 1)
+  mermaid_get_project_data("fishbelt", "sampleevents", limit = 1)
 #> # A tibble: 4 x 29
 #>   project tags  country site  latitude longitude reef_type reef_zone
 #>   <chr>   <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
@@ -538,5 +553,5 @@ mermaid_get_managements()
 
 There is additional data available from the MERMAID API, both related to
 specific projects and not. If you think you’ll need to use these, please
-see the help for them specifically by typing `?mermaid_get_endpoint` or
+see the help for them by typing `?mermaid_get_endpoint` or
 `?mermaid_get_project_endpoint`.

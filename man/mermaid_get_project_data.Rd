@@ -6,8 +6,8 @@
 \usage{
 mermaid_get_project_data(
   project,
-  method = c("beltfishes", "benthicpits"),
-  data = c("observations", "sampleunits", "sampleevents"),
+  method = c("fishbelt", "benthicpit", "all"),
+  data = c("observations", "sampleunits", "sampleevents", "all"),
   limit = NULL,
   url = base_url,
   token = mermaid_token(),
@@ -17,7 +17,7 @@ mermaid_get_project_data(
 \arguments{
 \item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_endpoint}} or \code{\link{mermaid_search_projects}}. Defaults to the projects listed via \code{get_default_project}, if available.}
 
-\item{method}{Method to get data for. One of "beltfishes", "benthicpits", or "all" (to get data for both methods).}
+\item{method}{Method to get data for. One of "fishbelt", "benthicpit", or "all" (to get data for both methods).}
 
 \item{data}{Data to return. One of "observations", "sampleunits", "sampleevents", or all (to get all three kinds of data). See details for more.}
 
@@ -28,13 +28,18 @@ mermaid_get_project_data(
 \item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
 }
 \description{
-Get MERMAID project data
+Get fishbelt or benthic PIT data for your MERMAID projects. Data is available at the observation, sample unit, and sample event level.
+}
+\details{
+Fish belt method data is available by setting \code{method} to "fishbelt". Fish belt observations data contains individual observations recorded in MERMAID, while sample units contains total biomass in kg/ha per sample unit, by trophic group. Sample events data contains \emph{mean} total biomass in kg/ha per sample event and by trophic group.
+
+Benthic PIT method data is available by setting \code{method} to "benthicpit". Similarly, benthic PIT observations contain individual observations. Sample units data returns percent cover per sample unit, by benthic category. Sample events contain \emph{mean} percent cover per sample event, by benthic category.
 }
 \examples{
 projects <- mermaid_get_my_projects()
 projects \%>\%
-  mermaid_get_project_data(method = "beltfishes", data = "sampleevents", limit = 10)
+  mermaid_get_project_data(method = "fishbelt", data = "observations", limit = 10)
 
 projects \%>\%
-  mermaid_get_project_data(method = c("benthicpits", "beltfishes"), data = "sampleevents", limit = 10)
+  mermaid_get_project_data(method = c("benthicpit", "fishbelt"), data = "sampleevents", limit = 10)
 }
