@@ -8,6 +8,7 @@ test_that("mermaid_get_endpoint returns a tibble when passed a known endpoint.",
 })
 
 test_that("mermaid_get_endpoint can return for multiple endpoints", {
+  skip_if_offline()
   output <- get_endpoint(c("sites", "managements"), limit = 1)
   expect_is(output, "list")
   expect_named(output, c("sites", "managements"))

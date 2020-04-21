@@ -34,6 +34,7 @@ test_that("mermaid_get_project_data allows multiple methods and multiple forms o
 })
 
 test_that("mermaid_get_project_data errors if passed a wrong method or data", {
+  skip_if_offline()
   p <- mermaid_get_my_projects(limit = 1)
   expect_error(mermaid_get_project_data(p, method = "beltfishs", data = "sampleunits"), "one of")
   expect_error(mermaid_get_project_data(p, method = "beltfishes", data = "samplevents"), "one of")

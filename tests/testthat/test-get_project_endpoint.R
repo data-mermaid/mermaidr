@@ -93,12 +93,14 @@ test_that("pagination works to return all records", {
 })
 
 test_that("get_project_endpoint allows multiple projects and multiple endpoints", {
+  skip_if_offline()
   output <- get_project_endpoint(c("5679ef3d-bafc-453d-9e1a-a4b282a8a997", "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a"), c("sites", "managements"), limit = 1)
   expect_is(output, "list")
   expect_named(output, c("sites", "managements"))
 })
 
 test_that("sample_date is converted to a date", {
+  skip_if_offline()
   output <- get_project_endpoint("5679ef3d-bafc-453d-9e1a-a4b282a8a997", "beltfishes/obstransectbeltfishes", limit = 1)
   expect_true(inherits(output[["sample_date"]], "Date"))
 })
