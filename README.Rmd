@@ -37,7 +37,7 @@ library(mermaidr)
 
 ## Authentication
 
-`mermaidr` will help you interact with MERMAID Collect as an authenticated user, as soon as you need. This is only required for accessing project specific data. To access a list of projects, sites, etc, you do not need to be authenticated.
+`mermaidr` will help you interact with MERMAID Collect as an authenticated user, as soon as you need. This is only required for accessing project specific data. To access a list of all projects, sites, etc, you do not need to be authenticated.
 
 If you would like to authenticate yourself immediately, use `mermaid_auth()`. This will open your browser to the MERMAID Collect login. Once you log in, you can go back to R and will be authenticated.
 
@@ -47,172 +47,165 @@ The login credentials expire every 24 hours. Once your credentials are expired, 
 
 All functions in `mermaidr` are of the form `mermaid_*()`, to make functions easier to find and use when loaded with other packages!
 
-To access the unauthenticated API endpoints (e.g. endpoints that are not related to a specific project), use `mermaid_get_endpoint()`. The results will return as a `tibble.` The following endpoints are available: "benthicattributes", "choices" (a way to lookup values from IDs),  "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites".
+## Accessing project data
 
-For example,
-
-```{r}
-library(mermaidr)
-
-mermaid_get_endpoint("sites")
-```
-
-By default, the function returns all results - to get less, use the `limit` argument:
-
-```{r}
-mermaid_get_endpoint("managements", limit = 5)
-```
-
-For specifically listing projects, there is a wrapper function `mermaid_list_projects()`:
-
-```{r}
-mermaid_list_projects(limit = 5)
-```
-
-This will list all (as many as `limit`) projects. By default, it does *not* include test projects. To include test projects, set `include_test_projects = TRUE`.
-
-To specifically access projects that you *have access to*, use `mermaid_list_my_projects()`:
-
-```{r}
-mermaid_list_my_projects(limit = 1)
-```
-
-This will return a list of projects that you have access to in Collect. Again, this does not include test projects.
-
-#### Multiple endpoints
-
-To get data from multiple endpoints, pass a vector of endpoints. You will get a list of tibbles:
-
-```{r}
-mermaid_get_endpoint(c("managements", "sites"), limit = 1)
-```
-
-### Accessing project data
-
-#### Getting projects
-
-You will be able to access data from a specific project, provided that you have access to it in the Collect app. To access data for a project, you can either use a project from `mermaid_list_my_projects()` (as above), a `project_id` directly, or a project from `mermaid_search_projects()`. 
-
-For example:
-
-```{r}
-mermaidr_project <- mermaid_search_projects(name = "Sharla test", include_test_projects = TRUE)
-
-mermaidr_project
-```
-
-returns a single project with the name "Sharla test".
-
-You can also search projects by country or tag:
-
-```{r}
-mermaid_search_projects(country = "Fiji")
-```
-
-and if you only want to search *your* projects, pass your token to the function:
-
-```{r}
-mermaid_search_projects(country = "Fiji", token = mermaid_token())
-```
-
-Note that the country and tag searches search if the countries/tag fields *contain* that value, since they may not always be exactly what you expect. For example, to search projects in Tanzania:
-
-```{r}
-mermaid_search_projects(country = "Tanzania", limit = 1)[["countries"]]
-```
-
-If you need help figuring out what a country is named, use `mermaid_countries()`, which will list how countries are named in MERMAID:
-
-```{r}
-head(mermaid_countries())
-```
-
-#### Getting the data
-
-You can use this project result to access an endpoint for the project, using `mermaid_get_project_endpoint()`. Details on the endpoints available are below.
+To access data related to your MERMAID projects, first obtain a list of your projects with `mermaid_get_my_projects()`. 
 
 At this point, you will have to authenticate to the Collect app. R will help you do this automatically by opening a browser window for you to log in to Collect, either via Google sign-in or username and password - however you normally do!
 
 Once you've logged in, come back to R. Your login credentials will be stored for a day, until they expire, and you will need to login again. The package handles the expiration for you, so just log in again when prompted.
 
-#### Aggregated endpoints
-
-The "clean", aggregated endpoints currently available are for beltfish records: "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", and "beltfishes/sampleevents" and Benthic PIT records: "benthicpits/obstransectbenthicpits", "benthicpits/sampleunits", and "benthicpits/sampleevents".
-
-##### Observations
-
-The "obs" endpoints show individual observations:
-
 ```{r}
-xpdc <- mermaid_search_projects("XPDC Kei Kecil 2018")
-
-mermaid_get_project_endpoint(xpdc, "beltfishes/obstransectbeltfishes", limit = 5)
-mermaid_get_project_endpoint(xpdc, "benthicpits/obstransectbenthicpits", limit = 5)
-```
-
-##### Sample Units
-
-The "sampleunits" endpoints are aggregated to the sample unit level. 
-
-Fishbelt sample units contain total biomass in kg/ha per sample unit, by trophic group:
-
-```{r}
-mermaid_get_project_endpoint(xpdc, "beltfishes/sampleunits", limit = 5)
-```
-
-Benthic PIT sample units contain percent cover per sample unit, by benthic category:
-
-```{r}
-mermaid_get_project_endpoint(xpdc, "benthicpits/sampleunits", limit = 5)
-```
-
-##### Sample Events
-
-The "sampleevents" endpoints are aggregated further, to the sample event level. 
-
-Fishbelt sample events contain *mean* total biomass in kg/ha per sample event and by trophic group:
-
-```{r}
-mermaid_get_project_endpoint(xpdc, "beltfishes/sampleevents", limit = 5)
-```
-
-Benthic PIT sample events contain *mean* percent cover per sample event by benthic category:
-
-```{r}
-mermaid_get_project_endpoint(xpdc, "benthicpits/sampleevents", limit = 5)
-```
-
-#### Raw project endpoints
-
-The following endpoints contain raw project data: "beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites".
-
-For example, to see the sites in this project:
-
-```{r}
-mermaid_get_project_endpoint(mermaidr_project, "sites")
-```
-
-### How to specify projects
-
-If you want to access data from the same project multiple times within a session, it may be useful to set the default project, rather than having to supply it every time. You can do this using `mermaid_set_default_project()`. Then, you can just supply the endpoint, and the default project is used.
-
-```{r}
-mermaid_set_default_project(xpdc)
-mermaid_get_project_endpoint(endpoint = "sites", limit = 1)
-```
-
-You can also use the `project_id` directly to access data from a project, without having to search for it first. This may be handy since the `project_id` is directly available from the URL when using the Collect app.
-
-```{r}
-mermaid_get_project_endpoint("9de82789-c38e-462e-a1a8-e02c020c7a35", endpoint = "managements", limit = 1)
-```
-
-And you can access data from multiple project simultaneously:
-
-```{r}
-my_projects <- mermaid_list_my_projects()
+library(mermaidr)
+my_projects <- mermaid_get_my_projects()
 
 my_projects
-
-mermaid_get_project_endpoint(my_projects, "sites", limit = 1)
 ```
+
+This function returns information on your projects, including project countries, the number of sites, tags, data policies, and more.
+
+To filter for specific projects, you can use the `filter` function from `dplyr`:
+
+```{r, message = FALSE}
+library(dplyr)
+
+indonesia_projects <- my_projects %>%
+  filter(countries == "Indonesia")
+
+indonesia_projects
+```
+
+Then, you can start to access data about your projects, like project sites via `mermaid_get_project_sites()`:
+
+```{r}
+indonesia_projects %>%
+  mermaid_get_project_sites()
+```
+
+Or the managements for your projects via `mermaid_get_project_managements()`:
+
+```{r}
+indonesia_projects %>%
+  mermaid_get_project_managements()
+```
+
+### Method data
+
+You can also currently access data on your projects' fish belt and benthic PIT methods, with more methods to come. The details are in the following sections.
+
+#### Fish Belt data
+
+To access fish belt data for a project, use `mermaid_get_project_data()` with `method = "beltfishes"`. 
+
+You can access individual observations (i.e., a record of each observation) by setting `data = "observations`":
+
+```{r}
+xpdc <- my_projects %>%
+  filter(name == "XPDC Kei Kecil 2018")
+
+xpdc %>%
+  mermaid_get_project_data(method = "beltfishes", data = "observations")
+```
+
+You can access sample units data, which are observations aggregated to the sample units level. Fish belt sample units contain total biomass in kg/ha per sample unit, by trophic group:
+
+```{r}
+xpdc %>%
+  mermaid_get_project_data("beltfishes", "sampleunits")
+```
+
+And finally, sample events data, which are aggregated further, to the sample event level. Fish belt sample events contain *mean* total biomass in kg/ha per sample event and by trophic group:
+
+```{r}
+xpdc %>%
+  mermaid_get_project_data("beltfishes", "sampleevents")
+```
+
+#### Benthic PIT data
+
+Accessing Benthic PIT data works the exact same way as Fish Belt data, except you change `method` to "benthicpits":
+
+```{r}
+xpdc %>%
+  mermaid_get_project_data(method = "benthicpits", data = "observations")
+```
+
+You can access sample units and sample events the same way. 
+
+For Benthic PIT, sample units contain percent cover per sample unit, by benthic category. Sample *events* contain *mean* percent cover per sample event, by benthic category. 
+
+You can return both of these by setting the `data` argument. This will return a list of two data frames: one containing sample units, and the other sample events.
+
+```{r}
+xpdc_sample_units_events <- xpdc %>%
+  mermaid_get_project_data(method = "benthicpits", data = c("sampleunits", "sampleevents"))
+
+names(xpdc_sample_units_events)
+xpdc_sample_units_events[["sampleunits"]]
+```
+
+#### Multiple methods data
+
+To pull data for both fish belt and benthic PIT methods, you can set `method` to include both.
+
+```{r}
+xpdc_sample_events <- xpdc %>%
+  mermaid_get_project_data(method = c("beltfishes", "benthicpits"), data = "sampleevents")
+```
+
+The result is a list of data frames, containing sample events for both fish belt and benthic PIT methods:
+
+```{r}
+names(xpdc_sample_events)
+
+xpdc_sample_events[["benthicpits"]]
+```
+
+#### Multiple projects
+
+Pulling data for multiple projects is the exact same, except there will be an additional "project" column at the beginning to distinguish which projects the data comes from. Recall that `my_projects contains four projects:
+
+```{r}
+my_projects
+```
+
+```{r}
+my_projects %>%
+  mermaid_get_project_data("beltfishes", "sampleevents", limit = 1)
+```
+
+Note the `limit` argument here, which just limits the data pulled to one record (per project, method, and data combination). This is useful if you want to get a preview of what your data will look like without having to pull it all in.
+
+### Accessing non-project data
+
+You may also want to access data that is not related to projects. To access this data, you do not need to authenticate R with MERMAID.
+
+For example, you can also pull the reference data (the names and information of the fish and benthic attributes you can choose in MERMAID), using `mermaid_get_reference()`:
+
+```{r}
+mermaid_get_reference(reference = "fishfamilies")
+```
+
+Using this function, you can access the fish family, fish genera, fish species, and benthic attributes references by changing the `reference` argument.
+
+You can also get a list of *all* projects (not just your own):
+
+```{r}
+mermaid_get_projects()
+```
+
+As well as all sites:
+
+```{r}
+mermaid_get_sites()
+```
+
+And all managements:
+
+```{r}
+mermaid_get_managements()
+```
+
+### Other data
+
+There is additional data available from the MERMAID API, both related to specific projects and not. If you think you'll need to use these, please see the help for them by typing `?mermaid_get_endpoint` or `?mermaid_get_project_endpoint`.
