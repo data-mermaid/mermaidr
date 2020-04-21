@@ -5,7 +5,7 @@
 \title{Get other MERMAID API project endpoints}
 \usage{
 mermaid_get_project_endpoint(
-  project,
+  project = mermaid_get_default_project(),
   endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods",
     "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords",
     "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits",

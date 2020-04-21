@@ -147,6 +147,10 @@ initial_cleanup <- function(results, endpoint) {
     results <- dplyr::mutate(results, sample_date = as.Date(sample_date))
   }
 
+  if (endpoint == "managements") {
+    results <- dplyr::select(results, -tidyselect::any_of("project"))
+  }
+
   results
 }
 

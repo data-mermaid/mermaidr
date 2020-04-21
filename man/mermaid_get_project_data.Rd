@@ -6,8 +6,8 @@
 \usage{
 mermaid_get_project_data(
   project,
-  method = c("beltfishes", "benthicpit"),
-  data = c("observations", "sampleunits", "sampleevents", "all"),
+  method = c("beltfishes", "benthicpits"),
+  data = c("observations", "sampleunits", "sampleevents"),
   limit = NULL,
   url = base_url,
   token = mermaid_token(),
@@ -34,4 +34,7 @@ Get MERMAID project data
 projects <- mermaid_get_my_projects()
 projects \%>\%
   mermaid_get_project_data(method = "beltfishes", data = "sampleevents", limit = 10)
+
+projects \%>\%
+  mermaid_get_project_data(method = c("benthicpits", "beltfishes"), data = "sampleevents", limit = 10)
 }

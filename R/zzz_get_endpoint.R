@@ -45,8 +45,6 @@ lookup_choices <- function(results, endpoint, url, endpoint_type = "main") {
       lookup_variable(choices, "exposure") %>%
       dplyr::rename_at(dplyr::vars(country_name, reef_type_name, reef_zone_name, exposure_name), ~ gsub("_name", "", .x))
   } else if (endpoint == "managements") {
-    results <- dplyr::select(results, -tidyselect::any_of("project"))
-
     if ("project_name" %in% names(results)) {
       results <- dplyr::rename(results, project = project_name)
     }
