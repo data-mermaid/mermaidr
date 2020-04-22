@@ -10,8 +10,7 @@ mermaid_get_project_data(
   data = c("observations", "sampleunits", "sampleevents", "all"),
   limit = NULL,
   url = base_url,
-  token = mermaid_token(),
-  ...
+  token = mermaid_token()
 )
 }
 \arguments{

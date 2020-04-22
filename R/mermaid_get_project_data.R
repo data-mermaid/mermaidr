@@ -19,7 +19,7 @@
 #'
 #' projects %>%
 #'   mermaid_get_project_data(method = c("benthicpit", "fishbelt"), data = "sampleevents", limit = 10)
-mermaid_get_project_data <- function(project, method = c("fishbelt", "benthicpit", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, url = base_url, token = mermaid_token(), ...) {
+mermaid_get_project_data <- function(project, method = c("fishbelt", "benthicpit", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, url = base_url, token = mermaid_token()) {
 
   check_project_data_inputs(method, data)
 

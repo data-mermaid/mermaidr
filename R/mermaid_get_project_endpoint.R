@@ -2,7 +2,6 @@
 #'
 #' @inheritParams get_project_endpoint
 #'
-#' @return
 #' @export
 #'
 #' @examples

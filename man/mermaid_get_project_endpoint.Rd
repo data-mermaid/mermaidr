@@ -27,9 +27,6 @@ mermaid_get_project_endpoint(
 
 \item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
 }
-\value{
-
-}
 \description{
 Get other MERMAID API project endpoints
 }

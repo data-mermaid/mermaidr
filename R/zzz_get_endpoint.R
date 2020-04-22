@@ -1,9 +1,6 @@
 #' Get MERMAID endpoint
 #'
 #' @inheritParams mermaid_GET
-#'
-#' @examples
-#' get_endpoint("sites", limit = 1)
 get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites"), limit = NULL, url = base_url, ...) {
   endpoint <- match.arg(endpoint, several.ok = TRUE)
   res <- mermaid_GET(endpoint, limit = limit, url = url, ...)

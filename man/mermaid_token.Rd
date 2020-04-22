@@ -12,6 +12,11 @@ include_token_if(cond)
 
 omit_token_if(cond)
 }
+\arguments{
+\item{verbose}{logical; do you want informative messages?}
+
+\item{cond}{logical}
+}
 \value{
 a \code{request} object (an S3 class provided by \code{httr})
 }

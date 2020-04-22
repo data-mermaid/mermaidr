@@ -24,6 +24,3 @@ get_endpoint(
 \description{
 Get MERMAID endpoint
 }
-\examples{
-get_endpoint("sites", limit = 1)
-}
