@@ -64,7 +64,7 @@ test_that("mermaid_search_projects returns projects that all have Country if Cou
   output <- mermaid_search_projects(country = "Fiji")
   expect_true(all_contain_value(output[["countries"]], "Fiji"))
 
-  output <- mermaid_search_projects(country = "Fiji", token = mermaid_token())
+  output <- mermaid_search_projects(country = "Indonesia", token = mermaid_token())
   expect_true(nrow(output) > 0)
 })
 
@@ -100,6 +100,7 @@ test_that("mermaid_search_projects respects limit", {
 })
 
 test_that("mermaid_search_projects returns same columns", {
+  skip_if_offline()
   expect_named(mermaid_search_projects("Test", include_test_projects = TRUE), mermaid_endpoint_columns[["projects"]])
   expect_named(mermaid_search_projects(country = "Fiji"), mermaid_endpoint_columns[["projects"]])
   expect_named(mermaid_search_projects(tag = "WCS Fiji"), mermaid_endpoint_columns[["projects"]])

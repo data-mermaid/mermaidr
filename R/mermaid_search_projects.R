@@ -6,7 +6,7 @@
 #' @param country Project country. Projects are returned if the \code{countries} field contains \code{country}, not just if it is exactly the same. For a list of countries used in MERMAID, see \code{\link{mermaid_countries}}
 #' @param tag Project tag. Projects are returned if the \code{tags} field contains \code{tag}, not just if it is exactly the same.
 #' @inheritParams mermaid_GET
-#' @inheritParams mermaid_list_my_projects
+#' @inheritParams mermaid_get_my_projects
 #'
 #' @export
 #' @examples
@@ -33,9 +33,9 @@ mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, inc
 
   if (!is.null(name)) {
     if (include_test_projects) {
-      projects <- mermaid_get_endpoint("projects", limit = limit, url = url, token = token, name = name)
+      projects <- get_endpoint("projects", limit = limit, url = url, token = token, name = name)
     } else {
-      projects <- mermaid_get_endpoint("projects", limit = limit, url = url, token = token, name = name, status = 90)
+      projects <- get_endpoint("projects", limit = limit, url = url, token = token, name = name, status = 90)
     }
 
     if (is.null(country) & is.null(tag)) {
@@ -43,9 +43,9 @@ mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, inc
     }
   } else if (!is.null(country) | !is.null(tag)) {
     if (is.null(token)) {
-      projects <- mermaid_list_projects(url = url, include_test_projects = include_test_projects)
+      projects <- mermaid_get_projects(url = url, include_test_projects = include_test_projects)
     } else {
-      projects <- mermaid_list_my_projects(url = url, include_test_projects = include_test_projects, token = token)
+      projects <- mermaid_get_my_projects(url = url, include_test_projects = include_test_projects, token = token)
     }
   }
 

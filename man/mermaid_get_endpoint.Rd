@@ -2,28 +2,24 @@
 % Please edit documentation in R/mermaid_get_endpoint.R
 \name{mermaid_get_endpoint}
 \alias{mermaid_get_endpoint}
-\title{Get MERMAID endpoint}
+\title{Get other MERMAID API endpoints}
 \usage{
 mermaid_get_endpoint(
-  endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera",
-    "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites"),
+  endpoint = c("choices", "projecttags", "fishsizes"),
   limit = NULL,
-  url = base_url,
-  ...
+  url = base_url
 )
 }
 \arguments{
-\item{endpoint}{Endpoint}
+\item{endpoint}{MERMAID API endpoint. One of "choices", "projecttags", "fishsizes".}
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
 \item{url}{API URL. Defaults to https://api.datamermaid.org}
-
-\item{...}{Additional parameters used as needed}
 }
 \description{
-Get MERMAID endpoint
+Get other MERMAID API endpoints
 }
 \examples{
-mermaid_get_endpoint("sites", limit = 1)
+mermaid_get_endpoint("choices")
 }
