@@ -6,6 +6,8 @@ test_that("mermaid_set_default_project sets environment variable, and mermaid_ge
 
 test_that("mermaid_set_default_project and get_default_project work with multiple projects", {
   skip_if_offline()
+  skip_on_travis()
+  skip_on_cran()
   p <- mermaid_get_my_projects()
   mermaid_set_default_project(p)
   expect_equal(mermaid_get_default_project(), p[["id"]])

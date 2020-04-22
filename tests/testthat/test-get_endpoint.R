@@ -4,11 +4,15 @@ test_that("mermaid_get_endpoint throws an error when an unexpected endpoint is p
 
 test_that("mermaid_get_endpoint returns a tibble when passed a known endpoint.", {
   skip_if_offline()
+  skip_on_travis()
+  skip_on_cran()
   expect_is(get_endpoint("sites", limit = 1), "tbl_df")
 })
 
 test_that("mermaid_get_endpoint can return for multiple endpoints", {
   skip_if_offline()
+  skip_on_travis()
+  skip_on_cran()
   output <- get_endpoint(c("sites", "managements"), limit = 1)
   expect_is(output, "list")
   expect_named(output, c("sites", "managements"))
