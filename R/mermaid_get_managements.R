@@ -7,7 +7,9 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' mermaid_get_managements(limit = 10)
+#' }
 mermaid_get_managements <- function(limit = NULL, url = base_url) {
 
   get_endpoint("managements", limit = limit, url = base_url)

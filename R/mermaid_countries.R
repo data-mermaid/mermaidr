@@ -7,7 +7,9 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' mermaid_countries()
+#' }
 mermaid_countries <- function(url = base_url) {
   check_internet()
   choices <- get_endpoint("choices", url = url, limit = NULL)

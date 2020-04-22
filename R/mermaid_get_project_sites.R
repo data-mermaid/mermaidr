@@ -7,9 +7,11 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' projects <- mermaid_get_my_projects()
 #' projects %>%
 #'   mermaid_get_project_sites()
+#'}
 mermaid_get_project_sites <- function(project, limit = NULL, url = base_url, token = mermaid_token()) {
 
   get_project_endpoint(project = project, endpoint = "sites", limit = limit, url = url, token = token)

@@ -21,5 +21,7 @@ mermaid_get_endpoint(
 Get other MERMAID API endpoints
 }
 \examples{
+\donttest{
 mermaid_get_endpoint("choices")
+}
 }

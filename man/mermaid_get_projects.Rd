@@ -24,5 +24,7 @@ A tibble of MERMAID projects including project name, countries, number of sites,
 Get a list of all MERMAID Projects
 }
 \examples{
+\donttest{
 mermaid_get_projects(limit = 5)
+}
 }

@@ -6,7 +6,9 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' mermaid_get_endpoint("choices")
+#' }
 mermaid_get_endpoint <- function(endpoint = c("choices", "projecttags", "fishsizes"), limit = NULL, url = base_url) {
 
   if (!all(endpoint %in% c("choices", "projecttags", "fishsizes"))) {

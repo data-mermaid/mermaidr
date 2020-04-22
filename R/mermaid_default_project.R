@@ -10,7 +10,7 @@
 #' test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 #' mermaid_set_default_project(test_project)
 #' mermaid_get_default_project()
-#' \dontrun{
+#' \donttest{
 #' # Since a default project is set, you can use mermaid_get_project_endpoint
 #' # without explicitly supplying a project
 #' mermaid_get_project_endpoint(endpoint = "sites")

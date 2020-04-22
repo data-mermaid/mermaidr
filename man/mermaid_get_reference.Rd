@@ -21,6 +21,8 @@ mermaid_get_reference(
 Find the names and information of the fish and benthic attributes you can choose in MERMAID.
 }
 \examples{
+\donttest{
 mermaid_get_reference("benthicattributes")
 mermaid_get_reference(c("fishfamilies", "fishgenera"))
+}
 }

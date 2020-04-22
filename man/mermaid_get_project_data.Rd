@@ -35,10 +35,12 @@ Fish belt method data is available by setting \code{method} to "fishbelt". Fish 
 Benthic PIT method data is available by setting \code{method} to "benthicpit". Similarly, benthic PIT observations contain individual observations. Sample units data returns percent cover per sample unit, by benthic category. Sample events contain \emph{mean} percent cover per sample event, by benthic category.
 }
 \examples{
+\donttest{
 projects <- mermaid_get_my_projects()
 projects \%>\%
   mermaid_get_project_data(method = "fishbelt", data = "observations", limit = 10)
 
 projects \%>\%
   mermaid_get_project_data(method = c("benthicpit", "fishbelt"), data = "sampleevents", limit = 10)
+}
 }

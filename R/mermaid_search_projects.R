@@ -10,6 +10,7 @@
 #'
 #' @export
 #' @examples
+#' \donttest{
 #' mermaid_search_projects(tag = "WCS Fiji")
 #' mermaid_search_projects(country = "Fiji", tag = "WWF-UK")
 #'
@@ -18,12 +19,11 @@
 #' mermaid_search_projects(country = "Tanzania", limit = 1)[["countries"]]
 #'
 #' # To search within your projects only:
-#' \dontrun{
 #' mermaid_search_projects(country = "Fiji", token = mermaid_token())
-#' }
 #'
 #' # To include test projects:
 #' mermaid_search_projects(name = "test", include_test_projects = TRUE)
+#' }
 mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, include_test_projects = FALSE, limit = NULL, url = base_url, token = NULL) {
   if (is.null(name) & is.null(country) & is.null(tag)) {
     stop("You haven't provided a `name`, `country`, or `tag` to search by.",
