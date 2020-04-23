@@ -51,11 +51,11 @@ mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, inc
 
   if (!is.null(country)) {
     projects <- projects %>%
-      dplyr::filter(grepl(country, countries))
+      dplyr::filter(grepl(country,.data$countries))
   }
   if (!is.null(tag)) {
     projects <- projects %>%
-      dplyr::filter(grepl(tag, tags))
+      dplyr::filter(grepl(tag, .data$tags))
   }
 
   if (is.null(limit)) {

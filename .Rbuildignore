@@ -5,3 +5,5 @@
 ^README.Rmd
 ^data-raw$
 ^README\.Rmd$
+tests/testthat/.httr-oauth
+^\.travis\.yml$

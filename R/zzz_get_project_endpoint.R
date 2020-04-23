@@ -158,19 +158,19 @@ repack_df_cols <- function(x) {
 
 add_project_identifiers <- function(res, project) {
   if ("project_name" %in% names(res)) {
-    res <- dplyr::select(res, project = project_name, dplyr::everything())
+    res <- dplyr::select(res, project = .data$project_name, dplyr::everything())
   } else if ("name" %in% names(project)) {
     res <- res %>%
       dplyr::select(-tidyselect::any_of("project")) %>%
-      dplyr::left_join(dplyr::select(project, id, project = name), by = c("project_id" = "id")) %>%
+      dplyr::left_join(dplyr::select(project, .data$id, project = .data$name), by = c("project_id" = "id")) %>%
       dplyr::select(project, dplyr::everything())
   }
 
   if (all(c("project", "project_id") %in% names(res))) {
     if (all(res[["project"]] == res[["project_id"]])) {
-      res <- dplyr::select(res, -project)
+      res <- dplyr::select(res, -.data$project)
     } else {
-      res <- dplyr::select(res, -project_id)
+      res <- dplyr::select(res, -.data$project_id)
     }
   }
 

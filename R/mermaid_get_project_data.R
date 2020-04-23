@@ -65,18 +65,24 @@ construct_endpoint <- function(method, data) {
   method_data <- tidyr::expand_grid(method = method, data = data)
 
   method_data <- method_data %>%
-    dplyr::mutate(method = dplyr::case_when(method == "fishbelt" ~ "beltfishes",
-                                            method == "benthicpit" ~ "benthicpits"),
+    dplyr::mutate(
+      method = dplyr::case_when(
+        .data$method == "fishbelt" ~ "beltfishes",
+        .data$method == "benthicpit" ~ "benthicpits"
+      ),
       data = dplyr::case_when(
-      data == "observations" & method == "beltfishes" ~ "obstransectbeltfishes",
-      data == "observations" & method == "benthicpits" ~ "obstransectbenthicpits",
-      TRUE ~ data
-    ))
+        .data$data == "observations" & .data$method == "beltfishes" ~ "obstransectbeltfishes",
+        .data$data == "observations" & .data$method == "benthicpits" ~ "obstransectbenthicpits",
+        TRUE ~ data
+      )
+    )
+
+  method_data <- method_data %>%
+    dplyr::mutate(endpoint = paste0(.data$method, "/", .data$data))
 
   method_data %>%
-    dplyr::mutate(endpoint = paste0(method, "/", data)) %>%
-    split(.$method) %>%
-    purrr::map(dplyr::pull, endpoint)
+    split(method_data$method) %>%
+    purrr::map(dplyr::pull, .data$endpoint)
 }
 
 project_data_columns <- list(

@@ -107,17 +107,17 @@ initial_cleanup <- function(results, endpoint) {
 
   if ("validations" %in% names(results)) {
     results <- results %>%
-      dplyr::select(-validations)
+      dplyr::select(-.data$validations)
   }
 
   if (endpoint == "sites") {
     results <- results %>%
-      tidyr::unpack(cols = c(location)) %>%
-      tidyr::hoist(coordinates,
+      tidyr::unpack(cols = c(.data$location)) %>%
+      tidyr::hoist(.data$coordinates,
         latitude = 2,
         longitude = 1
       ) %>%
-      dplyr::select(-type)
+      dplyr::select(-.data$type)
   }
 
   if (endpoint != "choices") {
@@ -130,21 +130,21 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if (all(c("profile", "profile_name") %in% names(results))) {
-    results <- dplyr::select(results, -profile) %>%
-      dplyr::rename(profile = profile_name)
+    results <- dplyr::select(results, -.data$profile) %>%
+      dplyr::rename(profile = .data$profile_name)
   }
 
   if (all(c("project", "project_name") %in% names(results))) {
-    results <- dplyr::select(results, -project) %>%
-      dplyr::rename(project = project_name)
+    results <- dplyr::select(results, -.data$project) %>%
+      dplyr::rename(project = .data$project_name)
   }
 
   if ("transect_len_surveyed" %in% names(results)) {
-    results <- dplyr::rename(results, transect_length = transect_len_surveyed)
+    results <- dplyr::rename(results, transect_length = .data$transect_len_surveyed)
   }
 
   if ("sample_date" %in% names(results)) {
-    results <- dplyr::mutate(results, sample_date = as.Date(sample_date))
+    results <- dplyr::mutate(results, sample_date = as.Date(.data$sample_date))
   }
 
   results
@@ -163,7 +163,7 @@ collapse_id_name_lists <- function(results) {
       results <- results %>%
         tidyr::hoist(list_cols[[i]], list_name = "name") %>%
         dplyr::select(-list_cols[[i]]) %>%
-        dplyr::rename(!!list_cols[[i]] := list_name)
+        dplyr::rename(!!list_cols[[i]] := .data$list_name)
     }
   }
 

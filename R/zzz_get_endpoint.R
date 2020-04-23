@@ -40,16 +40,16 @@ lookup_choices <- function(results, endpoint, url, endpoint_type = "main") {
       lookup_variable(choices, "reef_type") %>%
       lookup_variable(choices, "reef_zone") %>%
       lookup_variable(choices, "exposure") %>%
-      dplyr::rename_at(dplyr::vars(country_name, reef_type_name, reef_zone_name, exposure_name), ~ gsub("_name", "", .x))
+      dplyr::rename_at(dplyr::vars(.data$country_name, .data$reef_type_name, .data$reef_zone_name, .data$exposure_name), ~ gsub("_name", "", .x))
   } else if (endpoint == "managements") {
     if ("project_name" %in% names(results)) {
-      results <- dplyr::rename(results, project = project_name)
+      results <- dplyr::rename(results, project = .data$project_name)
     }
   }
 
   if ("status" %in% mermaid_endpoint_columns[[endpoint]]) {
     results <- results %>%
-      dplyr::mutate(status = dplyr::recode(status, `10` = "Locked", `80` = "Test", `90` = "Open"))
+      dplyr::mutate(status = dplyr::recode(.data$status, `10` = "Locked", `80` = "Test", `90` = "Open"))
   }
 
   if (any(grepl("^data_policy_", mermaid_endpoint_columns[["projects"]]))) {
@@ -73,9 +73,9 @@ lookup_variable <- function(.data, choices, variable) {
 
   variable_names <- choices %>%
     dplyr::filter(name == !!name) %>%
-    dplyr::select(-name) %>%
+    dplyr::select(-.data$name) %>%
     tidyr::unnest(data) %>%
-    dplyr::select(id, name) %>%
+    dplyr::select(.data$id, .data$name) %>%
     dplyr::rename_all(~ paste0(variable, "_", .x))
 
   join_by <- variable

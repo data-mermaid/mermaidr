@@ -16,10 +16,10 @@ mermaid_get_default_project()
 Configure default MERMAID projects \code{mermaid_set_default_project} sets project(s) as the default to be used automatically in \code{mermaid_get_project_endpoint}. \code{mermaid_get_default_project} lists the default projects.
 }
 \examples{
+\donttest{
 test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 mermaid_set_default_project(test_project)
 mermaid_get_default_project()
-\donttest{
 # Since a default project is set, you can use mermaid_get_project_endpoint
 # without explicitly supplying a project
 mermaid_get_project_endpoint(endpoint = "sites")

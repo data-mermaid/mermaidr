@@ -13,5 +13,5 @@
 mermaid_countries <- function(url = base_url) {
   check_internet()
   choices <- get_endpoint("choices", url = url, limit = NULL)
-  dplyr::filter(choices, name == "countries")[["data"]][[1]][["name"]]
+  dplyr::filter(choices, .data$name == "countries")[["data"]][[1]][["name"]]
 }
