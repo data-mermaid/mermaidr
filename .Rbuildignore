@@ -7,3 +7,5 @@
 ^README\.Rmd$
 tests/testthat/.httr-oauth
 ^\.travis\.yml$
+^\.circleci$
+^\.circleci/config\.yml$
