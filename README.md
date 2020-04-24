@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.com/sharlagelfand/mermaidr.svg?branch=master)](https://travis-ci.com/sharlagelfand/mermaidr)
 <!-- badges: end -->
 
 The goal of `mermaidr` is to access [MERMAID
