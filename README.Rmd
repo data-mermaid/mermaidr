@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 # mermaidr
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.com/sharlagelfand/mermaidr.svg?branch=master)](https://travis-ci.com/sharlagelfand/mermaidr)
+[![Travis build status](https://travis-ci.com/data-mermaid/mermaidr.svg?branch=master)](https://travis-ci.com/data-mermaid/mermaidr)
 <!-- badges: end -->
 
 The goal of `mermaidr` is to access [MERMAID Collect](https://collect.datamermaid.org/) data directly from R.
