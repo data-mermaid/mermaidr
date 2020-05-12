@@ -43,8 +43,5 @@ mermaid_search_projects(countries = "Tanzania", limit = 1)[["countries"]]
 
 # To search within your projects only:
 mermaid_search_projects(countries = "Fiji", token = mermaid_token())
-
-# To include test projects:
-mermaid_search_projects(name = "test", include_test_projects = TRUE)
 }
 }

@@ -76,6 +76,12 @@ indonesia_projects <- my_projects %>%
 indonesia_projects
 ```
 
+Alternatively, you can search your projects using `mermaid_search_my_projects()`, narrowing projects down by name, country, or tag:
+
+```{r}
+mermaid_search_my_projects(countries = "Indonesia")
+```
+
 Then, you can start to access data about your projects, like project sites via `mermaid_get_project_sites()`:
 
 ```{r}

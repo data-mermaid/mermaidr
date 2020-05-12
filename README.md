@@ -5,7 +5,8 @@
 
 <!-- badges: start -->
 
-[![CircleCI build status](https://circleci.com/gh/data-mermaid/mermaidr.svg?style=svg)](https://circleci.com/gh/data-mermaid/mermaidr)
+[![CircleCI build
+status](https://circleci.com/gh/data-mermaid/mermaidr.svg?style=svg)](https://circleci.com/gh/data-mermaid/mermaidr)
 <!-- badges: end -->
 
 The goal of `mermaidr` is to access [MERMAID
@@ -91,6 +92,23 @@ indonesia_projects <- my_projects %>%
   filter(countries == "Indonesia")
 
 indonesia_projects
+#> # A tibble: 3 x 14
+#>   id    name  countries num_sites tags  notes status data_policy_bel…
+#>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
+#> 1 3a9e… Aceh… Indonesia        18 "WCS… ""    Open   Private         
+#> 2 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Public Summary  
+#> 3 a3d1… Nort… Indonesia        44 "WCS… ""    Open   Private         
+#> # … with 6 more variables: data_policy_benthiclit <chr>,
+#> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
+#> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
+```
+
+Alternatively, you can search your projects using
+`mermaid_search_my_projects()`, narrowing projects down by name,
+country, or tag:
+
+``` r
+mermaid_search_my_projects(countries = "Indonesia")
 #> # A tibble: 3 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
 #>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
@@ -531,7 +549,7 @@ And all managements:
 
 ``` r
 mermaid_get_managements()
-#> # A tibble: 454 x 17
+#> # A tibble: 455 x 17
 #>    id    name  name_secondary rules notes est_year no_take periodic_closure
 #>    <chr> <chr> <chr>          <chr> <chr>    <int> <lgl>   <lgl>           
 #>  1 0260… Dawa… ""             Open… ""          NA FALSE   FALSE           
@@ -544,7 +562,7 @@ mermaid_get_managements()
 #>  8 05a4… Cons… ""             No T… ""          NA TRUE    FALSE           
 #>  9 05ec… Ra_t… ""             Peri… ""        2012 FALSE   TRUE            
 #> 10 066e… Kana… ""             Open… ""          NA FALSE   FALSE           
-#> # … with 444 more rows, and 9 more variables: open_access <lgl>,
+#> # … with 445 more rows, and 9 more variables: open_access <lgl>,
 #> #   size_limits <lgl>, gear_restriction <lgl>, species_restriction <lgl>,
 #> #   compliance <chr>, predecessor <chr>, parties <chr>, created_on <chr>,
 #> #   updated_on <chr>

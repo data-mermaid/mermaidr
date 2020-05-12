@@ -1,6 +1,6 @@
 test_that("get_project_endpoint throws an error when no project is passed, when trying to get data from a project you don't have access to, and when an unexpected endpoint is passed", {
   skip_if_offline()
-  skip_on_travis()
+  skip_on_ci()
   skip_on_cran()
   mermaid_set_default_project("")
   expect_error(get_project_endpoint(), "Please supply a project to get data from")
@@ -9,7 +9,7 @@ test_that("get_project_endpoint throws an error when no project is passed, when 
 
 test_that("get_project_endpoint returns a tibble with specified names when passed a known endpoint.", {
   skip_if_offline()
-  skip_on_travis()
+  skip_on_ci()
   skip_on_cran()
   test_project <- "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a"
   expect_named(get_project_endpoint(test_project, "beltfishtransectmethods", limit = 1), mermaid_project_endpoint_columns[["beltfishtransectmethods"]])
@@ -17,7 +17,7 @@ test_that("get_project_endpoint returns a tibble with specified names when passe
 
 test_that("get_project_endpoint returns a tibble when passed a known endpoint, even if there is no data.", {
   skip_if_offline()
-  skip_on_travis()
+  skip_on_ci()
   skip_on_cran()
   test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
   expect_named(get_project_endpoint(test_project, "obsbenthicpits", limit = 1), mermaid_project_endpoint_columns[["obsbenthicpits"]])
@@ -25,7 +25,7 @@ test_that("get_project_endpoint returns a tibble when passed a known endpoint, e
 
 test_that("get_project_endpoint allows multiple projects, and combines the results, adding a project identifier", {
   skip_if_offline()
-  skip_on_travis()
+  skip_on_ci()
   skip_on_cran()
   p <- mermaid_get_my_projects(include_test_projects = TRUE)
   expect_named(get_project_endpoint(p, "sites", limit = 1), c("project", mermaid_project_endpoint_columns[["sites"]]))
@@ -96,7 +96,7 @@ test_that("a data frame can be unpacked, rbinded, and repacked", {
 
 test_that("pagination works to return all records", {
   skip_if_offline()
-  skip_on_travis()
+  skip_on_ci()
   skip_on_cran()
   output <- get_project_endpoint("9de82789-c38e-462e-a1a8-e02c020c7a35", endpoint = "benthicpits/obstransectbenthicpits")
   expect_true(nrow(output) > 5000)
@@ -104,7 +104,7 @@ test_that("pagination works to return all records", {
 
 test_that("get_project_endpoint allows multiple projects and multiple endpoints", {
   skip_if_offline()
-  skip_on_travis()
+  skip_on_ci()
   skip_on_cran()
   output <- get_project_endpoint(c("5679ef3d-bafc-453d-9e1a-a4b282a8a997", "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a"), c("sites", "managements"), limit = 1)
   expect_is(output, "list")
@@ -113,7 +113,7 @@ test_that("get_project_endpoint allows multiple projects and multiple endpoints"
 
 test_that("sample_date is converted to a date", {
   skip_if_offline()
-  skip_on_travis()
+  skip_on_ci()
   skip_on_cran()
   output <- get_project_endpoint("5679ef3d-bafc-453d-9e1a-a4b282a8a997", "beltfishes/obstransectbeltfishes", limit = 1)
   expect_true(inherits(output[["sample_date"]], "Date"))

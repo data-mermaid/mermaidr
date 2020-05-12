@@ -1,6 +1,6 @@
 test_that("mermaid_get_project_data returns a data frame with the correct names", {
   skip_if_offline()
-  skip_on_travis()
+  skip_on_ci()
   skip_on_cran()
   p <- mermaid_get_my_projects(limit = 1)
   output <- mermaid_get_project_data(p, method = "benthicpit", data = "sampleunits", limit = 1)
@@ -11,7 +11,7 @@ test_that("mermaid_get_project_data returns a data frame with the correct names"
 
 test_that("mermaid_get_project_data allows multiple methods", {
   skip_if_offline()
-  skip_on_travis()
+  skip_on_ci()
   skip_on_cran()
   p <- mermaid_get_my_projects(limit = 1)
   output <- mermaid_get_project_data(p, method = c("fishbelt", "benthicpit"), data = "sampleunits", limit = 1)
@@ -20,7 +20,7 @@ test_that("mermaid_get_project_data allows multiple methods", {
 
 test_that("mermaid_get_project_data allows multiple forms of data", {
   skip_if_offline()
-  skip_on_travis()
+  skip_on_ci()
   skip_on_cran()
   p <- mermaid_get_my_projects(limit = 1)
   output <- mermaid_get_project_data(p, method = "fishbelt", data = c("observations", "sampleunits", "sampleevents"), limit = 1)
@@ -30,7 +30,7 @@ test_that("mermaid_get_project_data allows multiple forms of data", {
 
 test_that("mermaid_get_project_data allows multiple methods and multiple forms of data", {
   skip_if_offline()
-  skip_on_travis()
+  skip_on_ci()
   skip_on_cran()
   p <- mermaid_get_my_projects(limit = 1)
   output <- mermaid_get_project_data(p, method = c("fishbelt", "benthicpit"), data = c("observations", "sampleunits", "sampleevents"), limit = 1)
@@ -43,7 +43,7 @@ test_that("mermaid_get_project_data allows multiple methods and multiple forms o
 
 test_that("mermaid_get_project_data errors if passed a wrong method or data", {
   skip_if_offline()
-  skip_on_travis()
+  skip_on_ci()
   skip_on_cran()
   p <- mermaid_get_my_projects(limit = 1)
   expect_error(mermaid_get_project_data(p, method = "beltfishs", data = "sampleunits"), "one of")
@@ -52,7 +52,7 @@ test_that("mermaid_get_project_data errors if passed a wrong method or data", {
 
 test_that("mermaid_get_project_data setting 'all' works", {
   skip_if_offline()
-  skip_on_travis()
+  skip_on_ci()
   skip_on_cran()
   p <- mermaid_get_my_projects(limit = 1)
   output <- mermaid_get_project_data(p, method = "all", data = "all", limit = 1)
