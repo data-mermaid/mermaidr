@@ -3,8 +3,8 @@
 #' Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
 #'
 #' @param name Project name
-#' @param country Project country. Projects are returned if the \code{countries} field contains \code{country}, not just if it is exactly the same. For a list of countries used in MERMAID, see \code{\link{mermaid_countries}}
-#' @param tag Project tag. Projects are returned if the \code{tags} field contains \code{tag}, not just if it is exactly the same.
+#' @param countries Project country. Projects are returned if the \code{countries} field contains \code{countries} not just if it is exactly the same. For a list of countries used in MERMAID, see \code{\link{mermaid_countries}}
+#' @param tags Project tags. Projects are returned if the \code{tags} field contains \code{tags}, not just if it is exactly the same.
 #' @inheritParams mermaid_GET
 #' @inheritParams mermaid_get_my_projects
 #'
@@ -12,21 +12,21 @@
 #' @examples
 #' \donttest{
 #' mermaid_search_projects(tag = "WCS Fiji")
-#' mermaid_search_projects(country = "Fiji", tag = "WWF-UK")
+#' mermaid_search_projects(countries = "Fiji", tags = "WWF-UK")
 #'
 #' # The country (or tag) do not have to be exactly the same
 #' # A project is returned if it *contains* the country/tag:
-#' mermaid_search_projects(country = "Tanzania", limit = 1)[["countries"]]
+#' mermaid_search_projects(countries = "Tanzania", limit = 1)[["countries"]]
 #'
 #' # To search within your projects only:
-#' mermaid_search_projects(country = "Fiji", token = mermaid_token())
+#' mermaid_search_projects(countries = "Fiji", token = mermaid_token())
 #'
 #' # To include test projects:
 #' mermaid_search_projects(name = "test", include_test_projects = TRUE)
 #' }
-mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, include_test_projects = FALSE, limit = NULL, url = base_url, token = NULL) {
+mermaid_search_projects <- function(name = NULL, countries = NULL, tags = NULL, include_test_projects = FALSE, limit = NULL, url = base_url, token = NULL) {
   if (is.null(name) & is.null(country) & is.null(tag)) {
-    stop("You haven't provided a `name`, `country`, or `tag` to search by.",
+    stop("You haven't provided `name`, `countries`, or `tags` to search by.",
       call. = FALSE
     )
   }
@@ -38,10 +38,10 @@ mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, inc
       projects <- get_endpoint("projects", limit = limit, url = url, token = token, name = name, status = 90)
     }
 
-    if (is.null(country) & is.null(tag)) {
+    if (is.null(countries) & is.null(tags)) {
       check_single_project(projects, name)
     }
-  } else if (!is.null(country) | !is.null(tag)) {
+  } else if (!is.null(countries) | !is.null(tags)) {
     if (is.null(token)) {
       projects <- mermaid_get_projects(url = url, include_test_projects = include_test_projects)
     } else {
@@ -49,13 +49,13 @@ mermaid_search_projects <- function(name = NULL, country = NULL, tag = NULL, inc
     }
   }
 
-  if (!is.null(country)) {
+  if (!is.null(countries)) {
     projects <- projects %>%
-      dplyr::filter(grepl(country,.data$countries))
+      dplyr::filter(grepl(countries, .data$countries))
   }
   if (!is.null(tag)) {
     projects <- projects %>%
-      dplyr::filter(grepl(tag, .data$tags))
+      dplyr::filter(grepl(tags, .data$tags))
   }
 
   if (is.null(limit)) {
