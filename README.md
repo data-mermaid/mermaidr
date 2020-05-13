@@ -105,7 +105,7 @@ indonesia_projects
 
 Alternatively, you can search your projects using
 `mermaid_search_my_projects()`, narrowing projects down by name,
-country, or tag:
+countries, or tags:
 
 ``` r
 mermaid_search_my_projects(countries = "Indonesia")
@@ -425,7 +425,7 @@ names(all_project_data[["benthicpit"]])
 
 Pulling data for multiple projects is the exact same, except there will
 be an additional “project” column at the beginning to distinguish which
-projects the data comes from. Recall that \`my\_projects contains four
+projects the data comes from. Recall that `my_projects` contains four
 projects:
 
 ``` r
@@ -475,9 +475,9 @@ having to pull it all in.
 You may also want to access data that is not related to projects. To
 access this data, you do not need to authenticate R with MERMAID.
 
-For example, you can also pull the reference data (the names and
-information of the fish and benthic attributes you can choose in
-MERMAID), using `mermaid_get_reference()`:
+For example, you can pull reference data (the names and information of
+the fish and benthic attributes you can choose in MERMAID), using
+`mermaid_get_reference()`:
 
 ``` r
 mermaid_get_reference(reference = "fishfamilies")

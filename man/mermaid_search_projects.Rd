@@ -34,11 +34,11 @@ Returns metadata on project, including ID, name, countries, number of sites, tag
 }
 \examples{
 \donttest{
-mermaid_search_projects(tag = "WCS Fiji")
+mermaid_search_projects(tags = "WCS Fiji")
 mermaid_search_projects(countries = "Fiji", tags = "WWF-UK")
 
-# The country (or tag) do not have to be exactly the same
-# A project is returned if it *contains* the country/tag:
+# The countries (or tags) do not have to be exactly the same
+# A project is returned if it *contains* the countries/tags:
 mermaid_search_projects(countries = "Tanzania", limit = 1)[["countries"]]
 
 # To search within your projects only:

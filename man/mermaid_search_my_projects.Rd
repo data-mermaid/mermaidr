@@ -6,8 +6,8 @@
 \usage{
 mermaid_search_my_projects(
   name = NULL,
-  country = NULL,
-  tag = NULL,
+  countries = NULL,
+  tags = NULL,
   include_test_projects = FALSE,
   limit = NULL,
   url = base_url,
@@ -16,6 +16,10 @@ mermaid_search_my_projects(
 }
 \arguments{
 \item{name}{Project name}
+
+\item{countries}{Project country. Projects are returned if the \code{countries} field contains \code{countries} not just if it is exactly the same. For a list of countries used in MERMAID, see \code{\link{mermaid_countries}}}
+
+\item{tags}{Project tags. Projects are returned if the \code{tags} field contains \code{tags}, not just if it is exactly the same.}
 
 \item{include_test_projects}{Whether to include test projects. Defaults to FALSE.}
 
@@ -26,11 +30,11 @@ mermaid_search_my_projects(
 \item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
 }
 \description{
-Search within your MERMAID projects specfically. Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
+Search within your MERMAID projects specifically. Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
 }
 \examples{
 \donttest{
-mermaid_search_my_projects(tag = "WCS Indonesia")
+mermaid_search_my_projects(tags = "WCS Indonesia")
 mermaid_search_my_projects(countries = "Indonesia", tags = "Vibrant Oceans")
 
 # The country (or tag) do not have to be exactly the same
