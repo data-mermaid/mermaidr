@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: rocker/verse:latest
+      - image: rocker/verse:3.6.3
     environment:
       R_LIBS: ~/R/Library
     steps:
