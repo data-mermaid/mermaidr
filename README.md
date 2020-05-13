@@ -180,7 +180,7 @@ To access fish belt data for a project, use `mermaid_get_project_data()`
 with `method = "fishbelt"`.
 
 You can access individual observations (i.e., a record of each
-observation) by setting `data = "observations`":
+observation) by setting `data = "observations"`:
 
 ``` r
 xpdc <- my_projects %>%
