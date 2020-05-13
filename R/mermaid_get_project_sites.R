@@ -12,7 +12,7 @@
 #' projects %>%
 #'   mermaid_get_project_sites()
 #' }
-mermaid_get_project_sites <- function(project, limit = NULL, url = base_url, token = mermaid_token()) {
+mermaid_get_project_sites <- function(project = mermaid_get_default_project(), limit = NULL, url = base_url, token = mermaid_token()) {
   get_project_endpoint(project = project, endpoint = "sites", limit = limit, url = url, token = token)
 }
 

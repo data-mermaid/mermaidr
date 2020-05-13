@@ -18,7 +18,7 @@ mermaid_get_endpoint(
 \item{url}{API URL. Defaults to https://api.datamermaid.org}
 }
 \description{
-Get other MERMAID API endpoints
+Get other MERMAID API endpoints not covered by other \code{mermaid_get_*} functions.
 }
 \examples{
 \donttest{

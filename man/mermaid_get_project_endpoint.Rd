@@ -17,7 +17,7 @@ mermaid_get_project_endpoint(
 )
 }
 \arguments{
-\item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_endpoint}} or \code{\link{mermaid_search_projects}}. Defaults to the projects listed via \code{get_default_project}, if available.}
+\item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_my_projects}} or \code{\link{mermaid_search_my_projects}}. Defaults to the projects listed via \code{mermaid_get_default_project}, if available.}
 
 \item{endpoint}{Endpoint}
 
@@ -28,7 +28,7 @@ mermaid_get_project_endpoint(
 \item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
 }
 \description{
-Get other MERMAID API project endpoints
+Get other MERMAID API project endpoints not covered by other \code{mermaid_get_project_*} functions.
 }
 \examples{
 \donttest{

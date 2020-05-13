@@ -5,7 +5,7 @@
 \title{Get MERMAID project data}
 \usage{
 mermaid_get_project_data(
-  project,
+  project = mermaid_get_default_project(),
   method = c("fishbelt", "benthicpit", "all"),
   data = c("observations", "sampleunits", "sampleevents", "all"),
   limit = NULL,
@@ -14,7 +14,7 @@ mermaid_get_project_data(
 )
 }
 \arguments{
-\item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_endpoint}} or \code{\link{mermaid_search_projects}}. Defaults to the projects listed via \code{get_default_project}, if available.}
+\item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_my_projects}} or \code{\link{mermaid_search_my_projects}}. Defaults to the projects listed via \code{mermaid_get_default_project}, if available.}
 
 \item{method}{Method to get data for. One of "fishbelt", "benthicpit", or "all" (to get data for both methods).}
 

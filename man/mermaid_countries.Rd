@@ -10,7 +10,7 @@ mermaid_countries(url = base_url)
 \item{url}{API URL. Defaults to https://api.datamermaid.org}
 }
 \description{
-Returns the names of countries in MERMAID to help with searching
+Returns the names of countries in MERMAID to help with searching.
 }
 \examples{
 \donttest{

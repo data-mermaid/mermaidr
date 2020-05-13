@@ -1,6 +1,6 @@
 #' MERMAID countries
 #'
-#' Returns the names of countries in MERMAID to help with searching
+#' Returns the names of countries in MERMAID to help with searching.
 #'
 #' @inheritParams mermaid_GET
 #'

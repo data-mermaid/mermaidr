@@ -114,9 +114,7 @@ mermaid_auth <- function(token = NULL,
 #'
 #' If token is not already available, call \code{\link{mermaid_auth}} to either load
 #' from cache or initiate OAuth2.0 flow. Return the token -- not "bare" but,
-#' rather, prepared for inclusion in downstream requests. Use
-#' \code{access_token()} to reveal the actual access token, suitable for use
-#' with \code{curl}.
+#' rather, prepared for inclusion in downstream requests.
 #'
 #' @param verbose logical; do you want informative messages?
 #' @param cond logical

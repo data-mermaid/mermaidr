@@ -17,7 +17,7 @@ mermaid_search_my_projects(
 \arguments{
 \item{name}{Project name}
 
-\item{countries}{Project country. Projects are returned if the \code{countries} field contains \code{countries} not just if it is exactly the same. For a list of countries used in MERMAID, see \code{\link{mermaid_countries}}}
+\item{countries}{Project country. Projects are returned if the \code{countries} field contains \code{countries}, not just if it is exactly the same. For a list of countries used in MERMAID, see \code{\link{mermaid_countries}}}
 
 \item{tags}{Project tags. Projects are returned if the \code{tags} field contains \code{tags}, not just if it is exactly the same.}
 
