@@ -20,4 +20,3 @@
 mermaid_search_my_projects <- function(name = NULL, countries = NULL, tags = NULL, include_test_projects = FALSE, limit = NULL, url = base_url, token = mermaid_token()) {
   mermaid_search_projects(name = name, countries = countries, tags = tags, include_test_projects = include_test_projects, limit = limit, url = url, token = token)
 }
-

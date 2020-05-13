@@ -9,11 +9,9 @@
 #' projects <- mermaid_get_my_projects()
 #' projects %>%
 #'   mermaid_get_project_endpoint("observers")
-#'}
+#' }
 mermaid_get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "observers", "project_profiles", "sampleevents"), limit = NULL, url = base_url, token = mermaid_token()) {
-
   get_project_endpoint(project, endpoint, limit, base_url, token)
-
 }
 
 project_other_endpoint_columns <- list(

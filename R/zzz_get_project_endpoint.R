@@ -9,7 +9,6 @@
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
 get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents", "benthicpits/obstransectbenthicpits", "benthicpits/sampleunits", "benthicpits/sampleevents"), limit = NULL, url = base_url, token = mermaid_token()) {
-
   project_id <- as_id(project)
   check_project(project_id)
   endpoint <- match.arg(endpoint, several.ok = TRUE)
@@ -179,7 +178,8 @@ add_project_identifiers <- function(res, project) {
 
 mermaid_project_endpoint_columns <- list(
   managements = project_managements_columns,
-  sites = project_sites_columns)
+  sites = project_sites_columns
+)
 
 mermaid_project_endpoint_columns <- append(mermaid_project_endpoint_columns, project_other_endpoint_columns)
 

@@ -37,7 +37,7 @@ test_that("get_project_endpoint allows multiple projects, and combines the resul
   expect_named(get_project_endpoint(p, "benthiclittransectmethods", limit = 1), c("project_id", mermaid_project_endpoint_columns[["benthiclittransectmethods"]]))
   expect_named(get_project_endpoint(p, "benthicpittransectmethods", limit = 1), c("project_id", mermaid_project_endpoint_columns[["benthicpittransectmethods"]]))
   expect_named(get_project_endpoint(p, "benthicpits", limit = 1), c("project_id", mermaid_project_endpoint_columns[["benthicpits"]]))
-  #expect_named(get_project_endpoint(p, "collectrecords", limit = 1), c("project_id", mermaid_project_endpoint_columns[["collectrecords"]]))
+  # expect_named(get_project_endpoint(p, "collectrecords", limit = 1), c("project_id", mermaid_project_endpoint_columns[["collectrecords"]]))
   expect_named(get_project_endpoint(p, "fishbelttransects", limit = 1), c("project_id", mermaid_project_endpoint_columns[["fishbelttransects"]]))
   expect_named(get_project_endpoint(p, "habitatcomplexities", limit = 1), c("project_id", mermaid_project_endpoint_columns[["habitatcomplexities"]]))
   expect_named(get_project_endpoint(p, "obsbenthiclits", limit = 1), c("project_id", mermaid_project_endpoint_columns[["obsbenthiclits"]]))

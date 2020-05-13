@@ -131,4 +131,3 @@ test_that("mermaid_search_projects returns same columns", {
   expect_named(mermaid_search_projects(countries = "Fiji"), mermaid_endpoint_columns[["projects"]])
   expect_named(mermaid_search_projects(tags = "WCS Fiji"), mermaid_endpoint_columns[["projects"]])
 })
-
