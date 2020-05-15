@@ -10,7 +10,13 @@ status](https://circleci.com/gh/data-mermaid/mermaidr.svg?style=svg)](https://ci
 <!-- badges: end -->
 
 The goal of `mermaidr` is to access [MERMAID
-Collect](https://collect.datamermaid.org/) data directly from R.
+Collect](https://collect.datamermaid.org/) data directly from R. It
+works alongside the [`mermaidreporting`
+package](https://github.com/data-mermaid/mermaidreporting), which helps
+to clean, summarize, and visualize MERMAID data.
+
+If you run into any problems working with this package, please open an
+[issue](https://github.com/data-mermaid/mermaidr/issues).
 
 ## Installation
 
