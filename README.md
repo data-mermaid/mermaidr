@@ -24,7 +24,7 @@ You can install mermaidr from GitHub with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("data-mermaid/mermaidr@package", upgrade = "never")
+remotes::install_github("data-mermaid/mermaidr", upgrade = "never")
 ```
 
 Next, load the package:
