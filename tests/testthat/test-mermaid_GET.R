@@ -44,3 +44,17 @@ test_that("mermaid_GET returns a single endpoint in a named list", {
   expect_is(output, "list")
   expect_named(output, "sites")
 })
+
+test_that("suppress_http_warning suppresses warnings from `warning_function` with `warning_regex` only", {
+  expect_silent(suppress_http_warning(httr:::parse_single_header("HTTP_API_VERSION: v0.19.2")))
+  expect_warning(suppress_http_warning(httr:::parse_single_header("HTTP_API_VERSION: v0.19.2"), "other_function"))
+  expect_warning(suppress_http_warning(httr:::parse_single_header(c("HTTP/1.1 200 OK", "A: B", "Invalid"))), "Failed to parse headers")
+})
+
+test_that("suppress_http_warning suppresses HTTP warnings", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+  expect_warning(httr::GET("https://dev-api.datamermaid.org/v1/projects/"))
+  expect_silent(suppress_http_warning(httr::GET("https://dev-api.datamermaid.org/v1/projects/")))
+})
