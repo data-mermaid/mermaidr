@@ -6,7 +6,7 @@
 \usage{
 mermaid_get_project_data(
   project = mermaid_get_default_project(),
-  method = c("fishbelt", "benthicpit", "all"),
+  method = c("fishbelt", "benthiclit", "benthicpit", "habitatcomplexity", "all"),
   data = c("observations", "sampleunits", "sampleevents", "all"),
   limit = NULL,
   url = base_url,
