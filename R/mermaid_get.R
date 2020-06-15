@@ -41,9 +41,9 @@ construct_api_path <- function(endpoint, token, url, limit, ...) {
 
   if (endpoint == "projects" & is.null(token)) {
     # Need showall = TRUE if it's the "projects" endpoint and not an authenticated call
-    path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit, showall = TRUE, ...))
+    path <- httr::modify_url(url, path = paste0("v1/", endpoint, "/"), query = list(limit = limit, showall = TRUE, ...))
   } else {
-    path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit, ...))
+    path <- httr::modify_url(url, path = paste0("v1/", endpoint, "/"), query = list(limit = limit, ...))
   }
 }
 
