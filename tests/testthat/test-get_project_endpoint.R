@@ -54,6 +54,9 @@ test_that("get_project_endpoint allows multiple projects, and combines the resul
   expect_named(get_project_endpoint(p, "benthicpits/obstransectbenthicpits", limit = 1), c(mermaid_project_endpoint_columns[["benthicpits/obstransectbenthicpits"]]))
   expect_named(get_project_endpoint(p, "benthicpits/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["benthicpits/sampleunits"]]))
   expect_named(get_project_endpoint(p, "benthicpits/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["benthicpits/sampleevents"]]))
+  expect_named(get_project_endpoint(p, "benthiclits/obstransectbenthiclits", limit = 1), c(mermaid_project_endpoint_columns[["benthiclits/obstransectbenthiclits"]]))
+  expect_named(get_project_endpoint(p, "benthiclits/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["benthiclits/sampleunits"]]))
+  expect_named(get_project_endpoint(p, "benthiclits/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["benthiclits/sampleevents"]]))
 })
 
 test_that("unpack_df_cols and repack_df_cols work as expected", {

@@ -14,8 +14,8 @@ test_that("mermaid_get_project_data allows multiple methods", {
   skip_on_ci()
   skip_on_cran()
   p <- mermaid_get_my_projects(limit = 1)
-  output <- mermaid_get_project_data(p, method = c("fishbelt", "benthicpit"), data = "sampleunits", limit = 1)
-  expect_named(output, c("fishbelt", "benthicpit"))
+  output <- mermaid_get_project_data(p, method = c("fishbelt", "benthicpit", "benthiclit"), data = "sampleunits", limit = 1)
+  expect_named(output, c("fishbelt", "benthicpit", "benthiclit"))
 })
 
 test_that("mermaid_get_project_data allows multiple forms of data", {
@@ -56,7 +56,8 @@ test_that("mermaid_get_project_data setting 'all' works", {
   skip_on_cran()
   p <- mermaid_get_my_projects(limit = 1)
   output <- mermaid_get_project_data(p, method = "all", data = "all", limit = 1)
-  expect_named(output, c("fishbelt", "benthicpit"))
+  expect_named(output, c("fishbelt", "benthicpit", "benthiclit"))
   expect_named(output[["fishbelt"]], c("observations", "sampleunits", "sampleevents"))
   expect_named(output[["benthicpit"]], c("observations", "sampleunits", "sampleevents"))
+  expect_named(output[["benthiclit"]], c("observations", "sampleunits", "sampleevents"))
 })
