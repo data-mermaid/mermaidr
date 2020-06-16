@@ -56,9 +56,53 @@ test_that("mermaid_get_project_data setting 'all' works", {
   skip_on_cran()
   p <- mermaid_get_my_projects(limit = 1)
   output <- mermaid_get_project_data(p, method = "all", data = "all", limit = 1)
-  expect_named(output, c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity"))
+  expect_named(output, c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "bleaching"))
   expect_named(output[["fishbelt"]], c("observations", "sampleunits", "sampleevents"))
   expect_named(output[["benthicpit"]], c("observations", "sampleunits", "sampleevents"))
   expect_named(output[["benthiclit"]], c("observations", "sampleunits", "sampleevents"))
   expect_named(output[["habitatcomplexity"]], c("observations", "sampleunits", "sampleevents"))
+  expect_named(output[["bleaching"]], c("observations", "sampleunits", "sampleevents"))
+})
+
+test_that("mermaid_get_project_data with 'bleaching' method and 'observations' data returns a list with elements 'colonies_bleached' and 'percent_cover'", {
+  output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", "observations", limit = 1)
+  expect_named(output, c("colonies_bleached", "percent_cover"))
+  expect_named(output[["colonies_bleached"]], project_data_columns[["bleachingqcs/obscoloniesbleacheds"]])
+  expect_named(output[["percent_cover"]], project_data_columns[["bleachingqcs/obsquadratbenthicpercents"]])
+})
+
+test_that("mermaid_get_project_data with 'bleaching' method and multiple values for `data` (including 'observations') returns the 'observations' element as a list with elements 'colonies_bleached' and 'percent_cover'", {
+  output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", "all", limit = 1)
+  expect_named(output, c("observations", "sampleunits", "sampleevents"))
+  expect_named(output[["observations"]], c("colonies_bleached", "percent_cover"))
+  expect_named(output[["observations"]][["colonies_bleached"]], project_data_columns[["bleachingqcs/obscoloniesbleacheds"]])
+  expect_named(output[["observations"]][["percent_cover"]], project_data_columns[["bleachingqcs/obsquadratbenthicpercents"]])
+
+  output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", c("sampleevents", "observations", "sampleunits"), limit = 1)
+  expect_named(output, c("sampleevents", "observations", "sampleunits"))
+  expect_named(output[["observations"]], c("colonies_bleached", "percent_cover"))
+  expect_named(output[["observations"]][["colonies_bleached"]], project_data_columns[["bleachingqcs/obscoloniesbleacheds"]])
+  expect_named(output[["observations"]][["percent_cover"]], project_data_columns[["bleachingqcs/obsquadratbenthicpercents"]])
+})
+
+test_that("mermaid_get_project_data with multiple `methods` (including 'bleaching') returns the 'bleaching' element as a list with elements 'colonies_bleached' and 'percent_cover'", {
+  output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", c("fishbelt", "bleaching"), "observations", limit = 1)
+  expect_named(output, c("fishbelt", "bleaching"))
+  expect_named(output[["bleaching"]], c("colonies_bleached", "percent_cover"))
+  expect_named(output[["bleaching"]][["colonies_bleached"]], project_data_columns[["bleachingqcs/obscoloniesbleacheds"]])
+  expect_named(output[["bleaching"]][["percent_cover"]], project_data_columns[["bleachingqcs/obsquadratbenthicpercents"]])
+
+
+  output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", c("bleaching", "benthiclit"), "all", limit = 1)
+  expect_named(output, c("bleaching", "benthiclit"))
+  expect_named(output[["bleaching"]], c("observations", "sampleunits", "sampleevents"))
+  expect_named(output[["bleaching"]][["observations"]], c("colonies_bleached", "percent_cover"))
+})
+
+test_that("mermaid_get_project_data with multiple methods returns a list with multiple elements in the same order that they were supplied", {
+  output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", c("sampleunits", "sampleevents"), limit = 1)
+  expect_named(output, c("sampleunits", "sampleevents"))
+
+  output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", c("sampleevents", "sampleunits"), limit = 1)
+  expect_named(output, c("sampleevents", "sampleunits"))
 })

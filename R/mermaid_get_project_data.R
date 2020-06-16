@@ -21,11 +21,11 @@
 #' # projects %>%
 #' #  mermaid_get_project_data(method = c("benthicpit", "fishbelt"), data = "sampleevents", limit = 10)
 #' }
-mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, url = base_url, token = mermaid_token()) {
+mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "habitatcomplexity", "bleaching", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, url = base_url, token = mermaid_token()) {
   check_project_data_inputs(method, data)
 
   if (any(method == "all")) {
-    method <- c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity")
+    method <- c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "bleaching")
   }
   if (any(data == "all")) {
     data <- c("observations", "sampleunits", "sampleevents")
@@ -42,6 +42,16 @@ mermaid_get_project_data <- function(project = mermaid_get_default_project(), me
     })
   }
 
+  if (any(method == "bleaching")) {
+    if (all(data == "observations")) {
+      names(res[["bleachingqcs"]]) <- c("colonies_bleached", "percent_cover")
+    } else if ("observations" %in% data) {
+      names(res[["bleachingqcs"]]) <- sub_one_for_many(x = data, pattern = "observations", replacement = c("colonies_bleached", "percent_cover"))
+      res[["bleachingqcs"]][["observations"]] <- list(colonies_bleached = res[["bleachingqcs"]][["colonies_bleached"]], percent_cover = res[["bleachingqcs"]][["percent_cover"]])
+      res[["bleachingqcs"]] <- res[["bleachingqcs"]][data]
+    }
+  }
+
   if (length(endpoint) == 1) {
     res[[1]]
   } else {
@@ -52,8 +62,8 @@ mermaid_get_project_data <- function(project = mermaid_get_default_project(), me
 
 
 check_project_data_inputs <- function(method, data) {
-  if (!all(method %in% c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "all"))) {
-    stop('`method` must be one of: "fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "all"', call. = FALSE)
+  if (!all(method %in% c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "bleaching", "all"))) {
+    stop('`method` must be one of: "fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "bleaching", "all"', call. = FALSE)
   }
   if (!all(data %in% c("observations", "sampleunits", "sampleevents", "all"))) {
     stop('`data` must be one of: "observations", "sampleunits", "sampleevents", "all"', call. = FALSE)
@@ -69,23 +79,28 @@ construct_endpoint <- function(method, data) {
         .data$method == "fishbelt" ~ "beltfishes",
         .data$method == "benthicpit" ~ "benthicpits",
         .data$method == "benthiclit" ~ "benthiclits",
-        .data$method == "habitatcomplexity" ~ "habitatcomplexities"
+        .data$method == "habitatcomplexity" ~ "habitatcomplexities",
+        .data$method == "bleaching" ~ "bleachingqcs"
       ),
       data = dplyr::case_when(
         .data$data == "observations" & .data$method == "beltfishes" ~ "obstransectbeltfishes",
         .data$data == "observations" & .data$method == "benthicpits" ~ "obstransectbenthicpits",
         .data$data == "observations" & .data$method == "benthiclits" ~ "obstransectbenthiclits",
         .data$data == "observations" & .data$method == "habitatcomplexities" ~ "obshabitatcomplexities",
+        .data$data == "observations" & .data$method == "bleachingqcs" ~ "obscoloniesbleacheds,obsquadratbenthicpercents",
         TRUE ~ data
       )
-    )
+    ) %>%
+    tidyr::separate_rows(method, data, sep = ",")
 
   method_data <- method_data %>%
     dplyr::mutate(endpoint = paste0(.data$method, "/", .data$data))
 
-  method_data %>%
+  method_data_list <- method_data %>%
     split(method_data$method) %>%
     purrr::map(dplyr::pull, .data$endpoint)
+
+  method_data_list[unique(method_data[["method"]])]
 }
 
 project_data_columns <- list(
@@ -100,4 +115,8 @@ project_data_columns <- list(
   `benthiclits/sampleevents` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "percent_cover_by_benthic_category_avg", "data_policy_benthiclit", "project_notes", "site_notes", "management_notes", "sample_unit_count", "contact_link"),
   `habitatcomplexities/obshabitatcomplexities` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "transect_number", "transect_length", "label", "observers", "interval", "score", "data_policy_habitatcomplexity", "project_notes", "site_notes", "management_notes", "observation_notes", "contact_link"),
   `habitatcomplexities/sampleunits` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth", "transect_number", "transect_length", "observers", "score_avg", "data_policy_habitatcomplexity", "project_notes", "site_notes", "management_notes", "id", "contact_link"),
-  `habitatcomplexities/sampleevents` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "score_avg_avg", "data_policy_habitatcomplexity", "project_notes", "site_notes", "management_notes", "sample_unit_count", "contact_link"))
+  `habitatcomplexities/sampleevents` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "score_avg_avg", "data_policy_habitatcomplexity", "project_notes", "site_notes", "management_notes", "sample_unit_count", "contact_link"),
+  `bleachingqcs/obscoloniesbleacheds` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "quadrat_size", "label", "observers", "benthic_attribute", "growth_form", "count_normal", "count_pale", "count_20", "count_50", "count_80", "count_100", "count_dead", "data_policy_bleachingqc", "project_notes", "site_notes", "management_notes", "contact_link"),
+  `bleachingqcs/obsquadratbenthicpercents` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "quadrat_size", "label", "observers", "quadrat_number", "percent_hard", "percent_soft", "percent_algae", "data_policy_bleachingqc", "project_notes", "site_notes", "management_notes", "contact_link"),
+  `bleachingqcs/sampleunits` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth", "quadrat_size", "count_total", "count_genera", "percent_normal", "percent_pale", "percent_bleached", "quadrat_count", "percent_hard_avg", "percent_soft_avg", "percent_algae_avg", "data_policy_bleachingqc", "project_notes", "site_notes", "management_notes", "id", "contact_link"),
+  `bleachingqcs/sampleevents` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "quadrat_size_avg", "count_total_avg", "count_genera_avg", "percent_normal_avg", "percent_pale_avg", "percent_bleached_avg", "quadrat_count_avg", "percent_hard_avg_avg", "percent_soft_avg_avg", "percent_algae_avg_avg", "data_policy_bleachingqc", "project_notes", "site_notes", "management_notes", "sample_unit_count", "contact_link"))

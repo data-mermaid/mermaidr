@@ -8,7 +8,7 @@
 #' # test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 #' # mermaid_get_project_endpoint(test_project, "sites")
 #' }
-get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents", "benthicpits/obstransectbenthicpits", "benthicpits/sampleunits", "benthicpits/sampleevents", "benthiclits/obstransectbenthiclits", "benthiclits/sampleunits", "benthiclits/sampleevents", "habitatcomplexities/obshabitatcomplexities", "habitatcomplexities/sampleunits", "habitatcomplexities/sampleevents"), limit = NULL, url = base_url, token = mermaid_token()) {
+get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents", "benthicpits/obstransectbenthicpits", "benthicpits/sampleunits", "benthicpits/sampleevents", "benthiclits/obstransectbenthiclits", "benthiclits/sampleunits", "benthiclits/sampleevents", "habitatcomplexities/obshabitatcomplexities", "habitatcomplexities/sampleunits", "habitatcomplexities/sampleevents", "bleachingqcs/obscoloniesbleacheds", "bleachingqcs/obsquadratbenthicpercents", "bleachingqcs/sampleunits", "bleachingqcs/sampleevents"), limit = NULL, url = base_url, token = mermaid_token()) {
   project_id <- as_id(project)
   check_project(project_id)
   endpoint <- match.arg(endpoint, several.ok = TRUE)
@@ -26,6 +26,7 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   } else {
     endpoints_res[[endpoint]]
   }
+
 }
 
 get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, url = base_url, token = mermaid_token(), project_id, project) {
