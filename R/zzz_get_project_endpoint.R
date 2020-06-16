@@ -76,12 +76,13 @@ rbind_project_endpoints <- function(x, endpoint) {
 
   if (length(df_cols) == 0) {
     if (all(purrr::map_lgl(purrr::map(x, names), ~ "project_id" %in% .x))) {
-      purrr::map_dfr(x, tibble::as_tibble)
+      purrr::map_dfr(purrr::keep(x, ~ nrow(.x) > 0), tibble::as_tibble)
     } else {
-      purrr::map_dfr(x, tibble::as_tibble, .id = "project_id")
+      purrr::map_dfr(purrr::keep(x, ~ nrow(.x) > 0), tibble::as_tibble, .id = "project_id")
     }
   } else {
     x_unpack <- purrr::map(x, unpack_df_cols, df_cols = df_cols)
+    x_unpack <- purrr::keep(x_unpack, ~ nrow(.x) > 0)
 
     if (all(unlist(purrr::map(x_unpack, ~ "project_id" %in% names(.x))))) {
       x_rbind <- dplyr::bind_rows(x_unpack)
