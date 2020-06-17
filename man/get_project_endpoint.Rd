@@ -16,7 +16,9 @@ get_project_endpoint(
     "benthicpits/sampleevents", "benthiclits/obstransectbenthiclits",
     "benthiclits/sampleunits", "benthiclits/sampleevents",
     "habitatcomplexities/obshabitatcomplexities", "habitatcomplexities/sampleunits",
-    "habitatcomplexities/sampleevents"),
+    "habitatcomplexities/sampleevents", "bleachingqcs/obscoloniesbleacheds",
+    "bleachingqcs/obsquadratbenthicpercents", "bleachingqcs/sampleunits",
+    "bleachingqcs/sampleevents"),
   limit = NULL,
   url = base_url,
   token = mermaid_token()

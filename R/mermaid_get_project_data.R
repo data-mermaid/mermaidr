@@ -1,12 +1,18 @@
 #' Get MERMAID project data
 #'
-#' Get fishbelt or benthic PIT data for your MERMAID projects. Data is available at the observation, sample unit, and sample event level.
+#' Get Fish Belt, Benthic LIT, Benthic PIT, Bleaching, or Habitat Complexity data for your MERMAID projects. Data is available at the observation, sample unit, and sample event level. See Details section for more.
 #'
-#' Fish belt method data is available by setting \code{method} to "fishbelt". Fish belt observations data contains individual observations recorded in MERMAID, while sample units contains total biomass in kg/ha per sample unit, by trophic group. Sample events data contains \emph{mean} total biomass in kg/ha per sample event and by trophic group.
+#' Fish Belt method data is available by setting \code{method} to "fishbelt". Fish Belt observations data contains individual observations recorded in MERMAID, while sample units contains total biomass in kg/ha per sample unit, by trophic group. Sample events data contains \emph{mean} total biomass in kg/ha per sample event and by trophic group.
 #'
-#' Benthic PIT method data is available by setting \code{method} to "benthicpit". Similarly, benthic PIT observations contain individual observations. Sample units data returns percent cover per sample unit, by benthic category. Sample events contain \emph{mean} percent cover per sample event, by benthic category.
+#' Benthic LIT method data is available by setting \code{method} to "benthiclit". Benthic LIT observations contain individual observations. Sample units data returns percent cover per sample unit, by benthic category. Sample events contain \emph{mean} percent cover per sample event, by benthic category.
 #'
-#' @param method Method to get data for. One of "fishbelt", "benthicpit", or "all" (to get data for both methods).
+#' Benthic PIT method data is available by setting \code{method} to "benthicpit". Similarly to Benthic LIT, Benthic PIT observations contain individual observations, sample units data returns percent cover per sample unit, by benthic category, and sample events contain \emph{mean} percent cover per sample event, by benthic category.
+#'
+#' Bleaching method data is available by setting \code{method} to "bleaching". When Bleaching observations are requested, two types of observations are returned: Colonies Bleached and Percent Cover. Sample units data contains both Colonies Bleached data (number of coral genera and total number of colonies, and percent normal, pale, and bleached colonies) and Percent Cover data (Number of quadrats, and average percent cover for hard coral, soft coral, and macroalgae), all per sample unit. Sample events data contains \emph{mean} values of all the data in sample units, for both Colonies Bleached (average quadrat size, average number of coral genera and average total colonies, average percent normal, pale, and bleached colonies) and Percent Cover (average number of quadrats, and average of average hard coral, soft coral, and macroalgae cover).
+#'
+#' Habitat Complexity  data is available by setting \code{method} to "habitatcomplexity". Observations contain individual observations, with the habitat complexity score at each interval. Sample units data contains the average habitat complexity score for the sample unit, and sample events data contains the average of those averages habitat complexity scores.
+#'
+#' @param method Method to get data for. One of "fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity", or "all" (to get data for all methods).
 #' @param data Data to return. One of "observations", "sampleunits", "sampleevents", or all (to get all three kinds of data). See details for more.
 #' @inheritParams get_project_endpoint
 #'
@@ -20,6 +26,11 @@
 #'
 #' # projects %>%
 #' #  mermaid_get_project_data(method = c("benthicpit", "fishbelt"), data = "sampleevents", limit = 10)
+#'
+#' bleaching_obs <- projects %>%
+#'   mermaid_get_project_data(method = "bleaching", data = "observations", limit = 10)
+#' names(bleaching_obs)
+#' # [1] "colonies_bleached" "percent_cover"
 #' }
 mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, url = base_url, token = mermaid_token()) {
   check_project_data_inputs(method, data)
