@@ -21,11 +21,11 @@
 #' # projects %>%
 #' #  mermaid_get_project_data(method = c("benthicpit", "fishbelt"), data = "sampleevents", limit = 10)
 #' }
-mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "habitatcomplexity", "bleaching", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, url = base_url, token = mermaid_token()) {
+mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, url = base_url, token = mermaid_token()) {
   check_project_data_inputs(method, data)
 
   if (any(method == "all")) {
-    method <- c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "bleaching")
+    method <- c("fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity")
   }
   if (any(data == "all")) {
     data <- c("observations", "sampleunits", "sampleevents")
@@ -63,7 +63,7 @@ mermaid_get_project_data <- function(project = mermaid_get_default_project(), me
 
 check_project_data_inputs <- function(method, data) {
   if (!all(method %in% c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "bleaching", "all"))) {
-    stop('`method` must be one of: "fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "bleaching", "all"', call. = FALSE)
+    stop('`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity", "all"', call. = FALSE)
   }
   if (!all(data %in% c("observations", "sampleunits", "sampleevents", "all"))) {
     stop('`data` must be one of: "observations", "sampleunits", "sampleevents", "all"', call. = FALSE)

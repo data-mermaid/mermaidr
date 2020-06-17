@@ -56,7 +56,7 @@ test_that("mermaid_get_project_data setting 'all' works", {
   skip_on_cran()
   p <- mermaid_get_my_projects(limit = 1)
   output <- mermaid_get_project_data(p, method = "all", data = "all", limit = 1)
-  expect_named(output, c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "bleaching"))
+  expect_named(output, c("fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity"))
   expect_named(output[["fishbelt"]], c("observations", "sampleunits", "sampleevents"))
   expect_named(output[["benthicpit"]], c("observations", "sampleunits", "sampleevents"))
   expect_named(output[["benthiclit"]], c("observations", "sampleunits", "sampleevents"))
