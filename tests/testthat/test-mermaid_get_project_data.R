@@ -108,13 +108,32 @@ test_that("mermaid_get_project_data with multiple `methods` (including 'bleachin
   expect_named(output[["bleaching"]][["observations"]], c("colonies_bleached", "percent_cover"))
 })
 
-test_that("mermaid_get_project_data with multiple methods returns a list with multiple elements in the same order that they were supplied", {
+test_that("mermaid_get_project_data with multiple data returns a list with multiple elements in the same order that they were supplied", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", c("sampleunits", "sampleevents"), limit = 1)
   expect_named(output, c("sampleunits", "sampleevents"))
+  expect_named(output[["sampleunits"]], project_data_columns[["bleachingqcs/sampleunits"]])
+  expect_named(output[["sampleevents"]], project_data_columns[["bleachingqcs/sampleevents"]])
 
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", c("sampleevents", "sampleunits"), limit = 1)
   expect_named(output, c("sampleevents", "sampleunits"))
+  expect_named(output[["sampleunits"]], project_data_columns[["bleachingqcs/sampleunits"]])
+  expect_named(output[["sampleevents"]], project_data_columns[["bleachingqcs/sampleevents"]])
+})
+
+test_that("mermaid_get_project_data with multiple methods returns a list with multiple elements in the same order that they were supplied", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+  output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", c("bleaching", "benthicpit"), "sampleevents", limit = 1)
+  expect_named(output, c("bleaching", "benthicpit"))
+  expect_named(output[["bleaching"]], project_data_columns[["bleachingqcs/sampleevents"]])
+  expect_named(output[["benthicpit"]], project_data_columns[["benthicpits/sampleevents"]])
+
+  output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", c("benthicpit", "bleaching"), "sampleevents", limit = 1)
+  expect_named(output, c("benthicpit", "bleaching"))
+  expect_named(output[["bleaching"]], project_data_columns[["bleachingqcs/sampleevents"]])
+  expect_named(output[["benthicpit"]], project_data_columns[["benthicpits/sampleevents"]])
 })
