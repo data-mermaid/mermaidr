@@ -65,6 +65,9 @@ test_that("mermaid_get_project_data setting 'all' works", {
 })
 
 test_that("mermaid_get_project_data with 'bleaching' method and 'observations' data returns a list with elements 'colonies_bleached' and 'percent_cover'", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", "observations", limit = 1)
   expect_named(output, c("colonies_bleached", "percent_cover"))
   expect_named(output[["colonies_bleached"]], project_data_columns[["bleachingqcs/obscoloniesbleacheds"]])
@@ -72,6 +75,9 @@ test_that("mermaid_get_project_data with 'bleaching' method and 'observations' d
 })
 
 test_that("mermaid_get_project_data with 'bleaching' method and multiple values for `data` (including 'observations') returns the 'observations' element as a list with elements 'colonies_bleached' and 'percent_cover'", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", "all", limit = 1)
   expect_named(output, c("observations", "sampleunits", "sampleevents"))
   expect_named(output[["observations"]], c("colonies_bleached", "percent_cover"))
@@ -86,6 +92,9 @@ test_that("mermaid_get_project_data with 'bleaching' method and multiple values 
 })
 
 test_that("mermaid_get_project_data with multiple `methods` (including 'bleaching') returns the 'bleaching' element as a list with elements 'colonies_bleached' and 'percent_cover'", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", c("fishbelt", "bleaching"), "observations", limit = 1)
   expect_named(output, c("fishbelt", "bleaching"))
   expect_named(output[["bleaching"]], c("colonies_bleached", "percent_cover"))
@@ -100,6 +109,9 @@ test_that("mermaid_get_project_data with multiple `methods` (including 'bleachin
 })
 
 test_that("mermaid_get_project_data with multiple methods returns a list with multiple elements in the same order that they were supplied", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", c("sampleunits", "sampleevents"), limit = 1)
   expect_named(output, c("sampleunits", "sampleevents"))
 
