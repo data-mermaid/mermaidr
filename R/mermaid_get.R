@@ -41,9 +41,9 @@ construct_api_path <- function(endpoint, token, url, limit, ...) {
 
   if (endpoint == "projects" & is.null(token)) {
     # Need showall = TRUE if it's the "projects" endpoint and not an authenticated call
-    path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit, showall = TRUE, ...))
+    path <- httr::modify_url(url, path = paste0("v1/", endpoint, "/"), query = list(limit = limit, showall = TRUE, ...))
   } else {
-    path <- httr::modify_url(url, path = paste0("v1/", endpoint), query = list(limit = limit, ...))
+    path <- httr::modify_url(url, path = paste0("v1/", endpoint, "/"), query = list(limit = limit, ...))
   }
 }
 
@@ -93,9 +93,17 @@ get_paginated_response <- function(path, ua, token, limit) {
 }
 
 get_and_parse <- function(path, ua, token) {
-  resp <- httr::GET(path, ua, token)
+  resp <- suppress_http_warning(httr::GET(path, ua, token))
   check_errors(resp)
   jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyDataFrame = TRUE)
+}
+
+suppress_http_warning <- function(expr, warning_function = "parse_http_status", warning_regex = "NAs introduced by coercion") {
+  withCallingHandlers(expr, warning = function(w) {
+    if (length(warning_function) == 1 && length(grep(warning_function, conditionCall(w))) && length(grep(warning_regex, conditionMessage(w)))) {
+      invokeRestart("muffleWarning")
+    }
+  })
 }
 
 initial_cleanup <- function(results, endpoint) {
