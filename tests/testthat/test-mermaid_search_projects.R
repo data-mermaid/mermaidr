@@ -2,7 +2,7 @@ test_that("mermaid_search_projects throws a message if it returns more than one 
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
-  expect_message(mermaid_search_projects("test", include_test_projects = TRUE))
+  # expect_message(mermaid_search_projects("test", include_test_projects = TRUE)) # Unique project names are enforced now, so test will fail - but keeping the warning in just in case it changes back
   expect_silent(mermaid_search_projects("Sharla test", include_test_projects = TRUE))
 })
 
@@ -38,7 +38,7 @@ test_that("mermaid_search_projects returns projects with matching name `name` is
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
-  expect_message(mermaid_search_projects("test", include_test_projects = TRUE), "More than one project with the name")
+  # expect_message(mermaid_search_projects("test", include_test_projects = TRUE), "More than one project with the name")
   expect_equal(unique(mermaid_search_projects("test", include_test_projects = TRUE)[["name"]]), "test")
   expect_equal(unique(mermaid_search_projects("2016_Macmon_Bua_Ra_Ovalau surveys")[["name"]]), "2016_Macmon_Bua_Ra_Ovalau surveys")
 })

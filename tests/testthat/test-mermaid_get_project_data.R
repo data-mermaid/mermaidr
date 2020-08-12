@@ -2,10 +2,10 @@ test_that("mermaid_get_project_data returns a data frame with the correct names"
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
-  p <- mermaid_get_my_projects(limit = 1)
+  p <- mermaid_get_my_projects()
   output <- mermaid_get_project_data(p, method = "benthicpit", data = "sampleunits", limit = 1)
   expect_named(output, project_data_columns[["benthicpits/sampleunits"]])
-  expect_true(nrow(output) == 1)
+  expect_true(nrow(output) >= 1)
   expect_is(output, "tbl_df")
 })
 
