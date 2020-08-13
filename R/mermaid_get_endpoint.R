@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' mermaid_get_endpoint("choices")
 #' }
 mermaid_get_endpoint <- function(endpoint = c("choices", "projecttags", "fishsizes"), limit = NULL, url = base_url) {

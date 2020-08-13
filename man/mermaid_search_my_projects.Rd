@@ -33,13 +33,13 @@ mermaid_search_my_projects(
 Search within your MERMAID projects specifically. Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
 }
 \examples{
-\donttest{
-mermaid_search_my_projects(tags = "WCS Indonesia")
-mermaid_search_my_projects(countries = "Indonesia", tags = "Vibrant Oceans")
+\dontrun{
+# mermaid_search_my_projects(tags = "WCS Indonesia")
+# mermaid_search_my_projects(countries = "Indonesia", tags = "Vibrant Oce# ans")
 
 # The country (or tag) do not have to be exactly the same
 # A project is returned if it *contains* the country/tag:
-mermaid_search_my_projects(tags = "WCS", limit = 1)[["tags"]]
+# mermaid_search_my_projects(tags = "WCS", limit = 1)[["tags"]]
 # [1] "WCS Indonesia; Vibrant Oceans"
 }
 }

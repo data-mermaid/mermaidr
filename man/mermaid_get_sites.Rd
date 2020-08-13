@@ -15,7 +15,7 @@ mermaid_get_sites(limit = NULL, url = base_url)
 Get a data frame of all MERMAID sites (not project specific).
 }
 \examples{
-\donttest{
+\dontrun{
 mermaid_get_sites(limit = 10)
 }
 }

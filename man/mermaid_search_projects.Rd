@@ -33,7 +33,7 @@ mermaid_search_projects(
 Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
 }
 \examples{
-\donttest{
+\dontrun{
 mermaid_search_projects(tags = "WCS Fiji")
 mermaid_search_projects(countries = "Fiji", tags = "WWF-UK")
 

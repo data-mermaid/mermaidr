@@ -7,7 +7,7 @@
 #' @export
 #' @rdname mermaid_settings
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' test_project <- mermaid_search_my_projects("Sharla test", include_test_projects = TRUE)
 #' mermaid_set_default_project(test_project)
 #' mermaid_get_default_project()

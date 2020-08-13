@@ -16,7 +16,7 @@ mermaid_get_default_project()
 Configure default MERMAID projects. \code{mermaid_set_default_project} sets project(s) as the default to be used automatically in \code{mermaid_get_project_*} functions. \code{mermaid_get_default_project} lists the default projects.
 }
 \examples{
-\donttest{
+\dontrun{
 test_project <- mermaid_search_my_projects("Sharla test", include_test_projects = TRUE)
 mermaid_set_default_project(test_project)
 mermaid_get_default_project()

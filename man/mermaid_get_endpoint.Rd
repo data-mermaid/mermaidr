@@ -21,7 +21,7 @@ mermaid_get_endpoint(
 Get other MERMAID API endpoints not covered by other \code{mermaid_get_*} functions.
 }
 \examples{
-\donttest{
+\dontrun{
 mermaid_get_endpoint("choices")
 }
 }

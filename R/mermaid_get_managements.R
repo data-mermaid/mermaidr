@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' mermaid_get_managements(limit = 10)
 #' }
 mermaid_get_managements <- function(limit = NULL, url = base_url) {

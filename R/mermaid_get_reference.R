@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' mermaid_get_reference("benthicattributes")
 #' mermaid_get_reference(c("fishfamilies", "fishgenera"))
 #' }

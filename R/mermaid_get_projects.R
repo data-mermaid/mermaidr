@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' mermaid_get_projects(limit = 5)
 #' }
 mermaid_get_projects <- function(include_test_projects = FALSE, limit = NULL, url = base_url) {

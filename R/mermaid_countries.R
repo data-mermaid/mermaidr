@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' mermaid_countries()
 #' }
 mermaid_countries <- function(url = base_url) {

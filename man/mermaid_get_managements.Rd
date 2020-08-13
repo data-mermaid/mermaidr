@@ -15,7 +15,7 @@ mermaid_get_managements(limit = NULL, url = base_url)
 Get a data frame of all MERMAID managements (not project specific).
 }
 \examples{
-\donttest{
+\dontrun{
 mermaid_get_managements(limit = 10)
 }
 }

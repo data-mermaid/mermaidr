@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' mermaid_get_sites(limit = 10)
 #' }
 mermaid_get_sites <- function(limit = NULL, url = base_url) {

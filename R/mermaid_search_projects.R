@@ -10,7 +10,7 @@
 #'
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' mermaid_search_projects(tags = "WCS Fiji")
 #' mermaid_search_projects(countries = "Fiji", tags = "WWF-UK")
 #'

@@ -19,7 +19,7 @@ MERMAID APIs on behalf of the authenticated user.
 }
 \examples{
 \dontrun{
-mermaid_deauth()
+# mermaid_deauth()
 }
 }
 \seealso{

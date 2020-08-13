@@ -35,7 +35,7 @@ Get endpoint from specified MERMAID project(s)
 }
 \examples{
 \dontrun{
-test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
-mermaid_get_project_endpoint(test_project, "sites")
+# test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
+# mermaid_get_project_endpoint(test_project, "sites")
 }
 }

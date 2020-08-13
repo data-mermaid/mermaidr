@@ -13,7 +13,7 @@ mermaid_countries(url = base_url)
 Returns the names of countries in MERMAID to help with searching.
 }
 \examples{
-\donttest{
+\dontrun{
 mermaid_countries()
 }
 }
