@@ -70,6 +70,14 @@ The login credentials expire every 24 hours. Once your credentials are
 expired, `mermaidr` will again help you automatically authenticate when
 needed.
 
+Note that authentication is only possible locally on your desktop, using
+a program like RStudio. This should cover most people and cases, however
+it’s not currently possible to authenticate on something like RStudio
+Cloud or on another server. If you are using a server, please follow the
+directions
+[here](https://support.rstudio.com/hc/en-us/articles/217952868-Generating-OAuth-tokens-from-a-server)
+to authenticate on the desktop then copy to the server.
+
 ## Usage
 
 All functions in `mermaidr` are of the form `mermaid_*()`, to make
@@ -95,16 +103,26 @@ library(mermaidr)
 my_projects <- mermaid_get_my_projects()
 
 my_projects
+<<<<<<< HEAD
 #> # A tibble: 7 x 14
+=======
+#> # A tibble: 5 x 14
+>>>>>>> Add details on no server authentication to README
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
 #>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
 #> 1 2d6c… WCS … Mozambiq…        74 "WCS… "Dat… Open   Private         
 #> 2 3a9e… Aceh… Indonesia        18 "Vib… ""    Open   Private         
+<<<<<<< HEAD
 #> 3 507d… Kari… Indonesia        43 "Vib… ""    Open   Public Summary  
 #> 4 5679… Mada… Madagasc…        33 "WCS… ""    Open   Public Summary  
 #> 5 75ef… Kubu… Fiji             78 "WCS… ""    Open   Private         
 #> 6 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
 #> 7 a1b7… Grea… Fiji             76 "Fij… ""    Open   Private         
+=======
+#> 3 5679… Mada… Madagasc…        33 "WCS… ""    Open   Public Summary  
+#> 4 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
+#> 5 a1b7… Grea… Fiji             76 "Fij… ""    Open   Private         
+>>>>>>> Add details on no server authentication to README
 #> # … with 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
@@ -123,12 +141,16 @@ indonesia_projects <- my_projects %>%
   filter(countries == "Indonesia")
 
 indonesia_projects
-#> # A tibble: 3 x 14
+#> # A tibble: 2 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
 #>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
 #> 1 3a9e… Aceh… Indonesia        18 "Vib… ""    Open   Private         
+<<<<<<< HEAD
 #> 2 507d… Kari… Indonesia        43 "Vib… ""    Open   Public Summary  
 #> 3 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
+=======
+#> 2 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
+>>>>>>> Add details on no server authentication to README
 #> # … with 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
@@ -140,12 +162,16 @@ countries, or tags:
 
 ``` r
 mermaid_search_my_projects(countries = "Indonesia")
-#> # A tibble: 3 x 14
+#> # A tibble: 2 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
 #>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
 #> 1 3a9e… Aceh… Indonesia        18 "Vib… ""    Open   Private         
+<<<<<<< HEAD
 #> 2 507d… Kari… Indonesia        43 "Vib… ""    Open   Public Summary  
 #> 3 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
+=======
+#> 2 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
+>>>>>>> Add details on no server authentication to README
 #> # … with 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
@@ -157,6 +183,7 @@ sites via `mermaid_get_project_sites()`:
 ``` r
 indonesia_projects %>%
   mermaid_get_project_sites()
+<<<<<<< HEAD
 #> # A tibble: 98 x 13
 #>    project id    name  notes latitude longitude country reef_type reef_zone
 #>    <chr>   <chr> <chr> <chr>    <dbl>     <dbl> <chr>   <chr>     <chr>    
@@ -171,6 +198,22 @@ indonesia_projects %>%
 #>  9 Karimu… 9ec6… Cema… ""       -5.80     110.  Indone… fringing  back reef
 #> 10 Karimu… e23a… Tanj… ""       -5.86     110.  Indone… fringing  back reef
 #> # … with 88 more rows, and 4 more variables: exposure <chr>, predecessor <lgl>,
+=======
+#> # A tibble: 55 x 13
+#>    project id    name  notes latitude longitude country reef_type reef_zone
+#>    <chr>   <chr> <chr> <chr>    <dbl>     <dbl> <chr>   <chr>     <chr>    
+#>  1 Aceh J… 5436… Wisa… ""        5.04      95.4 Indone… fringing  fore reef
+#>  2 Aceh J… b7d5… Reha… ""        4.84      95.4 Indone… fringing  fore reef
+#>  3 Aceh J… 38f7… Pula… ""        5.08      95.3 Indone… fringing  back reef
+#>  4 XPDC K… 340b… KE31  ""       -5.78     133.  Indone… fringing  crest    
+#>  5 Aceh J… 026e… Pula… ""        4.78      95.4 Indone… fringing  fore reef
+#>  6 Aceh J… 29a2… Ujun… ""        5.12      95.3 Indone… fringing  fore reef
+#>  7 Aceh J… 81a0… Inti… ""        4.65      95.6 Indone… fringing  fore reef
+#>  8 Aceh J… 9968… Pula… ""        4.88      95.4 Indone… fringing  fore reef
+#>  9 Aceh J… ddd6… Pula… ""        4.69      95.5 Indone… fringing  fore reef
+#> 10 Aceh J… f96e… Inti… ""        4.83      95.4 Indone… fringing  fore reef
+#> # … with 45 more rows, and 4 more variables: exposure <chr>, predecessor <lgl>,
+>>>>>>> Add details on no server authentication to README
 #> #   created_on <chr>, updated_on <chr>
 ```
 
@@ -180,7 +223,11 @@ Or the managements for your projects via
 ``` r
 indonesia_projects %>%
   mermaid_get_project_managements()
+<<<<<<< HEAD
 #> # A tibble: 20 x 17
+=======
+#> # A tibble: 14 x 17
+>>>>>>> Add details on no server authentication to README
 #>    project id    name  name_secondary notes est_year no_take periodic_closure
 #>    <chr>   <chr> <chr> <chr>          <chr>    <int> <lgl>   <lgl>           
 #>  1 Aceh J… 0f0f… Open  ""             ""        2019 FALSE   FALSE           
@@ -190,6 +237,7 @@ indonesia_projects %>%
 #>  5 Aceh J… a803… Open… ""             ""        2019 FALSE   FALSE           
 #>  6 Aceh J… cc92… Core… ""             ""        2019 TRUE    FALSE           
 #>  7 Aceh J… dce8… Reha… ""             ""        2019 TRUE    FALSE           
+<<<<<<< HEAD
 #>  8 Karimu… 12bf… Core… ""             ""        2005 TRUE    FALSE           
 #>  9 Karimu… 402f… Prot… ""             ""        2012 TRUE    FALSE           
 #> 10 Karimu… 53a6… Open… ""             ""        2005 FALSE   FALSE           
@@ -203,6 +251,15 @@ indonesia_projects %>%
 #> 18 XPDC K… a0a3… Mari… "Use Zone"     ""          NA FALSE   FALSE           
 #> 19 XPDC K… c19f… Aqua… "Use Zone"     ""          NA FALSE   FALSE           
 #> 20 XPDC K… c2cb… Core… "No Take Zone" ""          NA TRUE    FALSE           
+=======
+#>  8 XPDC K… 04fc… Outs… "Control"      ""          NA FALSE   FALSE           
+#>  9 XPDC K… 592e… Limi… "Use Zone"     ""          NA FALSE   FALSE           
+#> 10 XPDC K… 9ad0… Tour… "No Take Zone" ""          NA TRUE    FALSE           
+#> 11 XPDC K… 9bd6… Capt… "Use Zone"     ""          NA FALSE   FALSE           
+#> 12 XPDC K… a0a3… Mari… "Use Zone"     ""          NA FALSE   FALSE           
+#> 13 XPDC K… c19f… Aqua… "Use Zone"     ""          NA FALSE   FALSE           
+#> 14 XPDC K… c2cb… Core… "No Take Zone" ""          NA TRUE    FALSE           
+>>>>>>> Add details on no server authentication to README
 #> # … with 9 more variables: open_access <lgl>, size_limits <lgl>,
 #> #   gear_restriction <lgl>, species_restriction <lgl>, compliance <chr>,
 #> #   predecessor <lgl>, parties <chr>, created_on <chr>, updated_on <chr>
@@ -228,7 +285,11 @@ xpdc <- my_projects %>%
 
 xpdc %>%
   mermaid_get_project_data(method = "fishbelt", data = "observations")
+<<<<<<< HEAD
 #> # A tibble: 3,069 x 47
+=======
+#> # A tibble: 3,069 x 46
+>>>>>>> Add details on no server authentication to README
 #>    project tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #>  1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
@@ -236,12 +297,21 @@ xpdc %>%
 #>  3 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
 #>  4 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
 #>  5 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
+<<<<<<< HEAD
 #>  6 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
 #>  7 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
 #>  8 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
 #>  9 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
 #> 10 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
 #> # … with 3,059 more rows, and 39 more variables: reef_exposure <chr>,
+=======
+#>  6 XPDC K… NA    Indone… KE10     -5.57      133. fringing  crest    
+#>  7 XPDC K… NA    Indone… KE23     -5.80      133. fringing  fore reef
+#>  8 XPDC K… NA    Indone… KE15     -5.62      133. fringing  crest    
+#>  9 XPDC K… NA    Indone… KE28     -5.75      133. patch     fore reef
+#> 10 XPDC K… NA    Indone… KE11     -5.59      133. fringing  crest    
+#> # … with 3,059 more rows, and 38 more variables: reef_exposure <chr>,
+>>>>>>> Add details on no server authentication to README
 #> #   reef_slope <chr>, tide <chr>, current <chr>, visibility <chr>,
 #> #   relative_depth <chr>, management <chr>, management_secondary <chr>,
 #> #   management_est_year <lgl>, management_size <lgl>, management_parties <lgl>,
@@ -527,16 +597,26 @@ projects:
 
 ``` r
 my_projects
+<<<<<<< HEAD
 #> # A tibble: 7 x 14
+=======
+#> # A tibble: 5 x 14
+>>>>>>> Add details on no server authentication to README
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
 #>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
 #> 1 2d6c… WCS … Mozambiq…        74 "WCS… "Dat… Open   Private         
 #> 2 3a9e… Aceh… Indonesia        18 "Vib… ""    Open   Private         
+<<<<<<< HEAD
 #> 3 507d… Kari… Indonesia        43 "Vib… ""    Open   Public Summary  
 #> 4 5679… Mada… Madagasc…        33 "WCS… ""    Open   Public Summary  
 #> 5 75ef… Kubu… Fiji             78 "WCS… ""    Open   Private         
 #> 6 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
 #> 7 a1b7… Grea… Fiji             76 "Fij… ""    Open   Private         
+=======
+#> 3 5679… Mada… Madagasc…        33 "WCS… ""    Open   Public Summary  
+#> 4 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
+#> 5 a1b7… Grea… Fiji             76 "Fij… ""    Open   Private         
+>>>>>>> Add details on no server authentication to README
 #> # … with 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
@@ -545,6 +625,7 @@ my_projects
 ``` r
 my_projects %>%
   mermaid_get_project_data("fishbelt", "sampleevents", limit = 1)
+<<<<<<< HEAD
 #> # A tibble: 7 x 28
 #>   project tags  country site  latitude longitude reef_type reef_zone
 #>   <chr>   <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
@@ -564,6 +645,25 @@ my_projects %>%
 #> #   $`invertivore-mobile` <dbl>, $`herbivore-detritivore` <dbl>,
 #> #   $omnivore <dbl>, $`invertivore-sessile` <dbl>,
 #> #   $`herbivore-macroalgae` <dbl>, $other <dbl>, data_policy_beltfish <chr>,
+=======
+#> # A tibble: 5 x 29
+#>   project tags  country site  latitude longitude reef_type reef_zone
+#>   <chr>   <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
+#> 1 WCS Mo… WCS … Mozamb… Bunt…   -12.6       40.6 fringing  fore reef
+#> 2 Aceh J… WCS … Indone… Pula…     4.78      95.4 fringing  fore reef
+#> 3 Madaga… WCS … Madaga… Anta…   -16.4       49.8 fringing  fore reef
+#> 4 XPDC K… <NA>  Indone… KE02     -5.44     133.  fringing  crest    
+#> 5 Great … Fiji… Fiji    BA09    -17.4      178.  atoll     back reef
+#> # … with 28 more variables: reef_exposure <chr>, tide <chr>, current <chr>,
+#> #   visibility <chr>, management <chr>, management_secondary <chr>,
+#> #   management_est_year <int>, management_size <lgl>, management_parties <chr>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   depth_avg <dbl>, biomass_kgha_avg <dbl>,
+#> #   biomass_kgha_by_trophic_group_avg$piscivore <dbl>, $planktivore <dbl>,
+#> #   $`invertivore-mobile` <dbl>, $`herbivore-detritivore` <dbl>, $other <dbl>,
+#> #   $omnivore <dbl>, $`invertivore-sessile` <dbl>,
+#> #   $`herbivore-macroalgae` <dbl>, data_policy_beltfish <chr>,
+>>>>>>> Add details on no server authentication to README
 #> #   project_notes <chr>, site_notes <chr>, management_notes <chr>,
 #> #   sample_event_notes <chr>, id <chr>, sample_unit_count <int>,
 #> #   contact_link <chr>

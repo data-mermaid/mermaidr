@@ -55,6 +55,8 @@ If you would like to authenticate yourself immediately, use `mermaid_auth()`. Th
 
 The login credentials expire every 24 hours. Once your credentials are expired, `mermaidr` will again help you automatically authenticate when needed.
 
+Note that authentication is only possible locally on your desktop, using a program like RStudio. This should cover most people and cases, however it's not currently possible to authenticate on something like RStudio Cloud or on another server. If you are using a server, please follow the directions [here](https://support.rstudio.com/hc/en-us/articles/217952868-Generating-OAuth-tokens-from-a-server) to authenticate on the desktop then copy to the server.
+
 ## Usage
 
 All functions in `mermaidr` are of the form `mermaid_*()`, to make functions easier to find and use when loaded with other packages!
