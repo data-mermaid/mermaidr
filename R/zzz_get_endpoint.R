@@ -91,10 +91,19 @@ construct_endpoint_columns <- function(x, endpoint) {
 
 strip_name_suffix <- function(results) {
   res_names <- names(results)
+  # Remove any _name suffixes, except score_name since we want to keep both score and score_name
+  # Convert score_name to score_NAME first (so _name isn't removed from it)
+  res_names[which(res_names == "score_name")] <- "score_NAME"
+
+  # Then remove _name from any of the names
   res_names <- gsub("_name", "", res_names)
+
+  # Then convert _NAME back to _name
+  res_names <- gsub("_NAME", "_name", res_names)
+
   names(results) <- res_names
 
-  results[, !grepl("_id$", names(results)) | names(results) == "project_id"]
+  results[, !grepl("_id$", names(results)) | names(results) == "project_id" | names(results) == "sample_event_id"]
 }
 
 # Defined in respective function files

@@ -82,7 +82,7 @@ get_paginated_response <- function(path, ua, token, limit) {
     n_res <- n_res + nrow(all_res[[i]])
   }
 
-  res <- do.call("rbind", all_res)
+  res <- dplyr::bind_rows(all_res)
   res <- tibble::as_tibble(res)
 
   if (is.null(limit)) {
