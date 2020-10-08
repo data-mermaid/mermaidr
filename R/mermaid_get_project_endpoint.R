@@ -31,5 +31,5 @@ project_other_endpoint_columns <- list(
   obstransectbeltfishs = c("id", "data", "size", "count", "include", "notes", "beltfish", "fish_attribute", "size_bin", "created_on", "updated_on"),
   observers = c("id", "profile", "rank", "transectmethod", "created_on", "created_by"),
   project_profiles = c("id", "profile", "is_collector", "is_admin", "role", "created_on", "updated_on"),
-  sampleevents = c("id", "depth", "data", "sample_date", "sample_time", "notes", "created_by", "site", "management", "visibility", "current", "relative_depth", "tide", "created_on", "updated_on")
+  sampleevents = c("id", "data", "sample_date", "notes", "created_by", "site", "management", "created_on", "updated_on")
 )
