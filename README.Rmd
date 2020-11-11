@@ -38,6 +38,15 @@ Next, load the package:
 library(mermaidr)
 ```
 
+If you would like to access the development version of MERMAID instead, you can install the `dev` branch of this package:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("data-mermaid/mermaidr", ref = "dev", upgrade = "never")
+```
+
+When using the development version, you can only access data from the [development version of MERMAID Collect](https://dev-collect.datamermaid.org/). There may also be differences in the MERMAID API (which can affect things like the columns returned) and functions in `mermaidr` that are in-progress and not yet available from the "production" version of the package.
+
 ## Authentication
 
 `mermaidr` will help you interact with MERMAID Collect as an authenticated user, as soon as you need. This is only required for accessing project specific data. To access a list of all projects, sites, etc, you do not need to be authenticated.
@@ -126,8 +135,33 @@ xpdc %>%
 And finally, sample events data, which are aggregated further, to the sample event level. Fish belt sample events contain *mean* total biomass in kg/ha per sample event and by trophic group:
 
 ```{r}
-xpdc %>%
+xpdc_sample_events <- xpdc %>%
   mermaid_get_project_data("fishbelt", "sampleevents")
+
+xpdc_sample_events
+```
+
+##### A note on saving data
+
+Both the sample units and sample events data contain a "data-frame column" (`biomass_kgha_by_trophic_group` and `biomass_kgha_by_trophic_group_avg`, respectively). In order to save this data in a file like a CSV or XLSX, you will need to expand this column first.
+
+This can be done with a function from the `mermaidreporting` package, `mermaid_clean_columns()`:
+
+```{r}
+library(mermaidreporting)
+
+xpdc_sample_events_clean <- xpdc_sample_events %>%
+  mermaid_clean_columns()
+
+xpdc_sample_events_clean
+```
+
+Then, you can save the data:
+
+```{r, eval = FALSE}
+library(readr)
+
+write_csv(xpdc_sample_events_clean, "xpdc_sample_events_clean.csv")
 ```
 
 #### Benthic PIT data
@@ -180,7 +214,6 @@ names(all_project_data)
 
 names(all_project_data[["benthicpit"]])
 ```
-
 
 #### Multiple projects
 
