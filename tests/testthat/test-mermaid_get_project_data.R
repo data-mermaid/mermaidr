@@ -104,7 +104,6 @@ test_that("mermaid_get_project_data with multiple `methods` (including 'bleachin
   expect_named(output[["bleaching"]][["colonies_bleached"]], project_data_columns[["bleachingqcs/obscoloniesbleacheds"]])
   expect_named(output[["bleaching"]][["percent_cover"]], project_data_columns[["bleachingqcs/obsquadratbenthicpercents"]])
 
-
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", c("bleaching", "benthiclit"), "all", limit = 1)
   expect_named(output, c("bleaching", "benthiclit"))
   expect_named(output[["bleaching"]], c("observations", "sampleunits", "sampleevents"))
