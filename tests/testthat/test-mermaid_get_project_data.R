@@ -159,16 +159,17 @@ construct_fake_sample_event_id <- function(data) {
 
 # Vanilla fishbelt ----
 
-project_id <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
-
-fishbelt_vanilla_obs <- mermaid_get_project_data(project_id, "fishbelt", "observations")
-
-fishbelt_vanilla_sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
-
 test_that("Vanilla fishbelt sample unit aggregation is the same as manually aggregating observations", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
+
+  project_id <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
+
+  fishbelt_vanilla_obs <- mermaid_get_project_data(project_id, "fishbelt", "observations")
+
+  fishbelt_vanilla_sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
+
   fishbelt_vanilla_obs <- fishbelt_vanilla_obs %>%
     construct_fake_sample_unit_id()
 
@@ -225,14 +226,19 @@ test_that("Vanilla fishbelt sample unit aggregation is the same as manually aggr
   expect_true(all(obs_vs_su_match[["match"]]))
 })
 
-fishbelt_vanilla_ses <- mermaid_get_project_data(project_id, "fishbelt", "sampleevents")
-
 test_that("Vanilla fishbelt sample event aggregation is the same as manually aggregating sample units", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
+
+  project_id <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
+
+  fishbelt_vanilla_sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
+
   fishbelt_vanilla_sus <- fishbelt_vanilla_sus %>%
     construct_fake_sample_event_id()
+
+  fishbelt_vanilla_ses <- mermaid_get_project_data(project_id, "fishbelt", "sampleevents")
 
   # Check first that there are the same number of fake SEs as real SEs
   expect_equal(
