@@ -569,3 +569,135 @@ test_that("Benthic PIT sample event aggregation is the same as manually aggregat
   expect_true(all(sus_vs_ses_match[["match"]]))
 })
 
+# Habitat Complexity -----
+
+test_that("Habitat complexity sample unit aggregation is the same as manually aggregating observations", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  project_id <- "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a"
+
+  obs <- mermaid_get_project_data(project_id, "habitatcomplexity", "observations")
+
+  sus <- mermaid_get_project_data(project_id, "habitatcomplexity", "sampleunits")
+
+  obs <- obs %>%
+    construct_fake_sample_unit_id()
+
+  # Check first that there are the same number of fake SUs as real SUs
+  expect_equal(
+    sus %>%
+      nrow(),
+    obs %>%
+      dplyr::distinct(fake_sample_unit_id) %>%
+      nrow()
+  )
+  # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
+  # Just aggregate straight up to score_avg
+
+  obs_agg <- obs %>%
+    group_by(fake_sample_unit_id) %>%
+    summarise(score_avg = mean(score, na.rm = TRUE),
+              .groups = "drop")
+
+  # Create "long" versions for comparing
+
+  obs_agg_for_su_comparison <- obs_agg %>%
+    pivot_longer(-fake_sample_unit_id, values_to = "obs")
+
+  sus_for_su_comparison <- sus %>%
+    construct_fake_sample_unit_id() %>%
+    select(fake_sample_unit_id, all_of(obs_agg_for_su_comparison[["name"]])) %>%
+    pivot_longer(-fake_sample_unit_id, values_to = "su")
+
+  # Check that values match
+
+  obs_vs_su_match <- obs_agg_for_su_comparison %>%
+    left_join(sus_for_su_comparison,
+              by = c("fake_sample_unit_id", "name")
+    ) %>%
+    filter(!is.na(obs) | !is.na(su)) %>%
+    mutate(
+      match = obs == su,
+      match = coalesce(match, FALSE)
+    )
+
+  expect_true(all(obs_vs_su_match[["match"]]))
+})
+
+test_that("Habitat complexity sample event aggregation is the same as manually aggregating sample units", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  project_id <- "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a"
+
+  sus <- mermaid_get_project_data(project_id, "habitatcomplexity", "sampleunits")
+
+  sus <- sus %>%
+    construct_fake_sample_event_id()
+
+  ses <- mermaid_get_project_data(project_id, "habitatcomplexity", "sampleevents")
+
+  # Check first that there are the same number of fake SEs as real SEs
+  expect_equal(
+    ses %>%
+      nrow(),
+    sus %>%
+      distinct(fake_sample_event_id) %>%
+      nrow()
+  )
+  # Failing
+  sus %>% distinct(fake_sample_event_id, sample_event_id) %>% add_count(fake_sample_event_id)
+  # Similar as issue with Benthic LITs - there is one with Management "Open" instead of Open Access
+  # https://dev-collect.datamermaid.org/#/projects/3a9ecb7c-f908-4262-8769-1b4dbb0cf61a/transectmethods/habitatcomplexitytransectmethods/4bf8f2c6-24d1-48b0-a384-acb24097fade
+  # Should this be a different SE? Is management used to derive the ID?
+  # Also, is there an issue with the data? Should it be "Open Access" like all the rest?
+
+  expect_equal(
+    sus %>%
+      distinct(fake_sample_event_id) %>%
+      nrow(),
+    sus %>%
+      distinct(sample_event_id) %>%
+      nrow()
+  )
+
+  # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
+  # Just aggregate straight up to score_avg_avg and depth_avg
+
+  sus_agg_for_se_comparison <- sus %>%
+    select(sample_event_id, score_avg_avg = score_avg, depth_avg = depth) %>%
+    pivot_longer(-sample_event_id, values_to = "su") %>%
+    filter(!is.na(su)) %>%
+    group_by(sample_event_id, name) %>%
+    summarise(
+      su = round(mean(su), 2),
+      .groups = "drop"
+    )
+
+  ses_for_se_comparison <- ses %>%
+    rename(sample_event_id = id) %>%
+    select(sample_event_id, sus_agg_for_se_comparison[["name"]]) %>%
+    pivot_longer(-sample_event_id, values_to = "se") %>%
+    filter(!is.na(se)) %>%
+    mutate(se = round(se, 2))
+
+  # Check that values match
+
+  sus_vs_ses_match <- sus_agg_for_se_comparison %>%
+    left_join(ses_for_se_comparison,
+              by = c("sample_event_id", "name")
+    ) %>%
+    filter(!is.na(se) | !is.na(su)) %>%
+    mutate(
+      match = se == su,
+      match = coalesce(match, FALSE)
+    )
+
+  expect_true(all(sus_vs_ses_match[["match"]]))
+})
+
+
+# Bleaching -----
