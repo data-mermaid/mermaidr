@@ -166,31 +166,31 @@ test_that("Vanilla fishbelt sample unit aggregation is the same as manually aggr
 
   project_id <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
 
-  fishbelt_vanilla_obs <- mermaid_get_project_data(project_id, "fishbelt", "observations")
+  obs <- mermaid_get_project_data(project_id, "fishbelt", "observations")
 
-  fishbelt_vanilla_sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
+  sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
 
-  fishbelt_vanilla_obs <- fishbelt_vanilla_obs %>%
+  obs <- obs %>%
     construct_fake_sample_unit_id()
 
   # Remove SUs with zero observations, since they don't appear in the observations endpoint and will mess up the comparisons
 
-  fishbelt_vanilla_sus_minus_zeros <- fishbelt_vanilla_sus %>%
+  sus_minus_zeros <- sus %>%
     dplyr::filter(biomass_kgha != 0) %>%
     construct_fake_sample_unit_id()
 
   # Check first that there are the same number of fake SUs as real SUs
   expect_equal(
-    fishbelt_vanilla_sus_minus_zeros %>%
+    sus_minus_zeros %>%
       nrow(),
-    fishbelt_vanilla_obs %>%
+    obs %>%
       dplyr::distinct(fake_sample_unit_id) %>%
       nrow()
   )
   # Aggregate observations to sample units - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc
   # Just aggregate straight up to calculate biomass_kgha and biomass_kgha_by_trophic_group
 
-  fishbelt_vanilla_obs_agg <- fishbelt_vanilla_obs %>%
+  obs_agg <- obs %>%
     group_by(fake_sample_unit_id, trophic_group) %>%
     summarise(biomass_kgha_by_trophic_group = sum(biomass_kgha, na.rm = TRUE), .groups = "drop_last") %>%
     mutate(biomass_kgha = sum(biomass_kgha_by_trophic_group)) %>%
@@ -199,22 +199,22 @@ test_that("Vanilla fishbelt sample unit aggregation is the same as manually aggr
 
   # Create "long" versions for comparing
 
-  fishbelt_vanilla_obs_agg_for_su_comparison <- fishbelt_vanilla_obs_agg %>%
+  obs_agg_for_su_comparison <- obs_agg %>%
     mutate_if(is.numeric, round) %>%
     mutate_all(as.character) %>%
     pivot_longer(-fake_sample_unit_id, values_to = "obs")
 
-  fishbelt_vanilla_sus_for_su_comparison <- fishbelt_vanilla_sus_minus_zeros %>%
+  sus_for_su_comparison <- sus_minus_zeros %>%
     unpack(biomass_kgha_by_trophic_group) %>%
-    select(fake_sample_unit_id, all_of(fishbelt_vanilla_obs_agg_for_su_comparison[["name"]])) %>%
+    select(fake_sample_unit_id, all_of(obs_agg_for_su_comparison[["name"]])) %>%
     mutate_if(is.numeric, round) %>%
     mutate_all(as.character) %>%
     pivot_longer(-fake_sample_unit_id, values_to = "su")
 
   # Check that values match
 
-  obs_vs_su_match <- fishbelt_vanilla_obs_agg_for_su_comparison %>%
-    left_join(fishbelt_vanilla_sus_for_su_comparison,
+  obs_vs_su_match <- obs_agg_for_su_comparison %>%
+    left_join(sus_for_su_comparison,
       by = c("fake_sample_unit_id", "name")
     ) %>%
     filter(!is.na(obs) | !is.na(su)) %>%
@@ -233,27 +233,27 @@ test_that("Vanilla fishbelt sample event aggregation is the same as manually agg
 
   project_id <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
 
-  fishbelt_vanilla_sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
+  sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
 
-  fishbelt_vanilla_sus <- fishbelt_vanilla_sus %>%
+  sus <- sus %>%
     construct_fake_sample_event_id()
 
-  fishbelt_vanilla_ses <- mermaid_get_project_data(project_id, "fishbelt", "sampleevents")
+  ses <- mermaid_get_project_data(project_id, "fishbelt", "sampleevents")
 
   # Check first that there are the same number of fake SEs as real SEs
   expect_equal(
-    fishbelt_vanilla_ses %>%
+    ses %>%
       nrow(),
-    fishbelt_vanilla_sus %>%
+    sus %>%
       distinct(fake_sample_event_id) %>%
       nrow()
   )
 
   expect_equal(
-    fishbelt_vanilla_sus %>%
+    sus %>%
       distinct(fake_sample_event_id) %>%
       nrow(),
-    fishbelt_vanilla_sus %>%
+    sus %>%
       distinct(sample_event_id) %>%
       nrow()
   )
@@ -261,12 +261,12 @@ test_that("Vanilla fishbelt sample event aggregation is the same as manually agg
   # Aggregate sample units to sample events - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc - but will want to check these in the other fishbelts!
   # Just aggregate straight up to calculate depth_avg, biomass_kgha_avg and biomass_kgha_by_trophic_group_avg, sample_unit_count
 
-  biomass_kgha_by_trophic_group_cols <- fishbelt_vanilla_sus %>%
+  biomass_kgha_by_trophic_group_cols <- sus %>%
     pull(biomass_kgha_by_trophic_group) %>%
     names()
 
   # In API, all are rounded to 2 decimal places - but just round to 0, because of some weird rounding issues in R
-  fishbelt_vanilla_sus_agg_for_se_comparison <- fishbelt_vanilla_sus %>%
+  sus_agg_for_se_comparison <- sus %>%
     unpack(biomass_kgha_by_trophic_group) %>%
     select(sample_event_id, all_of(biomass_kgha_by_trophic_group_cols), biomass_kgha_avg = biomass_kgha, depth_avg = depth) %>%
     pivot_longer(-sample_event_id, values_to = "su") %>%
@@ -277,19 +277,154 @@ test_that("Vanilla fishbelt sample event aggregation is the same as manually agg
       .groups = "drop"
     )
 
-  fishbelt_vanilla_ses_for_se_comparison <- fishbelt_vanilla_ses %>%
+  ses_for_se_comparison <- ses %>%
     unpack(biomass_kgha_by_trophic_group_avg) %>%
     rename(sample_event_id = id) %>%
-    select(sample_event_id, fishbelt_vanilla_sus_agg_for_se_comparison[["name"]]) %>%
+    select(sample_event_id, sus_agg_for_se_comparison[["name"]]) %>%
     pivot_longer(-sample_event_id, values_to = "se") %>%
     filter(!is.na(se)) %>%
     mutate(se = round(se))
 
   # Check that values match
 
-  sus_vs_ses_match <- fishbelt_vanilla_sus_agg_for_se_comparison %>%
-    left_join(fishbelt_vanilla_ses_for_se_comparison,
+  sus_vs_ses_match <- sus_agg_for_se_comparison %>%
+    left_join(ses_for_se_comparison,
       by = c("sample_event_id", "name")
+    ) %>%
+    filter(!is.na(se) | !is.na(su)) %>%
+    mutate(
+      match = se == su,
+      match = coalesce(match, FALSE)
+    )
+
+  expect_true(all(sus_vs_ses_match[["match"]]))
+})
+
+# Benthic LIT ----
+
+test_that("Benthic LIT sample unit aggregation is the same as manually aggregating observations", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  project_id <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
+
+  obs <- mermaid_get_project_data(project_id, "benthiclit", "observations")
+
+  sus <- mermaid_get_project_data(project_id, "benthiclit", "sampleunits")
+
+  obs <- obs %>%
+    construct_fake_sample_unit_id()
+
+  # Check first that there are the same number of fake SUs as real SUs
+  expect_equal(
+    sus %>%
+      nrow(),
+    obs %>%
+      dplyr::distinct(fake_sample_unit_id) %>%
+      nrow()
+  )
+  # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
+  # Just aggregate straight up to percent_cover_by_benthic_category
+
+  obs_agg <- obs %>%
+    group_by(fake_sample_unit_id, benthic_category) %>%
+    summarise(percent_cover_by_benthic_category = round(sum(length, na.rm = TRUE)*100 / total_length, 2),
+              .groups = "drop") %>%
+    distinct() %>%
+    pivot_wider(names_from = benthic_category, values_from = percent_cover_by_benthic_category)
+
+  # Create "long" versions for comparing
+
+  obs_agg_for_su_comparison <- obs_agg %>%
+    pivot_longer(-fake_sample_unit_id, values_to = "obs")
+
+  sus_for_su_comparison <- sus %>%
+    construct_fake_sample_unit_id() %>%
+    unpack(percent_cover_by_benthic_category) %>%
+    select(fake_sample_unit_id, all_of(obs_agg_for_su_comparison[["name"]])) %>%
+    pivot_longer(-fake_sample_unit_id, values_to = "su")
+
+  # Check that values match
+
+  obs_vs_su_match <- obs_agg_for_su_comparison %>%
+    left_join(sus_for_su_comparison,
+              by = c("fake_sample_unit_id", "name")
+    ) %>%
+    filter(!is.na(obs) | !is.na(su)) %>%
+    mutate(
+      match = obs == su,
+      match = coalesce(match, FALSE)
+    )
+
+  expect_true(all(obs_vs_su_match[["match"]]))
+})
+
+test_that("Benthic LIT sample event aggregation is the same as manually aggregating sample units", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  project_id <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
+
+  sus <- mermaid_get_project_data(project_id, "benthiclit", "sampleunits")
+
+  sus <- sus %>%
+    construct_fake_sample_event_id()
+
+  ses <- mermaid_get_project_data(project_id, "benthiclit", "sampleevents")
+
+  # Check first that there are the same number of fake SEs as real SEs
+  expect_equal(
+    ses %>%
+      nrow(),
+    sus %>%
+      distinct(fake_sample_event_id) %>%
+      nrow()
+  )
+  # 82bc4200-156d-4adb-8ac1-92c6e830a5ac and 84e364ae-4eb7-46bb-9309-7b0129817df5 are both coded as Londo 2_2008-10-19, because I haven't taken the management into account for constructing the fake sample event id
+  # https://dev-collect.datamermaid.org/#/projects/2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b/transectmethods/benthiclittransectmethods/9f3b0791-ab07-477c-b7f4-a447f0bed6d5 has Management = "Inhaca Island Reserve", but the rest from Londo 2 have "Open access" - seems like it might be an error? But I should take management into account anyways if that's used to determine what sample event something is
+
+  expect_equal(
+    sus %>%
+      distinct(fake_sample_event_id) %>%
+      nrow(),
+    sus %>%
+      distinct(sample_event_id) %>%
+      nrow()
+  )
+
+  # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
+  # Just aggregate straight up to percent_cover_by_benthic_category_avg and depth_avg
+
+  percent_cover_by_benthic_category_cols <- sus %>%
+    pull(percent_cover_by_benthic_category) %>%
+    names()
+
+  sus_agg_for_se_comparison <- sus %>%
+    unpack(percent_cover_by_benthic_category) %>%
+    select(sample_event_id, all_of(percent_cover_by_benthic_category_cols), depth_avg = depth) %>%
+    pivot_longer(-sample_event_id, values_to = "su") %>%
+    filter(!is.na(su)) %>%
+    group_by(sample_event_id, name) %>%
+    summarise(
+      su = round(mean(su)),
+      .groups = "drop"
+    )
+
+  ses_for_se_comparison <- ses %>%
+    unpack(percent_cover_by_benthic_category_avg) %>%
+    rename(sample_event_id = id) %>%
+    select(sample_event_id, sus_agg_for_se_comparison[["name"]]) %>%
+    pivot_longer(-sample_event_id, values_to = "se") %>%
+    filter(!is.na(se)) %>%
+    mutate(se = round(se))
+
+  # Check that values match
+
+  sus_vs_ses_match <- sus_agg_for_se_comparison %>%
+    left_join(ses_for_se_comparison,
+              by = c("sample_event_id", "name")
     ) %>%
     filter(!is.na(se) | !is.na(su)) %>%
     mutate(
