@@ -434,3 +434,138 @@ test_that("Benthic LIT sample event aggregation is the same as manually aggregat
 
   expect_true(all(sus_vs_ses_match[["match"]]))
 })
+
+# Benthic PIT -----
+
+test_that("Benthic PIT sample unit aggregation is the same as manually aggregating observations", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  project_id <- "5679ef3d-bafc-453d-9e1a-a4b282a8a997"
+
+  obs <- mermaid_get_project_data(project_id, "benthicpit", "observations")
+
+  sus <- mermaid_get_project_data(project_id, "benthicpit", "sampleunits")
+
+  obs <- obs %>%
+    construct_fake_sample_unit_id()
+
+  # Check first that there are the same number of fake SUs as real SUs
+  expect_equal(
+    sus %>%
+      nrow(),
+    obs %>%
+      dplyr::distinct(fake_sample_unit_id) %>%
+      nrow()
+  )
+  # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
+  # Just aggregate straight up to percent_cover_by_benthic_category
+  # Do this by getting the length for each benthic category (sum of interval_size) divided by the total length (transect_length)
+
+  obs_agg <- obs %>%
+    group_by(fake_sample_unit_id, benthic_category) %>%
+    summarise(percent_cover_by_benthic_category = round(sum(interval_size, na.rm = TRUE)*100 / transect_length, 2),
+              .groups = "drop") %>%
+    distinct() %>%
+    pivot_wider(names_from = benthic_category, values_from = percent_cover_by_benthic_category)
+
+  # Create "long" versions for comparing
+
+  obs_agg_for_su_comparison <- obs_agg %>%
+    pivot_longer(-fake_sample_unit_id, values_to = "obs")
+
+  sus_for_su_comparison <- sus %>%
+    construct_fake_sample_unit_id() %>%
+    unpack(percent_cover_by_benthic_category) %>%
+    select(fake_sample_unit_id, all_of(obs_agg_for_su_comparison[["name"]])) %>%
+    pivot_longer(-fake_sample_unit_id, values_to = "su")
+
+  # Check that values match
+
+  obs_vs_su_match <- obs_agg_for_su_comparison %>%
+    left_join(sus_for_su_comparison,
+              by = c("fake_sample_unit_id", "name")
+    ) %>%
+    filter(!is.na(obs) | !is.na(su)) %>%
+    mutate(
+      match = obs == su,
+      match = coalesce(match, FALSE)
+    )
+
+  expect_true(all(obs_vs_su_match[["match"]]))
+})
+
+test_that("Benthic PIT sample event aggregation is the same as manually aggregating sample units", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  project_id <- "5679ef3d-bafc-453d-9e1a-a4b282a8a997"
+
+  sus <- mermaid_get_project_data(project_id, "benthicpit", "sampleunits")
+
+  sus <- sus %>%
+    construct_fake_sample_event_id()
+
+  ses <- mermaid_get_project_data(project_id, "benthicpit", "sampleevents")
+
+  # Check first that there are the same number of fake SEs as real SEs
+  expect_equal(
+    ses %>%
+      nrow(),
+    sus %>%
+      distinct(fake_sample_event_id) %>%
+      nrow()
+  )
+
+  expect_equal(
+    sus %>%
+      distinct(fake_sample_event_id) %>%
+      nrow(),
+    sus %>%
+      distinct(sample_event_id) %>%
+      nrow()
+  )
+
+  # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
+  # Just aggregate straight up to percent_cover_by_benthic_category_avg and depth_avg
+
+  percent_cover_by_benthic_category_cols <- sus %>%
+    pull(percent_cover_by_benthic_category) %>%
+    names()
+
+  sus_agg_for_se_comparison <- sus %>%
+    unpack(percent_cover_by_benthic_category) %>%
+    select(sample_event_id, all_of(percent_cover_by_benthic_category_cols), depth_avg = depth) %>%
+    pivot_longer(-sample_event_id, values_to = "su") %>%
+    filter(!is.na(su)) %>%
+    group_by(sample_event_id, name) %>%
+    summarise(
+      su = round(mean(su)),
+      .groups = "drop"
+    )
+
+  ses_for_se_comparison <- ses %>%
+    unpack(percent_cover_by_benthic_category_avg) %>%
+    rename(sample_event_id = id) %>%
+    select(sample_event_id, sus_agg_for_se_comparison[["name"]]) %>%
+    pivot_longer(-sample_event_id, values_to = "se") %>%
+    filter(!is.na(se)) %>%
+    mutate(se = round(se))
+
+  # Check that values match
+
+  sus_vs_ses_match <- sus_agg_for_se_comparison %>%
+    left_join(ses_for_se_comparison,
+              by = c("sample_event_id", "name")
+    ) %>%
+    filter(!is.na(se) | !is.na(su)) %>%
+    mutate(
+      match = se == su,
+      match = coalesce(match, FALSE)
+    )
+
+  expect_true(all(sus_vs_ses_match[["match"]]))
+})
+
