@@ -103,7 +103,7 @@ strip_name_suffix <- function(results) {
 
   names(results) <- res_names
 
-  results[, !grepl("_id$", names(results)) | names(results) == "project_id" | names(results) == "sample_event_id"]
+  results[, !grepl("_id$", names(results)) | names(results) == "project_id" | names(results) == "sample_event_id" | names(results) == "sample_unit_id"]
 }
 
 # Defined in respective function files
