@@ -260,7 +260,7 @@ test_that("Vanilla fishbelt sample event aggregation is the same as manually agg
   )
 
   # Aggregate sample units to sample events - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc - but will want to check these in the other fishbelts!
-  # Just aggregate straight up to calculate depth_avg, biomass_kgha_avg and biomass_kgha_by_trophic_group_avg, sample_unit_count
+  # Just aggregate straight up to calculate depth_avg, biomass_kgha_avg and biomass_kgha_by_trophic_group_avg
 
   biomass_kgha_by_trophic_group_cols <- sus %>%
     pull(biomass_kgha_by_trophic_group) %>%
@@ -302,6 +302,30 @@ test_that("Vanilla fishbelt sample event aggregation is the same as manually agg
 })
 
 # Variable widths ----
+
+test_that("Variables widths fishbelt observations view biomass is the same as  manually calculating biomass", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  project_id <- "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a"
+
+  obs <- mermaid_get_project_data(project_id, "fishbelt", "observations")
+
+  # Biomass is calculated as:
+  # 10 * count * biomass_constant_a * (size * biomass_constant_c) ^ biomass_constant_b / (transect_length * width)
+  # In the mixed width case, the width depends on the size
+  # In this project, the width is: 2m if size < 10cm, 5m if size >= 10cm
+
+  obs_biomass_calc <- obs %>%
+    mutate(width = case_when(size < 10 ~ 2,
+                             size >= 10 ~ 5),
+           biomass_kgha_calc = 10 * count * biomass_constant_a * (size * biomass_constant_c) ^ biomass_constant_b / (transect_length * width),
+           biomass_kgha_calc = round(biomass_kgha_calc, 2),
+           match = biomass_kgha == biomass_kgha_calc)
+
+  expect_true(all(obs_biomass_calc[["match"]]))
+})
 
 test_that("Variable widths fishbelt sample unit aggregation is the same as manually aggregating observations", {
   skip_if_offline()
@@ -405,7 +429,7 @@ test_that("Variable widths fishbelt sample event aggregation is the same as manu
   )
 
   # Aggregate sample units to sample events - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc - but will want to check these in the other fishbelts!
-  # Just aggregate straight up to calculate depth_avg, biomass_kgha_avg and biomass_kgha_by_trophic_group_avg, sample_unit_count
+  # Just aggregate straight up to calculate depth_avg, biomass_kgha_avg and biomass_kgha_by_trophic_group_avg
 
   biomass_kgha_by_trophic_group_cols <- sus %>%
     pull(biomass_kgha_by_trophic_group) %>%
