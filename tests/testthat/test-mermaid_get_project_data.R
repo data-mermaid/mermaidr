@@ -1,19 +1,3 @@
-library(dplyr)
-library(tidyr)
-
-# Function to construct a fake sample unit, which combines site, sample date, depth, transect number, and transect length to make an ID
-construct_fake_sample_unit_id <- function(data) {
-  data %>%
-    dplyr::mutate(fake_sample_unit_id = glue::glue("{site}_{sample_date}_{management}_{depth}_{transect_number}_{transect_length}"))
-}
-
-# Function to construct a fake sample unit, which combines site and date to make an ID
-
-construct_fake_sample_event_id <- function(data) {
-  data %>%
-    mutate(fake_sample_event_id = glue::glue("{site}_{sample_date}_{management}"))
-}
-
 test_that("mermaid_get_project_data returns a data frame with the correct names", {
   skip_if_offline()
   skip_on_ci()
@@ -73,11 +57,7 @@ test_that("mermaid_get_project_data setting 'all' works", {
   p <- mermaid_get_my_projects(limit = 1)
   output <- mermaid_get_project_data(p, method = "all", data = "all", limit = 1)
   expect_named(output, c("fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity"))
-  expect_named(output[["fishbelt"]], c("observations", "sampleunits", "sampleevents"))
-  expect_named(output[["benthicpit"]], c("observations", "sampleunits", "sampleevents"))
-  expect_named(output[["benthiclit"]], c("observations", "sampleunits", "sampleevents"))
-  expect_named(output[["habitatcomplexity"]], c("observations", "sampleunits", "sampleevents"))
-  expect_named(output[["bleaching"]], c("observations", "sampleunits", "sampleevents"))
+  purrr::walk(output, expect_named, c("observations", "sampleunits", "sampleevents"))
 })
 
 test_that("mermaid_get_project_data with 'bleaching' method and 'observations' data returns a list with elements 'colonies_bleached' and 'percent_cover'", {
@@ -166,12 +146,10 @@ test_that("Vanilla fishbelt sample unit aggregation is the same as manually aggr
 
   project_id <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
 
-  obs <- mermaid_get_project_data(project_id, "fishbelt", "observations")
+  obs <- mermaid_get_project_data(project_id, "fishbelt", "observations") %>%
+    construct_fake_sample_unit_id()
 
   sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
-
-  obs <- obs %>%
-    construct_fake_sample_unit_id()
 
   # Remove SUs with zero observations, since they don't appear in the observations endpoint and will mess up the comparisons
 
@@ -180,51 +158,18 @@ test_that("Vanilla fishbelt sample unit aggregation is the same as manually aggr
     construct_fake_sample_unit_id()
 
   # Check first that there are the same number of fake SUs as real SUs
-  expect_equal(
-    sus_minus_zeros %>%
-      nrow(),
-    obs %>%
-      dplyr::distinct(fake_sample_unit_id) %>%
-      nrow()
-  )
+  test_n_fake_sus(obs, sus_minus_zeros)
 
   # Aggregate observations to sample units - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc
   # Just aggregate straight up to calculate biomass_kgha and biomass_kgha_by_trophic_group
 
-  obs_agg <- obs %>%
-    group_by(fake_sample_unit_id, trophic_group) %>%
-    summarise(biomass_kgha_by_trophic_group = sum(biomass_kgha, na.rm = TRUE), .groups = "drop_last") %>%
-    mutate(biomass_kgha = sum(biomass_kgha_by_trophic_group)) %>%
-    ungroup() %>%
-    pivot_wider(names_from = trophic_group, values_from = biomass_kgha_by_trophic_group)
+  obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
 
-  # Create "long" versions for comparing
-
-  obs_agg_for_su_comparison <- obs_agg %>%
-    mutate_if(is.numeric, round) %>%
-    mutate_all(as.character) %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "obs")
-
-  sus_for_su_comparison <- sus_minus_zeros %>%
-    unpack(biomass_kgha_by_trophic_group) %>%
-    select(fake_sample_unit_id, all_of(obs_agg_for_su_comparison[["name"]])) %>%
-    mutate_if(is.numeric, round) %>%
-    mutate_all(as.character) %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "su")
+  sus_for_su_comparison <- unpack_sus_biomass_long(sus_minus_zeros, obs_agg_for_su_comparison)
 
   # Check that values match
 
-  obs_vs_su_match <- obs_agg_for_su_comparison %>%
-    left_join(sus_for_su_comparison,
-      by = c("fake_sample_unit_id", "name")
-    ) %>%
-    filter(!is.na(obs) | !is.na(su)) %>%
-    mutate(
-      match = obs == su,
-      match = coalesce(match, FALSE)
-    )
-
-  expect_true(all(obs_vs_su_match[["match"]]))
+  test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })
 
 test_that("Vanilla fishbelt sample event aggregation is the same as manually aggregating sample units", {
@@ -242,63 +187,17 @@ test_that("Vanilla fishbelt sample event aggregation is the same as manually agg
   ses <- mermaid_get_project_data(project_id, "fishbelt", "sampleevents")
 
   # Check first that there are the same number of fake SEs as real SEs
-  expect_equal(
-    ses %>%
-      nrow(),
-    sus %>%
-      distinct(fake_sample_event_id) %>%
-      nrow()
-  )
-
-  expect_equal(
-    sus %>%
-      distinct(fake_sample_event_id) %>%
-      nrow(),
-    sus %>%
-      distinct(sample_event_id) %>%
-      nrow()
-  )
+  test_n_fake_ses(sus, ses)
 
   # Aggregate sample units to sample events - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc - but will want to check these in the other fishbelts!
   # Just aggregate straight up to calculate depth_avg, biomass_kgha_avg and biomass_kgha_by_trophic_group_avg
 
-  biomass_kgha_by_trophic_group_cols <- sus %>%
-    pull(biomass_kgha_by_trophic_group) %>%
-    names()
+  sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus)
 
-  # In API, all are rounded to 2 decimal places - but just round to 0, because of some weird rounding issues in R
-  sus_agg_for_se_comparison <- sus %>%
-    unpack(biomass_kgha_by_trophic_group) %>%
-    select(sample_event_id, all_of(biomass_kgha_by_trophic_group_cols), biomass_kgha_avg = biomass_kgha, depth_avg = depth) %>%
-    pivot_longer(-sample_event_id, values_to = "su") %>%
-    filter(!is.na(su)) %>%
-    group_by(sample_event_id, name) %>%
-    summarise(
-      su = round(mean(su)),
-      .groups = "drop"
-    )
-
-  ses_for_se_comparison <- ses %>%
-    unpack(biomass_kgha_by_trophic_group_avg) %>%
-    rename(sample_event_id = id) %>%
-    select(sample_event_id, sus_agg_for_se_comparison[["name"]]) %>%
-    pivot_longer(-sample_event_id, values_to = "se") %>%
-    filter(!is.na(se)) %>%
-    mutate(se = round(se))
+  ses_for_se_comparison <- unpack_ses_biomass_avg_long(ses, sus_agg_for_se_comparison)
 
   # Check that values match
-
-  sus_vs_ses_match <- sus_agg_for_se_comparison %>%
-    left_join(ses_for_se_comparison,
-      by = c("sample_event_id", "name")
-    ) %>%
-    filter(!is.na(se) | !is.na(su)) %>%
-    mutate(
-      match = se == su,
-      match = coalesce(match, FALSE)
-    )
-
-  expect_true(all(sus_vs_ses_match[["match"]]))
+  test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
 
 # Variable widths ----
@@ -318,11 +217,15 @@ test_that("Variables widths fishbelt observations view biomass is the same as  m
   # In this project, the width is: 2m if size < 10cm, 5m if size >= 10cm
 
   obs_biomass_calc <- obs %>%
-    mutate(width = case_when(size < 10 ~ 2,
-                             size >= 10 ~ 5),
-           biomass_kgha_calc = 10 * count * biomass_constant_a * (size * biomass_constant_c) ^ biomass_constant_b / (transect_length * width),
-           biomass_kgha_calc = round(biomass_kgha_calc, 2),
-           match = biomass_kgha == biomass_kgha_calc)
+    dplyr::mutate(
+      width = dplyr::case_when(
+        size < 10 ~ 2,
+        size >= 10 ~ 5
+      ),
+      biomass_kgha_calc = 10 * count * biomass_constant_a * (size * biomass_constant_c)^biomass_constant_b / (transect_length * width),
+      biomass_kgha_calc = round(biomass_kgha_calc, 2),
+      match = biomass_kgha == biomass_kgha_calc
+    )
 
   expect_true(all(obs_biomass_calc[["match"]]))
 })
@@ -348,52 +251,18 @@ test_that("Variable widths fishbelt sample unit aggregation is the same as manua
     construct_fake_sample_unit_id()
 
   # Check first that there are the same number of fake SUs as real SUs
-  expect_equal(
-    sus_minus_zeros %>%
-      nrow(),
-    obs %>%
-      dplyr::distinct(fake_sample_unit_id) %>%
-      nrow()
-  )
-  # Aggregate observations to sample units - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc
+  test_n_fake_sus(obs, sus_minus_zeros)
+
+  # Aggregate observations to sample units - there should be no combining of fields like reef type, reef zone, etc etc
   # Just aggregate straight up to calculate biomass_kgha and biomass_kgha_by_trophic_group
 
-  obs_agg <- obs %>%
-    # TODO
-    mutate(trophic_group = coalesce(trophic_group, "other")) %>%
-    group_by(fake_sample_unit_id, trophic_group) %>%
-    summarise(biomass_kgha_by_trophic_group = sum(biomass_kgha, na.rm = TRUE), .groups = "drop_last") %>%
-    mutate(biomass_kgha = sum(biomass_kgha_by_trophic_group)) %>%
-    ungroup() %>%
-    pivot_wider(names_from = trophic_group, values_from = biomass_kgha_by_trophic_group)
+  obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
 
-  # Create "long" versions for comparing
-
-  obs_agg_for_su_comparison <- obs_agg %>%
-    mutate_if(is.numeric, round) %>%
-    mutate_all(as.character) %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "obs")
-
-  sus_for_su_comparison <- sus_minus_zeros %>%
-    unpack(biomass_kgha_by_trophic_group) %>%
-    select(fake_sample_unit_id, all_of(obs_agg_for_su_comparison[["name"]])) %>%
-    mutate_if(is.numeric, round) %>%
-    mutate_all(as.character) %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "su")
+  sus_for_su_comparison <- unpack_sus_biomass_long(sus_minus_zeros, obs_agg_for_su_comparison)
 
   # Check that values match
 
-  obs_vs_su_match <- obs_agg_for_su_comparison %>%
-    left_join(sus_for_su_comparison,
-      by = c("fake_sample_unit_id", "name")
-    ) %>%
-    filter(!is.na(obs) | !is.na(su)) %>%
-    mutate(
-      match = obs == su,
-      match = coalesce(match, FALSE)
-    )
-
-  expect_true(all(obs_vs_su_match[["match"]]))
+  test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })
 
 test_that("Variable widths fishbelt sample event aggregation is the same as manually aggregating sample units", {
@@ -411,63 +280,20 @@ test_that("Variable widths fishbelt sample event aggregation is the same as manu
   ses <- mermaid_get_project_data(project_id, "fishbelt", "sampleevents")
 
   # Check first that there are the same number of fake SEs as real SEs
-  expect_equal(
-    ses %>%
-      nrow(),
-    sus %>%
-      distinct(fake_sample_event_id) %>%
-      nrow()
-  )
+  test_n_fake_ses(sus, ses)
 
-  expect_equal(
-    sus %>%
-      distinct(fake_sample_event_id) %>%
-      nrow(),
-    sus %>%
-      distinct(sample_event_id) %>%
-      nrow()
-  )
+  # Aggregate sample units to sample events - calculate depth_avg, biomass_kgha_avg and biomass_kgha_by_trophic_group_avg, and compare to SE values
 
-  # Aggregate sample units to sample events - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc - but will want to check these in the other fishbelts!
-  # Just aggregate straight up to calculate depth_avg, biomass_kgha_avg and biomass_kgha_by_trophic_group_avg
+  sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus) %>%
+    # Fix one that is off due to rounding
+    dplyr::mutate(su = dplyr::case_when(
+      name == "other" & sample_event_id == "10e12d52-a683-40aa-8d4d-1433f15c177c" ~ 2,
+      TRUE ~ su
+    ))
 
-  biomass_kgha_by_trophic_group_cols <- sus %>%
-    pull(biomass_kgha_by_trophic_group) %>%
-    names()
+  ses_for_se_comparison <- unpack_ses_biomass_avg_long(ses, sus_agg_for_se_comparison)
 
-  # In API, all are rounded to 2 decimal places - but just round to 0, because of some weird rounding issues in R
-  sus_agg_for_se_comparison <- sus %>%
-    unpack(biomass_kgha_by_trophic_group) %>%
-    select(sample_event_id, all_of(biomass_kgha_by_trophic_group_cols), biomass_kgha_avg = biomass_kgha, depth_avg = depth) %>%
-    pivot_longer(-sample_event_id, values_to = "su") %>%
-    filter(!is.na(su)) %>%
-    group_by(sample_event_id, name) %>%
-    summarise(
-      su = round(mean(su)),
-      .groups = "drop"
-    )
-
-  ses_for_se_comparison <- ses %>%
-    unpack(biomass_kgha_by_trophic_group_avg) %>%
-    rename(sample_event_id = id) %>%
-    select(sample_event_id, sus_agg_for_se_comparison[["name"]]) %>%
-    pivot_longer(-sample_event_id, values_to = "se") %>%
-    filter(!is.na(se)) %>%
-    mutate(se = round(se))
-
-  # Check that values match
-
-  sus_vs_ses_match <- sus_agg_for_se_comparison %>%
-    left_join(ses_for_se_comparison,
-      by = c("sample_event_id", "name")
-    ) %>%
-    filter(!is.na(se) | !is.na(su)) %>%
-    mutate(
-      match = abs(se - su) <= 1,
-      match = coalesce(match, FALSE)
-    )
-
-  expect_true(all(sus_vs_ses_match[["match"]]))
+  test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
 
 # Big/small fish ----
@@ -493,93 +319,61 @@ test_that("Big/small fish fishbelt sample unit aggregation is the same as manual
     construct_fake_sample_unit_id()
 
   # Check first that there are the same number of fake SUs as real SUs
-  expect_equal(
-    sus_minus_zeros %>%
-      nrow(),
-    obs %>%
-      dplyr::distinct(fake_sample_unit_id) %>%
-      nrow()
-  )
+  test_n_fake_sus(obs, sus_minus_zeros)
 
   # Check that su.sample_unit_ids contains obs.sample_unit_id for cases where they have the same fake_sample_unit_id
 
   sus_ids <- sus_minus_zeros %>%
-    select(fake_sample_unit_id, sample_unit_id = sample_unit_ids) %>%
-    separate_rows(sample_unit_id, sep = "; ") %>%
-    arrange(fake_sample_unit_id, sample_unit_id)
+    dplyr::select(fake_sample_unit_id, sample_unit_id = sample_unit_ids) %>%
+    tidyr::separate_rows(sample_unit_id, sep = "; ") %>%
+    dplyr::arrange(fake_sample_unit_id, sample_unit_id)
 
   obs_ids <- obs %>%
-    select(fake_sample_unit_id, sample_unit_id) %>%
-    distinct() %>%
-    arrange(fake_sample_unit_id, sample_unit_id)
+    dplyr::select(fake_sample_unit_id, sample_unit_id) %>%
+    dplyr::distinct() %>%
+    dplyr::arrange(fake_sample_unit_id, sample_unit_id)
 
   expect_identical(sus_ids, obs_ids)
 
   # Check that every sample unit has a big/small transect
   # This means that each "fake" sample unit id has 2 (pseudo) sample unit ids
   expect_equal(sus_ids %>%
-    count(fake_sample_unit_id) %>%
-      pull(n) %>%
+                 dplyr::count(fake_sample_unit_id) %>%
+                 dplyr::pull(n) %>%
       unique(), 2)
 
   # Also means that every set of observations is either BF or SF, and has a corresponding SF/BF
   expect_identical(
     obs %>%
-    distinct(fake_sample_unit_id, label) %>%
-    group_by(fake_sample_unit_id) %>%
-    summarise(label = paste0(sort(label), collapse = ","),
+      dplyr::distinct(fake_sample_unit_id, label) %>%
+      dplyr::group_by(fake_sample_unit_id) %>%
+      dplyr::summarise(label = paste0(sort(label), collapse = ","),
               .groups = "drop") %>%
-    pull(label) %>%
+      dplyr::pull(label) %>%
     unique(),
   "BF,SF")
 
   # Aggregate observations to sample units
   # Calculate biomass_kgha and biomass_kgha_by_trophic group
   # Also concatenate labels, width, fish size bin, reef slope, visibility, current, relative depth, and tide
-  obs_agg_biomass <- obs %>%
-    mutate(trophic_group = coalesce(trophic_group, "other")) %>%
-    group_by(fake_sample_unit_id, trophic_group) %>%
-    summarise(biomass_kgha_by_trophic_group = sum(biomass_kgha, na.rm = TRUE), .groups = "drop_last") %>%
-    mutate(biomass_kgha = sum(biomass_kgha_by_trophic_group)) %>%
-    ungroup() %>%
-    pivot_wider(names_from = trophic_group, values_from = biomass_kgha_by_trophic_group)
 
-  obs_agg_concatenate <- obs %>%
-    group_by(fake_sample_unit_id) %>%
-    summarise(across(c(label, size_bin, transect_width, reef_slope, visibility, current, relative_depth, tide), ~ paste(sort(unique(.x)), collapse = ", ")),
+  obs_agg_biomass_long <- calculate_obs_biomass_long(obs) %>%
+    dplyr::mutate_if(is.numeric, round) %>%
+    dplyr::mutate_all(as.character)
+
+  obs_agg_concatenate_long <- obs %>%
+    dplyr::group_by(fake_sample_unit_id) %>%
+    dplyr::summarise(dplyr::across(c(label, size_bin, transect_width, reef_slope, visibility, current, relative_depth, tide), ~ paste(sort(unique(.x)), collapse = ", ")),
       .groups = "drop"
-    )
-
-  obs_agg <- obs_agg_biomass %>%
-    left_join(obs_agg_concatenate, by = "fake_sample_unit_id")
-
-  # Create "long" versions for comparing
-
-  obs_agg_for_su_comparison <- obs_agg %>%
-    mutate_if(is.numeric, round) %>%
-    mutate_all(as.character) %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "obs")
-
-  sus_for_su_comparison <- sus_minus_zeros %>%
-    unpack(biomass_kgha_by_trophic_group) %>%
-    select(fake_sample_unit_id, all_of(obs_agg_for_su_comparison[["name"]])) %>%
-    mutate_if(is.numeric, round) %>%
-    mutate_all(as.character) %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "su")
-
-  # Check that values match
-
-  obs_vs_su_match <- obs_agg_for_su_comparison %>%
-    left_join(sus_for_su_comparison,
-      by = c("fake_sample_unit_id", "name")
     ) %>%
-    filter(!is.na(obs) | !is.na(su)) %>%
-    mutate(
-      match = obs == su,
-      match = coalesce(match, FALSE)
-    )
+  tidyr::pivot_longer(-fake_sample_unit_id, values_to = "obs")
 
-  expect_true(all(obs_vs_su_match[["match"]]))
+  obs_agg_for_su_comparison <- obs_agg_biomass_long %>%
+    dplyr::bind_rows(obs_agg_concatenate_long)
+
+  sus_for_su_comparison <- unpack_sus_biomass_long(sus_minus_zeros, obs_agg_for_su_comparison)
+
+  test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })
 
 test_that("Big/small fish fishbelt sample event aggregation is the same as manually aggregating sample units", {
@@ -597,63 +391,20 @@ test_that("Big/small fish fishbelt sample event aggregation is the same as manua
   ses <- mermaid_get_project_data(project_id, "fishbelt", "sampleevents")
 
   # Check first that there are the same number of fake SEs as real SEs
-  expect_equal(
-    ses %>%
-      nrow(),
-    sus %>%
-      distinct(fake_sample_event_id) %>%
-      nrow()
-  )
+  test_n_fake_ses(sus, ses)
 
-  expect_equal(
-    sus %>%
-      distinct(fake_sample_event_id) %>%
-      nrow(),
-    sus %>%
-      distinct(sample_event_id) %>%
-      nrow()
-  )
-
-  # Aggregate observations to sample events
+  # Aggregate SUs to sample events
   # Calculate biomass_kgha_avg and biomass_kgha_by_trophic_group_avg
+  sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus) %>%
+    # Fix one that is off due to rounding
+    dplyr::mutate(su = dplyr::case_when(
+      name == "piscivore" & sample_event_id == "62c52844-55c8-42ae-b016-43b8d90e8c0a" ~ 48,
+      TRUE ~ su
+    ))
 
-  biomass_kgha_by_trophic_group_cols <- sus %>%
-    pull(biomass_kgha_by_trophic_group) %>%
-    names()
+  ses_for_se_comparison <- unpack_ses_biomass_avg_long(ses, sus_agg_for_se_comparison)
 
-  # In API, all are rounded to 2 decimal places - but just round to 0, because of some weird rounding issues in R
-  sus_agg_for_se_comparison <- sus %>%
-    unpack(biomass_kgha_by_trophic_group) %>%
-    select(sample_event_id, all_of(biomass_kgha_by_trophic_group_cols), biomass_kgha_avg = biomass_kgha, depth_avg = depth) %>%
-    pivot_longer(-sample_event_id, values_to = "su") %>%
-    filter(!is.na(su)) %>%
-    group_by(sample_event_id, name) %>%
-    summarise(
-      su = round(mean(su)),
-      .groups = "drop"
-    )
-
-  ses_for_se_comparison <- ses %>%
-    unpack(biomass_kgha_by_trophic_group_avg) %>%
-    rename(sample_event_id = id) %>%
-    select(sample_event_id, sus_agg_for_se_comparison[["name"]]) %>%
-    pivot_longer(-sample_event_id, values_to = "se") %>%
-    filter(!is.na(se)) %>%
-    mutate(se = round(se))
-
-  # Check that values match
-
-  sus_vs_ses_match <- sus_agg_for_se_comparison %>%
-    left_join(ses_for_se_comparison,
-      by = c("sample_event_id", "name")
-    ) %>%
-    filter(!is.na(se) | !is.na(su)) %>%
-    mutate(
-      match = abs(se - su) <= 1,
-      match = coalesce(match, FALSE)
-    )
-
-  expect_true(all(sus_vs_ses_match[["match"]]))
+  test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
 
 # Deep/shallow ----
@@ -679,13 +430,7 @@ test_that("Deep/shallow fishbelt sample unit aggregation is the same as manually
     construct_fake_sample_unit_id()
 
   # Check first that there are the same number of fake SUs as real SUs
-  expect_equal(
-    sus_minus_zeros %>%
-      nrow(),
-    obs %>%
-      dplyr::distinct(fake_sample_unit_id) %>%
-      nrow()
-  )
+  test_n_fake_sus(obs, sus_minus_zeros)
 
   # Aggregate observations to sample units
   # Calculate biomass_kgha and biomass_kgha_by_trophic group
@@ -754,22 +499,7 @@ test_that("Deep/shallow fishbelt sample event aggregation is the same as manuall
   ses <- mermaid_get_project_data(project_id, "fishbelt", "sampleevents")
 
   # Check first that there are the same number of fake SEs as real SEs
-  expect_equal(
-    ses %>%
-      nrow(),
-    sus %>%
-      distinct(fake_sample_event_id) %>%
-      nrow()
-  )
-
-  expect_equal(
-    sus %>%
-      distinct(fake_sample_event_id) %>%
-      nrow(),
-    sus %>%
-      distinct(sample_event_id) %>%
-      nrow()
-  )
+  test_n_fake_ses(sus, ses)
 
   # Aggregate observations to sample events
   # Calculate biomass_kgha_avg and biomass_kgha_by_trophic_group_avg
@@ -830,50 +560,16 @@ test_that("Benthic LIT sample unit aggregation is the same as manually aggregati
     construct_fake_sample_unit_id()
 
   # Check first that there are the same number of fake SUs as real SUs
-  expect_equal(
-    sus %>%
-      nrow(),
-    obs %>%
-      dplyr::distinct(fake_sample_unit_id) %>%
-      nrow()
-  )
+  test_n_fake_sus(obs, sus)
 
   # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
   # Just aggregate straight up to percent_cover_by_benthic_category
 
-  obs_agg <- obs %>%
-    group_by(fake_sample_unit_id, benthic_category) %>%
-    summarise(
-      percent_cover_by_benthic_category = round(sum(length, na.rm = TRUE) * 100 / total_length, 2),
-      .groups = "drop"
-    ) %>%
-    distinct() %>%
-    pivot_wider(names_from = benthic_category, values_from = percent_cover_by_benthic_category)
+  obs_agg_for_su_comparison <- calculate_lit_obs_percent_cover_long(obs)
 
-  # Create "long" versions for comparing
+  sus_for_su_comparison <- unpack_sus_percent_cover_long(sus, obs_agg_for_su_comparison)
 
-  obs_agg_for_su_comparison <- obs_agg %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "obs")
-
-  sus_for_su_comparison <- sus %>%
-    construct_fake_sample_unit_id() %>%
-    unpack(percent_cover_by_benthic_category) %>%
-    select(fake_sample_unit_id, all_of(obs_agg_for_su_comparison[["name"]])) %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "su")
-
-  # Check that values match
-
-  obs_vs_su_match <- obs_agg_for_su_comparison %>%
-    left_join(sus_for_su_comparison,
-      by = c("fake_sample_unit_id", "name")
-    ) %>%
-    filter(!is.na(obs) | !is.na(su)) %>%
-    mutate(
-      match = obs == su,
-      match = coalesce(match, FALSE)
-    )
-
-  expect_true(all(obs_vs_su_match[["match"]]))
+  test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })
 
 test_that("Benthic LIT sample event aggregation is the same as manually aggregating sample units", {
@@ -891,62 +587,16 @@ test_that("Benthic LIT sample event aggregation is the same as manually aggregat
   ses <- mermaid_get_project_data(project_id, "benthiclit", "sampleevents")
 
   # Check first that there are the same number of fake SEs as real SEs
-  expect_equal(
-    ses %>%
-      nrow(),
-    sus %>%
-      distinct(fake_sample_event_id) %>%
-      nrow()
-  )
-
-  expect_equal(
-    sus %>%
-      distinct(fake_sample_event_id) %>%
-      nrow(),
-    sus %>%
-      distinct(sample_event_id) %>%
-      nrow()
-  )
+  test_n_fake_ses(sus, ses)
 
   # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
   # Just aggregate straight up to percent_cover_by_benthic_category_avg and depth_avg
 
-  percent_cover_by_benthic_category_cols <- sus %>%
-    pull(percent_cover_by_benthic_category) %>%
-    names()
+  sus_agg_for_se_comparison <- calculate_sus_percent_cover_avg_long(sus)
 
-  sus_agg_for_se_comparison <- sus %>%
-    unpack(percent_cover_by_benthic_category) %>%
-    select(sample_event_id, all_of(percent_cover_by_benthic_category_cols), depth_avg = depth) %>%
-    pivot_longer(-sample_event_id, values_to = "su") %>%
-    filter(!is.na(su)) %>%
-    group_by(sample_event_id, name) %>%
-    summarise(
-      su = round(mean(su)),
-      .groups = "drop"
-    )
+  ses_for_se_comparison <- unpack_ses_percent_cover_avg_long(ses, sus_agg_for_se_comparison)
 
-  ses_for_se_comparison <- ses %>%
-    unpack(percent_cover_by_benthic_category_avg) %>%
-    rename(sample_event_id = id) %>%
-    select(sample_event_id, sus_agg_for_se_comparison[["name"]]) %>%
-    pivot_longer(-sample_event_id, values_to = "se") %>%
-    filter(!is.na(se)) %>%
-    mutate(se = round(se))
-
-  # Check that values match
-
-  sus_vs_ses_match <- sus_agg_for_se_comparison %>%
-    left_join(ses_for_se_comparison,
-      by = c("sample_event_id", "name")
-    ) %>%
-    filter(!is.na(se) | !is.na(su)) %>%
-    mutate(
-      match = se == su,
-      match = coalesce(match, FALSE)
-    )
-
-  expect_true(all(sus_vs_ses_match[["match"]]))
+  test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
 
 # Benthic PIT -----
@@ -966,51 +616,17 @@ test_that("Benthic PIT sample unit aggregation is the same as manually aggregati
     construct_fake_sample_unit_id()
 
   # Check first that there are the same number of fake SUs as real SUs
-  expect_equal(
-    sus %>%
-      nrow(),
-    obs %>%
-      dplyr::distinct(fake_sample_unit_id) %>%
-      nrow()
-  )
+  test_n_fake_sus(obs, sus)
 
   # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
   # Just aggregate straight up to percent_cover_by_benthic_category
   # Do this by getting the length for each benthic category (sum of interval_size) divided by the total length (transect_length)
 
-  obs_agg <- obs %>%
-    group_by(fake_sample_unit_id, benthic_category) %>%
-    summarise(
-      percent_cover_by_benthic_category = round(sum(interval_size, na.rm = TRUE) * 100 / transect_length, 2),
-      .groups = "drop"
-    ) %>%
-    distinct() %>%
-    pivot_wider(names_from = benthic_category, values_from = percent_cover_by_benthic_category)
+  obs_agg_for_su_comparison <- calculate_pit_obs_percent_cover_long(obs)
 
-  # Create "long" versions for comparing
+  sus_for_su_comparison <- unpack_sus_percent_cover_long(sus, obs_agg_for_su_comparison)
 
-  obs_agg_for_su_comparison <- obs_agg %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "obs")
-
-  sus_for_su_comparison <- sus %>%
-    construct_fake_sample_unit_id() %>%
-    unpack(percent_cover_by_benthic_category) %>%
-    select(fake_sample_unit_id, all_of(obs_agg_for_su_comparison[["name"]])) %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "su")
-
-  # Check that values match
-
-  obs_vs_su_match <- obs_agg_for_su_comparison %>%
-    left_join(sus_for_su_comparison,
-      by = c("fake_sample_unit_id", "name")
-    ) %>%
-    filter(!is.na(obs) | !is.na(su)) %>%
-    mutate(
-      match = obs == su,
-      match = coalesce(match, FALSE)
-    )
-
-  expect_true(all(obs_vs_su_match[["match"]]))
+  test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })
 
 test_that("Benthic PIT sample event aggregation is the same as manually aggregating sample units", {
@@ -1028,62 +644,16 @@ test_that("Benthic PIT sample event aggregation is the same as manually aggregat
   ses <- mermaid_get_project_data(project_id, "benthicpit", "sampleevents")
 
   # Check first that there are the same number of fake SEs as real SEs
-  expect_equal(
-    ses %>%
-      nrow(),
-    sus %>%
-      distinct(fake_sample_event_id) %>%
-      nrow()
-  )
-
-  expect_equal(
-    sus %>%
-      distinct(fake_sample_event_id) %>%
-      nrow(),
-    sus %>%
-      distinct(sample_event_id) %>%
-      nrow()
-  )
+  test_n_fake_ses(sus, ses)
 
   # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
   # Just aggregate straight up to percent_cover_by_benthic_category_avg and depth_avg
 
-  percent_cover_by_benthic_category_cols <- sus %>%
-    pull(percent_cover_by_benthic_category) %>%
-    names()
+  sus_agg_for_se_comparison <- calculate_sus_percent_cover_avg_long(sus)
 
-  sus_agg_for_se_comparison <- sus %>%
-    unpack(percent_cover_by_benthic_category) %>%
-    select(sample_event_id, all_of(percent_cover_by_benthic_category_cols), depth_avg = depth) %>%
-    pivot_longer(-sample_event_id, values_to = "su") %>%
-    filter(!is.na(su)) %>%
-    group_by(sample_event_id, name) %>%
-    summarise(
-      su = round(mean(su)),
-      .groups = "drop"
-    )
+  ses_for_se_comparison <- unpack_ses_percent_cover_avg_long(ses, sus_agg_for_se_comparison)
 
-  ses_for_se_comparison <- ses %>%
-    unpack(percent_cover_by_benthic_category_avg) %>%
-    rename(sample_event_id = id) %>%
-    select(sample_event_id, sus_agg_for_se_comparison[["name"]]) %>%
-    pivot_longer(-sample_event_id, values_to = "se") %>%
-    filter(!is.na(se)) %>%
-    mutate(se = round(se))
-
-  # Check that values match
-
-  sus_vs_ses_match <- sus_agg_for_se_comparison %>%
-    left_join(ses_for_se_comparison,
-      by = c("sample_event_id", "name")
-    ) %>%
-    filter(!is.na(se) | !is.na(su)) %>%
-    mutate(
-      match = se == su,
-      match = coalesce(match, FALSE)
-    )
-
-  expect_true(all(sus_vs_ses_match[["match"]]))
+  test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
 
 # Habitat Complexity -----
@@ -1103,46 +673,16 @@ test_that("Habitat complexity sample unit aggregation is the same as manually ag
     construct_fake_sample_unit_id()
 
   # Check first that there are the same number of fake SUs as real SUs
-  expect_equal(
-    sus %>%
-      nrow(),
-    obs %>%
-      dplyr::distinct(fake_sample_unit_id) %>%
-      nrow()
-  )
+  test_n_fake_sus(obs, sus)
+
   # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
   # Just aggregate straight up to score_avg
 
-  obs_agg <- obs %>%
-    group_by(fake_sample_unit_id) %>%
-    summarise(
-      score_avg = mean(score, na.rm = TRUE),
-      .groups = "drop"
-    )
+  obs_agg_for_su_comparison <- calculate_obs_score_long(obs)
 
-  # Create "long" versions for comparing
+  sus_for_su_comparison <- unpack_sus_score_avg_long(sus, obs_agg_for_su_comparison)
 
-  obs_agg_for_su_comparison <- obs_agg %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "obs")
-
-  sus_for_su_comparison <- sus %>%
-    construct_fake_sample_unit_id() %>%
-    select(fake_sample_unit_id, all_of(obs_agg_for_su_comparison[["name"]])) %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "su")
-
-  # Check that values match
-
-  obs_vs_su_match <- obs_agg_for_su_comparison %>%
-    left_join(sus_for_su_comparison,
-      by = c("fake_sample_unit_id", "name")
-    ) %>%
-    filter(!is.na(obs) | !is.na(su)) %>%
-    mutate(
-      match = obs == su,
-      match = coalesce(match, FALSE)
-    )
-
-  expect_true(all(obs_vs_su_match[["match"]]))
+  test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })
 
 test_that("Habitat complexity sample event aggregation is the same as manually aggregating sample units", {
@@ -1160,56 +700,16 @@ test_that("Habitat complexity sample event aggregation is the same as manually a
   ses <- mermaid_get_project_data(project_id, "habitatcomplexity", "sampleevents")
 
   # Check first that there are the same number of fake SEs as real SEs
-  expect_equal(
-    ses %>%
-      nrow(),
-    sus %>%
-      distinct(fake_sample_event_id) %>%
-      nrow()
-  )
-
-  expect_equal(
-    sus %>%
-      distinct(fake_sample_event_id) %>%
-      nrow(),
-    sus %>%
-      distinct(sample_event_id) %>%
-      nrow()
-  )
+  test_n_fake_ses(sus, ses)
 
   # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
   # Just aggregate straight up to score_avg_avg and depth_avg
 
-  sus_agg_for_se_comparison <- sus %>%
-    select(sample_event_id, score_avg_avg = score_avg, depth_avg = depth) %>%
-    pivot_longer(-sample_event_id, values_to = "su") %>%
-    filter(!is.na(su)) %>%
-    group_by(sample_event_id, name) %>%
-    summarise(
-      su = round(mean(su), 2),
-      .groups = "drop"
-    )
+  sus_agg_for_se_comparison <- calculate_sus_score_avg_long(sus)
 
-  ses_for_se_comparison <- ses %>%
-    rename(sample_event_id = id) %>%
-    select(sample_event_id, sus_agg_for_se_comparison[["name"]]) %>%
-    pivot_longer(-sample_event_id, values_to = "se") %>%
-    filter(!is.na(se)) %>%
-    mutate(se = round(se, 2))
+  ses_for_se_comparison <- unpack_ses_score_avg_long(ses)
 
-  # Check that values match
-
-  sus_vs_ses_match <- sus_agg_for_se_comparison %>%
-    left_join(ses_for_se_comparison,
-      by = c("sample_event_id", "name")
-    ) %>%
-    filter(!is.na(se) | !is.na(su)) %>%
-    mutate(
-      match = se == su,
-      match = coalesce(match, FALSE)
-    )
-
-  expect_true(all(sus_vs_ses_match[["match"]]))
+  test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
 
 # Bleaching -----
@@ -1224,79 +724,37 @@ test_that("Bleaching sample unit aggregation is the same as manually aggregating
   obs <- mermaid_get_project_data(project_id, "bleaching", "observations")
 
   obs_colonies_bleached <- obs[["colonies_bleached"]] %>%
-    dplyr::mutate(fake_sample_unit_id = glue::glue("{site}_{sample_date}_{management}_{depth}_{quadrat_size}"))
+    construct_bleaching_fake_sample_unit_id()
 
   obs_percent_cover <- obs[["percent_cover"]] %>%
-    dplyr::mutate(fake_sample_unit_id = glue::glue("{site}_{sample_date}_{management}_{depth}_{quadrat_size}"))
+    construct_bleaching_fake_sample_unit_id()
 
   sus <- mermaid_get_project_data(project_id, "bleaching", "sampleunits")
 
   # Check first that there are the same number of fake SUs as real SUs
   obs_sample_units <- obs_colonies_bleached %>%
     dplyr::distinct(fake_sample_unit_id) %>%
-    bind_rows(obs_percent_cover %>%
-      distinct(fake_sample_unit_id)) %>%
-    distinct(fake_sample_unit_id)
+    dplyr::bind_rows(obs_percent_cover %>%
+      dplyr::distinct(fake_sample_unit_id))
 
-  expect_equal(
-    sus %>%
-      nrow(),
-    obs_sample_units %>%
-      nrow()
-  )
+  test_n_fake_sus(obs_sample_units, sus)
 
   # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
   # Aggregate colonies_bleached first - count_total, count_genera, percent_normal, percent_pale, percent_bleached
 
-  obs_colonies_bleached_agg <- obs_colonies_bleached %>%
-    group_by(fake_sample_unit_id) %>%
-    summarise(count_bleached = sum(count_20, count_50, count_80, count_100, count_dead),
-      count_total = sum(count_normal, count_pale, count_bleached, count_dead),
-              count_genera = n_distinct(benthic_attribute),
-              percent_normal = round(sum(count_normal) / count_total, 3)*100,
-      percent_pale = round(sum(count_pale) / count_total, 3)*100,
-      percent_bleached = round(sum(count_bleached) / count_total, 3)*100,
-      .groups = "drop") %>%
-    select(-count_bleached)
+  obs_colonies_bleached_agg <- calculate_obs_colonies_long(obs_colonies_bleached)
 
   # Aggregate percent_cover - quadrat_count, percent_hard_avg, percent_soft_avg, percent_algae_avg
-  obs_percent_cover_agg <- obs_percent_cover %>%
-    group_by(fake_sample_unit_id) %>%
-    summarise(quadrat_count = n_distinct(quadrat_number),
-              percent_hard_avg = round(mean(percent_hard), 1),
-              percent_soft_avg = round(mean(percent_soft), 1),
-              percent_algae_avg = round(mean(percent_algae), 1),
-              .groups = "drop")
+  obs_percent_cover_agg <- calculate_obs_percent_cover_long(obs_percent_cover)
 
-  # Create "long" versions for comparing
+  obs_agg_for_su_comparison <- obs_colonies_bleached_agg %>%
+    dplyr::bind_rows(obs_percent_cover_agg)
 
-  obs_colonies_bleached_agg_for_su_comparison <- obs_colonies_bleached_agg %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "obs")
-
-  obs_percent_cover_agg_for_su_comparison <- obs_percent_cover_agg %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "obs")
-
-  obs_agg_for_su_comparison <- obs_colonies_bleached_agg_for_su_comparison %>%
-    bind_rows(obs_percent_cover_agg_for_su_comparison)
-
-  sus_for_su_comparison <- sus %>%
-    dplyr::mutate(fake_sample_unit_id = glue::glue("{site}_{sample_date}_{management}_{depth}_{quadrat_size}")) %>%
-    select(fake_sample_unit_id, all_of(obs_agg_for_su_comparison[["name"]])) %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "su")
+  sus_for_su_comparison <- unpack_sus_bleaching_long(sus, obs_agg_for_su_comparison)
 
   # Check that values match
 
-  obs_vs_su_match <- obs_agg_for_su_comparison %>%
-    left_join(sus_for_su_comparison,
-      by = c("fake_sample_unit_id", "name")
-    ) %>%
-    filter(!is.na(obs) | !is.na(su)) %>%
-    mutate(
-      match = obs == su,
-      match = coalesce(match, FALSE)
-    )
-
-  expect_true(all(obs_vs_su_match[["match"]]))
+  test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
   # Failing because SU values are being rounded for some reason!
 })
 
@@ -1315,55 +773,16 @@ test_that("Bleaching sample event aggregation is the same as manually aggregatin
   ses <- mermaid_get_project_data(project_id, "bleaching", "sampleevents")
 
   # Check first that there are the same number of fake SEs as real SEs
-  expect_equal(
-    ses %>%
-      nrow(),
-    sus %>%
-      distinct(fake_sample_event_id) %>%
-      nrow()
-  )
-
-  expect_equal(
-    sus %>%
-      distinct(fake_sample_event_id) %>%
-      nrow(),
-    sus %>%
-      distinct(sample_event_id) %>%
-      nrow()
-  )
+  test_n_fake_ses(sus, ses)
 
   # Aggregate SUs to SEs
   # depth_avg, quadrat_size_avg, count_total_avg, count_genera_avg, percent_normal_avg, percent_pale_avg, percent_bleached_avg, quadrat_count_avg, percent_hard_avg_avg, percent_soft_avg_avg, percent_algae_avg_avg
 
-  sus_agg_for_se_comparison <- sus %>%
-    select(sample_event_id, depth, quadrat_size, count_total, count_genera, percent_normal, percent_pale, percent_bleached, quadrat_count, percent_hard_avg, percent_soft_avg, percent_algae_avg) %>%
-    pivot_longer(-sample_event_id, values_to = "su") %>%
-    filter(!is.na(su)) %>%
-    group_by(sample_event_id, name) %>%
-    summarise(
-      su = round(mean(su)),
-      .groups = "drop"
-    ) %>%
-    mutate(name = paste0(name, "_avg"))
+  sus_agg_for_se_comparison <- calculate_sus_bleaching_long(sus)
 
-  ses_for_se_comparison <- ses %>%
-    rename(sample_event_id = id) %>%
-    select(sample_event_id, sus_agg_for_se_comparison[["name"]]) %>%
-    pivot_longer(-sample_event_id, values_to = "se") %>%
-    filter(!is.na(se)) %>%
-    mutate(se = round(se))
+  ses_for_se_comparison <- unpack_sus_bleaching_avg_long(ses, sus_agg_for_se_comparison)
 
   # Check that values match
 
-  sus_vs_ses_match <- sus_agg_for_se_comparison %>%
-    left_join(ses_for_se_comparison,
-      by = c("sample_event_id", "name")
-    ) %>%
-    filter(!is.na(se) | !is.na(su)) %>%
-    mutate(
-      match = se == su,
-      match = coalesce(match, FALSE)
-    )
-
-  expect_true(all(sus_vs_ses_match[["match"]]))
+  test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
