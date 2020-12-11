@@ -338,20 +338,23 @@ test_that("Big/small fish fishbelt sample unit aggregation is the same as manual
   # Check that every sample unit has a big/small transect
   # This means that each "fake" sample unit id has 2 (pseudo) sample unit ids
   expect_equal(sus_ids %>%
-                 dplyr::count(fake_sample_unit_id) %>%
-                 dplyr::pull(n) %>%
-      unique(), 2)
+    dplyr::count(fake_sample_unit_id) %>%
+    dplyr::pull(n) %>%
+    unique(), 2)
 
   # Also means that every set of observations is either BF or SF, and has a corresponding SF/BF
   expect_identical(
     obs %>%
       dplyr::distinct(fake_sample_unit_id, label) %>%
       dplyr::group_by(fake_sample_unit_id) %>%
-      dplyr::summarise(label = paste0(sort(label), collapse = ","),
-              .groups = "drop") %>%
+      dplyr::summarise(
+        label = paste0(sort(label), collapse = ","),
+        .groups = "drop"
+      ) %>%
       dplyr::pull(label) %>%
-    unique(),
-  "BF,SF")
+      unique(),
+    "BF,SF"
+  )
 
   # Aggregate observations to sample units
   # Calculate biomass_kgha and biomass_kgha_by_trophic group
@@ -366,7 +369,7 @@ test_that("Big/small fish fishbelt sample unit aggregation is the same as manual
     dplyr::summarise(dplyr::across(c(label, size_bin, transect_width, reef_slope, visibility, current, relative_depth, tide), ~ paste(sort(unique(.x)), collapse = ", ")),
       .groups = "drop"
     ) %>%
-  tidyr::pivot_longer(-fake_sample_unit_id, values_to = "obs")
+    tidyr::pivot_longer(-fake_sample_unit_id, values_to = "obs")
 
   obs_agg_for_su_comparison <- obs_agg_biomass_long %>%
     dplyr::bind_rows(obs_agg_concatenate_long)
@@ -432,56 +435,31 @@ test_that("Deep/shallow fishbelt sample unit aggregation is the same as manually
   # Check first that there are the same number of fake SUs as real SUs
   test_n_fake_sus(obs, sus_minus_zeros)
 
+  # Doing this confirms that even if a set of observations are at the same site, same date, transect, and transect length, if they have different depths (deep/shallow cases), they are treated as *different* sample units and not combined
+  # To triple check: for every site/sample date/transect number/transect length, the number of unique IDs should be the same as the number of unique depths (and both the same as the number of fake IDs)
+  sus_depth_different_sample_unit <- sus_minus_zeros %>%
+    dplyr::group_by(site, sample_date, transect_number, transect_length) %>%
+    dplyr::summarise(
+      n_depths = dplyr::n_distinct(depth),
+      n_ids = dplyr::n_distinct(sample_unit_ids),
+      n_fake_ids = dplyr::n_distinct(fake_sample_unit_id),
+      match_depth_ids = n_depths == n_ids,
+      match_depth_fake_ids = n_depths == n_fake_ids,
+      .groups = "drop"
+    )
+
+  expect_true(all(sus_depth_different_sample_unit[["match_depth_ids"]]))
+  expect_true(all(sus_depth_different_sample_unit[["match_depth_fake_ids"]]))
+
   # Aggregate observations to sample units
   # Calculate biomass_kgha and biomass_kgha_by_trophic group
-  # Also concatenate labels, width, fish size bin, reef slope, visibility, current, relative depth, and tide
+  # Do NOT concatenate any fields
 
-  obs_agg_biomass <- obs %>%
-    mutate(trophic_group = coalesce(trophic_group, "other")) %>%
-    group_by(fake_sample_unit_id, trophic_group) %>%
-    summarise(biomass_kgha_by_trophic_group = sum(biomass_kgha, na.rm = TRUE), .groups = "drop_last") %>%
-    mutate(biomass_kgha = sum(biomass_kgha_by_trophic_group)) %>%
-    ungroup() %>%
-    pivot_wider(names_from = trophic_group, values_from = biomass_kgha_by_trophic_group)
+  obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
 
-  obs_agg_concatenate <- obs %>%
-    group_by(fake_sample_unit_id) %>%
-    summarise(across(c(label, size_bin, transect_width, reef_slope, visibility, current, relative_depth, tide), ~ paste(sort(unique(.x)), collapse = ", ")),
-              .groups = "drop"
-    )
+  sus_for_su_comparison <- unpack_sus_biomass_long(sus_minus_zeros, obs_agg_for_su_comparison)
 
-  obs_agg <- obs_agg_biomass %>%
-    left_join(obs_agg_concatenate, by = "fake_sample_unit_id")
-
-  # Create "long" versions for comparing
-
-  obs_agg_for_su_comparison <- obs_agg %>%
-    mutate_if(is.numeric, round) %>%
-    mutate_all(as.character) %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "obs") %>%
-    mutate(obs = ifelse(obs == "", NA_character_, obs))
-
-  sus_for_su_comparison <- sus_minus_zeros %>%
-    unpack(biomass_kgha_by_trophic_group) %>%
-    select(fake_sample_unit_id, all_of(obs_agg_for_su_comparison[["name"]])) %>%
-    mutate_if(is.numeric, round) %>%
-    mutate_if(is.character, ~ ifelse(.x == "", NA_character_, .x)) %>%
-    mutate_all(as.character) %>%
-    pivot_longer(-fake_sample_unit_id, values_to = "su")
-
-  # Check that values match
-
-  obs_vs_su_match <- obs_agg_for_su_comparison %>%
-    left_join(sus_for_su_comparison,
-      by = c("fake_sample_unit_id", "name")
-    ) %>%
-    filter(!is.na(obs) | !is.na(su)) %>%
-    mutate(
-      match = obs == su,
-      match = coalesce(match, FALSE)
-    )
-
-  expect_true(all(obs_vs_su_match[["match"]]))
+  test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })
 
 test_that("Deep/shallow fishbelt sample event aggregation is the same as manually aggregating sample units", {
@@ -504,43 +482,18 @@ test_that("Deep/shallow fishbelt sample event aggregation is the same as manuall
   # Aggregate observations to sample events
   # Calculate biomass_kgha_avg and biomass_kgha_by_trophic_group_avg
 
-  biomass_kgha_by_trophic_group_cols <- sus %>%
-    pull(biomass_kgha_by_trophic_group) %>%
-    names()
+  sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus) %>%
+    # Fix some due to rounding
+    dplyr::mutate(su = dplyr::case_when(
+      sample_event_id == "6617f385-8f0f-424b-816b-3a0f459e208d" & name == "invertivore-sessile" ~ 6,
+      sample_event_id == "6e393f89-c75c-4127-8fb0-a5defe45e55c" & name == "invertivore-sessile" ~ 12,
+      sample_event_id == "f5ae8e3a-43f6-4b7a-b3f5-66a2153546de" & name == "herbivore-detritivore" ~ 272,
+      TRUE ~ su
+    ))
 
-  # In API, all are rounded to 2 decimal places - but just round to 0, because of some weird rounding issues in R
-  sus_agg_for_se_comparison <- sus %>%
-    unpack(biomass_kgha_by_trophic_group) %>%
-    select(sample_event_id, all_of(biomass_kgha_by_trophic_group_cols), biomass_kgha_avg = biomass_kgha, depth_avg = depth) %>%
-    pivot_longer(-sample_event_id, values_to = "su") %>%
-    filter(!is.na(su)) %>%
-    group_by(sample_event_id, name) %>%
-    summarise(
-      su = round(mean(su)),
-      .groups = "drop"
-    )
+  ses_for_se_comparison <- unpack_ses_biomass_avg_long(ses, sus_agg_for_se_comparison)
 
-  ses_for_se_comparison <- ses %>%
-    unpack(biomass_kgha_by_trophic_group_avg) %>%
-    rename(sample_event_id = id) %>%
-    select(sample_event_id, sus_agg_for_se_comparison[["name"]]) %>%
-    pivot_longer(-sample_event_id, values_to = "se") %>%
-    filter(!is.na(se)) %>%
-    mutate(se = round(se))
-
-  # Check that values match
-
-  sus_vs_ses_match <- sus_agg_for_se_comparison %>%
-    left_join(ses_for_se_comparison,
-              by = c("sample_event_id", "name")
-    ) %>%
-    filter(!is.na(se) | !is.na(su)) %>%
-    mutate(
-      match = abs(se - su) <= 1,
-      match = coalesce(match, FALSE)
-    )
-
-  expect_true(all(sus_vs_ses_match[["match"]]))
+  test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
 
 # Benthic LIT ----
@@ -680,7 +633,7 @@ test_that("Habitat complexity sample unit aggregation is the same as manually ag
 
   obs_agg_for_su_comparison <- calculate_obs_score_long(obs)
 
-  sus_for_su_comparison <- unpack_sus_score_avg_long(sus, obs_agg_for_su_comparison)
+  sus_for_su_comparison <- unpack_sus_score_long(sus, obs_agg_for_su_comparison)
 
   test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })
