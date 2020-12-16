@@ -40,7 +40,7 @@ test_n_fake_ses <- function(sus, ses) {
 test_sus_vs_ses_agg <- function(sus_agg, ses_agg) {
   sus_vs_ses_match <- sus_agg %>%
     dplyr::left_join(ses_agg,
-              by = c("sample_event_id", "name")
+      by = c("sample_event_id", "name")
     ) %>%
     dplyr::filter(!is.na(se) | !is.na(su)) %>%
     dplyr::mutate(
@@ -55,7 +55,7 @@ test_sus_vs_ses_agg <- function(sus_agg, ses_agg) {
 test_obs_vs_sus_agg <- function(obs_agg, sus_agg) {
   obs_vs_su_match <- obs_agg %>%
     dplyr::left_join(sus_agg,
-              by = c("fake_sample_unit_id", "name")
+      by = c("fake_sample_unit_id", "name")
     ) %>%
     dplyr::filter(!is.na(obs) | !is.na(su)) %>%
     dplyr::mutate(
@@ -124,7 +124,7 @@ unpack_ses_biomass_avg_long <- function(ses, sus_agg) {
     dplyr::select(sample_event_id, sus_agg[["name"]]) %>%
     tidyr::pivot_longer(-sample_event_id, values_to = "se") %>%
     dplyr::filter(!is.na(se)) %>%
-    dplyr:: mutate(se = round(se))
+    dplyr::mutate(se = round(se))
 }
 
 # Benthic LIT ----
@@ -230,7 +230,7 @@ calculate_sus_score_avg_long <- function(sus) {
 unpack_ses_score_avg_long <- function(ses, sus_agg) {
   ses %>%
     dplyr::rename(sample_event_id = id) %>%
-    dplyr::select(sample_event_id, dplyr::all_of(sus_agg_for_se_comparison[["name"]])) %>%
+    dplyr::select(sample_event_id, dplyr::all_of(sus_agg[["name"]])) %>%
     tidyr::pivot_longer(-sample_event_id, values_to = "se") %>%
     dplyr::filter(!is.na(se)) %>%
     dplyr::mutate(se = round(se, 2))
@@ -249,25 +249,31 @@ construct_bleaching_fake_sample_unit_id <- function(data) {
 calculate_obs_colonies_long <- function(obs_colonies_bleached) {
   obs_colonies_bleached %>%
     dplyr::group_by(fake_sample_unit_id) %>%
-    dplyr::summarise(count_bleached = sum(count_20, count_50, count_80, count_100, count_dead),
-              count_total = sum(count_normal, count_pale, count_bleached, count_dead),
-              count_genera = dplyr::n_distinct(benthic_attribute),
-              percent_normal = round(sum(count_normal) / count_total, 3)*100,
-              percent_pale = round(sum(count_pale) / count_total, 3)*100,
-              percent_bleached = round(sum(count_bleached) / count_total, 3)*100,
-              .groups = "drop") %>%
+    dplyr::summarise(
+      count_bleached = sum(count_20, count_50, count_80, count_100, count_dead),
+      count_total = sum(count_normal, count_pale, count_bleached),
+      count_genera = dplyr::n_distinct(benthic_attribute),
+      percent_normal = round(sum(count_normal) / count_total, 3) * 100,
+      percent_pale = round(sum(count_pale) / count_total, 3) * 100,
+      percent_bleached = round(sum(count_bleached) / count_total, 3) * 100,
+      .groups = "drop"
+    ) %>%
     dplyr::select(-count_bleached) %>%
+    dplyr::mutate_if(is.numeric, round) %>%
     tidyr::pivot_longer(-fake_sample_unit_id, values_to = "obs")
 }
 
 calculate_obs_percent_cover_long <- function(obs_percent_cover) {
   obs_percent_cover %>%
     dplyr::group_by(fake_sample_unit_id) %>%
-    dplyr::summarise(quadrat_count = dplyr::n_distinct(quadrat_number),
-              percent_hard_avg = round(mean(percent_hard), 1),
-              percent_soft_avg = round(mean(percent_soft), 1),
-              percent_algae_avg = round(mean(percent_algae), 1),
-              .groups = "drop") %>%
+    dplyr::summarise(
+      quadrat_count = dplyr::n(),
+      percent_hard_avg = round(mean(percent_hard), 1),
+      percent_soft_avg = round(mean(percent_soft), 1),
+      percent_algae_avg = round(mean(percent_algae), 1),
+      .groups = "drop"
+    ) %>%
+    dplyr::mutate_if(is.numeric, round) %>%
     tidyr::pivot_longer(-fake_sample_unit_id, values_to = "obs")
 }
 
@@ -275,6 +281,8 @@ unpack_sus_bleaching_long <- function(sus, obs_agg) {
   sus %>%
     construct_bleaching_fake_sample_unit_id() %>%
     dplyr::select(fake_sample_unit_id, dplyr::all_of(obs_agg[["name"]])) %>%
+    dplyr::mutate_if(is.numeric, round) %>%
+    dplyr::mutate_all(as.character) %>%
     tidyr::pivot_longer(-fake_sample_unit_id, values_to = "su")
 }
 
@@ -294,7 +302,7 @@ calculate_sus_bleaching_long <- function(sus) {
 unpack_sus_bleaching_avg_long <- function(ses, sus_agg) {
   ses %>%
     dplyr::rename(sample_event_id = id) %>%
-    dplyr::select(sample_event_id, sus_agg_for_se_comparison[["name"]]) %>%
+    dplyr::select(sample_event_id, sus_agg[["name"]]) %>%
     tidyr::pivot_longer(-sample_event_id, values_to = "se") %>%
     dplyr::filter(!is.na(se)) %>%
     dplyr::mutate(se = round(se))

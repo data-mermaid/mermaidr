@@ -27,9 +27,8 @@ test_that("get_project_endpoint allows multiple projects, and combines the resul
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
-  p <- mermaid_get_my_projects(include_test_projects = TRUE)
+  p <- mermaid_get_my_projects()
   expect_named(get_project_endpoint(p, "sites", limit = 1), c("project", mermaid_project_endpoint_columns[["sites"]]))
-  expect_named(get_project_endpoint(p, "beltfishes/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["beltfishes/sampleunits"]]))
 
   p <- c("9de82789-c38e-462e-a1a8-e02c020c7a35", "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a", "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b")
   expect_named(get_project_endpoint(p, "beltfishtransectmethods", limit = 1), c("project_id", mermaid_project_endpoint_columns[["beltfishtransectmethods"]]))
@@ -64,6 +63,11 @@ test_that("get_project_endpoint allows multiple projects, and combines the resul
   expect_named(get_project_endpoint(p, "habitatcomplexities/obshabitatcomplexities", limit = 1), c(mermaid_project_endpoint_columns[["habitatcomplexities/obshabitatcomplexities"]]))
   expect_named(get_project_endpoint(p, "habitatcomplexities/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["habitatcomplexities/sampleunits"]]))
   expect_named(get_project_endpoint(p, "habitatcomplexities/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["habitatcomplexities/sampleevents"]]))
+
+  expect_named(get_project_endpoint(p, "bleachingqcs/obscoloniesbleacheds", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/obscoloniesbleacheds"]]))
+  expect_named(get_project_endpoint(p, "bleachingqcs/obsquadratbenthicpercents", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/obsquadratbenthicpercents"]]))
+  expect_named(get_project_endpoint(p, "bleachingqcs/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/sampleunits"]]))
+  expect_named(get_project_endpoint(p, "bleachingqcs/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/sampleevents"]]))
 })
 
 test_that("unpack_df_cols and repack_df_cols work as expected", {

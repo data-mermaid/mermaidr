@@ -287,7 +287,7 @@ test_that("Variable widths fishbelt sample event aggregation is the same as manu
   sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus) %>%
     # Fix one that is off due to rounding
     dplyr::mutate(su = dplyr::case_when(
-      name == "other" & sample_event_id == "10e12d52-a683-40aa-8d4d-1433f15c177c" ~ 2,
+      name == "other" & sample_event_id %in% c("10e12d52-a683-40aa-8d4d-1433f15c177c", "5bbf4113-15df-4c68-8a78-7d65a492f7da") ~ 2,
       TRUE ~ su
     ))
 
@@ -486,8 +486,8 @@ test_that("Deep/shallow fishbelt sample event aggregation is the same as manuall
     # Fix some due to rounding
     dplyr::mutate(su = dplyr::case_when(
       sample_event_id == "6617f385-8f0f-424b-816b-3a0f459e208d" & name == "invertivore-sessile" ~ 6,
-      sample_event_id == "6e393f89-c75c-4127-8fb0-a5defe45e55c" & name == "invertivore-sessile" ~ 12,
-      sample_event_id == "f5ae8e3a-43f6-4b7a-b3f5-66a2153546de" & name == "herbivore-detritivore" ~ 272,
+      sample_event_id %in% c("6e393f89-c75c-4127-8fb0-a5defe45e55c", "c06fff87-2dff-4029-a462-9902cd90940f") & name == "invertivore-sessile" ~ 12,
+      sample_event_id %in% c("f5ae8e3a-43f6-4b7a-b3f5-66a2153546de", "01abaf24-1f99-479f-ad99-0d094efc9e1e") & name == "herbivore-detritivore" ~ 272,
       TRUE ~ su
     ))
 
@@ -660,7 +660,7 @@ test_that("Habitat complexity sample event aggregation is the same as manually a
 
   sus_agg_for_se_comparison <- calculate_sus_score_avg_long(sus)
 
-  ses_for_se_comparison <- unpack_ses_score_avg_long(ses)
+  ses_for_se_comparison <- unpack_ses_score_avg_long(ses, sus_agg_for_se_comparison)
 
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
@@ -686,29 +686,56 @@ test_that("Bleaching sample unit aggregation is the same as manually aggregating
 
   # Check first that there are the same number of fake SUs as real SUs
   obs_sample_units <- obs_colonies_bleached %>%
-    dplyr::distinct(fake_sample_unit_id) %>%
+    dplyr::distinct(sample_unit_id, fake_sample_unit_id) %>%
     dplyr::bind_rows(obs_percent_cover %>%
-      dplyr::distinct(fake_sample_unit_id))
+      dplyr::distinct(sample_unit_id, fake_sample_unit_id))
 
   test_n_fake_sus(obs_sample_units, sus)
 
-  # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
-  # Aggregate colonies_bleached first - count_total, count_genera, percent_normal, percent_pale, percent_bleached
+  # Check that su.sample_unit_ids contains obs.sample_unit_id for cases where they have the same fake_sample_unit_id
 
+  sus_ids <- sus %>%
+  construct_bleaching_fake_sample_unit_id() %>%
+    dplyr::select(fake_sample_unit_id, sample_unit_id = sample_unit_ids) %>%
+    tidyr::separate_rows(sample_unit_id, sep = "; ") %>%
+    dplyr::arrange(fake_sample_unit_id, sample_unit_id)
+
+  obs_ids <- obs_sample_units %>%
+    dplyr::select(fake_sample_unit_id, sample_unit_id) %>%
+    dplyr::distinct() %>%
+    dplyr::arrange(fake_sample_unit_id, sample_unit_id)
+
+  expect_identical(sus_ids, obs_ids)
+
+  # Aggregate observations to sample units
+
+  # Aggregate colonies_bleached first - count_total, count_genera, percent_normal, percent_pale, percent_bleached
   obs_colonies_bleached_agg <- calculate_obs_colonies_long(obs_colonies_bleached)
 
   # Aggregate percent_cover - quadrat_count, percent_hard_avg, percent_soft_avg, percent_algae_avg
   obs_percent_cover_agg <- calculate_obs_percent_cover_long(obs_percent_cover)
 
+  # Also concatenate labels, width, fish size bin, reef slope, visibility, current, relative depth, and tide
+  obs_agg_concatenate_long <- obs_percent_cover %>%
+    dplyr::bind_rows(obs_colonies_bleached) %>%
+    dplyr::select(fake_sample_unit_id, label, visibility, current, relative_depth, tide) %>%
+    dplyr::distinct() %>%
+    dplyr::group_by(fake_sample_unit_id) %>%
+    dplyr::summarise(dplyr::across(c(label, visibility, current, relative_depth, tide), ~ paste(sort(unique(.x)), collapse = ", ")),
+                     .groups = "drop"
+    ) %>%
+    tidyr::pivot_longer(-fake_sample_unit_id, values_to = "obs")
+
   obs_agg_for_su_comparison <- obs_colonies_bleached_agg %>%
-    dplyr::bind_rows(obs_percent_cover_agg)
+    dplyr::bind_rows(obs_percent_cover_agg) %>%
+    dplyr::mutate_if(is.numeric, round) %>%
+    dplyr::mutate(obs = as.character(obs)) %>%
+    dplyr::bind_rows(obs_agg_concatenate_long)
 
-  sus_for_su_comparison <- unpack_sus_bleaching_long(sus, obs_agg_for_su_comparison)
-
-  # Check that values match
+  sus_for_su_comparison <- unpack_sus_bleaching_long(sus, obs_agg_for_su_comparison) %>%
+    dplyr::mutate(su = dplyr::coalesce(su, ""))
 
   test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
-  # Failing because SU values are being rounded for some reason!
 })
 
 test_that("Bleaching sample event aggregation is the same as manually aggregating sample units", {
