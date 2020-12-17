@@ -127,11 +127,6 @@ mermaid_token <- function(verbose = FALSE) {
   httr::config(token = .state$token)
 }
 
-#' @rdname mermaid_token
-include_token_if <- function(cond) if (cond) mermaid_token() else NULL
-#' @rdname mermaid_token
-omit_token_if <- function(cond) if (cond) NULL else mermaid_token()
-
 #' Check token availability
 #'
 #' Check if a token is available in \code{mermaidr}' internal

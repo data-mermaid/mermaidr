@@ -1,6 +1,7 @@
 #' Get MERMAID endpoint
 #'
 #' @inheritParams mermaid_GET
+#' @noRd
 get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites"), limit = NULL, ...) {
   url <- base_url
 

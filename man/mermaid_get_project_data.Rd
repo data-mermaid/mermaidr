@@ -20,8 +20,6 @@ mermaid_get_project_data(
 
 \item{data}{Data to return. One of "observations", "sampleunits", "sampleevents", or all (to get all three kinds of data). See details for more.}
 
-\item{limit}{Number of records to get. Use NULL (the default) to get all records.}
-
 \item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
 }
 \description{

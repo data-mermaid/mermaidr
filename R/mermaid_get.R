@@ -1,11 +1,17 @@
-#' Get MERMAID endpoint
-#'
-#' Get MERMAID endpoint. You should not need to call this function directly - please use the `mermaid_get_*` functions instead.
-#'
 #' @param endpoint Endpoint
 #' @param limit Number of records to get. Use NULL (the default) to get all records.
 #' @param token API token. Not required for unauthenticated endpoints (non project- or user-specific). Get manually via \code{\link{mermaid_auth}} or automatically when running a project- or user-specific function.
 #' @param ... Additional parameters used as needed
+#'
+#' @name mermaid_GET
+NULL
+
+#' Get MERMAID endpoint
+#'
+#' Get MERMAID endpoint. You should not need to call this function directly - please use the \code{mermaid_get_*} functions instead.
+#'
+#' @inheritParams mermaid_GET
+#' @noRd
 mermaid_GET <- function(endpoint, limit = NULL, token = NULL, ...) {
   check_internet()
   limit <- check_limit(limit)

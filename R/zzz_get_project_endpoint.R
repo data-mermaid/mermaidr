@@ -1,8 +1,14 @@
+#' @param token API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).
+#' @param project A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_my_projects}} or \code{\link{mermaid_search_my_projects}}. Defaults to the projects listed via \code{mermaid_get_default_project}, if available.
+#'
+#' @name get_project_endpoint
+NULL
+
 #' Get endpoint from specified MERMAID project(s)
 #'
 #' @inheritParams mermaid_GET
-#' @param token API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).
-#' @param project A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_my_projects}} or \code{\link{mermaid_search_my_projects}}. Defaults to the projects listed via \code{mermaid_get_default_project}, if available.
+#'
+#' @noRd
 #'
 #' @examples
 #' \dontrun{
