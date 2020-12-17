@@ -22,7 +22,7 @@ mermaid_get_project_data(
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
-\item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
+\item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
 }
 \description{
 Get Fish Belt, Benthic LIT, Benthic PIT, Bleaching, or Habitat Complexity data for your MERMAID projects. Data is available at the observation, sample unit, and sample event level. See Details section for more.

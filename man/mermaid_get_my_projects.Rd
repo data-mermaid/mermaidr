@@ -15,7 +15,7 @@ mermaid_get_my_projects(
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
-\item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
+\item{token}{API token. Not required for unauthenticated endpoints (non project- or user-specific). Get manually via \code{\link{mermaid_auth}} or automatically when running a project- or user-specific function.}
 }
 \value{
 A tibble of MERMAID projects that you have access to, including project name, countries, number of sites, tags, notes, and data policies.

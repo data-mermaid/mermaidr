@@ -4,7 +4,7 @@
 #'
 #' @param endpoint Endpoint
 #' @param limit Number of records to get. Use NULL (the default) to get all records.
-#' @param token API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}
+#' @param token API token. Not required for unauthenticated endpoints (non project- or user-specific). Get manually via \code{\link{mermaid_auth}} or automatically when running a project- or user-specific function.
 #' @param ... Additional parameters used as needed
 mermaid_GET <- function(endpoint, limit = NULL, token = NULL, ...) {
   check_internet()

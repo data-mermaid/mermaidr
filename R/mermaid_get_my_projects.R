@@ -3,6 +3,7 @@
 #' List MERMAID projects that you have access to. Requires authorization.
 #'
 #' @inheritParams mermaid_GET
+#' @inheritParams get_project_endpoint
 #' @param include_test_projects Whether to include test projects. Defaults to FALSE.
 #'
 #' @return A tibble of MERMAID projects that you have access to, including project name, countries, number of sites, tags, notes, and data policies.

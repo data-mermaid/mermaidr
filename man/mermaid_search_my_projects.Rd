@@ -24,7 +24,7 @@ mermaid_search_my_projects(
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
-\item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
+\item{token}{API token. Not required for unauthenticated endpoints (non project- or user-specific). Get manually via \code{\link{mermaid_auth}} or automatically when running a project- or user-specific function.}
 }
 \description{
 Search within your MERMAID projects specifically. Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.

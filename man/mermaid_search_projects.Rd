@@ -9,8 +9,7 @@ mermaid_search_projects(
   countries = NULL,
   tags = NULL,
   include_test_projects = FALSE,
-  limit = NULL,
-  token = NULL
+  limit = NULL
 )
 }
 \arguments{
@@ -23,8 +22,6 @@ mermaid_search_projects(
 \item{include_test_projects}{Whether to include test projects. Defaults to FALSE.}
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
-
-\item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
 }
 \description{
 Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
