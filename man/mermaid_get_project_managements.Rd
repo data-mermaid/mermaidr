@@ -25,8 +25,8 @@ Get managements for specified MERMAID project(s).
 }
 \examples{
 \dontrun{
-# projects <- mermaid_get_my_projects(include_test_projects = TRUE)
-# projects \%>\%
-#   mermaid_get_project_managements()
+projects <- mermaid_get_my_projects(include_test_projects = TRUE)
+projects \%>\%
+  mermaid_get_project_managements()
 }
 }

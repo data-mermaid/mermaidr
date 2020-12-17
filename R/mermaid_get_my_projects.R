@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' # mermaid_get_my_projects()
+#' mermaid_get_my_projects()
 #' }
 mermaid_get_my_projects <- function(include_test_projects = FALSE, limit = NULL, url = base_url, token = mermaid_token()) {
   if (include_test_projects) {

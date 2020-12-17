@@ -5,7 +5,7 @@
 #' @param project A way to identify MERMAID project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_my_projects}} or \code{\link{mermaid_search_my_projects}}.
 #'
 #' @export
-#' @rdname mermaid_settings
+#' @rdname mermaid_default_project
 #' @examples
 #' \dontrun{
 #' test_project <- mermaid_search_my_projects("Sharla test", include_test_projects = TRUE)
@@ -26,7 +26,7 @@ mermaid_set_default_project <- function(project) {
   }
 }
 
-#' @rdname mermaid_settings
+#' @rdname mermaid_default_project
 #' @export
 mermaid_get_default_project <- function() {
   project_id <- Sys.getenv("MERMAIDR_DEFAULT_PROJECT")

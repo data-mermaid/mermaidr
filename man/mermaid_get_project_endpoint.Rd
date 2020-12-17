@@ -32,8 +32,8 @@ Get other MERMAID API project endpoints not covered by other \code{mermaid_get_p
 }
 \examples{
 \dontrun{
-# projects <- mermaid_get_my_projects()
-# projects \%>\%
-#   mermaid_get_project_endpoint("observers")
+projects <- mermaid_get_my_projects()
+projects \%>\%
+  mermaid_get_project_endpoint("observers")
 }
 }

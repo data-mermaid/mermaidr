@@ -41,7 +41,7 @@ mermaid_search_projects(countries = "Fiji", tags = "WWF-UK")
 # A project is returned if it *contains* the countries/tags:
 mermaid_search_projects(countries = "Tanzania", limit = 1)[["countries"]]
 
-# To search within your projects only:
-mermaid_search_projects(countries = "Fiji", token = mermaid_token())
+# To search within your projects only, use mermaid_search_my_projects():
+mermaid_search_my_projects(countries = "Fiji")
 }
 }

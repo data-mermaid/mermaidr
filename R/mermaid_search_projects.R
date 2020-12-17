@@ -18,8 +18,8 @@
 #' # A project is returned if it *contains* the countries/tags:
 #' mermaid_search_projects(countries = "Tanzania", limit = 1)[["countries"]]
 #'
-#' # To search within your projects only:
-#' mermaid_search_projects(countries = "Fiji", token = mermaid_token())
+#' # To search within your projects only, use mermaid_search_my_projects():
+#' mermaid_search_my_projects(countries = "Fiji")
 #' }
 mermaid_search_projects <- function(name = NULL, countries = NULL, tags = NULL, include_test_projects = FALSE, limit = NULL, url = base_url, token = NULL) {
   if (is.null(name) & is.null(countries) & is.null(tags)) {

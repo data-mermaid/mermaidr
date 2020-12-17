@@ -34,12 +34,15 @@ Search within your MERMAID projects specifically. Returns metadata on project, i
 }
 \examples{
 \dontrun{
-# mermaid_search_my_projects(tags = "WCS Indonesia")
-# mermaid_search_my_projects(countries = "Indonesia", tags = "Vibrant Oce# ans")
+mermaid_search_my_projects(tags = "WCS Indonesia")
+mermaid_search_my_projects(countries = "Indonesia", tags = "Vibrant Oceans")
 
 # The country (or tag) do not have to be exactly the same
 # A project is returned if it *contains* the country/tag:
-# mermaid_search_my_projects(tags = "WCS", limit = 1)[["tags"]]
+mermaid_search_my_projects(tags = "WCS", limit = 1)[["tags"]]
 # [1] "WCS Indonesia; Vibrant Oceans"
+
+# To search all projects (not just yours), use mermaid_search_projects():
+mermaid_search_projects(countries = "Fiji")
 }
 }

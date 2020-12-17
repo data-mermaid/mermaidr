@@ -25,8 +25,8 @@ Get sites for specified MERMAID project(s).
 }
 \examples{
 \dontrun{
-# projects <- mermaid_get_my_projects()
-# projects \%>\%
-#  mermaid_get_project_sites()
+projects <- mermaid_get_my_projects()
+projects \%>\%
+  mermaid_get_project_sites()
 }
 }

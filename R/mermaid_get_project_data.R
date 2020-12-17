@@ -20,12 +20,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' # projects <- mermaid_get_my_projects()
-#' # projects %>%
-#'   mermaid_get_project_data(method = "fishbelt", data = "observations", limit = 10)
+#' projects <- mermaid_get_my_projects()
+#' projects %>%
+#' mermaid_get_project_data(method = "fishbelt", data = "observations", limit = 10)
 #'
-#' # projects %>%
-#' #  mermaid_get_project_data(method = c("benthicpit", "fishbelt"), data = "sampleevents", limit = 10)
+#' projects %>%
+#' mermaid_get_project_data(method = c("benthicpit", "fishbelt"), data = "sampleevents", limit = 10)
 #'
 #' bleaching_obs <- projects %>%
 #'   mermaid_get_project_data(method = "bleaching", data = "observations", limit = 10)

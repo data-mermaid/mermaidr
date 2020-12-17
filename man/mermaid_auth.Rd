@@ -67,20 +67,20 @@ implications thereof.
 }
 \examples{
 \dontrun{
-## load/refresh existing credentials, if available
-## otherwise, go to browser for authentication and authorization
-# mermaid_auth()
+# Load/refresh existing credentials, if available
+# Otherwise, go to browser for authentication and authorization
+mermaid_auth()
 
-## force a new token to be obtained
-# mermaid_auth(new_user = TRUE)
+# Force a new token to be obtained
+mermaid_auth(new_user = TRUE)
 
-## store token in an object and then to file
-# ttt <- mermaid_auth()
-# saveRDS(ttt, "ttt.rds")
+# Store token in an object and then to file
+ttt <- mermaid_auth()
+saveRDS(ttt, "ttt.rds")
 
-## load a pre-existing token
-# mermaid_auth(token = ttt) # from an object
-# mermaid_auth(token = "ttt.rds") # from .rds file
+# Load a pre-existing token
+mermaid_auth(token = ttt) # from an object
+mermaid_auth(token = "ttt.rds") # from .rds file
 }
 }
 \seealso{
