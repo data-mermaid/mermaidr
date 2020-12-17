@@ -18,5 +18,5 @@ mermaid_GET(endpoint, limit = NULL, url = base_url, token = NULL, ...)
 \item{...}{Additional parameters used as needed}
 }
 \description{
-Get MERMAID endpoint
+Get MERMAID endpoint. You should not need to call this function directly - please use the `mermaid_get_*` functions instead.
 }

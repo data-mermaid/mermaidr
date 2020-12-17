@@ -4,6 +4,8 @@
 #'
 #' @inheritParams httr::oauth2.0_token
 #' @param refresh Whether the token is being refreshed. Defaults to FALSE.
+#'
+#' @noRd
 mermaid2.0_token <- function(endpoint, app, scope = NULL, user_params = NULL,
                              type = NULL,
                              use_oob = getOption("httr_oob_default"),

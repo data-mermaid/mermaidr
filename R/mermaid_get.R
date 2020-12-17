@@ -1,5 +1,7 @@
 #' Get MERMAID endpoint
 #'
+#' Get MERMAID endpoint. You should not need to call this function directly - please use the `mermaid_get_*` functions instead.
+#'
 #' @param endpoint Endpoint
 #' @param limit Number of records to get. Use NULL (the default) to get all records.
 #' @param url API URL. Defaults to https://api.datamermaid.org
