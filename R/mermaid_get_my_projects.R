@@ -12,11 +12,11 @@
 #' \dontrun{
 #' mermaid_get_my_projects()
 #' }
-mermaid_get_my_projects <- function(include_test_projects = FALSE, limit = NULL, url = base_url, token = mermaid_token()) {
+mermaid_get_my_projects <- function(include_test_projects = FALSE, limit = NULL, token = mermaid_token()) {
   if (include_test_projects) {
-    res <- mermaid_GET("projects", limit = limit, url = url, token = token)
+    res <- mermaid_GET("projects", limit = limit, token = token)
   } else {
-    res <- mermaid_GET("projects", limit = limit, url = url, token = token, status = 90)
+    res <- mermaid_GET("projects", limit = limit, token = token, status = 90)
   }
 
   res <- res[["projects"]]
@@ -28,6 +28,6 @@ mermaid_get_my_projects <- function(include_test_projects = FALSE, limit = NULL,
     res
   } else {
     res <- res[, mermaid_endpoint_columns[["projects"]]]
-    lookup_choices(res, endpoint = "projects", url = url)
+    lookup_choices(res, endpoint = "projects")
   }
 }

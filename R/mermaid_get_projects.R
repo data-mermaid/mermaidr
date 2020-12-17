@@ -10,16 +10,16 @@
 #' \dontrun{
 #' mermaid_get_projects(limit = 5)
 #' }
-mermaid_get_projects <- function(include_test_projects = FALSE, limit = NULL, url = base_url) {
+mermaid_get_projects <- function(include_test_projects = FALSE, limit = NULL) {
   if (include_test_projects) {
-    res <- mermaid_GET("projects", limit = limit, url = url)
+    res <- mermaid_GET("projects", limit = limit)
   } else {
-    res <- mermaid_GET("projects", limit = limit, url = url, status = 90)
+    res <- mermaid_GET("projects", limit = limit, status = 90)
   }
 
   res <- res[["projects"]]
   res <- res[, mermaid_endpoint_columns[["projects"]]]
-  lookup_choices(res, endpoint = "projects", url = url)
+  lookup_choices(res, endpoint = "projects")
 }
 
 projects_columns <- c("id", "name", "countries", "num_sites", "tags", "notes", "status", "data_policy_beltfish", "data_policy_benthiclit", "data_policy_benthicpit", "data_policy_habitatcomplexity", "data_policy_bleachingqc", "created_on", "updated_on")

@@ -4,18 +4,12 @@
 \alias{mermaid_get_projects}
 \title{Get a list of all MERMAID Projects}
 \usage{
-mermaid_get_projects(
-  include_test_projects = FALSE,
-  limit = NULL,
-  url = base_url
-)
+mermaid_get_projects(include_test_projects = FALSE, limit = NULL)
 }
 \arguments{
 \item{include_test_projects}{Whether to include test projects. Defaults to FALSE.}
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
-
-\item{url}{API URL. Defaults to https://api.datamermaid.org}
 }
 \value{
 A tibble of MERMAID projects including project name, countries, number of sites, tags, notes, and data policies.

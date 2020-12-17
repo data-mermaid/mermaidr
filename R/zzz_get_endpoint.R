@@ -1,11 +1,13 @@
 #' Get MERMAID endpoint
 #'
 #' @inheritParams mermaid_GET
-get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites"), limit = NULL, url = base_url, ...) {
-  endpoint <- match.arg(endpoint, several.ok = TRUE)
-  res <- mermaid_GET(endpoint, limit = limit, url = url, ...)
+get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites"), limit = NULL, ...) {
+  url <- base_url
 
-  res_lookups <- purrr::map2(res, names(res), lookup_choices, url = url)
+  endpoint <- match.arg(endpoint, several.ok = TRUE)
+  res <- mermaid_GET(endpoint, limit = limit, ...)
+
+  res_lookups <- purrr::map2(res, names(res), lookup_choices)
   res_strip_name_suffix <- purrr::map(res_lookups, strip_name_suffix)
 
   res_columns <- purrr::map2(res_strip_name_suffix, names(res_strip_name_suffix), construct_endpoint_columns)
@@ -17,7 +19,9 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
   }
 }
 
-lookup_choices <- function(results, endpoint, url, endpoint_type = "main") {
+lookup_choices <- function(results, endpoint, endpoint_type = "main") {
+  url <- base_url
+
   if (nrow(results) == 0) {
     if (endpoint_type == "main") {
       cols <- mermaid_endpoint_columns[[endpoint]]
@@ -33,7 +37,7 @@ lookup_choices <- function(results, endpoint, url, endpoint_type = "main") {
   }
 
   if (endpoint == "sites") {
-    choices <- mermaid_GET("choices", url = url)[["choices"]]
+    choices <- mermaid_GET("choices")[["choices"]]
 
     results <- results %>%
       lookup_variable(choices, "country") %>%

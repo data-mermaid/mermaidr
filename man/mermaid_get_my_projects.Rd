@@ -7,7 +7,6 @@
 mermaid_get_my_projects(
   include_test_projects = FALSE,
   limit = NULL,
-  url = base_url,
   token = mermaid_token()
 )
 }
@@ -15,8 +14,6 @@ mermaid_get_my_projects(
 \item{include_test_projects}{Whether to include test projects. Defaults to FALSE.}
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
-
-\item{url}{API URL. Defaults to https://api.datamermaid.org}
 
 \item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
 }

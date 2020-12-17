@@ -12,8 +12,8 @@
 #' projects %>%
 #'   mermaid_get_project_managements()
 #' }
-mermaid_get_project_managements <- function(project = mermaid_get_default_project(), limit = NULL, url = base_url, token = mermaid_token()) {
-  get_project_endpoint(project, endpoint = "managements", limit, url, token)
+mermaid_get_project_managements <- function(project = mermaid_get_default_project(), limit = NULL, token = mermaid_token()) {
+  get_project_endpoint(project, endpoint = "managements", limit, token)
 }
 
 project_managements_columns <- c("id", "name", "name_secondary", "notes", "est_year", "no_take", "periodic_closure", "open_access", "size_limits", "gear_restriction", "species_restriction", "compliance", "predecessor", "parties", "created_on", "updated_on")

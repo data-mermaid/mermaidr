@@ -20,6 +20,6 @@
 #' # To search all projects (not just yours), use mermaid_search_projects():
 #' mermaid_search_projects(countries = "Fiji")
 #' }
-mermaid_search_my_projects <- function(name = NULL, countries = NULL, tags = NULL, include_test_projects = FALSE, limit = NULL, url = base_url, token = mermaid_token()) {
-  mermaid_search_projects(name = name, countries = countries, tags = tags, include_test_projects = include_test_projects, limit = limit, url = url, token = token)
+mermaid_search_my_projects <- function(name = NULL, countries = NULL, tags = NULL, include_test_projects = FALSE, limit = NULL, token = mermaid_token()) {
+  mermaid_search_projects(name = name, countries = countries, tags = tags, include_test_projects = include_test_projects, limit = limit, token = token)
 }

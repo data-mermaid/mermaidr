@@ -4,10 +4,9 @@
 #'
 #' @param endpoint Endpoint
 #' @param limit Number of records to get. Use NULL (the default) to get all records.
-#' @param url API URL. Defaults to https://api.datamermaid.org
 #' @param token API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}
 #' @param ... Additional parameters used as needed
-mermaid_GET <- function(endpoint, limit = NULL, url = base_url, token = NULL, ...) {
+mermaid_GET <- function(endpoint, limit = NULL, token = NULL, ...) {
   check_internet()
   limit <- check_limit(limit)
 
@@ -16,7 +15,7 @@ mermaid_GET <- function(endpoint, limit = NULL, url = base_url, token = NULL, ..
   names(endpoints) <- endpoint
 
   # Construct API path
-  path <- purrr::map(names(endpoints), construct_api_path, token = token, url = url, limit = limit, ...)
+  path <- purrr::map(names(endpoints), construct_api_path, token = token, limit = limit, ...)
   names(path) <- endpoint
 
   # Call API and return results
@@ -37,15 +36,15 @@ check_errors <- function(response) {
   }
 }
 
-construct_api_path <- function(endpoint, token, url, limit, ...) {
+construct_api_path <- function(endpoint, token, limit, ...) {
   # Construct first page - maximum size is 5000
   limit <- ifelse(is.null(limit) || limit > 5000, 5000, limit)
 
   if (endpoint == "projects" & is.null(token)) {
     # Need showall = TRUE if it's the "projects" endpoint and not an authenticated call
-    path <- httr::modify_url(url, path = paste0("v1/", endpoint, "/"), query = list(limit = limit, showall = TRUE, ...))
+    path <- httr::modify_url(base_url, path = paste0("v1/", endpoint, "/"), query = list(limit = limit, showall = TRUE, ...))
   } else {
-    path <- httr::modify_url(url, path = paste0("v1/", endpoint, "/"), query = list(limit = limit, ...))
+    path <- httr::modify_url(base_url, path = paste0("v1/", endpoint, "/"), query = list(limit = limit, ...))
   }
 }
 

@@ -12,8 +12,8 @@
 #' projects %>%
 #'   mermaid_get_project_sites()
 #' }
-mermaid_get_project_sites <- function(project = mermaid_get_default_project(), limit = NULL, url = base_url, token = mermaid_token()) {
-  get_project_endpoint(project = project, endpoint = "sites", limit = limit, url = url, token = token)
+mermaid_get_project_sites <- function(project = mermaid_get_default_project(), limit = NULL, token = mermaid_token()) {
+  get_project_endpoint(project = project, endpoint = "sites", limit = limit, token = token)
 }
 
 project_sites_columns <- c("id", "name", "notes", "latitude", "longitude", "country", "reef_type", "reef_zone", "exposure", "predecessor", "created_on", "updated_on")

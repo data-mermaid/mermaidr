@@ -8,7 +8,6 @@ get_endpoint(
   endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera",
     "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites"),
   limit = NULL,
-  url = base_url,
   ...
 )
 }
@@ -16,8 +15,6 @@ get_endpoint(
 \item{endpoint}{Endpoint}
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
-
-\item{url}{API URL. Defaults to https://api.datamermaid.org}
 
 \item{...}{Additional parameters used as needed}
 }

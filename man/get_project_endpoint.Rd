@@ -20,7 +20,6 @@ get_project_endpoint(
     "bleachingqcs/obsquadratbenthicpercents", "bleachingqcs/sampleunits",
     "bleachingqcs/sampleevents"),
   limit = NULL,
-  url = base_url,
   token = mermaid_token()
 )
 }
@@ -30,8 +29,6 @@ get_project_endpoint(
 \item{endpoint}{Endpoint}
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
-
-\item{url}{API URL. Defaults to https://api.datamermaid.org}
 
 \item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
 }

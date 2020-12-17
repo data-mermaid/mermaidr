@@ -4,12 +4,10 @@
 \alias{mermaid_get_sites}
 \title{Get MERMAID sites}
 \usage{
-mermaid_get_sites(limit = NULL, url = base_url)
+mermaid_get_sites(limit = NULL)
 }
 \arguments{
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
-
-\item{url}{API URL. Defaults to https://api.datamermaid.org}
 }
 \description{
 Get a data frame of all MERMAID sites (not project specific).

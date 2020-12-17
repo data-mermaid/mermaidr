@@ -32,7 +32,7 @@
 #' names(bleaching_obs)
 #' # [1] "colonies_bleached" "percent_cover"
 #' }
-mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, url = base_url, token = mermaid_token()) {
+mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token()) {
   check_project_data_inputs(method, data)
 
   if (any(method == "all")) {
@@ -44,7 +44,7 @@ mermaid_get_project_data <- function(project = mermaid_get_default_project(), me
 
   endpoint <- construct_endpoint(method, data)
 
-  res <- purrr::map(endpoint, ~ get_project_endpoint(project, .x, limit, url, token))
+  res <- purrr::map(endpoint, ~ get_project_endpoint(project, .x, limit, token))
 
   if (all(purrr::map_lgl(res, inherits, "list"))) {
     res <- purrr::map(res, ~ {

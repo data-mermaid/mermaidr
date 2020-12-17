@@ -6,16 +6,13 @@
 \usage{
 mermaid_get_endpoint(
   endpoint = c("choices", "projecttags", "fishsizes"),
-  limit = NULL,
-  url = base_url
+  limit = NULL
 )
 }
 \arguments{
 \item{endpoint}{MERMAID API endpoint. One of "choices", "projecttags", "fishsizes".}
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
-
-\item{url}{API URL. Defaults to https://api.datamermaid.org}
 }
 \description{
 Get other MERMAID API endpoints not covered by other \code{mermaid_get_*} functions.

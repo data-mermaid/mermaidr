@@ -8,7 +8,7 @@
 #' test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
-get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents", "benthicpits/obstransectbenthicpits", "benthicpits/sampleunits", "benthicpits/sampleevents", "benthiclits/obstransectbenthiclits", "benthiclits/sampleunits", "benthiclits/sampleevents", "habitatcomplexities/obshabitatcomplexities", "habitatcomplexities/sampleunits", "habitatcomplexities/sampleevents", "bleachingqcs/obscoloniesbleacheds", "bleachingqcs/obsquadratbenthicpercents", "bleachingqcs/sampleunits", "bleachingqcs/sampleevents"), limit = NULL, url = base_url, token = mermaid_token()) {
+get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents", "benthicpits/obstransectbenthicpits", "benthicpits/sampleunits", "benthicpits/sampleevents", "benthiclits/obstransectbenthiclits", "benthiclits/sampleunits", "benthiclits/sampleevents", "habitatcomplexities/obshabitatcomplexities", "habitatcomplexities/sampleunits", "habitatcomplexities/sampleevents", "bleachingqcs/obscoloniesbleacheds", "bleachingqcs/obsquadratbenthicpercents", "bleachingqcs/sampleunits", "bleachingqcs/sampleevents"), limit = NULL, token = mermaid_token()) {
   project_id <- as_id(project)
   check_project(project_id)
   endpoint <- match.arg(endpoint, several.ok = TRUE)
@@ -17,7 +17,7 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   full_endpoints <- purrr::map(endpoint, ~ paste0("projects/", project_id, "/", .x))
 
   # Get endpoint results
-  endpoints_res <- purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, url = url, token = token, project_id = project_id, project = project)
+  endpoints_res <- purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, token = token, project_id = project_id, project = project)
   names(endpoints_res) <- endpoint
 
   # Return endpoints
@@ -29,8 +29,8 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
 
 }
 
-get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, url = base_url, token = mermaid_token(), project_id, project) {
-  initial_res <- mermaid_GET(full_endpoint, limit = limit, url = url, token = token)
+get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, token = mermaid_token(), project_id, project) {
+  initial_res <- mermaid_GET(full_endpoint, limit = limit, token = token)
 
   # Combine multiple projects
   if (length(initial_res) > 1) {
@@ -42,7 +42,7 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, u
     res <- dplyr::select(res, -tidyselect::any_of("project"))
   }
 
-  res_lookups <- lookup_choices(res, endpoint, url = url, endpoint_type = "project")
+  res_lookups <- lookup_choices(res, endpoint, endpoint_type = "project")
   res_strip_suffix <- strip_name_suffix(res_lookups)
   construct_project_endpoint_columns(res_strip_suffix, endpoint, multiple_projects = length(initial_res) > 1)
 }

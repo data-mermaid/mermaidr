@@ -4,12 +4,10 @@
 \alias{mermaid_get_managements}
 \title{Get MERMAID managements}
 \usage{
-mermaid_get_managements(limit = NULL, url = base_url)
+mermaid_get_managements(limit = NULL)
 }
 \arguments{
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
-
-\item{url}{API URL. Defaults to https://api.datamermaid.org}
 }
 \description{
 Get a data frame of all MERMAID managements (not project specific).
