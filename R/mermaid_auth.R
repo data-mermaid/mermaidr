@@ -117,7 +117,6 @@ mermaid_auth <- function(token = NULL,
 #' rather, prepared for inclusion in downstream requests.
 #'
 #' @param verbose logical; do you want informative messages?
-#' @param cond logical
 #'
 #' @return a \code{request} object (an S3 class provided by \code{httr})
 #'
@@ -169,8 +168,8 @@ token_available <- function(verbose = TRUE) {
 #'   \code{.httr-oauth} file in working directory, if such exists, by renaming
 #'   to \code{.httr-oauth-SUSPENDED}
 #' @param verbose logical; do you want informative messages?
-#' @export
 #' @family auth functions
+#' @noRd
 #' @examples
 #' \dontrun{
 #' mermaid_deauth()

@@ -8,8 +8,6 @@ NULL
 
 #' Get MERMAID endpoint
 #'
-#' Get MERMAID endpoint. You should not need to call this function directly - please use the \code{mermaid_get_*} functions instead.
-#'
 #' @inheritParams mermaid_GET
 #' @noRd
 mermaid_GET <- function(endpoint, limit = NULL, token = NULL, ...) {

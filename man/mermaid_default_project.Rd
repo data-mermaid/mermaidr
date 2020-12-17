@@ -3,7 +3,7 @@
 \name{mermaid_set_default_project}
 \alias{mermaid_set_default_project}
 \alias{mermaid_get_default_project}
-\title{Get or set mermaidr MERMAID projects}
+\title{Get or set default \code{mermaidr} MERMAID projects}
 \usage{
 mermaid_set_default_project(project)
 
@@ -20,7 +20,8 @@ Configure default MERMAID projects. \code{mermaid_set_default_project} sets proj
 test_project <- mermaid_search_my_projects("Sharla test", include_test_projects = TRUE)
 mermaid_set_default_project(test_project)
 mermaid_get_default_project()
-# Since a default project is set, you can use mermaid_get_project_endpoint
+
+# Since a default project is set, you can use e.g. mermaid_get_project_sites()
 # without explicitly supplying a project
 mermaid_get_project_sites()
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/mermaid_search_projects.R
 \name{mermaid_search_projects}
 \alias{mermaid_search_projects}
-\title{Search MERMAID projects}
+\title{Search all MERMAID projects}
 \usage{
 mermaid_search_projects(
   name = NULL,
@@ -24,7 +24,7 @@ mermaid_search_projects(
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 }
 \description{
-Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
+Search all MERMAID projects by project name, country, or tags. Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
 }
 \examples{
 \dontrun{

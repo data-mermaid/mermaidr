@@ -1,6 +1,6 @@
 #' Get MERMAID managements
 #'
-#' Get a data frame of all MERMAID managements (not project specific).
+#' Get all MERMAID managements (not project specific). Returns metadata on managements, including ID and name, secondary name, rules, notes, year established, and when the management was created and last updated.
 #'
 #' @inheritParams mermaid_GET
 #'

@@ -15,7 +15,7 @@ mermaid_get_endpoint(
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 }
 \description{
-Get other MERMAID API endpoints not covered by other \code{mermaid_get_*} functions.
+Get data from MERMAID API endpoints not covered by other \code{mermaid_get_*} functions.
 }
 \examples{
 \dontrun{

@@ -1,9 +1,10 @@
-#' Get a list of all MERMAID Projects
+#' Get all MERMAID Projects
+#'
+#' Get all MERMAID projects. Returns metadata on projects, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
 #'
 #' @inheritParams mermaid_GET
 #' @param include_test_projects Whether to include test projects. Defaults to FALSE.
 #'
-#' @return A tibble of MERMAID projects including project name, countries, number of sites, tags, notes, and data policies.
 #' @export
 #'
 #' @examples

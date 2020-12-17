@@ -8,8 +8,6 @@ mermaid_token(verbose = FALSE)
 }
 \arguments{
 \item{verbose}{logical; do you want informative messages?}
-
-\item{cond}{logical}
 }
 \value{
 a \code{request} object (an S3 class provided by \code{httr})

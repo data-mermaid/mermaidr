@@ -10,7 +10,7 @@ mermaid_get_sites(limit = NULL)
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 }
 \description{
-Get a data frame of all MERMAID sites (not project specific).
+Get all MERMAID sites (not project specific). Returns metadata on sites, including site ID and name, notes, project, latitude and longitude, country, reef type and zone, exposure, and when the site was created and last updated.
 }
 \examples{
 \dontrun{

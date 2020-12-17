@@ -1,8 +1,9 @@
 #' Get other MERMAID API project endpoints
 #'
-#' Get other MERMAID API project endpoints not covered by other \code{mermaid_get_project_*} functions.
+#' Get data from MERMAID API project endpoints not covered by other \code{mermaid_get_project_*} functions. Requires authorization.
 #'
 #' @inheritParams get_project_endpoint
+#' @inheritParams mermaid_GET
 #'
 #' @export
 #'

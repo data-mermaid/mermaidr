@@ -1,4 +1,4 @@
-#' Get or set mermaidr MERMAID projects
+#' Get or set default \code{mermaidr} MERMAID projects
 #'
 #' Configure default MERMAID projects. \code{mermaid_set_default_project} sets project(s) as the default to be used automatically in \code{mermaid_get_project_*} functions. \code{mermaid_get_default_project} lists the default projects.
 #
@@ -11,7 +11,8 @@
 #' test_project <- mermaid_search_my_projects("Sharla test", include_test_projects = TRUE)
 #' mermaid_set_default_project(test_project)
 #' mermaid_get_default_project()
-#' # Since a default project is set, you can use mermaid_get_project_endpoint
+#'
+#' # Since a default project is set, you can use e.g. mermaid_get_project_sites()
 #' # without explicitly supplying a project
 #' mermaid_get_project_sites()
 #' }

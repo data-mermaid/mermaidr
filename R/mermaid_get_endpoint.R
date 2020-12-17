@@ -1,6 +1,6 @@
 #' Get other MERMAID API endpoints
 #'
-#' Get other MERMAID API endpoints not covered by other \code{mermaid_get_*} functions.
+#' Get data from MERMAID API endpoints not covered by other \code{mermaid_get_*} functions.
 #'
 #' @param endpoint MERMAID API endpoint. One of "choices", "projecttags", "fishsizes".
 #' @inheritParams mermaid_GET

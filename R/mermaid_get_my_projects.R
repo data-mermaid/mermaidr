@@ -1,6 +1,6 @@
-#' Get a list of your MERMAID Projects
+#' Get your MERMAID Projects
 #'
-#' List MERMAID projects that you have access to. Requires authorization.
+#' Get MERMAID projects you have access to. Returns metadata on projects, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated. Requires authorization.
 #'
 #' @inheritParams mermaid_GET
 #' @inheritParams get_project_endpoint

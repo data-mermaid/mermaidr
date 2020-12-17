@@ -7,6 +7,7 @@ NULL
 #' Get endpoint from specified MERMAID project(s)
 #'
 #' @inheritParams mermaid_GET
+#' @inheritParams get_project_endpoint
 #'
 #' @noRd
 #'

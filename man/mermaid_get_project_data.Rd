@@ -20,10 +20,12 @@ mermaid_get_project_data(
 
 \item{data}{Data to return. One of "observations", "sampleunits", "sampleevents", or all (to get all three kinds of data). See details for more.}
 
+\item{limit}{Number of records to get. Use NULL (the default) to get all records.}
+
 \item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
 }
 \description{
-Get Fish Belt, Benthic LIT, Benthic PIT, Bleaching, or Habitat Complexity data for your MERMAID projects. Data is available at the observation, sample unit, and sample event level. See Details section for more.
+Get Fish Belt, Benthic LIT, Benthic PIT, Bleaching, or Habitat Complexity data for your MERMAID projects. Data is available at the observation, sample unit, and sample event level. See Details section for more. Requires authorization.
 }
 \details{
 Fish Belt method data is available by setting \code{method} to "fishbelt". Fish Belt observations data contains individual observations recorded in MERMAID, while sample units contains total biomass in kg/ha per sample unit, by trophic group. Sample events data contains \emph{mean} total biomass in kg/ha per sample event and by trophic group.

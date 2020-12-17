@@ -1,6 +1,6 @@
-#' Search MERMAID projects
+#' Search all MERMAID projects
 #'
-#' Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
+#' Search all MERMAID projects by project name, country, or tags. Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
 #'
 #' @param name Project name
 #' @param countries Project country. Projects are returned if the \code{countries} field contains \code{countries}, not just if it is exactly the same. For a list of countries used in MERMAID, see \code{\link{mermaid_countries}}

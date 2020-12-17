@@ -83,8 +83,4 @@ mermaid_auth(token = ttt) # from an object
 mermaid_auth(token = "ttt.rds") # from .rds file
 }
 }
-\seealso{
-Other auth functions: 
-\code{\link{mermaid_deauth}()}
-}
 \concept{auth functions}

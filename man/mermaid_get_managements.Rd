@@ -10,7 +10,7 @@ mermaid_get_managements(limit = NULL)
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 }
 \description{
-Get a data frame of all MERMAID managements (not project specific).
+Get all MERMAID managements (not project specific). Returns metadata on managements, including ID and name, secondary name, rules, notes, year established, and when the management was created and last updated.
 }
 \examples{
 \dontrun{

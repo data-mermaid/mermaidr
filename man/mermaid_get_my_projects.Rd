@@ -2,7 +2,7 @@
 % Please edit documentation in R/mermaid_get_my_projects.R
 \name{mermaid_get_my_projects}
 \alias{mermaid_get_my_projects}
-\title{Get a list of your MERMAID Projects}
+\title{Get your MERMAID Projects}
 \usage{
 mermaid_get_my_projects(
   include_test_projects = FALSE,
@@ -21,7 +21,7 @@ mermaid_get_my_projects(
 A tibble of MERMAID projects that you have access to, including project name, countries, number of sites, tags, notes, and data policies.
 }
 \description{
-List MERMAID projects that you have access to. Requires authorization.
+Get MERMAID projects you have access to. Returns metadata on projects, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated. Requires authorization.
 }
 \examples{
 \dontrun{

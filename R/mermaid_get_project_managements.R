@@ -1,8 +1,9 @@
 #' Get MERMAID project managements
 #'
-#' Get managements for specified MERMAID project(s).
+#' Get managements for specified MERMAID project(s). Returns metadata on project managements, including ID and name, secondary name, rules, notes, year established, and when the management was created and last updated. Requires authorization.
 #'
 #' @inheritParams get_project_endpoint
+#' @inheritParams mermaid_GET
 #'
 #' @export
 #'
