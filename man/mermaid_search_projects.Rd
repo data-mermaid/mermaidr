@@ -2,16 +2,14 @@
 % Please edit documentation in R/mermaid_search_projects.R
 \name{mermaid_search_projects}
 \alias{mermaid_search_projects}
-\title{Search MERMAID projects}
+\title{Search all MERMAID projects}
 \usage{
 mermaid_search_projects(
   name = NULL,
   countries = NULL,
   tags = NULL,
   include_test_projects = FALSE,
-  limit = NULL,
-  url = base_url,
-  token = NULL
+  limit = NULL
 )
 }
 \arguments{
@@ -24,16 +22,12 @@ mermaid_search_projects(
 \item{include_test_projects}{Whether to include test projects. Defaults to FALSE.}
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
-
-\item{url}{API URL. Defaults to https://api.datamermaid.org}
-
-\item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
 }
 \description{
-Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
+Search all MERMAID projects by project name, country, or tags. Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
 }
 \examples{
-\donttest{
+\dontrun{
 mermaid_search_projects(tags = "WCS Fiji")
 mermaid_search_projects(countries = "Fiji", tags = "WWF-UK")
 
@@ -41,7 +35,7 @@ mermaid_search_projects(countries = "Fiji", tags = "WWF-UK")
 # A project is returned if it *contains* the countries/tags:
 mermaid_search_projects(countries = "Tanzania", limit = 1)[["countries"]]
 
-# To search within your projects only:
-mermaid_search_projects(countries = "Fiji", token = mermaid_token())
+# To search within your projects only, use mermaid_search_my_projects():
+mermaid_search_my_projects(countries = "Fiji")
 }
 }

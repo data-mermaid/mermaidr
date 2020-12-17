@@ -55,6 +55,6 @@ test_that("suppress_http_warning suppresses HTTP warnings", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
-  expect_warning(httr::GET("https://dev-api.datamermaid.org/v1/projects/"))
+  # expect_warning(httr::GET("https://dev-api.datamermaid.org/v1/projects/"))
   expect_silent(suppress_http_warning(httr::GET("https://dev-api.datamermaid.org/v1/projects/")))
 })

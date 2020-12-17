@@ -1,4 +1,4 @@
-test_that("multiplication works", {
+test_that("mermaid project managements return with the correct columns", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()

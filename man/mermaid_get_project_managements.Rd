@@ -7,7 +7,6 @@
 mermaid_get_project_managements(
   project = mermaid_get_default_project(),
   limit = NULL,
-  url = base_url,
   token = mermaid_token()
 )
 }
@@ -16,15 +15,13 @@ mermaid_get_project_managements(
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
-\item{url}{API URL. Defaults to https://api.datamermaid.org}
-
-\item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
+\item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
 }
 \description{
-Get managements for specified MERMAID project(s).
+Get managements for specified MERMAID project(s). Returns metadata on project managements, including ID and name, secondary name, rules, notes, year established, and when the management was created and last updated. Requires authorization.
 }
 \examples{
-\donttest{
+\dontrun{
 projects <- mermaid_get_my_projects(include_test_projects = TRUE)
 projects \%>\%
   mermaid_get_project_managements()

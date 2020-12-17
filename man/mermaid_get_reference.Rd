@@ -6,22 +6,19 @@
 \usage{
 mermaid_get_reference(
   reference = c("fishfamilies", "fishgenera", "fishspecies", "benthicattributes"),
-  limit = NULL,
-  url = base_url
+  limit = NULL
 )
 }
 \arguments{
 \item{reference}{MERMAID reference. One of "fishfamilies", "fishgenera", "fishspecies", "benthicattributes".}
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
-
-\item{url}{API URL. Defaults to https://api.datamermaid.org}
 }
 \description{
 Find the names and information of the fish and benthic attributes you can choose in MERMAID.
 }
 \examples{
-\donttest{
+\dontrun{
 mermaid_get_reference("benthicattributes")
 mermaid_get_reference(c("fishfamilies", "fishgenera"))
 }

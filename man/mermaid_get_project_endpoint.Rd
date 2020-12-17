@@ -12,7 +12,6 @@ mermaid_get_project_endpoint(
     "obshabitatcomplexities", "obstransectbeltfishs", "observers", "project_profiles",
     "sampleevents"),
   limit = NULL,
-  url = base_url,
   token = mermaid_token()
 )
 }
@@ -23,15 +22,13 @@ mermaid_get_project_endpoint(
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
-\item{url}{API URL. Defaults to https://api.datamermaid.org}
-
-\item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
+\item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
 }
 \description{
-Get other MERMAID API project endpoints not covered by other \code{mermaid_get_project_*} functions.
+Get data from MERMAID API project endpoints not covered by other \code{mermaid_get_project_*} functions. Requires authorization.
 }
 \examples{
-\donttest{
+\dontrun{
 projects <- mermaid_get_my_projects()
 projects \%>\%
   mermaid_get_project_endpoint("observers")

@@ -1,22 +1,23 @@
-#' Get a list of your MERMAID Projects
+#' Get your MERMAID Projects
 #'
-#' List MERMAID projects that you have access to. Requires authorization.
+#' Get MERMAID projects you have access to. Returns metadata on projects, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated. Requires authorization.
 #'
 #' @inheritParams mermaid_GET
+#' @inheritParams get_project_endpoint
 #' @param include_test_projects Whether to include test projects. Defaults to FALSE.
 #'
 #' @return A tibble of MERMAID projects that you have access to, including project name, countries, number of sites, tags, notes, and data policies.
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' mermaid_get_my_projects()
 #' }
-mermaid_get_my_projects <- function(include_test_projects = FALSE, limit = NULL, url = base_url, token = mermaid_token()) {
+mermaid_get_my_projects <- function(include_test_projects = FALSE, limit = NULL, token = mermaid_token()) {
   if (include_test_projects) {
-    res <- mermaid_GET("projects", limit = limit, url = url, token = token)
+    res <- mermaid_GET("projects", limit = limit, token = token)
   } else {
-    res <- mermaid_GET("projects", limit = limit, url = url, token = token, status = 90)
+    res <- mermaid_GET("projects", limit = limit, token = token, status = 90)
   }
 
   res <- res[["projects"]]
@@ -28,6 +29,6 @@ mermaid_get_my_projects <- function(include_test_projects = FALSE, limit = NULL,
     res
   } else {
     res <- res[, mermaid_endpoint_columns[["projects"]]]
-    lookup_choices(res, endpoint = "projects", url = url)
+    lookup_choices(res, endpoint = "projects")
   }
 }

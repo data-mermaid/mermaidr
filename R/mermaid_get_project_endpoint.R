@@ -1,19 +1,20 @@
 #' Get other MERMAID API project endpoints
 #'
-#' Get other MERMAID API project endpoints not covered by other \code{mermaid_get_project_*} functions.
+#' Get data from MERMAID API project endpoints not covered by other \code{mermaid_get_project_*} functions. Requires authorization.
 #'
 #' @inheritParams get_project_endpoint
+#' @inheritParams mermaid_GET
 #'
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' projects <- mermaid_get_my_projects()
 #' projects %>%
 #'   mermaid_get_project_endpoint("observers")
 #' }
-mermaid_get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "observers", "project_profiles", "sampleevents"), limit = NULL, url = base_url, token = mermaid_token()) {
-  get_project_endpoint(project, endpoint, limit, base_url, token)
+mermaid_get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "observers", "project_profiles", "sampleevents"), limit = NULL, token = mermaid_token()) {
+  get_project_endpoint(project, endpoint, limit, token)
 }
 
 project_other_endpoint_columns <- list(
@@ -31,5 +32,5 @@ project_other_endpoint_columns <- list(
   obstransectbeltfishs = c("id", "data", "size", "count", "include", "notes", "beltfish", "fish_attribute", "size_bin", "created_on", "updated_on"),
   observers = c("id", "profile", "rank", "transectmethod", "created_on", "created_by"),
   project_profiles = c("id", "profile", "is_collector", "is_admin", "role", "created_on", "updated_on"),
-  sampleevents = c("id", "depth", "data", "sample_date", "sample_time", "notes", "created_by", "site", "management", "visibility", "current", "relative_depth", "tide", "created_on", "updated_on")
+  sampleevents = c("id", "data", "sample_date", "notes", "created_by", "site", "management", "created_on", "updated_on")
 )

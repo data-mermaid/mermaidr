@@ -2,20 +2,12 @@
 % Please edit documentation in R/mermaid_auth.R
 \name{mermaid_token}
 \alias{mermaid_token}
-\alias{include_token_if}
-\alias{omit_token_if}
 \title{Produce MERMAID token}
 \usage{
 mermaid_token(verbose = FALSE)
-
-include_token_if(cond)
-
-omit_token_if(cond)
 }
 \arguments{
 \item{verbose}{logical; do you want informative messages?}
-
-\item{cond}{logical}
 }
 \value{
 a \code{request} object (an S3 class provided by \code{httr})

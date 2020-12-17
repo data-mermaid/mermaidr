@@ -10,7 +10,8 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "100%",
-  message = FALSE
+  message = FALSE,
+  cache = TRUE
 )
 ```
 # mermaidr
@@ -54,6 +55,8 @@ When using the development version, you can only access data from the [developme
 If you would like to authenticate yourself immediately, use `mermaid_auth()`. This will open your browser to the MERMAID Collect login. Once you log in, you can go back to R and will be authenticated.
 
 The login credentials expire every 24 hours. Once your credentials are expired, `mermaidr` will again help you automatically authenticate when needed.
+
+Note that authentication is only possible locally on your desktop, using a program like RStudio. This should cover most people and cases, however it's not currently possible to authenticate on something like RStudio Cloud or on another server. If you are using a server, please follow the directions [here](https://support.rstudio.com/hc/en-us/articles/217952868-Generating-OAuth-tokens-from-a-server) to authenticate on the desktop then copy to the server.
 
 ## Usage
 
@@ -109,12 +112,11 @@ indonesia_projects %>%
 
 ### Method data
 
-You can also currently access data on your projects' fish belt and benthic PIT methods, with more methods to come. The details are in the following sections.
+You can also  access data on your projects' Fish Belt, Benthic LIT, Benthic PIT, Bleaching, and Habitat Complexity methods. The details are in the following sections.
 
 #### Fish Belt data
 
-To access fish belt data for a project, use `mermaid_get_project_data()` with `method = "fishbelt"`. 
-
+To access Fish Belt data for a project, use `mermaid_get_project_data()` with `method = "fishbelt"`. 
 You can access individual observations (i.e., a record of each observation) by setting `data = "observations"`:
 
 ```{r}
@@ -164,20 +166,39 @@ library(readr)
 write_csv(xpdc_sample_events_clean, "xpdc_sample_events_clean.csv")
 ```
 
+#### Benthic LIT data
+
+To access Benthic LIT data, use `mermaid_get_project_data()` with `method = "benthiclit"`. 
+
+```{r}
+mozambique <- my_projects %>%
+  filter(name == "WCS Mozambique Coral Reef Monitoring")
+
+mozambique %>%
+  mermaid_get_project_data(method = "benthiclit", data = "observations")
+```
+
+You can access sample units and sample events the same way. 
+
+For Benthic LIT, sample units contain percent cover per sample unit, by benthic category. Sample *events* contain *mean* percent cover per sample event, by benthic category. 
+
+```{r}
+mozambique %>%
+  mermaid_get_project_data(method = "benthiclit", data = "sampleunits")
+```
+
 #### Benthic PIT data
 
-Accessing Benthic PIT data works the exact same way as Fish Belt data, except you change `method` to "benthicpit":
+To access Benthic LIT data, change `method` to "benthicpit":
 
 ```{r}
 xpdc %>%
   mermaid_get_project_data(method = "benthicpit", data = "observations")
 ```
 
-You can access sample units and sample events the same way. 
+You can access sample units and sample events the same way, and the data format is the same as Benthic LIT.
 
-For Benthic PIT, sample units contain percent cover per sample unit, by benthic category. Sample *events* contain *mean* percent cover per sample event, by benthic category. 
-
-You can return both of these by setting the `data` argument. This will return a list of two data frames: one containing sample units, and the other sample events.
+You can return both sample units and sample events by setting the `data` argument. This will return a list of two data frames: one containing sample units, and the other sample events.
 
 ```{r}
 xpdc_sample_units_events <- xpdc %>%
@@ -185,6 +206,35 @@ xpdc_sample_units_events <- xpdc %>%
 
 names(xpdc_sample_units_events)
 xpdc_sample_units_events[["sampleunits"]]
+```
+
+#### Bleaching
+
+To access Bleaching data, set `method` to "bleaching". There are two types of observations data for the Bleaching method: Colonies Bleached and Percent Cover. These are both returned when pulling observations data, in a list:
+
+```{r}
+bleaching_obs <- mozambique %>%
+  mermaid_get_project_data("bleaching", "observations")
+
+names(bleaching_obs)
+
+bleaching_obs[["colonies_bleached"]]
+```
+
+The sample units and sample events data contain summaries of both Colonies Bleached and Percent Cover:
+
+```{r}
+mozambique %>%
+  mermaid_get_project_data("bleaching", "sampleevents")
+```
+
+#### Habitat Complexity
+
+Finally, to access Habitat Complexity data, set `method` to "habitatcomplexity". As with all other methods, you can access observations, sample units, and sample events:
+
+```{r}
+xpdc %>%
+  mermaid_get_project_data("habitatcomplexity", "sampleevents")
 ```
 
 #### Multiple methods data
@@ -204,7 +254,7 @@ names(xpdc_sample_events)
 xpdc_sample_events[["benthicpit"]]
 ```
 
-Alternatively, you can set `method` to "all" to pull for all methods! This will be handy once there are more than two methods. Similarly, you can set `data` to "all" to pull all types of data:
+Alternatively, you can set `method` to "all" to pull for all methods! Similarly, you can set `data` to "all" to pull all types of data:
 
 ```{r}
 all_project_data <- xpdc %>%
@@ -217,7 +267,7 @@ names(all_project_data[["benthicpit"]])
 
 #### Multiple projects
 
-Pulling data for multiple projects is the exact same, except there will be an additional "project" column at the beginning to distinguish which projects the data comes from. Recall that `my_projects` contains four projects:
+Pulling data for multiple projects is the exact same, except there will be an additional "project" column at the beginning to distinguish which projects the data comes from. Recall that `my_projects` contains six projects:
 
 ```{r}
 my_projects

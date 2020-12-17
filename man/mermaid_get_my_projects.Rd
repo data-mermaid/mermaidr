@@ -2,12 +2,11 @@
 % Please edit documentation in R/mermaid_get_my_projects.R
 \name{mermaid_get_my_projects}
 \alias{mermaid_get_my_projects}
-\title{Get a list of your MERMAID Projects}
+\title{Get your MERMAID Projects}
 \usage{
 mermaid_get_my_projects(
   include_test_projects = FALSE,
   limit = NULL,
-  url = base_url,
   token = mermaid_token()
 )
 }
@@ -16,18 +15,16 @@ mermaid_get_my_projects(
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
-\item{url}{API URL. Defaults to https://api.datamermaid.org}
-
-\item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
+\item{token}{API token. Not required for unauthenticated endpoints (non project- or user-specific). Get manually via \code{\link{mermaid_auth}} or automatically when running a project- or user-specific function.}
 }
 \value{
 A tibble of MERMAID projects that you have access to, including project name, countries, number of sites, tags, notes, and data policies.
 }
 \description{
-List MERMAID projects that you have access to. Requires authorization.
+Get MERMAID projects you have access to. Returns metadata on projects, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated. Requires authorization.
 }
 \examples{
-\donttest{
+\dontrun{
 mermaid_get_my_projects()
 }
 }

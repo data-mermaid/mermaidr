@@ -27,17 +27,15 @@ test_that("get_project_endpoint allows multiple projects, and combines the resul
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
-  p <- mermaid_get_my_projects(include_test_projects = TRUE)
+  p <- mermaid_get_my_projects()
   expect_named(get_project_endpoint(p, "sites", limit = 1), c("project", mermaid_project_endpoint_columns[["sites"]]))
-  expect_named(get_project_endpoint(p, "beltfishes/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["beltfishes/sampleunits"]]))
 
-  p <- c("9de82789-c38e-462e-a1a8-e02c020c7a35", "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a")
+  p <- c("9de82789-c38e-462e-a1a8-e02c020c7a35", "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a", "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b")
   expect_named(get_project_endpoint(p, "beltfishtransectmethods", limit = 1), c("project_id", mermaid_project_endpoint_columns[["beltfishtransectmethods"]]))
   expect_named(get_project_endpoint(p, "beltfishes", limit = 1), c("project_id", mermaid_project_endpoint_columns[["beltfishes"]]))
   expect_named(get_project_endpoint(p, "benthiclittransectmethods", limit = 1), c("project_id", mermaid_project_endpoint_columns[["benthiclittransectmethods"]]))
   expect_named(get_project_endpoint(p, "benthicpittransectmethods", limit = 1), c("project_id", mermaid_project_endpoint_columns[["benthicpittransectmethods"]]))
   expect_named(get_project_endpoint(p, "benthicpits", limit = 1), c("project_id", mermaid_project_endpoint_columns[["benthicpits"]]))
-  # expect_named(get_project_endpoint(p, "collectrecords", limit = 1), c("project_id", mermaid_project_endpoint_columns[["collectrecords"]]))
   expect_named(get_project_endpoint(p, "fishbelttransects", limit = 1), c("project_id", mermaid_project_endpoint_columns[["fishbelttransects"]]))
   expect_named(get_project_endpoint(p, "habitatcomplexities", limit = 1), c("project_id", mermaid_project_endpoint_columns[["habitatcomplexities"]]))
   expect_named(get_project_endpoint(p, "obsbenthiclits", limit = 1), c("project_id", mermaid_project_endpoint_columns[["obsbenthiclits"]]))
@@ -49,12 +47,27 @@ test_that("get_project_endpoint allows multiple projects, and combines the resul
   expect_named(get_project_endpoint(p, "project_profiles", limit = 1), c("project_id", mermaid_project_endpoint_columns[["project_profiles"]]))
   expect_named(get_project_endpoint(p, "sampleevents", limit = 1), c("project_id", mermaid_project_endpoint_columns[["sampleevents"]]))
   expect_named(get_project_endpoint(p, "sites", limit = 1), c("project_id", mermaid_project_endpoint_columns[["sites"]]))
+
   expect_named(get_project_endpoint(p, "beltfishes/obstransectbeltfishes", limit = 1), c(mermaid_project_endpoint_columns[["beltfishes/obstransectbeltfishes"]]))
   expect_named(get_project_endpoint(p, "beltfishes/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["beltfishes/sampleunits"]]))
   expect_named(get_project_endpoint(p, "beltfishes/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["beltfishes/sampleevents"]]))
+
   expect_named(get_project_endpoint(p, "benthicpits/obstransectbenthicpits", limit = 1), c(mermaid_project_endpoint_columns[["benthicpits/obstransectbenthicpits"]]))
   expect_named(get_project_endpoint(p, "benthicpits/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["benthicpits/sampleunits"]]))
   expect_named(get_project_endpoint(p, "benthicpits/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["benthicpits/sampleevents"]]))
+
+  expect_named(get_project_endpoint(p, "benthiclits/obstransectbenthiclits", limit = 1), c(mermaid_project_endpoint_columns[["benthiclits/obstransectbenthiclits"]]))
+  expect_named(get_project_endpoint(p, "benthiclits/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["benthiclits/sampleunits"]]))
+  expect_named(get_project_endpoint(p, "benthiclits/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["benthiclits/sampleevents"]]))
+
+  expect_named(get_project_endpoint(p, "habitatcomplexities/obshabitatcomplexities", limit = 1), c(mermaid_project_endpoint_columns[["habitatcomplexities/obshabitatcomplexities"]]))
+  expect_named(get_project_endpoint(p, "habitatcomplexities/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["habitatcomplexities/sampleunits"]]))
+  expect_named(get_project_endpoint(p, "habitatcomplexities/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["habitatcomplexities/sampleevents"]]))
+
+  expect_named(get_project_endpoint(p, "bleachingqcs/obscoloniesbleacheds", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/obscoloniesbleacheds"]]))
+  expect_named(get_project_endpoint(p, "bleachingqcs/obsquadratbenthicpercents", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/obsquadratbenthicpercents"]]))
+  expect_named(get_project_endpoint(p, "bleachingqcs/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/sampleunits"]]))
+  expect_named(get_project_endpoint(p, "bleachingqcs/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/sampleevents"]]))
 })
 
 test_that("unpack_df_cols and repack_df_cols work as expected", {

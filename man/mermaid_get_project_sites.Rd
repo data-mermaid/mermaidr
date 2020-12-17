@@ -7,7 +7,6 @@
 mermaid_get_project_sites(
   project = mermaid_get_default_project(),
   limit = NULL,
-  url = base_url,
   token = mermaid_token()
 )
 }
@@ -16,15 +15,13 @@ mermaid_get_project_sites(
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
-\item{url}{API URL. Defaults to https://api.datamermaid.org}
-
-\item{token}{API token. Not required for unauthenticated endpoints. Get via \code{\link{mermaid_auth}}}
+\item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
 }
 \description{
-Get sites for specified MERMAID project(s).
+Get sites for specified MERMAID project(s). Returns metadata on sites, including site ID and name, notes, latitude and longitude, country, reef type and zone, exposure, and when the site was created and last updated. Requires authorization.
 }
 \examples{
-\donttest{
+\dontrun{
 projects <- mermaid_get_my_projects()
 projects \%>\%
   mermaid_get_project_sites()

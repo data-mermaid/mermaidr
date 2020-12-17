@@ -4,16 +4,13 @@
 \alias{mermaid_countries}
 \title{MERMAID countries}
 \usage{
-mermaid_countries(url = base_url)
-}
-\arguments{
-\item{url}{API URL. Defaults to https://api.datamermaid.org}
+mermaid_countries()
 }
 \description{
 Returns the names of countries in MERMAID to help with searching.
 }
 \examples{
-\donttest{
+\dontrun{
 mermaid_countries()
 }
 }

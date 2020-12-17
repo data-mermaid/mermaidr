@@ -109,3 +109,12 @@ test_that("all_contain_value returns TRUE if all list elements contain the value
   expect_true(all_contain_value(x, "A"))
   expect_false(all_contain_value(x, "B"))
 })
+
+test_that("replace_one_for_many properly replaces one element of a vector with multiple", {
+  expect_equal(sub_one_for_many(c("observations", "sampleevents", "sampleunits"), "observations", c("colonies_bleached", "percent_cover")), c("colonies_bleached", "percent_cover", "sampleevents", "sampleunits"))
+  expect_equal(sub_one_for_many(c("observations", "sampleevents"), "observations", c("colonies_bleached", "percent_cover")), c("colonies_bleached", "percent_cover", "sampleevents"))
+  expect_equal(sub_one_for_many(c("sampleevents", "observations"), "observations", c("colonies_bleached", "percent_cover")), c("sampleevents", "colonies_bleached", "percent_cover"))
+  expect_equal(sub_one_for_many(c("sampleevents", "observations", "sampleunits"), "observations", c("colonies_bleached", "percent_cover")), c("sampleevents", "colonies_bleached", "percent_cover", "sampleunits"))
+  expect_equal(sub_one_for_many("observations", "observations", c("colonies_bleached", "percent_cover")), c("colonies_bleached", "percent_cover"))
+  expect_equal(sub_one_for_many(c("sampleevents", "sampleunits"), "observations", c("colonies_bleached", "percent_cover")), c("sampleevents", "sampleunits"))
+})

@@ -56,18 +56,18 @@
 #'
 #' @examples
 #' \dontrun{
-#' ## load/refresh existing credentials, if available
-#' ## otherwise, go to browser for authentication and authorization
+#' # Load/refresh existing credentials, if available
+#' # Otherwise, go to browser for authentication and authorization
 #' mermaid_auth()
 #'
-#' ## force a new token to be obtained
+#' # Force a new token to be obtained
 #' mermaid_auth(new_user = TRUE)
 #'
-#' ## store token in an object and then to file
+#' # Store token in an object and then to file
 #' ttt <- mermaid_auth()
 #' saveRDS(ttt, "ttt.rds")
 #'
-#' ## load a pre-existing token
+#' # Load a pre-existing token
 #' mermaid_auth(token = ttt) # from an object
 #' mermaid_auth(token = "ttt.rds") # from .rds file
 #' }
@@ -117,7 +117,6 @@ mermaid_auth <- function(token = NULL,
 #' rather, prepared for inclusion in downstream requests.
 #'
 #' @param verbose logical; do you want informative messages?
-#' @param cond logical
 #'
 #' @return a \code{request} object (an S3 class provided by \code{httr})
 #'
@@ -126,11 +125,6 @@ mermaid_token <- function(verbose = FALSE) {
   if (!token_available(verbose = verbose)) mermaid_auth(verbose = verbose)
   httr::config(token = .state$token)
 }
-
-#' @rdname mermaid_token
-include_token_if <- function(cond) if (cond) mermaid_token() else NULL
-#' @rdname mermaid_token
-omit_token_if <- function(cond) if (cond) NULL else mermaid_token()
 
 #' Check token availability
 #'
@@ -174,8 +168,8 @@ token_available <- function(verbose = TRUE) {
 #'   \code{.httr-oauth} file in working directory, if such exists, by renaming
 #'   to \code{.httr-oauth-SUSPENDED}
 #' @param verbose logical; do you want informative messages?
-#' @export
 #' @family auth functions
+#' @noRd
 #' @examples
 #' \dontrun{
 #' mermaid_deauth()

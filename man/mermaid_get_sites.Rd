@@ -4,18 +4,16 @@
 \alias{mermaid_get_sites}
 \title{Get MERMAID sites}
 \usage{
-mermaid_get_sites(limit = NULL, url = base_url)
+mermaid_get_sites(limit = NULL)
 }
 \arguments{
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
-
-\item{url}{API URL. Defaults to https://api.datamermaid.org}
 }
 \description{
-Get a data frame of all MERMAID sites (not project specific).
+Get all MERMAID sites (not project specific). Returns metadata on sites, including site ID and name, notes, project, latitude and longitude, country, reef type and zone, exposure, and when the site was created and last updated.
 }
 \examples{
-\donttest{
+\dontrun{
 mermaid_get_sites(limit = 10)
 }
 }
