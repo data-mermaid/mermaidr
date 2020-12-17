@@ -77,9 +77,6 @@ test_that("mermaid_search_projects returns projects that all have Country if Cou
   skip_on_cran()
   output <- mermaid_search_projects(countries = "Fiji")
   expect_true(all_contain_value(output[["countries"]], "Fiji"))
-
-  output <- mermaid_search_projects(countries = "Indonesia", token = mermaid_token())
-  expect_true(nrow(output) > 0)
 })
 
 test_that("mermaid_search_projects returns projects that all have tag if Tag filter is used", {
