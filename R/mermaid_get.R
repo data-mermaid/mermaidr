@@ -93,7 +93,7 @@ get_paginated_response <- function(path, ua, token, limit) {
 }
 
 get_and_parse <- function(path, ua, token) {
-  resp <- suppress_http_warning(httr::GET(path, ua, token))
+  resp <- suppress_http_warning(httr::RETRY("GET", path, ua, token))
   check_errors(resp)
   jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyDataFrame = TRUE)
 }
