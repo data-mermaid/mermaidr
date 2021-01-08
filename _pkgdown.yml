@@ -1,0 +1,24 @@
+reference:
+  - title: Authentication
+    contents:
+    - mermaid_auth
+    - mermaid_token
+  - title: Accessing Data
+    contents:
+    - mermaid_get_projects
+    - mermaid_search_projects
+    - mermaid_get_sites
+    - mermaid_get_managements
+    - mermaid_get_reference
+    - mermaid_get_endpoint
+    - mermaid_countries
+
+  - title: Accessing Project-Specific Data
+    contents:
+    - mermaid_get_my_projects
+    - mermaid_search_my_projects
+    - mermaid_set_default_project
+    - mermaid_get_project_data
+    - mermaid_get_project_managements
+    - mermaid_get_project_sites
+    - mermaid_get_project_endpoint

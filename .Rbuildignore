@@ -8,3 +8,6 @@
 tests/testthat/.httr-oauth
 ^\.circleci$
 ^\.circleci/config\.yml$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
