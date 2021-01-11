@@ -16,7 +16,8 @@ jobs:
           command: |
             mkdir -p ~/R/Library
             Rscript -e 'install.packages("remotes")'
-            Rscript -e 'remotes::install_deps(dependencies = TRUE)'
+            Rscript -e 'remotes::install_deps(dependencies = TRUE)
+            Rscript -e 'devtools::install_github("r-lib/pkgdown", dependencies = TRUE)'
       - run:
           name: Session information and installed package versions
           command: |
@@ -29,6 +30,12 @@ jobs:
       - run:
           name: Check package
           command: R CMD check --as-cran --no-manual *tar.gz
+      - run:
+          name: "create pkgdown website"
+          command: R -e 'pkgdown::build_site(".", devel = FALSE)'
+      - store_artifacts:
+          path: docs
+          destination: pkgdown
       - store_artifacts:
           path: mermaidr.Rcheck/
       - save_cache:
