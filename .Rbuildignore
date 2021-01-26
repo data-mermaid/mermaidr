@@ -8,3 +8,4 @@
 tests/testthat/.httr-oauth
 ^\.circleci$
 ^\.circleci/config\.yml$
+^tic\.R$
