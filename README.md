@@ -7,14 +7,18 @@
 [![R build status](https://github.com/data-mermaid/mermaidr/workflows/R-CMD-check/badge.svg)](https://github.com/data-mermaid/mermaidr/actions)
 <!-- badges: end -->
 
-The goal of `mermaidr` is to access [MERMAID
-Collect](https://collect.datamermaid.org/) data directly from R. It
-works alongside the [`mermaidreporting`
-package](https://github.com/data-mermaid/mermaidreporting), which helps
-to clean, summarize, and visualize MERMAID data.
+`mermaidr` is an R package that enables you to access data from
+[`MERMAID`](https://datamermaid.org/), an open-source data platform
+developed to help you collect, analyze, and share coral reef monitoring
+data. Through `mermaidr` you can access data input in the collection
+portal, [MERMAID Collect](https://collect.datamermaid.org/), directly
+from R.
 
-If you run into any problems working with this package, please open an
-[issue](https://github.com/data-mermaid/mermaidr/issues).
+For more information and detailed instructions on usage, please visit
+the [package website](https://data-mermaid.github.io/mermaidr/).
+
+If you are new to the R programming language, our [new R users guide]()
+is a great place to start\!
 
 ## Installation
 
@@ -22,23 +26,22 @@ You can install mermaidr from GitHub with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("data-mermaid/mermaidr", upgrade = "never")
+remotes::install_github("data-mermaid/mermaidr")
 ```
 
-Next, load the package:
+## Usage
+
+Through `mermaidr`, you can access aggregated data from your coral reef
+studies. To do this, first load the package and access your MERMAID
+Collect projects:
 
 ``` r
 library(mermaidr)
+
+projects <- mermaid_get_my_projects()
 ```
 
-If you would like to access the development version of MERMAID instead,
-you can install the `dev` branch of this package:
-
-``` r
-# install.packages("remotes")
-remotes::install_github("data-mermaid/mermaidr", ref = "dev", upgrade = "never")
-```
-
+<<<<<<< HEAD
 When using the development version, you can only access data from the
 [development version of MERMAID
 Collect](https://dev-collect.datamermaid.org/). There may also be
@@ -83,43 +86,63 @@ At this point, you will have to authenticate to the Collect app. R will
 help you do this automatically by opening a browser window for you to
 log in to Collect, either via Google sign-in or username and password -
 however you normally do!
+=======
+At this point, you will have to authenticate to the Collect app. R will
+help you do this automatically by opening a browser window for you to
+log in to Collect, either via Google sign-in or username and password -
+however you normally do\! Once you’ve logged in, come back to R. Your
+login credentials will be stored for a day, until they expire, and you
+will need to log in again. The package handles the expiration for you,
+so just log in again when prompted.
+>>>>>>> Rework README to be brief, and link to site
 
-Once you’ve logged in, come back to R. Your login credentials will be
-stored for a day, until they expire, and you will need to login again.
-The package handles the expiration for you, so just log in again when
-prompted.
+This function gives us information on your projects, including project
+countries, the number of sites, tags, data policies, and more:
 
 ``` r
+<<<<<<< HEAD
 library(mermaidr)
 my_projects <- mermaid_get_my_projects()
 
 my_projects
 #> # A tibble: 9 x 14
+=======
+projects
+#> # A tibble: 8 x 14
+>>>>>>> Rework README to be brief, and link to site
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
 #>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
 #> 1 2d6c… WCS … Mozambiq…        74 "WCS… "Dat… Open   Private         
 #> 2 3a9e… Aceh… Indonesia        18 "Vib… ""    Open   Private         
 #> 3 4080… Mada… Madagasc…        74 "WCS… "MAC… Open   Private         
+<<<<<<< HEAD
 #> 4 4d23… Mada… Madagasc…        16 "WCS… "Mon… Open   Public Summary  
 #> 5 507d… Kari… Indonesia        43 "Vib… ""    Open   Private         
 #> 6 5679… Mada… Madagasc…        33 "WCS… ""    Open   Public Summary  
 #> 7 75ef… Kubu… Fiji             78 "WCS… ""    Open   Private         
 #> 8 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
 #> 9 a1b7… Grea… Fiji             76 "Fij… ""    Open   Private         
+=======
+#> 4 507d… Kari… Indonesia        43 "Vib… ""    Open   Private         
+#> 5 5679… Mada… Madagasc…        33 "WCS… ""    Open   Public Summary  
+#> 6 75ef… Kubu… Fiji             78 "WCS… ""    Open   Private         
+#> 7 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
+#> 8 a1b7… Grea… Fiji             76 "Fij… ""    Open   Private         
+>>>>>>> Rework README to be brief, and link to site
 #> # … with 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
 ```
 
-This function returns information on your projects, including project
-countries, the number of sites, tags, data policies, and more.
-
-To filter for specific projects, you can use the `filter` function from
-`dplyr`:
+To focus on just one or a few projects, you can filter by fields like
+the project name, country, or tags using the `dplyr` package. For
+example, I’ll narrow in on the WCS Mozambique Coral Reef Monitoring
+project.
 
 ``` r
 library(dplyr)
 
+<<<<<<< HEAD
 indonesia_projects <- my_projects %>%
   filter(countries == "Indonesia")
 
@@ -354,22 +377,29 @@ xpdc_sample_events_clean
 #> #   biomass_kgha_trophic_group_avg_piscivore <dbl>,
 #> #   biomass_kgha_trophic_group_avg_planktivore <dbl>,
 #> #   biomass_kgha_trophic_group_avg_invertivore_mobile <dbl>, …
+=======
+wcs_mozambique <- projects %>%
+  filter(name == "WCS Mozambique Coral Reef Monitoring")
+>>>>>>> Rework README to be brief, and link to site
 ```
 
-Then, you can save the data:
+You can access data collected on fishbelt, benthic LIT, benthic PIT,
+bleaching, or habitat complexity - the main function to pull data
+related to your project is `mermaid_get_project_data()`:
 
 ``` r
-library(readr)
-
-write_csv(xpdc_sample_events_clean, "xpdc_sample_events_clean.csv")
+wcs_mozambique_fishbelt_samples <- wcs_mozambique %>%
+  mermaid_get_project_data(method = "fishbelt", data = "sampleevents")
 ```
 
-#### Benthic LIT data
-
-To access Benthic LIT data, use `mermaid_get_project_data()` with
-`method = "benthiclit"`.
+The `data = "sampleevents"` argument specifies that I’d like to pull
+data summarised to the level of a sample **event**, which is a site and
+date - we can see that this pulls information about the site and date of
+samples, along with aggregations like the total biomass of that
+site/date, and broken down by trophic group.
 
 ``` r
+<<<<<<< HEAD
 mozambique <- my_projects %>%
   filter(name == "WCS Mozambique Coral Reef Monitoring")
 
@@ -396,28 +426,36 @@ mozambique %>%
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
 #> #   sample_time <chr>, depth <dbl>, transect_number <int>,
 #> #   transect_length <int>, …
+=======
+wcs_mozambique_fishbelt_samples
+>>>>>>> Rework README to be brief, and link to site
 ```
 
-You can access sample units and sample events the same way.
-
-For Benthic LIT, sample units contain percent cover per sample unit, by
-benthic category. Sample *events* contain *mean* percent cover per
-sample event, by benthic category.
+If you’d like data related to the **units** of survey (for example, to
+transects or quadrats), it’s just a matter of changing `data` to
+“sampleunits”:
 
 ``` r
+<<<<<<< HEAD
 mozambique %>%
   mermaid_get_project_data(method = "benthiclit", data = "sampleunits")
 #> # A tibble: 63 x 48
+=======
+wcs_mozambique %>%
+  mermaid_get_project_data(method = "fishbelt", data = "sampleunits")
+#> # A tibble: 111 x 41
+>>>>>>> Rework README to be brief, and link to site
 #>    project tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>   <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#>  1 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  2 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  3 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  4 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
+#>  1 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
+#>  2 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
+#>  3 WCS Mo… WCS … Mozamb… Baby…    -11.0      40.7 fringing  fore reef
+#>  4 WCS Mo… WCS … Mozamb… Balu…    -22.0      35.5 patch     fore reef
 #>  5 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
 #>  6 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
 #>  7 WCS Mo… WCS … Mozamb… Barr…    -26.1      32.9 barrier   back reef
 #>  8 WCS Mo… WCS … Mozamb… Barr…    -26.1      32.9 barrier   back reef
+<<<<<<< HEAD
 #>  9 WCS Mo… WCS … Mozamb… Barr…    -26.1      32.9 barrier   back reef
 #> 10 WCS Mo… WCS … Mozamb… Barr…    -26.1      32.9 barrier   back reef
 #> # … with 53 more rows, and 40 more variables: reef_exposure <chr>,
@@ -495,16 +533,29 @@ xpdc_sample_units_events[["sampleunits"]]
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
 #> #   sample_time <chr>, depth <dbl>, transect_number <int>,
 #> #   transect_length <int>, …
+=======
+#>  9 WCS Mo… WCS … Mozamb… Bunt…    -12.6      40.6 fringing  fore reef
+#> 10 WCS Mo… WCS … Mozamb… Bunt…    -12.6      40.6 fringing  fore reef
+#> # … with 101 more rows, and 36 more variables: reef_exposure <chr>,
+#> #   reef_slope <lgl>, tide <lgl>, current <lgl>, visibility <lgl>,
+#> #   relative_depth <lgl>, management <chr>, management_secondary <chr>,
+#> #   management_est_year <int>, management_size <dbl>, management_parties <chr>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   sample_time <chr>, depth <dbl>, transect_number <int>, label <chr>,
+#> #   size_bin <chr>, transect_length <int>, transect_width <chr>,
+#> #   biomass_kgha <dbl>, total_abundance <int>,
+#> #   biomass_kgha_by_trophic_group$piscivore <dbl>, $planktivore <dbl>,
+#> #   $`invertivore-mobile` <dbl>, $`herbivore-detritivore` <dbl>,
+#> #   data_policy_beltfish <chr>, project_notes <chr>, site_notes <chr>,
+#> #   management_notes <chr>, sample_event_notes <chr>, sample_event_id <chr>,
+#> #   sample_unit_ids <chr>, id <lgl>, contact_link <chr>
+>>>>>>> Rework README to be brief, and link to site
 ```
 
-#### Bleaching
-
-To access Bleaching data, set `method` to “bleaching”. There are two
-types of observations data for the Bleaching method: Colonies Bleached
-and Percent Cover. These are both returned when pulling observations
-data, in a list:
+And raw observations are available by changing it to “observations”:
 
 ``` r
+<<<<<<< HEAD
 bleaching_obs <- mozambique %>%
   mermaid_get_project_data("bleaching", "observations")
 
@@ -513,6 +564,11 @@ names(bleaching_obs)
 
 bleaching_obs[["colonies_bleached"]]
 #> # A tibble: 1,814 x 44
+=======
+wcs_mozambique %>%
+  mermaid_get_project_data(method = "fishbelt", data = "observations")
+#> # A tibble: 2,714 x 50
+>>>>>>> Rework README to be brief, and link to site
 #>    project tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>   <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #>  1 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
@@ -525,6 +581,7 @@ bleaching_obs[["colonies_bleached"]]
 #>  8 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
 #>  9 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
 #> 10 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
+<<<<<<< HEAD
 #> # … with 1,804 more rows, and 36 more variables: reef_exposure <chr>,
 #> #   tide <lgl>, current <lgl>, visibility <lgl>, relative_depth <lgl>,
 #> #   aca_geomorphic <chr>, aca_benthic <chr>, management <chr>,
@@ -797,11 +854,24 @@ mermaid_get_managements()
 #> #   size_limits <lgl>, gear_restriction <lgl>, species_restriction <lgl>,
 #> #   compliance <chr>, predecessor <chr>, parties <chr>, created_on <chr>,
 #> #   updated_on <chr>
+=======
+#> # … with 2,704 more rows, and 42 more variables: reef_exposure <chr>,
+#> #   reef_slope <lgl>, tide <lgl>, current <lgl>, visibility <lgl>,
+#> #   relative_depth <lgl>, management <chr>, management_secondary <chr>,
+#> #   management_est_year <int>, management_size <dbl>, management_parties <chr>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   sample_time <chr>, transect_length <int>, transect_width <chr>,
+#> #   size_bin <chr>, observers <chr>, depth <dbl>, transect_number <int>,
+#> #   label <chr>, fish_family <chr>, fish_genus <lgl>, fish_taxon <chr>,
+#> #   size <dbl>, biomass_constant_a <dbl>, biomass_constant_b <dbl>,
+#> #   biomass_constant_c <dbl>, count <int>, biomass_kgha <dbl>,
+#> #   trophic_level <dbl>, trophic_group <chr>, functional_group <chr>,
+#> #   vulnerability <dbl>, data_policy_beltfish <chr>, project_notes <chr>,
+#> #   site_notes <chr>, management_notes <chr>, sample_unit_id <chr>,
+#> #   sample_event_id <chr>, contact_link <chr>
+>>>>>>> Rework README to be brief, and link to site
 ```
 
-### Other data
-
-There is additional data available from the MERMAID API, both related to
-specific projects and not. If you think you’ll need to use these, please
-see the help for them by typing `?mermaid_get_endpoint` or
-`?mermaid_get_project_endpoint`.
+This is a small sample of the wealth of data that’s available on your
+MERMAID projects, and on the ecosystem as a whole\! Please explore the
+[package website](https://data-mermaid.github.io/mermaidr/) for more.
