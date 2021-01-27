@@ -1,3 +1,7 @@
+# mermaidr 0.2.1
+
+* Terminating `httr::RETRY()` after one failure if the status code indicates an unauthorized request; no need to retry in those cases.
+
 # mermaidr 0.2.0
 
 * Big addition of Benthic LIT, Bleaching, and Habitat Complexity methods in `mermaid_get_project_data()`, and additional fields available in Fish Belt and Benthic PIT endpoints.
