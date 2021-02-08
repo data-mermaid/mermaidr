@@ -133,6 +133,14 @@ test_that("mermaid_get_project_data with multiple methods returns a list with mu
   expect_named(output[["benthicpit"]], project_data_columns[["benthicpits/sampleevents"]])
 })
 
+test_that("ACA covariates are included in all aggregated endpoints", {
+  expect_true(
+    project_data_columns %>%
+      purrr::map_lgl(~ all(c("aca_geomorphic", "aca_benthic") %in% .x)) %>%
+      all()
+  )
+})
+
 # Testing aggregation views ----
 
 # Fishbelt ----
