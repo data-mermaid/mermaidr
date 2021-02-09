@@ -135,8 +135,8 @@ initial_cleanup <- function(results, endpoint) {
 
   if ("covariates" %in% names(results)) {
     results <- results %>%
-      dplyr::mutate(covariates = purrr::map(covariates, expand_covariates)) %>%
-      tidyr::unnest(covariates)
+      dplyr::mutate(covariates = purrr::map(.data$covariates, expand_covariates)) %>%
+      tidyr::unnest(.data$covariates)
   }
 
   if (endpoint != "choices") {
@@ -191,9 +191,9 @@ collapse_id_name_lists <- function(results) {
 
 expand_covariates <- function(x) {
   x %>%
-    dplyr::select(name, value) %>%
-    dplyr::mutate(value = purrr::map_chr(value, max_covariate_value)) %>%
-    tidyr::pivot_wider(names_from = name, values_from = value)
+    dplyr::select(.data$name, .data$value) %>%
+    dplyr::mutate(value = purrr::map_chr(.data$value, max_covariate_value)) %>%
+    tidyr::pivot_wider(names_from = .data$name, values_from = .data$value)
 }
 
 max_covariate_value <- function(x) {
@@ -201,6 +201,6 @@ max_covariate_value <- function(x) {
     return(NA)
   }
   x %>%
-    dplyr::filter(area == max(area)) %>%
-    dplyr::pull(name)
+    dplyr::filter(.data$area == max(.data$area)) %>%
+    dplyr::pull(.data$name)
 }

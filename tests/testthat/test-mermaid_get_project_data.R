@@ -778,6 +778,9 @@ test_that("ACA covariates are included in all aggregated endpoints", {
 })
 
 test_that("Manual extraction of ACA covariates (choosing value with highest area) matches what comes from CSV output", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
 
   project_id <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
 
