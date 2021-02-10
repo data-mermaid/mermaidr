@@ -1,3 +1,7 @@
+# mermaidr 0.2.1
+
+* Added Allen Coral Atlas to aggregated endpoints (in `mermaid_get_project_data()`).
+
 # mermaidr 0.2.0
 
 * Big addition of Benthic LIT, Bleaching, and Habitat Complexity methods in `mermaid_get_project_data()`, and additional fields available in Fish Belt and Benthic PIT endpoints.
