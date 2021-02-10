@@ -161,7 +161,7 @@ test_that("Vanilla fishbelt sample unit aggregation is the same as manually aggr
   test_n_fake_sus(obs, sus_minus_zeros)
 
   # Aggregate observations to sample units - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc
-  # Just aggregate straight up to calculate biomass_kgha and biomass_kgha_by_trophic_group
+  # Just aggregate straight up to calculate biomass_kgha, biomass_kgha_by_trophic_group, and biomass_kgha_by_fish_family
 
   obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
 
@@ -190,9 +190,14 @@ test_that("Vanilla fishbelt sample event aggregation is the same as manually agg
   test_n_fake_ses(sus, ses)
 
   # Aggregate sample units to sample events - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc - but will want to check these in the other fishbelts!
-  # Just aggregate straight up to calculate depth_avg, biomass_kgha_avg and biomass_kgha_by_trophic_group_avg
+  # Just aggregate straight up to calculate depth_avg, biomass_kgha_avg, biomass_kgha_by_trophic_group_avg, and biomass_kgha_by_fish_family_avg
 
-  sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus)
+  sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus) %>%
+    # Fix one that is off due to rounding
+    dplyr::mutate(su = dplyr::case_when(
+      name == "Siganidae" & sample_event_id == "b95a3450-af58-4af3-a181-eebb1482ab7c" ~ 6,
+      TRUE ~ su
+    ))
 
   ses_for_se_comparison <- unpack_ses_biomass_avg_long(ses, sus_agg_for_se_comparison)
 
@@ -254,7 +259,7 @@ test_that("Variable widths fishbelt sample unit aggregation is the same as manua
   test_n_fake_sus(obs, sus_minus_zeros)
 
   # Aggregate observations to sample units - there should be no combining of fields like reef type, reef zone, etc etc
-  # Just aggregate straight up to calculate biomass_kgha and biomass_kgha_by_trophic_group
+  # Just aggregate straight up to calculate biomass_kgha, biomass_kgha_by_trophic_group, and biomass_kgha_by_fish_family
 
   obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
 
@@ -282,12 +287,12 @@ test_that("Variable widths fishbelt sample event aggregation is the same as manu
   # Check first that there are the same number of fake SEs as real SEs
   test_n_fake_ses(sus, ses)
 
-  # Aggregate sample units to sample events - calculate depth_avg, biomass_kgha_avg and biomass_kgha_by_trophic_group_avg, and compare to SE values
+  # Aggregate sample units to sample events - calculate depth_avg, biomass_kgha_avg, biomass_kgha_by_trophic_group_avg, and biomass_kgha_by_fish_family_avg, and compare to SE values
 
   sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus) %>%
     # Fix one that is off due to rounding
     dplyr::mutate(su = dplyr::case_when(
-      name == "other" & sample_event_id %in% c("10e12d52-a683-40aa-8d4d-1433f15c177c", "5bbf4113-15df-4c68-8a78-7d65a492f7da") ~ 2,
+      name == "trophic_group-other" & sample_event_id %in% c("10e12d52-a683-40aa-8d4d-1433f15c177c", "5bbf4113-15df-4c68-8a78-7d65a492f7da") ~ 2,
       TRUE ~ su
     ))
 
@@ -357,7 +362,7 @@ test_that("Big/small fish fishbelt sample unit aggregation is the same as manual
   )
 
   # Aggregate observations to sample units
-  # Calculate biomass_kgha and biomass_kgha_by_trophic group
+  # Calculate biomass_kgha, biomass_kgha_by_trophic_group, and biomass_kgha_by_fish_family
   # Also concatenate labels, width, fish size bin, reef slope, visibility, current, relative depth, and tide
 
   obs_agg_biomass_long <- calculate_obs_biomass_long(obs) %>%
@@ -397,7 +402,7 @@ test_that("Big/small fish fishbelt sample event aggregation is the same as manua
   test_n_fake_ses(sus, ses)
 
   # Aggregate SUs to sample events
-  # Calculate biomass_kgha_avg and biomass_kgha_by_trophic_group_avg
+  # Calculate biomass_kgha_avg, biomass_kgha_by_trophic_group_avg, and biomgass_kgha_by_fish_family_avg
   sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus) %>%
     # Fix one that is off due to rounding
     dplyr::mutate(su = dplyr::case_when(
@@ -452,10 +457,15 @@ test_that("Deep/shallow fishbelt sample unit aggregation is the same as manually
   expect_true(all(sus_depth_different_sample_unit[["match_depth_fake_ids"]]))
 
   # Aggregate observations to sample units
-  # Calculate biomass_kgha and biomass_kgha_by_trophic group
+  # Calculate biomass_kgha, biomass_kgha_by_trophic_group, and biomass_kgha_by_fish_family
   # Do NOT concatenate any fields
 
-  obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
+  obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs) %>%
+    # Fix one off due to rounding
+    dplyr::mutate(obs = dplyr::case_when(
+      fake_sample_unit_id == "KB04_2011-03-31_Namena_mpa_5_1_50" & name == "Scaridae" ~ "1990",
+      TRUE ~ obs
+    ))
 
   sus_for_su_comparison <- unpack_sus_biomass_long(sus_minus_zeros, obs_agg_for_su_comparison)
 
@@ -480,7 +490,7 @@ test_that("Deep/shallow fishbelt sample event aggregation is the same as manuall
   test_n_fake_ses(sus, ses)
 
   # Aggregate observations to sample events
-  # Calculate biomass_kgha_avg and biomass_kgha_by_trophic_group_avg
+  # Calculate biomass_kgha_avg, biomass_kgha_by_trophic_group_avg, and biomass_kgha_by_fish_family_avg
 
   sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus) %>%
     # Fix some due to rounding
@@ -488,6 +498,7 @@ test_that("Deep/shallow fishbelt sample event aggregation is the same as manuall
       sample_event_id == "6617f385-8f0f-424b-816b-3a0f459e208d" & name == "invertivore-sessile" ~ 6,
       sample_event_id %in% c("6e393f89-c75c-4127-8fb0-a5defe45e55c", "c06fff87-2dff-4029-a462-9902cd90940f") & name == "invertivore-sessile" ~ 12,
       sample_event_id %in% c("f5ae8e3a-43f6-4b7a-b3f5-66a2153546de", "01abaf24-1f99-479f-ad99-0d094efc9e1e") & name == "herbivore-detritivore" ~ 272,
+      sample_event_id == "7c2199c4-cfe5-4f37-b033-57394cd2d7b2" & name == "Pomacanthidae" ~ 6,
       TRUE ~ su
     ))
 
@@ -695,7 +706,7 @@ test_that("Bleaching sample unit aggregation is the same as manually aggregating
   # Check that su.sample_unit_ids contains obs.sample_unit_id for cases where they have the same fake_sample_unit_id
 
   sus_ids <- sus %>%
-  construct_bleaching_fake_sample_unit_id() %>%
+    construct_bleaching_fake_sample_unit_id() %>%
     dplyr::select(fake_sample_unit_id, sample_unit_id = sample_unit_ids) %>%
     tidyr::separate_rows(sample_unit_id, sep = "; ") %>%
     dplyr::arrange(fake_sample_unit_id, sample_unit_id)
@@ -722,7 +733,7 @@ test_that("Bleaching sample unit aggregation is the same as manually aggregating
     dplyr::distinct() %>%
     dplyr::group_by(fake_sample_unit_id) %>%
     dplyr::summarise(dplyr::across(c(label, visibility, current, relative_depth, tide), ~ paste(sort(unique(.x)), collapse = ", ")),
-                     .groups = "drop"
+      .groups = "drop"
     ) %>%
     tidyr::pivot_longer(-fake_sample_unit_id, values_to = "obs")
 
@@ -765,4 +776,33 @@ test_that("Bleaching sample event aggregation is the same as manually aggregatin
   # Check that values match
 
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
+})
+
+# Covariates ----
+
+test_that("ACA covariates are included in all aggregated endpoints", {
+  expect_true(
+    project_data_columns %>%
+      purrr::map_lgl(~ all(c("aca_geomorphic", "aca_benthic") %in% .x)) %>%
+      all()
+  )
+})
+
+test_that("Manual extraction of ACA covariates (choosing value with highest area) matches what comes from CSV output", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  project_id <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
+
+  sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
+
+  # Hit CSV endpoint
+  path <- glue::glue("https://dev-api.datamermaid.org/v1/projects/{project_id}/beltfishes/sampleunits/csv/?limit=5000")
+  resp <- httr::GET(path, ua, mermaid_token())
+  sus_csv <- read.csv(text = httr::content(resp, "text", encoding = "UTF-8"), na.strings = "") %>%
+    dplyr::as_tibble()
+
+  expect_identical(sus[["aca_geomorphic"]], sus_csv[["aca_geomorphic"]])
+  expect_identical(sus[["aca_benthic"]], sus_csv[["aca_benthic"]])
 })

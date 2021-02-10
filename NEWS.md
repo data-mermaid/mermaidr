@@ -1,3 +1,8 @@
+# mermaidr 0.2.2
+
+* Added Allen Coral Atlas to all aggregated endpoints (in `mermaid_get_project_data()`).
+* Added `biomass_kgha_by_fish_family` and `biomass_kgha_by_fish_family_avg` to fishbelt sample units and sample events, respectively (in `mermaid_get_project_data()`).
+
 # mermaidr 0.2.1
 
 * Terminating `httr::RETRY()` after one failure if the status code indicates an unauthorized request; no need to retry in those cases.
