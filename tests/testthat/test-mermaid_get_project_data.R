@@ -766,3 +766,32 @@ test_that("Bleaching sample event aggregation is the same as manually aggregatin
 
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
+
+# Covariates ----
+
+test_that("ACA covariates are included in all aggregated endpoints", {
+  expect_true(
+    project_data_columns %>%
+      purrr::map_lgl(~ all(c("aca_geomorphic", "aca_benthic") %in% .x)) %>%
+      all()
+  )
+})
+
+test_that("Manual extraction of ACA covariates (choosing value with highest area) matches what comes from CSV output", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  project_id <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
+
+  sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
+
+  # Hit CSV endpoint
+  path <- glue::glue("https://dev-api.datamermaid.org/v1/projects/{project_id}/beltfishes/sampleunits/csv/?limit=5000")
+  resp <- httr::GET(path, ua, mermaid_token())
+  sus_csv <- read.csv(text = httr::content(resp, "text", encoding = "UTF-8"), na.strings = "") %>%
+    dplyr::as_tibble()
+
+  expect_identical(obs[["aca_geomorphic"]], sus_csv[["aca_geomorphic"]])
+  expect_identical(obs[["aca_benthic"]], sus_csv[["aca_benthic"]])
+})

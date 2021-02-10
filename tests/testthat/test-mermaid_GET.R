@@ -58,3 +58,55 @@ test_that("suppress_http_warning suppresses HTTP warnings", {
   # expect_warning(httr::GET("https://dev-api.datamermaid.org/v1/projects/"))
   expect_silent(suppress_http_warning(httr::GET("https://dev-api.datamermaid.org/v1/projects/")))
 })
+
+test_that("expand_covariates pulls max value and can handle both covariates present, one missing, and both missing", {
+  both_present <- dplyr::tibble(
+    id = c(1, 1),
+    name = c("name_1", "name_2"),
+    value = list(
+      dplyr::tibble(name = c("subname_1", "subname_2"), area = c(1, 2)),
+      dplyr::tibble(name = c("subname_3", "subname_4"), area = c(3, 4))
+    )
+  ) %>%
+    tidyr::nest(covariates = c(id, name, value)) %>%
+    dplyr::mutate(id = 1)
+
+  one_missing <- dplyr::tibble(
+    id = c(1, 1),
+    name = c("name_1", "name_2"),
+    value = list(
+      dplyr::tibble(name = c("subname_1", "subname_2"), area = c(1, 2)),
+      dplyr::tibble()
+    )
+  ) %>%
+    tidyr::nest(covariates = c(id, name, value)) %>%
+    dplyr::mutate(id = 2)
+
+  both_missing <- dplyr::tibble(
+    id = c(1, 1),
+    name = c("name_1", "name_2"),
+    value = list(
+      dplyr::tibble(),
+      dplyr::tibble()
+    )
+  ) %>%
+    tidyr::nest(covariates = c(id, name, value)) %>%
+    dplyr::mutate(id = 3)
+
+  covariates_df <- both_present %>%
+    dplyr::bind_rows(one_missing) %>%
+    dplyr::bind_rows(both_missing)
+
+  covariates_expanded <- covariates_df %>%
+    dplyr::mutate(covariates = purrr::map(covariates, expand_covariates)) %>%
+    tidyr::unnest(covariates)
+
+  expected <- tibble::tribble(
+    ~name_1, ~name_2, ~id,
+    "subname_2", "subname_4", 1,
+    "subname_2", NA_character_, 2,
+    NA_character_, NA_character_, 3
+  )
+
+  expect_identical(covariates_expanded, expected)
+})

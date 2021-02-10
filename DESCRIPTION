@@ -1,6 +1,6 @@
 Package: mermaidr
 Title: Interface to the 'MERMAID' API
-Version: 0.2.0
+Version: 0.2.0.0001
 Authors@R: 
     c(person(given = "Sharla",
            family = "Gelfand",

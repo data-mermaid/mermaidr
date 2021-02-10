@@ -133,6 +133,12 @@ initial_cleanup <- function(results, endpoint) {
       dplyr::select(-.data$type)
   }
 
+  if ("covariates" %in% names(results)) {
+    results <- results %>%
+      dplyr::mutate(covariates = purrr::map(.data$covariates, expand_covariates)) %>%
+      tidyr::unnest(.data$covariates)
+  }
+
   if (endpoint != "choices") {
     results <- collapse_id_name_lists(results)
 
@@ -181,4 +187,20 @@ collapse_id_name_lists <- function(results) {
   }
 
   results
+}
+
+expand_covariates <- function(x) {
+  x %>%
+    dplyr::select(.data$name, .data$value) %>%
+    dplyr::mutate(value = purrr::map_chr(.data$value, max_covariate_value)) %>%
+    tidyr::pivot_wider(names_from = .data$name, values_from = .data$value)
+}
+
+max_covariate_value <- function(x) {
+  if (length(x) == 0) {
+    return(NA)
+  }
+  x %>%
+    dplyr::filter(.data$area == max(.data$area)) %>%
+    dplyr::pull(.data$name)
 }
