@@ -71,60 +71,111 @@ test_obs_vs_sus_agg <- function(obs_agg, sus_agg) {
 ## Obs to SUs
 
 # Calculate biomass from observations, and convert to long format
-calculate_obs_biomass_long <- function(obs) {
-  obs_agg <- obs %>%
-    dplyr::mutate(trophic_group = dplyr::coalesce(.data$trophic_group, "other")) %>%
-    dplyr::group_by(.data$fake_sample_unit_id, .data$trophic_group) %>%
-    dplyr::summarise(biomass_kgha_by_trophic_group = sum(.data$biomass_kgha, na.rm = TRUE), .groups = "drop_last") %>%
-    dplyr::mutate(biomass_kgha = sum(.data$biomass_kgha_by_trophic_group)) %>%
-    dplyr::ungroup() %>%
-    tidyr::pivot_wider(names_from = .data$trophic_group, values_from = .data$biomass_kgha_by_trophic_group)
+calculate_obs_biomass_long <- function(obs, aggregate_cols = c("trophic_group", "fish_family")) {
+  aggregate_by_col <- function(col) {
+    col <- dplyr::sym(col)
 
-  obs_agg %>%
-    dplyr::mutate_if(is.numeric, round) %>%
-    dplyr::mutate_all(as.character) %>%
-    tidyr::pivot_longer(-.data$fake_sample_unit_id, values_to = "obs")
+    obs %>%
+      dplyr::mutate({{ col }} := dplyr::coalesce({{ col }}, glue::glue("{rlang::as_string(col)}-other"))) %>%
+      dplyr::group_by(.data$fake_sample_unit_id, {{ col }}) %>%
+      dplyr::summarise(biomass_by_col = sum(.data$biomass_kgha, na.rm = TRUE), .groups = "drop_last") %>%
+      dplyr::mutate(biomass_kgha = sum(.data$biomass_by_col)) %>%
+      dplyr::ungroup() %>%
+      tidyr::pivot_wider(names_from = {{ col }}, values_from = .data$biomass_by_col) %>%
+      dplyr::mutate_if(is.numeric, round) %>%
+      dplyr::mutate_all(as.character) %>%
+      tidyr::pivot_longer(-.data$fake_sample_unit_id, values_to = "obs")
+  }
+
+  aggregate_cols %>%
+    purrr::map(aggregate_by_col) %>%
+    dplyr::bind_rows() %>%
+    dplyr::distinct()
 }
 
 # Unpack biomass from SUs, and convert to long format
-unpack_sus_biomass_long <- function(sus, obs_agg) {
-  sus %>%
-    tidyr::unpack(.data$biomass_kgha_by_trophic_group) %>%
-    dplyr::select(.data$fake_sample_unit_id, dplyr::all_of(obs_agg[["name"]])) %>%
-    dplyr::mutate_if(is.numeric, round) %>%
-    dplyr::mutate_all(as.character) %>%
-    tidyr::pivot_longer(-.data$fake_sample_unit_id, values_to = "su")
+unpack_sus_biomass_long <- function(sus, obs_agg, aggregate_cols = c("trophic_group", "fish_family")) {
+  unpack_by_col <- function(col, obs_agg) {
+    col_full <- glue::glue("biomass_kgha_by_{col}")
+    col_full <- dplyr::sym(col_full)
+
+    sus %>%
+      tidyr::unpack({{ col_full }}) %>%
+      dplyr::select(.data$fake_sample_unit_id, dplyr::any_of(c(obs_agg[["name"]], "other"))) %>%
+      dplyr::mutate_if(is.numeric, round) %>%
+      dplyr::mutate_all(as.character) %>%
+      tidyr::pivot_longer(-.data$fake_sample_unit_id, values_to = "su") %>%
+      dplyr::mutate(name = dplyr::case_when(
+        name == "other" ~ glue::glue("{col}-other"),
+        TRUE ~ name
+      ))
+  }
+
+  aggregate_cols %>%
+    purrr::map(unpack_by_col, obs_agg) %>%
+    dplyr::bind_rows() %>%
+    dplyr::distinct()
 }
 
 # SUs to SEs
 
 # Calculate avg biomass from sus, and convert to long format
-calculate_sus_biomass_avg_long <- function(sus) {
-  biomass_kgha_by_trophic_group_cols <- sus %>%
-    dplyr::pull(.data$biomass_kgha_by_trophic_group) %>%
-    names()
+calculate_sus_biomass_avg_long <- function(sus, aggregate_cols = c("trophic_group", "fish_family")) {
+  avg_by_col <- function(col) {
+    col_full <- glue::glue("biomass_kgha_by_{col}")
+    col_full <- dplyr::sym(col_full)
 
-  sus %>%
-    tidyr::unpack(.data$biomass_kgha_by_trophic_group) %>%
-    dplyr::select(.data$sample_event_id, dplyr::all_of(biomass_kgha_by_trophic_group_cols), biomass_kgha_avg = .data$biomass_kgha, depth_avg = .data$depth) %>%
-    tidyr::pivot_longer(-.data$sample_event_id, values_to = "su") %>%
-    dplyr::filter(!is.na(.data$su)) %>%
-    dplyr::group_by(.data$sample_event_id, .data$name) %>%
-    dplyr::summarise(
-      su = round(mean(.data$su)),
-      .groups = "drop"
-    )
+    kgha_by_col_cols <- sus %>%
+      dplyr::pull({{ col_full }}) %>%
+      names()
+
+    sus %>%
+      tidyr::unpack({{ col_full }}) %>%
+      dplyr::select(.data$sample_event_id, dplyr::all_of(kgha_by_col_cols), biomass_kgha_avg = .data$biomass_kgha, depth_avg = .data$depth) %>%
+      tidyr::pivot_longer(-.data$sample_event_id, values_to = "su") %>%
+      dplyr::filter(!is.na(.data$su)) %>%
+      dplyr::group_by(.data$sample_event_id, .data$name) %>%
+      dplyr::summarise(
+        su = round(mean(.data$su)),
+        .groups = "drop"
+      ) %>%
+      dplyr::mutate(name = dplyr::case_when(
+        name == "other" ~ glue::glue("{col}-other"),
+        TRUE ~ name
+      ))
+  }
+
+  aggregate_cols %>%
+    purrr::map(avg_by_col) %>%
+    dplyr::bind_rows() %>%
+    dplyr::distinct()
 }
 
 # Unpack biomass from SEs, and convert to long format
-unpack_ses_biomass_avg_long <- function(ses, sus_agg) {
-  ses %>%
-    tidyr::unpack(.data$biomass_kgha_by_trophic_group_avg) %>%
-    dplyr::rename(sample_event_id = .data$id) %>%
-    dplyr::select(.data$sample_event_id, sus_agg[["name"]]) %>%
-    tidyr::pivot_longer(-.data$sample_event_id, values_to = "se") %>%
-    dplyr::filter(!is.na(.data$se)) %>%
-    dplyr::mutate(se = round(.data$se))
+unpack_ses_biomass_avg_long <- function(ses, sus_agg, aggregate_cols = c("trophic_group", "fish_family")) {
+
+  unpack_by_col <- function(col, sus_agg) {
+
+    col_full <- glue::glue("biomass_kgha_by_{col}_avg")
+    col_full <- dplyr::sym(col_full)
+
+    ses %>%
+      tidyr::unpack({{col_full}}) %>%
+      dplyr::rename(sample_event_id = .data$id) %>%
+      dplyr::select(.data$sample_event_id, dplyr::any_of(c(sus_agg[["name"]], "other"))) %>%
+      tidyr::pivot_longer(-.data$sample_event_id, values_to = "se") %>%
+      dplyr::filter(!is.na(.data$se)) %>%
+      dplyr::mutate(se = round(.data$se)) %>%
+      dplyr::mutate(name = dplyr::case_when(
+        name == "other" ~ glue::glue("{col}-other"),
+        TRUE ~ name
+      ))
+  }
+
+  aggregate_cols %>%
+    purrr::map(unpack_by_col, sus_agg) %>%
+    dplyr::bind_rows() %>%
+    dplyr::distinct()
 }
 
 # Benthic LIT ----
