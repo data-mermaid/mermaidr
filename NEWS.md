@@ -1,3 +1,7 @@
+# mermaidr 0.2.2
+
+* Added Allen Coral Atlas to aggregated endpoints (in `mermaid_get_project_data()`).
+
 # mermaidr 0.2.1
 
 * Terminating `httr::RETRY()` after one failure if the status code indicates an unauthorized request; no need to retry in those cases.
