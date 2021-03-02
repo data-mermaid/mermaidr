@@ -1,3 +1,7 @@
+# mermaidr 0.2.3
+
+* Added `mermaid_clean_columns()` function (from archived `mermaidreporting` package) to easily unpack and clean up df-cols coming from MERMAID API.
+
 # mermaidr 0.2.2
 
 * Added Allen Coral Atlas to all aggregated endpoints (in `mermaid_get_project_data()`).
