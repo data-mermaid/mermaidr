@@ -21,7 +21,7 @@ options(tibble.max_extra_cols = 20)
 [![R build status](https://github.com/data-mermaid/mermaidr/workflows/R-CMD-check/badge.svg)](https://github.com/data-mermaid/mermaidr/actions)
 <!-- badges: end -->
 
-`mermaidr` is an R package that enables you to access data from [`MERMAID`](https://datamermaid.org/),
+`mermaidr` is an R package that enables you to access data from [MERMAID](https://datamermaid.org/),
 an open-source data platform developed to help you collect, analyze, and share coral reef monitoring data. Through `mermaidr` you can access data input in the collection portal, [MERMAID Collect](https://collect.datamermaid.org/), directly from R.
 
 For more information and detailed instructions on usage, please visit the [package website](https://data-mermaid.github.io/mermaidr/).
@@ -66,14 +66,14 @@ wcs_mozambique <- projects %>%
 
 You can access data collected on fishbelt, benthic LIT, benthic PIT, bleaching, or habitat complexity - the main function to pull data related to your project is `mermaid_get_project_data()`:
 
-```{r, eval = FALSE}
+```{r}
 wcs_mozambique_fishbelt_samples <- wcs_mozambique %>%
   mermaid_get_project_data(method = "fishbelt", data = "sampleevents")
 ```
 
-The `data = "sampleevents"` argument specifies that I'd like to pull data summarised to the level of a sample **event**, which is a site and date - we can see that this pulls information about the site and date of samples, along with aggregations like the total biomass of that site/date, and broken down by trophic group.
+The `data = "sampleevents"` argument specifies that I'd like to pull data summarised to the level of a sample **event**, which is a site and date - we can see that this pulls information about the site and date of samples, along with aggregations like the total biomass of that site/date, and broken down by trophic group and fish family.
 
-```{r, eval = FALSE}
+```{r}
 wcs_mozambique_fishbelt_samples
 ```
 

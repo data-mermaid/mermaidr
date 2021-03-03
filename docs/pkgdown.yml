@@ -1,0 +1,10 @@
+pandoc: 2.11.2
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  github: github.html
+  r: r.html
+  visualizing: visualizing.html
+  vo_baseline_monitoring: vo_baseline_monitoring.html
+last_built: 2021-03-03T21:27Z
+
