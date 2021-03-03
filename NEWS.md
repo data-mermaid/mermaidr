@@ -1,4 +1,6 @@
-# mermaidr 0.2.3
+# mermaidr 0.3.0
+
+* Updated `mermaid_get_project_data()` function to automatically unpack and rename any data frame columns. This affects the X, Y, and Z methods, for both "sampleunits" and "sampleevents" data, removing the columns X, Y, and Z, respectively, and instead replacing them with X, Y, and Z.
 
 * Added `mermaid_clean_columns()` function (from archived `mermaidreporting` package) to easily unpack and clean up df-cols coming from MERMAID API.
 
