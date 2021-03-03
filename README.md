@@ -94,17 +94,18 @@ library(mermaidr)
 my_projects <- mermaid_get_my_projects()
 
 my_projects
-#> # A tibble: 8 x 14
+#> # A tibble: 9 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
 #>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
 #> 1 2d6c… WCS … Mozambiq…        74 "WCS… "Dat… Open   Private         
 #> 2 3a9e… Aceh… Indonesia        18 "Vib… ""    Open   Private         
 #> 3 4080… Mada… Madagasc…        74 "WCS… "MAC… Open   Private         
-#> 4 507d… Kari… Indonesia        43 "Vib… ""    Open   Private         
-#> 5 5679… Mada… Madagasc…        33 "WCS… ""    Open   Public Summary  
-#> 6 75ef… Kubu… Fiji             78 "WCS… ""    Open   Private         
-#> 7 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
-#> 8 a1b7… Grea… Fiji             76 "Fij… ""    Open   Private         
+#> 4 4d23… Mada… Madagasc…        16 "WCS… "Mon… Open   Public Summary  
+#> 5 507d… Kari… Indonesia        43 "Vib… ""    Open   Private         
+#> 6 5679… Mada… Madagasc…        33 "WCS… ""    Open   Public Summary  
+#> 7 75ef… Kubu… Fiji             78 "WCS… ""    Open   Private         
+#> 8 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
+#> 9 a1b7… Grea… Fiji             76 "Fij… ""    Open   Private         
 #> # … with 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
@@ -246,14 +247,7 @@ xpdc %>%
 #> #   management_size <lgl>, management_parties <lgl>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
 #> #   sample_time <chr>, transect_length <int>, transect_width <chr>,
-#> #   size_bin <chr>, observers <chr>, depth <dbl>, transect_number <int>,
-#> #   label <chr>, fish_family <chr>, fish_genus <chr>, fish_taxon <chr>,
-#> #   size <dbl>, biomass_constant_a <dbl>, biomass_constant_b <dbl>,
-#> #   biomass_constant_c <dbl>, count <int>, biomass_kgha <dbl>,
-#> #   trophic_level <dbl>, trophic_group <chr>, functional_group <chr>,
-#> #   vulnerability <dbl>, data_policy_beltfish <chr>, project_notes <chr>,
-#> #   site_notes <chr>, management_notes <chr>, sample_unit_id <chr>,
-#> #   sample_event_id <chr>, contact_link <chr>
+#> #   size_bin <chr>, …
 ```
 
 You can access sample units data, which are observations aggregated to
@@ -263,7 +257,7 @@ kg/ha per sample unit, by trophic group:
 ``` r
 xpdc %>%
   mermaid_get_project_data("fishbelt", "sampleunits")
-#> # A tibble: 246 x 44
+#> # A tibble: 246 x 66
 #>    project tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #>  1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
@@ -282,21 +276,7 @@ xpdc %>%
 #> #   management <chr>, management_secondary <chr>, management_est_year <lgl>,
 #> #   management_size <lgl>, management_parties <lgl>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   sample_time <chr>, depth <dbl>, transect_number <int>, label <chr>,
-#> #   size_bin <chr>, transect_length <int>, transect_width <chr>,
-#> #   biomass_kgha <dbl>, total_abundance <int>,
-#> #   biomass_kgha_by_trophic_group$omnivore <dbl>, $piscivore <dbl>,
-#> #   $planktivore <dbl>, $`invertivore-mobile` <dbl>,
-#> #   $`herbivore-detritivore` <dbl>, $`invertivore-sessile` <dbl>,
-#> #   $`herbivore-macroalgae` <dbl>, $other <dbl>,
-#> #   biomass_kgha_by_fish_family$Labridae <dbl>, $Scaridae <dbl>,
-#> #   $Siganidae <dbl>, $Lutjanidae <dbl>, $Acanthuridae <dbl>,
-#> #   $Nemipteridae <dbl>, $Caesioinidae <dbl>, $Serranidae <dbl>,
-#> #   $Chaetodontidae <dbl>, $Haemulidae <dbl>, $Carangidae <dbl>,
-#> #   $Lethrinidae <dbl>, $Zanclidae <dbl>, $Dasyatidae <dbl>, $Mullidae <dbl>,
-#> #   $Aulostomidae <dbl>, data_policy_beltfish <chr>, project_notes <chr>,
-#> #   site_notes <chr>, management_notes <chr>, sample_event_notes <chr>,
-#> #   sample_event_id <chr>, sample_unit_ids <chr>, id <lgl>, contact_link <chr>
+#> #   sample_time <chr>, depth <dbl>, transect_number <int>, label <chr>, …
 ```
 
 And finally, sample events data, which are aggregated further, to the
@@ -308,7 +288,7 @@ xpdc_sample_events <- xpdc %>%
   mermaid_get_project_data("fishbelt", "sampleevents")
 
 xpdc_sample_events
-#> # A tibble: 46 x 34
+#> # A tibble: 46 x 56
 #>    project tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #>  1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
@@ -327,18 +307,10 @@ xpdc_sample_events
 #> #   management_size <lgl>, management_parties <lgl>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
 #> #   depth_avg <dbl>, biomass_kgha_avg <dbl>,
-#> #   biomass_kgha_by_trophic_group_avg$omnivore <dbl>, $piscivore <dbl>,
-#> #   $planktivore <dbl>, $`invertivore-mobile` <dbl>,
-#> #   $`herbivore-detritivore` <dbl>, $`invertivore-sessile` <dbl>,
-#> #   $`herbivore-macroalgae` <dbl>, $other <dbl>,
-#> #   biomass_kgha_by_fish_family_avg$Labridae <dbl>, $Scaridae <dbl>,
-#> #   $Siganidae <dbl>, $Carangidae <dbl>, $Haemulidae <dbl>, $Lutjanidae <dbl>,
-#> #   $Serranidae <dbl>, $Lethrinidae <dbl>, $Acanthuridae <dbl>,
-#> #   $Caesioinidae <dbl>, $Nemipteridae <dbl>, $Chaetodontidae <dbl>,
-#> #   $Zanclidae <dbl>, $Dasyatidae <dbl>, $Mullidae <dbl>, $Aulostomidae <dbl>,
-#> #   data_policy_beltfish <chr>, project_notes <chr>, site_notes <chr>,
-#> #   management_notes <chr>, sample_event_notes <chr>, id <chr>,
-#> #   sample_unit_count <int>, contact_link <chr>
+#> #   biomass_kgha_trophic_group_avg_omnivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_piscivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_planktivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_invertivore_mobile <dbl>, …
 ```
 
 ##### A note on saving data
@@ -377,16 +349,11 @@ xpdc_sample_events_clean
 #> #   management <chr>, management_secondary <chr>, management_est_year <lgl>,
 #> #   management_size <lgl>, management_parties <lgl>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   depth_avg <dbl>, biomass_kgha_avg <dbl>, omnivore <dbl>, piscivore <dbl>,
-#> #   planktivore <dbl>, invertivore_mobile <dbl>, herbivore_detritivore <dbl>,
-#> #   invertivore_sessile <dbl>, herbivore_macroalgae <dbl>, other <dbl>,
-#> #   labridae <dbl>, scaridae <dbl>, siganidae <dbl>, carangidae <dbl>,
-#> #   haemulidae <dbl>, lutjanidae <dbl>, serranidae <dbl>, lethrinidae <dbl>,
-#> #   acanthuridae <dbl>, caesioinidae <dbl>, nemipteridae <dbl>,
-#> #   chaetodontidae <dbl>, zanclidae <dbl>, dasyatidae <dbl>, mullidae <dbl>,
-#> #   aulostomidae <dbl>, data_policy_beltfish <chr>, project_notes <chr>,
-#> #   site_notes <chr>, management_notes <chr>, sample_event_notes <chr>,
-#> #   id <chr>, sample_unit_count <int>, contact_link <chr>
+#> #   depth_avg <dbl>, biomass_kgha_avg <dbl>,
+#> #   biomass_kgha_trophic_group_avg_omnivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_piscivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_planktivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_invertivore_mobile <dbl>, …
 ```
 
 Then, you can save the data:
@@ -428,12 +395,7 @@ mozambique %>%
 #> #   management_size <lgl>, management_parties <chr>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
 #> #   sample_time <chr>, depth <dbl>, transect_number <int>,
-#> #   transect_length <int>, label <chr>, observers <chr>,
-#> #   benthic_category <chr>, benthic_attribute <chr>, growth_form <chr>,
-#> #   length <int>, total_length <int>, data_policy_benthiclit <chr>,
-#> #   project_notes <chr>, site_notes <chr>, management_notes <chr>,
-#> #   observation_notes <chr>, sample_unit_id <chr>, sample_event_id <chr>,
-#> #   contact_link <chr>
+#> #   transect_length <int>, …
 ```
 
 You can access sample units and sample events the same way.
@@ -445,7 +407,7 @@ sample event, by benthic category.
 ``` r
 mozambique %>%
   mermaid_get_project_data(method = "benthiclit", data = "sampleunits")
-#> # A tibble: 63 x 41
+#> # A tibble: 63 x 48
 #>    project tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>   <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #>  1 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
@@ -465,13 +427,7 @@ mozambique %>%
 #> #   management_size <lgl>, management_parties <chr>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
 #> #   sample_time <chr>, depth <dbl>, transect_number <int>,
-#> #   transect_length <int>, label <chr>, observers <chr>, total_length <int>,
-#> #   percent_cover_by_benthic_category$`Hard coral` <dbl>, $Macroalgae <dbl>,
-#> #   $`Soft coral` <dbl>, $`Turf algae` <dbl>, $`Crustose coralline
-#> #   algae` <dbl>, $Sand <dbl>, $`Other invertebrates` <dbl>, $Seagrass <dbl>,
-#> #   data_policy_benthiclit <chr>, project_notes <chr>, site_notes <chr>,
-#> #   management_notes <chr>, sample_event_notes <chr>, sample_event_id <chr>,
-#> #   sample_unit_ids <chr>, id <lgl>, contact_link <chr>
+#> #   transect_length <int>, …
 ```
 
 #### Benthic PIT data
@@ -501,12 +457,7 @@ xpdc %>%
 #> #   management_size <lgl>, management_parties <lgl>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
 #> #   sample_time <chr>, depth <dbl>, transect_number <int>,
-#> #   transect_length <int>, interval_start <dbl>, interval_size <dbl>,
-#> #   label <chr>, observers <chr>, interval <dbl>, benthic_category <chr>,
-#> #   benthic_attribute <chr>, growth_form <chr>, data_policy_benthicpit <chr>,
-#> #   project_notes <chr>, site_notes <chr>, management_notes <chr>,
-#> #   observation_notes <chr>, sample_unit_id <chr>, sample_event_id <chr>,
-#> #   contact_link <chr>
+#> #   transect_length <int>, …
 ```
 
 You can access sample units and sample events the same way, and the data
@@ -523,7 +474,7 @@ xpdc_sample_units_events <- xpdc %>%
 names(xpdc_sample_units_events)
 #> [1] "sampleunits"  "sampleevents"
 xpdc_sample_units_events[["sampleunits"]]
-#> # A tibble: 111 x 42
+#> # A tibble: 111 x 49
 #>    project tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #>  1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
@@ -543,14 +494,7 @@ xpdc_sample_units_events[["sampleunits"]]
 #> #   management_size <lgl>, management_parties <lgl>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
 #> #   sample_time <chr>, depth <dbl>, transect_number <int>,
-#> #   transect_length <int>, label <chr>, interval_start <dbl>,
-#> #   interval_size <dbl>, observers <chr>,
-#> #   percent_cover_by_benthic_category$Sand <dbl>, $Rubble <dbl>, $`Hard
-#> #   coral` <dbl>, $Macroalgae <dbl>, $`Soft coral` <dbl>, $`Turf algae` <dbl>,
-#> #   $`Other invertebrates` <dbl>, $`Bare substrate` <dbl>,
-#> #   data_policy_benthicpit <chr>, project_notes <chr>, site_notes <chr>,
-#> #   management_notes <chr>, sample_event_notes <chr>, sample_event_id <chr>,
-#> #   sample_unit_ids <chr>, id <lgl>, contact_link <chr>
+#> #   transect_length <int>, …
 ```
 
 #### Bleaching
@@ -588,12 +532,7 @@ bleaching_obs[["colonies_bleached"]]
 #> #   management_size <lgl>, management_parties <chr>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
 #> #   sample_time <chr>, depth <dbl>, quadrat_size <dbl>, label <chr>,
-#> #   observers <chr>, benthic_attribute <chr>, growth_form <chr>,
-#> #   count_normal <int>, count_pale <int>, count_20 <int>, count_50 <int>,
-#> #   count_80 <int>, count_100 <int>, count_dead <int>,
-#> #   data_policy_bleachingqc <chr>, project_notes <chr>, site_notes <chr>,
-#> #   management_notes <chr>, sample_unit_id <chr>, sample_event_id <chr>,
-#> #   contact_link <chr>
+#> #   observers <chr>, …
 ```
 
 The sample units and sample events data contain summaries of both
@@ -621,13 +560,7 @@ mozambique %>%
 #> #   management_size <lgl>, management_parties <chr>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
 #> #   depth_avg <dbl>, quadrat_size_avg <dbl>, count_total_avg <dbl>,
-#> #   count_genera_avg <dbl>, percent_normal_avg <dbl>, percent_pale_avg <dbl>,
-#> #   percent_bleached_avg <dbl>, quadrat_count_avg <dbl>,
-#> #   percent_hard_avg_avg <dbl>, percent_soft_avg_avg <dbl>,
-#> #   percent_algae_avg_avg <dbl>, data_policy_bleachingqc <chr>,
-#> #   project_notes <chr>, site_notes <chr>, management_notes <chr>,
-#> #   sample_event_notes <chr>, id <chr>, sample_unit_count <int>,
-#> #   contact_link <chr>
+#> #   count_genera_avg <dbl>, percent_normal_avg <dbl>, percent_pale_avg <dbl>, …
 ```
 
 #### Habitat Complexity
@@ -650,9 +583,7 @@ xpdc %>%
 #> #   management_size <lgl>, management_parties <lgl>,
 #> #   management_compliance <lgl>, management_rules <chr>, sample_date <date>,
 #> #   depth_avg <dbl>, score_avg_avg <dbl>, data_policy_habitatcomplexity <chr>,
-#> #   project_notes <chr>, site_notes <chr>, management_notes <chr>,
-#> #   sample_event_notes <chr>, id <chr>, sample_unit_count <int>,
-#> #   contact_link <chr>
+#> #   project_notes <chr>, site_notes <chr>, management_notes <chr>, …
 ```
 
 #### Multiple methods data
@@ -673,7 +604,7 @@ names(xpdc_sample_events)
 #> [1] "fishbelt"   "benthicpit"
 
 xpdc_sample_events[["benthicpit"]]
-#> # A tibble: 38 x 32
+#> # A tibble: 38 x 39
 #>    project tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #>  1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
@@ -691,12 +622,11 @@ xpdc_sample_events[["benthicpit"]]
 #> #   management <chr>, management_secondary <chr>, management_est_year <lgl>,
 #> #   management_size <lgl>, management_parties <lgl>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   depth_avg <dbl>, percent_cover_by_benthic_category_avg$Sand <dbl>,
-#> #   $Rubble <dbl>, $`Hard coral` <dbl>, $Macroalgae <dbl>, $`Soft coral` <dbl>,
-#> #   $`Turf algae` <dbl>, $`Other invertebrates` <dbl>, $`Bare substrate` <dbl>,
-#> #   data_policy_benthicpit <chr>, project_notes <chr>, site_notes <chr>,
-#> #   management_notes <chr>, sample_event_notes <chr>, id <chr>,
-#> #   sample_unit_count <int>, contact_link <chr>
+#> #   depth_avg <dbl>, percent_cover_benthic_category_avg_sand <dbl>,
+#> #   percent_cover_benthic_category_avg_rubble <dbl>,
+#> #   percent_cover_benthic_category_avg_hard_coral <dbl>,
+#> #   percent_cover_benthic_category_avg_macroalgae <dbl>,
+#> #   percent_cover_benthic_category_avg_soft_coral <dbl>, …
 ```
 
 Alternatively, you can set `method` to “all” to pull for all methods!
@@ -723,17 +653,18 @@ projects:
 
 ``` r
 my_projects
-#> # A tibble: 8 x 14
+#> # A tibble: 9 x 14
 #>   id    name  countries num_sites tags  notes status data_policy_bel…
 #>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
 #> 1 2d6c… WCS … Mozambiq…        74 "WCS… "Dat… Open   Private         
 #> 2 3a9e… Aceh… Indonesia        18 "Vib… ""    Open   Private         
 #> 3 4080… Mada… Madagasc…        74 "WCS… "MAC… Open   Private         
-#> 4 507d… Kari… Indonesia        43 "Vib… ""    Open   Private         
-#> 5 5679… Mada… Madagasc…        33 "WCS… ""    Open   Public Summary  
-#> 6 75ef… Kubu… Fiji             78 "WCS… ""    Open   Private         
-#> 7 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
-#> 8 a1b7… Grea… Fiji             76 "Fij… ""    Open   Private         
+#> 4 4d23… Mada… Madagasc…        16 "WCS… "Mon… Open   Public Summary  
+#> 5 507d… Kari… Indonesia        43 "Vib… ""    Open   Private         
+#> 6 5679… Mada… Madagasc…        33 "WCS… ""    Open   Public Summary  
+#> 7 75ef… Kubu… Fiji             78 "WCS… ""    Open   Private         
+#> 8 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
+#> 9 a1b7… Grea… Fiji             76 "Fij… ""    Open   Private         
 #> # … with 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
@@ -742,7 +673,7 @@ my_projects
 ``` r
 my_projects %>%
   mermaid_get_project_data("fishbelt", "sampleevents", limit = 1)
-#> # A tibble: 8 x 34
+#> # A tibble: 8 x 67
 #>   project tags  country site  latitude longitude reef_type reef_zone
 #>   <chr>   <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #> 1 WCS Mo… WCS … Mozamb… Aqua…   -21.8       35.5 barrier   back reef
@@ -759,22 +690,10 @@ my_projects %>%
 #> #   management_size <dbl>, management_parties <chr>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
 #> #   depth_avg <dbl>, biomass_kgha_avg <dbl>,
-#> #   biomass_kgha_by_trophic_group_avg$piscivore <dbl>, $planktivore <dbl>,
-#> #   $`invertivore-mobile` <dbl>, $`herbivore-detritivore` <dbl>,
-#> #   $omnivore <dbl>, $`invertivore-sessile` <dbl>,
-#> #   $`herbivore-macroalgae` <dbl>, $other <dbl>,
-#> #   biomass_kgha_by_fish_family_avg$other <dbl>, $Labridae <dbl>,
-#> #   $Mullidae <dbl>, $Scaridae <dbl>, $Siganidae <dbl>, $Balistidae <dbl>,
-#> #   $Lutjanidae <dbl>, $Serranidae <dbl>, $Acanthuridae <dbl>,
-#> #   $Holocentridae <dbl>, $Pomacanthidae <dbl>, $Pomacentridae <dbl>,
-#> #   $Chaetodontidae <dbl>, $Zanclidae <dbl>, $Pempheridae <dbl>,
-#> #   $Nemipteridae <dbl>, $Synodontidae <dbl>, $Tetraodontidae <dbl>,
-#> #   $Blenniidae <dbl>, $Haemulidae <dbl>, $Caesioinidae <dbl>,
-#> #   $Apogonidae <dbl>, $Lethrinidae <dbl>, $Monocanthidae <dbl>,
-#> #   $Carangidae <dbl>, $Kyphosidae <dbl>, $Carcharhinidae <dbl>,
-#> #   data_policy_beltfish <chr>, project_notes <chr>, site_notes <chr>,
-#> #   management_notes <chr>, sample_event_notes <chr>, id <chr>,
-#> #   sample_unit_count <int>, contact_link <chr>
+#> #   biomass_kgha_trophic_group_avg_piscivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_planktivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_invertivore_mobile <dbl>,
+#> #   biomass_kgha_trophic_group_avg_herbivore_detritivore <dbl>, …
 ```
 
 Note the `limit` argument here, which just limits the data pulled to one
@@ -818,7 +737,7 @@ You can also get a list of *all* projects (not just your own):
 
 ``` r
 mermaid_get_projects()
-#> # A tibble: 124 x 14
+#> # A tibble: 125 x 14
 #>    id    name  countries num_sites tags  notes status data_policy_bel…
 #>    <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
 #>  1 0067… TPK … "Indones…        15 "WCS… ""    Open   Private         
@@ -831,7 +750,7 @@ mermaid_get_projects()
 #>  8 0f17… what  ""                0 ""    ""    Open   Public Summary  
 #>  9 124b… Sam   ""                0 ""    ""    Open   Private         
 #> 10 1277… Taka… "Indones…        39 "WCS… ""    Open   Public Summary  
-#> # … with 114 more rows, and 6 more variables: data_policy_benthiclit <chr>,
+#> # … with 115 more rows, and 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
 ```
@@ -840,7 +759,7 @@ As well as all sites:
 
 ``` r
 mermaid_get_sites()
-#> # A tibble: 2,512 x 13
+#> # A tibble: 2,515 x 13
 #>    id    name  notes project latitude longitude country reef_type reef_zone
 #>    <chr> <chr> <chr> <chr>      <dbl>     <dbl> <chr>   <chr>     <chr>    
 #>  1 0235… BA09  ""    a1b7ff…    -17.4      178. Fiji    atoll     back reef
@@ -853,7 +772,7 @@ mermaid_get_sites()
 #>  8 2a46… BA04  ""    89f2d4…    -17.4      178. Fiji    atoll     back reef
 #>  9 2af4… BA12  ""    a1b7ff…    -17.3      178. Fiji    atoll     back reef
 #> 10 2c31… BA05  ""    89f2d4…    -17.4      178. Fiji    atoll     back reef
-#> # … with 2,502 more rows, and 4 more variables: exposure <chr>,
+#> # … with 2,505 more rows, and 4 more variables: exposure <chr>,
 #> #   predecessor <chr>, created_on <chr>, updated_on <chr>
 ```
 
@@ -861,7 +780,7 @@ And all managements:
 
 ``` r
 mermaid_get_managements()
-#> # A tibble: 678 x 17
+#> # A tibble: 681 x 17
 #>    id    name  name_secondary rules notes est_year no_take periodic_closure
 #>    <chr> <chr> <chr>          <chr> <chr>    <int> <lgl>   <lgl>           
 #>  1 0031… Mata… "Fish Habitat… No T… ""        2018 TRUE    FALSE           
@@ -874,7 +793,7 @@ mermaid_get_managements()
 #>  8 02cd… Kaib… ""             Peri… ""        2017 FALSE   TRUE            
 #>  9 02e5… VIR3  ""             No T… ""        2012 TRUE    FALSE           
 #> 10 03ba… VIR9  ""             No T… ""        2016 TRUE    FALSE           
-#> # … with 668 more rows, and 9 more variables: open_access <lgl>,
+#> # … with 671 more rows, and 9 more variables: open_access <lgl>,
 #> #   size_limits <lgl>, gear_restriction <lgl>, species_restriction <lgl>,
 #> #   compliance <chr>, predecessor <chr>, parties <chr>, created_on <chr>,
 #> #   updated_on <chr>

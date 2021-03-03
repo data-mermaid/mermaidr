@@ -5,7 +5,7 @@ test_that("mermaid_get_project_data returns a data frame with the correct names"
   p <- mermaid_get_my_projects()
   output <- mermaid_get_project_data(p, method = "benthicpit", data = "sampleunits", limit = 1)
   expect_true(all(project_data_test_columns[["benthicpits/sampleunits"]] %in% names(output)))
-  # TODO: test expanded df col naming
+  expect_true(any(stringr::str_starts(names(output), project_data_df_columns_list_names[["benthicpits/sampleunits"]])))
   expect_true(nrow(output) >= 1)
   expect_is(output, "tbl_df")
 })
@@ -39,7 +39,7 @@ test_that("mermaid_get_project_data allows multiple methods and multiple forms o
   expect_named(output[["fishbelt"]], c("observations", "sampleunits", "sampleevents"))
   expect_named(output[["benthicpit"]], c("observations", "sampleunits", "sampleevents"))
   expect_true(all(project_data_test_columns[["benthicpits/sampleunits"]] %in% names(output[["benthicpit"]][["sampleunits"]])))
-  # TODO: test expanded df col naming
+  expect_true(any(stringr::str_starts(names(output[["benthicpit"]][["sampleunits"]]), project_data_df_columns_list_names[["benthicpits/sampleunits"]])))
   expect_named(output[["fishbelt"]][["observations"]], project_data_test_columns[["beltfishes/obstransectbeltfishes"]])
 })
 
@@ -128,14 +128,35 @@ test_that("mermaid_get_project_data with multiple methods returns a list with mu
   expect_named(output, c("bleaching", "benthicpit"))
   expect_named(output[["bleaching"]], project_data_test_columns[["bleachingqcs/sampleevents"]])
   expect_true(all(project_data_test_columns[["benthicpits/sampleevents"]] %in% names(output[["benthicpit"]])))
-  # TODO: test expanded df col naming
 
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", c("benthicpit", "bleaching"), "sampleevents", limit = 1)
   expect_named(output, c("benthicpit", "bleaching"))
   expect_named(output[["bleaching"]], project_data_test_columns[["bleachingqcs/sampleevents"]])
   expect_true(all(project_data_test_columns[["benthicpits/sampleevents"]] %in% names(output[["benthicpit"]])))
-  # TODO: test expanded df col naming
 })
+
+test_that("mermaid_get_project_data does not return the df-column in cases where there is no data: not for a single project and one endpoint, nor for a single project and multiple endpoints, nor for multiple projects (one of which has data, one of which does not), nor for multiple projects (neither of which have data)", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  expect_named(mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "benthicpit", "sampleevents"), project_data_test_columns[["benthicpits/sampleevents"]])
+  expect_named(mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "benthicpit", "sampleunits"), project_data_test_columns[["benthicpits/sampleunits"]])
+
+  output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "benthicpit", c("sampleunits", "sampleevents"))
+  expect_named(output[["sampleunits"]], project_data_test_columns[["benthicpits/sampleunits"]])
+  expect_named(output[["sampleevents"]], project_data_test_columns[["benthicpits/sampleevents"]])
+
+  # One project with, one without
+  output <- mermaid_get_project_data(c("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a"), "benthicpit", "sampleunits")
+  expect_false("percent_cover_by_benthic_category" %in% names(output))
+
+  # Multiple without
+  output <- mermaid_get_project_data(c("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "4d23d2a1-774f-4ccf-b567-69f95e4ff572"), "benthicpit", "sampleunits")
+  expect_named(output, project_data_test_columns[["benthicpits/sampleunits"]])
+  expect_false("percent_cover_by_benthic_category" %in% names(output))
+})
+
 
 # Testing aggregation views ----
 
