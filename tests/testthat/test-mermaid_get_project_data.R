@@ -4,7 +4,8 @@ test_that("mermaid_get_project_data returns a data frame with the correct names"
   skip_on_cran()
   p <- mermaid_get_my_projects()
   output <- mermaid_get_project_data(p, method = "benthicpit", data = "sampleunits", limit = 1)
-  expect_named(output, project_data_columns[["benthicpits/sampleunits"]])
+  expect_true(all(project_data_test_columns[["benthicpits/sampleunits"]] %in% names(output)))
+  # TODO: test expanded df col naming
   expect_true(nrow(output) >= 1)
   expect_is(output, "tbl_df")
 })
@@ -32,13 +33,14 @@ test_that("mermaid_get_project_data allows multiple methods and multiple forms o
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
-  p <- mermaid_get_my_projects(limit = 1)
+  p <- mermaid_get_my_projects(limit = 2)
   output <- mermaid_get_project_data(p, method = c("fishbelt", "benthicpit"), data = c("observations", "sampleunits", "sampleevents"), limit = 1)
   expect_named(output, c("fishbelt", "benthicpit"))
   expect_named(output[["fishbelt"]], c("observations", "sampleunits", "sampleevents"))
   expect_named(output[["benthicpit"]], c("observations", "sampleunits", "sampleevents"))
-  expect_named(output[["benthicpit"]][["sampleunits"]], project_data_columns[["benthicpits/sampleunits"]])
-  expect_named(output[["fishbelt"]][["observations"]], project_data_columns[["beltfishes/obstransectbeltfishes"]])
+  expect_true(all(project_data_test_columns[["benthicpits/sampleunits"]] %in% names(output[["benthicpit"]][["sampleunits"]])))
+  # TODO: test expanded df col naming
+  expect_named(output[["fishbelt"]][["observations"]], project_data_test_columns[["beltfishes/obstransectbeltfishes"]])
 })
 
 test_that("mermaid_get_project_data errors if passed a wrong method or data", {
@@ -66,8 +68,8 @@ test_that("mermaid_get_project_data with 'bleaching' method and 'observations' d
   skip_on_cran()
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", "observations", limit = 1)
   expect_named(output, c("colonies_bleached", "percent_cover"))
-  expect_named(output[["colonies_bleached"]], project_data_columns[["bleachingqcs/obscoloniesbleacheds"]])
-  expect_named(output[["percent_cover"]], project_data_columns[["bleachingqcs/obsquadratbenthicpercents"]])
+  expect_named(output[["colonies_bleached"]], project_data_test_columns[["bleachingqcs/obscoloniesbleacheds"]])
+  expect_named(output[["percent_cover"]], project_data_test_columns[["bleachingqcs/obsquadratbenthicpercents"]])
 })
 
 test_that("mermaid_get_project_data with 'bleaching' method and multiple values for `data` (including 'observations') returns the 'observations' element as a list with elements 'colonies_bleached' and 'percent_cover'", {
@@ -77,14 +79,14 @@ test_that("mermaid_get_project_data with 'bleaching' method and multiple values 
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", "all", limit = 1)
   expect_named(output, c("observations", "sampleunits", "sampleevents"))
   expect_named(output[["observations"]], c("colonies_bleached", "percent_cover"))
-  expect_named(output[["observations"]][["colonies_bleached"]], project_data_columns[["bleachingqcs/obscoloniesbleacheds"]])
-  expect_named(output[["observations"]][["percent_cover"]], project_data_columns[["bleachingqcs/obsquadratbenthicpercents"]])
+  expect_named(output[["observations"]][["colonies_bleached"]], project_data_test_columns[["bleachingqcs/obscoloniesbleacheds"]])
+  expect_named(output[["observations"]][["percent_cover"]], project_data_test_columns[["bleachingqcs/obsquadratbenthicpercents"]])
 
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", c("sampleevents", "observations", "sampleunits"), limit = 1)
   expect_named(output, c("sampleevents", "observations", "sampleunits"))
   expect_named(output[["observations"]], c("colonies_bleached", "percent_cover"))
-  expect_named(output[["observations"]][["colonies_bleached"]], project_data_columns[["bleachingqcs/obscoloniesbleacheds"]])
-  expect_named(output[["observations"]][["percent_cover"]], project_data_columns[["bleachingqcs/obsquadratbenthicpercents"]])
+  expect_named(output[["observations"]][["colonies_bleached"]], project_data_test_columns[["bleachingqcs/obscoloniesbleacheds"]])
+  expect_named(output[["observations"]][["percent_cover"]], project_data_test_columns[["bleachingqcs/obsquadratbenthicpercents"]])
 })
 
 test_that("mermaid_get_project_data with multiple `methods` (including 'bleaching') returns the 'bleaching' element as a list with elements 'colonies_bleached' and 'percent_cover'", {
@@ -94,8 +96,8 @@ test_that("mermaid_get_project_data with multiple `methods` (including 'bleachin
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", c("fishbelt", "bleaching"), "observations", limit = 1)
   expect_named(output, c("fishbelt", "bleaching"))
   expect_named(output[["bleaching"]], c("colonies_bleached", "percent_cover"))
-  expect_named(output[["bleaching"]][["colonies_bleached"]], project_data_columns[["bleachingqcs/obscoloniesbleacheds"]])
-  expect_named(output[["bleaching"]][["percent_cover"]], project_data_columns[["bleachingqcs/obsquadratbenthicpercents"]])
+  expect_named(output[["bleaching"]][["colonies_bleached"]], project_data_test_columns[["bleachingqcs/obscoloniesbleacheds"]])
+  expect_named(output[["bleaching"]][["percent_cover"]], project_data_test_columns[["bleachingqcs/obsquadratbenthicpercents"]])
 
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", c("bleaching", "benthiclit"), "all", limit = 1)
   expect_named(output, c("bleaching", "benthiclit"))
@@ -109,13 +111,13 @@ test_that("mermaid_get_project_data with multiple data returns a list with multi
   skip_on_cran()
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", c("sampleunits", "sampleevents"), limit = 1)
   expect_named(output, c("sampleunits", "sampleevents"))
-  expect_named(output[["sampleunits"]], project_data_columns[["bleachingqcs/sampleunits"]])
-  expect_named(output[["sampleevents"]], project_data_columns[["bleachingqcs/sampleevents"]])
+  expect_named(output[["sampleunits"]], project_data_test_columns[["bleachingqcs/sampleunits"]])
+  expect_named(output[["sampleevents"]], project_data_test_columns[["bleachingqcs/sampleevents"]])
 
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", c("sampleevents", "sampleunits"), limit = 1)
   expect_named(output, c("sampleevents", "sampleunits"))
-  expect_named(output[["sampleunits"]], project_data_columns[["bleachingqcs/sampleunits"]])
-  expect_named(output[["sampleevents"]], project_data_columns[["bleachingqcs/sampleevents"]])
+  expect_named(output[["sampleunits"]], project_data_test_columns[["bleachingqcs/sampleunits"]])
+  expect_named(output[["sampleevents"]], project_data_test_columns[["bleachingqcs/sampleevents"]])
 })
 
 test_that("mermaid_get_project_data with multiple methods returns a list with multiple elements in the same order that they were supplied", {
@@ -124,13 +126,15 @@ test_that("mermaid_get_project_data with multiple methods returns a list with mu
   skip_on_cran()
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", c("bleaching", "benthicpit"), "sampleevents", limit = 1)
   expect_named(output, c("bleaching", "benthicpit"))
-  expect_named(output[["bleaching"]], project_data_columns[["bleachingqcs/sampleevents"]])
-  expect_named(output[["benthicpit"]], project_data_columns[["benthicpits/sampleevents"]])
+  expect_named(output[["bleaching"]], project_data_test_columns[["bleachingqcs/sampleevents"]])
+  expect_true(all(project_data_test_columns[["benthicpits/sampleevents"]] %in% names(output[["benthicpit"]])))
+  # TODO: test expanded df col naming
 
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", c("benthicpit", "bleaching"), "sampleevents", limit = 1)
   expect_named(output, c("benthicpit", "bleaching"))
-  expect_named(output[["bleaching"]], project_data_columns[["bleachingqcs/sampleevents"]])
-  expect_named(output[["benthicpit"]], project_data_columns[["benthicpits/sampleevents"]])
+  expect_named(output[["bleaching"]], project_data_test_columns[["bleachingqcs/sampleevents"]])
+  expect_true(all(project_data_test_columns[["benthicpits/sampleevents"]] %in% names(output[["benthicpit"]])))
+  # TODO: test expanded df col naming
 })
 
 # Testing aggregation views ----
@@ -165,7 +169,7 @@ test_that("Vanilla fishbelt sample unit aggregation is the same as manually aggr
 
   obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
 
-  sus_for_su_comparison <- unpack_sus_biomass_long(sus_minus_zeros, obs_agg_for_su_comparison)
+  sus_for_su_comparison <- aggregate_sus_biomass_long(sus_minus_zeros)
 
   # Check that values match
 
@@ -192,14 +196,9 @@ test_that("Vanilla fishbelt sample event aggregation is the same as manually agg
   # Aggregate sample units to sample events - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc - but will want to check these in the other fishbelts!
   # Just aggregate straight up to calculate depth_avg, biomass_kgha_avg, biomass_kgha_by_trophic_group_avg, and biomass_kgha_by_fish_family_avg
 
-  sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus) %>%
-    # Fix one that is off due to rounding
-    dplyr::mutate(su = dplyr::case_when(
-      name == "Siganidae" & sample_event_id == "b95a3450-af58-4af3-a181-eebb1482ab7c" ~ 6,
-      TRUE ~ su
-    ))
+  sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus)
 
-  ses_for_se_comparison <- unpack_ses_biomass_avg_long(ses, sus_agg_for_se_comparison)
+  ses_for_se_comparison <- aggregate_ses_biomass_avg_long(ses)
 
   # Check that values match
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
@@ -207,7 +206,7 @@ test_that("Vanilla fishbelt sample event aggregation is the same as manually agg
 
 # Variable widths ----
 
-test_that("Variables widths fishbelt observations view biomass is the same as  manually calculating biomass", {
+test_that("Variables widths fishbelt observations view biomass is the same as manually calculating biomass", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
@@ -263,7 +262,7 @@ test_that("Variable widths fishbelt sample unit aggregation is the same as manua
 
   obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
 
-  sus_for_su_comparison <- unpack_sus_biomass_long(sus_minus_zeros, obs_agg_for_su_comparison)
+  sus_for_su_comparison <- aggregate_sus_biomass_long(sus_minus_zeros)
 
   # Check that values match
 
@@ -289,14 +288,9 @@ test_that("Variable widths fishbelt sample event aggregation is the same as manu
 
   # Aggregate sample units to sample events - calculate depth_avg, biomass_kgha_avg, biomass_kgha_by_trophic_group_avg, and biomass_kgha_by_fish_family_avg, and compare to SE values
 
-  sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus) %>%
-    # Fix one that is off due to rounding
-    dplyr::mutate(su = dplyr::case_when(
-      name == "trophic_group-other" & sample_event_id %in% c("10e12d52-a683-40aa-8d4d-1433f15c177c", "5bbf4113-15df-4c68-8a78-7d65a492f7da") ~ 2,
-      TRUE ~ su
-    ))
+  sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus)
 
-  ses_for_se_comparison <- unpack_ses_biomass_avg_long(ses, sus_agg_for_se_comparison)
+  ses_for_se_comparison <- aggregate_ses_biomass_avg_long(ses)
 
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
@@ -367,7 +361,7 @@ test_that("Big/small fish fishbelt sample unit aggregation is the same as manual
 
   obs_agg_biomass_long <- calculate_obs_biomass_long(obs) %>%
     dplyr::mutate_if(is.numeric, round) %>%
-    dplyr::mutate_all(as.character)
+    dplyr::mutate(obs = as.character(obs))
 
   obs_agg_concatenate_long <- obs %>%
     dplyr::group_by(fake_sample_unit_id) %>%
@@ -379,7 +373,12 @@ test_that("Big/small fish fishbelt sample unit aggregation is the same as manual
   obs_agg_for_su_comparison <- obs_agg_biomass_long %>%
     dplyr::bind_rows(obs_agg_concatenate_long)
 
-  sus_for_su_comparison <- unpack_sus_biomass_long(sus_minus_zeros, obs_agg_for_su_comparison)
+  sus_for_su_comparison <- aggregate_sus_biomass_long(sus_minus_zeros) %>%
+    dplyr::mutate_if(is.numeric, round) %>%
+    dplyr::mutate(su = as.character(su)) %>%
+    dplyr::bind_rows(sus_minus_zeros %>%
+                       dplyr::select(fake_sample_unit_id, label, size_bin, transect_width, reef_slope, visibility, current, relative_depth, tide) %>%
+                       tidyr::pivot_longer(-fake_sample_unit_id, values_to = "su"))
 
   test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })
@@ -403,14 +402,9 @@ test_that("Big/small fish fishbelt sample event aggregation is the same as manua
 
   # Aggregate SUs to sample events
   # Calculate biomass_kgha_avg, biomass_kgha_by_trophic_group_avg, and biomgass_kgha_by_fish_family_avg
-  sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus) %>%
-    # Fix one that is off due to rounding
-    dplyr::mutate(su = dplyr::case_when(
-      name == "piscivore" & sample_event_id == "62c52844-55c8-42ae-b016-43b8d90e8c0a" ~ 48,
-      TRUE ~ su
-    ))
+  sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus)
 
-  ses_for_se_comparison <- unpack_ses_biomass_avg_long(ses, sus_agg_for_se_comparison)
+  ses_for_se_comparison <- aggregate_ses_biomass_avg_long(ses)
 
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
@@ -460,14 +454,9 @@ test_that("Deep/shallow fishbelt sample unit aggregation is the same as manually
   # Calculate biomass_kgha, biomass_kgha_by_trophic_group, and biomass_kgha_by_fish_family
   # Do NOT concatenate any fields
 
-  obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs) %>%
-    # Fix one off due to rounding
-    dplyr::mutate(obs = dplyr::case_when(
-      fake_sample_unit_id == "KB04_2011-03-31_Namena_mpa_5_1_50" & name == "Scaridae" ~ "1990",
-      TRUE ~ obs
-    ))
+  obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
 
-  sus_for_su_comparison <- unpack_sus_biomass_long(sus_minus_zeros, obs_agg_for_su_comparison)
+  sus_for_su_comparison <- aggregate_sus_biomass_long(sus_minus_zeros)
 
   test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })
@@ -492,17 +481,9 @@ test_that("Deep/shallow fishbelt sample event aggregation is the same as manuall
   # Aggregate observations to sample events
   # Calculate biomass_kgha_avg, biomass_kgha_by_trophic_group_avg, and biomass_kgha_by_fish_family_avg
 
-  sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus) %>%
-    # Fix some due to rounding
-    dplyr::mutate(su = dplyr::case_when(
-      sample_event_id == "6617f385-8f0f-424b-816b-3a0f459e208d" & name == "invertivore-sessile" ~ 6,
-      sample_event_id %in% c("6e393f89-c75c-4127-8fb0-a5defe45e55c", "c06fff87-2dff-4029-a462-9902cd90940f") & name == "invertivore-sessile" ~ 12,
-      sample_event_id %in% c("f5ae8e3a-43f6-4b7a-b3f5-66a2153546de", "01abaf24-1f99-479f-ad99-0d094efc9e1e") & name == "herbivore-detritivore" ~ 272,
-      sample_event_id == "7c2199c4-cfe5-4f37-b033-57394cd2d7b2" & name == "Pomacanthidae" ~ 6,
-      TRUE ~ su
-    ))
+  sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus)
 
-  ses_for_se_comparison <- unpack_ses_biomass_avg_long(ses, sus_agg_for_se_comparison)
+  ses_for_se_comparison <- aggregate_ses_biomass_avg_long(ses)
 
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
@@ -531,7 +512,7 @@ test_that("Benthic LIT sample unit aggregation is the same as manually aggregati
 
   obs_agg_for_su_comparison <- calculate_lit_obs_percent_cover_long(obs)
 
-  sus_for_su_comparison <- unpack_sus_percent_cover_long(sus, obs_agg_for_su_comparison)
+  sus_for_su_comparison <- aggregate_sus_percent_cover_long(sus)
 
   test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })
@@ -558,7 +539,7 @@ test_that("Benthic LIT sample event aggregation is the same as manually aggregat
 
   sus_agg_for_se_comparison <- calculate_sus_percent_cover_avg_long(sus)
 
-  ses_for_se_comparison <- unpack_ses_percent_cover_avg_long(ses, sus_agg_for_se_comparison)
+  ses_for_se_comparison <- aggregate_ses_percent_cover_avg_long(ses)
 
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
@@ -588,7 +569,7 @@ test_that("Benthic PIT sample unit aggregation is the same as manually aggregati
 
   obs_agg_for_su_comparison <- calculate_pit_obs_percent_cover_long(obs)
 
-  sus_for_su_comparison <- unpack_sus_percent_cover_long(sus, obs_agg_for_su_comparison)
+  sus_for_su_comparison <- aggregate_sus_percent_cover_long(sus)
 
   test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })
@@ -615,7 +596,7 @@ test_that("Benthic PIT sample event aggregation is the same as manually aggregat
 
   sus_agg_for_se_comparison <- calculate_sus_percent_cover_avg_long(sus)
 
-  ses_for_se_comparison <- unpack_ses_percent_cover_avg_long(ses, sus_agg_for_se_comparison)
+  ses_for_se_comparison <- aggregate_ses_percent_cover_avg_long(ses)
 
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
@@ -782,7 +763,7 @@ test_that("Bleaching sample event aggregation is the same as manually aggregatin
 
 test_that("ACA covariates are included in all aggregated endpoints", {
   expect_true(
-    project_data_columns %>%
+    project_data_test_columns %>%
       purrr::map_lgl(~ all(c("aca_geomorphic", "aca_benthic") %in% .x)) %>%
       all()
   )
