@@ -49,16 +49,22 @@ test_that("get_project_endpoint allows multiple projects, and combines the resul
   expect_named(get_project_endpoint(p, "sites", limit = 1), c("project_id", mermaid_project_endpoint_columns[["sites"]]))
 
   expect_named(get_project_endpoint(p, "beltfishes/obstransectbeltfishes", limit = 1), c(mermaid_project_endpoint_columns[["beltfishes/obstransectbeltfishes"]]))
-  expect_named(get_project_endpoint(p, "beltfishes/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["beltfishes/sampleunits"]]))
-  expect_named(get_project_endpoint(p, "beltfishes/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["beltfishes/sampleevents"]]))
+  expect_true(all(project_data_test_columns[["beltfishes/sampleunits"]] %in% names(get_project_endpoint(p, "beltfishes/sampleunits", limit = 1))))
+  # TODO: test expanded df col naming
+  expect_true(all(project_data_test_columns[["beltfishes/sampleevents"]] %in% names(get_project_endpoint(p, "beltfishes/sampleevents", limit = 1))))
+  # TODO: test expanded df col naming
 
   expect_named(get_project_endpoint(p, "benthicpits/obstransectbenthicpits", limit = 1), c(mermaid_project_endpoint_columns[["benthicpits/obstransectbenthicpits"]]))
-  expect_named(get_project_endpoint(p, "benthicpits/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["benthicpits/sampleunits"]]))
-  expect_named(get_project_endpoint(p, "benthicpits/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["benthicpits/sampleevents"]]))
+  expect_true(all(project_data_test_columns[["benthicpits/sampleunits"]] %in% names(get_project_endpoint(p, "benthicpits/sampleunits", limit = 1))))
+  # TODO: test expanded df col naming
+  expect_true(all(project_data_test_columns[["benthicpits/sampleevents"]] %in% names(get_project_endpoint(p, "benthicpits/sampleevents", limit = 1))))
+  # TODO: test expanded df col naming
 
   expect_named(get_project_endpoint(p, "benthiclits/obstransectbenthiclits", limit = 1), c(mermaid_project_endpoint_columns[["benthiclits/obstransectbenthiclits"]]))
-  expect_named(get_project_endpoint(p, "benthiclits/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["benthiclits/sampleunits"]]))
-  expect_named(get_project_endpoint(p, "benthiclits/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["benthiclits/sampleevents"]]))
+  expect_true(all(project_data_test_columns[["benthiclits/sampleunits"]] %in% names(get_project_endpoint(p, "benthiclits/sampleunits", limit = 1))))
+  # TODO: test expanded df col naming
+  expect_true(all(project_data_test_columns[["benthiclits/sampleevents"]] %in% names(get_project_endpoint(p, "benthiclits/sampleevents", limit = 1))))
+  # TODO: test expanded df col naming
 
   expect_named(get_project_endpoint(p, "habitatcomplexities/obshabitatcomplexities", limit = 1), c(mermaid_project_endpoint_columns[["habitatcomplexities/obshabitatcomplexities"]]))
   expect_named(get_project_endpoint(p, "habitatcomplexities/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["habitatcomplexities/sampleunits"]]))
