@@ -103,11 +103,10 @@ aggregate_sus_biomass_long <- function(sus, aggregate_cols = c("trophic_group", 
       dplyr::select(.data$fake_sample_unit_id, .data$biomass_kgha, dplyr::contains(col)) %>%
       tidyr::pivot_longer(-.data$fake_sample_unit_id, values_to = "su", names_prefix = paste0("biomass_kgha_", col, "_")) %>%
       dplyr::mutate(
-        name = dplyr::case_when(
-          stringr::str_detect(.data$name, "other") ~ glue::glue("{col}_other"),
-          TRUE ~ .data$name
-        )
-      )
+      name = dplyr::case_when(
+        stringr::str_detect(.data$name, "other") ~ glue::glue("{col}_other"),
+        TRUE ~ .data$name
+      ))
   }
 
   aggregate_cols %>%
@@ -135,8 +134,7 @@ calculate_sus_biomass_avg_long <- function(sus, aggregate_cols = c("trophic_grou
         name = dplyr::case_when(
           stringr::str_detect(.data$name, "other") ~ glue::glue("{col}_other"),
           TRUE ~ .data$name
-        )
-      )
+        ))
   }
 
   aggregate_cols %>%
