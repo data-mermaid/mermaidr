@@ -5,3 +5,7 @@
 tests/testthat/mermaidr_token.rds
 *.DS_Store
 docs/
+<<<<<<< HEAD
+=======
+inst/doc
+>>>>>>> Convert vignette to articles, arrange order on site
