@@ -29,12 +29,22 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   names(endpoints_res) <- endpoint
 
   # Return endpoints
-  if (length(endpoints_res) > 1) {
-    endpoints_res
+  if (length(endpoints_res) == 1) {
+    res <- endpoints_res[[endpoint]]
   } else {
-    endpoints_res[[endpoint]]
+    res <- endpoints_res
   }
 
+  # Expand df-cols, only for project_data functions (which have a / in their endpoints)
+  if (all(stringr::str_detect(endpoint, "/"))) {
+    if (length(endpoint) == 1) {
+      clean_df_cols(res)
+    } else {
+      purrr::map(res, clean_df_cols)
+    }
+  } else {
+    res
+  }
 }
 
 get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, token = mermaid_token(), project_id, project) {
@@ -184,6 +194,16 @@ add_project_identifiers <- function(res, project) {
   }
 
   res
+}
+
+clean_df_cols <- function(.data) {
+  df_cols <- sapply(.data, function(x) inherits(x, "data.frame"))
+  df_cols <- names(df_cols[df_cols])
+
+  .data %>%
+    tidyr::unpack(cols = dplyr::all_of(df_cols), names_sep = "_") %>%
+    janitor::clean_names() %>%
+    dplyr::rename_all(~ stringr::str_remove(.x, "_by"))
 }
 
 mermaid_project_endpoint_columns <- list(

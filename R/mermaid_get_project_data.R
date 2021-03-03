@@ -115,6 +115,7 @@ construct_endpoint <- function(method, data) {
   method_data_list[unique(method_data[["method"]])]
 }
 
+# For select columns and setting order
 project_data_columns <- list(
   `beltfishes/obstransectbeltfishes` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "aca_geomorphic", "aca_benthic", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "transect_length", "transect_width", "size_bin", "observers", "depth", "transect_number", "label", "fish_family", "fish_genus", "fish_taxon", "size", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "count", "biomass_kgha", "trophic_level", "trophic_group", "functional_group", "vulnerability", "data_policy_beltfish", "project_notes", "site_notes", "management_notes", "sample_unit_id", "sample_event_id", "contact_link"),
   `beltfishes/sampleunits` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "aca_geomorphic", "aca_benthic", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "transect_number", "label", "size_bin", "transect_length", "transect_width", "biomass_kgha", "total_abundance", "biomass_kgha_by_trophic_group", "biomass_kgha_by_fish_family", "data_policy_beltfish", "project_notes", "site_notes", "management_notes", "sample_event_notes", "sample_event_id", "sample_unit_ids", "id", "contact_link"),
@@ -132,3 +133,19 @@ project_data_columns <- list(
   `bleachingqcs/obsquadratbenthicpercents` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "relative_depth", "aca_geomorphic", "aca_benthic", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "quadrat_size", "label", "observers", "quadrat_number", "percent_hard", "percent_soft", "percent_algae", "data_policy_bleachingqc", "project_notes", "site_notes", "management_notes", "sample_unit_id", "sample_event_id", "contact_link"),
   `bleachingqcs/sampleunits` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "relative_depth", "aca_geomorphic", "aca_benthic", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "quadrat_size", "label", "count_total", "count_genera", "percent_normal", "percent_pale", "percent_bleached", "quadrat_count", "percent_hard_avg", "percent_soft_avg", "percent_algae_avg", "data_policy_bleachingqc", "project_notes", "site_notes", "management_notes", "sample_event_notes","sample_event_id", "sample_unit_ids", "id", "contact_link"),
   `bleachingqcs/sampleevents` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "aca_geomorphic", "aca_benthic", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "quadrat_size_avg", "count_total_avg", "count_genera_avg", "percent_normal_avg", "percent_pale_avg", "percent_bleached_avg", "quadrat_count_avg", "percent_hard_avg_avg", "percent_soft_avg_avg", "percent_algae_avg_avg", "data_policy_bleachingqc", "project_notes", "site_notes", "management_notes", "sample_event_notes", "id", "sample_unit_count", "contact_link"))
+
+# For testing columns, after df-cols have been expanded
+project_data_df_columns <- list(
+  `beltfishes/sampleunits` = c("biomass_kgha_by_trophic_group", "biomass_kgha_by_fish_family"),
+  `beltfishes/sampleevents` = c("biomass_kgha_by_trophic_group_avg", "biomass_kgha_by_fish_family_avg"),
+  `benthicpits/sampleunits` = c("percent_cover_by_benthic_category"),
+  `benthicpits/sampleevents` = c("percent_cover_by_benthic_category_avg"),
+  `benthiclits/sampleunits` = c("percent_cover_by_benthic_category"),
+  `benthiclits/sampleevents` = c("percent_cover_by_benthic_category_avg")) %>%
+  purrr::map_df(dplyr::as_tibble, .id = "endpoint")
+
+project_data_test_columns <- project_data_columns %>%
+  purrr::map_df(dplyr::as_tibble, .id = "endpoint") %>%
+  dplyr::anti_join(project_data_df_columns, by = c("endpoint", "value")) %>%
+  split(.$endpoint) %>%
+  purrr::map(dplyr::pull, value)
