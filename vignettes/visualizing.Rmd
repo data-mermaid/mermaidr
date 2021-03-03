@@ -1,0 +1,23 @@
+---
+title: "Visualizing MERMAID Data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Visualizing MERMAID Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette will explore how to visualize data from MERMAID using the [`ggplot2` package]().
+
+To start, let's load `mermaidr` and 
+
+```{r setup}
+library(mermaidr)
+```
