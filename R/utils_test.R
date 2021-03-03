@@ -43,7 +43,7 @@ test_sus_vs_ses_agg <- function(sus_agg, ses_agg) {
                      by = c("sample_event_id", "name")
     ) %>%
     dplyr::filter(!is.na(.data$se) | !is.na(.data$su)) %>%
-    dplyr::mutate(dplyr::across(c(se, su), as.numeric))
+    dplyr::mutate(dplyr::across(c(.data$se, .data$su), as.numeric))
 
   testthat::expect_equal(sus_vs_ses_match[["se"]], sus_vs_ses_match[["su"]], tolerance = 1)
 }
@@ -93,19 +93,19 @@ aggregate_sus_biomass_long <- function(sus, aggregate_cols = c("trophic_group", 
 
   aggregate_by_col <- function(col) {
     sus %>%
-      dplyr::select(.data$fake_sample_unit_id, biomass_kgha, dplyr::contains(col)) %>%
+      dplyr::select(.data$fake_sample_unit_id, .data$biomass_kgha, dplyr::contains(col)) %>%
       tidyr::pivot_longer(-.data$fake_sample_unit_id, values_to = "su", names_prefix = paste0("biomass_kgha_", col, "_")) %>%
       dplyr::mutate(
       name = dplyr::case_when(
-        stringr::str_detect(name, "other") ~ glue::glue("{col}_other"),
-        TRUE ~ name
+        stringr::str_detect(.data$name, "other") ~ glue::glue("{col}_other"),
+        TRUE ~ .data$name
       ))
   }
 
   aggregate_cols %>%
     purrr::map(aggregate_by_col) %>%
     dplyr::bind_rows() %>%
-    dplyr::filter(!is.na(su)) %>%
+    dplyr::filter(!is.na(.data$su)) %>%
     dplyr::distinct()
 }
 
@@ -122,11 +122,11 @@ calculate_sus_biomass_avg_long <- function(sus, aggregate_cols = c("trophic_grou
       dplyr::summarise(su = mean(.data$su, na.rm = TRUE)) %>%
       dplyr::ungroup() %>%
       dplyr::mutate(
-        name = stringr::str_remove_all(name, paste0(col, "_")),
-        name = stringr::str_remove_all(name, "_biomass_kgha_avg|_biomass_kgha"),
+        name = stringr::str_remove_all(.data$name, paste0(col, "_")),
+        name = stringr::str_remove_all(.data$name, "_biomass_kgha_avg|_biomass_kgha"),
         name = dplyr::case_when(
-          stringr::str_detect(name, "other") ~ glue::glue("{col}_other"),
-          TRUE ~ name
+          stringr::str_detect(.data$name, "other") ~ glue::glue("{col}_other"),
+          TRUE ~ .data$name
         ))
   }
 
@@ -146,11 +146,11 @@ aggregate_ses_biomass_avg_long <- function(ses, aggregate_cols = c("trophic_grou
       tidyr::pivot_longer(-.data$sample_event_id, values_to = "se") %>%
       dplyr::filter(!is.na(.data$se)) %>%
       dplyr::mutate(
-        name = stringr::str_remove_all(name, paste0(col, "_")),
-        name = stringr::str_remove_all(name, "_biomass_kgha_avg|_biomass_kgha"),
+        name = stringr::str_remove_all(.data$name, paste0(col, "_")),
+        name = stringr::str_remove_all(.data$name, "_biomass_kgha_avg|_biomass_kgha"),
         name = dplyr::case_when(
-          stringr::str_detect(name, "other") ~ glue::glue("{col}_other"),
-          TRUE ~ name
+          stringr::str_detect(.data$name, "other") ~ glue::glue("{col}_other"),
+          TRUE ~ .data$name
         ))
   }
 
@@ -176,9 +176,9 @@ calculate_lit_obs_percent_cover_long <- function(obs) {
 
   obs_agg %>%
     tidyr::pivot_longer(-.data$fake_sample_unit_id, values_to = "obs") %>%
-    dplyr::mutate(name = stringr::str_to_lower(name),
-                  name = stringr::str_replace_all(name, "-| ", "_")) %>%
-    dplyr::filter(!is.na(obs))
+    dplyr::mutate(name = stringr::str_to_lower(.data$name),
+                  name = stringr::str_replace_all(.data$name, "-| ", "_")) %>%
+    dplyr::filter(!is.na(.data$obs))
 
 }
 
@@ -188,7 +188,7 @@ aggregate_sus_percent_cover_long <- function(sus) {
     dplyr::select(.data$fake_sample_unit_id, dplyr::starts_with("percent_cover_benthic_category")) %>%
     tidyr::pivot_longer(-.data$fake_sample_unit_id, values_to = "su",
                         names_prefix = "percent_cover_benthic_category_") %>%
-    dplyr::filter(!is.na(su))
+    dplyr::filter(!is.na(.data$su))
 }
 
 # SUs to SEs

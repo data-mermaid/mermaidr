@@ -135,13 +135,19 @@ project_data_columns <- list(
   `bleachingqcs/sampleevents` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "aca_geomorphic", "aca_benthic", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "quadrat_size_avg", "count_total_avg", "count_genera_avg", "percent_normal_avg", "percent_pale_avg", "percent_bleached_avg", "quadrat_count_avg", "percent_hard_avg_avg", "percent_soft_avg_avg", "percent_algae_avg_avg", "data_policy_bleachingqc", "project_notes", "site_notes", "management_notes", "sample_event_notes", "id", "sample_unit_count", "contact_link"))
 
 # For testing columns, after df-cols have been expanded
-project_data_df_columns <- list(
+project_data_df_columns_list <- list(
   `beltfishes/sampleunits` = c("biomass_kgha_by_trophic_group", "biomass_kgha_by_fish_family"),
   `beltfishes/sampleevents` = c("biomass_kgha_by_trophic_group_avg", "biomass_kgha_by_fish_family_avg"),
   `benthicpits/sampleunits` = c("percent_cover_by_benthic_category"),
   `benthicpits/sampleevents` = c("percent_cover_by_benthic_category_avg"),
   `benthiclits/sampleunits` = c("percent_cover_by_benthic_category"),
-  `benthiclits/sampleevents` = c("percent_cover_by_benthic_category_avg")) %>%
+  `benthiclits/sampleevents` = c("percent_cover_by_benthic_category_avg"))
+
+project_data_df_columns_list_names <- project_data_df_columns_list %>%
+  purrr::map(stringr::str_remove_all, "_by") %>%
+  purrr::map(paste0, collapse = "|")
+
+project_data_df_columns <- project_data_df_columns_list %>%
   purrr::map_df(dplyr::as_tibble, .id = "endpoint")
 
 project_data_test_columns <- project_data_columns %>%

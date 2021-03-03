@@ -1,3 +1,7 @@
+# mermaidr 0.3.0
+
+* Updated `mermaid_get_project_data()` function to automatically unpack and rename any data frame columns. This affects the X, Y, and Z methods, for both "sampleunits" and "sampleevents" data, removing the columns X, Y, and Z, respectively, and instead replacing them with X, Y, and Z.
+
 # mermaidr 0.2.4
 
 * Fixed bug introduced by handling `NULL` `covariates`.
