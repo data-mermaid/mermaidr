@@ -68,9 +68,9 @@ sub_one_for_many <- function(x, pattern, replacement) {
     replacement
   } else if (removal_index == 1 & length(x) > 1) {
     c(replacement, x[2:length(x)])
-  }  else if (removal_index == length(x)) {
+  } else if (removal_index == length(x)) {
     c(x[1:(length(x) - 1)], replacement)
   } else if (removal_index > 1) {
-    c(x[1:(removal_index-1)], replacement, x[(removal_index+1):length(x)])
+    c(x[1:(removal_index - 1)], replacement, x[(removal_index + 1):length(x)])
   }
 }

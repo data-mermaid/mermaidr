@@ -38,7 +38,7 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   # Expand df-cols, only for project_data functions (which have a / in their endpoints)
   if (all(stringr::str_detect(endpoint, "/"))) {
     if (length(endpoint) == 1) {
-      if(nrow(res) == 0) {
+      if (nrow(res) == 0) {
         dplyr::select(res, project_data_test_columns[[endpoint]])
       } else {
         clean_df_cols(res)
@@ -211,8 +211,8 @@ clean_df_cols <- function(.data) {
   .data %>%
     tidyr::unpack(cols = dplyr::all_of(df_cols), names_sep = "_") %>%
     dplyr::rename_all(~ stringr::str_remove(.x, "_by") %>%
-                        stringr::str_replace_all(" |-", "_") %>%
-                        stringr::str_to_lower())
+      stringr::str_replace_all(" |-", "_") %>%
+      stringr::str_to_lower())
 }
 
 mermaid_project_endpoint_columns <- list(
