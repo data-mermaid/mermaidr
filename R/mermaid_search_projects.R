@@ -39,7 +39,7 @@ mermaid_search_projects <- function(name = NULL, countries = NULL, tags = NULL, 
       check_single_project(projects, name)
     }
   } else if (!is.null(countries) | !is.null(tags)) {
-      projects <- mermaid_get_projects(include_test_projects = include_test_projects)
+    projects <- mermaid_get_projects(include_test_projects = include_test_projects)
   }
 
   if (!is.null(countries)) {
