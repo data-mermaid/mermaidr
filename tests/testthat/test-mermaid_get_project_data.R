@@ -398,8 +398,8 @@ test_that("Big/small fish fishbelt sample unit aggregation is the same as manual
     dplyr::mutate_if(is.numeric, round) %>%
     dplyr::mutate(su = as.character(su)) %>%
     dplyr::bind_rows(sus_minus_zeros %>%
-                       dplyr::select(fake_sample_unit_id, label, size_bin, transect_width, reef_slope, visibility, current, relative_depth, tide) %>%
-                       tidyr::pivot_longer(-fake_sample_unit_id, values_to = "su"))
+      dplyr::select(fake_sample_unit_id, label, size_bin, transect_width, reef_slope, visibility, current, relative_depth, tide) %>%
+      tidyr::pivot_longer(-fake_sample_unit_id, values_to = "su"))
 
   test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })

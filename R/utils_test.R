@@ -40,7 +40,7 @@ test_n_fake_ses <- function(sus, ses) {
 test_sus_vs_ses_agg <- function(sus_agg, ses_agg) {
   sus_vs_ses_match <- sus_agg %>%
     dplyr::full_join(ses_agg,
-                     by = c("sample_event_id", "name")
+      by = c("sample_event_id", "name")
     ) %>%
     dplyr::filter(!is.na(.data$se) | !is.na(.data$su)) %>%
     dplyr::mutate(dplyr::across(c(.data$se, .data$su), as.numeric))
@@ -70,9 +70,11 @@ calculate_obs_biomass_long <- function(obs, aggregate_cols = c("trophic_group", 
     col <- dplyr::sym(col)
 
     obs %>%
-      dplyr::mutate({{ col }} := dplyr::coalesce({{ col }}, glue::glue("{rlang::as_string(col)}-other")),
-                    {{ col }} := stringr::str_to_lower({{ col }}),
-                    {{ col }} := stringr::str_replace_all({{ col }}, "-", "_")) %>%
+      dplyr::mutate(
+        {{ col }} := dplyr::coalesce({{ col }}, glue::glue("{rlang::as_string(col)}-other")),
+        {{ col }} := stringr::str_to_lower({{ col }}),
+        {{ col }} := stringr::str_replace_all({{ col }}, "-", "_")
+      ) %>%
       dplyr::group_by(.data$fake_sample_unit_id, {{ col }}) %>%
       dplyr::summarise(biomass_by_col = sum(.data$biomass_kgha, na.rm = TRUE), .groups = "drop_last") %>%
       dplyr::mutate(biomass_kgha = sum(.data$biomass_by_col)) %>%
@@ -90,16 +92,16 @@ calculate_obs_biomass_long <- function(obs, aggregate_cols = c("trophic_group", 
 
 # Aggregate biomass from SUs, and convert to long format
 aggregate_sus_biomass_long <- function(sus, aggregate_cols = c("trophic_group", "fish_family")) {
-
   aggregate_by_col <- function(col) {
     sus %>%
       dplyr::select(.data$fake_sample_unit_id, .data$biomass_kgha, dplyr::contains(col)) %>%
       tidyr::pivot_longer(-.data$fake_sample_unit_id, values_to = "su", names_prefix = paste0("biomass_kgha_", col, "_")) %>%
       dplyr::mutate(
-      name = dplyr::case_when(
-        stringr::str_detect(.data$name, "other") ~ glue::glue("{col}_other"),
-        TRUE ~ .data$name
-      ))
+        name = dplyr::case_when(
+          stringr::str_detect(.data$name, "other") ~ glue::glue("{col}_other"),
+          TRUE ~ .data$name
+        )
+      )
   }
 
   aggregate_cols %>%
@@ -127,7 +129,8 @@ calculate_sus_biomass_avg_long <- function(sus, aggregate_cols = c("trophic_grou
         name = dplyr::case_when(
           stringr::str_detect(.data$name, "other") ~ glue::glue("{col}_other"),
           TRUE ~ .data$name
-        ))
+        )
+      )
   }
 
   aggregate_cols %>%
@@ -138,7 +141,6 @@ calculate_sus_biomass_avg_long <- function(sus, aggregate_cols = c("trophic_grou
 
 # Unpack biomass from SEs, and convert to long format
 aggregate_ses_biomass_avg_long <- function(ses, aggregate_cols = c("trophic_group", "fish_family")) {
-
   aggregate_by_col <- function(col) {
     ses %>%
       dplyr::rename(sample_event_id = .data$id) %>%
@@ -151,7 +153,8 @@ aggregate_ses_biomass_avg_long <- function(ses, aggregate_cols = c("trophic_grou
         name = dplyr::case_when(
           stringr::str_detect(.data$name, "other") ~ glue::glue("{col}_other"),
           TRUE ~ .data$name
-        ))
+        )
+      )
   }
 
   aggregate_cols %>%
@@ -176,25 +179,27 @@ calculate_lit_obs_percent_cover_long <- function(obs) {
 
   obs_agg %>%
     tidyr::pivot_longer(-.data$fake_sample_unit_id, values_to = "obs") %>%
-    dplyr::mutate(name = stringr::str_to_lower(.data$name),
-                  name = stringr::str_replace_all(.data$name, "-| ", "_")) %>%
+    dplyr::mutate(
+      name = stringr::str_to_lower(.data$name),
+      name = stringr::str_replace_all(.data$name, "-| ", "_")
+    ) %>%
     dplyr::filter(!is.na(.data$obs))
-
 }
 
 aggregate_sus_percent_cover_long <- function(sus) {
   sus %>%
     construct_fake_sample_unit_id() %>%
     dplyr::select(.data$fake_sample_unit_id, dplyr::starts_with("percent_cover_benthic_category")) %>%
-    tidyr::pivot_longer(-.data$fake_sample_unit_id, values_to = "su",
-                        names_prefix = "percent_cover_benthic_category_") %>%
+    tidyr::pivot_longer(-.data$fake_sample_unit_id,
+      values_to = "su",
+      names_prefix = "percent_cover_benthic_category_"
+    ) %>%
     dplyr::filter(!is.na(.data$su))
 }
 
 # SUs to SEs
 
 calculate_sus_percent_cover_avg_long <- function(sus) {
-
   sus_agg_for_se_comparison <- sus %>%
     dplyr::select(.data$sample_event_id, dplyr::starts_with("percent_cover_benthic_category"), depth_avg = .data$depth) %>%
     tidyr::pivot_longer(-.data$sample_event_id, values_to = "su", names_prefix = "percent_cover_benthic_category_") %>%
@@ -225,8 +230,10 @@ calculate_pit_obs_percent_cover_long <- function(obs) {
     dplyr::distinct() %>%
     tidyr::pivot_wider(names_from = .data$benthic_category, values_from = .data$percent_cover_by_benthic_category) %>%
     tidyr::pivot_longer(-.data$fake_sample_unit_id, values_to = "obs") %>%
-    dplyr::mutate(name = stringr::str_to_lower(name),
-                  name = stringr::str_replace_all(name, "-| ", "_")) %>%
+    dplyr::mutate(
+      name = stringr::str_to_lower(name),
+      name = stringr::str_replace_all(name, "-| ", "_")
+    ) %>%
     dplyr::filter(!is.na(obs))
 }
 
