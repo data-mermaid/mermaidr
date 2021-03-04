@@ -1,8 +1,6 @@
 # mermaidr 0.3.0
 
-* Updated `mermaid_get_project_data()` function to automatically unpack and rename any data frame columns. This affects the X, Y, and Z methods, for both "sampleunits" and "sampleevents" data, removing the columns X, Y, and Z, respectively, and instead replacing them with X, Y, and Z.
-
-* Added `mermaid_clean_columns()` function (from archived `mermaidreporting` package) to easily unpack and clean up df-cols coming from MERMAID API.
+* Updated `mermaid_get_project_data()` to automatically unpack any data frame columns. This affects the fishbelt, benthic PIT, and benthic LIT methods, for both sample units and sample events data. This is a breaking change, expected to affect existing code that uses the `biomass_kgha_by_trophic_group`, `biomass_kgha_by_fish_family`, and `percent_cover_by_benthic_category` columns in sample units, and their `*_avg` counterparts in sample events. Instead of these columns, results will now contain a column for subgroup - for example, instead of `biomass_kgha_by_trophic_group` there will be columns such as `biomass_kgha_trophic_group_piscivore` and `biomass_kgha_trophic_group_planktivore`.
 
 # mermaidr 0.2.2
 
