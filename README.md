@@ -10,15 +10,14 @@
 `mermaidr` is an R package that enables you to access data from
 [MERMAID](https://datamermaid.org/), an open-source data platform
 developed to help you collect, analyze, and share coral reef monitoring
-data. Through `mermaidr` you can access data input in the collection
-portal, [MERMAID Collect](https://collect.datamermaid.org/), directly
-from R.
+data. Through `mermaidr` you can access data from collection portal,
+[MERMAID Collect](https://collect.datamermaid.org/), directly from R.
 
 For more information and detailed instructions on usage, please visit
 the [package website](https://data-mermaid.github.io/mermaidr/).
 
-If you are new to the R programming language, our [new R users guide]()
-is a great place to start!
+If you are new to the R programming language, our [new R users
+guide](articles/r.html) is a great place to start!
 
 ## Installation
 
@@ -32,7 +31,7 @@ remotes::install_github("data-mermaid/mermaidr")
 ## Usage
 
 Through `mermaidr`, you can access aggregated data from your coral reef
-studies. To do this, first load the package and access your MERMAID
+surveys. To do this, first load the package and access your MERMAID
 Collect projects:
 
 ``` r
@@ -100,7 +99,7 @@ site/date, and broken down by trophic group and fish family.
 
 ``` r
 wcs_mozambique_fishbelt_samples
-#> # A tibble: 80 x 31
+#> # A tibble: 80 x 62
 #>    project tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>   <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #>  1 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
@@ -113,15 +112,16 @@ wcs_mozambique_fishbelt_samples
 #>  8 WCS Mo… WCS … Mozamb… Chec…    -26.8      32.9 patch     fore reef
 #>  9 WCS Mo… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef
 #> 10 WCS Mo… WCS … Mozamb… Dogt…    -12.5      40.6 fringing  crest    
-#> # … with 70 more rows, and 26 more variables: reef_exposure <chr>, tide <lgl>,
-#> #   current <lgl>, visibility <lgl>, management <chr>,
-#> #   management_secondary <chr>, management_est_year <int>,
+#> # … with 70 more rows, and 54 more variables: reef_exposure <chr>, tide <lgl>,
+#> #   current <lgl>, visibility <lgl>, aca_geomorphic <chr>, aca_benthic <chr>,
+#> #   management <chr>, management_secondary <chr>, management_est_year <int>,
 #> #   management_size <dbl>, management_parties <chr>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
 #> #   depth_avg <dbl>, biomass_kgha_avg <dbl>,
-#> #   biomass_kgha_by_trophic_group_avg$piscivore <dbl>, $planktivore <dbl>,
-#> #   $`invertivore-mobile` <dbl>, $`herbivore-detritivore` <dbl>,
-#> #   data_policy_beltfish <chr>, project_notes <chr>, …
+#> #   biomass_kgha_trophic_group_avg_piscivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_planktivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_invertivore_mobile <dbl>,
+#> #   biomass_kgha_trophic_group_avg_herbivore_detritivore <dbl>, …
 ```
 
 If you’d like data related to the **units** of survey (for example, to
@@ -131,7 +131,7 @@ transects or quadrats), it’s just a matter of changing `data` to
 ``` r
 wcs_mozambique %>%
   mermaid_get_project_data(method = "fishbelt", data = "sampleunits")
-#> # A tibble: 111 x 41
+#> # A tibble: 111 x 72
 #>    project tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>   <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #>  1 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
@@ -144,13 +144,13 @@ wcs_mozambique %>%
 #>  8 WCS Mo… WCS … Mozamb… Barr…    -26.1      32.9 barrier   back reef
 #>  9 WCS Mo… WCS … Mozamb… Bunt…    -12.6      40.6 fringing  fore reef
 #> 10 WCS Mo… WCS … Mozamb… Bunt…    -12.6      40.6 fringing  fore reef
-#> # … with 101 more rows, and 36 more variables: reef_exposure <chr>,
+#> # … with 101 more rows, and 64 more variables: reef_exposure <chr>,
 #> #   reef_slope <lgl>, tide <lgl>, current <lgl>, visibility <lgl>,
-#> #   relative_depth <lgl>, management <chr>, management_secondary <chr>,
-#> #   management_est_year <int>, management_size <dbl>, management_parties <chr>,
+#> #   relative_depth <lgl>, aca_geomorphic <chr>, aca_benthic <chr>,
+#> #   management <chr>, management_secondary <chr>, management_est_year <int>,
+#> #   management_size <dbl>, management_parties <chr>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   sample_time <chr>, depth <dbl>, transect_number <int>, label <chr>,
-#> #   size_bin <chr>, transect_length <int>, …
+#> #   sample_time <chr>, depth <dbl>, transect_number <int>, label <chr>, …
 ```
 
 And raw observations are available by changing it to “observations”:
@@ -158,7 +158,7 @@ And raw observations are available by changing it to “observations”:
 ``` r
 wcs_mozambique %>%
   mermaid_get_project_data(method = "fishbelt", data = "observations")
-#> # A tibble: 2,714 x 50
+#> # A tibble: 2,714 x 52
 #>    project tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>   <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #>  1 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
@@ -171,13 +171,14 @@ wcs_mozambique %>%
 #>  8 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
 #>  9 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
 #> 10 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
-#> # … with 2,704 more rows, and 42 more variables: reef_exposure <chr>,
+#> # … with 2,704 more rows, and 44 more variables: reef_exposure <chr>,
 #> #   reef_slope <lgl>, tide <lgl>, current <lgl>, visibility <lgl>,
-#> #   relative_depth <lgl>, management <chr>, management_secondary <chr>,
-#> #   management_est_year <int>, management_size <dbl>, management_parties <chr>,
+#> #   relative_depth <lgl>, aca_geomorphic <chr>, aca_benthic <chr>,
+#> #   management <chr>, management_secondary <chr>, management_est_year <int>,
+#> #   management_size <dbl>, management_parties <chr>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
 #> #   sample_time <chr>, transect_length <int>, transect_width <chr>,
-#> #   size_bin <chr>, observers <chr>, depth <dbl>, …
+#> #   size_bin <chr>, …
 ```
 
 This is a small sample of the wealth of data that’s available on your
