@@ -1,23 +1,26 @@
 ---
 title: "WCS Vibrant Oceans Baseline Coral Reef Monitoring"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Case Study: WCS Vibrant Oceans Baseline Coral Reef Monitoring}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output: 
+  html_document:
+    toc: false
+pkgdown:
+  as_is: true
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  dpi = 300
+  dpi = 300,
+  message = FALSE,
+  warning = FALSE,
+  cache = TRUE
 )
 
 options(tibble.max_extra_cols = 20)
 ```
 
-This case study replicates an analysis of baseline coral reef studies for Vibrant Oceans, completed by the Wildlife Conservation Society (WCS). The original survey and analysis covered 168 sites across Tanzania, Fiji, and Indonesia, surveying underwater information across a diversity of management, habitat types, and other environmental characteristics. This analysis is a small subset, only using publicly available data, and intended to illustrate the usage of `mermaidr` for such a study.
+This case study follows an analysis of baseline coral reef studies for Vibrant Oceans, completed by the Wildlife Conservation Society (WCS). The original survey and analysis covered 168 sites across Tanzania, Fiji, and Indonesia, surveying underwater information across a diversity of management, habitat types, and other environmental characteristics. This analysis is a small subset, only using publicly available data, and intended to illustrate the usage of `mermaidr` for such a project.
 
 First, we load `mermaidr` and search for projects tagged with "Vibrant Oceans":
 
@@ -40,7 +43,7 @@ vo_projects %>%
   select(name, data_policy_beltfish, data_policy_benthicpit)
 ```
 
-# Hard coral coverage
+# Live hard coral cover
 
 We'll focus on hard coral (benthic PIT) data first. We can get this data by filtering for projects that have publicly available summary data for it (returning both the Taka Bonerate and Dama Bureta Waibula and Dawasamu projects):
 
@@ -52,7 +55,7 @@ projects_public_benthic %>%
   select(name)
 ```
 
-And then by querying for public summary data, using `mermaid_get_project_data`, specifying the "benthicpit" method with "sampleevents" data. The key to accessing public summary data is to set our token to `NULL` - this makes it so that `mermaidr` won't try to authenticate us, and instead just returns the data *if* the data policy allows it.
+And then by querying for public summary data, using `mermaid_get_project_data()`, specifying the "benthicpit" method with "sampleevents" data. The key to accessing public summary data is to set our token to `NULL` - this makes it so that `mermaidr` won't try to authenticate us, and instead just returns the data *if* the data policy allows it.
 
 ```{r}
 benthic_data <- projects_public_benthic %>%
@@ -96,7 +99,7 @@ Let's visualize the data, using `ggplot2`:
 ```{r, fig.height = 8}
 library(ggplot2)
 
-ggplot(benthic_data) + 
+ggplot(benthic_data) +
   geom_col(aes(x = hard_coral, y = site, fill = threshold))
 ```
 
@@ -104,35 +107,40 @@ This is a good start, but it would probably be much more useful with a few chang
 
 ```{r, fig.height = 8}
 benthic_data <- benthic_data %>%
-  mutate(threshold = fct_reorder(threshold, hard_coral, .desc = TRUE),
-         site = fct_reorder(site, hard_coral))
+  mutate(
+    threshold = fct_reorder(threshold, hard_coral, .desc = TRUE),
+    site = fct_reorder(site, hard_coral)
+  )
 
-hard_coral_plot <- ggplot(benthic_data) + 
-  geom_col(aes(x = hard_coral, y = site, fill = threshold), alpha = 0.8) + 
-  geom_vline(xintercept = 10, linetype = "dashed", size = 0.25) + 
+hard_coral_plot <- ggplot(benthic_data) +
+  geom_col(aes(x = hard_coral, y = site, fill = threshold), alpha = 0.8) +
+  geom_vline(xintercept = 10, linetype = "dashed", size = 0.25) +
   geom_vline(xintercept = 30, linetype = "dashed", size = 0.25)
 
 hard_coral_plot
 ```
 
-Finally, we can make some visual changes, like updating the theme, removing the site names (we care more about the distribution than which site they correspond to for this plot), adding explicit markers for 10% and 30%, cleaning up labels, and many other fiddly bits to create a beautiful plot!
+Finally, we can make some visual changes, like updating the theme, removing the site names (we care more about the distribution than which site they correspond to for this plot), adding axis labels for every 10%, cleaning up labels, and some other fiddly bits to create a beautiful plot!
 
 ```{r}
 hard_coral_plot <- hard_coral_plot +
-  scale_x_continuous(name = "Hard coral cover, %", breaks = seq(0, 70, 10)) + 
-  scale_fill_manual(name = "Threshold", values = c("#7F7F7F", "#F1A83B", "#E73F25")) + 
-  labs(y = NULL, title = "A sample of WCS Vibrant Oceans survey sites, ordered by hard coral cover") + 
+  scale_x_continuous(name = "Hard coral cover, %", breaks = seq(0, 70, 10)) +
+  scale_y_discrete(name = NULL) +
+  scale_fill_manual(name = "Threshold", values = c("#7F7F7F", "#F1A83B", "#E73F25")) +
+  labs(title = "A sample of WCS Vibrant Oceans survey sites, ordered by hard coral cover") +
   theme_minimal() +
-  theme(axis.text.y = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.grid.major.y = element_blank())
+  theme(
+    axis.text.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank()
+  )
 
 hard_coral_plot
 ```
 
 That looks much better!
 
-# Biomass
+# Reef fish biomass
 
 Next, let's turn to reef fish biomass. Similarly to the step above, we can get this data by filtering for projects that have publicly available summary data for it, returning only the Taka Bonerate project.
 
@@ -153,7 +161,7 @@ fishbelt_data <- projects_public_fishbelt %>%
 head(fishbelt_data)
 ```
 
-Again, this summarises all observations for all transects at a given site and date, and givces us information like the average biomass at that site, and average biomass across groupings like trophic group or fish family.
+Again, this summarises all observations for all transects at a given site and date, and gives us information like the average biomass at that site, and average biomass across groupings like trophic group or fish family.
 
 We'll just focus on the average biomass:
 
@@ -162,29 +170,34 @@ fishbelt_data <- fishbelt_data %>%
   select(country, site, biomass = biomass_kgha_avg)
 ```
 
-WCS considers 500 kg/ha as a threshold where below this biomass, ecosystems may pass critical thresholds of ecosystem decline, and often seek to maintain reef fish biomass above 500 kg/ha as a management target. Let's categorize each value of `biomass` accoridng to whether it's above or below 500 kg/ha, and reorder both the sites and the threshold factor from highest to lowest biomass: 
+WCS considers 500 kg/ha as a threshold where below this biomass, ecosystems may pass critical thresholds of ecosystem decline, and often seek to maintain reef fish biomass above 500 kg/ha as a management target. Let's categorize each value of `biomass` according to whether it's above or below 500 kg/ha, and reorder both the sites and the threshold factor from highest to lowest biomass: 
 
 ```{r}
 fishbelt_data <- fishbelt_data %>%
-  mutate(threshold = case_when(
-    biomass >= 500 ~ "Above 500 kg/ha",
-    biomass < 500 ~ "Below 500 kg/ha"
-  ),
-  threshold = fct_reorder(threshold, biomass, .desc = TRUE),
-         site = fct_reorder(site, biomass))
+  mutate(
+    threshold = case_when(
+      biomass >= 500 ~ "Above 500 kg/ha",
+      biomass < 500 ~ "Below 500 kg/ha"
+    ),
+    threshold = fct_reorder(threshold, biomass, .desc = TRUE),
+    site = fct_reorder(site, biomass)
+  )
 ```
 
 Then, we can visualize the distribution of average biomass in sites, similar to our visualization before:
 
 ```{r}
-ggplot(fishbelt_data) + 
-  geom_col(aes(x = biomass, y = site, fill = threshold), alpha = 0.8) + 
-  geom_vline(xintercept = 500, linetype = "dashed", size = 0.25) + 
-  scale_x_continuous(name = "Total reef fish biomass, kg/ha") + 
-  scale_fill_manual(name = "Threshold", values = c("#7F7F7F", "#E73F25")) + 
-  labs(y = NULL, title = "A sample of WCS Vibrant Oceans survey sites, ordered by reef fish biomass") + 
+ggplot(fishbelt_data) +
+  geom_col(aes(x = biomass, y = site, fill = threshold), alpha = 0.8) +
+  geom_vline(xintercept = 500, linetype = "dashed", size = 0.25) +
+  scale_x_continuous(name = "Total reef fish biomass, kg/ha") +
+  scale_y_discrete(name = NULL) +
+  scale_fill_manual(name = "Threshold", values = c("#7F7F7F", "#E73F25")) +
+  labs(title = "A sample of WCS Vibrant Oceans survey sites, ordered by reef fish biomass") +
   theme_minimal() +
-  theme(axis.text.y = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.grid.major.y = element_blank())
+  theme(
+    axis.text.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank()
+  )
 ```
