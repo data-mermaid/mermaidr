@@ -19,7 +19,57 @@ mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "f
 
   reference <- match.arg(reference, several.ok = TRUE)
 
-  get_endpoint(reference, limit = limit)
+  switch(reference,
+    fishfamilies = get_endpoint("fishfamilies", limit = limit),
+    fishgenera = get_reference_fishgenera(limit = limit),
+    fishspecies = get_reference_fishspecies(limit = limit),
+    benthicattributes = get_reference_benthicattributes(limit = limit)
+  )
+}
+
+get_reference_fishgenera <- function(limit = NULL) {
+  fishgenera <- get_endpoint("fishgenera")
+  fishfamilies <- get_endpoint("fishfamilies") %>%
+    dplyr::select(id, family = name)
+
+  fishgenera %>%
+    dplyr::left_join(fishfamilies, by = c("family" = "id"), suffix = c("_id", ""))
+}
+
+get_reference_fishspecies <- function(limit = NULL) {
+  fishspecies <- get_endpoint("fishspecies")
+
+  fishgenera <- get_endpoint("fishgenera")
+
+  choices <- mermaid_get_endpoint("choices") %>%
+    tibble::deframe()
+
+  fishgroupsizes <- choices[["fishgroupsizes"]] %>%
+    dplyr::select(id, group_size = name)
+
+  fishgrouptrophics <- choices[["fishgrouptrophics"]] %>%
+    dplyr::select(id, trophic_group = name)
+
+  fishgroupfunctions <- choices[["fishgroupfunctions"]] %>%
+    dplyr::select(id, functional_group = name)
+
+  genus <- fishgenera %>%
+    dplyr::select(id, genus = name)
+
+  fishspecies %>%
+    dplyr::rename(species = display) %>%
+    dplyr::left_join(genus, by = c("genus" = "id"), suffix = c("_id", "")) %>%
+    dplyr::left_join(fishgroupsizes, by = c("group_size" = "id"), suffix = c("_id", "")) %>%
+    dplyr::left_join(fishgrouptrophics, by = c("trophic_group" = "id"), suffix = c("_id", "")) %>%
+    dplyr::left_join(fishgroupfunctions, by = c("functional_group" = "id"), suffix = c("_id", ""))
+}
+
+get_reference_benthicattributes <- function(limit = NULL) {
+  benthicattributes <- get_endpoint("benthicattributes")
+
+  benthicattributes %>%
+    dplyr::left_join(benthicattributes %>%
+      dplyr::select(parent_id = id, parent = name), by = c("parent" = "parent_id"), suffix = c("_id", ""))
 }
 
 fishfamilies_columns <- c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "created_on", "updated_on")
