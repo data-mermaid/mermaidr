@@ -42,5 +42,5 @@ articles:
   - Title: Getting Started
     navbar: Getting Started
     contents:
-    - github
-    - r
+    - getting_help
+    - new_to_r
