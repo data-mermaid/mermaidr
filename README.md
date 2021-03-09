@@ -4,7 +4,9 @@
 # mermaidr
 
 <!-- badges: start -->
-[![R build status](https://github.com/data-mermaid/mermaidr/workflows/R-CMD-check/badge.svg)](https://github.com/data-mermaid/mermaidr/actions)
+
+[![R build
+status](https://github.com/data-mermaid/mermaidr/workflows/R-CMD-check/badge.svg)](https://github.com/data-mermaid/mermaidr/actions)
 <!-- badges: end -->
 
 `mermaidr` is an R package that enables you to access data from
@@ -17,7 +19,7 @@ For more information and detailed instructions on usage, please visit
 the [package website](https://data-mermaid.github.io/mermaidr/).
 
 If you are new to the R programming language, our [new R users
-guide](articles/r.html) is a great place to start!
+guide](articles/new_to_r.html) is a great place to start!
 
 ## Installation
 

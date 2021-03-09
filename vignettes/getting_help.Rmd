@@ -6,11 +6,11 @@ resource_files:
   - github-signup.png
 ---
 
-```{r}
+```{r include = FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-If you're running into problems using `mermaidr`, please open an issue on the [package's GitHub repository](https://data-mermaid.github.io/mermaidr/), which is where the package code lives.
+If you're running into problems using `mermaidr`, please open an issue on the [package's GitHub repository](https://github.com/data-mermaid/mermaidr), which is where the package code lives.
 
 If you haven't used GitHub before, you can create an account on the [homepage](https://github.com):
 
@@ -26,6 +26,6 @@ knitr::include_graphics("new-issue.png")
 
 And describe your problem there!
 
-It's best to be as descriptive and detailed as possible when reporting a problem. The issue title should describe the problem that you're having, and the main body should contain both the code that resulted in the problem, as well as output that illustrates the problem. Please include code and output in plain text, rather than a screenshot or photo of your code and console. 
+It's best to be as descriptive and detailed as possible when reporting a problem. The issue title should describe the problem that you're having, and the main body should contain both the code that resulted in the problem, as well as output that illustrates it. Please include code and output in plain text, rather than a screenshot or photo of your code and console. 
 
 If you're having issues with data from a particular project, please also include the ID of that project (you can find it in MERMAID Collect or from the output of the function that you ran to get projects, such as `mermaid_get_my_projects()`). This will enable us to help you as efficiently as possible!
