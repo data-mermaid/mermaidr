@@ -4,9 +4,7 @@
 # mermaidr
 
 <!-- badges: start -->
-
-[![CircleCI build
-status](https://circleci.com/gh/data-mermaid/mermaidr.svg?style=svg)](https://circleci.com/gh/data-mermaid/mermaidr)
+[![R build status](https://github.com/data-mermaid/mermaidr/workflows/R-CMD-check/badge.svg)](https://github.com/data-mermaid/mermaidr/actions)
 <!-- badges: end -->
 
 The goal of `mermaidr` is to access [MERMAID
