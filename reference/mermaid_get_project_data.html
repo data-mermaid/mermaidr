@@ -12,8 +12,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -86,6 +86,32 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li class="dropdown-header">Case Studies</li>
+    <li>
+      <a href="../articles/vo_baseline_monitoring.html">WCS Vibrant Oceans Baseline Coral Reef Monitoring</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Visualizing</li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Details</li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Getting Started</li>
+    <li>
+      <a href="../articles/getting_help.html">Getting help with mermaidr</a>
+    </li>
+    <li>
+      <a href="../articles/new_to_r.html">Getting started with R</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -161,10 +187,10 @@
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>projects</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mermaid_get_my_projects.html'>mermaid_get_my_projects</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>projects</span> <span class='op'>%&gt;%</span>
-<span class='fu'>mermaid_get_project_data</span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"fishbelt"</span>, data <span class='op'>=</span> <span class='st'>"observations"</span>, limit <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+  <span class='fu'>mermaid_get_project_data</span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"fishbelt"</span>, data <span class='op'>=</span> <span class='st'>"observations"</span>, limit <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
 
 <span class='va'>projects</span> <span class='op'>%&gt;%</span>
-<span class='fu'>mermaid_get_project_data</span><span class='op'>(</span>method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"benthicpit"</span>, <span class='st'>"fishbelt"</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='st'>"sampleevents"</span>, limit <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+  <span class='fu'>mermaid_get_project_data</span><span class='op'>(</span>method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"benthicpit"</span>, <span class='st'>"fishbelt"</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='st'>"sampleevents"</span>, limit <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
 
 <span class='va'>bleaching_obs</span> <span class='op'>&lt;-</span> <span class='va'>projects</span> <span class='op'>%&gt;%</span>
   <span class='fu'>mermaid_get_project_data</span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"bleaching"</span>, data <span class='op'>=</span> <span class='st'>"observations"</span>, limit <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
