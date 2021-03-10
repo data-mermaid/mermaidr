@@ -58,19 +58,15 @@
 <li class="divider">
     <li class="dropdown-header">Case Studies</li>
     <li>
-      <a href="articles/vo_baseline_monitoring.html">WCS Vibrant Oceans Baseline Coral Reef Monitoring</a>
+      <a href="articles/articles/vo_baseline_monitoring.html">WCS Vibrant Oceans Baseline Coral Reef Monitoring</a>
     </li>
-    <li class="divider">
-    <li class="dropdown-header">Visualizing</li>
-    <li class="divider">
-    <li class="dropdown-header">Details</li>
     <li class="divider">
     <li class="dropdown-header">Getting Started</li>
     <li>
-      <a href="articles/getting_help.html">Getting help with mermaidr</a>
+      <a href="articles/articles/new_to_r.html">Getting started with R</a>
     </li>
     <li>
-      <a href="articles/new_to_r.html">Getting started with R</a>
+      <a href="articles/articles/getting_help.html">Getting help with mermaidr</a>
     </li>
   </ul>
 </li>
@@ -78,7 +74,14 @@
   <a href="news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/data-mermaid/mermaidr/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -97,7 +100,7 @@
 
 <p><code>mermaidr</code> is an R package that enables you to access data from <a href="https://datamermaid.org/">MERMAID</a>, an open-source data platform developed to help you collect, analyze, and share coral reef monitoring data. Through <code>mermaidr</code> you can access data from collection portal, <a href="https://collect.datamermaid.org/">MERMAID Collect</a>, directly from R.</p>
 <p>For more information and detailed instructions on usage, please visit the <a href="https://data-mermaid.github.io/mermaidr/">package website</a>.</p>
-<p>If you are new to the R programming language, our <a href="articles/new_to_r.html">new R users guide</a> is a great place to start!</p>
+<p>If you are new to the R programming language, our <a href="articles/articles/new_to_r.html">new R users guide</a> is a great place to start!</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -111,7 +114,7 @@
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>Through <code>mermaidr</code>, you can access aggregated data from your coral reef surveys. To do this, first load the package and access your MERMAID Collect projects:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">mermaidr</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://data-mermaid.github.io/mermaidr">mermaidr</a></span><span class="op">)</span>
 
 <span class="va">projects</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mermaid_get_my_projects.html">mermaid_get_my_projects</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>At this point, you will have to authenticate to the Collect app. R will help you do this automatically by opening a browser window for you to log in to Collect, either via Google sign-in or username and password - however you normally do! Once you’ve logged in, come back to R. Your login credentials will be stored for a day, until they expire, and you will need to log in again. The package handles the expiration for you, so just log in again when prompted.</p>
@@ -224,7 +227,16 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="license">
+    <div class="links">
+<h2>Links</h2>
+<ul class="list-unstyled">
+<li>Browse source code at <br><a href="https://github.com/data-mermaid/mermaidr/">https://​github.com/​data-mermaid/​mermaidr/​</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/data-mermaid/mermaidr/issues">https://​github.com/​data-mermaid/​mermaidr/​issues</a>
+</li>
+</ul>
+</div>
+<div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
