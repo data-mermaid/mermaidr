@@ -39,7 +39,7 @@ get_single_reference <- function(reference, limit = NULL) {
 }
 
 get_reference_fishgenera <- function(limit = NULL) {
-  fishgenera <- get_endpoint("fishgenera")
+  fishgenera <- get_endpoint("fishgenera", limit = limit)
   fishfamilies <- get_endpoint("fishfamilies") %>%
     dplyr::select(id, family = name)
 
@@ -48,7 +48,7 @@ get_reference_fishgenera <- function(limit = NULL) {
 }
 
 get_reference_fishspecies <- function(limit = NULL) {
-  fishspecies <- get_endpoint("fishspecies")
+  fishspecies <- get_endpoint("fishspecies", limit = limit)
 
   fishgenera <- get_endpoint("fishgenera")
 
@@ -76,7 +76,7 @@ get_reference_fishspecies <- function(limit = NULL) {
 }
 
 get_reference_benthicattributes <- function(limit = NULL) {
-  benthicattributes <- get_endpoint("benthicattributes")
+  benthicattributes <- get_endpoint("benthicattributes", limit = limit)
 
   benthicattributes %>%
     dplyr::left_join(benthicattributes %>%
