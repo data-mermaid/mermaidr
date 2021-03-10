@@ -41,7 +41,7 @@ get_single_reference <- function(reference, limit = NULL) {
 get_reference_fishgenera <- function(limit = NULL) {
   fishgenera <- get_endpoint("fishgenera", limit = limit)
   fishfamilies <- get_endpoint("fishfamilies") %>%
-    dplyr::select(id, family = name)
+    dplyr::select(.data$id, family = .data$name)
 
   fishgenera %>%
     dplyr::left_join(fishfamilies, by = c("family" = "id"), suffix = c("_id", ""))
@@ -56,19 +56,19 @@ get_reference_fishspecies <- function(limit = NULL) {
     tibble::deframe()
 
   fishgroupsizes <- choices[["fishgroupsizes"]] %>%
-    dplyr::select(id, group_size = name)
+    dplyr::select(.data$id, group_size = .data$name)
 
   fishgrouptrophics <- choices[["fishgrouptrophics"]] %>%
-    dplyr::select(id, trophic_group = name)
+    dplyr::select(.data$id, trophic_group = .data$name)
 
   fishgroupfunctions <- choices[["fishgroupfunctions"]] %>%
-    dplyr::select(id, functional_group = name)
+    dplyr::select(.data$id, functional_group = .data$name)
 
   genus <- fishgenera %>%
-    dplyr::select(id, genus = name)
+    dplyr::select(.data$id, genus = .data$name)
 
   fishspecies %>%
-    dplyr::rename(species = display) %>%
+    dplyr::rename(species = .data$display) %>%
     dplyr::left_join(genus, by = c("genus" = "id"), suffix = c("_id", "")) %>%
     dplyr::left_join(fishgroupsizes, by = c("group_size" = "id"), suffix = c("_id", "")) %>%
     dplyr::left_join(fishgrouptrophics, by = c("trophic_group" = "id"), suffix = c("_id", "")) %>%
@@ -80,7 +80,7 @@ get_reference_benthicattributes <- function(limit = NULL) {
 
   benthicattributes %>%
     dplyr::left_join(benthicattributes %>%
-      dplyr::select(parent_id = id, parent = name), by = c("parent" = "parent_id"), suffix = c("_id", ""))
+      dplyr::select(parent_id = .data$id, parent = .data$name), by = c("parent" = "parent_id"), suffix = c("_id", ""))
 }
 
 fishfamilies_columns <- c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "created_on", "updated_on")
