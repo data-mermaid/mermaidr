@@ -231,10 +231,10 @@ calculate_pit_obs_percent_cover_long <- function(obs) {
     tidyr::pivot_wider(names_from = .data$benthic_category, values_from = .data$percent_cover_by_benthic_category) %>%
     tidyr::pivot_longer(-.data$fake_sample_unit_id, values_to = "obs") %>%
     dplyr::mutate(
-      name = stringr::str_to_lower(name),
-      name = stringr::str_replace_all(name, "-| ", "_")
+      name = stringr::str_to_lower(.data$name),
+      name = stringr::str_replace_all(.data$name, "-| ", "_")
     ) %>%
-    dplyr::filter(!is.na(obs))
+    dplyr::filter(!is.na(.data$obs))
 }
 
 # Habitat Complexity ----
