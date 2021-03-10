@@ -19,11 +19,15 @@ mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "f
 
   reference <- match.arg(reference, several.ok = TRUE)
 
+  res <- purrr::map(reference, get_single_reference, limit)
+}
+
+get_single_reference <- function(reference, limit = NULL) {
   switch(reference,
-    fishfamilies = get_endpoint("fishfamilies", limit = limit),
-    fishgenera = get_reference_fishgenera(limit = limit),
-    fishspecies = get_reference_fishspecies(limit = limit),
-    benthicattributes = get_reference_benthicattributes(limit = limit)
+         fishfamilies = get_endpoint("fishfamilies", limit = limit),
+         fishgenera = get_reference_fishgenera(limit = limit),
+         fishspecies = get_reference_fishspecies(limit = limit),
+         benthicattributes = get_reference_benthicattributes(limit = limit)
   )
 }
 
