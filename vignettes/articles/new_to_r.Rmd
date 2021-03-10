@@ -1,0 +1,19 @@
+---
+title: "Getting started with R"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+If `mermaidr` will be your first time using R - welcome! R is a programming language created specifically with data analysis and visualization in mind. It has a large user base spanning almost every discipline and a friendly community to go along with it.
+
+If you haven't used R before, there are a couple of steps to get all set up! We recommend the resources provided in the RStudio Education team's [beginners' guide](https://education.rstudio.com/learn/beginner/), specifically:
+
+* This online chapter of ModernDive on [Getting Started with R and RStudio](https://moderndive.netlify.app/1-getting-started.html)
+* These lessons from R-Ladies Sydney: a [tour of RStudio](https://rladiessydney.org/courses/ryouwithme/01-basicbasics-1/) and a [step-by-step guide on installing and using R packages](https://rladiessydney.org/courses/ryouwithme/01-basicbasics-2/).
+
+Once you're all set up with R and RStudio, you're all ready to install and start the `mermaidr` package! Head over to the [front page](../../index.html) of this site for installation instructions and some steps to get started, and then explore the rest of the site and other articles to understand what else is available.
+
+Please don't hesitate to reach out if you get stuck! We want to ensure that you can get set up with R to access and analyze your MERMAID data as smoothly and easily as possible - the [Getting help with mermaidr](getting_help.html) article has more information on how to reach out.

@@ -19,7 +19,7 @@ For more information and detailed instructions on usage, please visit
 the [package website](https://data-mermaid.github.io/mermaidr/).
 
 If you are new to the R programming language, our [new R users
-guide](articles/new_to_r.html) is a great place to start!
+guide](articles/articles/new_to_r.html) is a great place to start!
 
 ## Installation
 

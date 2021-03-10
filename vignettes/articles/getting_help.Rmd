@@ -1,6 +1,10 @@
 ---
 title: "Getting help with mermaidr"
 output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting help with mermaidr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 resource_files:
   - new-issue.png
   - github-signup.png

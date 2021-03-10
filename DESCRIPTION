@@ -11,6 +11,8 @@ Authors@R:
 Description: Provides tools to interact with the 'MERMAID' API
     <https://github.com/data-mermaid/mermaid-api/>.
 License: MIT + file LICENSE
+URL: https://data-mermaid.github.io/mermaidr, https://github.com/data-mermaid/mermaidr
+BugReports: https://github.com/data-mermaid/mermaidr/issues
 Encoding: UTF-8
 LazyData: true
 Depends: 

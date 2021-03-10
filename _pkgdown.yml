@@ -5,6 +5,9 @@ template:
   params:
     bootswatch: flatly
 
+toc:
+  depth: 1
+
 reference:
   - title: Authentication
     contents:
@@ -30,17 +33,17 @@ reference:
     - mermaid_get_project_sites
     - mermaid_get_project_endpoint
 
+
+
 articles:
   - title: Case Studies
     navbar: Case Studies
     contents:
-    - vo_baseline_monitoring
-  - title: Visualizing Data
-    navbar: Visualizing
-  - title: Details
-    navbar: Details
-  - Title: Getting Started
+    - articles/vo_baseline_monitoring
+  - title: Getting Started
     navbar: Getting Started
     contents:
-    - getting_help
-    - new_to_r
+    - articles/new_to_r
+    - articles/getting_help
+
+
