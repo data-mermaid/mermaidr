@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -161,10 +161,10 @@
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>projects</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mermaid_get_my_projects.html'>mermaid_get_my_projects</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>projects</span> <span class='op'>%&gt;%</span>
-<span class='fu'>mermaid_get_project_data</span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"fishbelt"</span>, data <span class='op'>=</span> <span class='st'>"observations"</span>, limit <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+  <span class='fu'>mermaid_get_project_data</span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"fishbelt"</span>, data <span class='op'>=</span> <span class='st'>"observations"</span>, limit <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
 
 <span class='va'>projects</span> <span class='op'>%&gt;%</span>
-<span class='fu'>mermaid_get_project_data</span><span class='op'>(</span>method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"benthicpit"</span>, <span class='st'>"fishbelt"</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='st'>"sampleevents"</span>, limit <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+  <span class='fu'>mermaid_get_project_data</span><span class='op'>(</span>method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"benthicpit"</span>, <span class='st'>"fishbelt"</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='st'>"sampleevents"</span>, limit <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
 
 <span class='va'>bleaching_obs</span> <span class='op'>&lt;-</span> <span class='va'>projects</span> <span class='op'>%&gt;%</span>
   <span class='fu'>mermaid_get_project_data</span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"bleaching"</span>, data <span class='op'>=</span> <span class='st'>"observations"</span>, limit <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>

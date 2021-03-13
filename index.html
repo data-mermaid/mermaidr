@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -110,17 +110,18 @@
 <span class="va">my_projects</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mermaid_get_my_projects.html">mermaid_get_my_projects</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="va">my_projects</span>
-<span class="co">#&gt; # A tibble: 8 x 14</span>
+<span class="co">#&gt; # A tibble: 9 x 14</span>
 <span class="co">#&gt;   id    name  countries num_sites tags  notes status data_policy_bel…</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;           </span>
 <span class="co">#&gt; 1 2d6c… WCS … Mozambiq…        74 "WCS… "Dat… Open   Private         </span>
 <span class="co">#&gt; 2 3a9e… Aceh… Indonesia        18 "Vib… ""    Open   Private         </span>
 <span class="co">#&gt; 3 4080… Mada… Madagasc…        74 "WCS… "MAC… Open   Private         </span>
-<span class="co">#&gt; 4 507d… Kari… Indonesia        43 "Vib… ""    Open   Private         </span>
-<span class="co">#&gt; 5 5679… Mada… Madagasc…        33 "WCS… ""    Open   Public Summary  </span>
-<span class="co">#&gt; 6 75ef… Kubu… Fiji             78 "WCS… ""    Open   Private         </span>
-<span class="co">#&gt; 7 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         </span>
-<span class="co">#&gt; 8 a1b7… Grea… Fiji             76 "Fij… ""    Open   Private         </span>
+<span class="co">#&gt; 4 4d23… Mada… Madagasc…        16 "WCS… "Mon… Open   Public Summary  </span>
+<span class="co">#&gt; 5 507d… Kari… Indonesia        43 "Vib… ""    Open   Private         </span>
+<span class="co">#&gt; 6 5679… Mada… Madagasc…        33 "WCS… ""    Open   Public Summary  </span>
+<span class="co">#&gt; 7 75ef… Kubu… Fiji             78 "WCS… ""    Open   Private         </span>
+<span class="co">#&gt; 8 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         </span>
+<span class="co">#&gt; 9 a1b7… Grea… Fiji             76 "Fij… ""    Open   Private         </span>
 <span class="co">#&gt; # … with 6 more variables: data_policy_benthiclit &lt;chr&gt;,</span>
 <span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span>
 <span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></code></pre></div>
@@ -237,19 +238,12 @@
 <span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span>
 <span class="co">#&gt; #   sample_time &lt;chr&gt;, transect_length &lt;int&gt;, transect_width &lt;chr&gt;,</span>
-<span class="co">#&gt; #   size_bin &lt;chr&gt;, observers &lt;chr&gt;, depth &lt;dbl&gt;, transect_number &lt;int&gt;,</span>
-<span class="co">#&gt; #   label &lt;chr&gt;, fish_family &lt;chr&gt;, fish_genus &lt;chr&gt;, fish_taxon &lt;chr&gt;,</span>
-<span class="co">#&gt; #   size &lt;dbl&gt;, biomass_constant_a &lt;dbl&gt;, biomass_constant_b &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   biomass_constant_c &lt;dbl&gt;, count &lt;int&gt;, biomass_kgha &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   trophic_level &lt;dbl&gt;, trophic_group &lt;chr&gt;, functional_group &lt;chr&gt;,</span>
-<span class="co">#&gt; #   vulnerability &lt;dbl&gt;, data_policy_beltfish &lt;chr&gt;, project_notes &lt;chr&gt;,</span>
-<span class="co">#&gt; #   site_notes &lt;chr&gt;, management_notes &lt;chr&gt;, sample_unit_id &lt;chr&gt;,</span>
-<span class="co">#&gt; #   sample_event_id &lt;chr&gt;, contact_link &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt; #   size_bin &lt;chr&gt;, …</span></code></pre></div>
 <p>You can access sample units data, which are observations aggregated to the sample units level. Fish belt sample units contain total biomass in kg/ha per sample unit, by trophic group:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">xpdc</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleunits"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 246 x 44</span>
+<span class="co">#&gt; # A tibble: 246 x 66</span>
 <span class="co">#&gt;    project tags  country site  latitude longitude reef_type reef_zone</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;lgl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span>
 <span class="co">#&gt;  1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    </span>
@@ -268,28 +262,14 @@
 <span class="co">#&gt; #   management &lt;chr&gt;, management_secondary &lt;chr&gt;, management_est_year &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span>
-<span class="co">#&gt; #   sample_time &lt;chr&gt;, depth &lt;dbl&gt;, transect_number &lt;int&gt;, label &lt;chr&gt;,</span>
-<span class="co">#&gt; #   size_bin &lt;chr&gt;, transect_length &lt;int&gt;, transect_width &lt;chr&gt;,</span>
-<span class="co">#&gt; #   biomass_kgha &lt;dbl&gt;, total_abundance &lt;int&gt;,</span>
-<span class="co">#&gt; #   biomass_kgha_by_trophic_group$omnivore &lt;dbl&gt;, $piscivore &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $planktivore &lt;dbl&gt;, $`invertivore-mobile` &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $`herbivore-detritivore` &lt;dbl&gt;, $`invertivore-sessile` &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $`herbivore-macroalgae` &lt;dbl&gt;, $other &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   biomass_kgha_by_fish_family$Labridae &lt;dbl&gt;, $Scaridae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Siganidae &lt;dbl&gt;, $Lutjanidae &lt;dbl&gt;, $Acanthuridae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Nemipteridae &lt;dbl&gt;, $Caesioinidae &lt;dbl&gt;, $Serranidae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Chaetodontidae &lt;dbl&gt;, $Haemulidae &lt;dbl&gt;, $Carangidae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Lethrinidae &lt;dbl&gt;, $Zanclidae &lt;dbl&gt;, $Dasyatidae &lt;dbl&gt;, $Mullidae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Aulostomidae &lt;dbl&gt;, data_policy_beltfish &lt;chr&gt;, project_notes &lt;chr&gt;,</span>
-<span class="co">#&gt; #   site_notes &lt;chr&gt;, management_notes &lt;chr&gt;, sample_event_notes &lt;chr&gt;,</span>
-<span class="co">#&gt; #   sample_event_id &lt;chr&gt;, sample_unit_ids &lt;chr&gt;, id &lt;lgl&gt;, contact_link &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt; #   sample_time &lt;chr&gt;, depth &lt;dbl&gt;, transect_number &lt;int&gt;, label &lt;chr&gt;, …</span></code></pre></div>
 <p>And finally, sample events data, which are aggregated further, to the sample event level. Fish belt sample events contain <em>mean</em> total biomass in kg/ha per sample event and by trophic group:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">xpdc_sample_events</span> <span class="op">&lt;-</span> <span class="va">xpdc</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleevents"</span><span class="op">)</span>
 
 <span class="va">xpdc_sample_events</span>
-<span class="co">#&gt; # A tibble: 46 x 34</span>
+<span class="co">#&gt; # A tibble: 46 x 56</span>
 <span class="co">#&gt;    project tags  country site  latitude longitude reef_type reef_zone</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;lgl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span>
 <span class="co">#&gt;  1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    </span>
@@ -308,18 +288,10 @@
 <span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span>
 <span class="co">#&gt; #   depth_avg &lt;dbl&gt;, biomass_kgha_avg &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   biomass_kgha_by_trophic_group_avg$omnivore &lt;dbl&gt;, $piscivore &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $planktivore &lt;dbl&gt;, $`invertivore-mobile` &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $`herbivore-detritivore` &lt;dbl&gt;, $`invertivore-sessile` &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $`herbivore-macroalgae` &lt;dbl&gt;, $other &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   biomass_kgha_by_fish_family_avg$Labridae &lt;dbl&gt;, $Scaridae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Siganidae &lt;dbl&gt;, $Carangidae &lt;dbl&gt;, $Haemulidae &lt;dbl&gt;, $Lutjanidae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Serranidae &lt;dbl&gt;, $Lethrinidae &lt;dbl&gt;, $Acanthuridae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Caesioinidae &lt;dbl&gt;, $Nemipteridae &lt;dbl&gt;, $Chaetodontidae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Zanclidae &lt;dbl&gt;, $Dasyatidae &lt;dbl&gt;, $Mullidae &lt;dbl&gt;, $Aulostomidae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   data_policy_beltfish &lt;chr&gt;, project_notes &lt;chr&gt;, site_notes &lt;chr&gt;,</span>
-<span class="co">#&gt; #   management_notes &lt;chr&gt;, sample_event_notes &lt;chr&gt;, id &lt;chr&gt;,</span>
-<span class="co">#&gt; #   sample_unit_count &lt;int&gt;, contact_link &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_omnivore &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_piscivore &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_planktivore &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_invertivore_mobile &lt;dbl&gt;, …</span></code></pre></div>
 <div id="a-note-on-saving-data" class="section level5">
 <h5 class="hasAnchor">
 <a href="#a-note-on-saving-data" class="anchor"></a>A note on saving data</h5>
@@ -350,16 +322,11 @@
 <span class="co">#&gt; #   management &lt;chr&gt;, management_secondary &lt;chr&gt;, management_est_year &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span>
-<span class="co">#&gt; #   depth_avg &lt;dbl&gt;, biomass_kgha_avg &lt;dbl&gt;, omnivore &lt;dbl&gt;, piscivore &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   planktivore &lt;dbl&gt;, invertivore_mobile &lt;dbl&gt;, herbivore_detritivore &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   invertivore_sessile &lt;dbl&gt;, herbivore_macroalgae &lt;dbl&gt;, other &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   labridae &lt;dbl&gt;, scaridae &lt;dbl&gt;, siganidae &lt;dbl&gt;, carangidae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   haemulidae &lt;dbl&gt;, lutjanidae &lt;dbl&gt;, serranidae &lt;dbl&gt;, lethrinidae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   acanthuridae &lt;dbl&gt;, caesioinidae &lt;dbl&gt;, nemipteridae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   chaetodontidae &lt;dbl&gt;, zanclidae &lt;dbl&gt;, dasyatidae &lt;dbl&gt;, mullidae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   aulostomidae &lt;dbl&gt;, data_policy_beltfish &lt;chr&gt;, project_notes &lt;chr&gt;,</span>
-<span class="co">#&gt; #   site_notes &lt;chr&gt;, management_notes &lt;chr&gt;, sample_event_notes &lt;chr&gt;,</span>
-<span class="co">#&gt; #   id &lt;chr&gt;, sample_unit_count &lt;int&gt;, contact_link &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt; #   depth_avg &lt;dbl&gt;, biomass_kgha_avg &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_omnivore &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_piscivore &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_planktivore &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_invertivore_mobile &lt;dbl&gt;, …</span></code></pre></div>
 <p>Then, you can save the data:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">readr</span><span class="op">)</span>
@@ -397,18 +364,13 @@
 <span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;chr&gt;,</span>
 <span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span>
 <span class="co">#&gt; #   sample_time &lt;chr&gt;, depth &lt;dbl&gt;, transect_number &lt;int&gt;,</span>
-<span class="co">#&gt; #   transect_length &lt;int&gt;, label &lt;chr&gt;, observers &lt;chr&gt;,</span>
-<span class="co">#&gt; #   benthic_category &lt;chr&gt;, benthic_attribute &lt;chr&gt;, growth_form &lt;chr&gt;,</span>
-<span class="co">#&gt; #   length &lt;int&gt;, total_length &lt;int&gt;, data_policy_benthiclit &lt;chr&gt;,</span>
-<span class="co">#&gt; #   project_notes &lt;chr&gt;, site_notes &lt;chr&gt;, management_notes &lt;chr&gt;,</span>
-<span class="co">#&gt; #   observation_notes &lt;chr&gt;, sample_unit_id &lt;chr&gt;, sample_event_id &lt;chr&gt;,</span>
-<span class="co">#&gt; #   contact_link &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt; #   transect_length &lt;int&gt;, …</span></code></pre></div>
 <p>You can access sample units and sample events the same way.</p>
 <p>For Benthic LIT, sample units contain percent cover per sample unit, by benthic category. Sample <em>events</em> contain <em>mean</em> percent cover per sample event, by benthic category.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mozambique</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"benthiclit"</span>, data <span class="op">=</span> <span class="st">"sampleunits"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 63 x 41</span>
+<span class="co">#&gt; # A tibble: 63 x 48</span>
 <span class="co">#&gt;    project tags  country site  latitude longitude reef_type reef_zone</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span>
 <span class="co">#&gt;  1 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef</span>
@@ -428,13 +390,7 @@
 <span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;chr&gt;,</span>
 <span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span>
 <span class="co">#&gt; #   sample_time &lt;chr&gt;, depth &lt;dbl&gt;, transect_number &lt;int&gt;,</span>
-<span class="co">#&gt; #   transect_length &lt;int&gt;, label &lt;chr&gt;, observers &lt;chr&gt;, total_length &lt;int&gt;,</span>
-<span class="co">#&gt; #   percent_cover_by_benthic_category$`Hard coral` &lt;dbl&gt;, $Macroalgae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $`Soft coral` &lt;dbl&gt;, $`Turf algae` &lt;dbl&gt;, $`Crustose coralline</span>
-<span class="co">#&gt; #   algae` &lt;dbl&gt;, $Sand &lt;dbl&gt;, $`Other invertebrates` &lt;dbl&gt;, $Seagrass &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   data_policy_benthiclit &lt;chr&gt;, project_notes &lt;chr&gt;, site_notes &lt;chr&gt;,</span>
-<span class="co">#&gt; #   management_notes &lt;chr&gt;, sample_event_notes &lt;chr&gt;, sample_event_id &lt;chr&gt;,</span>
-<span class="co">#&gt; #   sample_unit_ids &lt;chr&gt;, id &lt;lgl&gt;, contact_link &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt; #   transect_length &lt;int&gt;, …</span></code></pre></div>
 </div>
 <div id="benthic-pit-data" class="section level4">
 <h4 class="hasAnchor">
@@ -463,12 +419,7 @@
 <span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span>
 <span class="co">#&gt; #   sample_time &lt;chr&gt;, depth &lt;dbl&gt;, transect_number &lt;int&gt;,</span>
-<span class="co">#&gt; #   transect_length &lt;int&gt;, interval_start &lt;dbl&gt;, interval_size &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   label &lt;chr&gt;, observers &lt;chr&gt;, interval &lt;dbl&gt;, benthic_category &lt;chr&gt;,</span>
-<span class="co">#&gt; #   benthic_attribute &lt;chr&gt;, growth_form &lt;chr&gt;, data_policy_benthicpit &lt;chr&gt;,</span>
-<span class="co">#&gt; #   project_notes &lt;chr&gt;, site_notes &lt;chr&gt;, management_notes &lt;chr&gt;,</span>
-<span class="co">#&gt; #   observation_notes &lt;chr&gt;, sample_unit_id &lt;chr&gt;, sample_event_id &lt;chr&gt;,</span>
-<span class="co">#&gt; #   contact_link &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt; #   transect_length &lt;int&gt;, …</span></code></pre></div>
 <p>You can access sample units and sample events the same way, and the data format is the same as Benthic LIT.</p>
 <p>You can return both sample units and sample events by setting the <code>data</code> argument. This will return a list of two data frames: one containing sample units, and the other sample events.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -478,7 +429,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">xpdc_sample_units_events</span><span class="op">)</span>
 <span class="co">#&gt; [1] "sampleunits"  "sampleevents"</span>
 <span class="va">xpdc_sample_units_events</span><span class="op">[[</span><span class="st">"sampleunits"</span><span class="op">]</span><span class="op">]</span>
-<span class="co">#&gt; # A tibble: 111 x 42</span>
+<span class="co">#&gt; # A tibble: 111 x 49</span>
 <span class="co">#&gt;    project tags  country site  latitude longitude reef_type reef_zone</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;lgl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span>
 <span class="co">#&gt;  1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    </span>
@@ -498,14 +449,7 @@
 <span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span>
 <span class="co">#&gt; #   sample_time &lt;chr&gt;, depth &lt;dbl&gt;, transect_number &lt;int&gt;,</span>
-<span class="co">#&gt; #   transect_length &lt;int&gt;, label &lt;chr&gt;, interval_start &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   interval_size &lt;dbl&gt;, observers &lt;chr&gt;,</span>
-<span class="co">#&gt; #   percent_cover_by_benthic_category$Sand &lt;dbl&gt;, $Rubble &lt;dbl&gt;, $`Hard</span>
-<span class="co">#&gt; #   coral` &lt;dbl&gt;, $Macroalgae &lt;dbl&gt;, $`Soft coral` &lt;dbl&gt;, $`Turf algae` &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $`Other invertebrates` &lt;dbl&gt;, $`Bare substrate` &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, project_notes &lt;chr&gt;, site_notes &lt;chr&gt;,</span>
-<span class="co">#&gt; #   management_notes &lt;chr&gt;, sample_event_notes &lt;chr&gt;, sample_event_id &lt;chr&gt;,</span>
-<span class="co">#&gt; #   sample_unit_ids &lt;chr&gt;, id &lt;lgl&gt;, contact_link &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt; #   transect_length &lt;int&gt;, …</span></code></pre></div>
 </div>
 <div id="bleaching" class="section level4">
 <h4 class="hasAnchor">
@@ -539,12 +483,7 @@
 <span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;chr&gt;,</span>
 <span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span>
 <span class="co">#&gt; #   sample_time &lt;chr&gt;, depth &lt;dbl&gt;, quadrat_size &lt;dbl&gt;, label &lt;chr&gt;,</span>
-<span class="co">#&gt; #   observers &lt;chr&gt;, benthic_attribute &lt;chr&gt;, growth_form &lt;chr&gt;,</span>
-<span class="co">#&gt; #   count_normal &lt;int&gt;, count_pale &lt;int&gt;, count_20 &lt;int&gt;, count_50 &lt;int&gt;,</span>
-<span class="co">#&gt; #   count_80 &lt;int&gt;, count_100 &lt;int&gt;, count_dead &lt;int&gt;,</span>
-<span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, project_notes &lt;chr&gt;, site_notes &lt;chr&gt;,</span>
-<span class="co">#&gt; #   management_notes &lt;chr&gt;, sample_unit_id &lt;chr&gt;, sample_event_id &lt;chr&gt;,</span>
-<span class="co">#&gt; #   contact_link &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt; #   observers &lt;chr&gt;, …</span></code></pre></div>
 <p>The sample units and sample events data contain summaries of both Colonies Bleached and Percent Cover:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mozambique</span> <span class="op">%&gt;%</span>
@@ -568,13 +507,7 @@
 <span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;chr&gt;,</span>
 <span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span>
 <span class="co">#&gt; #   depth_avg &lt;dbl&gt;, quadrat_size_avg &lt;dbl&gt;, count_total_avg &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   count_genera_avg &lt;dbl&gt;, percent_normal_avg &lt;dbl&gt;, percent_pale_avg &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   percent_bleached_avg &lt;dbl&gt;, quadrat_count_avg &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   percent_hard_avg_avg &lt;dbl&gt;, percent_soft_avg_avg &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   percent_algae_avg_avg &lt;dbl&gt;, data_policy_bleachingqc &lt;chr&gt;,</span>
-<span class="co">#&gt; #   project_notes &lt;chr&gt;, site_notes &lt;chr&gt;, management_notes &lt;chr&gt;,</span>
-<span class="co">#&gt; #   sample_event_notes &lt;chr&gt;, id &lt;chr&gt;, sample_unit_count &lt;int&gt;,</span>
-<span class="co">#&gt; #   contact_link &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt; #   count_genera_avg &lt;dbl&gt;, percent_normal_avg &lt;dbl&gt;, percent_pale_avg &lt;dbl&gt;, …</span></code></pre></div>
 </div>
 <div id="habitat-complexity" class="section level4">
 <h4 class="hasAnchor">
@@ -594,9 +527,7 @@
 <span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   management_compliance &lt;lgl&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span>
 <span class="co">#&gt; #   depth_avg &lt;dbl&gt;, score_avg_avg &lt;dbl&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span>
-<span class="co">#&gt; #   project_notes &lt;chr&gt;, site_notes &lt;chr&gt;, management_notes &lt;chr&gt;,</span>
-<span class="co">#&gt; #   sample_event_notes &lt;chr&gt;, id &lt;chr&gt;, sample_unit_count &lt;int&gt;,</span>
-<span class="co">#&gt; #   contact_link &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt; #   project_notes &lt;chr&gt;, site_notes &lt;chr&gt;, management_notes &lt;chr&gt;, …</span></code></pre></div>
 </div>
 <div id="multiple-methods-data" class="section level4">
 <h4 class="hasAnchor">
@@ -611,7 +542,7 @@
 <span class="co">#&gt; [1] "fishbelt"   "benthicpit"</span>
 
 <span class="va">xpdc_sample_events</span><span class="op">[[</span><span class="st">"benthicpit"</span><span class="op">]</span><span class="op">]</span>
-<span class="co">#&gt; # A tibble: 38 x 32</span>
+<span class="co">#&gt; # A tibble: 38 x 39</span>
 <span class="co">#&gt;    project tags  country site  latitude longitude reef_type reef_zone</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;lgl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span>
 <span class="co">#&gt;  1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    </span>
@@ -629,12 +560,11 @@
 <span class="co">#&gt; #   management &lt;chr&gt;, management_secondary &lt;chr&gt;, management_est_year &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span>
-<span class="co">#&gt; #   depth_avg &lt;dbl&gt;, percent_cover_by_benthic_category_avg$Sand &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Rubble &lt;dbl&gt;, $`Hard coral` &lt;dbl&gt;, $Macroalgae &lt;dbl&gt;, $`Soft coral` &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $`Turf algae` &lt;dbl&gt;, $`Other invertebrates` &lt;dbl&gt;, $`Bare substrate` &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, project_notes &lt;chr&gt;, site_notes &lt;chr&gt;,</span>
-<span class="co">#&gt; #   management_notes &lt;chr&gt;, sample_event_notes &lt;chr&gt;, id &lt;chr&gt;,</span>
-<span class="co">#&gt; #   sample_unit_count &lt;int&gt;, contact_link &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt; #   depth_avg &lt;dbl&gt;, percent_cover_benthic_category_avg_sand &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   percent_cover_benthic_category_avg_rubble &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   percent_cover_benthic_category_avg_hard_coral &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   percent_cover_benthic_category_avg_macroalgae &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   percent_cover_benthic_category_avg_soft_coral &lt;dbl&gt;, …</span></code></pre></div>
 <p>Alternatively, you can set <code>method</code> to “all” to pull for all methods! Similarly, you can set <code>data</code> to “all” to pull all types of data:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_project_data</span> <span class="op">&lt;-</span> <span class="va">xpdc</span> <span class="op">%&gt;%</span>
@@ -653,24 +583,25 @@
 <p>Pulling data for multiple projects is the exact same, except there will be an additional “project” column at the beginning to distinguish which projects the data comes from. Recall that <code>my_projects</code> contains six projects:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_projects</span>
-<span class="co">#&gt; # A tibble: 8 x 14</span>
+<span class="co">#&gt; # A tibble: 9 x 14</span>
 <span class="co">#&gt;   id    name  countries num_sites tags  notes status data_policy_bel…</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;           </span>
 <span class="co">#&gt; 1 2d6c… WCS … Mozambiq…        74 "WCS… "Dat… Open   Private         </span>
 <span class="co">#&gt; 2 3a9e… Aceh… Indonesia        18 "Vib… ""    Open   Private         </span>
 <span class="co">#&gt; 3 4080… Mada… Madagasc…        74 "WCS… "MAC… Open   Private         </span>
-<span class="co">#&gt; 4 507d… Kari… Indonesia        43 "Vib… ""    Open   Private         </span>
-<span class="co">#&gt; 5 5679… Mada… Madagasc…        33 "WCS… ""    Open   Public Summary  </span>
-<span class="co">#&gt; 6 75ef… Kubu… Fiji             78 "WCS… ""    Open   Private         </span>
-<span class="co">#&gt; 7 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         </span>
-<span class="co">#&gt; 8 a1b7… Grea… Fiji             76 "Fij… ""    Open   Private         </span>
+<span class="co">#&gt; 4 4d23… Mada… Madagasc…        16 "WCS… "Mon… Open   Public Summary  </span>
+<span class="co">#&gt; 5 507d… Kari… Indonesia        43 "Vib… ""    Open   Private         </span>
+<span class="co">#&gt; 6 5679… Mada… Madagasc…        33 "WCS… ""    Open   Public Summary  </span>
+<span class="co">#&gt; 7 75ef… Kubu… Fiji             78 "WCS… ""    Open   Private         </span>
+<span class="co">#&gt; 8 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         </span>
+<span class="co">#&gt; 9 a1b7… Grea… Fiji             76 "Fij… ""    Open   Private         </span>
 <span class="co">#&gt; # … with 6 more variables: data_policy_benthiclit &lt;chr&gt;,</span>
 <span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span>
 <span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></code></pre></div>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_projects</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleevents"</span>, limit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 8 x 34</span>
+<span class="co">#&gt; # A tibble: 8 x 67</span>
 <span class="co">#&gt;   project tags  country site  latitude longitude reef_type reef_zone</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span>
 <span class="co">#&gt; 1 WCS Mo… WCS … Mozamb… Aqua…   -21.8       35.5 barrier   back reef</span>
@@ -687,22 +618,10 @@
 <span class="co">#&gt; #   management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span>
 <span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span>
 <span class="co">#&gt; #   depth_avg &lt;dbl&gt;, biomass_kgha_avg &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   biomass_kgha_by_trophic_group_avg$piscivore &lt;dbl&gt;, $planktivore &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $`invertivore-mobile` &lt;dbl&gt;, $`herbivore-detritivore` &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $omnivore &lt;dbl&gt;, $`invertivore-sessile` &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $`herbivore-macroalgae` &lt;dbl&gt;, $other &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   biomass_kgha_by_fish_family_avg$other &lt;dbl&gt;, $Labridae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Mullidae &lt;dbl&gt;, $Scaridae &lt;dbl&gt;, $Siganidae &lt;dbl&gt;, $Balistidae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Lutjanidae &lt;dbl&gt;, $Serranidae &lt;dbl&gt;, $Acanthuridae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Holocentridae &lt;dbl&gt;, $Pomacanthidae &lt;dbl&gt;, $Pomacentridae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Chaetodontidae &lt;dbl&gt;, $Zanclidae &lt;dbl&gt;, $Pempheridae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Nemipteridae &lt;dbl&gt;, $Synodontidae &lt;dbl&gt;, $Tetraodontidae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Blenniidae &lt;dbl&gt;, $Haemulidae &lt;dbl&gt;, $Caesioinidae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Apogonidae &lt;dbl&gt;, $Lethrinidae &lt;dbl&gt;, $Monocanthidae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   $Carangidae &lt;dbl&gt;, $Kyphosidae &lt;dbl&gt;, $Carcharhinidae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   data_policy_beltfish &lt;chr&gt;, project_notes &lt;chr&gt;, site_notes &lt;chr&gt;,</span>
-<span class="co">#&gt; #   management_notes &lt;chr&gt;, sample_event_notes &lt;chr&gt;, id &lt;chr&gt;,</span>
-<span class="co">#&gt; #   sample_unit_count &lt;int&gt;, contact_link &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_piscivore &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_planktivore &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_invertivore_mobile &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_herbivore_detritivore &lt;dbl&gt;, …</span></code></pre></div>
 <p>Note the <code>limit</code> argument here, which just limits the data pulled to one record (per project, method, and data combination). This is useful if you want to get a preview of what your data will look like without having to pull it all in.</p>
 </div>
 </div>
@@ -732,7 +651,7 @@
 <p>You can also get a list of <em>all</em> projects (not just your own):</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/mermaid_get_projects.html">mermaid_get_projects</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 124 x 14</span>
+<span class="co">#&gt; # A tibble: 125 x 14</span>
 <span class="co">#&gt;    id    name  countries num_sites tags  notes status data_policy_bel…</span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;           </span>
 <span class="co">#&gt;  1 0067… TPK … "Indones…        15 "WCS… ""    Open   Private         </span>
@@ -745,13 +664,13 @@
 <span class="co">#&gt;  8 0f17… what  ""                0 ""    ""    Open   Public Summary  </span>
 <span class="co">#&gt;  9 124b… Sam   ""                0 ""    ""    Open   Private         </span>
 <span class="co">#&gt; 10 1277… Taka… "Indones…        39 "WCS… ""    Open   Public Summary  </span>
-<span class="co">#&gt; # … with 114 more rows, and 6 more variables: data_policy_benthiclit &lt;chr&gt;,</span>
+<span class="co">#&gt; # … with 115 more rows, and 6 more variables: data_policy_benthiclit &lt;chr&gt;,</span>
 <span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span>
 <span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></code></pre></div>
 <p>As well as all sites:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/mermaid_get_sites.html">mermaid_get_sites</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 2,512 x 13</span>
+<span class="co">#&gt; # A tibble: 2,515 x 13</span>
 <span class="co">#&gt;    id    name  notes project latitude longitude country reef_type reef_zone</span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;    </span>
 <span class="co">#&gt;  1 0235… BA09  ""    a1b7ff…    -17.4      178. Fiji    atoll     back reef</span>
@@ -764,12 +683,12 @@
 <span class="co">#&gt;  8 2a46… BA04  ""    89f2d4…    -17.4      178. Fiji    atoll     back reef</span>
 <span class="co">#&gt;  9 2af4… BA12  ""    a1b7ff…    -17.3      178. Fiji    atoll     back reef</span>
 <span class="co">#&gt; 10 2c31… BA05  ""    89f2d4…    -17.4      178. Fiji    atoll     back reef</span>
-<span class="co">#&gt; # … with 2,502 more rows, and 4 more variables: exposure &lt;chr&gt;,</span>
+<span class="co">#&gt; # … with 2,505 more rows, and 4 more variables: exposure &lt;chr&gt;,</span>
 <span class="co">#&gt; #   predecessor &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></code></pre></div>
 <p>And all managements:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/mermaid_get_managements.html">mermaid_get_managements</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 678 x 17</span>
+<span class="co">#&gt; # A tibble: 681 x 17</span>
 <span class="co">#&gt;    id    name  name_secondary rules notes est_year no_take periodic_closure</span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt;    &lt;int&gt; &lt;lgl&gt;   &lt;lgl&gt;           </span>
 <span class="co">#&gt;  1 0031… Mata… "Fish Habitat… No T… ""        2018 TRUE    FALSE           </span>
@@ -782,7 +701,7 @@
 <span class="co">#&gt;  8 02cd… Kaib… ""             Peri… ""        2017 FALSE   TRUE            </span>
 <span class="co">#&gt;  9 02e5… VIR3  ""             No T… ""        2012 TRUE    FALSE           </span>
 <span class="co">#&gt; 10 03ba… VIR9  ""             No T… ""        2016 TRUE    FALSE           </span>
-<span class="co">#&gt; # … with 668 more rows, and 9 more variables: open_access &lt;lgl&gt;,</span>
+<span class="co">#&gt; # … with 671 more rows, and 9 more variables: open_access &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   size_limits &lt;lgl&gt;, gear_restriction &lt;lgl&gt;, species_restriction &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   compliance &lt;chr&gt;, predecessor &lt;chr&gt;, parties &lt;chr&gt;, created_on &lt;chr&gt;,</span>
 <span class="co">#&gt; #   updated_on &lt;chr&gt;</span></code></pre></div>

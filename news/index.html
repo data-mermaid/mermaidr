@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -109,6 +109,14 @@
       
     </div>
 
+    <div id="mermaidr-030" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.0">
+<a href="#mermaidr-030" class="anchor"></a>mermaidr 0.3.0</h1>
+<ul>
+<li>Updated <code><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code> to automatically unpack any data frame columns. This affects the fishbelt, benthic PIT, and benthic LIT methods, for both sample units and sample events data. This is a breaking change, expected to affect existing code that uses the <code>biomass_kgha_by_trophic_group</code>, <code>biomass_kgha_by_fish_family</code>, and <code>percent_cover_by_benthic_category</code> columns in sample units, and their <code>*_avg</code> counterparts in sample events. Instead of these columns, results will now contain a column for subgroup - for example, instead of <code>biomass_kgha_by_trophic_group</code> there will be columns such as <code>biomass_kgha_trophic_group_piscivore</code> and <code>biomass_kgha_trophic_group_planktivore</code>.</li>
+<li>Updated <code><a href="../reference/mermaid_get_reference.html">mermaid_get_reference()</a></code> to provide enhanced reference data, returning actual values for e.g. fish family, sizes, groups, etc, instead of their internal IDs. The <code>display</code> column for the “fishspecies” reference has been renamed to <code>species</code> (<a href="https://github.com/data-mermaid/mermaidr/issues/21">#21</a>).</li>
+</ul>
+</div>
     <div id="mermaidr-022" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.2">
 <a href="#mermaidr-022" class="anchor"></a>mermaidr 0.2.2</h1>
