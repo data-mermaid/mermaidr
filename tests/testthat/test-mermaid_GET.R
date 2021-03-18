@@ -59,7 +59,7 @@ test_that("suppress_http_warning suppresses HTTP warnings", {
   expect_silent(suppress_http_warning(httr::GET("https://dev-api.datamermaid.org/v1/projects/")))
 })
 
-test_that("expand_covariates pulls max value and can handle both covariates present, one missing, and both missing", {
+test_that("expand_covariates pulls max value and can handle both covariates present, one missing, both missing, and just NULL values", {
   both_present <- dplyr::tibble(
     id = c(1, 1),
     name = c("name_1", "name_2"),
@@ -93,19 +93,24 @@ test_that("expand_covariates pulls max value and can handle both covariates pres
     tidyr::nest(covariates = c(id, name, value)) %>%
     dplyr::mutate(id = 3)
 
+  covariates_null <- dplyr::tibble(covariates = NULL, id = 4)
+
   covariates_df <- both_present %>%
     dplyr::bind_rows(one_missing) %>%
-    dplyr::bind_rows(both_missing)
+    dplyr::bind_rows(both_missing) %>%
+    dplyr::bind_rows(covariates_null)
 
   covariates_expanded <- covariates_df %>%
     dplyr::mutate(covariates = purrr::map(covariates, expand_covariates)) %>%
-    tidyr::unnest(covariates)
+    tidyr::unnest(covariates) %>%
+    dplyr::select(-covariates)
 
   expected <- tibble::tribble(
     ~name_1, ~name_2, ~id,
     "subname_2", "subname_4", 1,
     "subname_2", NA_character_, 2,
-    NA_character_, NA_character_, 3
+    NA_character_, NA_character_, 3,
+    NA_character_, NA_character_, 4
   )
 
   expect_identical(covariates_expanded, expected)

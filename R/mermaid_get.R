@@ -136,7 +136,8 @@ initial_cleanup <- function(results, endpoint) {
   if ("covariates" %in% names(results)) {
     results <- results %>%
       dplyr::mutate(covariates = purrr::map(.data$covariates, expand_covariates)) %>%
-      tidyr::unnest(.data$covariates)
+      tidyr::unnest(.data$covariates) %>%
+      dplyr::select(-.data$covariates)
   }
 
   if (endpoint != "choices") {
@@ -190,6 +191,10 @@ collapse_id_name_lists <- function(results) {
 }
 
 expand_covariates <- function(x) {
+  if (length(x) == 0) {
+    return(NA)
+  }
+
   x %>%
     dplyr::select(.data$name, .data$value) %>%
     dplyr::mutate(value = purrr::map_chr(.data$value, max_covariate_value)) %>%
