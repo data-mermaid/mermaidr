@@ -103,7 +103,7 @@ test_that("expand_covariates pulls max value and can handle both covariates pres
   covariates_expanded <- covariates_df %>%
     dplyr::mutate(covariates = purrr::map(covariates, expand_covariates)) %>%
     tidyr::unnest(covariates) %>%
-    dplyr::select(-covariates)
+    dplyr::select(-dplyr::any_of("covariates"))
 
   expected <- tibble::tribble(
     ~name_1, ~name_2, ~id,
@@ -114,4 +114,11 @@ test_that("expand_covariates pulls max value and can handle both covariates pres
   )
 
   expect_identical(covariates_expanded, expected)
+
+  expect_error(covariates_df %>%
+    dplyr::slice(1:3) %>%
+    dplyr::mutate(covariates = purrr::map(covariates, expand_covariates)) %>%
+    tidyr::unnest(covariates) %>%
+    dplyr::select(-.data$covariates))
+
 })
