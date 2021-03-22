@@ -1,3 +1,7 @@
+# mermaidr 0.2.4
+
+* Fixed bug introduced by handling `NULL` `covariates`.
+
 # mermaidr 0.2.3
 
 * Fixed bug with handling of covariates (now properly handles case where `covariates` are `NULL`).

@@ -137,7 +137,7 @@ initial_cleanup <- function(results, endpoint) {
     results <- results %>%
       dplyr::mutate(covariates = purrr::map(.data$covariates, expand_covariates)) %>%
       tidyr::unnest(.data$covariates) %>%
-      dplyr::select(-.data$covariates)
+      dplyr::select(-dplyr::any_of("covariates"))
   }
 
   if (endpoint != "choices") {
