@@ -19,7 +19,9 @@ mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "f
 
   reference <- match.arg(reference, several.ok = TRUE)
 
-  res <- purrr::map(reference, get_single_reference, limit)
+  choices <- mermaid_get_endpoint("choices")
+  res <- purrr::map(reference, get_single_reference, limit, choices)
+  res <- purrr::map(res, lookup_regions, choices)
 
   if (length(reference) > 1) {
     names(res) <- reference
@@ -29,11 +31,11 @@ mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "f
   }
 }
 
-get_single_reference <- function(reference, limit = NULL) {
+get_single_reference <- function(reference, limit = NULL, choices = mermaid_get_endpoint("choices")) {
   switch(reference,
     fishfamilies = get_endpoint("fishfamilies", limit = limit),
     fishgenera = get_reference_fishgenera(limit = limit),
-    fishspecies = get_reference_fishspecies(limit = limit),
+    fishspecies = get_reference_fishspecies(limit = limit, choices = choices),
     benthicattributes = get_reference_benthicattributes(limit = limit)
   )
 }
@@ -47,12 +49,12 @@ get_reference_fishgenera <- function(limit = NULL) {
     dplyr::left_join(fishfamilies, by = c("family" = "id"), suffix = c("_id", ""))
 }
 
-get_reference_fishspecies <- function(limit = NULL) {
+get_reference_fishspecies <- function(limit = NULL, choices = mermaid_get_endpoint("choices")) {
   fishspecies <- get_endpoint("fishspecies", limit = limit)
 
   fishgenera <- get_endpoint("fishgenera")
 
-  choices <- mermaid_get_endpoint("choices") %>%
+  choices <- choices %>%
     tibble::deframe()
 
   fishgroupsizes <- choices[["fishgroupsizes"]] %>%
@@ -83,7 +85,32 @@ get_reference_benthicattributes <- function(limit = NULL) {
       dplyr::select(parent_id = .data$id, parent = .data$name), by = c("parent" = "parent_id"), suffix = c("_id", ""))
 }
 
-fishfamilies_columns <- c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "created_on", "updated_on")
-fishgenera_columns <- c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "family", "created_on", "updated_on")
-fishspecies_columns <- c("id", "name", "display", "notes", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "climate_score", "vulnerability", "max_length", "trophic_level", "max_length_type", "genus", "group_size", "trophic_group", "functional_group", "created_on", "updated_on")
-benthicattributes_columns <- c("id", "name", "status", "parent", "updated_on", "created_on")
+lookup_regions <- function(results, choices = mermaid_get_endpoint("choices")) {
+
+  regions <- choices %>%
+    tibble::deframe() %>%
+    purrr::pluck("regions") %>%
+    dplyr::select(.data$id, regions = .data$name)
+
+  results_row <- results %>%
+    dplyr::mutate(row = dplyr::row_number())
+
+  row_regions <- results_row %>%
+    dplyr::select(.data$row, .data$regions) %>%
+    tidyr::separate_rows(.data$regions, sep = "; ") %>%
+    dplyr::filter(.data$regions != "NA") %>%
+    dplyr::left_join(regions, by = c("regions" = "id"), suffix = c("_id", "")) %>%
+    dplyr::group_by(.data$row) %>%
+    dplyr::summarise(regions = paste(.data$regions, collapse = "; "))
+
+  results_row %>%
+    dplyr::left_join(row_regions, by = "row", suffix = c("_id", "")) %>%
+    dplyr::select(-.data$row, -.data$regions_id) %>%
+    dplyr::select(names(results))
+
+}
+
+fishfamilies_columns <- c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "regions", "created_on", "updated_on")
+fishgenera_columns <- c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "family", "regions", "created_on", "updated_on")
+fishspecies_columns <- c("id", "name", "display", "notes", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "climate_score", "vulnerability", "max_length", "trophic_level", "max_length_type", "genus", "group_size", "trophic_group", "functional_group", "regions", "created_on", "updated_on")
+benthicattributes_columns <- c("id", "name", "status", "parent", "regions", "updated_on", "created_on")
