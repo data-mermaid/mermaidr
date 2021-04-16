@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![R build
-status](https://github.com/data-mermaid/mermaidr/workflows/R-CMD-check/badge.svg)](https://github.com/data-mermaid/mermaidr/actions)
+status](https://github.com/data-mermaid/mermaidr/workflows/R-CMD-check/badge.svg)](https://github.com/data-mermaid/mermaidr/actions) 
 <!-- badges: end -->
 
 `mermaidr` is an R package that enables you to access data from
