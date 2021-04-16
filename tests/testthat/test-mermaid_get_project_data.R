@@ -684,6 +684,36 @@ test_that("Benthic PIT sample event aggregation is the same as manually aggregat
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
 
+## Missing sample unit cases
+
+test_that("Benthic PIT sample unit aggregation is the same as manually aggregating observations, cases where some sample units were previously missing", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  project_id <- "e1efb1e0-0af8-495a-9c69-fddcdba11c14"
+
+  obs <- mermaid_get_project_data(project_id, "benthicpit", "observations")
+
+  sus <- mermaid_get_project_data(project_id, "benthicpit", "sampleunits")
+
+  obs <- obs %>%
+    construct_fake_sample_unit_id()
+
+  # Check first that there are the same number of fake SUs as real SUs
+  test_n_fake_sus(obs, sus)
+
+  # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
+  # Just aggregate straight up to percent_cover_by_benthic_category
+  # Do this by getting the length for each benthic category (sum of interval_size) divided by the total length (transect_length)
+
+  obs_agg_for_su_comparison <- calculate_pit_obs_percent_cover_long(obs)
+
+  sus_for_su_comparison <- aggregate_sus_percent_cover_long(sus)
+
+  test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
+})
+
 # Habitat Complexity -----
 
 test_that("Habitat complexity sample unit aggregation is the same as manually aggregating observations", {
