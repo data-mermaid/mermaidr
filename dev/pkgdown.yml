@@ -1,9 +1,6 @@
 pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
-articles:
-  articles/getting_help: getting_help.html
-  articles/new_to_r: new_to_r.html
-  articles/vo_baseline_monitoring: vo_baseline_monitoring.html
-last_built: 2021-03-10T17:12Z
+articles: {}
+last_built: 2021-04-16T19:44Z
 
