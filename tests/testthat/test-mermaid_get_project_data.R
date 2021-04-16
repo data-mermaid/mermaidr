@@ -14,7 +14,7 @@ test_that("mermaid_get_project_data allows multiple methods", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
-  p <- mermaid_get_my_projects(limit = 1)
+  p <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
   output <- mermaid_get_project_data(p, method = c("fishbelt", "benthicpit", "benthiclit"), data = "sampleunits", limit = 1)
   expect_named(output, c("fishbelt", "benthicpit", "benthiclit"))
 })
@@ -23,7 +23,7 @@ test_that("mermaid_get_project_data allows multiple forms of data", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
-  p <- mermaid_get_my_projects(limit = 1)
+  p <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
   output <- mermaid_get_project_data(p, method = "fishbelt", data = c("observations", "sampleunits", "sampleevents"), limit = 1)
   expect_is(output, "list")
   expect_named(output, c("observations", "sampleunits", "sampleevents"))
@@ -33,7 +33,7 @@ test_that("mermaid_get_project_data allows multiple methods and multiple forms o
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
-  p <- mermaid_get_my_projects(limit = 2)
+  p <- c("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a")
   output <- mermaid_get_project_data(p, method = c("fishbelt", "benthicpit"), data = c("observations", "sampleunits", "sampleevents"), limit = 1)
   expect_named(output, c("fishbelt", "benthicpit"))
   expect_named(output[["fishbelt"]], c("observations", "sampleunits", "sampleevents"))
@@ -47,7 +47,7 @@ test_that("mermaid_get_project_data errors if passed a wrong method or data", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
-  p <- mermaid_get_my_projects(limit = 1)
+  p <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
   expect_error(mermaid_get_project_data(p, method = "beltfishs", data = "sampleunits"), "one of")
   expect_error(mermaid_get_project_data(p, method = "benthicpits", data = "samplevents"), "one of")
 })
@@ -56,7 +56,7 @@ test_that("mermaid_get_project_data setting 'all' works", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
-  p <- mermaid_get_my_projects(limit = 1)
+  p <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
   output <- mermaid_get_project_data(p, method = "all", data = "all", limit = 1)
   expect_named(output, c("fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity"))
   purrr::walk(output, expect_named, c("observations", "sampleunits", "sampleevents"))
@@ -162,7 +162,7 @@ test_that("mermaid_get_project_data does not return the df-column in cases where
 
 # Fishbelt ----
 
-# Vanilla fishbelt ----
+## Vanilla fishbelt ----
 
 test_that("Vanilla fishbelt sample unit aggregation is the same as manually aggregating observations", {
   skip_if_offline()
@@ -225,7 +225,7 @@ test_that("Vanilla fishbelt sample event aggregation is the same as manually agg
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
 
-# Variable widths ----
+## Variable widths ----
 
 test_that("Variables widths fishbelt observations view biomass is the same as manually calculating biomass", {
   skip_if_offline()
@@ -316,7 +316,7 @@ test_that("Variable widths fishbelt sample event aggregation is the same as manu
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
 
-# Big/small fish ----
+## Big/small fish ----
 
 test_that("Big/small fish fishbelt sample unit aggregation is the same as manually aggregating observations", {
   skip_if_offline()
@@ -430,7 +430,69 @@ test_that("Big/small fish fishbelt sample event aggregation is the same as manua
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
 
-# Deep/shallow ----
+## Missing sample unit cases ----
+
+test_that("Fishbelt sample unit aggregation is the same as manually aggregating observations, cases where some sample units were previously missing", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  project_id <- "02e6915c-1c64-4d2c-bac0-326b560415a2"
+
+  obs <- mermaid_get_project_data(project_id, "fishbelt", "observations") %>%
+    construct_fake_sample_unit_id()
+
+  sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
+
+  # Remove SUs with zero observations, since they don't appear in the observations endpoint and will mess up the comparisons
+
+  sus_minus_zeros <- sus %>%
+    dplyr::filter(biomass_kgha != 0) %>%
+    construct_fake_sample_unit_id()
+
+  # Check first that there are the same number of fake SUs as real SUs
+  test_n_fake_sus(obs, sus_minus_zeros)
+
+  # Aggregate observations to sample units - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc
+  # Just aggregate straight up to calculate biomass_kgha, biomass_kgha_by_trophic_group, and biomass_kgha_by_fish_family
+
+  obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
+
+  sus_for_su_comparison <- aggregate_sus_biomass_long(sus_minus_zeros)
+
+  # Check that values match
+
+  test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
+
+  project_id <- "170e7182-700a-4814-8f1e-45ee1caf3b44"
+
+  obs <- mermaid_get_project_data(project_id, "fishbelt", "observations") %>%
+    construct_fake_sample_unit_id()
+
+  sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
+
+  # Remove SUs with zero observations, since they don't appear in the observations endpoint and will mess up the comparisons
+
+  sus_minus_zeros <- sus %>%
+    dplyr::filter(biomass_kgha != 0) %>%
+    construct_fake_sample_unit_id()
+
+  # Check first that there are the same number of fake SUs as real SUs
+  test_n_fake_sus(obs, sus_minus_zeros)
+
+  # Aggregate observations to sample units - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc
+  # Just aggregate straight up to calculate biomass_kgha, biomass_kgha_by_trophic_group, and biomass_kgha_by_fish_family
+
+  obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
+
+  sus_for_su_comparison <- aggregate_sus_biomass_long(sus_minus_zeros)
+
+  # Check that values match
+
+  test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
+})
+
+## Deep/shallow ----
 
 test_that("Deep/shallow fishbelt sample unit aggregation is the same as manually aggregating observations", {
   skip_if_offline()
