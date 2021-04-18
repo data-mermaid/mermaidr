@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">mermaidr</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.3.0.0001</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.3.1.9000</span>
       </span>
     </div>
 
@@ -125,14 +125,14 @@
 <p>For this analysis, WCS field teams accessed ecological condition using underwater surveys to assess two key indicators of coral reef health: live hard coral cover and reef fish biomass. This data is available from <code>mermaidr</code> via the benthic PIT and fishbelt methods, respectively. We’ll focus on projects that have summary data publicly available for these methods.</p>
 <p>We are able to see the data policy of projects and methods by looking at the <code>data_policy_*</code> columns of <code>vo_projects</code>. For example, focusing on benthic PIT and fishbelt, we can see that the Taka Bonerate NP-2019 project has summary data publicly available for fishbelt and benthic PIT, while the 2019 Dama Bureta Waibula and Dawasamu-WISH ecological survey has public data available for only benthic PIT.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 
 <span class="va">vo_projects</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">data_policy_beltfish</span>, <span class="va">data_policy_benthicpit</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 5 x 3</span>
 <span class="co">#&gt;   name                                   data_policy_beltfi… data_policy_benthi…</span>
 <span class="co">#&gt;   &lt;chr&gt;                                  &lt;chr&gt;               &lt;chr&gt;              </span>
-<span class="co">#&gt; 1 Aceh Jaya Coastal Park                 Private             Private            </span>
+<span class="co">#&gt; 1 Aceh Jaya Coastal Park 2020            Private             Private            </span>
 <span class="co">#&gt; 2 Karimunjawa NP 2019                    Private             Private            </span>
 <span class="co">#&gt; 3 2019_Dama Bureta Waibula and Dawasamu… Private             Public Summary     </span>
 <span class="co">#&gt; 4 Tanzania Vibrant Oceans 2019           Private             Private            </span>

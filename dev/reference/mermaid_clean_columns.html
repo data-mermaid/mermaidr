@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get MERMAID sites — mermaid_get_sites • mermaidr</title>
+<title>Expand columns in MERMAID output — mermaid_clean_columns • mermaidr</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get MERMAID sites — mermaid_get_sites" />
-<meta property="og:description" content="Get all MERMAID sites (not project specific). Returns metadata on sites, including site ID and name, notes, project, latitude and longitude, country, reef type and zone, exposure, and when the site was created and last updated." />
+<meta property="og:title" content="Expand columns in MERMAID output — mermaid_clean_columns" />
+<meta property="og:description" content="Expands data-frame columns (df-cols) that come from mermaidr. Optionally cleans the column names." />
 
 
 <meta name="robots" content="noindex">
@@ -133,30 +133,53 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get MERMAID sites</h1>
-    <small class="dont-index">Source: <a href='https://github.com/data-mermaid/mermaidr/blob/master/R/mermaid_get_sites.R'><code>R/mermaid_get_sites.R</code></a></small>
-    <div class="hidden name"><code>mermaid_get_sites.Rd</code></div>
+    <h1>Expand columns in MERMAID output</h1>
+    <small class="dont-index">Source: <a href='https://github.com/data-mermaid/mermaidr/blob/master/R/mermaid_clean_columns.R'><code>R/mermaid_clean_columns.R</code></a></small>
+    <div class="hidden name"><code>mermaid_clean_columns.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get all MERMAID sites (not project specific). Returns metadata on sites, including site ID and name, notes, project, latitude and longitude, country, reef type and zone, exposure, and when the site was created and last updated.</p>
+    <p>Expands data-frame columns (df-cols) that come from <code>mermaidr</code>. Optionally cleans the column names.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mermaid_get_sites</span><span class='op'>(</span>limit <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>mermaid_clean_columns</span><span class='op'>(</span><span class='va'>.data</span>, append_column_prefix <span class='op'>=</span> <span class='cn'>FALSE</span>, clean_names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>limit</th>
-      <td><p>Number of records to get. Use NULL (the default) to get all records.</p></td>
+      <th>.data</th>
+      <td><p>Input data</p></td>
+    </tr>
+    <tr>
+      <th>append_column_prefix</th>
+      <td><p>Whether to append the df-cols name as a prefix. Defaults to FALSE</p></td>
+    </tr>
+    <tr>
+      <th>clean_names</th>
+      <td><p>Whether clean the new column names into <code>snake_case</code> format, in case they are not clean (e.g. contain spaces, dashes, etc). Note that the name cleaning applies to *all* columns, not just ones resulting from the df-cols.</p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>mermaid_get_sites</span><span class='op'>(</span>limit <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+
+<span class='va'>sampleunits</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mermaid_get_my_projects.html'>mermaid_get_my_projects</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='mermaid_get_project_data.html'>mermaid_get_project_data</a></span><span class='op'>(</span><span class='st'>"fishbelt"</span>, <span class='st'>"sampleunits"</span>, limit <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>project</span>, <span class='va'>biomass_kgha_by_trophic_group</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>sampleunits</span><span class='op'>)</span>
+<span class='co'># [1] "project" "biomass_kgha_by_trophic_group"</span>
+
+<span class='va'>sampleunits</span> <span class='op'>&lt;-</span> <span class='va'>sampleunits</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mermaid_clean_columns</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>sampleunits</span><span class='op'>)</span>
+<span class='co'># [1] "project"               "piscivore"             "planktivore"</span>
+<span class='co'># [4] "invertivore_mobile"    "herbivore_detritivore"</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
