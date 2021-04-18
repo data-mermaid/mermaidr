@@ -17,7 +17,7 @@ mermaid_clean_columns(.data, append_column_prefix = FALSE, clean_names = TRUE)
 Expands data-frame columns (df-cols) that come from \code{mermaidr}. Optionally cleans the column names.
 }
 \examples{
-\donttest{
+\dontrun{
 library(dplyr)
 
 sampleunits <- mermaid_get_my_projects() \%>\%

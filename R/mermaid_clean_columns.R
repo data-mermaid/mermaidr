@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' library(dplyr)
 #'
 #' sampleunits <- mermaid_get_my_projects() %>%
