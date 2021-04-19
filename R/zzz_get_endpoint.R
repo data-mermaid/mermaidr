@@ -6,6 +6,7 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
   url <- base_url
 
   endpoint <- match.arg(endpoint, several.ok = TRUE)
+
   res <- mermaid_GET(endpoint, limit = limit, ...)
 
   res_lookups <- purrr::map2(res, names(res), lookup_choices)

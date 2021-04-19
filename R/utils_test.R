@@ -59,7 +59,11 @@ test_obs_vs_sus_agg <- function(obs_agg, sus_agg) {
     dplyr::mutate_if(is.double, as.numeric) %>%
     dplyr::mutate_if(is.numeric, dplyr::coalesce, 0)
 
-  testthat::expect_true(all(obs_vs_su_match[["obs"]] -  obs_vs_su_match[["su"]] < 1))
+  if(any(is.na(suppressWarnings(as.numeric(obs_vs_su_match[["su"]]))))) {
+    testthat::expect_true(all(obs_vs_su_match[["obs"]] == obs_vs_su_match[["su"]]))
+  } else {
+    testthat::expect_true(all(obs_vs_su_match[["obs"]] - obs_vs_su_match[["su"]] < 1))
+  }
 }
 
 # Fishbelt ----
