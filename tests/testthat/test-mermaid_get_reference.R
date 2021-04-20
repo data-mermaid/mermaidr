@@ -31,6 +31,9 @@ test_that("mermaid_get_reference errors if passed an unknown reference", {
 })
 
 test_that("mermaid_get_reference returns the regions with lookup values", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
   fishfamilies <- mermaid_get_reference("fishfamilies")
   expect_true(any(stringr::str_detect(fishfamilies[["regions"]], "Eastern Indo-Pacific")))
 })
