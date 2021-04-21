@@ -184,6 +184,11 @@ repack_df_cols <- function(x) {
 }
 
 add_project_identifiers <- function(res, project) {
+
+  if(ncol(res) == 0) {
+    return(res)
+  }
+
   if ("project_name" %in% names(res)) {
     res <- dplyr::select(res, project = .data$project_name, dplyr::everything())
   } else if ("name" %in% names(project)) {

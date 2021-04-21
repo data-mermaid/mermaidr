@@ -1,3 +1,8 @@
+# mermaidr 0.3.2
+
+* Removed ability to query "beltfishes", "benthicpits", and "habitatcomplexities" in `mermaid_get_project_endpoint()`, since the endpoints were removed from the underlying API.
+* Bug fixes.
+
 # mermaidr 0.3.1
 
 * Updated `mermaid_get_reference()` to include regions.

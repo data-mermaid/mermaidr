@@ -6,11 +6,10 @@
 \usage{
 mermaid_get_project_endpoint(
   project = mermaid_get_default_project(),
-  endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods",
-    "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords",
-    "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits",
-    "obshabitatcomplexities", "obstransectbeltfishs", "observers", "project_profiles",
-    "sampleevents"),
+  endpoint = c("beltfishtransectmethods", "benthiclittransectmethods",
+    "benthicpittransectmethods", "benthictransects", "collectrecords",
+    "fishbelttransects", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities",
+    "obstransectbeltfishs", "observers", "project_profiles", "sampleevents"),
   limit = NULL,
   token = mermaid_token()
 )

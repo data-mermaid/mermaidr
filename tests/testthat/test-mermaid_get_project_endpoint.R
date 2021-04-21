@@ -4,13 +4,10 @@ test_that("mermaid_get_project_endpoint returns a tibble with specified names wh
   skip_on_cran()
   test_project <- "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a"
   expect_named(get_project_endpoint(test_project, "beltfishtransectmethods", limit = 1), project_other_endpoint_columns[["beltfishtransectmethods"]])
-  expect_named(get_project_endpoint(test_project, "beltfishes", limit = 1), project_other_endpoint_columns[["beltfishes"]])
   expect_named(get_project_endpoint(test_project, "benthiclittransectmethods", limit = 1), project_other_endpoint_columns[["benthiclittransectmethods"]])
   expect_named(get_project_endpoint(test_project, "benthicpittransectmethods", limit = 1), project_other_endpoint_columns[["benthicpittransectmethods"]])
-  expect_named(get_project_endpoint(test_project, "benthicpits", limit = 1), project_other_endpoint_columns[["benthicpits"]])
   expect_named(get_project_endpoint(test_project, "collectrecords", limit = 1), project_other_endpoint_columns[["collectrecords"]])
   expect_named(get_project_endpoint(test_project, "fishbelttransects", limit = 1), project_other_endpoint_columns[["fishbelttransects"]])
-  expect_named(get_project_endpoint(test_project, "habitatcomplexities", limit = 1), project_other_endpoint_columns[["habitatcomplexities"]])
   expect_named(get_project_endpoint(test_project, "obsbenthiclits", limit = 1), project_other_endpoint_columns[["obsbenthiclits"]])
   expect_named(get_project_endpoint(test_project, "obsbenthicpits", limit = 1), project_other_endpoint_columns[["obsbenthicpits"]])
   expect_named(get_project_endpoint(test_project, "obshabitatcomplexities", limit = 1), project_other_endpoint_columns[["obshabitatcomplexities"]])
