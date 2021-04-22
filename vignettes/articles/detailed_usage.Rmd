@@ -1,0 +1,558 @@
+---
+title: "Accessing Project Data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Accessing Project Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+
+This article walks through, in detail, accessing data specific to projects, primarily via `mermaid_get_project_data()`.
+
+To access data related to your MERMAID projects, first obtain a list of your projects with `mermaid_get_my_projects()`. 
+
+At this point, you will have to authenticate to the Collect app. R will help you do this automatically by opening a browser window for you to log in to Collect, either via Google sign-in or username and password - however you normally do!
+
+Once you've logged in, come back to R. Your login credentials will be stored for a day, until they expire, and you will need to login again. The package handles the expiration for you, so just log in again when prompted.
+
+
+```r
+library(mermaidr)
+my_projects <- mermaid_get_my_projects()
+
+my_projects
+#> # A tibble: 12 x 14
+#>    id     name   countries num_sites tags    notes   status data_policy_bel… data_policy_ben…
+#>    <chr>  <chr>  <chr>         <int> <chr>   <chr>   <chr>  <chr>            <chr>           
+#>  1 02e69… TWP G… Indonesia        14 "WCS I… ""      Open   Private          Private         
+#>  2 170e7… 2018_… Fiji             10 "WCS F… "This … Open   Private          Public Summary  
+#>  3 2d6ce… WCS M… Mozambiq…        74 "WCS M… "Datab… Open   Private          Private         
+#>  4 3a9ec… Aceh … Indonesia        18 "Vibra… ""      Open   Private          Private         
+#>  5 40806… Madag… Madagasc…        74 "WCS M… "MACMO… Open   Private          Public Summary  
+#>  6 4d23d… Madag… Madagasc…        16 "WCS M… "Monit… Open   Public Summary   Public Summary  
+#>  7 507d1… Karim… Indonesia        43 "Vibra… ""      Open   Private          Private         
+#>  8 5679e… Madag… Madagasc…        33 "WCS M… ""      Open   Public Summary   Public Summary  
+#>  9 75ef7… Kubul… Fiji             78 "WCS F… ""      Open   Private          Public Summary  
+#> 10 9de82… XPDC … Indonesia        37 ""      "XPDC … Open   Private          Private         
+#> 11 a1b7f… Great… Fiji             76 "Fiji … ""      Open   Private          Private         
+#> 12 e1efb… 2016_… Fiji              8 "WCS F… "Namen… Open   Private          Public Summary  
+#> # … with 5 more variables: data_policy_benthicpit <chr>,
+#> #   data_policy_habitatcomplexity <chr>, data_policy_bleachingqc <chr>, created_on <chr>,
+#> #   updated_on <chr>
+```
+
+This function returns information on your projects, including project countries, the number of sites, tags, data policies, and more.
+
+To filter for specific projects, you can use the `filter` function from `dplyr`:
+
+
+```r
+library(dplyr)
+
+indonesia_projects <- my_projects %>%
+  filter(countries == "Indonesia")
+
+indonesia_projects
+#> # A tibble: 4 x 14
+#>   id      name   countries num_sites tags   notes    status data_policy_bel… data_policy_ben…
+#>   <chr>   <chr>  <chr>         <int> <chr>  <chr>    <chr>  <chr>            <chr>           
+#> 1 02e691… TWP G… Indonesia        14 "WCS … ""       Open   Private          Private         
+#> 2 3a9ecb… Aceh … Indonesia        18 "Vibr… ""       Open   Private          Private         
+#> 3 507d1a… Karim… Indonesia        43 "Vibr… ""       Open   Private          Private         
+#> 4 9de827… XPDC … Indonesia        37 ""     "XPDC K… Open   Private          Private         
+#> # … with 5 more variables: data_policy_benthicpit <chr>,
+#> #   data_policy_habitatcomplexity <chr>, data_policy_bleachingqc <chr>, created_on <chr>,
+#> #   updated_on <chr>
+```
+
+Alternatively, you can search your projects using `mermaid_search_my_projects()`, narrowing projects down by name, countries, or tags:
+
+
+```r
+mermaid_search_my_projects(countries = "Indonesia")
+#> # A tibble: 4 x 14
+#>   id      name   countries num_sites tags   notes    status data_policy_bel… data_policy_ben…
+#>   <chr>   <chr>  <chr>         <int> <chr>  <chr>    <chr>  <chr>            <chr>           
+#> 1 02e691… TWP G… Indonesia        14 "WCS … ""       Open   Private          Private         
+#> 2 3a9ecb… Aceh … Indonesia        18 "Vibr… ""       Open   Private          Private         
+#> 3 507d1a… Karim… Indonesia        43 "Vibr… ""       Open   Private          Private         
+#> 4 9de827… XPDC … Indonesia        37 ""     "XPDC K… Open   Private          Private         
+#> # … with 5 more variables: data_policy_benthicpit <chr>,
+#> #   data_policy_habitatcomplexity <chr>, data_policy_bleachingqc <chr>, created_on <chr>,
+#> #   updated_on <chr>
+```
+
+Then, you can start to access data about your projects, like project sites via `mermaid_get_project_sites()`:
+
+
+```r
+indonesia_projects %>%
+  mermaid_get_project_sites()
+#> # A tibble: 112 x 13
+#>    project    id        name    notes latitude longitude country reef_type reef_zone exposure
+#>    <chr>      <chr>     <chr>   <chr>    <dbl>     <dbl> <chr>   <chr>     <chr>     <chr>   
+#>  1 Karimunja… a7635ca1… Gentin… ""       -5.86     111.  Indone… fringing  back reef shelter…
+#>  2 Aceh Jaya… 54360533… Wisata… ""        5.04      95.4 Indone… fringing  fore reef shelter…
+#>  3 Aceh Jaya… b7d5cf60… Rehabi… ""        4.84      95.4 Indone… fringing  fore reef shelter…
+#>  4 Karimunja… 03685be7… Menyaw… ""       -5.80     110.  Indone… fringing  fore reef shelter…
+#>  5 Aceh Jaya… 38f75ee4… Pulau … ""        5.08      95.3 Indone… fringing  back reef semi-ex…
+#>  6 Karimunja… 21aec9f0… Batu P… ""       -5.81     110.  Indone… fringing  back reef semi-ex…
+#>  7 Karimunja… 371b3e9a… Tanjun… ""       -5.83     110.  Indone… fringing  back reef semi-ex…
+#>  8 Karimunja… 43d3d64e… Legon … ""       -5.87     110.  Indone… fringing  back reef semi-ex…
+#>  9 Karimunja… 9ec6f187… Cemara… ""       -5.80     110.  Indone… fringing  back reef semi-ex…
+#> 10 Karimunja… e23aaba8… Tanjun… ""       -5.86     110.  Indone… fringing  back reef semi-ex…
+#> # … with 102 more rows, and 3 more variables: predecessor <chr>, created_on <chr>,
+#> #   updated_on <chr>
+```
+
+Or the managements for your projects via `mermaid_get_project_managements()`:
+
+
+```r
+indonesia_projects %>%
+  mermaid_get_project_managements()
+#> # A tibble: 24 x 17
+#>    project  id      name   name_secondary notes est_year no_take periodic_closure open_access
+#>    <chr>    <chr>   <chr>  <chr>          <chr>    <int> <lgl>   <lgl>            <lgl>      
+#>  1 TWP Gil… 0975a7… Zona … "Core Zone"    ""        2013 TRUE    FALSE            FALSE      
+#>  2 TWP Gil… 636c3e… Luar … "Open Access"  ""        2020 FALSE   FALSE            TRUE       
+#>  3 TWP Gil… bc4ecf… Zona … "Fisheries Ut… ""        2013 FALSE   FALSE            FALSE      
+#>  4 TWP Gil… f557e8… Zona … "Sustainable … ""        2013 FALSE   FALSE            FALSE      
+#>  5 Aceh Ja… 0f0f89… Open   ""             ""        2019 FALSE   FALSE            TRUE       
+#>  6 Aceh Ja… 149832… Touri… ""             ""        2019 TRUE    FALSE            FALSE      
+#>  7 Aceh Ja… 646c77… Fishe… ""             ""        2019 FALSE   FALSE            FALSE      
+#>  8 Aceh Ja… a57968… Aquac… ""             ""        2019 FALSE   FALSE            FALSE      
+#>  9 Aceh Ja… a80364… Open … ""             ""        2019 FALSE   FALSE            TRUE       
+#> 10 Aceh Ja… cc9249… Core … ""             ""        2019 TRUE    FALSE            FALSE      
+#> # … with 14 more rows, and 8 more variables: size_limits <lgl>, gear_restriction <lgl>,
+#> #   species_restriction <lgl>, compliance <chr>, predecessor <lgl>, parties <chr>,
+#> #   created_on <chr>, updated_on <chr>
+```
+
+### Method data
+
+You can also access data on your projects' Fish Belt, Benthic LIT, Benthic PIT, Bleaching, and Habitat Complexity methods. The details are in the following sections.
+
+#### Fish Belt data
+
+To access Fish Belt data for a project, use `mermaid_get_project_data()` with `method = "fishbelt"`. 
+
+You can access individual observations (i.e., a record of each observation) by setting `data = "observations"`:
+
+
+```r
+xpdc <- my_projects %>%
+  filter(name == "XPDC Kei Kecil 2018")
+
+xpdc %>%
+  mermaid_get_project_data(method = "fishbelt", data = "observations")
+#> # A tibble: 3,069 x 52
+#>    project          tags  country  site  latitude longitude reef_type reef_zone reef_exposure
+#>    <chr>            <lgl> <chr>    <chr>    <dbl>     <dbl> <chr>     <chr>     <chr>        
+#>  1 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  2 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  3 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  4 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  5 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  6 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  7 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  8 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  9 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#> 10 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#> # … with 3,059 more rows, and 43 more variables: reef_slope <chr>, tide <chr>,
+#> #   current <chr>, visibility <chr>, relative_depth <chr>, aca_geomorphic <chr>,
+#> #   aca_benthic <chr>, management <chr>, management_secondary <chr>,
+#> #   management_est_year <lgl>, management_size <lgl>, management_parties <lgl>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   sample_time <chr>, transect_length <int>, transect_width <chr>, size_bin <chr>,
+#> #   observers <chr>, …
+```
+
+You can access sample units data, which are observations aggregated to the sample units level. Fish belt sample units contain total biomass in kg/ha per sample unit, by trophic group and by fish family:
+
+
+```r
+xpdc %>%
+  mermaid_get_project_data("fishbelt", "sampleunits")
+#> # A tibble: 246 x 66
+#>    project          tags  country  site  latitude longitude reef_type reef_zone reef_exposure
+#>    <chr>            <lgl> <chr>    <chr>    <dbl>     <dbl> <chr>     <chr>     <chr>        
+#>  1 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  2 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  3 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  4 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  5 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  6 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  7 XPDC Kei Kecil … NA    Indones… KE03     -5.61      132. fringing  crest     exposed      
+#>  8 XPDC Kei Kecil … NA    Indones… KE03     -5.61      132. fringing  crest     exposed      
+#>  9 XPDC Kei Kecil … NA    Indones… KE03     -5.61      132. fringing  crest     exposed      
+#> 10 XPDC Kei Kecil … NA    Indones… KE03     -5.61      132. fringing  crest     exposed      
+#> # … with 236 more rows, and 57 more variables: reef_slope <chr>, tide <chr>, current <chr>,
+#> #   visibility <chr>, relative_depth <chr>, aca_geomorphic <chr>, aca_benthic <chr>,
+#> #   management <chr>, management_secondary <chr>, management_est_year <lgl>,
+#> #   management_size <lgl>, management_parties <lgl>, management_compliance <chr>,
+#> #   management_rules <chr>, sample_date <date>, sample_time <chr>, depth <dbl>,
+#> #   transect_number <int>, label <chr>, size_bin <chr>, …
+```
+
+And finally, sample events data, which are aggregated further, to the sample event level. Fish belt sample events contain *mean* total biomass in kg/ha per sample event, by trophic group and by fish family:
+
+
+```r
+xpdc_sample_events <- xpdc %>%
+  mermaid_get_project_data("fishbelt", "sampleevents")
+
+xpdc_sample_events
+#> # A tibble: 46 x 56
+#>    project   tags  country site  latitude longitude reef_type reef_zone reef_exposure tide   
+#>    <chr>     <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>     <chr>         <chr>  
+#>  1 XPDC Kei… NA    Indone… KE02     -5.44      133. fringing  crest     exposed       rising 
+#>  2 XPDC Kei… NA    Indone… KE03     -5.61      132. fringing  crest     exposed       fallin…
+#>  3 XPDC Kei… NA    Indone… KE04     -5.58      132. fringing  crest     exposed       rising 
+#>  4 XPDC Kei… NA    Indone… KE05     -5.47      133. fringing  crest     exposed       rising 
+#>  5 XPDC Kei… NA    Indone… KE06     -5.52      132. fringing  crest     exposed       fallin…
+#>  6 XPDC Kei… NA    Indone… KE07     -5.57      133. fringing  crest     exposed       falling
+#>  7 XPDC Kei… NA    Indone… KE08     -5.55      133. fringing  crest     exposed       falling
+#>  8 XPDC Kei… NA    Indone… KE09     -5.60      133. fringing  fore reef semi-exposed  falling
+#>  9 XPDC Kei… NA    Indone… KE10     -5.57      133. fringing  crest     exposed       rising 
+#> 10 XPDC Kei… NA    Indone… KE11     -5.59      133. fringing  crest     exposed       rising 
+#> # … with 36 more rows, and 46 more variables: current <chr>, visibility <chr>,
+#> #   aca_geomorphic <chr>, aca_benthic <chr>, management <chr>, management_secondary <chr>,
+#> #   management_est_year <lgl>, management_size <lgl>, management_parties <lgl>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   depth_avg <dbl>, biomass_kgha_avg <dbl>, biomass_kgha_trophic_group_avg_omnivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_piscivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_planktivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_invertivore_mobile <dbl>,
+#> #   biomass_kgha_trophic_group_avg_herbivore_detritivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_invertivore_sessile <dbl>, …
+```
+
+#### Benthic LIT data
+
+To access Benthic LIT data, use `mermaid_get_project_data()` with `method = "benthiclit"`. 
+
+
+```r
+mozambique <- my_projects %>%
+  filter(name == "WCS Mozambique Coral Reef Monitoring")
+
+mozambique %>%
+  mermaid_get_project_data(method = "benthiclit", data = "observations")
+#> # A tibble: 1,569 x 43
+#>    project      tags    country site     latitude longitude reef_type reef_zone reef_exposure
+#>    <chr>        <chr>   <chr>   <chr>       <dbl>     <dbl> <chr>     <chr>     <chr>        
+#>  1 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef sheltered    
+#>  2 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef sheltered    
+#>  3 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef sheltered    
+#>  4 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef sheltered    
+#>  5 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef sheltered    
+#>  6 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef sheltered    
+#>  7 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef sheltered    
+#>  8 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef sheltered    
+#>  9 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef sheltered    
+#> 10 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef sheltered    
+#> # … with 1,559 more rows, and 34 more variables: reef_slope <lgl>, tide <chr>,
+#> #   current <lgl>, visibility <lgl>, relative_depth <lgl>, aca_geomorphic <chr>,
+#> #   aca_benthic <chr>, management <chr>, management_secondary <chr>,
+#> #   management_est_year <int>, management_size <lgl>, management_parties <chr>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   sample_time <chr>, depth <dbl>, transect_number <int>, transect_length <int>,
+#> #   label <chr>, …
+```
+
+You can access sample units and sample events the same way. 
+
+For Benthic LIT, sample units contain percent cover per sample unit, by benthic category. Sample *events* contain *mean* percent cover per sample event, by benthic category. 
+
+
+```r
+mozambique %>%
+  mermaid_get_project_data(method = "benthiclit", data = "sampleunits")
+#> # A tibble: 63 x 51
+#>    project      tags    country site     latitude longitude reef_type reef_zone reef_exposure
+#>    <chr>        <chr>   <chr>   <chr>       <dbl>     <dbl> <chr>     <chr>     <chr>        
+#>  1 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef sheltered    
+#>  2 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef sheltered    
+#>  3 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef sheltered    
+#>  4 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef sheltered    
+#>  5 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef sheltered    
+#>  6 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef sheltered    
+#>  7 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.1      32.9 barrier   back reef sheltered    
+#>  8 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.1      32.9 barrier   back reef sheltered    
+#>  9 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.1      32.9 barrier   back reef sheltered    
+#> 10 WCS Mozambi… WCS Mo… Mozamb… Barreir…    -26.1      32.9 barrier   back reef sheltered    
+#> # … with 53 more rows, and 42 more variables: reef_slope <lgl>, tide <chr>, current <lgl>,
+#> #   visibility <lgl>, relative_depth <lgl>, aca_geomorphic <chr>, aca_benthic <chr>,
+#> #   management <chr>, management_secondary <chr>, management_est_year <int>,
+#> #   management_size <lgl>, management_parties <chr>, management_compliance <chr>,
+#> #   management_rules <chr>, sample_date <date>, sample_time <chr>, depth <dbl>,
+#> #   transect_number <int>, transect_length <int>, label <chr>, …
+```
+
+#### Benthic PIT data
+
+To access Benthic LIT data, change `method` to "benthicpit":
+
+
+```r
+xpdc %>%
+  mermaid_get_project_data(method = "benthicpit", data = "observations")
+#> # A tibble: 11,100 x 44
+#>    project          tags  country  site  latitude longitude reef_type reef_zone reef_exposure
+#>    <chr>            <lgl> <chr>    <chr>    <dbl>     <dbl> <chr>     <chr>     <chr>        
+#>  1 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  2 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  3 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  4 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  5 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  6 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  7 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  8 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  9 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#> 10 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#> # … with 11,090 more rows, and 35 more variables: reef_slope <chr>, tide <chr>,
+#> #   current <chr>, visibility <chr>, relative_depth <chr>, aca_geomorphic <chr>,
+#> #   aca_benthic <chr>, management <chr>, management_secondary <chr>,
+#> #   management_est_year <lgl>, management_size <lgl>, management_parties <lgl>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   sample_time <chr>, depth <dbl>, transect_number <int>, transect_length <int>,
+#> #   interval_start <dbl>, …
+```
+
+You can access sample units and sample events the same way, and the data format is the same as Benthic LIT.
+
+You can return both sample units and sample events by setting the `data` argument. This will return a list of two data frames: one containing sample units, and the other sample events.
+
+
+```r
+xpdc_sample_units_events <- xpdc %>%
+  mermaid_get_project_data(method = "benthicpit", data = c("sampleunits", "sampleevents"))
+
+names(xpdc_sample_units_events)
+#> [1] "sampleunits"  "sampleevents"
+xpdc_sample_units_events[["sampleunits"]]
+#> # A tibble: 111 x 52
+#>    project          tags  country  site  latitude longitude reef_type reef_zone reef_exposure
+#>    <chr>            <lgl> <chr>    <chr>    <dbl>     <dbl> <chr>     <chr>     <chr>        
+#>  1 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  2 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  3 XPDC Kei Kecil … NA    Indones… KE02     -5.44      133. fringing  crest     exposed      
+#>  4 XPDC Kei Kecil … NA    Indones… KE03     -5.61      132. fringing  crest     exposed      
+#>  5 XPDC Kei Kecil … NA    Indones… KE03     -5.61      132. fringing  crest     exposed      
+#>  6 XPDC Kei Kecil … NA    Indones… KE03     -5.61      132. fringing  crest     exposed      
+#>  7 XPDC Kei Kecil … NA    Indones… KE04     -5.58      132. fringing  crest     exposed      
+#>  8 XPDC Kei Kecil … NA    Indones… KE04     -5.58      132. fringing  crest     exposed      
+#>  9 XPDC Kei Kecil … NA    Indones… KE04     -5.58      132. fringing  crest     exposed      
+#> 10 XPDC Kei Kecil … NA    Indones… KE05     -5.47      133. fringing  crest     exposed      
+#> # … with 101 more rows, and 43 more variables: reef_slope <chr>, tide <chr>, current <chr>,
+#> #   visibility <chr>, relative_depth <chr>, aca_geomorphic <chr>, aca_benthic <chr>,
+#> #   management <chr>, management_secondary <chr>, management_est_year <lgl>,
+#> #   management_size <lgl>, management_parties <lgl>, management_compliance <chr>,
+#> #   management_rules <chr>, sample_date <date>, sample_time <chr>, depth <dbl>,
+#> #   transect_number <int>, transect_length <int>, label <chr>, …
+```
+
+#### Bleaching
+
+To access Bleaching data, set `method` to "bleaching". There are two types of observations data for the Bleaching method: Colonies Bleached and Percent Cover. These are both returned when pulling observations data, in a list:
+
+
+```r
+bleaching_obs <- mozambique %>%
+  mermaid_get_project_data("bleaching", "observations")
+
+names(bleaching_obs)
+#> [1] "colonies_bleached" "percent_cover"
+
+bleaching_obs[["colonies_bleached"]]
+#> # A tibble: 1,814 x 44
+#>    project    tags   country site  latitude longitude reef_type reef_zone reef_exposure tide 
+#>    <chr>      <chr>  <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>     <chr>         <lgl>
+#>  1 WCS Mozam… WCS M… Mozamb… Aqua…    -21.8      35.5 barrier   back reef semi-exposed  NA   
+#>  2 WCS Mozam… WCS M… Mozamb… Aqua…    -21.8      35.5 barrier   back reef semi-exposed  NA   
+#>  3 WCS Mozam… WCS M… Mozamb… Aqua…    -21.8      35.5 barrier   back reef semi-exposed  NA   
+#>  4 WCS Mozam… WCS M… Mozamb… Aqua…    -21.8      35.5 barrier   back reef semi-exposed  NA   
+#>  5 WCS Mozam… WCS M… Mozamb… Aqua…    -21.8      35.5 barrier   back reef semi-exposed  NA   
+#>  6 WCS Mozam… WCS M… Mozamb… Aqua…    -21.8      35.5 barrier   back reef semi-exposed  NA   
+#>  7 WCS Mozam… WCS M… Mozamb… Aqua…    -21.8      35.5 barrier   back reef semi-exposed  NA   
+#>  8 WCS Mozam… WCS M… Mozamb… Aqua…    -21.8      35.5 barrier   back reef semi-exposed  NA   
+#>  9 WCS Mozam… WCS M… Mozamb… Aqua…    -21.8      35.5 barrier   back reef semi-exposed  NA   
+#> 10 WCS Mozam… WCS M… Mozamb… Aqua…    -21.8      35.5 barrier   back reef semi-exposed  NA   
+#> # … with 1,804 more rows, and 34 more variables: current <lgl>, visibility <lgl>,
+#> #   relative_depth <lgl>, aca_geomorphic <chr>, aca_benthic <chr>, management <chr>,
+#> #   management_secondary <chr>, management_est_year <int>, management_size <lgl>,
+#> #   management_parties <chr>, management_compliance <chr>, management_rules <chr>,
+#> #   sample_date <date>, sample_time <chr>, depth <dbl>, quadrat_size <dbl>, label <chr>,
+#> #   observers <chr>, benthic_attribute <chr>, growth_form <chr>, …
+```
+
+The sample units and sample events data contain summaries of both Colonies Bleached and Percent Cover:
+
+
+```r
+mozambique %>%
+  mermaid_get_project_data("bleaching", "sampleevents")
+#> # A tibble: 62 x 41
+#>    project    tags   country site  latitude longitude reef_type reef_zone reef_exposure tide 
+#>    <chr>      <chr>  <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>     <chr>         <lgl>
+#>  1 WCS Mozam… WCS M… Mozamb… Aqua…    -21.8      35.5 barrier   back reef semi-exposed  NA   
+#>  2 WCS Mozam… WCS M… Mozamb… Baby…    -11.0      40.7 fringing  fore reef exposed       NA   
+#>  3 WCS Mozam… WCS M… Mozamb… Balu…    -22.0      35.5 patch     fore reef exposed       NA   
+#>  4 WCS Mozam… WCS M… Mozamb… Dos …    -12.1      40.6 lagoon    back reef sheltered     NA   
+#>  5 WCS Mozam… WCS M… Mozamb… Fing…    -12.9      40.6 fringing  fore reef exposed       NA   
+#>  6 WCS Mozam… WCS M… Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered     NA   
+#>  7 WCS Mozam… WCS M… Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered     NA   
+#>  8 WCS Mozam… WCS M… Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered     NA   
+#>  9 WCS Mozam… WCS M… Mozamb… Libe…    -14.5      40.7 fringing  back reef sheltered     NA   
+#> 10 WCS Mozam… WCS M… Mozamb… Ligh…    -12.3      40.6 fringing  fore reef exposed       NA   
+#> # … with 52 more rows, and 31 more variables: current <lgl>, visibility <lgl>,
+#> #   aca_geomorphic <chr>, aca_benthic <chr>, management <chr>, management_secondary <chr>,
+#> #   management_est_year <int>, management_size <lgl>, management_parties <chr>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   depth_avg <dbl>, quadrat_size_avg <dbl>, count_total_avg <dbl>, count_genera_avg <dbl>,
+#> #   percent_normal_avg <dbl>, percent_pale_avg <dbl>, percent_bleached_avg <dbl>,
+#> #   quadrat_count_avg <dbl>, …
+```
+
+#### Habitat Complexity
+
+Finally, to access Habitat Complexity data, set `method` to "habitatcomplexity". As with all other methods, you can access observations, sample units, and sample events:
+
+
+```r
+xpdc %>%
+  mermaid_get_project_data("habitatcomplexity", "sampleevents")
+#> # A tibble: 2 x 32
+#>   project     tags  country  site  latitude longitude reef_type reef_zone reef_exposure tide 
+#>   <chr>       <lgl> <chr>    <chr>    <dbl>     <dbl> <chr>     <chr>     <chr>         <chr>
+#> 1 XPDC Kei K… NA    Indones… KE22     -5.85      133. fringing  fore reef exposed       risi…
+#> 2 XPDC Kei K… NA    Indones… KE24     -5.93      133. fringing  fore reef exposed       risi…
+#> # … with 22 more variables: current <chr>, visibility <chr>, aca_geomorphic <chr>,
+#> #   aca_benthic <chr>, management <chr>, management_secondary <chr>,
+#> #   management_est_year <lgl>, management_size <lgl>, management_parties <lgl>,
+#> #   management_compliance <lgl>, management_rules <chr>, sample_date <date>,
+#> #   depth_avg <dbl>, score_avg_avg <dbl>, data_policy_habitatcomplexity <chr>,
+#> #   project_notes <chr>, site_notes <chr>, management_notes <chr>, sample_event_notes <chr>,
+#> #   id <chr>, …
+```
+
+#### Multiple methods data
+
+To pull data for both fish belt and benthic PIT methods, you can set `method` to include both.
+
+
+```r
+xpdc_sample_events <- xpdc %>%
+  mermaid_get_project_data(method = c("fishbelt", "benthicpit"), data = "sampleevents")
+```
+
+The result is a list of data frames, containing sample events for both fish belt and benthic PIT methods:
+
+
+```r
+names(xpdc_sample_events)
+#> [1] "fishbelt"   "benthicpit"
+
+xpdc_sample_events[["benthicpit"]]
+#> # A tibble: 38 x 42
+#>    project    tags  country  site  latitude longitude reef_type reef_zone reef_exposure tide 
+#>    <chr>      <lgl> <chr>    <chr>    <dbl>     <dbl> <chr>     <chr>     <chr>         <chr>
+#>  1 XPDC Kei … NA    Indones… KE02     -5.44      133. fringing  crest     exposed       <NA> 
+#>  2 XPDC Kei … NA    Indones… KE03     -5.61      132. fringing  crest     exposed       fall…
+#>  3 XPDC Kei … NA    Indones… KE04     -5.58      132. fringing  crest     exposed       risi…
+#>  4 XPDC Kei … NA    Indones… KE05     -5.47      133. fringing  crest     exposed       <NA> 
+#>  5 XPDC Kei … NA    Indones… KE06     -5.52      132. fringing  crest     exposed       risi…
+#>  6 XPDC Kei … NA    Indones… KE07     -5.57      133. fringing  crest     exposed       <NA> 
+#>  7 XPDC Kei … NA    Indones… KE08     -5.55      133. fringing  crest     exposed       fall…
+#>  8 XPDC Kei … NA    Indones… KE09     -5.60      133. fringing  fore reef semi-exposed  fall…
+#>  9 XPDC Kei … NA    Indones… KE10     -5.57      133. fringing  crest     exposed       risi…
+#> 10 XPDC Kei … NA    Indones… KE11     -5.59      133. fringing  crest     exposed       risi…
+#> # … with 28 more rows, and 32 more variables: current <chr>, visibility <chr>,
+#> #   aca_geomorphic <chr>, aca_benthic <chr>, management <chr>, management_secondary <chr>,
+#> #   management_est_year <lgl>, management_size <lgl>, management_parties <lgl>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   depth_avg <dbl>, percent_cover_benthic_category_avg_sand <dbl>,
+#> #   percent_cover_benthic_category_avg_rubble <dbl>,
+#> #   percent_cover_benthic_category_avg_seagrass <dbl>,
+#> #   percent_cover_benthic_category_avg_hard_coral <dbl>,
+#> #   percent_cover_benthic_category_avg_macroalgae <dbl>,
+#> #   percent_cover_benthic_category_avg_soft_coral <dbl>,
+#> #   percent_cover_benthic_category_avg_turf_algae <dbl>, …
+```
+
+Alternatively, you can set `method` to "all" to pull for all methods! Similarly, you can set `data` to "all" to pull all types of data:
+
+
+```r
+all_project_data <- xpdc %>%
+  mermaid_get_project_data(method = "all", data = "all", limit = 1)
+
+names(all_project_data)
+#> [1] "fishbelt"          "benthiclit"        "benthicpit"        "bleaching"        
+#> [5] "habitatcomplexity"
+
+names(all_project_data[["benthicpit"]])
+#> [1] "observations" "sampleunits"  "sampleevents"
+```
+
+#### Multiple projects
+
+Pulling data for multiple projects is the exact same, except there will be an additional "project" column at the beginning to distinguish which projects the data comes from. Recall that `my_projects` contains six projects:
+
+
+```r
+my_projects
+#> # A tibble: 12 x 14
+#>    id     name   countries num_sites tags    notes   status data_policy_bel… data_policy_ben…
+#>    <chr>  <chr>  <chr>         <int> <chr>   <chr>   <chr>  <chr>            <chr>           
+#>  1 02e69… TWP G… Indonesia        14 "WCS I… ""      Open   Private          Private         
+#>  2 170e7… 2018_… Fiji             10 "WCS F… "This … Open   Private          Public Summary  
+#>  3 2d6ce… WCS M… Mozambiq…        74 "WCS M… "Datab… Open   Private          Private         
+#>  4 3a9ec… Aceh … Indonesia        18 "Vibra… ""      Open   Private          Private         
+#>  5 40806… Madag… Madagasc…        74 "WCS M… "MACMO… Open   Private          Public Summary  
+#>  6 4d23d… Madag… Madagasc…        16 "WCS M… "Monit… Open   Public Summary   Public Summary  
+#>  7 507d1… Karim… Indonesia        43 "Vibra… ""      Open   Private          Private         
+#>  8 5679e… Madag… Madagasc…        33 "WCS M… ""      Open   Public Summary   Public Summary  
+#>  9 75ef7… Kubul… Fiji             78 "WCS F… ""      Open   Private          Public Summary  
+#> 10 9de82… XPDC … Indonesia        37 ""      "XPDC … Open   Private          Private         
+#> 11 a1b7f… Great… Fiji             76 "Fiji … ""      Open   Private          Private         
+#> 12 e1efb… 2016_… Fiji              8 "WCS F… "Namen… Open   Private          Public Summary  
+#> # … with 5 more variables: data_policy_benthicpit <chr>,
+#> #   data_policy_habitatcomplexity <chr>, data_policy_bleachingqc <chr>, created_on <chr>,
+#> #   updated_on <chr>
+```
+
+
+```r
+my_projects %>%
+  mermaid_get_project_data("fishbelt", "sampleevents", limit = 1)
+#> # A tibble: 11 x 69
+#>    project  tags     country site  latitude longitude reef_type reef_zone reef_exposure tide 
+#>    <chr>    <chr>    <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>     <chr>         <chr>
+#>  1 TWP Gil… WCS Ind… Indone… Peda…    -8.28     117.  fringing  crest     exposed       high 
+#>  2 2018_Va… WCS Fiji Fiji    VIR1    -17.3      178.  barrier   fore reef exposed       fall…
+#>  3 WCS Moz… WCS Moz… Mozamb… Aqua…   -21.8       35.5 barrier   back reef semi-exposed  <NA> 
+#>  4 Aceh Ja… WCS Ind… Indone… Abah…     4.99      95.4 fringing  fore reef exposed       high 
+#>  5 Madagas… WCS Mad… Madaga… Amba…   -12.9       48.6 fringing  fore reef semi-exposed  <NA> 
+#>  6 Karimun… WCS Ind… Indone… Batu…    -5.81     110.  fringing  back reef semi-exposed  low  
+#>  7 Madagas… WCS Mad… Madaga… Anta…   -16.4       49.8 fringing  fore reef semi-exposed  <NA> 
+#>  8 Kubulau… WCS Fiji Fiji    C13     -17.0      179.  barrier   fore reef semi-exposed  fall…
+#>  9 XPDC Ke… <NA>     Indone… KE02     -5.44     133.  fringing  crest     exposed       risi…
+#> 10 Great S… Fiji Mi… Fiji    BA02    -17.4      178.  atoll     back reef very shelter… fall…
+#> 11 2016_Na… WCS Fiji Fiji    C3      -17.1      179.  barrier   fore reef exposed       <NA> 
+#> # … with 59 more variables: current <chr>, visibility <chr>, aca_geomorphic <chr>,
+#> #   aca_benthic <chr>, management <chr>, management_secondary <chr>,
+#> #   management_est_year <int>, management_size <dbl>, management_parties <chr>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   depth_avg <dbl>, biomass_kgha_avg <dbl>, biomass_kgha_trophic_group_avg_omnivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_piscivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_planktivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_invertivore_mobile <dbl>,
+#> #   biomass_kgha_trophic_group_avg_invertivore_sessile <dbl>,
+#> #   biomass_kgha_trophic_group_avg_herbivore_detritivore <dbl>, …
+```
+
+Note the `limit` argument here, which just limits the data pulled to one record (per project, method, and data combination). This is useful if you want to get a preview of what your data will look like without having to pull it all in.

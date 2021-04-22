@@ -23,11 +23,11 @@ options(tibble.max_extra_cols = 20)
 <!-- badges: end -->
 
 `mermaidr` is an R package that enables you to access data from [MERMAID](https://datamermaid.org/),
-an open-source data platform developed to help you collect, analyze, and share coral reef monitoring data. Through `mermaidr` you can access data from collection portal, [MERMAID Collect](https://collect.datamermaid.org/), directly from R.
+an open-source data platform developed to help you collect, analyze, and share coral reef monitoring data. Through `mermaidr` you can access data from [MERMAID Collect](https://collect.datamermaid.org/), directly in R.
 
 For more information and detailed instructions on usage, please visit the [package website](https://data-mermaid.github.io/mermaidr/).
 
-If you are new to the R programming language, our [new R users guide](articles/articles/new_to_r.html) is a great place to start!
+If you are new to the R programming language, our [new R users guide](https://data-mermaid.github.io/mermaidr/articles/articles/new_to_r.html) is a great place to start! If you find yourself stuck, please don't hesitate to [ask for help](https://data-mermaid.github.io/mermaidr/articles/articles/getting_help.html).
 
 ## Installation
 
@@ -91,5 +91,37 @@ And raw observations are available by changing it to "observations":
 wcs_mozambique %>%
   mermaid_get_project_data(method = "fishbelt", data = "observations")
 ```
+
+For more details on accessing project data, please see the [Accessing Project Data]() article.
+
+You may also want to access data that is not related to projects. To access this data, you do not need to authenticate R with MERMAID.
+
+For example, you can pull reference data (the names and information of the fish and benthic attributes you can choose in MERMAID), using `mermaid_get_reference()`:
+
+```{r}
+mermaid_get_reference(reference = "fishfamilies")
+```
+
+Using this function, you can access the fish family, fish genera, fish species, and benthic attributes references by changing the `reference` argument.
+
+You can also get a list of *all* projects (not just your own):
+
+```{r}
+mermaid_get_projects()
+```
+
+As well as all sites:
+
+```{r}
+mermaid_get_sites()
+```
+
+And all managements:
+
+```{r}
+mermaid_get_managements()
+```
+
+There is additional data available from the MERMAID API, both related to specific projects and not. If you think you'll need to use these, please see `mermaid_get_endpoint()` and `mermaid_get_project_endpoint()`.
 
 This is a small sample of the wealth of data that's available on your MERMAID projects, and on the ecosystem as a whole! Please explore the [package website](https://data-mermaid.github.io/mermaidr/) for more.

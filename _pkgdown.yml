@@ -45,5 +45,9 @@ articles:
     contents:
     - articles/new_to_r
     - articles/getting_help
+  - title: Detailed Usage
+    navbar: Detailed Usage
+    contents:
+    - articles/detailed_usage
 
 
