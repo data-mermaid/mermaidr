@@ -184,8 +184,7 @@ repack_df_cols <- function(x) {
 }
 
 add_project_identifiers <- function(res, project) {
-
-  if(ncol(res) == 0) {
+  if (ncol(res) == 0) {
     return(res)
   }
 

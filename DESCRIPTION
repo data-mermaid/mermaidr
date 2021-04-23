@@ -11,6 +11,8 @@ Authors@R:
 Description: Provides tools to interact with the 'MERMAID' API
     <https://github.com/data-mermaid/mermaid-api/>.
 License: MIT + file LICENSE
+URL: https://data-mermaid.github.io/mermaidr, https://github.com/data-mermaid/mermaidr
+BugReports: https://github.com/data-mermaid/mermaidr/issues
 Encoding: UTF-8
 LazyData: true
 Depends: 
@@ -31,4 +33,9 @@ Imports:
     stringr
 RoxygenNote: 7.1.1
 Suggests: 
-    testthat (>= 2.1.0)
+    testthat (>= 2.1.0),
+    knitr,
+    rmarkdown,
+    ggplot2,
+    tidyverse
+VignetteBuilder: knitr

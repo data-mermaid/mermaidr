@@ -1,6 +1,13 @@
 development:
   mode: auto
 
+template:
+  params:
+    bootswatch: flatly
+
+toc:
+  depth: 1
+
 reference:
   - title: Authentication
     contents:
@@ -25,3 +32,22 @@ reference:
     - mermaid_get_project_managements
     - mermaid_get_project_sites
     - mermaid_get_project_endpoint
+
+
+
+articles:
+  - title: Case Studies
+    navbar: Case Studies
+    contents:
+    - articles/vo_baseline_monitoring
+  - title: Getting Started
+    navbar: Getting Started
+    contents:
+    - articles/new_to_r
+    - articles/getting_help
+  - title: Detailed Usage
+    navbar: Detailed Usage
+    contents:
+    - articles/detailed_usage
+
+

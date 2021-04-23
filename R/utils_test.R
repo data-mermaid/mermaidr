@@ -46,7 +46,7 @@ test_sus_vs_ses_agg <- function(sus_agg, ses_agg) {
     dplyr::mutate(dplyr::across(c(.data$se, .data$su), as.numeric))
 
 
-  testthat::expect_true(all(sus_vs_ses_match[["se"]] -  sus_vs_ses_match[["su"]] < 1))
+  testthat::expect_true(all(sus_vs_ses_match[["se"]] - sus_vs_ses_match[["su"]] < 1))
 }
 
 # Compare (aggregated) values from observations versus from SUs
@@ -59,7 +59,7 @@ test_obs_vs_sus_agg <- function(obs_agg, sus_agg) {
     dplyr::mutate_if(is.double, as.numeric) %>%
     dplyr::mutate_if(is.numeric, dplyr::coalesce, 0)
 
-  if(any(is.na(suppressWarnings(as.numeric(obs_vs_su_match[["su"]]))))) {
+  if (any(is.na(suppressWarnings(as.numeric(obs_vs_su_match[["su"]]))))) {
     testthat::expect_true(all(obs_vs_su_match[["obs"]] == obs_vs_su_match[["su"]]))
   } else {
     testthat::expect_true(all(obs_vs_su_match[["obs"]] - obs_vs_su_match[["su"]] < 1))

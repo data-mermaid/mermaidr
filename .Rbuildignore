@@ -8,3 +8,4 @@
 tests/testthat/.httr-oauth
 ^\.github$
 ^\_pkgdown\.yml$
+vignettes/

@@ -19,6 +19,7 @@
 # mermaidr 0.2.3
 
 * Fixed bug with handling of covariates (now properly handles case where `covariates` are `NULL`).
+
 # mermaidr 0.2.2
 
 * Added Allen Coral Atlas to all aggregated endpoints (in `mermaid_get_project_data()`).

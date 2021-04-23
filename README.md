@@ -4,17 +4,25 @@
 # mermaidr
 
 <!-- badges: start -->
-[![R build status](https://github.com/data-mermaid/mermaidr/workflows/R-CMD-check/badge.svg)](https://github.com/data-mermaid/mermaidr/actions)
+
+[![R build
+status](https://github.com/data-mermaid/mermaidr/workflows/R-CMD-check/badge.svg)](https://github.com/data-mermaid/mermaidr/actions)
 <!-- badges: end -->
 
-The goal of `mermaidr` is to access [MERMAID
-Collect](https://collect.datamermaid.org/) data directly from R. It
-works alongside the [`mermaidreporting`
-package](https://github.com/data-mermaid/mermaidreporting), which helps
-to clean, summarize, and visualize MERMAID data.
+`mermaidr` is an R package that enables you to access data from
+[MERMAID](https://datamermaid.org/), an open-source data platform
+developed to help you collect, analyze, and share coral reef monitoring
+data. Through `mermaidr` you can access data from
+[MERMAID](https://collect.datamermaid.org/) directly in R.
 
-If you run into any problems working with this package, please open an
-[issue](https://github.com/data-mermaid/mermaidr/issues).
+For more information and detailed instructions on usage, please visit
+the [package website](https://data-mermaid.github.io/mermaidr/).
+
+If you are new to the R programming language, our [new R users
+guide](https://data-mermaid.github.io/mermaidr/articles/articles/new_to_r.html)
+is a great place to start! If you find yourself stuck, please don’t
+hesitate to [ask for
+help](https://data-mermaid.github.io/mermaidr/articles/articles/getting_help.html).
 
 ## Installation
 
@@ -22,670 +30,98 @@ You can install mermaidr from GitHub with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("data-mermaid/mermaidr", upgrade = "never")
+remotes::install_github("data-mermaid/mermaidr")
 ```
-
-Next, load the package:
-
-``` r
-library(mermaidr)
-```
-
-If you would like to access the development version of MERMAID instead,
-you can install the `dev` branch of this package:
-
-``` r
-# install.packages("remotes")
-remotes::install_github("data-mermaid/mermaidr", ref = "dev", upgrade = "never")
-```
-
-When using the development version, you can only access data from the
-[development version of MERMAID
-Collect](https://dev-collect.datamermaid.org/). There may also be
-differences in the MERMAID API (which can affect things like the columns
-returned) and functions in `mermaidr` that are in-progress and not yet
-available from the “production” version of the package.
-
-## Authentication
-
-`mermaidr` will help you interact with MERMAID Collect as an
-authenticated user, as soon as you need. This is only required for
-accessing project specific data. To access a list of all projects,
-sites, etc, you do not need to be authenticated.
-
-If you would like to authenticate yourself immediately, use
-`mermaid_auth()`. This will open your browser to the MERMAID Collect
-login. Once you log in, you can go back to R and will be authenticated.
-
-The login credentials expire every 24 hours. Once your credentials are
-expired, `mermaidr` will again help you automatically authenticate when
-needed.
-
-Note that authentication is only possible locally on your desktop, using
-a program like RStudio. This should cover most people and cases, however
-it’s not currently possible to authenticate on something like RStudio
-Cloud or on another server. If you are using a server, please follow the
-directions
-[here](https://support.rstudio.com/hc/en-us/articles/217952868-Generating-OAuth-tokens-from-a-server)
-to authenticate on the desktop then copy to the server.
 
 ## Usage
 
-All functions in `mermaidr` are of the form `mermaid_*()`, to make
-functions easier to find and use when loaded with other packages!
+Through `mermaidr`, you can access aggregated data from your coral reef
+surveys. To do this, first load the package and access your MERMAID
+projects:
 
-## Accessing project data
+``` r
+library(mermaidr)
 
-To access data related to your MERMAID projects, first obtain a list of
-your projects with `mermaid_get_my_projects()`.
+projects <- mermaid_get_my_projects()
+```
 
 At this point, you will have to authenticate to the Collect app. R will
 help you do this automatically by opening a browser window for you to
 log in to Collect, either via Google sign-in or username and password -
-however you normally do!
+however you normally do! Once you’ve logged in, come back to R. Your
+login credentials will be stored for a day, until they expire, and you
+will need to log in again. The package handles the expiration for you,
+so just log in again when prompted.
 
-Once you’ve logged in, come back to R. Your login credentials will be
-stored for a day, until they expire, and you will need to login again.
-The package handles the expiration for you, so just log in again when
-prompted.
+This function gives us information on your projects, including project
+countries, the number of sites, tags, data policies, and more:
 
 ``` r
-library(mermaidr)
-my_projects <- mermaid_get_my_projects()
-
-my_projects
-#> # A tibble: 9 x 14
-#>   id    name  countries num_sites tags  notes status data_policy_bel…
-#>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
-#> 1 2d6c… WCS … Mozambiq…        74 "WCS… "Dat… Open   Private         
-#> 2 3a9e… Aceh… Indonesia        18 "Vib… ""    Open   Private         
-#> 3 4080… Mada… Madagasc…        74 "WCS… "MAC… Open   Private         
-#> 4 4d23… Mada… Madagasc…        16 "WCS… "Mon… Open   Public Summary  
-#> 5 507d… Kari… Indonesia        43 "Vib… ""    Open   Private         
-#> 6 5679… Mada… Madagasc…        33 "WCS… ""    Open   Public Summary  
-#> 7 75ef… Kubu… Fiji             78 "WCS… ""    Open   Private         
-#> 8 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
-#> 9 a1b7… Grea… Fiji             76 "Fij… ""    Open   Private         
+projects
+#> # A tibble: 12 x 14
+#>    id      name    countries num_sites tags     notes    status data_policy_bel…
+#>    <chr>   <chr>   <chr>         <int> <chr>    <chr>    <chr>  <chr>           
+#>  1 02e691… TWP Gi… Indonesia        14 "WCS In… ""       Open   Private         
+#>  2 170e71… 2018_V… Fiji             10 "WCS Fi… "This i… Open   Private         
+#>  3 2d6cee… WCS Mo… Mozambiq…        74 "WCS Mo… "Databa… Open   Private         
+#>  4 3a9ecb… Aceh J… Indonesia        18 "Vibran… ""       Open   Private         
+#>  5 408067… Madaga… Madagasc…        74 "WCS Ma… "MACMON… Open   Private         
+#>  6 4d23d2… Madaga… Madagasc…        16 "WCS Ma… "Monito… Open   Public Summary  
+#>  7 507d1a… Karimu… Indonesia        43 "Vibran… ""       Open   Private         
+#>  8 5679ef… Madaga… Madagasc…        33 "WCS Ma… ""       Open   Public Summary  
+#>  9 75ef7a… Kubula… Fiji             78 "WCS Fi… ""       Open   Private         
+#> 10 9de827… XPDC K… Indonesia        37 ""       "XPDC K… Open   Private         
+#> 11 a1b7ff… Great … Fiji             76 "Fiji M… ""       Open   Private         
+#> 12 e1efb1… 2016_N… Fiji              8 "WCS Fi… "Namena… Open   Private         
 #> # … with 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
 ```
 
-This function returns information on your projects, including project
-countries, the number of sites, tags, data policies, and more.
-
-To filter for specific projects, you can use the `filter` function from
-`dplyr`:
+To focus on just one or a few projects, you can filter by fields like
+the project name, country, or tags using the `dplyr` package. For
+example, I’ll narrow in on the WCS Mozambique Coral Reef Monitoring
+project.
 
 ``` r
 library(dplyr)
 
-indonesia_projects <- my_projects %>%
-  filter(countries == "Indonesia")
-
-indonesia_projects
-#> # A tibble: 3 x 14
-#>   id    name  countries num_sites tags  notes status data_policy_bel…
-#>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
-#> 1 3a9e… Aceh… Indonesia        18 "Vib… ""    Open   Private         
-#> 2 507d… Kari… Indonesia        43 "Vib… ""    Open   Private         
-#> 3 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
-#> # … with 6 more variables: data_policy_benthiclit <chr>,
-#> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
-#> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
-```
-
-Alternatively, you can search your projects using
-`mermaid_search_my_projects()`, narrowing projects down by name,
-countries, or tags:
-
-``` r
-mermaid_search_my_projects(countries = "Indonesia")
-#> # A tibble: 3 x 14
-#>   id    name  countries num_sites tags  notes status data_policy_bel…
-#>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
-#> 1 3a9e… Aceh… Indonesia        18 "Vib… ""    Open   Private         
-#> 2 507d… Kari… Indonesia        43 "Vib… ""    Open   Private         
-#> 3 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
-#> # … with 6 more variables: data_policy_benthiclit <chr>,
-#> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
-#> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
-```
-
-Then, you can start to access data about your projects, like project
-sites via `mermaid_get_project_sites()`:
-
-``` r
-indonesia_projects %>%
-  mermaid_get_project_sites()
-#> # A tibble: 98 x 13
-#>    project id    name  notes latitude longitude country reef_type reef_zone
-#>    <chr>   <chr> <chr> <chr>    <dbl>     <dbl> <chr>   <chr>     <chr>    
-#>  1 Karimu… a763… Gent… ""       -5.86     111.  Indone… fringing  back reef
-#>  2 Aceh J… 5436… Wisa… ""        5.04      95.4 Indone… fringing  fore reef
-#>  3 Aceh J… b7d5… Reha… ""        4.84      95.4 Indone… fringing  fore reef
-#>  4 Karimu… 0368… Meny… ""       -5.80     110.  Indone… fringing  fore reef
-#>  5 Aceh J… 38f7… Pula… ""        5.08      95.3 Indone… fringing  back reef
-#>  6 Karimu… 21ae… Batu… ""       -5.81     110.  Indone… fringing  back reef
-#>  7 Karimu… 371b… Tanj… ""       -5.83     110.  Indone… fringing  back reef
-#>  8 Karimu… 43d3… Lego… ""       -5.87     110.  Indone… fringing  back reef
-#>  9 Karimu… 9ec6… Cema… ""       -5.80     110.  Indone… fringing  back reef
-#> 10 Karimu… e23a… Tanj… ""       -5.86     110.  Indone… fringing  back reef
-#> # … with 88 more rows, and 4 more variables: exposure <chr>, predecessor <lgl>,
-#> #   created_on <chr>, updated_on <chr>
-```
-
-Or the managements for your projects via
-`mermaid_get_project_managements()`:
-
-``` r
-indonesia_projects %>%
-  mermaid_get_project_managements()
-#> # A tibble: 20 x 17
-#>    project id    name  name_secondary notes est_year no_take periodic_closure
-#>    <chr>   <chr> <chr> <chr>          <chr>    <int> <lgl>   <lgl>           
-#>  1 Aceh J… 0f0f… Open  ""             ""        2019 FALSE   FALSE           
-#>  2 Aceh J… 1498… Tour… ""             ""        2019 TRUE    FALSE           
-#>  3 Aceh J… 646c… Fish… ""             ""        2019 FALSE   FALSE           
-#>  4 Aceh J… a579… Aqua… ""             ""        2019 FALSE   FALSE           
-#>  5 Aceh J… a803… Open… ""             ""        2019 FALSE   FALSE           
-#>  6 Aceh J… cc92… Core… ""             ""        2019 TRUE    FALSE           
-#>  7 Aceh J… dce8… Reha… ""             ""        2019 TRUE    FALSE           
-#>  8 Karimu… 12bf… Core… ""             ""        2005 TRUE    FALSE           
-#>  9 Karimu… 402f… Prot… ""             ""        2012 TRUE    FALSE           
-#> 10 Karimu… 53a6… Open… ""             ""        2005 FALSE   FALSE           
-#> 11 Karimu… 8b90… Fish… ""             ""        2005 FALSE   FALSE           
-#> 12 Karimu… a7e2… Tour… ""             ""        2005 TRUE    FALSE           
-#> 13 Karimu… bd73… Reha… ""             ""        2005 TRUE    FALSE           
-#> 14 XPDC K… 04fc… Outs… "Control"      ""          NA FALSE   FALSE           
-#> 15 XPDC K… 592e… Limi… "Use Zone"     ""          NA FALSE   FALSE           
-#> 16 XPDC K… 9ad0… Tour… "No Take Zone" ""          NA TRUE    FALSE           
-#> 17 XPDC K… 9bd6… Capt… "Use Zone"     ""          NA FALSE   FALSE           
-#> 18 XPDC K… a0a3… Mari… "Use Zone"     ""          NA FALSE   FALSE           
-#> 19 XPDC K… c19f… Aqua… "Use Zone"     ""          NA FALSE   FALSE           
-#> 20 XPDC K… c2cb… Core… "No Take Zone" ""          NA TRUE    FALSE           
-#> # … with 9 more variables: open_access <lgl>, size_limits <lgl>,
-#> #   gear_restriction <lgl>, species_restriction <lgl>, compliance <chr>,
-#> #   predecessor <lgl>, parties <chr>, created_on <chr>, updated_on <chr>
-```
-
-### Method data
-
-You can also access data on your projects’ Fish Belt, Benthic LIT,
-Benthic PIT, Bleaching, and Habitat Complexity methods. The details are
-in the following sections.
-
-#### Fish Belt data
-
-To access Fish Belt data for a project, use `mermaid_get_project_data()`
-with `method = "fishbelt"`. You can access individual observations
-(i.e., a record of each observation) by setting `data = "observations"`:
-
-``` r
-xpdc <- my_projects %>%
-  filter(name == "XPDC Kei Kecil 2018")
-
-xpdc %>%
-  mermaid_get_project_data(method = "fishbelt", data = "observations")
-#> # A tibble: 3,069 x 52
-#>    project tags  country site  latitude longitude reef_type reef_zone
-#>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#>  1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  2 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  3 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  4 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  5 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  6 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  7 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  8 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  9 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#> 10 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#> # … with 3,059 more rows, and 44 more variables: reef_exposure <chr>,
-#> #   reef_slope <chr>, tide <chr>, current <chr>, visibility <chr>,
-#> #   relative_depth <chr>, aca_geomorphic <chr>, aca_benthic <chr>,
-#> #   management <chr>, management_secondary <chr>, management_est_year <lgl>,
-#> #   management_size <lgl>, management_parties <lgl>,
-#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   sample_time <chr>, transect_length <int>, transect_width <chr>,
-#> #   size_bin <chr>, …
-```
-
-You can access sample units data, which are observations aggregated to
-the sample units level. Fish belt sample units contain total biomass in
-kg/ha per sample unit, by trophic group:
-
-``` r
-xpdc %>%
-  mermaid_get_project_data("fishbelt", "sampleunits")
-#> # A tibble: 246 x 66
-#>    project tags  country site  latitude longitude reef_type reef_zone
-#>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#>  1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  2 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  3 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  4 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  5 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  6 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  7 XPDC K… NA    Indone… KE03     -5.61      132. fringing  crest    
-#>  8 XPDC K… NA    Indone… KE03     -5.61      132. fringing  crest    
-#>  9 XPDC K… NA    Indone… KE03     -5.61      132. fringing  crest    
-#> 10 XPDC K… NA    Indone… KE03     -5.61      132. fringing  crest    
-#> # … with 236 more rows, and 58 more variables: reef_exposure <chr>,
-#> #   reef_slope <chr>, tide <chr>, current <chr>, visibility <chr>,
-#> #   relative_depth <chr>, aca_geomorphic <chr>, aca_benthic <chr>,
-#> #   management <chr>, management_secondary <chr>, management_est_year <lgl>,
-#> #   management_size <lgl>, management_parties <lgl>,
-#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   sample_time <chr>, depth <dbl>, transect_number <int>, label <chr>, …
-```
-
-And finally, sample events data, which are aggregated further, to the
-sample event level. Fish belt sample events contain *mean* total biomass
-in kg/ha per sample event and by trophic group:
-
-``` r
-xpdc_sample_events <- xpdc %>%
-  mermaid_get_project_data("fishbelt", "sampleevents")
-
-xpdc_sample_events
-#> # A tibble: 46 x 56
-#>    project tags  country site  latitude longitude reef_type reef_zone
-#>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#>  1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  2 XPDC K… NA    Indone… KE03     -5.61      132. fringing  crest    
-#>  3 XPDC K… NA    Indone… KE04     -5.58      132. fringing  crest    
-#>  4 XPDC K… NA    Indone… KE05     -5.47      133. fringing  crest    
-#>  5 XPDC K… NA    Indone… KE06     -5.52      132. fringing  crest    
-#>  6 XPDC K… NA    Indone… KE07     -5.57      133. fringing  crest    
-#>  7 XPDC K… NA    Indone… KE08     -5.55      133. fringing  crest    
-#>  8 XPDC K… NA    Indone… KE09     -5.60      133. fringing  fore reef
-#>  9 XPDC K… NA    Indone… KE10     -5.57      133. fringing  crest    
-#> 10 XPDC K… NA    Indone… KE11     -5.59      133. fringing  crest    
-#> # … with 36 more rows, and 48 more variables: reef_exposure <chr>, tide <chr>,
-#> #   current <chr>, visibility <chr>, aca_geomorphic <chr>, aca_benthic <chr>,
-#> #   management <chr>, management_secondary <chr>, management_est_year <lgl>,
-#> #   management_size <lgl>, management_parties <lgl>,
-#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   depth_avg <dbl>, biomass_kgha_avg <dbl>,
-#> #   biomass_kgha_trophic_group_avg_omnivore <dbl>,
-#> #   biomass_kgha_trophic_group_avg_piscivore <dbl>,
-#> #   biomass_kgha_trophic_group_avg_planktivore <dbl>,
-#> #   biomass_kgha_trophic_group_avg_invertivore_mobile <dbl>, …
-```
-
-##### A note on saving data
-
-Both the sample units and sample events data contain a “data-frame
-column” (`biomass_kgha_by_trophic_group` and
-`biomass_kgha_by_trophic_group_avg`, respectively). In order to save
-this data in a file like a CSV or XLSX, you will need to expand this
-column first.
-
-This can be done with a function from the `mermaidreporting` package,
-`mermaid_clean_columns()`:
-
-``` r
-library(mermaidreporting)
-
-xpdc_sample_events_clean <- xpdc_sample_events %>%
-  mermaid_clean_columns()
-
-xpdc_sample_events_clean
-#> # A tibble: 46 x 56
-#>    project tags  country site  latitude longitude reef_type reef_zone
-#>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#>  1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  2 XPDC K… NA    Indone… KE03     -5.61      132. fringing  crest    
-#>  3 XPDC K… NA    Indone… KE04     -5.58      132. fringing  crest    
-#>  4 XPDC K… NA    Indone… KE05     -5.47      133. fringing  crest    
-#>  5 XPDC K… NA    Indone… KE06     -5.52      132. fringing  crest    
-#>  6 XPDC K… NA    Indone… KE07     -5.57      133. fringing  crest    
-#>  7 XPDC K… NA    Indone… KE08     -5.55      133. fringing  crest    
-#>  8 XPDC K… NA    Indone… KE09     -5.60      133. fringing  fore reef
-#>  9 XPDC K… NA    Indone… KE10     -5.57      133. fringing  crest    
-#> 10 XPDC K… NA    Indone… KE11     -5.59      133. fringing  crest    
-#> # … with 36 more rows, and 48 more variables: reef_exposure <chr>, tide <chr>,
-#> #   current <chr>, visibility <chr>, aca_geomorphic <chr>, aca_benthic <chr>,
-#> #   management <chr>, management_secondary <chr>, management_est_year <lgl>,
-#> #   management_size <lgl>, management_parties <lgl>,
-#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   depth_avg <dbl>, biomass_kgha_avg <dbl>,
-#> #   biomass_kgha_trophic_group_avg_omnivore <dbl>,
-#> #   biomass_kgha_trophic_group_avg_piscivore <dbl>,
-#> #   biomass_kgha_trophic_group_avg_planktivore <dbl>,
-#> #   biomass_kgha_trophic_group_avg_invertivore_mobile <dbl>, …
-```
-
-Then, you can save the data:
-
-``` r
-library(readr)
-
-write_csv(xpdc_sample_events_clean, "xpdc_sample_events_clean.csv")
-```
-
-#### Benthic LIT data
-
-To access Benthic LIT data, use `mermaid_get_project_data()` with
-`method = "benthiclit"`.
-
-``` r
-mozambique <- my_projects %>%
+wcs_mozambique <- projects %>%
   filter(name == "WCS Mozambique Coral Reef Monitoring")
-
-mozambique %>%
-  mermaid_get_project_data(method = "benthiclit", data = "observations")
-#> # A tibble: 1,569 x 43
-#>    project tags  country site  latitude longitude reef_type reef_zone
-#>    <chr>   <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#>  1 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  2 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  3 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  4 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  5 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  6 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  7 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  8 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  9 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#> 10 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#> # … with 1,559 more rows, and 35 more variables: reef_exposure <chr>,
-#> #   reef_slope <lgl>, tide <chr>, current <lgl>, visibility <lgl>,
-#> #   relative_depth <lgl>, aca_geomorphic <chr>, aca_benthic <chr>,
-#> #   management <chr>, management_secondary <chr>, management_est_year <int>,
-#> #   management_size <lgl>, management_parties <chr>,
-#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   sample_time <chr>, depth <dbl>, transect_number <int>,
-#> #   transect_length <int>, …
 ```
 
-You can access sample units and sample events the same way.
-
-For Benthic LIT, sample units contain percent cover per sample unit, by
-benthic category. Sample *events* contain *mean* percent cover per
-sample event, by benthic category.
+You can access data collected on fishbelt, benthic LIT, benthic PIT,
+bleaching, or habitat complexity - the main function to pull data
+related to your project is `mermaid_get_project_data()`:
 
 ``` r
-mozambique %>%
-  mermaid_get_project_data(method = "benthiclit", data = "sampleunits")
-#> # A tibble: 63 x 48
-#>    project tags  country site  latitude longitude reef_type reef_zone
-#>    <chr>   <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#>  1 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  2 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  3 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  4 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  5 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  6 WCS Mo… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef
-#>  7 WCS Mo… WCS … Mozamb… Barr…    -26.1      32.9 barrier   back reef
-#>  8 WCS Mo… WCS … Mozamb… Barr…    -26.1      32.9 barrier   back reef
-#>  9 WCS Mo… WCS … Mozamb… Barr…    -26.1      32.9 barrier   back reef
-#> 10 WCS Mo… WCS … Mozamb… Barr…    -26.1      32.9 barrier   back reef
-#> # … with 53 more rows, and 40 more variables: reef_exposure <chr>,
-#> #   reef_slope <lgl>, tide <chr>, current <lgl>, visibility <lgl>,
-#> #   relative_depth <lgl>, aca_geomorphic <chr>, aca_benthic <chr>,
-#> #   management <chr>, management_secondary <chr>, management_est_year <int>,
-#> #   management_size <lgl>, management_parties <chr>,
-#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   sample_time <chr>, depth <dbl>, transect_number <int>,
-#> #   transect_length <int>, …
+wcs_mozambique_fishbelt_samples <- wcs_mozambique %>%
+  mermaid_get_project_data(method = "fishbelt", data = "sampleevents")
 ```
 
-#### Benthic PIT data
-
-To access Benthic LIT data, change `method` to “benthicpit”:
-
-``` r
-xpdc %>%
-  mermaid_get_project_data(method = "benthicpit", data = "observations")
-#> # A tibble: 11,100 x 44
-#>    project tags  country site  latitude longitude reef_type reef_zone
-#>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#>  1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  2 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  3 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  4 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  5 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  6 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  7 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  8 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  9 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#> 10 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#> # … with 11,090 more rows, and 36 more variables: reef_exposure <chr>,
-#> #   reef_slope <chr>, tide <chr>, current <chr>, visibility <chr>,
-#> #   relative_depth <chr>, aca_geomorphic <chr>, aca_benthic <chr>,
-#> #   management <chr>, management_secondary <chr>, management_est_year <lgl>,
-#> #   management_size <lgl>, management_parties <lgl>,
-#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   sample_time <chr>, depth <dbl>, transect_number <int>,
-#> #   transect_length <int>, …
-```
-
-You can access sample units and sample events the same way, and the data
-format is the same as Benthic LIT.
-
-You can return both sample units and sample events by setting the `data`
-argument. This will return a list of two data frames: one containing
-sample units, and the other sample events.
+The `data = "sampleevents"` argument specifies that I’d like to pull
+data summarised to the level of a sample **event**, which is a site and
+date - we can see that this pulls information about the site and date of
+samples, along with aggregations like the total biomass of that
+site/date, and broken down by trophic group and fish family.
 
 ``` r
-xpdc_sample_units_events <- xpdc %>%
-  mermaid_get_project_data(method = "benthicpit", data = c("sampleunits", "sampleevents"))
-
-names(xpdc_sample_units_events)
-#> [1] "sampleunits"  "sampleevents"
-xpdc_sample_units_events[["sampleunits"]]
-#> # A tibble: 111 x 49
-#>    project tags  country site  latitude longitude reef_type reef_zone
-#>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#>  1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  2 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  3 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  4 XPDC K… NA    Indone… KE03     -5.61      132. fringing  crest    
-#>  5 XPDC K… NA    Indone… KE03     -5.61      132. fringing  crest    
-#>  6 XPDC K… NA    Indone… KE03     -5.61      132. fringing  crest    
-#>  7 XPDC K… NA    Indone… KE04     -5.58      132. fringing  crest    
-#>  8 XPDC K… NA    Indone… KE04     -5.58      132. fringing  crest    
-#>  9 XPDC K… NA    Indone… KE04     -5.58      132. fringing  crest    
-#> 10 XPDC K… NA    Indone… KE05     -5.47      133. fringing  crest    
-#> # … with 101 more rows, and 41 more variables: reef_exposure <chr>,
-#> #   reef_slope <chr>, tide <chr>, current <chr>, visibility <chr>,
-#> #   relative_depth <chr>, aca_geomorphic <chr>, aca_benthic <chr>,
-#> #   management <chr>, management_secondary <chr>, management_est_year <lgl>,
-#> #   management_size <lgl>, management_parties <lgl>,
-#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   sample_time <chr>, depth <dbl>, transect_number <int>,
-#> #   transect_length <int>, …
-```
-
-#### Bleaching
-
-To access Bleaching data, set `method` to “bleaching”. There are two
-types of observations data for the Bleaching method: Colonies Bleached
-and Percent Cover. These are both returned when pulling observations
-data, in a list:
-
-``` r
-bleaching_obs <- mozambique %>%
-  mermaid_get_project_data("bleaching", "observations")
-
-names(bleaching_obs)
-#> [1] "colonies_bleached" "percent_cover"
-
-bleaching_obs[["colonies_bleached"]]
-#> # A tibble: 1,814 x 44
-#>    project tags  country site  latitude longitude reef_type reef_zone
-#>    <chr>   <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#>  1 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
-#>  2 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
-#>  3 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
-#>  4 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
-#>  5 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
-#>  6 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
-#>  7 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
-#>  8 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
-#>  9 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
-#> 10 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
-#> # … with 1,804 more rows, and 36 more variables: reef_exposure <chr>,
-#> #   tide <lgl>, current <lgl>, visibility <lgl>, relative_depth <lgl>,
-#> #   aca_geomorphic <chr>, aca_benthic <chr>, management <chr>,
-#> #   management_secondary <chr>, management_est_year <int>,
-#> #   management_size <lgl>, management_parties <chr>,
-#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   sample_time <chr>, depth <dbl>, quadrat_size <dbl>, label <chr>,
-#> #   observers <chr>, …
-```
-
-The sample units and sample events data contain summaries of both
-Colonies Bleached and Percent Cover:
-
-``` r
-mozambique %>%
-  mermaid_get_project_data("bleaching", "sampleevents")
-#> # A tibble: 62 x 41
-#>    project tags  country site  latitude longitude reef_type reef_zone
-#>    <chr>   <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#>  1 WCS Mo… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
-#>  2 WCS Mo… WCS … Mozamb… Baby…    -11.0      40.7 fringing  fore reef
-#>  3 WCS Mo… WCS … Mozamb… Balu…    -22.0      35.5 patch     fore reef
-#>  4 WCS Mo… WCS … Mozamb… Dos …    -12.1      40.6 lagoon    back reef
-#>  5 WCS Mo… WCS … Mozamb… Fing…    -12.9      40.6 fringing  fore reef
-#>  6 WCS Mo… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef
-#>  7 WCS Mo… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef
-#>  8 WCS Mo… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef
-#>  9 WCS Mo… WCS … Mozamb… Libe…    -14.5      40.7 fringing  back reef
-#> 10 WCS Mo… WCS … Mozamb… Ligh…    -12.3      40.6 fringing  fore reef
-#> # … with 52 more rows, and 33 more variables: reef_exposure <chr>, tide <lgl>,
+wcs_mozambique_fishbelt_samples
+#> # A tibble: 80 x 62
+#>    project       tags    country site     latitude longitude reef_type reef_zone
+#>    <chr>         <chr>   <chr>   <chr>       <dbl>     <dbl> <chr>     <chr>    
+#>  1 WCS Mozambiq… WCS Mo… Mozamb… Aquarium    -21.8      35.5 barrier   back reef
+#>  2 WCS Mozambiq… WCS Mo… Mozamb… Babylon     -11.0      40.7 fringing  fore reef
+#>  3 WCS Mozambiq… WCS Mo… Mozamb… Baluba      -22.0      35.5 patch     fore reef
+#>  4 WCS Mozambiq… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef
+#>  5 WCS Mozambiq… WCS Mo… Mozamb… Barreir…    -26.1      32.9 barrier   back reef
+#>  6 WCS Mozambiq… WCS Mo… Mozamb… Bunting…    -12.6      40.6 fringing  fore reef
+#>  7 WCS Mozambiq… WCS Mo… Mozamb… Bunting…    -12.6      40.6 fringing  fore reef
+#>  8 WCS Mozambiq… WCS Mo… Mozamb… Checkers    -26.8      32.9 patch     fore reef
+#>  9 WCS Mozambiq… WCS Mo… Mozamb… Coliseum    -12.6      40.6 fringing  fore reef
+#> 10 WCS Mozambiq… WCS Mo… Mozamb… Dogtooth    -12.5      40.6 fringing  crest    
+#> # … with 70 more rows, and 54 more variables: reef_exposure <chr>, tide <lgl>,
 #> #   current <lgl>, visibility <lgl>, aca_geomorphic <chr>, aca_benthic <chr>,
-#> #   management <chr>, management_secondary <chr>, management_est_year <int>,
-#> #   management_size <lgl>, management_parties <chr>,
-#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   depth_avg <dbl>, quadrat_size_avg <dbl>, count_total_avg <dbl>,
-#> #   count_genera_avg <dbl>, percent_normal_avg <dbl>, percent_pale_avg <dbl>, …
-```
-
-#### Habitat Complexity
-
-Finally, to access Habitat Complexity data, set `method` to
-“habitatcomplexity”. As with all other methods, you can access
-observations, sample units, and sample events:
-
-``` r
-xpdc %>%
-  mermaid_get_project_data("habitatcomplexity", "sampleevents")
-#> # A tibble: 2 x 32
-#>   project tags  country site  latitude longitude reef_type reef_zone
-#>   <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#> 1 XPDC K… NA    Indone… KE22     -5.85      133. fringing  fore reef
-#> 2 XPDC K… NA    Indone… KE24     -5.93      133. fringing  fore reef
-#> # … with 24 more variables: reef_exposure <chr>, tide <chr>, current <chr>,
-#> #   visibility <chr>, aca_geomorphic <chr>, aca_benthic <chr>,
-#> #   management <chr>, management_secondary <chr>, management_est_year <lgl>,
-#> #   management_size <lgl>, management_parties <lgl>,
-#> #   management_compliance <lgl>, management_rules <chr>, sample_date <date>,
-#> #   depth_avg <dbl>, score_avg_avg <dbl>, data_policy_habitatcomplexity <chr>,
-#> #   project_notes <chr>, site_notes <chr>, management_notes <chr>, …
-```
-
-#### Multiple methods data
-
-To pull data for both fish belt and benthic PIT methods, you can set
-`method` to include both.
-
-``` r
-xpdc_sample_events <- xpdc %>%
-  mermaid_get_project_data(method = c("fishbelt", "benthicpit"), data = "sampleevents")
-```
-
-The result is a list of data frames, containing sample events for both
-fish belt and benthic PIT methods:
-
-``` r
-names(xpdc_sample_events)
-#> [1] "fishbelt"   "benthicpit"
-
-xpdc_sample_events[["benthicpit"]]
-#> # A tibble: 38 x 39
-#>    project tags  country site  latitude longitude reef_type reef_zone
-#>    <chr>   <lgl> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#>  1 XPDC K… NA    Indone… KE02     -5.44      133. fringing  crest    
-#>  2 XPDC K… NA    Indone… KE03     -5.61      132. fringing  crest    
-#>  3 XPDC K… NA    Indone… KE04     -5.58      132. fringing  crest    
-#>  4 XPDC K… NA    Indone… KE05     -5.47      133. fringing  crest    
-#>  5 XPDC K… NA    Indone… KE06     -5.52      132. fringing  crest    
-#>  6 XPDC K… NA    Indone… KE07     -5.57      133. fringing  crest    
-#>  7 XPDC K… NA    Indone… KE08     -5.55      133. fringing  crest    
-#>  8 XPDC K… NA    Indone… KE09     -5.60      133. fringing  fore reef
-#>  9 XPDC K… NA    Indone… KE10     -5.57      133. fringing  crest    
-#> 10 XPDC K… NA    Indone… KE11     -5.59      133. fringing  crest    
-#> # … with 28 more rows, and 31 more variables: reef_exposure <chr>, tide <chr>,
-#> #   current <chr>, visibility <chr>, aca_geomorphic <chr>, aca_benthic <chr>,
-#> #   management <chr>, management_secondary <chr>, management_est_year <lgl>,
-#> #   management_size <lgl>, management_parties <lgl>,
-#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   depth_avg <dbl>, percent_cover_benthic_category_avg_sand <dbl>,
-#> #   percent_cover_benthic_category_avg_rubble <dbl>,
-#> #   percent_cover_benthic_category_avg_hard_coral <dbl>,
-#> #   percent_cover_benthic_category_avg_macroalgae <dbl>,
-#> #   percent_cover_benthic_category_avg_soft_coral <dbl>, …
-```
-
-Alternatively, you can set `method` to “all” to pull for all methods!
-Similarly, you can set `data` to “all” to pull all types of data:
-
-``` r
-all_project_data <- xpdc %>%
-  mermaid_get_project_data(method = "all", data = "all", limit = 1)
-
-names(all_project_data)
-#> [1] "fishbelt"          "benthiclit"        "benthicpit"       
-#> [4] "bleaching"         "habitatcomplexity"
-
-names(all_project_data[["benthicpit"]])
-#> [1] "observations" "sampleunits"  "sampleevents"
-```
-
-#### Multiple projects
-
-Pulling data for multiple projects is the exact same, except there will
-be an additional “project” column at the beginning to distinguish which
-projects the data comes from. Recall that `my_projects` contains six
-projects:
-
-``` r
-my_projects
-#> # A tibble: 9 x 14
-#>   id    name  countries num_sites tags  notes status data_policy_bel…
-#>   <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
-#> 1 2d6c… WCS … Mozambiq…        74 "WCS… "Dat… Open   Private         
-#> 2 3a9e… Aceh… Indonesia        18 "Vib… ""    Open   Private         
-#> 3 4080… Mada… Madagasc…        74 "WCS… "MAC… Open   Private         
-#> 4 4d23… Mada… Madagasc…        16 "WCS… "Mon… Open   Public Summary  
-#> 5 507d… Kari… Indonesia        43 "Vib… ""    Open   Private         
-#> 6 5679… Mada… Madagasc…        33 "WCS… ""    Open   Public Summary  
-#> 7 75ef… Kubu… Fiji             78 "WCS… ""    Open   Private         
-#> 8 9de8… XPDC… Indonesia        37 ""    "XPD… Open   Private         
-#> 9 a1b7… Grea… Fiji             76 "Fij… ""    Open   Private         
-#> # … with 6 more variables: data_policy_benthiclit <chr>,
-#> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
-#> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
-```
-
-``` r
-my_projects %>%
-  mermaid_get_project_data("fishbelt", "sampleevents", limit = 1)
-#> # A tibble: 8 x 67
-#>   project tags  country site  latitude longitude reef_type reef_zone
-#>   <chr>   <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#> 1 WCS Mo… WCS … Mozamb… Aqua…   -21.8       35.5 barrier   back reef
-#> 2 Aceh J… WCS … Indone… Abah…     4.99      95.4 fringing  fore reef
-#> 3 Madaga… WCS … Madaga… Amba…   -12.9       48.6 fringing  fore reef
-#> 4 Karimu… WCS … Indone… Batu…    -5.81     110.  fringing  back reef
-#> 5 Madaga… WCS … Madaga… Anta…   -16.4       49.8 fringing  fore reef
-#> 6 Kubula… WCS … Fiji    C13     -17.0      179.  barrier   fore reef
-#> 7 XPDC K… <NA>  Indone… KE02     -5.44     133.  fringing  crest    
-#> 8 Great … Fiji… Fiji    BA02    -17.4      178.  atoll     back reef
-#> # … with 59 more variables: reef_exposure <chr>, tide <chr>, current <chr>,
-#> #   visibility <chr>, aca_geomorphic <chr>, aca_benthic <chr>,
 #> #   management <chr>, management_secondary <chr>, management_est_year <int>,
 #> #   management_size <dbl>, management_parties <chr>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
@@ -696,12 +132,67 @@ my_projects %>%
 #> #   biomass_kgha_trophic_group_avg_herbivore_detritivore <dbl>, …
 ```
 
-Note the `limit` argument here, which just limits the data pulled to one
-record (per project, method, and data combination). This is useful if
-you want to get a preview of what your data will look like without
-having to pull it all in.
+If you’d like data related to the **units** of survey (for example, to
+transects or quadrats), it’s just a matter of changing `data` to
+“sampleunits”:
 
-### Accessing non-project data
+``` r
+wcs_mozambique %>%
+  mermaid_get_project_data(method = "fishbelt", data = "sampleunits")
+#> # A tibble: 111 x 72
+#>    project       tags    country site     latitude longitude reef_type reef_zone
+#>    <chr>         <chr>   <chr>   <chr>       <dbl>     <dbl> <chr>     <chr>    
+#>  1 WCS Mozambiq… WCS Mo… Mozamb… Aquarium    -21.8      35.5 barrier   back reef
+#>  2 WCS Mozambiq… WCS Mo… Mozamb… Aquarium    -21.8      35.5 barrier   back reef
+#>  3 WCS Mozambiq… WCS Mo… Mozamb… Babylon     -11.0      40.7 fringing  fore reef
+#>  4 WCS Mozambiq… WCS Mo… Mozamb… Baluba      -22.0      35.5 patch     fore reef
+#>  5 WCS Mozambiq… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef
+#>  6 WCS Mozambiq… WCS Mo… Mozamb… Barreir…    -26.0      32.9 barrier   back reef
+#>  7 WCS Mozambiq… WCS Mo… Mozamb… Barreir…    -26.1      32.9 barrier   back reef
+#>  8 WCS Mozambiq… WCS Mo… Mozamb… Barreir…    -26.1      32.9 barrier   back reef
+#>  9 WCS Mozambiq… WCS Mo… Mozamb… Bunting…    -12.6      40.6 fringing  fore reef
+#> 10 WCS Mozambiq… WCS Mo… Mozamb… Bunting…    -12.6      40.6 fringing  fore reef
+#> # … with 101 more rows, and 64 more variables: reef_exposure <chr>,
+#> #   reef_slope <lgl>, tide <lgl>, current <lgl>, visibility <lgl>,
+#> #   relative_depth <lgl>, aca_geomorphic <chr>, aca_benthic <chr>,
+#> #   management <chr>, management_secondary <chr>, management_est_year <int>,
+#> #   management_size <dbl>, management_parties <chr>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   sample_time <chr>, depth <dbl>, transect_number <int>, label <chr>, …
+```
+
+And raw observations are available by changing it to “observations”:
+
+``` r
+wcs_mozambique %>%
+  mermaid_get_project_data(method = "fishbelt", data = "observations")
+#> # A tibble: 2,714 x 52
+#>    project         tags     country site  latitude longitude reef_type reef_zone
+#>    <chr>           <chr>    <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
+#>  1 WCS Mozambique… WCS Moz… Mozamb… Aqua…    -21.8      35.5 barrier   back reef
+#>  2 WCS Mozambique… WCS Moz… Mozamb… Aqua…    -21.8      35.5 barrier   back reef
+#>  3 WCS Mozambique… WCS Moz… Mozamb… Aqua…    -21.8      35.5 barrier   back reef
+#>  4 WCS Mozambique… WCS Moz… Mozamb… Aqua…    -21.8      35.5 barrier   back reef
+#>  5 WCS Mozambique… WCS Moz… Mozamb… Aqua…    -21.8      35.5 barrier   back reef
+#>  6 WCS Mozambique… WCS Moz… Mozamb… Aqua…    -21.8      35.5 barrier   back reef
+#>  7 WCS Mozambique… WCS Moz… Mozamb… Aqua…    -21.8      35.5 barrier   back reef
+#>  8 WCS Mozambique… WCS Moz… Mozamb… Aqua…    -21.8      35.5 barrier   back reef
+#>  9 WCS Mozambique… WCS Moz… Mozamb… Aqua…    -21.8      35.5 barrier   back reef
+#> 10 WCS Mozambique… WCS Moz… Mozamb… Aqua…    -21.8      35.5 barrier   back reef
+#> # … with 2,704 more rows, and 44 more variables: reef_exposure <chr>,
+#> #   reef_slope <lgl>, tide <lgl>, current <lgl>, visibility <lgl>,
+#> #   relative_depth <lgl>, aca_geomorphic <chr>, aca_benthic <chr>,
+#> #   management <chr>, management_secondary <chr>, management_est_year <int>,
+#> #   management_size <dbl>, management_parties <chr>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   sample_time <chr>, transect_length <int>, transect_width <chr>,
+#> #   size_bin <chr>, …
+```
+
+For more details on accessing project data, please see the [Accessing
+Project
+Data](https://data-mermaid.github.io/mermaidr/articles/articles/detailed_usage.html)
+article.
 
 You may also want to access data that is not related to projects. To
 access this data, you do not need to authenticate R with MERMAID.
@@ -712,19 +203,19 @@ the fish and benthic attributes you can choose in MERMAID), using
 
 ``` r
 mermaid_get_reference(reference = "fishfamilies")
-#> # A tibble: 162 x 8
-#>    id    name  status biomass_constan… biomass_constan… biomass_constan…
-#>    <chr> <chr> <chr>             <dbl>            <dbl>            <dbl>
-#>  1 0091… Kyph… Open            0.0193              3.03            0.986
-#>  2 00b6… Mugi… Open            0.0166              2.94            0.974
-#>  3 00f4… Zena… Open            0.00427             3.02            1    
-#>  4 0226… Sphy… Open            0.00448             3.11            1    
-#>  5 0880… Labr… Open            0.0120              3.04            0.997
-#>  6 0aff… Scom… Open            0.0111              3.03            0.988
-#>  7 0b69… Ophi… Open            0.00139             2.93            1    
-#>  8 0d99… Albu… Open            0.0105              2.99            1    
-#>  9 0e5b… Hemi… Open            0.0373              3.16            0.99 
-#> 10 1513… Serr… Open            0.0136              3.03            0.997
+#> # A tibble: 162 x 9
+#>    id    name  status biomass_constan… biomass_constan… biomass_constan… regions
+#>    <chr> <chr> <chr>             <dbl>            <dbl>            <dbl> <chr>  
+#>  1 0091… Kyph… Open            0.0193              3.03            0.986 Easter…
+#>  2 00b6… Mugi… Open            0.0166              2.94            0.974 Easter…
+#>  3 00f4… Zena… Open            0.00427             3.02            1     Easter…
+#>  4 0226… Sphy… Open            0.00448             3.11            1     Easter…
+#>  5 0880… Labr… Open            0.0120              3.04            0.997 Easter…
+#>  6 0aff… Scom… Open            0.0111              3.03            0.988 Easter…
+#>  7 0b69… Ophi… Open            0.00139             2.93            1     Easter…
+#>  8 0d99… Albu… Open            0.0105              2.99            1     Tropic…
+#>  9 0e5b… Hemi… Open            0.0373              3.16            0.99  Easter…
+#> 10 1513… Serr… Open            0.0136              3.03            0.997 Easter…
 #> # … with 152 more rows, and 2 more variables: created_on <chr>,
 #> #   updated_on <chr>
 ```
@@ -737,20 +228,20 @@ You can also get a list of *all* projects (not just your own):
 
 ``` r
 mermaid_get_projects()
-#> # A tibble: 125 x 14
-#>    id    name  countries num_sites tags  notes status data_policy_bel…
-#>    <chr> <chr> <chr>         <int> <chr> <chr> <chr>  <chr>           
-#>  1 0067… TPK … "Indones…        15 "WCS… ""    Open   Private         
-#>  2 01bb… Mada… "Madagas…        12 "WCS… "Sur… Open   Private         
-#>  3 02e6… TWP … "Indones…        14 "WCS… ""    Open   Private         
-#>  4 07df… Cend… "Indones…        36 "Cen… ""    Open   Private         
-#>  5 0b39… Open… "Indones…         2 "WCS… "Thi… Open   Private         
-#>  6 0c00… 2019… "Fiji"           18 "WCS… ""    Open   Private         
-#>  7 0c16… REEF… ""                0 ""    ""    Open   Public Summary  
-#>  8 0f17… what  ""                0 ""    ""    Open   Public Summary  
-#>  9 124b… Sam   ""                0 ""    ""    Open   Private         
-#> 10 1277… Taka… "Indones…        39 "WCS… ""    Open   Public Summary  
-#> # … with 115 more rows, and 6 more variables: data_policy_benthiclit <chr>,
+#> # A tibble: 126 x 14
+#>    id      name    countries  num_sites tags    notes    status data_policy_bel…
+#>    <chr>   <chr>   <chr>          <int> <chr>   <chr>    <chr>  <chr>           
+#>  1 00673b… TPK Gi… "Indonesi…        15 "WCS I… ""       Open   Private         
+#>  2 01bbe4… Madaga… "Madagasc…        12 "WCS M… "Survey… Open   Private         
+#>  3 02e691… TWP Gi… "Indonesi…        14 "WCS I… ""       Open   Private         
+#>  4 07df6a… Cender… "Indonesi…        36 "Cende… ""       Open   Private         
+#>  5 0b39fe… Open C… "Indonesi…         2 "WCS I… "This i… Open   Private         
+#>  6 0c000a… 2019_O… "Fiji"            18 "WCS F… ""       Open   Private         
+#>  7 0c1668… REEFol… ""                 0 ""      ""       Open   Public Summary  
+#>  8 0f1703… what    ""                 0 ""      ""       Open   Public Summary  
+#>  9 124b91… Sam     ""                 0 ""      ""       Open   Private         
+#> 10 1277ef… Taka B… "Indonesi…        39 "WCS I… ""       Open   Public Summary  
+#> # … with 116 more rows, and 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
 ```
@@ -759,20 +250,20 @@ As well as all sites:
 
 ``` r
 mermaid_get_sites()
-#> # A tibble: 2,515 x 13
-#>    id    name  notes project latitude longitude country reef_type reef_zone
-#>    <chr> <chr> <chr> <chr>      <dbl>     <dbl> <chr>   <chr>     <chr>    
-#>  1 0235… BA09  ""    a1b7ff…    -17.4      178. Fiji    atoll     back reef
-#>  2 03e5… BA03  ""    89f2d4…    -17.4      178. Fiji    atoll     back reef
-#>  3 0879… BA16  ""    a1b7ff…    -17.2      178. Fiji    atoll     back reef
-#>  4 1925… BA15  ""    a1b7ff…    -17.2      178. Fiji    atoll     back reef
-#>  5 19e6… YA02  ""    a1b7ff…    -17.0      177. Fiji    atoll     back reef
-#>  6 20ae… BA11  ""    a1b7ff…    -17.3      178. Fiji    atoll     back reef
-#>  7 2831… BA06  ""    89f2d4…    -17.4      178. Fiji    atoll     back reef
-#>  8 2a46… BA04  ""    89f2d4…    -17.4      178. Fiji    atoll     back reef
-#>  9 2af4… BA12  ""    a1b7ff…    -17.3      178. Fiji    atoll     back reef
-#> 10 2c31… BA05  ""    89f2d4…    -17.4      178. Fiji    atoll     back reef
-#> # … with 2,505 more rows, and 4 more variables: exposure <chr>,
+#> # A tibble: 2,534 x 13
+#>    id       name  notes project   latitude longitude country reef_type reef_zone
+#>    <chr>    <chr> <chr> <chr>        <dbl>     <dbl> <chr>   <chr>     <chr>    
+#>  1 02355d6… BA09  ""    a1b7ff1f…    -17.4      178. Fiji    atoll     back reef
+#>  2 03e5576… BA03  ""    89f2d43e…    -17.4      178. Fiji    atoll     back reef
+#>  3 0879390… BA16  ""    a1b7ff1f…    -17.2      178. Fiji    atoll     back reef
+#>  4 19258ea… BA15  ""    a1b7ff1f…    -17.2      178. Fiji    atoll     back reef
+#>  5 19e6088… YA02  ""    a1b7ff1f…    -17.0      177. Fiji    atoll     back reef
+#>  6 20aeb13… BA11  ""    a1b7ff1f…    -17.3      178. Fiji    atoll     back reef
+#>  7 2831d61… BA06  ""    89f2d43e…    -17.4      178. Fiji    atoll     back reef
+#>  8 2a4625f… BA04  ""    89f2d43e…    -17.4      178. Fiji    atoll     back reef
+#>  9 2af472d… BA12  ""    a1b7ff1f…    -17.3      178. Fiji    atoll     back reef
+#> 10 2c31d8c… BA05  ""    89f2d43e…    -17.4      178. Fiji    atoll     back reef
+#> # … with 2,524 more rows, and 4 more variables: exposure <chr>,
 #> #   predecessor <chr>, created_on <chr>, updated_on <chr>
 ```
 
@@ -780,28 +271,29 @@ And all managements:
 
 ``` r
 mermaid_get_managements()
-#> # A tibble: 681 x 17
-#>    id    name  name_secondary rules notes est_year no_take periodic_closure
-#>    <chr> <chr> <chr>          <chr> <chr>    <int> <lgl>   <lgl>           
-#>  1 0031… Mata… "Fish Habitat… No T… ""        2018 TRUE    FALSE           
-#>  2 004b… Pula… ""             No T… ""          NA TRUE    FALSE           
-#>  3 00c9… Lape… "Special Mana… Peri… ""        2017 FALSE   TRUE            
-#>  4 0118… Sust… "Perikanan Be… Gear… ""        2020 FALSE   FALSE           
-#>  5 0247… Prot… "Zona Perlind… No T… ""        2015 TRUE    FALSE           
-#>  6 0260… Dawa… ""             Acce… ""          NA FALSE   FALSE           
-#>  7 0298… Haaf… "Fish Habitat… No T… ""        2007 TRUE    FALSE           
-#>  8 02cd… Kaib… ""             Peri… ""        2017 FALSE   TRUE            
-#>  9 02e5… VIR3  ""             No T… ""        2012 TRUE    FALSE           
-#> 10 03ba… VIR9  ""             No T… ""        2016 TRUE    FALSE           
-#> # … with 671 more rows, and 9 more variables: open_access <lgl>,
+#> # A tibble: 692 x 17
+#>    id      name    name_secondary  rules notes est_year no_take periodic_closure
+#>    <chr>   <chr>   <chr>           <chr> <chr>    <int> <lgl>   <lgl>           
+#>  1 0031d4… Matafo… "Fish Habitat … No T… ""        2018 TRUE    FALSE           
+#>  2 004bb2… Pulau … ""              No T… ""          NA TRUE    FALSE           
+#>  3 00c920… Lape B… "Special Manag… Peri… ""        2017 FALSE   TRUE            
+#>  4 0118e3… Sustai… "Perikanan Ber… Gear… ""        2020 FALSE   FALSE           
+#>  5 02479d… Protec… "Zona Perlindu… No T… ""        2015 TRUE    FALSE           
+#>  6 02600e… Dawa_L… ""              Acce… ""          NA FALSE   FALSE           
+#>  7 029852… Haafev… "Fish Habitat … No T… ""        2007 TRUE    FALSE           
+#>  8 02cd9d… Kaibu_… ""              Peri… ""        2017 FALSE   TRUE            
+#>  9 02e546… VIR3    ""              No T… ""        2012 TRUE    FALSE           
+#> 10 03bab6… VIR9    ""              No T… ""        2016 TRUE    FALSE           
+#> # … with 682 more rows, and 9 more variables: open_access <lgl>,
 #> #   size_limits <lgl>, gear_restriction <lgl>, species_restriction <lgl>,
 #> #   compliance <chr>, predecessor <chr>, parties <chr>, created_on <chr>,
 #> #   updated_on <chr>
 ```
 
-### Other data
-
 There is additional data available from the MERMAID API, both related to
 specific projects and not. If you think you’ll need to use these, please
-see the help for them by typing `?mermaid_get_endpoint` or
-`?mermaid_get_project_endpoint`.
+see `mermaid_get_endpoint()` and `mermaid_get_project_endpoint()`.
+
+This is a small sample of the wealth of data that’s available on your
+MERMAID projects, and on the ecosystem as a whole! Please explore the
+[package website](https://data-mermaid.github.io/mermaidr/) for more.

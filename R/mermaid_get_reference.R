@@ -86,7 +86,6 @@ get_reference_benthicattributes <- function(limit = NULL) {
 }
 
 lookup_regions <- function(results, choices = mermaid_get_endpoint("choices")) {
-
   regions <- choices %>%
     tibble::deframe() %>%
     purrr::pluck("regions") %>%
@@ -107,7 +106,6 @@ lookup_regions <- function(results, choices = mermaid_get_endpoint("choices")) {
     dplyr::left_join(row_regions, by = "row", suffix = c("_id", "")) %>%
     dplyr::select(-.data$row, -.data$regions_id) %>%
     dplyr::select(names(results))
-
 }
 
 fishfamilies_columns <- c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "regions", "created_on", "updated_on")
