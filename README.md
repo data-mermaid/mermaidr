@@ -12,8 +12,8 @@ status](https://github.com/data-mermaid/mermaidr/workflows/R-CMD-check/badge.svg
 `mermaidr` is an R package that enables you to access data from
 [MERMAID](https://datamermaid.org/), an open-source data platform
 developed to help you collect, analyze, and share coral reef monitoring
-data. Through `mermaidr` you can access data from [MERMAID
-Collect](https://collect.datamermaid.org/), directly in R.
+data. Through `mermaidr` you can access data from
+[MERMAID](https://collect.datamermaid.org/) directly in R.
 
 For more information and detailed instructions on usage, please visit
 the [package website](https://data-mermaid.github.io/mermaidr/).
@@ -37,7 +37,7 @@ remotes::install_github("data-mermaid/mermaidr")
 
 Through `mermaidr`, you can access aggregated data from your coral reef
 surveys. To do this, first load the package and access your MERMAID
-Collect projects:
+projects:
 
 ``` r
 library(mermaidr)
@@ -190,7 +190,9 @@ wcs_mozambique %>%
 ```
 
 For more details on accessing project data, please see the [Accessing
-Project Data]() article.
+Project
+Data](https://data-mermaid.github.io/mermaidr/articles/articles/detailed_usage.html)
+article.
 
 You may also want to access data that is not related to projects. To
 access this data, you do not need to authenticate R with MERMAID.
