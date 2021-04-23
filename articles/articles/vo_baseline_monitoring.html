@@ -212,9 +212,7 @@
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">benthic_data</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">hard_coral</span>, y <span class="op">=</span> <span class="va">site</span>, fill <span class="op">=</span> <span class="va">threshold</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="figure">
-<img src="vo-unnamed-chunk-9-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-9</p>
-</div>
+<p><img src="vo-unnamed-chunk-9-1.png"></p>
 <p>This is a good start, but it would probably be much more useful with a few changes. We can recorder the sites so that they go in descending order, from highest to lowest hard coral coverage. We can also rearrange the threshold legend, so that it follows a logical order, from highest to lowest coverage (instead of alphabetical). It would also be helpful to add a line at the 10% and 30% points, to visualize those thresholds more explicitly.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">benthic_data</span> <span class="op">&lt;-</span> <span class="va">benthic_data</span> <span class="op">%&gt;%</span>
@@ -229,9 +227,7 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">30</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, size <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span>
 
 <span class="va">hard_coral_plot</span></code></pre></div>
-<div class="figure">
-<img src="vo-unnamed-chunk-10-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-10</p>
-</div>
+<p><img src="vo-unnamed-chunk-10-1.png"></p>
 <p>Finally, we can make some visual changes, like updating the theme, removing the site names (we care more about the distribution than which site they correspond to for this plot), adding axis labels for every 10%, cleaning up labels, and some other fiddly bits to create a beautiful plot!</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">hard_coral_plot</span> <span class="op">&lt;-</span> <span class="va">hard_coral_plot</span> <span class="op">+</span>
@@ -247,9 +243,7 @@
   <span class="op">)</span>
 
 <span class="va">hard_coral_plot</span></code></pre></div>
-<div class="figure">
-<img src="vo-unnamed-chunk-11-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-11</p>
-</div>
+<p><img src="vo-unnamed-chunk-11-1.png"></p>
 <p>That looks much better!</p>
 </div>
 <div id="reef-fish-biomass" class="section level1">
@@ -322,9 +316,7 @@
     panel.grid.minor <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
     panel.grid.major.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>
   <span class="op">)</span></code></pre></div>
-<div class="figure">
-<img src="vo-unnamed-chunk-16-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-16</p>
-</div>
+<p><img src="vo-unnamed-chunk-16-1.png"></p>
 </div>
   </div>
 
