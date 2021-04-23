@@ -120,5 +120,4 @@ test_that("expand_covariates pulls max value and can handle both covariates pres
     dplyr::mutate(covariates = purrr::map(covariates, expand_covariates)) %>%
     tidyr::unnest(covariates) %>%
     dplyr::select(-.data$covariates))
-
 })

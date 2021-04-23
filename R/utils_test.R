@@ -46,7 +46,7 @@ test_sus_vs_ses_agg <- function(sus_agg, ses_agg) {
     dplyr::mutate(dplyr::across(c(.data$se, .data$su), as.numeric))
 
 
-  testthat::expect_true(all(sus_vs_ses_match[["se"]] -  sus_vs_ses_match[["su"]] < 1))
+  testthat::expect_true(all(sus_vs_ses_match[["se"]] - sus_vs_ses_match[["su"]] < 1))
 }
 
 # Compare (aggregated) values from observations versus from SUs
@@ -59,7 +59,7 @@ test_obs_vs_sus_agg <- function(obs_agg, sus_agg) {
     dplyr::mutate_if(is.double, as.numeric) %>%
     dplyr::mutate_if(is.numeric, dplyr::coalesce, 0)
 
-  if(any(is.na(suppressWarnings(as.numeric(obs_vs_su_match[["su"]]))))) {
+  if (any(is.na(suppressWarnings(as.numeric(obs_vs_su_match[["su"]]))))) {
     testthat::expect_true(all(obs_vs_su_match[["obs"]] == obs_vs_su_match[["su"]]))
   } else {
     testthat::expect_true(all(obs_vs_su_match[["obs"]] - obs_vs_su_match[["su"]] < 1))
@@ -103,10 +103,11 @@ aggregate_sus_biomass_long <- function(sus, aggregate_cols = c("trophic_group", 
       dplyr::select(.data$fake_sample_unit_id, .data$biomass_kgha, dplyr::contains(col)) %>%
       tidyr::pivot_longer(-.data$fake_sample_unit_id, values_to = "su", names_prefix = paste0("biomass_kgha_", col, "_")) %>%
       dplyr::mutate(
-      name = dplyr::case_when(
-        stringr::str_detect(.data$name, "other") ~ glue::glue("{col}_other"),
-        TRUE ~ .data$name
-      ))
+        name = dplyr::case_when(
+          stringr::str_detect(.data$name, "other") ~ glue::glue("{col}_other"),
+          TRUE ~ .data$name
+        )
+      )
   }
 
   aggregate_cols %>%
@@ -134,7 +135,8 @@ calculate_sus_biomass_avg_long <- function(sus, aggregate_cols = c("trophic_grou
         name = dplyr::case_when(
           stringr::str_detect(.data$name, "other") ~ glue::glue("{col}_other"),
           TRUE ~ .data$name
-        ))
+        )
+      )
   }
 
   aggregate_cols %>%
