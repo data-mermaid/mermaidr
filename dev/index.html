@@ -103,7 +103,7 @@
 <a href="#mermaidr" class="anchor"></a>mermaidr</h1></div>
 <!-- badges: start -->
 
-<p><code>mermaidr</code> is an R package that enables you to access data from <a href="https://datamermaid.org/">MERMAID</a>, an open-source data platform developed to help you collect, analyze, and share coral reef monitoring data. Through <code>mermaidr</code> you can access data from <a href="https://collect.datamermaid.org/">MERMAID Collect</a>, directly in R.</p>
+<p><code>mermaidr</code> is an R package that enables you to access data from <a href="https://datamermaid.org/">MERMAID</a>, an open-source data platform developed to help you collect, analyze, and share coral reef monitoring data. Through <code>mermaidr</code> you can access data from <a href="https://collect.datamermaid.org/">MERMAID</a> directly in R.</p>
 <p>For more information and detailed instructions on usage, please visit the <a href="https://data-mermaid.github.io/mermaidr/">package website</a>.</p>
 <p>If you are new to the R programming language, our <a href="https://data-mermaid.github.io/mermaidr/articles/articles/new_to_r.html">new R users guide</a> is a great place to start! If you find yourself stuck, please don’t hesitate to <a href="https://data-mermaid.github.io/mermaidr/articles/articles/getting_help.html">ask for help</a>.</p>
 <div id="installation" class="section level2">
@@ -117,7 +117,7 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>Through <code>mermaidr</code>, you can access aggregated data from your coral reef surveys. To do this, first load the package and access your MERMAID Collect projects:</p>
+<p>Through <code>mermaidr</code>, you can access aggregated data from your coral reef surveys. To do this, first load the package and access your MERMAID projects:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://data-mermaid.github.io/mermaidr">mermaidr</a></span><span class="op">)</span>
 
@@ -229,7 +229,7 @@
 <span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span>
 <span class="co">#&gt; #   sample_time &lt;chr&gt;, transect_length &lt;int&gt;, transect_width &lt;chr&gt;,</span>
 <span class="co">#&gt; #   size_bin &lt;chr&gt;, …</span></code></pre></div>
-<p>For more details on accessing project data, please see the <a href="">Accessing Project Data</a> article.</p>
+<p>For more details on accessing project data, please see the <a href="https://data-mermaid.github.io/mermaidr/articles/articles/detailed_usage.html">Accessing Project Data</a> article.</p>
 <p>You may also want to access data that is not related to projects. To access this data, you do not need to authenticate R with MERMAID.</p>
 <p>For example, you can pull reference data (the names and information of the fish and benthic attributes you can choose in MERMAID), using <code><a href="reference/mermaid_get_reference.html">mermaid_get_reference()</a></code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
