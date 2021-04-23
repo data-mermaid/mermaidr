@@ -13,7 +13,8 @@ knitr::opts_chunk$set(
   comment = "#>",
   dpi = 300,
   message = FALSE,
-  warning = FALSE
+  warning = FALSE,
+  fig.path = "vo-"
 )
 
 options(tibble.max_extra_cols = 20)
@@ -169,7 +170,7 @@ fishbelt_data <- fishbelt_data %>%
   select(country, site, biomass = biomass_kgha_avg)
 ```
 
-WCS considers 500 kg/ha as a threshold where below this biomass, ecosystems may pass critical thresholds of ecosystem decline, and often seek to maintain reef fish biomass above 500 kg/ha as a management target. Let's categorize each value of `biomass` according to whether it's above or below 500 kg/ha, and reorder both the sites and the threshold factor from highest to lowest biomass: 
+WCS considers 500 kg/ha as a threshold where below this biomass, ecosystems may pass critical thresholds of ecosystem decline, and often seek to maintain reef fish biomass above 500 kg/ha as a management target. Let's categorize each value of `biomass` according to whether it's above or below 500 kg/ha, and reorder both the sites and the threshold factor from highest to lowest biomass:
 
 ```{r}
 fishbelt_data <- fishbelt_data %>%

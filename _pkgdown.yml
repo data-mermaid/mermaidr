@@ -48,6 +48,4 @@ articles:
   - title: Detailed Usage
     navbar: Detailed Usage
     contents:
-    - articles/detailed_usage
-
-
+    - articles/accessing_project_data
