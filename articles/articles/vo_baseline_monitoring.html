@@ -69,7 +69,7 @@
     <li class="divider">
     <li class="dropdown-header">Detailed Usage</li>
     <li>
-      <a href="../../articles/articles/detailed_usage.html">Accessing Project Data</a>
+      <a href="../../articles/articles/accessing_project_data.html">Accessing Project Data</a>
     </li>
   </ul>
 </li>
@@ -116,16 +116,16 @@
 
 <span class="va">vo_projects</span>
 <span class="co">#&gt; # A tibble: 5 x 14</span>
-<span class="co">#&gt;   id      name     countries  num_sites tags   notes status data_policy_bel… data_policy_ben…</span>
-<span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;           </span>
-<span class="co">#&gt; 1 3a9ecb… Aceh Ja… Indonesia         18 Vibra… ""    Open   Private          Private         </span>
-<span class="co">#&gt; 2 507d1a… Karimun… Indonesia         43 Vibra… ""    Open   Private          Private         </span>
-<span class="co">#&gt; 3 95e0ff… 2019_Da… Fiji              44 Vibra… ""    Open   Private          Public Summary  </span>
-<span class="co">#&gt; 4 a93b43… Tanzani… Tanzania,…        24 Vibra… ""    Open   Private          Private         </span>
-<span class="co">#&gt; 5 bcb1f1… Taka Bo… Indonesia         39 Vibra… ""    Open   Public Summary   Public Summary  </span>
-<span class="co">#&gt; # … with 5 more variables: data_policy_benthicpit &lt;chr&gt;,</span>
-<span class="co">#&gt; #   data_policy_habitatcomplexity &lt;chr&gt;, data_policy_bleachingqc &lt;chr&gt;, created_on &lt;chr&gt;,</span>
-<span class="co">#&gt; #   updated_on &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt;   id       name       countries num_sites tags    notes status data_policy_bel…</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;           </span>
+<span class="co">#&gt; 1 3a9ecb7… Aceh Jaya… Indonesia        18 Vibran… ""    Open   Private         </span>
+<span class="co">#&gt; 2 507d1af… Karimunja… Indonesia        43 Vibran… ""    Open   Private         </span>
+<span class="co">#&gt; 3 95e0ffc… 2019_Dama… Fiji             44 Vibran… ""    Open   Private         </span>
+<span class="co">#&gt; 4 a93b43f… Tanzania … Tanzania         24 Vibran… ""    Open   Private         </span>
+<span class="co">#&gt; 5 bcb1f11… Taka Bone… Indonesia        39 Vibran… ""    Open   Public Summary  </span>
+<span class="co">#&gt; # … with 6 more variables: data_policy_benthiclit &lt;chr&gt;,</span>
+<span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span>
+<span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></code></pre></div>
 <p>For this analysis, WCS field teams accessed ecological condition using underwater surveys to assess two key indicators of coral reef health: live hard coral cover and reef fish biomass. This data is available from <code>mermaidr</code> via the benthic PIT and fishbelt methods, respectively. We’ll focus on projects that have summary data publicly available for these methods.</p>
 <p>We are able to see the data policy of projects and methods by looking at the <code>data_policy_*</code> columns of <code>vo_projects</code>. For example, focusing on benthic PIT and fishbelt, we can see that the Taka Bonerate NP-2019 project has summary data publicly available for fishbelt and benthic PIT, while the 2019 Dama Bureta Waibula and Dawasamu-WISH ecological survey has public data available for only benthic PIT.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -134,13 +134,13 @@
 <span class="va">vo_projects</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">data_policy_beltfish</span>, <span class="va">data_policy_benthicpit</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 5 x 3</span>
-<span class="co">#&gt;   name                                              data_policy_beltfish data_policy_benthic…</span>
-<span class="co">#&gt;   &lt;chr&gt;                                             &lt;chr&gt;                &lt;chr&gt;               </span>
-<span class="co">#&gt; 1 Aceh Jaya Coastal Park                            Private              Private             </span>
-<span class="co">#&gt; 2 Karimunjawa National Park                         Private              Private             </span>
-<span class="co">#&gt; 3 2019_Dama Bureta Waibula and Dawasamu-WISH ecolo… Private              Public Summary      </span>
-<span class="co">#&gt; 4 Tanzania Vibrant Oceans 2019                      Private              Private             </span>
-<span class="co">#&gt; 5 Taka Bonerate NP-2019                             Public Summary       Public Summary</span></code></pre></div>
+<span class="co">#&gt;   name                                   data_policy_beltf… data_policy_benthi…</span>
+<span class="co">#&gt;   &lt;chr&gt;                                  &lt;chr&gt;              &lt;chr&gt;              </span>
+<span class="co">#&gt; 1 Aceh Jaya MPA 2020                     Private            Private            </span>
+<span class="co">#&gt; 2 Karimunjawa NP 2019                    Private            Private            </span>
+<span class="co">#&gt; 3 2019_Dama Bureta Waibula and Dawasamu… Private            Public Summary     </span>
+<span class="co">#&gt; 4 Tanzania Vibrant Oceans 2019           Private            Private            </span>
+<span class="co">#&gt; 5 Taka Bonerate NP-2019                  Public Summary     Public Summary</span></code></pre></div>
 <div id="live-hard-coral-cover" class="section level1">
 <h1 class="hasAnchor">
 <a href="#live-hard-coral-cover" class="anchor"></a>Live hard coral cover</h1>
@@ -163,25 +163,24 @@
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">benthic_data</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 42</span>
-<span class="co">#&gt;   project     tags   country site  latitude longitude reef_type reef_zone reef_exposure tide </span>
-<span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;</span>
-<span class="co">#&gt; 1 2019_Dama … WCS F… Fiji    BuC1     -17.6      179. fringing  fore reef sheltered     high </span>
-<span class="co">#&gt; 2 2019_Dama … WCS F… Fiji    BuC2     -17.7      179. fringing  fore reef sheltered     risi…</span>
-<span class="co">#&gt; 3 2019_Dama … WCS F… Fiji    BuC3     -17.6      179. fringing  fore reef sheltered     risi…</span>
-<span class="co">#&gt; 4 2019_Dama … WCS F… Fiji    BuC4     -17.7      179. fringing  fore reef sheltered     risi…</span>
-<span class="co">#&gt; 5 2019_Dama … WCS F… Fiji    BuC5     -17.6      179. fringing  fore reef sheltered     risi…</span>
-<span class="co">#&gt; 6 2019_Dama … WCS F… Fiji    BuC6     -17.7      179. fringing  fore reef sheltered     fall…</span>
-<span class="co">#&gt; # … with 32 more variables: current &lt;chr&gt;, visibility &lt;chr&gt;, aca_geomorphic &lt;chr&gt;,</span>
-<span class="co">#&gt; #   aca_benthic &lt;chr&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;,</span>
-<span class="co">#&gt; #   management_est_year &lt;int&gt;, management_size &lt;lgl&gt;, management_parties &lt;chr&gt;,</span>
+<span class="co">#&gt;   project          tags    country site  latitude longitude reef_type reef_zone</span>
+<span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 2019_Dama Buret… WCS Fi… Fiji    BuC1     -17.6      179. fringing  fore reef</span>
+<span class="co">#&gt; 2 2019_Dama Buret… WCS Fi… Fiji    BuC2     -17.7      179. fringing  fore reef</span>
+<span class="co">#&gt; 3 2019_Dama Buret… WCS Fi… Fiji    BuC3     -17.6      179. fringing  fore reef</span>
+<span class="co">#&gt; 4 2019_Dama Buret… WCS Fi… Fiji    BuC4     -17.7      179. fringing  fore reef</span>
+<span class="co">#&gt; 5 2019_Dama Buret… WCS Fi… Fiji    BuC5     -17.6      179. fringing  fore reef</span>
+<span class="co">#&gt; 6 2019_Dama Buret… WCS Fi… Fiji    BuC6     -17.7      179. fringing  fore reef</span>
+<span class="co">#&gt; # … with 34 more variables: reef_exposure &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span>
+<span class="co">#&gt; #   visibility &lt;chr&gt;, aca_geomorphic &lt;chr&gt;, aca_benthic &lt;chr&gt;,</span>
+<span class="co">#&gt; #   management &lt;chr&gt;, management_secondary &lt;chr&gt;, management_est_year &lt;int&gt;,</span>
+<span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;chr&gt;,</span>
 <span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span>
 <span class="co">#&gt; #   depth_avg &lt;dbl&gt;, percent_cover_benthic_category_avg_sand &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   percent_cover_benthic_category_avg_rubble &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   percent_cover_benthic_category_avg_seagrass &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   percent_cover_benthic_category_avg_hard_coral &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   percent_cover_benthic_category_avg_macroalgae &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   percent_cover_benthic_category_avg_soft_coral &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   percent_cover_benthic_category_avg_turf_algae &lt;dbl&gt;, …</span></code></pre></div>
+<span class="co">#&gt; #   percent_cover_benthic_category_avg_macroalgae &lt;dbl&gt;, …</span></code></pre></div>
 <p>At a high level, this returns the aggregations for a survey at the <em>sample event</em> level; roughly, it provides a summary of all observations for all transects at a given site and date, giving us information like the average percent cover for each benthic category. Let’s focus in on the <code>country</code>, <code>site</code>, and <code>percent_cover_benthic_category_avg_hard_coral</code> columns.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">benthic_data</span> <span class="op">&lt;-</span> <span class="va">benthic_data</span> <span class="op">%&gt;%</span>
@@ -214,7 +213,7 @@
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">benthic_data</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">hard_coral</span>, y <span class="op">=</span> <span class="va">site</span>, fill <span class="op">=</span> <span class="va">threshold</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-9-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-9</p>
+<img src="vo-unnamed-chunk-9-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-9</p>
 </div>
 <p>This is a good start, but it would probably be much more useful with a few changes. We can recorder the sites so that they go in descending order, from highest to lowest hard coral coverage. We can also rearrange the threshold legend, so that it follows a logical order, from highest to lowest coverage (instead of alphabetical). It would also be helpful to add a line at the 10% and 30% points, to visualize those thresholds more explicitly.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -231,7 +230,7 @@
 
 <span class="va">hard_coral_plot</span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-10-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-10</p>
+<img src="vo-unnamed-chunk-10-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-10</p>
 </div>
 <p>Finally, we can make some visual changes, like updating the theme, removing the site names (we care more about the distribution than which site they correspond to for this plot), adding axis labels for every 10%, cleaning up labels, and some other fiddly bits to create a beautiful plot!</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -249,7 +248,7 @@
 
 <span class="va">hard_coral_plot</span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-11-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-11</p>
+<img src="vo-unnamed-chunk-11-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-11</p>
 </div>
 <p>That looks much better!</p>
 </div>
@@ -274,24 +273,24 @@
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">fishbelt_data</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 93</span>
-<span class="co">#&gt;   project   tags     country site  latitude longitude reef_type reef_zone reef_exposure tide </span>
-<span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;</span>
-<span class="co">#&gt; 1 Taka Bon… WCS Ind… Indone… Ampa…    -6.92      121. atoll     back reef sheltered     high…</span>
-<span class="co">#&gt; 2 Taka Bon… WCS Ind… Indone… Bela…    -6.40      121. atoll     fore reef exposed       risi…</span>
-<span class="co">#&gt; 3 Taka Bon… WCS Ind… Indone… Bung…    -6.82      121. atoll     fore reef exposed       high…</span>
-<span class="co">#&gt; 4 Taka Bon… WCS Ind… Indone… Jina…    -6.77      121. atoll     fore reef exposed       high…</span>
-<span class="co">#&gt; 5 Taka Bon… WCS Ind… Indone… Jina…    -6.76      121. atoll     back reef semi-exposed  high…</span>
-<span class="co">#&gt; 6 Taka Bon… WCS Ind… Indone… Kayu…    -6.81      121. fringing  fore reef exposed       low  </span>
-<span class="co">#&gt; # … with 83 more variables: current &lt;chr&gt;, visibility &lt;chr&gt;, aca_geomorphic &lt;chr&gt;,</span>
-<span class="co">#&gt; #   aca_benthic &lt;chr&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;,</span>
-<span class="co">#&gt; #   management_est_year &lt;int&gt;, management_size &lt;lgl&gt;, management_parties &lt;chr&gt;,</span>
+<span class="co">#&gt;   project     tags        country site   latitude longitude reef_type reef_zone</span>
+<span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 Taka Boner… WCS Indone… Indone… Ampal…    -6.92      121. atoll     back reef</span>
+<span class="co">#&gt; 2 Taka Boner… WCS Indone… Indone… Belan…    -6.40      121. atoll     fore reef</span>
+<span class="co">#&gt; 3 Taka Boner… WCS Indone… Indone… Bungi…    -6.82      121. atoll     fore reef</span>
+<span class="co">#&gt; 4 Taka Boner… WCS Indone… Indone… Jinat…    -6.77      121. atoll     fore reef</span>
+<span class="co">#&gt; 5 Taka Boner… WCS Indone… Indone… Jinat…    -6.76      121. atoll     back reef</span>
+<span class="co">#&gt; 6 Taka Boner… WCS Indone… Indone… Kayua…    -6.81      121. fringing  fore reef</span>
+<span class="co">#&gt; # … with 85 more variables: reef_exposure &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span>
+<span class="co">#&gt; #   visibility &lt;chr&gt;, aca_geomorphic &lt;chr&gt;, aca_benthic &lt;chr&gt;,</span>
+<span class="co">#&gt; #   management &lt;chr&gt;, management_secondary &lt;chr&gt;, management_est_year &lt;int&gt;,</span>
+<span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;chr&gt;,</span>
 <span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span>
-<span class="co">#&gt; #   depth_avg &lt;dbl&gt;, biomass_kgha_avg &lt;dbl&gt;, biomass_kgha_trophic_group_avg_omnivore &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   depth_avg &lt;dbl&gt;, biomass_kgha_avg &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_omnivore &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   biomass_kgha_trophic_group_avg_piscivore &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   biomass_kgha_trophic_group_avg_planktivore &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_invertivore_mobile &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_invertivore_sessile &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_herbivore_macroalgae &lt;dbl&gt;, …</span></code></pre></div>
+<span class="co">#&gt; #   biomass_kgha_trophic_group_avg_invertivore_mobile &lt;dbl&gt;, …</span></code></pre></div>
 <p>Again, this summarises all observations for all transects at a given site and date, and gives us information like the average biomass at that site, and average biomass across groupings like trophic group or fish family.</p>
 <p>We’ll just focus on the average biomass:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -324,7 +323,7 @@
     panel.grid.major.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>
   <span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-16-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-16</p>
+<img src="vo-unnamed-chunk-16-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-16</p>
 </div>
 </div>
   </div>
