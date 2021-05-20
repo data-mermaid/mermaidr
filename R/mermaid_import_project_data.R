@@ -63,11 +63,11 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
         tidyr::unnest(cols = names(.)) %>% # Need to unnest all the columns twice
         tidyr::unnest(cols = names(.))
 
-      usethis::ui_todo("Failed to import data. Error:", call. = FALSE)
+      warning("Failed to import data. Problems:", call. = FALSE, immediate. = TRUE)
 
-      error
+      return(error)
     } else {
-      stop("Failed to import data: ", error, call. = FALSE)
+      warning("Failed to import data: ", error, call. = FALSE)
     }
   }
 
