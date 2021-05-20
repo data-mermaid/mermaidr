@@ -53,18 +53,21 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
 
     error <- httr::content(response, "text", encoding = "UTF-8")
 
-    if(jsonlite::validate(error)) { # If the error is JSON, convert it to a data frame
+    # TODO: check with Kim - only these two kinds of errors?
+    error_missing_fields <- stringr::str_detect(error, "Missing required fields")
+
+    if(!error_missing_fields) { # Convert the JSON error to a data frame
       error <- jsonlite::fromJSON(error, simplifyDataFrame = FALSE) %>%
         purrr::transpose() %>%
         dplyr::as_tibble() %>%
         tidyr::unnest(cols = names(.)) %>% # Need to unnest all the columns twice
         tidyr::unnest(cols = names(.))
 
-      usethis::ui_todo("Failed to import data. Error:")
+      usethis::ui_todo("Failed to import data. Error:", call. = FALSE)
 
       error
     } else {
-      usethis::ui_todo("Failed to import data. Error: {error}")
+      stop("Failed to import data: ", error, call. = FALSE)
     }
   }
 
