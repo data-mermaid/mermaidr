@@ -47,6 +47,11 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
   # Post data
   response <- httr::POST(ingest_url, encode = "multipart", body = list(file = httr::upload_file(data), protocol = method, dryrun = dryrun), ua, token)
 
+  # Delete tempfile
+  if (data_is_df) {
+    fs::file_delete(df_temp)
+  }
+
   # Parse error / say successful
 
   if (httr::http_error(response)) {
@@ -72,9 +77,4 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
   }
 
   # Success message
-
-  # Delete tempfile
-  if (data_is_df) {
-    fs::file_delete(df_temp)
-  }
 }
