@@ -17,8 +17,8 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
   data_is_df <- inherits(data, "data.frame")
 
   if (data_is_df) {
-    df_temp <- tempfile(fileext = ".csv") # If it's a data frame, save to tempfile
-    readr::write_csv(data, df_temp)
+    data_file_location <- tempfile(fileext = ".csv") # If it's a data frame, save to tempfile
+    readr::write_csv(data, data_file_location)
   } else {
     csv_file <- FALSE
     data_is_chr <- is.character(data)
@@ -30,6 +30,8 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
     if (!data_is_chr | !csv_file) { # Error if it's not a character vector (so no chance of being a file) or doesn't exist / isn't a CSV
       stop("`data` must be a data frame or path to a CSV file.", call. = FALSE)
     }
+
+    data_file_location <- data
   }
 
   # Check project ID
@@ -45,34 +47,50 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
   method <- ifelse(method == "bleaching", "bleachingqc", method)
 
   # Post data
-  response <- httr::POST(ingest_url, encode = "multipart", body = list(file = httr::upload_file(data), protocol = method, dryrun = dryrun), ua, token)
+  response <- httr::POST(ingest_url, encode = "multipart", body = list(file = httr::upload_file(data_file_location), protocol = method, dryrun = dryrun), ua, token)
 
   # Delete tempfile
   if (data_is_df) {
-    fs::file_delete(df_temp)
+    fs::file_delete(data_file_location)
   }
 
   # Parse error / say successful
 
-  if (httr::http_error(response)) {
+  if (httr::status_code(response) == 401) {
+    check_errors(response)
+  }
 
+  if (httr::http_error(response)) {
     error <- httr::content(response, "text", encoding = "UTF-8")
 
-    # TODO: check with Kim - only these two kinds of errors?
+    error_invalid_project <- stringr::str_detect(error, "is not a valid uuid")
+
+    if (error_invalid_project) {
+      stop("Failed to import data. '", project_id, "' is not a valid project_id.", call. = FALSE)
+    }
+
+    error_not_in_project <- stringr::str_detect(error, "ou are not part of this project")
+
+    if (error_not_in_project) {
+      error <- jsonlite::fromJSON(error)[["detail"]]
+      stop("Failed to import data. ", error, call. = FALSE)
+    }
+
     error_missing_fields <- stringr::str_detect(error, "Missing required fields")
 
-    if(!error_missing_fields) { # Convert the JSON error to a data frame
+    if (!error_missing_fields) { # Convert the JSON error to a data frame
       error <- jsonlite::fromJSON(error, simplifyDataFrame = FALSE) %>%
         purrr::transpose() %>%
         dplyr::as_tibble() %>%
-        tidyr::unnest(cols = names(.)) %>% # Need to unnest all the columns twice
+        tidyr::unnest(cols = names(.)) %>%
+        # Need to unnest all the columns twice
         tidyr::unnest(cols = names(.))
 
       warning("Failed to import data. Problems:", call. = FALSE, immediate. = TRUE)
 
       return(error)
     } else {
-      warning("Failed to import data: ", error, call. = FALSE)
+      stop("Failed to import data: ", error, call. = FALSE)
     }
   }
 
