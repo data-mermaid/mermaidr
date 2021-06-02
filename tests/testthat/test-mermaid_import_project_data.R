@@ -99,3 +99,60 @@ test_that("mermaid_import_project_data warns and returns a df if there are data 
   df <- mermaid_import_project_data(df, "2c0c9857-b11c-4b82-b7ef-e9b383d1233c", "fishbelt")
   expect_s3_class(df, "data.frame")
 })
+
+test_that("mermaid_import_project_data with no validation errors and dryrun = TRUE does not actually write to Collect", {
+  df <- structure(list(
+    `Site *` = "1201", `Management *` = "Fake Management Organization",
+    `Sample date: Year *` = 2017, `Sample date: Month *` = 5,
+    `Sample date: Day *` = 15, `Sample time` = structure(43200, class = c(
+      "hms",
+      "difftime"
+    ), units = "secs"), `Depth *` = 8, `Transect number *` = 1,
+    `Transect label` = NA, `Transect length surveyed *` = 50,
+    `Width *` = "5m", `Fish size bin *` = 5, `Reef slope` = NA,
+    Visibility = NA, Current = NA, `Relative depth` = "Deep",
+    Tide = "falling", Notes = NA, `Observer emails *` = "sharla.gelfand@gmail.com",
+    `Fish name *` = "chaetodon auriga", `Size *` = 7.5, `Count *` = 4
+  ), row.names = c(
+    NA,
+    -1L
+  ), class = c("tbl_df", "tbl", "data.frame"))
+
+  project_id <- "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
+  collect_records_before <- mermaid_get_project_endpoint(project_id, "collectrecords")
+  expect_message(mermaid_import_project_data(df, project_id, "fishbelt"), "Records successfully validated! To import, please run the function again")
+  collect_records_after <- mermaid_get_project_endpoint(project_id, "collectrecords")
+  expect_identical(collect_records_before, collect_records_after)
+})
+
+test_that("mermaid_import_project_data with no validation errors and dryrun = FALSE *does* write to Collect", {
+  df <- structure(list(
+    `Site *` = "1201", `Management *` = "Fake Management Organization",
+    `Sample date: Year *` = 2017, `Sample date: Month *` = 5,
+    `Sample date: Day *` = 15, `Sample time` = structure(43200, class = c(
+      "hms",
+      "difftime"
+    ), units = "secs"), `Depth *` = 8, `Transect number *` = 1,
+    `Transect label` = NA, `Transect length surveyed *` = 50,
+    `Width *` = "5m", `Fish size bin *` = 5, `Reef slope` = NA,
+    Visibility = NA, Current = NA, `Relative depth` = "Deep",
+    Tide = "falling", Notes = NA, `Observer emails *` = "sharla.gelfand@gmail.com",
+    `Fish name *` = "chaetodon auriga", `Size *` = 7.5, `Count *` = 4
+  ), row.names = c(
+    NA,
+    -1L
+  ), class = c("tbl_df", "tbl", "data.frame"))
+
+  project_id <- "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
+  collect_records_before <- mermaid_get_project_endpoint(project_id, "collectrecords")
+  expect_message(mermaid_import_project_data(df, project_id, "fishbelt", dryrun = FALSE), "Records successfully imported! Please review in Collect")
+  collect_records_after <- mermaid_get_project_endpoint(project_id, "collectrecords")
+  expect_true(nrow(collect_records_after) == nrow(collect_records_before) + nrow(df))
+
+  df_in_file <- tempfile(fileext = ".csv")
+  readr::write_csv(df, df_in_file)
+  collect_records_before <- mermaid_get_project_endpoint(project_id, "collectrecords")
+  expect_message(mermaid_import_project_data(df_in_file, project_id, "fishbelt", dryrun = FALSE), "Records successfully imported! Please review in Collect")
+  collect_records_after <- mermaid_get_project_endpoint(project_id, "collectrecords")
+  expect_true(nrow(collect_records_after) == nrow(collect_records_before) + nrow(df))
+})

@@ -107,8 +107,8 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
   } else {
     # If it wasn't, tell them to go to Collect!
     collect_url <- glue::glue("{collect_url}/#/projects/{project_id}/collect",
-                              collect_url = stringr::str_replace(base_url, "api", "collect")
+      collect_url = stringr::str_replace(base_url, "api", "collect")
     )
-    message("Records successfully imported! Please review in Collect: ", collect_url)
+    message("Records successfully imported! Please review in Collect.")
   }
 }
