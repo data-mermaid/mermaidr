@@ -1,6 +1,6 @@
 #' Import data into MERMAID Collect
 #'
-#' Import data into MERMAID Collect. If successful, the function returns a message saying that it was successful, and returns the data back to you. If unsuccessful, the function returns a data frame of validation errors.
+#' Import data into MERMAID Collect. If successful, the function returns a message saying that it was successful with a link to review the records in Collect. If unsuccessful, the function returns a data frame of validation errors.
 #'
 #' @param data Data to import. Either a data frame or a file path.
 #' @param project_id ID of project to import data into.
@@ -9,8 +9,6 @@
 #' @param token API token.
 #'
 #' @export
-#'
-#' @examples
 mermaid_import_project_data <- function(data, project_id, method = c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "bleaching"), dryrun = TRUE, token = mermaid_token()) {
 
   # Check if data is a data frame
@@ -95,4 +93,8 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
   }
 
   # Success message
+  collect_url <- glue::glue("{collect_url}/#/projects/{project_id}/collect",
+    collect_url = stringr::str_replace(base_url, "api", "collect")
+  )
+  message("Records successfully imported! Please review in Collect: ", collect_url)
 }
