@@ -1,11 +1,11 @@
 #' Import data into MERMAID Collect
 #'
-#' Import data into MERMAID Collect. If successful, the function returns a message saying that it was successful with a link to review the records in Collect. If unsuccessful, the function returns a data frame of validation errors.
+#' Import data into MERMAID Collect. By default this function just validates records to see if they can successfully be imported into Collect - if not, a warning is returned with validation errors. If the validation is successful, then running the function again with the setting \code{dryrun = FALSE} will actually import the records into Collect.
 #'
 #' @param data Data to import. Either a data frame or a file path.
 #' @param project_id ID of project to import data into.
 #' @param method Method to import data for. One of "fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity"
-#' @param dryrun Whether the upload is a dry run, defaults to \code{TRUE}. If \code{TRUE}, records are validated and valid Collect records are created but NOT saved to the database. If \code{FALSE}, records are validated and valid Collect reocrds are saved to the database.
+#' @param dryrun Whether the import is a dry run. If \code{TRUE}, records are validated, but nothing is saved in Collect. If \code{FALSE}, records are validated and validated records ARE saved to Collect. Defaults to \code{TRUE}.
 #' @param token API token.
 #'
 #' @export
@@ -44,8 +44,15 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
 
   method <- ifelse(method == "bleaching", "bleachingqc", method)
 
+  # Create body, with settings from dryrun
+  body <- list(file = httr::upload_file(data_file_location), protocol = method)
+
+  if (dryrun) {
+    body <- append(body, list(dryrun = "true"))
+  }
+
   # Post data
-  response <- httr::POST(ingest_url, encode = "multipart", body = list(file = httr::upload_file(data_file_location), protocol = method, dryrun = dryrun), ua, token)
+  response <- httr::POST(ingest_url, encode = "multipart", body = body, ua, token)
 
   # Delete tempfile
   if (data_is_df) {
@@ -93,8 +100,15 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
   }
 
   # Success message
-  collect_url <- glue::glue("{collect_url}/#/projects/{project_id}/collect",
-    collect_url = stringr::str_replace(base_url, "api", "collect")
-  )
-  message("Records successfully imported! Please review in Collect: ", collect_url)
+
+  # If it was a dry run, tell them to run with dryrun = FALSE
+  if (dryrun) {
+    message("Records successfully validated! To import, please run the function again with `dryrun = FALSE`.")
+  } else {
+    # If it wasn't, tell them to go to Collect!
+    collect_url <- glue::glue("{collect_url}/#/projects/{project_id}/collect",
+                              collect_url = stringr::str_replace(base_url, "api", "collect")
+    )
+    message("Records successfully imported! Please review in Collect: ", collect_url)
+  }
 }

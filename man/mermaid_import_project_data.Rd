@@ -19,10 +19,10 @@ mermaid_import_project_data(
 
 \item{method}{Method to import data for. One of "fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity"}
 
-\item{dryrun}{Whether the upload is a dry run, defaults to \code{TRUE}. If \code{TRUE}, records are validated and valid Collect records are created but NOT saved to the database. If \code{FALSE}, records are validated and valid Collect reocrds are saved to the database.}
+\item{dryrun}{Whether the import is a dry run. If \code{TRUE}, records are validated, but nothing is saved in Collect. If \code{FALSE}, records are validated and validated records ARE saved to Collect. Defaults to \code{TRUE}.}
 
 \item{token}{API token.}
 }
 \description{
-Import data into MERMAID Collect. If successful, the function returns a message saying that it was successful with a link to review the records in Collect. If unsuccessful, the function returns a data frame of validation errors.
+Import data into MERMAID Collect. By default this function just validates records to see if they can successfully be imported into Collect - if not, a warning is returned with validation errors. If the validation is successful, then running the function again with the setting \code{dryrun = FALSE} will actually import the records into Collect.
 }
