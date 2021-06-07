@@ -6,10 +6,11 @@
 #' @param project_id ID of project to import data into.
 #' @param method Method to import data for. One of "fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity"
 #' @param dryrun Whether the import is a dry run. If \code{TRUE}, records are validated, but nothing is saved in Collect. If \code{FALSE}, records are validated and validated records ARE saved to Collect. Defaults to \code{TRUE}.
+#' @param clearexisting Whether to remove ALL existing records for that method. Should only be used with extreme caution, if e.g. you made a mistake in import and want to overwrite ALL existing fishbelt / benthic PIT / etc records.
 #' @param token API token.
 #'
 #' @export
-mermaid_import_project_data <- function(data, project_id, method = c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "bleaching"), dryrun = TRUE, token = mermaid_token()) {
+mermaid_import_project_data <- function(data, project_id, method = c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "bleaching"), dryrun = TRUE, clearexisting = FALSE, token = mermaid_token()) {
 
   # Check if data is a data frame
   data_is_df <- inherits(data, "data.frame")
@@ -49,6 +50,21 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
 
   if (dryrun) {
     body <- append(body, list(dryrun = "true"))
+  }
+
+  if (dryrun & clearexisting) {
+    stop("Import cannot be run with dryrun = TRUE and clearexisting = TRUE. dryrun = TRUE only validates records without submitting them, and clearexisting = TRUE will overwrite ALL existing ", method, " records. Please double check which option you would like to set.", call. = FALSE)
+  }
+
+  if (clearexisting) {
+    clearexisting_confirm <- usethis::ui_yeah("Setting `clearexisting = TRUE` will overwrite ALL existing {method} records.\nPlease only use this option if you would like to remove ALL {method} records and replace them with the ones being imported. Would you like to continue?", yes = "Yes", no = "No", shuffle = FALSE)
+
+    return(clearexisting_confirm)
+    if (clearexisting_confirm) {
+      body <- append(body, list(clearexisting = "true"))
+    } else {
+      return(message("Import stopped - please run again with `clearexisting = FALSE`."))
+    }
   }
 
   # Post data

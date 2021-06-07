@@ -156,3 +156,14 @@ test_that("mermaid_import_project_data with no validation errors and dryrun = FA
   collect_records_after <- mermaid_get_project_endpoint(project_id, "collectrecords")
   expect_true(nrow(collect_records_after) == nrow(collect_records_before) + nrow(df))
 })
+
+test_that("mermaid_import_project_data errors if both dryrun and clearexisting are TRUE", {
+  expect_error(mermaid_import_project_data(dplyr::tibble(x = 1), "2c0c9857-b11c-4b82-b7ef-e9b383d1233c", method = "fishbelt", dryrun = TRUE, clearexisting = TRUE), "Please double check which option you would like to set")
+})
+
+test_that("mermaid_import_project_data requires confirmation if clearexisting = TRUE", {
+  expect_false({
+    mermaid_import_project_data(dplyr::tibble(x = 1), "2c0c9857-b11c-4b82-b7ef-e9b383d1233c", method = "fishbelt", dryrun = FALSE, clearexisting = TRUE)
+    2
+  })
+})
