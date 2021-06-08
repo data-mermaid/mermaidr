@@ -124,7 +124,7 @@ test_that("mermaid_import_project_data with no validation errors and dryrun = TR
 
   project_id <- "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
   collect_records_before <- mermaid_get_project_endpoint(project_id, "collectrecords")
-  expect_message(mermaid_import_project_data(df, project_id, "fishbelt"), "Records successfully validated! To import, please run the function again")
+  expect_message(mermaid_import_project_data(df, project_id, "fishbelt"), "Records successfully checked! To import, please run the function again")
   collect_records_after <- mermaid_get_project_endpoint(project_id, "collectrecords")
   expect_identical(collect_records_before, collect_records_after)
 })

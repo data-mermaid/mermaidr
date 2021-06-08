@@ -1,11 +1,11 @@
 #' Import data into MERMAID Collect
 #'
-#' Import data into MERMAID Collect. By default this function just validates records to see if they can successfully be imported into Collect - if not, a warning is returned with validation errors. If the validation is successful, then running the function again with the setting \code{dryrun = FALSE} will actually import the records into Collect.
+#' Import data into MERMAID Collect. By default this function just checks records to see if they can successfully be imported into Collect - if not, a warning is returned with import errors. If there are no import errors, then running the function again with the setting \code{dryrun = FALSE} will actually import the records into Collect.
 #'
 #' @param data Data to import. Either a data frame or a file path.
 #' @param project_id ID of project to import data into.
 #' @param method Method to import data for. One of "fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity"
-#' @param dryrun Whether the import is a dry run. If \code{TRUE}, records are validated, but nothing is saved in Collect. If \code{FALSE}, records are validated and validated records ARE saved to Collect. Defaults to \code{TRUE}.
+#' @param dryrun Whether the import is a dry run. If \code{TRUE}, records are checked for errors, but nothing is saved in Collect. If \code{FALSE}, records are checked for errors and passing records ARE saved to Collect. Defaults to \code{TRUE}.
 #' @param clearexisting Whether to remove ALL existing records for that method. Should only be used with extreme caution, if e.g. you made a mistake in import and want to overwrite ALL existing fishbelt / benthic PIT / etc records.
 #' @param token API token.
 #'
@@ -55,7 +55,7 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
   }
 
   if (dryrun & clearexisting) {
-    stop("Import cannot be run with dryrun = TRUE and clearexisting = TRUE. dryrun = TRUE only validates records without submitting them, and clearexisting = TRUE will overwrite ALL existing ", method, " records. Please double check which option you would like to set.", call. = FALSE)
+    stop("Import cannot be run with dryrun = TRUE and clearexisting = TRUE. dryrun = TRUE only checks records without submitting them, and clearexisting = TRUE will overwrite ALL existing ", method, " records. Please double check which option you would like to set.", call. = FALSE)
   }
 
   if (clearexisting) {
@@ -120,7 +120,7 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
 
   # If it was a dry run, tell them to run with dryrun = FALSE
   if (dryrun) {
-    message("Records successfully validated! To import, please run the function again with `dryrun = FALSE`.")
+    message("Records successfully checked! To import, please run the function again with `dryrun = FALSE`.")
   } else {
     # If it wasn't, tell them to go to Collect!
     collect_url <- glue::glue("{collect_url}/#/projects/{project_id}/collect",
