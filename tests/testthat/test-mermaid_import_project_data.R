@@ -96,11 +96,15 @@ test_that("mermaid_import_project_data warns and returns a df if there are data 
     "Problems"
   )
 
-  df <- mermaid_import_project_data(df, "2c0c9857-b11c-4b82-b7ef-e9b383d1233c", "fishbelt")
+  df <- suppressWarnings(mermaid_import_project_data(df, "2c0c9857-b11c-4b82-b7ef-e9b383d1233c", "fishbelt"))
   expect_s3_class(df, "data.frame")
 })
 
 test_that("mermaid_import_project_data with no validation errors and dryrun = TRUE does not actually write to Collect", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   df <- structure(list(
     `Site *` = "1201", `Management *` = "Fake Management Organization",
     `Sample date: Year *` = 2017, `Sample date: Month *` = 5,
@@ -126,6 +130,10 @@ test_that("mermaid_import_project_data with no validation errors and dryrun = TR
 })
 
 test_that("mermaid_import_project_data with no validation errors and dryrun = FALSE *does* write to Collect", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   df <- structure(list(
     `Site *` = "1201", `Management *` = "Fake Management Organization",
     `Sample date: Year *` = 2017, `Sample date: Month *` = 5,
@@ -159,11 +167,4 @@ test_that("mermaid_import_project_data with no validation errors and dryrun = FA
 
 test_that("mermaid_import_project_data errors if both dryrun and clearexisting are TRUE", {
   expect_error(mermaid_import_project_data(dplyr::tibble(x = 1), "2c0c9857-b11c-4b82-b7ef-e9b383d1233c", method = "fishbelt", dryrun = TRUE, clearexisting = TRUE), "Please double check which option you would like to set")
-})
-
-test_that("mermaid_import_project_data requires confirmation if clearexisting = TRUE", {
-  expect_false({
-    mermaid_import_project_data(dplyr::tibble(x = 1), "2c0c9857-b11c-4b82-b7ef-e9b383d1233c", method = "fishbelt", dryrun = FALSE, clearexisting = TRUE)
-    2
-  })
 })

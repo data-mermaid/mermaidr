@@ -12,6 +12,8 @@
 #' @export
 mermaid_import_project_data <- function(data, project_id, method = c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "bleaching"), dryrun = TRUE, clearexisting = FALSE, token = mermaid_token()) {
 
+  check_internet()
+
   # Check if data is a data frame
   data_is_df <- inherits(data, "data.frame")
 
@@ -59,7 +61,6 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
   if (clearexisting) {
     clearexisting_confirm <- usethis::ui_yeah("Setting `clearexisting = TRUE` will overwrite ALL existing {method} records.\nPlease only use this option if you would like to remove ALL {method} records and replace them with the ones being imported. Would you like to continue?", yes = "Yes", no = "No", shuffle = FALSE)
 
-    return(clearexisting_confirm)
     if (clearexisting_confirm) {
       body <- append(body, list(clearexisting = "true"))
     } else {
