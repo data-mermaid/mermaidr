@@ -100,6 +100,41 @@ test_that("mermaid_import_project_data warns and returns a df if there are data 
   expect_s3_class(df, "data.frame")
 })
 
+test_that("mermaid_import_project_data renames $row_number to row_number and starts on the first row of data, not the header", {
+  df <- structure(list(`Site *` = c("Ada01", "Ada01"), `Management *` = c(
+    "Adavaci_open",
+    "Adavaci_open"
+  ), `Sample date: Year *` = c(2017, 2017), `Sample date: Month *` = c(
+    5,
+    5
+  ), `Sample date: Day *` = c(15, 15), `Sample time` = structure(c(
+    43200,
+    43200
+  ), class = c("hms", "difftime"), units = "secs"), `Depth *` = c(
+    8,
+    8
+  ), `Transect number *` = c(1, 1), `Transect label` = c(NA, NA), `Transect length surveyed *` = c(50, 50), `Width *` = c(
+    5,
+    5
+  ), `Fish size bin *` = c(5, 5), `Reef slope` = c(NA, NA), Visibility = c(
+    NA,
+    NA
+  ), Current = c(NA, NA), `Relative depth` = c("Deep", "Deep"), Tide = c("falling", "falling"), Notes = c(NA, NA), `Observer emails *` = c(
+    "wnaisilisili@wcs.org",
+    "wnaisilisili@wcs.org"
+  ), `Fish name *` = c(
+    "chaetodon auriga",
+    "heniochus varius"
+  ), `Size *` = c(7.5, 7.5), `Count *` = c(
+    4,
+    2
+  )), row.names = c(NA, -2L), class = c("tbl_df", "tbl", "data.frame"))
+
+  df <- suppressWarnings(mermaid_import_project_data(df, "2c0c9857-b11c-4b82-b7ef-e9b383d1233c", "fishbelt"))
+  expect_named(df[1], "row_number")
+  expect_identical(df[[1]], c(1, 2))
+})
+
 test_that("mermaid_import_project_data with no validation errors and dryrun = TRUE does not actually write to Collect", {
   skip_if_offline()
   skip_on_ci()

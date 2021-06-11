@@ -106,7 +106,12 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
         dplyr::as_tibble() %>%
         tidyr::unnest(cols = names(.)) %>%
         # Need to unnest all the columns twice
-        tidyr::unnest(cols = names(.))
+        tidyr::unnest(cols = names(.)) %>%
+        # Rename row number, move to the front
+        dplyr::rename(row_number = .data$`$row_number`) %>%
+        dplyr::select(.data$row_number, dplyr::everything()) %>%
+        # Subtract 1, since API version counts the header as row 1, which is unusual when working within R!
+        dplyr::mutate(row_number = .data$row_number - 1)
 
       warning("Failed to import data. Problems:", call. = FALSE, immediate. = TRUE)
 
