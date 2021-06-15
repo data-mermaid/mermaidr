@@ -1,3 +1,8 @@
+# mermaidr 0.4.0
+
+* Added ability to import data into MERMAID via `mermaid_import_project_data()`.
+* Added `mermaid_import_field_options()` to check valid options for fields in import.
+
 # mermaidr 0.3.2
 
 * Removed ability to query "beltfishes", "benthicpits", and "habitatcomplexities" in `mermaid_get_project_endpoint()`, since the endpoints were removed from the underlying API.
