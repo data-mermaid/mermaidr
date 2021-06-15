@@ -11,5 +11,9 @@ test_that("mermaid_import_field_options returns options for each field listed", 
 })
 
 test_that("mermai_import_field_options errors if the field is not one listed", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   expect_error(mermaid_import_field_options("growthforms"), "must be one of")
 })

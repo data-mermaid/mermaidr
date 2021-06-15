@@ -20,7 +20,7 @@ mermaid_import_field_options(
 Check the options available for a given field in MERMAID, either to see what the options are or to check that your data matches the available fields.
 }
 \examples{
-{
+\dontrun{
 mermaid_import_field_options("growthform")
 }
 }

@@ -1,4 +1,8 @@
 test_that("mermaid_import_project_data errors if data is not a data frame or path to a CSV file", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   # Valid file, but not CSV
   expect_error(
     mermaid_import_project_data(system.file("extdata/mermaid_ingest.json", package = "mermaidr")),
@@ -19,6 +23,10 @@ test_that("mermaid_import_project_data errors if data is not a data frame or pat
 })
 
 test_that("mermaid_import_project_data errors if method doesn't match", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   expect_error(
     mermaid_import_project_data(mtcars, method = "nope"),
     "must be one of"
@@ -101,6 +109,10 @@ test_that("mermaid_import_project_data warns and returns a df if there are data 
 })
 
 test_that("mermaid_import_project_data renames $row_number to row_number and starts on the first row of data, not the header", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   df <- structure(list(`Site *` = c("Ada01", "Ada01"), `Management *` = c(
     "Adavaci_open",
     "Adavaci_open"
@@ -201,5 +213,9 @@ test_that("mermaid_import_project_data with no validation errors and dryrun = FA
 })
 
 test_that("mermaid_import_project_data errors if both dryrun and clearexisting are TRUE", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   expect_error(mermaid_import_project_data(dplyr::tibble(x = 1), "2c0c9857-b11c-4b82-b7ef-e9b383d1233c", method = "fishbelt", dryrun = TRUE, clearexisting = TRUE), "Please double check which option you would like to set")
 })

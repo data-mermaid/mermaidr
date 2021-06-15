@@ -7,7 +7,8 @@
 #'
 #' @export
 #'
-#' @examples {
+#' @examples
+#' \dontrun{
 #' mermaid_import_field_options("growthform")
 #' }
 mermaid_import_field_options <- function(field = c("width", "fishsizebin", "reefslope", "visibility", "current", "relativedepth", "tide", "fishname", "benthicattribute", "growthform", "habitatcomplexityscore"), matches) {

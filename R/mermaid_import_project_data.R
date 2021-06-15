@@ -19,13 +19,13 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
 
   if (data_is_df) {
     data_file_location <- tempfile(fileext = ".csv") # If it's a data frame, save to tempfile
-    readr::write_csv(data, data_file_location)
+    utils::write.csv(data, data_file_location, row.names = FALSE)
   } else {
     csv_file <- FALSE
     data_is_chr <- is.character(data)
 
     if (data_is_chr) { # Check if the file exists and if it's a CSV
-      csv_file <- fs::file_exists(data) & (fs::path_ext(data) == "csv")
+      csv_file <- file.exists(data) & (stringr::str_ends(data, "csv"))
     }
 
     if (!data_is_chr | !csv_file) { # Error if it's not a character vector (so no chance of being a file) or doesn't exist / isn't a CSV
@@ -73,7 +73,7 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
 
   # Delete tempfile
   if (data_is_df) {
-    fs::file_delete(data_file_location)
+    file.remove(data_file_location)
   }
 
   # Parse error / say successful
