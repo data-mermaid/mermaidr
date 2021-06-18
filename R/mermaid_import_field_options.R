@@ -29,17 +29,21 @@ mermaid_import_field_options <- function(field = c("width", "fishsizebin", "reef
   if (internal_field_name %in% c("belttransectwidths", "fishsizebins", "reefslopes", "visibilities", "currents", "relativedepths", "tides", "growthforms", "habitatcomplexityscores")) {
     choices <- mermaid_get_endpoint("choices")
 
-    choices %>%
+    res <- choices %>%
       dplyr::filter(.data$name == internal_field_name) %>%
       dplyr::pull(.data$data) %>%
       purrr::pluck(1) %>%
       dplyr::select(value = .data$name)
 
   } else if (internal_field_name == "fishspecies") {
-    get_endpoint(internal_field_name) %>%
+    res <- get_endpoint(internal_field_name) %>%
       dplyr::select(value = .data$display)
   } else if (internal_field_name == "benthicattributes") {
-    get_endpoint(internal_field_name) %>%
+    res <- get_endpoint(internal_field_name) %>%
       dplyr::select(value = .data$name)
+  }
+
+  if (missing(matches)) {
+    return(res)
   }
 }
