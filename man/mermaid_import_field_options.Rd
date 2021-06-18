@@ -8,13 +8,13 @@ mermaid_import_field_options(
   field = c("width", "fishsizebin", "reefslope", "visibility", "current",
     "relativedepth", "tide", "fishname", "benthicattribute", "growthform",
     "habitatcomplexityscore"),
-  matches
+  values
 )
 }
 \arguments{
 \item{field}{Field to check options for. One of: width, fishsizebin, reefslope, visibility, current, relativedepth, tide, fishname, benthicattribute, growthform, habitatcomplexityscore.}
 
-\item{matches}{Optional options from your data, to match against valid options in Collect}
+\item{values}{Optional values from your data, to match against valid options in Collect}
 }
 \description{
 Check the options available for a given field in MERMAID, either to see what the options are or to check that your data matches the available fields.
@@ -22,5 +22,7 @@ Check the options available for a given field in MERMAID, either to see what the
 \examples{
 \dontrun{
 mermaid_import_field_options("growthform")
+
+mermaid_import_field_options("growthform", c("Arboresent", "Branching", "Columar", "Foliose"))
 }
 }
