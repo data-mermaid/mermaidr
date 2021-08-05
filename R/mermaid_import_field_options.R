@@ -10,8 +10,29 @@
 #' @examples
 #' \dontrun{
 #' mermaid_import_field_options("growthform")
+#' ## A tibble: 11 x 1
+#' #   mermaid_value
+#' #   <chr>
+#' # 1 Arborescent
+#' # 2 Branching
+#' # 3 Columnar
+#' # 4 Corymbose
+#' # 5 Digitate
+#' # 6 Encrusting
+#' # 7 Foliose
+#' # 8 Massive
+#' # 9 Mushroom coral
+#' # 10 Plates or tables
+#' # 11 Submassive
 #'
 #' mermaid_import_field_options("growthform", c("Arboresent", "Branching", "Columar", "Foliose"))
+#' ## A tibble: 4 x 3
+#' #   value      closest_mermaid_value match
+#' #   <chr>      <chr>                 <lgl>
+#' # 1 Arboresent Arborescent           FALSE
+#' # 2 Branching  Branching             TRUE
+#' # 3 Columar    Columnar              FALSE
+#' # 4 Foliose    Foliose               TRUE
 #' }
 mermaid_import_field_options <- function(field = c("width", "fishsizebin", "reefslope", "visibility", "current", "relativedepth", "tide", "fishname", "benthicattribute", "growthform", "habitatcomplexityscore"), values) {
   field_options <- c("width", "fishsizebin", "reefslope", "visibility", "current", "relativedepth", "tide", "fishname", "benthicattribute", "growthform", "habitatcomplexityscore")
