@@ -33,7 +33,10 @@ reference:
     - mermaid_get_project_sites
     - mermaid_get_project_endpoint
 
-
+  - title: Importing Data
+    contents:
+    - mermaid_import_project_data
+    - mermaid_import_field_options
 
 articles:
   - title: Case Studies

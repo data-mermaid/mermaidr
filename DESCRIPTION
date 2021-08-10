@@ -1,6 +1,6 @@
 Package: mermaidr
 Title: Interface to the 'MERMAID' API
-Version: 0.3.2
+Version: 0.4.0
 Authors@R: 
     c(person(given = "Sharla",
            family = "Gelfand",
@@ -30,7 +30,9 @@ Imports:
     rlang,
     httpuv,
     glue,
-    stringr
+    stringr,
+    usethis,
+    fuzzyjoin
 RoxygenNote: 7.1.1
 Suggests: 
     testthat (>= 2.1.0),
