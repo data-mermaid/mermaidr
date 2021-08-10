@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get MERMAID project sites — mermaid_get_project_sites • mermaidr</title>
+<title>Get or check field options for MERMAID import — mermaid_import_field_options • mermaidr</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get MERMAID project sites — mermaid_get_project_sites" />
-<meta property="og:description" content="Get sites for specified MERMAID project(s). Returns metadata on sites, including site ID and name, notes, latitude and longitude, country, reef type and zone, exposure, and when the site was created and last updated. Requires authorization." />
+<meta property="og:title" content="Get or check field options for MERMAID import — mermaid_import_field_options" />
+<meta property="og:description" content="Check the options available for a given field in MERMAID, either to see what the options are or to check that your data matches the available fields." />
 
 
 
@@ -138,44 +138,62 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get MERMAID project sites</h1>
-    <small class="dont-index">Source: <a href='https://github.com/data-mermaid/mermaidr/blob/master/R/mermaid_get_project_sites.R'><code>R/mermaid_get_project_sites.R</code></a></small>
-    <div class="hidden name"><code>mermaid_get_project_sites.Rd</code></div>
+    <h1>Get or check field options for MERMAID import</h1>
+    <small class="dont-index">Source: <a href='https://github.com/data-mermaid/mermaidr/blob/master/R/mermaid_import_field_options.R'><code>R/mermaid_import_field_options.R</code></a></small>
+    <div class="hidden name"><code>mermaid_import_field_options.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get sites for specified MERMAID project(s). Returns metadata on sites, including site ID and name, notes, latitude and longitude, country, reef type and zone, exposure, and when the site was created and last updated. Requires authorization.</p>
+    <p>Check the options available for a given field in MERMAID, either to see what the options are or to check that your data matches the available fields.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mermaid_get_project_sites</span><span class='op'>(</span>
-  project <span class='op'>=</span> <span class='fu'><a href='mermaid_set_default_project.html'>mermaid_get_default_project</a></span><span class='op'>(</span><span class='op'>)</span>,
-  limit <span class='op'>=</span> <span class='cn'>NULL</span>,
-  token <span class='op'>=</span> <span class='fu'><a href='mermaid_token.html'>mermaid_token</a></span><span class='op'>(</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>mermaid_import_field_options</span><span class='op'>(</span>
+  field <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"width"</span>, <span class='st'>"fishsizebin"</span>, <span class='st'>"reefslope"</span>, <span class='st'>"visibility"</span>, <span class='st'>"current"</span>,
+    <span class='st'>"relativedepth"</span>, <span class='st'>"tide"</span>, <span class='st'>"fishname"</span>, <span class='st'>"benthicattribute"</span>, <span class='st'>"growthform"</span>,
+    <span class='st'>"habitatcomplexityscore"</span><span class='op'>)</span>,
+  <span class='va'>values</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>project</th>
-      <td><p>A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from <code><a href='mermaid_get_my_projects.html'>mermaid_get_my_projects</a></code> or <code><a href='mermaid_search_my_projects.html'>mermaid_search_my_projects</a></code>. Defaults to the projects listed via <code>mermaid_get_default_project</code>, if available.</p></td>
+      <th>field</th>
+      <td><p>Field to check options for. One of: width, fishsizebin, reefslope, visibility, current, relativedepth, tide, fishname, benthicattribute, growthform, habitatcomplexityscore.</p></td>
     </tr>
     <tr>
-      <th>limit</th>
-      <td><p>Number of records to get. Use NULL (the default) to get all records.</p></td>
-    </tr>
-    <tr>
-      <th>token</th>
-      <td><p>API token. Authenticate manually via <code><a href='mermaid_auth.html'>mermaid_auth</a></code>, or automatically when running any project- or user-specific functions (like this one).</p></td>
+      <th>values</th>
+      <td><p>Optional values from your data, to match against valid options in Collect</p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>projects</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mermaid_get_my_projects.html'>mermaid_get_my_projects</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>projects</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mermaid_get_project_sites</span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>mermaid_import_field_options</span><span class='op'>(</span><span class='st'>"growthform"</span><span class='op'>)</span>
+<span class='co'>## A tibble: 11 x 1</span>
+<span class='co'>#   mermaid_value</span>
+<span class='co'>#   &lt;chr&gt;</span>
+<span class='co'># 1 Arborescent</span>
+<span class='co'># 2 Branching</span>
+<span class='co'># 3 Columnar</span>
+<span class='co'># 4 Corymbose</span>
+<span class='co'># 5 Digitate</span>
+<span class='co'># 6 Encrusting</span>
+<span class='co'># 7 Foliose</span>
+<span class='co'># 8 Massive</span>
+<span class='co'># 9 Mushroom coral</span>
+<span class='co'># 10 Plates or tables</span>
+<span class='co'># 11 Submassive</span>
+
+<span class='fu'>mermaid_import_field_options</span><span class='op'>(</span><span class='st'>"growthform"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Arboresent"</span>, <span class='st'>"Branching"</span>, <span class='st'>"Columar"</span>, <span class='st'>"Foliose"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='co'>## A tibble: 4 x 3</span>
+<span class='co'>#   value      closest_mermaid_value match</span>
+<span class='co'>#   &lt;chr&gt;      &lt;chr&gt;                 &lt;lgl&gt;</span>
+<span class='co'># 1 Arboresent Arborescent           FALSE</span>
+<span class='co'># 2 Branching  Branching             TRUE</span>
+<span class='co'># 3 Columar    Columnar              FALSE</span>
+<span class='co'># 4 Foliose    Foliose               TRUE</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
