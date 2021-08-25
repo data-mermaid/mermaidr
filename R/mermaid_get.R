@@ -197,6 +197,7 @@ expand_covariates <- function(x) {
 
   x %>%
     dplyr::select(.data$name, .data$value) %>%
+    dplyr::filter(stringr::str_starts(.data$name, "aca_")) %>%
     dplyr::mutate(value = purrr::map_chr(.data$value, max_covariate_value)) %>%
     tidyr::pivot_wider(names_from = .data$name, values_from = .data$value)
 }
