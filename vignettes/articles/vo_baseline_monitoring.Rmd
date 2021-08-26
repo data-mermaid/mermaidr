@@ -20,17 +20,17 @@ library(mermaidr)
 vo_projects <- mermaid_search_projects(tags = "Vibrant Oceans")
 
 vo_projects
-#> # A tibble: 5 x 14
-#>   id       name       countries num_sites tags    notes status data_policy_bel…
-#>   <chr>    <chr>      <chr>         <int> <chr>   <chr> <chr>  <chr>           
-#> 1 3a9ecb7… Aceh Jaya… Indonesia        18 Vibran… ""    Open   Private         
-#> 2 507d1af… Karimunja… Indonesia        43 Vibran… ""    Open   Private         
-#> 3 95e0ffc… 2019_Dama… Fiji             44 Vibran… ""    Open   Private         
-#> 4 a93b43f… Tanzania … Tanzania         24 Vibran… ""    Open   Private         
-#> 5 bcb1f11… Taka Bone… Indonesia        39 Vibran… ""    Open   Public Summary  
-#> # … with 6 more variables: data_policy_benthiclit <chr>,
-#> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
-#> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
+#> # A tibble: 5 × 14
+#>   id     name    countries num_sites tags  notes status data_policy_bel… data_policy_ben…
+#>   <chr>  <chr>   <chr>         <int> <chr> <chr> <chr>  <chr>            <chr>           
+#> 1 3a9ec… Aceh J… Indonesia        18 Vibr… ""    Open   Private          Private         
+#> 2 507d1… Karimu… Indonesia        43 Vibr… ""    Open   Private          Private         
+#> 3 95e0f… 2019_D… Fiji             44 Vibr… ""    Open   Private          Public Summary  
+#> 4 a93b4… Tanzan… Tanzania…        24 Vibr… ""    Open   Private          Private         
+#> 5 bcb1f… Taka B… Indonesia        39 Vibr… ""    Open   Public Summary   Public Summary  
+#> # … with 5 more variables: data_policy_benthicpit <chr>,
+#> #   data_policy_habitatcomplexity <chr>, data_policy_bleachingqc <chr>,
+#> #   created_on <chr>, updated_on <chr>
 ```
 
 For this analysis, WCS field teams accessed ecological condition using underwater surveys to assess two key indicators of coral reef health: live hard coral cover and reef fish biomass. This data is available from `mermaidr` via the benthic PIT and fishbelt methods, respectively. We'll focus on projects that have summary data publicly available for these methods.
@@ -43,14 +43,14 @@ library(tidyverse)
 
 vo_projects %>%
   select(name, data_policy_beltfish, data_policy_benthicpit)
-#> # A tibble: 5 x 3
-#>   name                                   data_policy_beltf… data_policy_benthi…
-#>   <chr>                                  <chr>              <chr>              
-#> 1 Aceh Jaya MPA 2020                     Private            Private            
-#> 2 Karimunjawa NP 2019                    Private            Private            
-#> 3 2019_Dama Bureta Waibula and Dawasamu… Private            Public Summary     
-#> 4 Tanzania Vibrant Oceans 2019           Private            Private            
-#> 5 Taka Bonerate NP-2019                  Public Summary     Public Summary
+#> # A tibble: 5 × 3
+#>   name                                                         data_policy_bel… data_policy_ben…
+#>   <chr>                                                        <chr>            <chr>           
+#> 1 Aceh Jaya Coastal Park                                       Private          Private         
+#> 2 Karimunjawa National Park                                    Private          Private         
+#> 3 2019_Dama Bureta Waibula and Dawasamu-WISH ecological survey Private          Public Summary  
+#> 4 Tanzania Vibrant Oceans 2019                                 Private          Private         
+#> 5 Taka Bonerate NP-2019                                        Public Summary   Public Summary
 ```
 
 # Live hard coral cover
@@ -64,7 +64,7 @@ projects_public_benthic <- vo_projects %>%
 
 projects_public_benthic %>%
   select(name)
-#> # A tibble: 2 x 1
+#> # A tibble: 2 × 1
 #>   name                                                        
 #>   <chr>                                                       
 #> 1 2019_Dama Bureta Waibula and Dawasamu-WISH ecological survey
@@ -79,25 +79,22 @@ benthic_data <- projects_public_benthic %>%
   mermaid_get_project_data("benthicpit", "sampleevents", token = NULL)
 
 head(benthic_data)
-#> # A tibble: 6 x 42
-#>   project          tags    country site  latitude longitude reef_type reef_zone
-#>   <chr>            <chr>   <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#> 1 2019_Dama Buret… WCS Fi… Fiji    BuC1     -17.6      179. fringing  fore reef
-#> 2 2019_Dama Buret… WCS Fi… Fiji    BuC2     -17.7      179. fringing  fore reef
-#> 3 2019_Dama Buret… WCS Fi… Fiji    BuC3     -17.6      179. fringing  fore reef
-#> 4 2019_Dama Buret… WCS Fi… Fiji    BuC4     -17.7      179. fringing  fore reef
-#> 5 2019_Dama Buret… WCS Fi… Fiji    BuC5     -17.6      179. fringing  fore reef
-#> 6 2019_Dama Buret… WCS Fi… Fiji    BuC6     -17.7      179. fringing  fore reef
-#> # … with 34 more variables: reef_exposure <chr>, tide <chr>, current <chr>,
-#> #   visibility <chr>, aca_geomorphic <chr>, aca_benthic <chr>,
-#> #   management <chr>, management_secondary <chr>, management_est_year <int>,
-#> #   management_size <lgl>, management_parties <chr>,
+#> # A tibble: 6 × 43
+#>   project  tags  country site  latitude longitude reef_type reef_zone reef_exposure tide 
+#>   <chr>    <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>     <chr>         <chr>
+#> 1 2019_Da… WCS … Fiji    BuC1     -17.6      179. fringing  fore reef sheltered     high 
+#> 2 2019_Da… WCS … Fiji    BuC2     -17.7      179. fringing  fore reef sheltered     risi…
+#> 3 2019_Da… WCS … Fiji    BuC3     -17.6      179. fringing  fore reef sheltered     risi…
+#> 4 2019_Da… WCS … Fiji    BuC4     -17.7      179. fringing  fore reef sheltered     risi…
+#> 5 2019_Da… WCS … Fiji    BuC5     -17.6      179. fringing  fore reef sheltered     risi…
+#> 6 2019_Da… WCS … Fiji    BuC6     -17.7      179. fringing  fore reef sheltered     fall…
+#> # … with 33 more variables: current <chr>, visibility <chr>, aca_geomorphic <chr>,
+#> #   aca_benthic <chr>, management <chr>, management_secondary <chr>,
+#> #   management_est_year <int>, management_size <lgl>, management_parties <chr>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
 #> #   depth_avg <dbl>, percent_cover_benthic_category_avg_sand <dbl>,
-#> #   percent_cover_benthic_category_avg_rubble <dbl>,
-#> #   percent_cover_benthic_category_avg_seagrass <dbl>,
-#> #   percent_cover_benthic_category_avg_hard_coral <dbl>,
-#> #   percent_cover_benthic_category_avg_macroalgae <dbl>, …
+#> #   percent_cover_benthic_category_avg_trash <dbl>,
+#> #   percent_cover_benthic_category_avg_rubble <dbl>, …
 ```
 
 At a high level, this returns the aggregations for a survey at the *sample event* level; roughly, it provides a summary of all observations for all transects at a given site and date, giving us information like the average percent cover for each benthic category. Let's focus in on the `country`, `site`, and `percent_cover_benthic_category_avg_hard_coral` columns.
@@ -129,7 +126,7 @@ We can count how many fall into each category - it looks like the bulk of sites 
 benthic_data %>%
   count(threshold) %>%
   mutate(prop = n / sum(n))
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>   threshold                      n   prop
 #>   <chr>                      <int>  <dbl>
 #> 1 Above 30% hard coral cover    27 0.342 
@@ -149,7 +146,7 @@ ggplot(benthic_data) +
   geom_col(aes(x = hard_coral, y = site, fill = threshold))
 ```
 
-![](vo-unnamed-chunk-9-1.png)
+<img src="vo-unnamed-chunk-9-1.png" title="A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, below 10% cover, or 10-30% cover, respectively. The sites are ordered alphabeticaly." alt="A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, below 10% cover, or 10-30% cover, respectively. The sites are ordered alphabeticaly."  />
 
 This is a good start, but it would probably be much more useful with a few changes. We can recorder the sites so that they go in descending order, from highest to lowest hard coral coverage. We can also rearrange the threshold legend, so that it follows a logical order, from highest to lowest coverage (instead of alphabetical). It would also be helpful to add a line at the 10% and 30% points, to visualize those thresholds more explicitly.
 
@@ -169,7 +166,7 @@ hard_coral_plot <- ggplot(benthic_data) +
 hard_coral_plot
 ```
 
-![](vo-unnamed-chunk-10-1.png)
+<img src="vo-unnamed-chunk-10-1.png" title="A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, 10-30% cover, or below 10% cover. The sites are ordered by their hard coral coverage, from highest to lowest. There is a dashed vertical line at 10% and 30% hard coral." alt="A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, 10-30% cover, or below 10% cover. The sites are ordered by their hard coral coverage, from highest to lowest. There is a dashed vertical line at 10% and 30% hard coral."  />
 
 Finally, we can make some visual changes, like updating the theme, removing the site names (we care more about the distribution than which site they correspond to for this plot), adding axis labels for every 10%, cleaning up labels, and some other fiddly bits to create a beautiful plot!
 
@@ -190,7 +187,7 @@ hard_coral_plot <- hard_coral_plot +
 hard_coral_plot
 ```
 
-![](vo-unnamed-chunk-11-1.png)
+<img src="vo-unnamed-chunk-11-1.png" title="A bar chart with hard coral cover on the x axis and sites on the y axis. The bars are colored in grey, yellow, and red, according to whether they have above 30% hard coral cover, 10-30% cover, or below 10% cover. The sites are ordered by their hard coral coverage, from highest to lowest. There is a vertical line at 10% and 30% hard coral cover. The site names have been removed and the plot now has a title: A sample of WCS Vibrant Ocean survey sites, ordered by hard coral cover. The x axis is titled: Hard coral cover, %." alt="A bar chart with hard coral cover on the x axis and sites on the y axis. The bars are colored in grey, yellow, and red, according to whether they have above 30% hard coral cover, 10-30% cover, or below 10% cover. The sites are ordered by their hard coral coverage, from highest to lowest. There is a vertical line at 10% and 30% hard coral cover. The site names have been removed and the plot now has a title: A sample of WCS Vibrant Ocean survey sites, ordered by hard coral cover. The x axis is titled: Hard coral cover, %."  />
 
 That looks much better!
 
@@ -205,7 +202,7 @@ projects_public_fishbelt <- vo_projects %>%
 
 projects_public_fishbelt %>%
   select(name)
-#> # A tibble: 1 x 1
+#> # A tibble: 1 × 1
 #>   name                 
 #>   <chr>                
 #> 1 Taka Bonerate NP-2019
@@ -219,25 +216,22 @@ fishbelt_data <- projects_public_fishbelt %>%
   mermaid_get_project_data("fishbelt", "sampleevents", token = NULL)
 
 head(fishbelt_data)
-#> # A tibble: 6 x 93
-#>   project     tags        country site   latitude longitude reef_type reef_zone
-#>   <chr>       <chr>       <chr>   <chr>     <dbl>     <dbl> <chr>     <chr>    
-#> 1 Taka Boner… WCS Indone… Indone… Ampal…    -6.92      121. atoll     back reef
-#> 2 Taka Boner… WCS Indone… Indone… Belan…    -6.40      121. atoll     fore reef
-#> 3 Taka Boner… WCS Indone… Indone… Bungi…    -6.82      121. atoll     fore reef
-#> 4 Taka Boner… WCS Indone… Indone… Jinat…    -6.77      121. atoll     fore reef
-#> 5 Taka Boner… WCS Indone… Indone… Jinat…    -6.76      121. atoll     back reef
-#> 6 Taka Boner… WCS Indone… Indone… Kayua…    -6.81      121. fringing  fore reef
-#> # … with 85 more variables: reef_exposure <chr>, tide <chr>, current <chr>,
-#> #   visibility <chr>, aca_geomorphic <chr>, aca_benthic <chr>,
-#> #   management <chr>, management_secondary <chr>, management_est_year <int>,
-#> #   management_size <lgl>, management_parties <chr>,
+#> # A tibble: 6 × 93
+#>   project  tags  country site  latitude longitude reef_type reef_zone reef_exposure tide 
+#>   <chr>    <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>     <chr>         <chr>
+#> 1 Taka Bo… WCS … Indone… Ampa…    -6.92      121. atoll     back reef sheltered     high…
+#> 2 Taka Bo… WCS … Indone… Bela…    -6.40      121. atoll     fore reef exposed       risi…
+#> 3 Taka Bo… WCS … Indone… Bung…    -6.82      121. atoll     fore reef exposed       high…
+#> 4 Taka Bo… WCS … Indone… Jina…    -6.77      121. atoll     fore reef exposed       high…
+#> 5 Taka Bo… WCS … Indone… Jina…    -6.76      121. atoll     back reef semi-exposed  high…
+#> 6 Taka Bo… WCS … Indone… Kayu…    -6.81      121. fringing  fore reef exposed       low  
+#> # … with 83 more variables: current <chr>, visibility <chr>, aca_geomorphic <chr>,
+#> #   aca_benthic <chr>, management <chr>, management_secondary <chr>,
+#> #   management_est_year <int>, management_size <lgl>, management_parties <chr>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
 #> #   depth_avg <dbl>, biomass_kgha_avg <dbl>,
 #> #   biomass_kgha_trophic_group_avg_omnivore <dbl>,
-#> #   biomass_kgha_trophic_group_avg_piscivore <dbl>,
-#> #   biomass_kgha_trophic_group_avg_planktivore <dbl>,
-#> #   biomass_kgha_trophic_group_avg_invertivore_mobile <dbl>, …
+#> #   biomass_kgha_trophic_group_avg_piscivore <dbl>, …
 ```
 
 Again, this summarises all observations for all transects at a given site and date, and gives us information like the average biomass at that site, and average biomass across groupings like trophic group or fish family.
@@ -284,4 +278,4 @@ ggplot(fishbelt_data) +
   )
 ```
 
-![](vo-unnamed-chunk-16-1.png)
+<img src="vo-unnamed-chunk-16-1.png" title="A bar chart showing total reef fish biomass in kilograms per hectare (on the axis) by site (on the y axis). The sites are shown in order of their biomass, from highest to lowest. The bars are grey if the biomass is above 500 kg and red if it is below 500kg. There is a vertical dashed line at the 500kg mark. The plot is titled 'A sample of WCS Vibrant Oceans survey sites, ordered by reef fish biomass.'" alt="A bar chart showing total reef fish biomass in kilograms per hectare (on the axis) by site (on the y axis). The sites are shown in order of their biomass, from highest to lowest. The bars are grey if the biomass is above 500 kg and red if it is below 500kg. There is a vertical dashed line at the 500kg mark. The plot is titled 'A sample of WCS Vibrant Oceans survey sites, ordered by reef fish biomass.'"  />
