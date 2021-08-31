@@ -2,9 +2,10 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
+  articles/accessing_dev_collect_data: accessing_dev_collect_data.html
   articles/accessing_project_data: accessing_project_data.html
   articles/getting_help: getting_help.html
   articles/new_to_r: new_to_r.html
   articles/vo_baseline_monitoring: vo_baseline_monitoring.html
-last_built: 2021-08-31T14:24Z
+last_built: 2021-08-31T14:27Z
 
