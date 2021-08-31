@@ -1,0 +1,30 @@
+---
+title: "Accessing data from the development version of MERMAID"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Accessing data from the development version of MERMAID}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+In order to access data from the [development version of MERMAID](https://dev-collect.datamermaid.org/), please re-install the mermaidr package from the `dev` branch on GitHub:
+
+```r
+# install.packages("remotes")
+remotes::install_github("data-mermaid/mermaidr", ref = "dev")
+```
+
+When using the development version, you can only access data from the development version of MERMAID Collect. There may also be differences in the MERMAID API (which can affect things like the columns returned) and functions in `mermaidr` that are in-progress and not yet available from the "production" version of the package.
+
+If you are having trouble authenticating with the development version or get the following error:
+
+`Error: Mermaid API request failed: (401) Unauthorized`
+
+Please delete the `.httr-oauth` file, which contains the MERMAID token required to access data, then restart R and try to access data again.
+
+To switch back to [the production version of MERMAID and production data](https://collect.datamermaid.org/), re-install without specifying a branch:
+
+```r
+# install.packages("remotes")
+remotes::install_github("data-mermaid/mermaidr")
+```

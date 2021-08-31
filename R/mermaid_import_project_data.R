@@ -85,7 +85,7 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
   if (httr::http_error(response)) {
     error <- httr::content(response, "text", encoding = "UTF-8")
 
-    error_invalid_project <- stringr::str_detect(error, "is not a valid uuid")
+    error_invalid_project <- stringr::str_detect(error, "Not Found") | stringr::str_detect(error, "is n ot a valid uuid")
 
     if (error_invalid_project) {
       stop("Failed to import data. '", project_id, "' is not a valid project_id.", call. = FALSE)
