@@ -150,7 +150,7 @@
     <p>Get all MERMAID sites (not project specific). Returns metadata on sites, including site ID and name, notes, project, latitude and longitude, country, reef type and zone, exposure, and when the site was created and last updated.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mermaid_get_sites</span><span class='op'>(</span>limit <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>mermaid_get_sites</span><span class='op'>(</span>limit <span class='op'>=</span> <span class='cn'>NULL</span>, token <span class='op'>=</span> <span class='fu'><a href='mermaid_token.html'>mermaid_token</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,6 +158,10 @@
     <tr>
       <th>limit</th>
       <td><p>Number of records to get. Use NULL (the default) to get all records.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>API token. Not required for unauthenticated endpoints. Get manually via <code><a href='mermaid_auth.html'>mermaid_auth</a></code> or automatically when running a function that requires a token.</p></td>
     </tr>
     </table>
 
