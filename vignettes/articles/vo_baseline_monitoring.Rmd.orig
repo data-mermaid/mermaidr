@@ -96,7 +96,7 @@ We'd also like to see the distribution of these values - for example, what do th
 
 Let's visualize the data, using `ggplot2`:
 
-```{r, fig.height = 8}
+```{r, fig.height = 8, fig.alt = "A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, below 10% cover, or 10-30% cover, respectively. The sites are ordered alphabeticaly."}
 library(ggplot2)
 
 ggplot(benthic_data) +
@@ -105,7 +105,7 @@ ggplot(benthic_data) +
 
 This is a good start, but it would probably be much more useful with a few changes. We can recorder the sites so that they go in descending order, from highest to lowest hard coral coverage. We can also rearrange the threshold legend, so that it follows a logical order, from highest to lowest coverage (instead of alphabetical). It would also be helpful to add a line at the 10% and 30% points, to visualize those thresholds more explicitly.
 
-```{r, fig.height = 8}
+```{r, fig.height = 8, fig.alt = "A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, 10-30% cover, or below 10% cover. The sites are ordered by their hard coral coverage, from highest to lowest. There is a dashed vertical line at 10% and 30% hard coral."}
 benthic_data <- benthic_data %>%
   mutate(
     threshold = fct_reorder(threshold, hard_coral, .desc = TRUE),
@@ -122,7 +122,7 @@ hard_coral_plot
 
 Finally, we can make some visual changes, like updating the theme, removing the site names (we care more about the distribution than which site they correspond to for this plot), adding axis labels for every 10%, cleaning up labels, and some other fiddly bits to create a beautiful plot!
 
-```{r}
+```{r, fig.alt = "A bar chart with hard coral cover on the x axis and sites on the y axis. The bars are colored in grey, yellow, and red, according to whether they have above 30% hard coral cover, 10-30% cover, or below 10% cover. The sites are ordered by their hard coral coverage, from highest to lowest. There is a vertical line at 10% and 30% hard coral cover. The site names have been removed and the plot now has a title: A sample of WCS Vibrant Ocean survey sites, ordered by hard coral cover. The x axis is titled: Hard coral cover, %."}
 hard_coral_plot <- hard_coral_plot +
   scale_x_continuous(name = "Hard coral cover, %", breaks = seq(0, 70, 10)) +
   scale_y_discrete(name = NULL) +
@@ -186,7 +186,7 @@ fishbelt_data <- fishbelt_data %>%
 
 Then, we can visualize the distribution of average biomass in sites, similar to our visualization before:
 
-```{r}
+```{r, fig.alt = "A bar chart showing total reef fish biomass in kilograms per hectare (on the axis) by site (on the y axis). The sites are shown in order of their biomass, from highest to lowest. The bars are grey if the biomass is above 500 kg and red if it is below 500kg. There is a vertical dashed line at the 500kg mark. The plot is titled 'A sample of WCS Vibrant Oceans survey sites, ordered by reef fish biomass.'"}
 ggplot(fishbelt_data) +
   geom_col(aes(x = biomass, y = site, fill = threshold), alpha = 0.8) +
   geom_vline(xintercept = 500, linetype = "dashed", size = 0.25) +

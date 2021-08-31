@@ -18,13 +18,13 @@ If you're running into problems using `mermaidr`, please open an issue on the [p
 
 If you haven't used GitHub before, you can create an account on the [homepage](https://github.com):
 
-```{r}
+```{r github-signup, fig.alt = "A screenshot of the GitHub homepage, with the sign up button highlighted."}
 knitr::include_graphics("github-signup.png")
 ```
 
 Then navigate to the [*Issues* page](https://github.com/data-mermaid/mermaidr/issues) of the `mermaidr` repository, and click on "New issue":
 
-```{r}
+```{r new-issue, fig.alt = "A screenshot of the mermaidr issue's page on GitHub, with the new issue button highlighted."}
 knitr::include_graphics("new-issue.png")
 ```
 

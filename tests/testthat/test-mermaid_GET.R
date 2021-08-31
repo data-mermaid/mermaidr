@@ -25,12 +25,12 @@ test_that("mermaid_GET allows the return of two endpoints as a named list", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
-  output <- mermaid_GET(c("choices", "sites"), limit = 1)
+  output <- mermaid_GET(c("choices", "sites"), limit = 1, token = mermaid_token())
   expect_is(output, "list")
   expect_named(output, c("choices", "sites"))
   expect_equal(unname(unlist(lapply(output, nrow))), c(1, 1))
 
-  output <- mermaid_GET(c("sites", "sites"), limit = 1)
+  output <- mermaid_GET(c("sites", "sites"), limit = 1, token = mermaid_token())
   expect_is(output, "list")
   expect_named(output, c("sites", "sites"))
   expect_equal(unname(unlist(lapply(output, nrow))), c(1, 1))
@@ -40,7 +40,7 @@ test_that("mermaid_GET returns a single endpoint in a named list", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
-  output <- mermaid_GET("sites", limit = 1)
+  output <- mermaid_GET("sites", limit = 1, token = mermaid_token())
   expect_is(output, "list")
   expect_named(output, "sites")
 })
@@ -62,7 +62,7 @@ test_that("suppress_http_warning suppresses HTTP warnings", {
 test_that("expand_covariates pulls max value and can handle both covariates present, one missing, both missing, and just NULL values", {
   both_present <- dplyr::tibble(
     id = c(1, 1),
-    name = c("name_1", "name_2"),
+    name = c("aca_name_1", "aca_name_2"),
     value = list(
       dplyr::tibble(name = c("subname_1", "subname_2"), area = c(1, 2)),
       dplyr::tibble(name = c("subname_3", "subname_4"), area = c(3, 4))
@@ -73,7 +73,7 @@ test_that("expand_covariates pulls max value and can handle both covariates pres
 
   one_missing <- dplyr::tibble(
     id = c(1, 1),
-    name = c("name_1", "name_2"),
+    name = c("aca_name_1", "aca_name_2"),
     value = list(
       dplyr::tibble(name = c("subname_1", "subname_2"), area = c(1, 2)),
       dplyr::tibble()
@@ -84,7 +84,7 @@ test_that("expand_covariates pulls max value and can handle both covariates pres
 
   both_missing <- dplyr::tibble(
     id = c(1, 1),
-    name = c("name_1", "name_2"),
+    name = c("aca_name_1", "aca_name_2"),
     value = list(
       dplyr::tibble(),
       dplyr::tibble()
@@ -106,7 +106,7 @@ test_that("expand_covariates pulls max value and can handle both covariates pres
     dplyr::select(-dplyr::any_of("covariates"))
 
   expected <- tibble::tribble(
-    ~name_1, ~name_2, ~id,
+    ~aca_name_1, ~aca_name_2, ~id,
     "subname_2", "subname_4", 1,
     "subname_2", NA_character_, 2,
     NA_character_, NA_character_, 3,

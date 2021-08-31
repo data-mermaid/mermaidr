@@ -7,3 +7,7 @@ test_that("mermaid_get_managements returns a data frame of sites with the correc
   expect_true(nrow(output) == 10)
   expect_is(output, "tbl_df")
 })
+
+test_that("mermaid_get_managements fails without authentication", {
+  expect_error(mermaid_get_managements(token = NULL), "Unauthorized")
+})
