@@ -52,3 +52,4 @@ articles:
     navbar: Detailed Usage
     contents:
     - articles/accessing_project_data
+    - articles/accessing_dev_collect_data
