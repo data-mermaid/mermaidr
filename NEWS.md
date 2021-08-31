@@ -1,3 +1,7 @@
+# mermaidr 0.4.1
+
+* `mermaid_get_sites()` and `mermaid_get_managements()` now require authorization.
+
 # mermaidr 0.4.0
 
 * Added ability to import data into MERMAID via `mermaid_import_project_data()`.
