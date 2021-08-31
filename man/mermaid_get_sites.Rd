@@ -4,10 +4,12 @@
 \alias{mermaid_get_sites}
 \title{Get MERMAID sites}
 \usage{
-mermaid_get_sites(limit = NULL)
+mermaid_get_sites(limit = NULL, token = mermaid_token())
 }
 \arguments{
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
+
+\item{token}{API token. Not required for unauthenticated endpoints. Get manually via \code{\link{mermaid_auth}} or automatically when running a function that requires a token.}
 }
 \description{
 Get all MERMAID sites (not project specific). Returns metadata on sites, including site ID and name, notes, project, latitude and longitude, country, reef type and zone, exposure, and when the site was created and last updated.

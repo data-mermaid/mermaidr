@@ -1,6 +1,6 @@
 #' @param endpoint Endpoint
 #' @param limit Number of records to get. Use NULL (the default) to get all records.
-#' @param token API token. Not required for unauthenticated endpoints (non project- or user-specific). Get manually via \code{\link{mermaid_auth}} or automatically when running a project- or user-specific function.
+#' @param token API token. Not required for unauthenticated endpoints. Get manually via \code{\link{mermaid_auth}} or automatically when running a function that requires a token.
 #' @param ... Additional parameters used as needed
 #'
 #' @name mermaid_GET

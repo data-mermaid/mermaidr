@@ -9,5 +9,8 @@ test_that("mermaid_get_managements returns a data frame of sites with the correc
 })
 
 test_that("mermaid_get_managements fails without authentication", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
   expect_error(mermaid_get_managements(token = NULL), "Unauthorized")
 })
