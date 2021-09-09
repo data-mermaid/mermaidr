@@ -215,6 +215,10 @@ test_that("mermaid_import_project_data errors if both dryrun and clearexisting a
 })
 
 test_that("mermaid_import_project_data coerces NA Sample time to empty string which successfully uploads", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   df <- structure(list(
     `Site *` = c("Batu Mandi", "Batu Mandi"),
     `Management *` = c(

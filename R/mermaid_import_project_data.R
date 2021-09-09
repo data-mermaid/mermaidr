@@ -24,7 +24,7 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
     # Replace NA `Sample time`s with empty strings
     if ("Sample time" %in% names(data)) {
       data <- data %>%
-        dplyr::mutate(`Sample time` = ifelse(is.na(`Sample time`), "", `Sample time`))
+        dplyr::mutate(`Sample time` = ifelse(is.na(.data$`Sample time`), "", .data$`Sample time`))
     }
 
     # Save to tempfile
@@ -46,7 +46,7 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
 
     if ("Sample time" %in% names(data)) {
       data <- data %>%
-        dplyr::mutate(`Sample time` = ifelse(is.na(`Sample time`), "", `Sample time`))
+        dplyr::mutate(`Sample time` = ifelse(is.na(.data$`Sample time`), "", .data$`Sample time`))
     }
 
     # Save to tempfile
