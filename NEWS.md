@@ -1,3 +1,7 @@
+# mermaidr 0.4.2
+
+* Handle missing `Sample time` values in `mermaid_import_project_data()` by automatically converting `NA` to `""` before importing.
+
 # mermaidr 0.4.1
 
 * `mermaid_get_sites()` and `mermaid_get_managements()` now require authorization.
