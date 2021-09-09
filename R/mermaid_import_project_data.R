@@ -17,8 +17,17 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
   # Check if data is a data frame
   data_is_df <- inherits(data, "data.frame")
 
+  data_file_location <- tempfile(fileext = ".csv")
+
   if (data_is_df) {
-    data_file_location <- tempfile(fileext = ".csv") # If it's a data frame, save to tempfile
+
+    # Replace NA `Sample time`s with empty strings
+    if ("Sample time" %in% names(data)) {
+      data <- data %>%
+        dplyr::mutate(`Sample time` = ifelse(is.na(`Sample time`), "", `Sample time`))
+    }
+
+    # Save to tempfile
     utils::write.csv(data, data_file_location, row.names = FALSE)
   } else {
     csv_file <- FALSE
@@ -32,7 +41,16 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
       stop("`data` must be a data frame or path to a CSV file.", call. = FALSE)
     }
 
-    data_file_location <- data
+    # Read in the data, convert any NA Sample times to "", then write to tempfile
+    data <- utils::read.csv(data, check.names = FALSE)
+
+    if ("Sample time" %in% names(data)) {
+      data <- data %>%
+        dplyr::mutate(`Sample time` = ifelse(is.na(`Sample time`), "", `Sample time`))
+    }
+
+    # Save to tempfile
+    utils::write.csv(data, data_file_location, row.names = FALSE)
   }
 
   # Check project ID
