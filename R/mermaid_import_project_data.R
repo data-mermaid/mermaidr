@@ -20,15 +20,9 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
   data_file_location <- tempfile(fileext = ".csv")
 
   if (data_is_df) {
-
-    # Replace NA `Sample time`s with empty strings
-    if ("Sample time" %in% names(data)) {
-      data <- data %>%
-        dplyr::mutate(`Sample time` = ifelse(is.na(.data$`Sample time`), "", .data$`Sample time`))
-    }
-
     # Save to tempfile
-    utils::write.csv(data, data_file_location, row.names = FALSE)
+    # na = "" saves any NAs as empty strings, so they appear as e.g. "a",,"b" instead of "a","NA","b"
+    utils::write.csv(data, data_file_location, row.names = FALSE, na = "")
   } else {
     csv_file <- FALSE
     data_is_chr <- is.character(data)
