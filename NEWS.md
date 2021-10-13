@@ -1,3 +1,7 @@
+# mermaidr 0.4.3
+
+* Handle _any_ missing (`NA`) values in `mermaid_import_project_data()` by automatically converting to an empty value, which is processed by the API as a NULL, before importing.
+
 # mermaidr 0.4.2
 
 * Handle missing `Sample time` values in `mermaid_import_project_data()` by automatically converting `NA` to `""` before importing.
