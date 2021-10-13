@@ -197,15 +197,18 @@ expand_covariates <- function(x) {
 
   x %>%
     dplyr::select(.data$name, .data$value) %>%
-    dplyr::filter(stringr::str_starts(.data$name, "aca_")) %>%
-    dplyr::mutate(value = purrr::map_chr(.data$value, max_covariate_value)) %>%
+    dplyr::mutate(value = purrr::map_chr(.data$value, get_covariate_value)) %>%
     tidyr::pivot_wider(names_from = .data$name, values_from = .data$value)
 }
 
-max_covariate_value <- function(x) {
-  if (length(x) == 0) {
+get_covariate_value <- function(x) {
+  if (length(x) == 0) { # If there is no value, return NA
     return(NA)
+  } else if (length(x) == 1) { # If it's a single value, just return the value
+    return(x)
   }
+
+  # Otherwise, get the value for the max area
   x %>%
     dplyr::filter(.data$area == max(.data$area)) %>%
     dplyr::pull(.data$name)
