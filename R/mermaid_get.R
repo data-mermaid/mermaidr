@@ -134,10 +134,9 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if ("covariates" %in% names(results)) {
+
     results <- results %>%
-      dplyr::mutate(covariates = purrr::map(.data$covariates, expand_covariates)) %>%
-      tidyr::unnest(.data$covariates) %>%
-      dplyr::select(-dplyr::any_of("covariates"))
+      extract_covariates()
   }
 
   if (endpoint != "choices") {
@@ -190,15 +189,21 @@ collapse_id_name_lists <- function(results) {
   results
 }
 
-expand_covariates <- function(x) {
-  if (length(x) == 0) {
-    return(NA)
-  }
+extract_covariates <- function(results) {
 
-  x %>%
-    dplyr::select(.data$name, .data$value) %>%
-    dplyr::mutate(value = purrr::map_chr(.data$value, get_covariate_value)) %>%
-    tidyr::pivot_wider(names_from = .data$name, values_from = .data$value)
+  covariates_expanded <- results[["covariates"]] %>%
+    dplyr::bind_rows(.id = "row") %>%
+    dplyr::select(row, name, value) %>%
+    split(.$name) %>%
+    purrr::map(~ .x %>% dplyr::mutate(value = purrr::map_chr(.data$value, get_covariate_value))) %>%
+    dplyr::bind_rows() %>%
+    tidyr::pivot_wider(id_cols = row, names_from = name, values_from = value) %>%
+    dplyr::mutate(dplyr::across(-dplyr::starts_with("aca_"), as.numeric))
+
+  results %>%
+    dplyr::mutate(row = dplyr::row_number()) %>%
+    dplyr::left_join(covariates_expanded, by = "row") %>%
+    dplyr::select(-.data$row, -.data$covariates)
 }
 
 get_covariate_value <- function(x) {
