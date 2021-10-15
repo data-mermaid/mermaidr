@@ -225,14 +225,14 @@ test_that("mermaid_import_project_data coerces NA Sample time to empty string wh
       "Luar Kawasan",
       "Luar Kawasan"
     ), `Sample date: Year *` = c(2009, 2016),
-    `Sample date: Month *` = c(12,4), `Sample date: Day *` = c(5, 18),
+    `Sample date: Month *` = c(12, 4), `Sample date: Day *` = c(5, 18),
     `Sample time` = c("1:00:00 PM", NA), `Depth *` = c(29, 6),
     `Quadrat size *` = c(2, 2),
     `Observer emails *` = c("sharla.gelfand@gmail.com", "sharla.gelfand@gmail.com"),
     `Quadrat number` = c(1, 1),
-    `Hard coral % cover` = c(5,5),
+    `Hard coral % cover` = c(5, 5),
     `Macroalgae coral % cover` = c(5, 5),
-    `Soft coral % cover` = c(5,5)
+    `Soft coral % cover` = c(5, 5)
   ), row.names = c(NA, -2L), class = c(
     "tbl_df", "tbl",
     "data.frame"
@@ -247,4 +247,34 @@ test_that("mermaid_import_project_data coerces NA Sample time to empty string wh
   utils::write.csv(df, temp, row.names = FALSE)
 
   expect_message(mermaid_import_project_data(temp, p, method = "bleaching"), "successfully")
+})
+
+test_that("mermaid_import_project_data allows NA/NULL for bleaching percent cover observations", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  df <- structure(list(
+    `Site *` = "1201",
+    `Management *` = "Fisheries",
+    `Sample date: Year *` = 2009,
+    `Sample date: Month *` = 12,
+    `Sample date: Day *` = 5,
+    `Sample time` = "1:00:00 PM",
+    `Depth *` = 29,
+    `Quadrat size *` = 2,
+    `Observer emails *` = "sharla.gelfand@gmail.com",
+    `Quadrat number` = 1,
+    `Hard coral % cover` = 5,
+    `Macroalgae coral % cover` = NA,
+    `Soft coral % cover` = 5
+  ), row.names = 1L,
+  class = c(
+    "tbl_df", "tbl",
+    "data.frame"
+  ))
+
+  p <- "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
+
+  expect_message(mermaid_import_project_data(df, p, method = "bleaching"), "successfully")
 })
