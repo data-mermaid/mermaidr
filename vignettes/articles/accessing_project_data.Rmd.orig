@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
   dpi = 300,
   message = FALSE,
   warning = FALSE,
-  cache = TRUE
+  cache = FALSE
 )
 
 options(tibble.max_extra_cols = 20)
@@ -22,7 +22,7 @@ options(tibble.max_extra_cols = 20)
 
 This article walks through, in detail, accessing data specific to projects, primarily via `mermaid_get_project_data()`.
 
-To access data related to your MERMAID projects, first obtain a list of your projects with `mermaid_get_my_projects()`. 
+To access data related to your MERMAID projects, first obtain a list of your projects with `mermaid_get_my_projects()`.
 
 At this point, you will have to authenticate to the Collect app. R will help you do this automatically by opening a browser window for you to log in to Collect, either via Google sign-in or username and password - however you normally do!
 
@@ -74,7 +74,7 @@ You can also access data on your projects' Fish Belt, Benthic LIT, Benthic PIT, 
 
 #### Fish Belt data
 
-To access Fish Belt data for a project, use `mermaid_get_project_data()` with `method = "fishbelt"`. 
+To access Fish Belt data for a project, use `mermaid_get_project_data()` with `method = "fishbelt"`.
 
 You can access individual observations (i.e., a record of each observation) by setting `data = "observations"`:
 
@@ -104,7 +104,7 @@ xpdc_sample_events
 
 #### Benthic LIT data
 
-To access Benthic LIT data, use `mermaid_get_project_data()` with `method = "benthiclit"`. 
+To access Benthic LIT data, use `mermaid_get_project_data()` with `method = "benthiclit"`.
 
 ```{r}
 mozambique <- my_projects %>%
@@ -114,9 +114,9 @@ mozambique %>%
   mermaid_get_project_data(method = "benthiclit", data = "observations")
 ```
 
-You can access sample units and sample events the same way. 
+You can access sample units and sample events the same way.
 
-For Benthic LIT, sample units contain percent cover per sample unit, by benthic category. Sample *events* contain *mean* percent cover per sample event, by benthic category. 
+For Benthic LIT, sample units contain percent cover per sample unit, by benthic category. Sample *events* contain *mean* percent cover per sample event, by benthic category.
 
 ```{r}
 mozambique %>%

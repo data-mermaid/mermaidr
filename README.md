@@ -58,7 +58,7 @@ countries, the number of sites, tags, data policies, and more:
 
 ``` r
 projects
-#> # A tibble: 12 x 14
+#> # A tibble: 12 × 14
 #>    id      name    countries num_sites tags     notes    status data_policy_bel…
 #>    <chr>   <chr>   <chr>         <int> <chr>    <chr>    <chr>  <chr>           
 #>  1 02e691… TWP Gi… Indonesia        14 "WCS In… ""       Open   Private         
@@ -107,7 +107,7 @@ site/date, and broken down by trophic group and fish family.
 
 ``` r
 wcs_mozambique_fishbelt_samples
-#> # A tibble: 80 x 62
+#> # A tibble: 80 × 75
 #>    project       tags    country site     latitude longitude reef_type reef_zone
 #>    <chr>         <chr>   <chr>   <chr>       <dbl>     <dbl> <chr>     <chr>    
 #>  1 WCS Mozambiq… WCS Mo… Mozamb… Aquarium    -21.8      35.5 barrier   back reef
@@ -120,16 +120,13 @@ wcs_mozambique_fishbelt_samples
 #>  8 WCS Mozambiq… WCS Mo… Mozamb… Checkers    -26.8      32.9 patch     fore reef
 #>  9 WCS Mozambiq… WCS Mo… Mozamb… Coliseum    -12.6      40.6 fringing  fore reef
 #> 10 WCS Mozambiq… WCS Mo… Mozamb… Dogtooth    -12.5      40.6 fringing  crest    
-#> # … with 70 more rows, and 54 more variables: reef_exposure <chr>, tide <lgl>,
+#> # … with 70 more rows, and 67 more variables: reef_exposure <chr>, tide <lgl>,
 #> #   current <lgl>, visibility <lgl>, aca_geomorphic <chr>, aca_benthic <chr>,
-#> #   management <chr>, management_secondary <chr>, management_est_year <int>,
-#> #   management_size <dbl>, management_parties <chr>,
-#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   depth_avg <dbl>, biomass_kgha_avg <dbl>,
-#> #   biomass_kgha_trophic_group_avg_piscivore <dbl>,
-#> #   biomass_kgha_trophic_group_avg_planktivore <dbl>,
-#> #   biomass_kgha_trophic_group_avg_invertivore_mobile <dbl>,
-#> #   biomass_kgha_trophic_group_avg_herbivore_detritivore <dbl>, …
+#> #   andrello_grav_nc <dbl>, andrello_sediment <dbl>, andrello_nutrient <dbl>,
+#> #   andrello_pop_count <dbl>, andrello_num_ports <dbl>,
+#> #   andrello_reef_value <dbl>, andrello_cumul_score <dbl>, beyer_score <dbl>,
+#> #   beyer_scorecn <dbl>, beyer_scorecy <dbl>, beyer_scorepfc <dbl>,
+#> #   beyer_scoreth <dbl>, beyer_scoretr <dbl>, management <chr>, …
 ```
 
 If you’d like data related to the **units** of survey (for example, to
@@ -139,7 +136,7 @@ transects or quadrats), it’s just a matter of changing `data` to
 ``` r
 wcs_mozambique %>%
   mermaid_get_project_data(method = "fishbelt", data = "sampleunits")
-#> # A tibble: 111 x 72
+#> # A tibble: 111 × 85
 #>    project       tags    country site     latitude longitude reef_type reef_zone
 #>    <chr>         <chr>   <chr>   <chr>       <dbl>     <dbl> <chr>     <chr>    
 #>  1 WCS Mozambiq… WCS Mo… Mozamb… Aquarium    -21.8      35.5 barrier   back reef
@@ -152,13 +149,13 @@ wcs_mozambique %>%
 #>  8 WCS Mozambiq… WCS Mo… Mozamb… Barreir…    -26.1      32.9 barrier   back reef
 #>  9 WCS Mozambiq… WCS Mo… Mozamb… Bunting…    -12.6      40.6 fringing  fore reef
 #> 10 WCS Mozambiq… WCS Mo… Mozamb… Bunting…    -12.6      40.6 fringing  fore reef
-#> # … with 101 more rows, and 64 more variables: reef_exposure <chr>,
+#> # … with 101 more rows, and 77 more variables: reef_exposure <chr>,
 #> #   reef_slope <lgl>, tide <lgl>, current <lgl>, visibility <lgl>,
 #> #   relative_depth <lgl>, aca_geomorphic <chr>, aca_benthic <chr>,
-#> #   management <chr>, management_secondary <chr>, management_est_year <int>,
-#> #   management_size <dbl>, management_parties <chr>,
-#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   sample_time <chr>, depth <dbl>, transect_number <int>, label <chr>, …
+#> #   andrello_grav_nc <dbl>, andrello_sediment <dbl>, andrello_nutrient <dbl>,
+#> #   andrello_pop_count <dbl>, andrello_num_ports <dbl>,
+#> #   andrello_reef_value <dbl>, andrello_cumul_score <dbl>, beyer_score <dbl>,
+#> #   beyer_scorecn <dbl>, beyer_scorecy <dbl>, beyer_scorepfc <dbl>, …
 ```
 
 And raw observations are available by changing it to “observations”:
@@ -166,7 +163,7 @@ And raw observations are available by changing it to “observations”:
 ``` r
 wcs_mozambique %>%
   mermaid_get_project_data(method = "fishbelt", data = "observations")
-#> # A tibble: 2,714 x 52
+#> # A tibble: 2,714 × 65
 #>    project         tags     country site  latitude longitude reef_type reef_zone
 #>    <chr>           <chr>    <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #>  1 WCS Mozambique… WCS Moz… Mozamb… Aqua…    -21.8      35.5 barrier   back reef
@@ -179,14 +176,13 @@ wcs_mozambique %>%
 #>  8 WCS Mozambique… WCS Moz… Mozamb… Aqua…    -21.8      35.5 barrier   back reef
 #>  9 WCS Mozambique… WCS Moz… Mozamb… Aqua…    -21.8      35.5 barrier   back reef
 #> 10 WCS Mozambique… WCS Moz… Mozamb… Aqua…    -21.8      35.5 barrier   back reef
-#> # … with 2,704 more rows, and 44 more variables: reef_exposure <chr>,
+#> # … with 2,704 more rows, and 57 more variables: reef_exposure <chr>,
 #> #   reef_slope <lgl>, tide <lgl>, current <lgl>, visibility <lgl>,
 #> #   relative_depth <lgl>, aca_geomorphic <chr>, aca_benthic <chr>,
-#> #   management <chr>, management_secondary <chr>, management_est_year <int>,
-#> #   management_size <dbl>, management_parties <chr>,
-#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   sample_time <chr>, transect_length <int>, transect_width <chr>,
-#> #   size_bin <chr>, …
+#> #   andrello_grav_nc <dbl>, andrello_sediment <dbl>, andrello_nutrient <dbl>,
+#> #   andrello_pop_count <dbl>, andrello_num_ports <dbl>,
+#> #   andrello_reef_value <dbl>, andrello_cumul_score <dbl>, beyer_score <dbl>,
+#> #   beyer_scorecn <dbl>, beyer_scorecy <dbl>, beyer_scorepfc <dbl>, …
 ```
 
 For more details on accessing project data, please see the [Accessing
@@ -203,7 +199,7 @@ the fish and benthic attributes you can choose in MERMAID), using
 
 ``` r
 mermaid_get_reference(reference = "fishfamilies")
-#> # A tibble: 162 x 9
+#> # A tibble: 162 × 9
 #>    id    name  status biomass_constan… biomass_constan… biomass_constan… regions
 #>    <chr> <chr> <chr>             <dbl>            <dbl>            <dbl> <chr>  
 #>  1 0091… Kyph… Open            0.0193              3.03            0.986 Easter…
@@ -228,7 +224,7 @@ You can also get a list of *all* projects (not just your own):
 
 ``` r
 mermaid_get_projects()
-#> # A tibble: 126 x 14
+#> # A tibble: 129 × 14
 #>    id      name    countries  num_sites tags    notes    status data_policy_bel…
 #>    <chr>   <chr>   <chr>          <int> <chr>   <chr>    <chr>  <chr>           
 #>  1 00673b… TPK Gi… "Indonesi…        15 "WCS I… ""       Open   Private         
@@ -241,7 +237,7 @@ mermaid_get_projects()
 #>  8 0f1703… what    ""                 0 ""      ""       Open   Public Summary  
 #>  9 124b91… Sam     ""                 0 ""      ""       Open   Private         
 #> 10 1277ef… Taka B… "Indonesi…        39 "WCS I… ""       Open   Public Summary  
-#> # … with 116 more rows, and 6 more variables: data_policy_benthiclit <chr>,
+#> # … with 119 more rows, and 6 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
 ```
@@ -250,7 +246,7 @@ As well as all sites:
 
 ``` r
 mermaid_get_sites()
-#> # A tibble: 2,534 x 13
+#> # A tibble: 2,543 × 13
 #>    id       name  notes project   latitude longitude country reef_type reef_zone
 #>    <chr>    <chr> <chr> <chr>        <dbl>     <dbl> <chr>   <chr>     <chr>    
 #>  1 02355d6… BA09  ""    a1b7ff1f…    -17.4      178. Fiji    atoll     back reef
@@ -263,7 +259,7 @@ mermaid_get_sites()
 #>  8 2a4625f… BA04  ""    89f2d43e…    -17.4      178. Fiji    atoll     back reef
 #>  9 2af472d… BA12  ""    a1b7ff1f…    -17.3      178. Fiji    atoll     back reef
 #> 10 2c31d8c… BA05  ""    89f2d43e…    -17.4      178. Fiji    atoll     back reef
-#> # … with 2,524 more rows, and 4 more variables: exposure <chr>,
+#> # … with 2,533 more rows, and 4 more variables: exposure <chr>,
 #> #   predecessor <chr>, created_on <chr>, updated_on <chr>
 ```
 
@@ -271,7 +267,7 @@ And all managements:
 
 ``` r
 mermaid_get_managements()
-#> # A tibble: 692 x 17
+#> # A tibble: 695 × 17
 #>    id      name    name_secondary  rules notes est_year no_take periodic_closure
 #>    <chr>   <chr>   <chr>           <chr> <chr>    <int> <lgl>   <lgl>           
 #>  1 0031d4… Matafo… "Fish Habitat … No T… ""        2018 TRUE    FALSE           
@@ -284,7 +280,7 @@ mermaid_get_managements()
 #>  8 02cd9d… Kaibu_… ""              Peri… ""        2017 FALSE   TRUE            
 #>  9 02e546… VIR3    ""              No T… ""        2012 TRUE    FALSE           
 #> 10 03bab6… VIR9    ""              No T… ""        2016 TRUE    FALSE           
-#> # … with 682 more rows, and 9 more variables: open_access <lgl>,
+#> # … with 685 more rows, and 9 more variables: open_access <lgl>,
 #> #   size_limits <lgl>, gear_restriction <lgl>, species_restriction <lgl>,
 #> #   compliance <chr>, predecessor <chr>, parties <chr>, created_on <chr>,
 #> #   updated_on <chr>
