@@ -1,5 +1,6 @@
 # mermaidr 0.4.3
 
+* Added all Vibrant Oceans covariates to aggregated endpoints (in `mermaid_get_project_data()`).
 * Handle _any_ missing (`NA`) values in `mermaid_import_project_data()` by automatically converting to an empty value, which is processed by the API as a NULL, before importing.
 
 # mermaidr 0.4.2
@@ -40,7 +41,7 @@
 
 # mermaidr 0.2.2
 
-* Added Allen Coral Atlas to all aggregated endpoints (in `mermaid_get_project_data()`).
+* Added Allen Coral Atlas covariates to all aggregated endpoints (in `mermaid_get_project_data()`).
 * Added `biomass_kgha_by_fish_family` and `biomass_kgha_by_fish_family_avg` to fishbelt sample units and sample events, respectively (in `mermaid_get_project_data()`).
 
 # mermaidr 0.2.1
