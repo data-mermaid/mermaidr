@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Visualizing MERMAID Data • mermaidr</title>
+<title>Accessing data from the development version of MERMAID • mermaidr</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Visualizing MERMAID Data">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Accessing data from the development version of MERMAID">
 <meta property="og:description" content="mermaidr">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -54,21 +50,28 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li class="divider">
-    <li class="dropdown-header">Case Studies</li>
+    </li>
+<li class="dropdown-header">Case Studies</li>
     <li>
       <a href="../articles/vo_baseline_monitoring.html">WCS Vibrant Oceans Baseline Coral Reef Monitoring</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Visualizing</li>
-    <li class="divider">
-    <li class="dropdown-header">Details</li>
-    <li class="divider">
-    <li class="dropdown-header">Getting Started</li>
+    </li>
+<li class="dropdown-header">Getting Started</li>
+    <li>
+      <a href="../articles/new_to_r.html">Getting started with R</a>
+    </li>
     <li>
       <a href="../articles/getting_help.html">Getting help with mermaidr</a>
     </li>
+    <li class="divider">
+    </li>
+<li class="dropdown-header">Detailed Usage</li>
     <li>
-      <a href="../articles/new_to_r.html">Getting started with R</a>
+      <a href="../articles/accessing_project_data.html">Accessing Project Data</a>
+    </li>
+    <li>
+      <a href="../articles/accessing_dev_collect_data.html">Accessing data from the development version of MERMAID</a>
     </li>
   </ul>
 </li>
@@ -76,7 +79,14 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/data-mermaid/mermaidr/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -86,23 +96,31 @@
 
       
 
-      </header><script src="visualizing_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="accessing_dev_collect_data_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Visualizing MERMAID Data</h1>
+      <h1 data-toc-skip>Accessing data from the development version of MERMAID</h1>
             
       
-      
-      <div class="hidden name"><code>visualizing.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/HEAD/vignettes/articles/accessing_dev_collect_data.Rmd" class="external-link"><code>vignettes/articles/accessing_dev_collect_data.Rmd</code></a></small>
+      <div class="hidden name"><code>accessing_dev_collect_data.Rmd</code></div>
 
     </div>
 
     
     
-<p>This vignette will explore how to visualize data from MERMAID using the <a href=""><code>ggplot2</code> package</a>.</p>
-<p>To start, let’s load <code>mermaidr</code> and</p>
+<p>In order to access data from the <a href="https://dev-collect.datamermaid.org/" class="external-link">development version of MERMAID</a>, please re-install the mermaidr package from the <code>dev</code> branch on GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">mermaidr</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"data-mermaid/mermaidr"</span>, ref <span class="op">=</span> <span class="st">"dev"</span><span class="op">)</span></code></pre></div>
+<p>When using the development version, you can only access data from the development version of MERMAID Collect. There may also be differences in the MERMAID API (which can affect things like the columns returned) and functions in <code>mermaidr</code> that are in-progress and not yet available from the “production” version of the package.</p>
+<p>If you are having trouble authenticating with the development version or get the following error:</p>
+<p><code>Error: Mermaid API request failed: (401) Unauthorized</code></p>
+<p>Please delete the <code>.httr-oauth</code> file, which contains the MERMAID token required to access data, then restart R and try to access data again.</p>
+<p>To switch back to <a href="https://collect.datamermaid.org/" class="external-link">the production version of MERMAID and production data</a>, re-install without specifying a branch:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"data-mermaid/mermaidr"</span><span class="op">)</span></code></pre></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -114,11 +132,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Sharla Gelfand, Wildlife Conservation Society.</p>
+  <p></p>
+<p>Developed by Sharla Gelfand, Wildlife Conservation Society.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -126,6 +146,8 @@
 
   
 
+
+  
 
   </body>
 </html>

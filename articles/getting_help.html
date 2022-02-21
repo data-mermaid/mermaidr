@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -54,21 +50,28 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li class="divider">
-    <li class="dropdown-header">Case Studies</li>
+    </li>
+<li class="dropdown-header">Case Studies</li>
     <li>
       <a href="../articles/vo_baseline_monitoring.html">WCS Vibrant Oceans Baseline Coral Reef Monitoring</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Visualizing</li>
-    <li class="divider">
-    <li class="dropdown-header">Details</li>
-    <li class="divider">
-    <li class="dropdown-header">Getting Started</li>
+    </li>
+<li class="dropdown-header">Getting Started</li>
+    <li>
+      <a href="../articles/new_to_r.html">Getting started with R</a>
+    </li>
     <li>
       <a href="../articles/getting_help.html">Getting help with mermaidr</a>
     </li>
+    <li class="divider">
+    </li>
+<li class="dropdown-header">Detailed Usage</li>
     <li>
-      <a href="../articles/new_to_r.html">Getting started with R</a>
+      <a href="../articles/accessing_project_data.html">Accessing Project Data</a>
+    </li>
+    <li>
+      <a href="../articles/accessing_dev_collect_data.html">Accessing data from the development version of MERMAID</a>
     </li>
   </ul>
 </li>
@@ -76,7 +79,14 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/data-mermaid/mermaidr/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -92,22 +102,20 @@
       <h1 data-toc-skip>Getting help with mermaidr</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/HEAD/vignettes/articles/getting_help.Rmd" class="external-link"><code>vignettes/articles/getting_help.Rmd</code></a></small>
       <div class="hidden name"><code>getting_help.Rmd</code></div>
 
     </div>
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>echo <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p>If you’re running into problems using <code>mermaidr</code>, please open an issue on the <a href="https://data-mermaid.github.io/mermaidr/">package’s GitHub repository</a>, which is where the package code lives.</p>
-<p>If you haven’t used GitHub before, you can create an account on the <a href="https://github.com">homepage</a>:</p>
-<p><img src="github-signup.png"><!-- --></p>
-<p>Then navigate to the <a href="https://github.com/data-mermaid/mermaidr/issues"><em>Issues</em> page</a> of the <code>mermaidr</code> repository, and click on “New issue”:</p>
-<p><img src="new-issue.png"><!-- --></p>
+<p>If you’re running into problems using <code>mermaidr</code>, please open an issue on the <a href="https://github.com/data-mermaid/mermaidr" class="external-link">package’s GitHub repository</a>, which is where the package code lives.</p>
+<p>If you haven’t used GitHub before, you can create an account on the <a href="https://github.com" class="external-link">homepage</a>:</p>
+<p><img src="github-signup.png" title="A screenshot of the GitHub homepage, with the sign up button highlighted." alt="A screenshot of the GitHub homepage, with the sign up button highlighted."></p>
+<p>Then navigate to the <a href="https://github.com/data-mermaid/mermaidr/issues" class="external-link"><em>Issues</em> page</a> of the <code>mermaidr</code> repository, and click on “New issue”:</p>
+<p><img src="new-issue.png" title="A screenshot of the mermaidr issue's page on GitHub, with the new issue button highlighted." alt="A screenshot of the mermaidr issue's page on GitHub, with the new issue button highlighted."></p>
 <p>And describe your problem there!</p>
-<p>It’s best to be as descriptive and detailed as possible when reporting a problem. The issue title should describe the problem that you’re having, and the main body should contain both the code that resulted in the problem, as well as output that illustrates the problem. Please include code and output in plain text, rather than a screenshot or photo of your code and console.</p>
+<p>It’s best to be as descriptive and detailed as possible when reporting a problem. The issue title should describe the problem that you’re having, and the main body should contain both the code that resulted in the problem, as well as output that illustrates it. Please include code and output in plain text, rather than a screenshot or photo of your code and console.</p>
 <p>If you’re having issues with data from a particular project, please also include the ID of that project (you can find it in MERMAID Collect or from the output of the function that you ran to get projects, such as <code><a href="../reference/mermaid_get_my_projects.html">mermaid_get_my_projects()</a></code>). This will enable us to help you as efficiently as possible!</p>
   </div>
 
@@ -120,11 +128,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Sharla Gelfand, Wildlife Conservation Society.</p>
+  <p></p>
+<p>Developed by Sharla Gelfand, Wildlife Conservation Society.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -132,6 +142,8 @@
 
   
 
+
+  
 
   </body>
 </html>

@@ -7,11 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Accessing Project Data • mermaidr</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../../bootstrap-toc.css">
-<script src="../../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
-<script src="../../pkgdown.js"></script><meta property="og:title" content="Accessing Project Data">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Accessing Project Data">
 <meta property="og:description" content="mermaidr">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -30,21 +32,15 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <a class="navbar-link" href="../index.html">mermaidr</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
-  <a href="../../reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -54,35 +50,38 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li class="divider">
-    <li class="dropdown-header">Case Studies</li>
+    </li>
+<li class="dropdown-header">Case Studies</li>
     <li>
-      <a href="../../articles/articles/vo_baseline_monitoring.html">WCS Vibrant Oceans Baseline Coral Reef Monitoring</a>
+      <a href="../articles/vo_baseline_monitoring.html">WCS Vibrant Oceans Baseline Coral Reef Monitoring</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Getting Started</li>
+    </li>
+<li class="dropdown-header">Getting Started</li>
     <li>
-      <a href="../../articles/articles/new_to_r.html">Getting started with R</a>
+      <a href="../articles/new_to_r.html">Getting started with R</a>
     </li>
     <li>
-      <a href="../../articles/articles/getting_help.html">Getting help with mermaidr</a>
+      <a href="../articles/getting_help.html">Getting help with mermaidr</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Detailed Usage</li>
+    </li>
+<li class="dropdown-header">Detailed Usage</li>
     <li>
-      <a href="../../articles/articles/accessing_project_data.html">Accessing Project Data</a>
+      <a href="../articles/accessing_project_data.html">Accessing Project Data</a>
     </li>
     <li>
-      <a href="../../articles/articles/accessing_dev_collect_data.html">Accessing data from the development version of MERMAID</a>
+      <a href="../articles/accessing_dev_collect_data.html">Accessing data from the development version of MERMAID</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../../news/index.html">Changelog</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/data-mermaid/mermaidr/">
+  <a href="https://github.com/data-mermaid/mermaidr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -103,20 +102,20 @@
       <h1 data-toc-skip>Accessing Project Data</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/master/vignettes/articles/accessing_project_data.Rmd"><code>vignettes/articles/accessing_project_data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/HEAD/vignettes/articles/accessing_project_data.Rmd" class="external-link"><code>vignettes/articles/accessing_project_data.Rmd</code></a></small>
       <div class="hidden name"><code>accessing_project_data.Rmd</code></div>
 
     </div>
 
     
     
-<p>This article walks through, in detail, accessing data specific to projects, primarily via <code><a href="../../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code>.</p>
-<p>To access data related to your MERMAID projects, first obtain a list of your projects with <code><a href="../../reference/mermaid_get_my_projects.html">mermaid_get_my_projects()</a></code>.</p>
+<p>This article walks through, in detail, accessing data specific to projects, primarily via <code><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code>.</p>
+<p>To access data related to your MERMAID projects, first obtain a list of your projects with <code><a href="../reference/mermaid_get_my_projects.html">mermaid_get_my_projects()</a></code>.</p>
 <p>At this point, you will have to authenticate to the Collect app. R will help you do this automatically by opening a browser window for you to log in to Collect, either via Google sign-in or username and password - however you normally do!</p>
 <p>Once you’ve logged in, come back to R. Your login credentials will be stored for a day, until they expire, and you will need to login again. The package handles the expiration for you, so just log in again when prompted.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://data-mermaid.github.io/mermaidr">mermaidr</a></span><span class="op">)</span>
-<span class="va">my_projects</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/mermaid_get_my_projects.html">mermaid_get_my_projects</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://data-mermaid.github.io/mermaidr" class="external-link">mermaidr</a></span><span class="op">)</span>
+<span class="va">my_projects</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mermaid_get_my_projects.html">mermaid_get_my_projects</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="va">my_projects</span>
 <span class="co">#&gt; # A tibble: 12 × 14</span>
@@ -140,10 +139,10 @@
 <p>This function returns information on your projects, including project countries, the number of sites, tags, data policies, and more.</p>
 <p>To filter for specific projects, you can use the <code>filter</code> function from <code>dplyr</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
 
-<span class="va">indonesia_projects</span> <span class="op">&lt;-</span> <span class="va">my_projects</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">countries</span> <span class="op">==</span> <span class="st">"Indonesia"</span><span class="op">)</span>
+<span class="va">indonesia_projects</span> <span class="op">&lt;-</span> <span class="va">my_projects</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">countries</span> <span class="op">==</span> <span class="st">"Indonesia"</span><span class="op">)</span>
 
 <span class="va">indonesia_projects</span>
 <span class="co">#&gt; # A tibble: 4 × 14</span>
@@ -156,9 +155,9 @@
 <span class="co">#&gt; # … with 6 more variables: data_policy_benthiclit &lt;chr&gt;,</span>
 <span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span>
 <span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></code></pre></div>
-<p>Alternatively, you can search your projects using <code><a href="../../reference/mermaid_search_my_projects.html">mermaid_search_my_projects()</a></code>, narrowing projects down by name, countries, or tags:</p>
+<p>Alternatively, you can search your projects using <code><a href="../reference/mermaid_search_my_projects.html">mermaid_search_my_projects()</a></code>, narrowing projects down by name, countries, or tags:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/mermaid_search_my_projects.html">mermaid_search_my_projects</a></span><span class="op">(</span>countries <span class="op">=</span> <span class="st">"Indonesia"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/mermaid_search_my_projects.html">mermaid_search_my_projects</a></span><span class="op">(</span>countries <span class="op">=</span> <span class="st">"Indonesia"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 4 × 14</span>
 <span class="co">#&gt;   id       name    countries num_sites tags     notes       status data_policy_bel…</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;           </span>
@@ -169,10 +168,10 @@
 <span class="co">#&gt; # … with 6 more variables: data_policy_benthiclit &lt;chr&gt;,</span>
 <span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span>
 <span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></code></pre></div>
-<p>Then, you can start to access data about your projects, like project sites via <code><a href="../../reference/mermaid_get_project_sites.html">mermaid_get_project_sites()</a></code>:</p>
+<p>Then, you can start to access data about your projects, like project sites via <code><a href="../reference/mermaid_get_project_sites.html">mermaid_get_project_sites()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">indonesia_projects</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/mermaid_get_project_sites.html">mermaid_get_project_sites</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">indonesia_projects</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/mermaid_get_project_sites.html">mermaid_get_project_sites</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 112 × 13</span>
 <span class="co">#&gt;    project    id       name    notes latitude longitude country reef_type reef_zone</span>
 <span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;    </span>
@@ -188,10 +187,10 @@
 <span class="co">#&gt; 10 Karimunja… e23aaba… Tanjun… ""       -5.86     110.  Indone… fringing  back reef</span>
 <span class="co">#&gt; # … with 102 more rows, and 4 more variables: exposure &lt;chr&gt;, predecessor &lt;chr&gt;,</span>
 <span class="co">#&gt; #   created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></code></pre></div>
-<p>Or the managements for your projects via <code><a href="../../reference/mermaid_get_project_managements.html">mermaid_get_project_managements()</a></code>:</p>
+<p>Or the managements for your projects via <code><a href="../reference/mermaid_get_project_managements.html">mermaid_get_project_managements()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">indonesia_projects</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/mermaid_get_project_managements.html">mermaid_get_project_managements</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">indonesia_projects</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/mermaid_get_project_managements.html">mermaid_get_project_managements</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 24 × 17</span>
 <span class="co">#&gt;    project                id    name  name_secondary notes est_year no_take periodic_closure</span>
 <span class="co">#&gt;    &lt;chr&gt;                  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;          &lt;chr&gt;    &lt;int&gt; &lt;lgl&gt;   &lt;lgl&gt;           </span>
@@ -208,21 +207,21 @@
 <span class="co">#&gt; # … with 14 more rows, and 9 more variables: open_access &lt;lgl&gt;, size_limits &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   gear_restriction &lt;lgl&gt;, species_restriction &lt;lgl&gt;, compliance &lt;chr&gt;,</span>
 <span class="co">#&gt; #   predecessor &lt;lgl&gt;, parties &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></code></pre></div>
-<div id="method-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#method-data" class="anchor"></a>Method data</h3>
+<div class="section level3">
+<h3 id="method-data">Method data<a class="anchor" aria-label="anchor" href="#method-data"></a>
+</h3>
 <p>You can also access data on your projects’ Fish Belt, Benthic LIT, Benthic PIT, Bleaching, and Habitat Complexity methods. The details are in the following sections.</p>
-<div id="fish-belt-data" class="section level4">
-<h4 class="hasAnchor">
-<a href="#fish-belt-data" class="anchor"></a>Fish Belt data</h4>
-<p>To access Fish Belt data for a project, use <code><a href="../../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code> with <code>method = "fishbelt"</code>.</p>
+<div class="section level4">
+<h4 id="fish-belt-data">Fish Belt data<a class="anchor" aria-label="anchor" href="#fish-belt-data"></a>
+</h4>
+<p>To access Fish Belt data for a project, use <code><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code> with <code>method = "fishbelt"</code>.</p>
 <p>You can access individual observations (i.e., a record of each observation) by setting <code>data = "observations"</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">xpdc</span> <span class="op">&lt;-</span> <span class="va">my_projects</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="st">"XPDC Kei Kecil 2018"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">xpdc</span> <span class="op">&lt;-</span> <span class="va">my_projects</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="st">"XPDC Kei Kecil 2018"</span><span class="op">)</span>
 
-<span class="va">xpdc</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fishbelt"</span>, data <span class="op">=</span> <span class="st">"observations"</span><span class="op">)</span>
+<span class="va">xpdc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fishbelt"</span>, data <span class="op">=</span> <span class="st">"observations"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3,069 × 65</span>
 <span class="co">#&gt;    project tags  country site  latitude longitude reef_type reef_zone reef_exposure</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;lgl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span>
@@ -245,8 +244,8 @@
 <span class="co">#&gt; #   beyer_scoreth &lt;dbl&gt;, beyer_scoretr &lt;dbl&gt;, …</span></code></pre></div>
 <p>You can access sample units data, which are observations aggregated to the sample units level. Fish belt sample units contain total biomass in kg/ha per sample unit, by trophic group and by fish family:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">xpdc</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleunits"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">xpdc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleunits"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 246 × 79</span>
 <span class="co">#&gt;    project tags  country site  latitude longitude reef_type reef_zone reef_exposure</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;lgl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span>
@@ -269,8 +268,8 @@
 <span class="co">#&gt; #   beyer_scoreth &lt;dbl&gt;, beyer_scoretr &lt;dbl&gt;, …</span></code></pre></div>
 <p>And finally, sample events data, which are aggregated further, to the sample event level. Fish belt sample events contain <em>mean</em> total biomass in kg/ha per sample event, by trophic group and by fish family:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">xpdc_sample_events</span> <span class="op">&lt;-</span> <span class="va">xpdc</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleevents"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">xpdc_sample_events</span> <span class="op">&lt;-</span> <span class="va">xpdc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleevents"</span><span class="op">)</span>
 
 <span class="va">xpdc_sample_events</span>
 <span class="co">#&gt; # A tibble: 46 × 69</span>
@@ -294,16 +293,16 @@
 <span class="co">#&gt; #   beyer_scorecy &lt;dbl&gt;, beyer_scorepfc &lt;dbl&gt;, beyer_scoreth &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   beyer_scoretr &lt;dbl&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;, …</span></code></pre></div>
 </div>
-<div id="benthic-lit-data" class="section level4">
-<h4 class="hasAnchor">
-<a href="#benthic-lit-data" class="anchor"></a>Benthic LIT data</h4>
-<p>To access Benthic LIT data, use <code><a href="../../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code> with <code>method = "benthiclit"</code>.</p>
+<div class="section level4">
+<h4 id="benthic-lit-data">Benthic LIT data<a class="anchor" aria-label="anchor" href="#benthic-lit-data"></a>
+</h4>
+<p>To access Benthic LIT data, use <code><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code> with <code>method = "benthiclit"</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mozambique</span> <span class="op">&lt;-</span> <span class="va">my_projects</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="st">"WCS Mozambique Coral Reef Monitoring"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">mozambique</span> <span class="op">&lt;-</span> <span class="va">my_projects</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="st">"WCS Mozambique Coral Reef Monitoring"</span><span class="op">)</span>
 
-<span class="va">mozambique</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"benthiclit"</span>, data <span class="op">=</span> <span class="st">"observations"</span><span class="op">)</span>
+<span class="va">mozambique</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"benthiclit"</span>, data <span class="op">=</span> <span class="st">"observations"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 1,569 × 56</span>
 <span class="co">#&gt;    project tags  country site  latitude longitude reef_type reef_zone reef_exposure</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span>
@@ -327,8 +326,8 @@
 <p>You can access sample units and sample events the same way.</p>
 <p>For Benthic LIT, sample units contain percent cover per sample unit, by benthic category. Sample <em>events</em> contain <em>mean</em> percent cover per sample event, by benthic category.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mozambique</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"benthiclit"</span>, data <span class="op">=</span> <span class="st">"sampleunits"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">mozambique</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"benthiclit"</span>, data <span class="op">=</span> <span class="st">"sampleunits"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 63 × 65</span>
 <span class="co">#&gt;    project tags  country site  latitude longitude reef_type reef_zone reef_exposure</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span>
@@ -350,13 +349,13 @@
 <span class="co">#&gt; #   beyer_scorecn &lt;dbl&gt;, beyer_scorecy &lt;dbl&gt;, beyer_scorepfc &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   beyer_scoreth &lt;dbl&gt;, beyer_scoretr &lt;dbl&gt;, …</span></code></pre></div>
 </div>
-<div id="benthic-pit-data" class="section level4">
-<h4 class="hasAnchor">
-<a href="#benthic-pit-data" class="anchor"></a>Benthic PIT data</h4>
+<div class="section level4">
+<h4 id="benthic-pit-data">Benthic PIT data<a class="anchor" aria-label="anchor" href="#benthic-pit-data"></a>
+</h4>
 <p>To access Benthic LIT data, change <code>method</code> to “benthicpit”:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">xpdc</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"benthicpit"</span>, data <span class="op">=</span> <span class="st">"observations"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">xpdc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"benthicpit"</span>, data <span class="op">=</span> <span class="st">"observations"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 11,100 × 57</span>
 <span class="co">#&gt;    project tags  country site  latitude longitude reef_type reef_zone reef_exposure</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;lgl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span>
@@ -380,10 +379,10 @@
 <p>You can access sample units and sample events the same way, and the data format is the same as Benthic LIT.</p>
 <p>You can return both sample units and sample events by setting the <code>data</code> argument. This will return a list of two data frames: one containing sample units, and the other sample events.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">xpdc_sample_units_events</span> <span class="op">&lt;-</span> <span class="va">xpdc</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"benthicpit"</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sampleunits"</span>, <span class="st">"sampleevents"</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">xpdc_sample_units_events</span> <span class="op">&lt;-</span> <span class="va">xpdc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"benthicpit"</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sampleunits"</span>, <span class="st">"sampleevents"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">xpdc_sample_units_events</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">xpdc_sample_units_events</span><span class="op">)</span>
 <span class="co">#&gt; [1] "sampleunits"  "sampleevents"</span>
 <span class="va">xpdc_sample_units_events</span><span class="op">[[</span><span class="st">"sampleunits"</span><span class="op">]</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 111 × 66</span>
@@ -407,15 +406,15 @@
 <span class="co">#&gt; #   beyer_scorecn &lt;dbl&gt;, beyer_scorecy &lt;dbl&gt;, beyer_scorepfc &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   beyer_scoreth &lt;dbl&gt;, beyer_scoretr &lt;dbl&gt;, …</span></code></pre></div>
 </div>
-<div id="bleaching" class="section level4">
-<h4 class="hasAnchor">
-<a href="#bleaching" class="anchor"></a>Bleaching</h4>
+<div class="section level4">
+<h4 id="bleaching">Bleaching<a class="anchor" aria-label="anchor" href="#bleaching"></a>
+</h4>
 <p>To access Bleaching data, set <code>method</code> to “bleaching”. There are two types of observations data for the Bleaching method: Colonies Bleached and Percent Cover. These are both returned when pulling observations data, in a list:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">bleaching_obs</span> <span class="op">&lt;-</span> <span class="va">mozambique</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"bleaching"</span>, <span class="st">"observations"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">bleaching_obs</span> <span class="op">&lt;-</span> <span class="va">mozambique</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"bleaching"</span>, <span class="st">"observations"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">bleaching_obs</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">bleaching_obs</span><span class="op">)</span>
 <span class="co">#&gt; [1] "colonies_bleached" "percent_cover"</span>
 
 <span class="va">bleaching_obs</span><span class="op">[[</span><span class="st">"colonies_bleached"</span><span class="op">]</span><span class="op">]</span>
@@ -441,8 +440,8 @@
 <span class="co">#&gt; #   beyer_scoreth &lt;dbl&gt;, beyer_scoretr &lt;dbl&gt;, management &lt;chr&gt;, …</span></code></pre></div>
 <p>The sample units and sample events data contain summaries of both Colonies Bleached and Percent Cover:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mozambique</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"bleaching"</span>, <span class="st">"sampleevents"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">mozambique</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"bleaching"</span>, <span class="st">"sampleevents"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 62 × 54</span>
 <span class="co">#&gt;    project tags  country site  latitude longitude reef_type reef_zone reef_exposure</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span>
@@ -464,13 +463,13 @@
 <span class="co">#&gt; #   beyer_scorecy &lt;dbl&gt;, beyer_scorepfc &lt;dbl&gt;, beyer_scoreth &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   beyer_scoretr &lt;dbl&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;, …</span></code></pre></div>
 </div>
-<div id="habitat-complexity" class="section level4">
-<h4 class="hasAnchor">
-<a href="#habitat-complexity" class="anchor"></a>Habitat Complexity</h4>
+<div class="section level4">
+<h4 id="habitat-complexity">Habitat Complexity<a class="anchor" aria-label="anchor" href="#habitat-complexity"></a>
+</h4>
 <p>Finally, to access Habitat Complexity data, set <code>method</code> to “habitatcomplexity”. As with all other methods, you can access observations, sample units, and sample events:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">xpdc</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"habitatcomplexity"</span>, <span class="st">"sampleevents"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">xpdc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"habitatcomplexity"</span>, <span class="st">"sampleevents"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 × 45</span>
 <span class="co">#&gt;   project  tags  country site  latitude longitude reef_type reef_zone reef_exposure</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;lgl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span>
@@ -484,16 +483,16 @@
 <span class="co">#&gt; #   beyer_scorecy &lt;dbl&gt;, beyer_scorepfc &lt;dbl&gt;, beyer_scoreth &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   beyer_scoretr &lt;dbl&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;, …</span></code></pre></div>
 </div>
-<div id="multiple-methods-data" class="section level4">
-<h4 class="hasAnchor">
-<a href="#multiple-methods-data" class="anchor"></a>Multiple methods data</h4>
+<div class="section level4">
+<h4 id="multiple-methods-data">Multiple methods data<a class="anchor" aria-label="anchor" href="#multiple-methods-data"></a>
+</h4>
 <p>To pull data for both fish belt and benthic PIT methods, you can set <code>method</code> to include both.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">xpdc_sample_events</span> <span class="op">&lt;-</span> <span class="va">xpdc</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"benthicpit"</span><span class="op">)</span>, data <span class="op">=</span> <span class="st">"sampleevents"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">xpdc_sample_events</span> <span class="op">&lt;-</span> <span class="va">xpdc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"benthicpit"</span><span class="op">)</span>, data <span class="op">=</span> <span class="st">"sampleevents"</span><span class="op">)</span></code></pre></div>
 <p>The result is a list of data frames, containing sample events for both fish belt and benthic PIT methods:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">xpdc_sample_events</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">xpdc_sample_events</span><span class="op">)</span>
 <span class="co">#&gt; [1] "fishbelt"   "benthicpit"</span>
 
 <span class="va">xpdc_sample_events</span><span class="op">[[</span><span class="st">"benthicpit"</span><span class="op">]</span><span class="op">]</span>
@@ -519,19 +518,19 @@
 <span class="co">#&gt; #   beyer_scoretr &lt;dbl&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;, …</span></code></pre></div>
 <p>Alternatively, you can set <code>method</code> to “all” to pull for all methods! Similarly, you can set <code>data</code> to “all” to pull all types of data:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">all_project_data</span> <span class="op">&lt;-</span> <span class="va">xpdc</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"all"</span>, data <span class="op">=</span> <span class="st">"all"</span>, limit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">all_project_data</span> <span class="op">&lt;-</span> <span class="va">xpdc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"all"</span>, data <span class="op">=</span> <span class="st">"all"</span>, limit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">all_project_data</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">all_project_data</span><span class="op">)</span>
 <span class="co">#&gt; [1] "fishbelt"          "benthiclit"        "benthicpit"        "bleaching"        </span>
 <span class="co">#&gt; [5] "habitatcomplexity"</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">all_project_data</span><span class="op">[[</span><span class="st">"benthicpit"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">all_project_data</span><span class="op">[[</span><span class="st">"benthicpit"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt; [1] "observations" "sampleunits"  "sampleevents"</span></code></pre></div>
 </div>
-<div id="multiple-projects" class="section level4">
-<h4 class="hasAnchor">
-<a href="#multiple-projects" class="anchor"></a>Multiple projects</h4>
+<div class="section level4">
+<h4 id="multiple-projects">Multiple projects<a class="anchor" aria-label="anchor" href="#multiple-projects"></a>
+</h4>
 <p>Pulling data for multiple projects is the exact same, except there will be an additional “project” column at the beginning to distinguish which projects the data comes from. Recall that <code>my_projects</code> contains six projects:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_projects</span>
@@ -554,8 +553,8 @@
 <span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span>
 <span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></code></pre></div>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">my_projects</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleevents"</span>, limit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">my_projects</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleevents"</span>, limit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 11 × 82</span>
 <span class="co">#&gt;    project tags  country site  latitude longitude reef_type reef_zone reef_exposure</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span>
@@ -591,11 +590,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Sharla Gelfand, Wildlife Conservation Society.</p>
+  <p></p>
+<p>Developed by Sharla Gelfand, Wildlife Conservation Society.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -603,6 +604,8 @@
 
   
 
+
+  
 
   </body>
 </html>
