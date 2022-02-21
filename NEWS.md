@@ -1,3 +1,7 @@
+# mermaidr 0.4.4.
+
+* Fix bug where `mermaid_get_project_data()` functions failed if `andrello` or `beyer` covariates were not present.
+
 # mermaidr 0.4.3
 
 * Added all Vibrant Oceans covariates to aggregated endpoints (in `mermaid_get_project_data()`).
