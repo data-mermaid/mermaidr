@@ -1,3 +1,7 @@
+# mermaidr 0.4.5
+
+* Fix bug where `mermaid_get_project_data()` functions failed if `andrello` or `beyer` covariates were not present, and data for multiple projects is being selected (0.4.4 only fixed the single-project case).
+
 # mermaidr 0.4.4.
 
 * Fix bug where `mermaid_get_project_data()` functions failed if `andrello` or `beyer` covariates were not present.

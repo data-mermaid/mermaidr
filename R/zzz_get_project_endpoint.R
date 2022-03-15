@@ -86,7 +86,7 @@ construct_project_endpoint_columns <- function(res, endpoint, multiple_projects 
     names(res) <- cols
     res
   } else if (multiple_projects) {
-    dplyr::select(res, tidyselect::any_of(c("project_id", "project")), mermaid_project_endpoint_columns[[endpoint]])
+    dplyr::select(res, tidyselect::any_of(c("project_id", "project")), tidyselect::any_of(mermaid_project_endpoint_columns[[endpoint]]))
   } else {
     dplyr::select(res, dplyr::any_of(mermaid_project_endpoint_columns[[endpoint]]))
   }
