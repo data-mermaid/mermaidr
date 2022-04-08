@@ -115,4 +115,38 @@ test_that("expand_covariates pulls max value when there are multiples, and can h
   )
 
   expect_identical(covariates_expanded, expected)
+
+  actual_covariates_null <- structure(list(covariates = list(structure(list(name = c(
+    "aca_benthic", "aca_geomorphic",
+    "beyer_score", "beyer_scorecn", "beyer_scorecy"
+  ), value = c(
+    NA, NA, 0.2, 0.3, 0.1
+  )), class = "data.frame", row.names = c(
+    NA,
+    -5L
+  )), structure(list(name = c(
+    "aca_benthic", "aca_geomorphic",
+    "beyer_score", "beyer_scorecn", "beyer_scorecy"
+  ), value = list(
+    structure(list(area = 1950.7324, name = "Seagrass"), class = "data.frame", row.names = 1L),
+    structure(list(area = 1950.7324, name = "Plateau"), class = "data.frame", row.names = 1L),
+    0.2, NULL, NULL
+  )), class = "data.frame", row.names = c(
+    NA,
+    -5L
+  ))), id = 1:2), row.names = c(NA, -2L), class = c(
+    "tbl_df",
+    "tbl", "data.frame"
+  ))
+
+  covariates_expanded <- actual_covariates_null %>%
+    extract_covariates()
+
+  expected <- tibble::tribble(
+    ~id, ~aca_benthic, ~aca_geomorphic, ~beyer_score, ~beyer_scorecn, ~beyer_scorecy,
+    1L,           NA,              NA,          0.2,            0.3,            0.1,
+    2L,   "Seagrass",       "Plateau",          0.2,             NA,             NA
+  )
+
+  expect_identical(covariates_expanded, expected)
 })

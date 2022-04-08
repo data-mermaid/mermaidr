@@ -134,7 +134,6 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if ("covariates" %in% names(results)) {
-
     results <- results %>%
       extract_covariates()
   }
@@ -190,14 +189,23 @@ collapse_id_name_lists <- function(results) {
 }
 
 extract_covariates <- function(results) {
-
   covariates_expanded <- results[["covariates"]] %>%
+    purrr::compact() %>%
+    purrr::map(function(x) {
+      x %>%
+        dplyr::mutate(value = purrr::map(
+          .data$value,
+          function(y) {
+            if (is.null(y)) NA else y
+          }
+        ))
+    }) %>%
     dplyr::bind_rows(.id = "row") %>%
-    dplyr::select(row, name, value) %>%
+    dplyr::select(.data$row, .data$name, .data$value) %>%
     split(.$name) %>%
     purrr::map(~ .x %>% dplyr::mutate(value = purrr::map_chr(.data$value, get_covariate_value))) %>%
     dplyr::bind_rows() %>%
-    tidyr::pivot_wider(id_cols = row, names_from = name, values_from = value) %>%
+    tidyr::pivot_wider(id_cols = row, names_from = .data$name, values_from = .data$value) %>%
     dplyr::mutate(dplyr::across(-dplyr::starts_with("aca_"), as.numeric))
 
   results %>%
