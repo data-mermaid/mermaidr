@@ -1,3 +1,14 @@
+#' Get aggregated metrics for all MERMAID surveys, by site, for all dates
+#'
+#' Get aggregated metrics from all surveys associated with each site, for all dates. Includes data from all methods - Fish Belt, Benthic LIT, Benthic PIT, Bleaching, and Habitat Complexity - if the data sharing policy for that method is public summary or public (and just includes the sample unit count otherwise). Does not require authorization.
+#'
+#' @inheritParams mermaid_GET
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' mermaid_get_summary_sites()
 mermaid_get_summary_sites <- function(limit = NULL) {
   res <- get_endpoint("summarysites", limit = limit)
 
