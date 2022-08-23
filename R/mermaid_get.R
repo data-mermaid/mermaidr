@@ -55,7 +55,9 @@ construct_api_path <- function(endpoint, token, limit, ...) {
 get_response <- function(path, endpoint, ua, token, limit) {
   if (endpoint == "choices") {
     get_choices_response(path, endpoint, ua, token, limit)
-  } else {
+  } else if (endpoint == "csv") {
+    get_csv_response(path, ua, token)
+    } else {
     get_paginated_response(path, ua, token, limit)
   }
 }
@@ -72,10 +74,15 @@ get_choices_response <- function(path, endpoint, ua, token, limit) {
   }
 }
 
+get_csv_response <- function(path, ua, token) {
+  get_and_parse(path, ua, token)
+}
+
 get_paginated_response <- function(path, ua, token, limit) {
   all_res <- list()
   i <- 1
   res <- get_and_parse(path = path, ua = ua, token = token)
+
   all_res[[i]] <- res[["results"]]
   n_res <- nrow(all_res[[i]])
 
@@ -100,7 +107,14 @@ get_paginated_response <- function(path, ua, token, limit) {
 get_and_parse <- function(path, ua, token) {
   resp <- suppress_http_warning(httr::RETRY("GET", path, ua, token, terminate_on = c(401, 403)))
   check_errors(resp)
-  jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyDataFrame = TRUE)
+
+  # Parse CSV and JSON differently
+  if (httr::headers(resp)[["Content-Type"]] == "text/csv") {
+    httr::content(resp, "raw", encoding = "UTF-8") %>%
+      readr::read_csv(show_col_types = FALSE)
+  } else {
+    jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyDataFrame = TRUE)
+  }
 }
 
 suppress_http_warning <- function(expr, warning_function = "parse_http_status", warning_regex = "NAs introduced by coercion") {
@@ -112,7 +126,7 @@ suppress_http_warning <- function(expr, warning_function = "parse_http_status", 
 }
 
 initial_cleanup <- function(results, endpoint) {
-  if (nrow(results) == 0 || ncol(results) == 0) {
+  if ((nrow(results) == 0 || ncol(results) == 0) & endpoint != "csv") {
     return(
       tibble::tibble()
     )
