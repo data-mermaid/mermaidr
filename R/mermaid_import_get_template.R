@@ -1,4 +1,6 @@
 mermaid_import_get_template <- function(method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleachingqc", "habitatcomplexity", "all")) {
+  check_project_data_inputs(method, data = "all") # Faking data input to just allow for checking options
+
   if (any(method == "all")) {
     method <- c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleachingqc", "habitatcomplexity")
   }
