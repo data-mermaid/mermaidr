@@ -57,7 +57,9 @@ get_response <- function(path, endpoint, ua, token, limit) {
     get_choices_response(path, endpoint, ua, token, limit)
   } else if (stringr::str_detect(path, "ingest_schema_csv")) {
     get_csv_response(path, ua, token)
-    } else {
+  } else if (stringr::str_detect(path, "ingest_schema")) {
+    get_ingest_schema_response(path, ua, token)
+  } else {
     get_paginated_response(path, ua, token, limit)
   }
 }
@@ -104,7 +106,11 @@ get_paginated_response <- function(path, ua, token, limit) {
   }
 }
 
-get_and_parse <- function(path, ua, token) {
+get_ingest_schema_response <- function(path, ua, token) {
+  get_and_parse(path, ua, token, simplify_df = FALSE)
+}
+
+get_and_parse <- function(path, ua, token, simplify_df = TRUE) {
   resp <- suppress_http_warning(httr::RETRY("GET", path, ua, token, terminate_on = c(401, 403)))
   check_errors(resp)
 
@@ -113,7 +119,7 @@ get_and_parse <- function(path, ua, token) {
     httr::content(resp, "raw", encoding = "UTF-8") %>%
       readr::read_csv(show_col_types = FALSE, progress = FALSE)
   } else {
-    jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyDataFrame = TRUE)
+    jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyDataFrame = simplify_df)
   }
 }
 
@@ -128,6 +134,10 @@ suppress_http_warning <- function(expr, warning_function = "parse_http_status", 
 initial_cleanup <- function(results, endpoint) {
   path <- endpoint
   endpoint <- basename(path)
+
+  if (stringr::str_detect(path, "ingest_schema")) {
+    return(results)
+  }
 
   if ((nrow(results) == 0 || ncol(results) == 0) & !stringr::str_detect(path, "ingest_schema_csv")) {
     return(
