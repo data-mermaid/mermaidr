@@ -8,7 +8,7 @@ mermaid_import_get_template <- function(method = c("fishbelt", "benthiclit", "be
   res <- purrr::map(endpoints, mermaid_GET)
 
   if (length(method) == 1) {
-    res[[1]]
+    res[[1]][[1]]
   } else {
     res <- purrr::map(res, ~ .x[[1]])
     names(res) <- method
