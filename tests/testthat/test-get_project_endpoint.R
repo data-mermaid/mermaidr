@@ -19,8 +19,10 @@ test_that("get_project_endpoint returns a tibble when passed a known endpoint, e
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
+
+  # TODO
   test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
-  expect_named(get_project_endpoint(test_project, "obsbenthicpits", limit = 1), mermaid_project_endpoint_columns[["obsbenthicpits"]])
+  expect_named(get_project_endpoint(test_project, "benthictransects", limit = 1), mermaid_project_endpoint_columns[["benthictransects"]])
 })
 
 test_that("get_project_endpoint allows multiple projects, and combines the results, adding a project identifier", {
@@ -35,10 +37,6 @@ test_that("get_project_endpoint allows multiple projects, and combines the resul
   expect_named(get_project_endpoint(p, "benthiclittransectmethods", limit = 1), c("project_id", mermaid_project_endpoint_columns[["benthiclittransectmethods"]]))
   expect_named(get_project_endpoint(p, "benthicpittransectmethods", limit = 1), c("project_id", mermaid_project_endpoint_columns[["benthicpittransectmethods"]]))
   expect_named(get_project_endpoint(p, "fishbelttransects", limit = 1), c("project_id", mermaid_project_endpoint_columns[["fishbelttransects"]]))
-  expect_named(get_project_endpoint(p, "obsbenthiclits", limit = 1), c("project_id", mermaid_project_endpoint_columns[["obsbenthiclits"]]))
-  expect_named(get_project_endpoint(p, "obsbenthicpits", limit = 1), c("project_id", mermaid_project_endpoint_columns[["obsbenthicpits"]]))
-  expect_named(get_project_endpoint(p, "obshabitatcomplexities", limit = 1), c("project_id", mermaid_project_endpoint_columns[["obshabitatcomplexities"]]))
-  expect_named(get_project_endpoint(p, "obstransectbeltfishs", limit = 1), c("project_id", mermaid_project_endpoint_columns[["obstransectbeltfishs"]]))
   expect_named(get_project_endpoint(p, "managements", limit = 1), c("project_id", mermaid_project_endpoint_columns[["managements"]]))
   expect_named(get_project_endpoint(p, "observers", limit = 1), c("project_id", mermaid_project_endpoint_columns[["observers"]]))
   expect_named(get_project_endpoint(p, "project_profiles", limit = 1), c("project_id", mermaid_project_endpoint_columns[["project_profiles"]]))
