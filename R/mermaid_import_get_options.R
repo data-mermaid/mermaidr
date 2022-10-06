@@ -36,9 +36,14 @@ clean_import_options <- function(data) {
     })
 
   # Convert "choices" to a tibble (to take advantage of print options - don't want to print 1000s)
+  # If it is a 0 row tibble, just remove it
   data <- data %>%
     purrr::map(function(x) {
       x[["choices"]] <- dplyr::as_tibble(x[["choices"]], column_name = "choice")
+
+      if (nrow(x[["choices"]]) == 0) {
+        x[["choices"]] <- NULL
+      }
 
       x
     })

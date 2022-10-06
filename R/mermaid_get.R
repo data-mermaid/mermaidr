@@ -116,7 +116,6 @@ get_and_parse <- function(path, ua, token, simplify_df = TRUE) {
 
   # Parse CSV and JSON differently
   if (httr::headers(resp)[["Content-Type"]] == "text/csv") {
-    browser()
     httr::content(resp, "raw", encoding = "UTF-8") %>%
       readr::read_csv(show_col_types = FALSE, progress = FALSE)
   } else {
