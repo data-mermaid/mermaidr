@@ -8,7 +8,7 @@ mermaid_import_get_options(
   project,
   method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching",
     "habitatcomplexity", "all"),
-  save = NULL,
+  save,
   token = mermaid_token()
 )
 }
@@ -16,6 +16,8 @@ mermaid_import_get_options(
 \item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_my_projects}} or \code{\link{mermaid_search_my_projects}}. Defaults to the projects listed via \code{mermaid_get_default_project}, if available.}
 
 \item{method}{Method to get import fields and options for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", or "all" (to get fields for all methods).}
+
+\item{save}{Excel file to save field options to. Optional.}
 
 \item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
 }

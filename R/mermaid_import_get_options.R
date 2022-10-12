@@ -3,7 +3,7 @@
 #' Check the options available for importing a given method into MERMAID, either to see what the options are for each field or to check that your data matches the available fields. Returns a list of each field for a given method, whether it's required (in \code{required}), and a list of available choices, if relevant (in \code{choices}).  Optionally, the fields and options can be saved into an Excel file using the \code{save} parameter.
 #'
 #' @param method Method to get import fields and options for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", or "all" (to get fields for all methods).
-#' @param save
+#' @param save Excel file to save field options to. Optional.
 #' @inheritParams get_project_endpoint
 #'
 #' @export
@@ -39,7 +39,7 @@
 #' # 3 slope
 #' # 4 wall
 #' }
-mermaid_import_get_options <- function(project, method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), save = NULL, token = mermaid_token()) {
+mermaid_import_get_options <- function(project, method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), save, token = mermaid_token()) {
   check_project_data_inputs(method, data = "all") # Faking data input to just allow for checking options
 
   method[method == "bleaching"] <- "bleachingqc"
