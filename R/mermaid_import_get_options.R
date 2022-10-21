@@ -12,7 +12,7 @@
 #' \dontrun{
 #' options <- mermaid_get_my_projects() %>%
 #'   head(1) %>%
-#'   mermaid_import_get_options("fishbelt")
+#'   mermaid_import_get_options("fishbelt", save = "test.xlsx")
 #'
 #' names(options)
 #' # [1] "Site *"                     "Management *"
@@ -54,12 +54,72 @@ mermaid_import_get_options <- function(project, method = c("fishbelt", "benthicl
 
   res <- purrr::map(res, clean_import_options)
 
-  if (length(method) == 1) {
-    res[[1]]
+  single_method <- length(method) == 1
+
+  if (single_method) {
+    res <- res[[1]]
   } else {
     names(res) <- method
-    res[method]
+    res <- res[method]
   }
+
+  if (!missing(save)) {
+    # Check that file is xlsx or xls
+    pos <- regexpr("\\.([[:alnum:]]+)$", save)
+    filetype <- substring(save, pos + 1L)
+
+    if (!filetype %in% c("xlsx", "xls")) {
+      stop("`save` must be an xls or xlsx file", call. = FALSE)
+    }
+
+    # Create workbook
+    wb <- openxlsx::createWorkbook()
+
+    # If only one method, temporarily put it back in a named list
+    if (single_method) {
+      temp_res <- list(res)
+      names(temp_res) <- method
+    } else {
+      temp_res <- res
+    }
+
+    # Iterate through methods, and through fields, and save each method/field combination to a sheet
+    purrr::imap(
+      temp_res,
+      function(data, method) {
+
+        purrr::imap(data, function(field_data, field_name) {
+          # Need to remove : and * from field names
+          field_name <- field_name %>%
+            stringr::str_remove_all(":") %>%
+            stringr::str_remove_all("\\*") %>%
+            stringr::str_trim()
+
+          # Append method to field name if there are multiple methods, otherwise just name sheets by the field name
+          sheet_name <- ifelse(single_method, field_name, paste0(method, "- ", field_name))
+          openxlsx::addWorksheet(wb, sheet_name)
+
+          # Add "required"
+          openxlsx::writeData(wb, sheet_name, "required")
+          # Convert to character, otherwise writes TRUE/FALSE as 1/0
+          required <- as.character(field_data[["required"]])
+          openxlsx::writeData(wb, sheet_name, required, startRow = 2)
+
+          # Add "choices" if not NULL
+          if (!is.null(field_data[["choices"]])) {
+            openxlsx::writeData(wb, sheet_name, field_data[["choices"]], startRow = 4)
+          }
+        })
+      }
+    )
+
+    # Write workbook
+    openxlsx::saveWorkbook(wb, save, overwrite = TRUE)
+
+    usethis::ui_done("Import field options written to {save}")
+  }
+
+  res
 }
 
 clean_import_options <- function(data) {

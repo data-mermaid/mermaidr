@@ -65,6 +65,8 @@ mermaid_import_get_template <- function(method = c("fishbelt", "benthiclit", "be
 
     # Write workbook
     openxlsx::saveWorkbook(wb, save, overwrite = TRUE)
+
+    usethis::ui_done("Import template written to {save}")
   }
 
   res

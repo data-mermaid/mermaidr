@@ -28,7 +28,7 @@ Check the options available for importing a given method into MERMAID, either to
 \dontrun{
 options <- mermaid_get_my_projects() \%>\%
   head(1) \%>\%
-  mermaid_import_get_options("fishbelt")
+  mermaid_import_get_options("fishbelt", save = "test.xlsx")
 
 names(options)
 # [1] "Site *"                     "Management *"
