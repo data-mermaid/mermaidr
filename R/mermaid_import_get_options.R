@@ -1,6 +1,6 @@
 #' Get field options for MERMAID import
 #'
-#' Check the options available for importing a given method into MERMAID, either to see what the options are for each field or to check that your data matches the available fields. Returns a list of each field for a given method, whether it's required (in \code{required}), and a list of available choices, if relevant (in \code{choices}).  Optionally, the fields and options can be saved into an Excel file using the \code{save} parameter.
+#' Check the options available for importing a given method into MERMAID, either to see what the options are for each field or to check that your data matches the available fields. Returns a list of each field for a given method, whether it's required (in \code{required}), and a list of available choices, if relevant (in \code{choices}). Optionally, the fields and options can be saved into an Excel file using the \code{save} parameter.
 #'
 #' @param method Method to get import fields and options for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", or "all" (to get fields for all methods).
 #' @param save Excel file to save field options to. Optional.
@@ -12,7 +12,7 @@
 #' \dontrun{
 #' options <- mermaid_get_my_projects() %>%
 #'   head(1) %>%
-#'   mermaid_import_get_options("fishbelt", save = "test.xlsx")
+#'   mermaid_import_get_options("fishbelt")
 #'
 #' names(options)
 #' # [1] "Site *"                     "Management *"
@@ -129,11 +129,10 @@ clean_import_options <- function(data) {
   labels <- data %>% purrr::map_chr("label")
   names(data) <- labels
 
-  # Remove "label" field, "help_text" (all empty right now), and "name"
+  # Remove "label" field and "name"
   data <- data %>%
     purrr::map(function(x) {
       x[["label"]] <- NULL
-      x[["help_text"]] <- NULL
       x[["name"]] <- NULL
       x
     })
