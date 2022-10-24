@@ -1,8 +1,8 @@
 #' Get field options for MERMAID import
 #'
-#' Check the options available for importing a given method into MERMAID, either to see what the options are for each field or to check that your data matches the available fields. Returns a list of each field for a given method, whether it's required (in \code{required}), and a list of available choices, if relevant (in \code{choices}). Optionally, the fields and options can be saved into an Excel file using the \code{save} parameter.
+#' Check the options available for importing a given method into MERMAID, either to see what the options are for each field or to check that your data matches the available fields. Returns a list of each field for a given method, whether it's required (in \code{required}), any available description or help with the field (in \code{help_text}), and a list of available choices, if relevant (in \code{choices}). Optionally, the fields and options can be saved into an Excel file using the \code{save} parameter.
 #'
-#' @param method Method to get import fields and options for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", or "all" (to get fields for all methods).
+#' @param method Method to get import fields and options for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", or "habitatcomplexity".
 #' @param save Excel file to save field options to. Optional.
 #' @inheritParams get_project_endpoint
 #'
@@ -39,14 +39,10 @@
 #' # 3 slope
 #' # 4 wall
 #' }
-mermaid_import_get_options <- function(project, method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), save, token = mermaid_token()) {
-  check_project_data_inputs(method, data = "all") # Faking data input to just allow for checking options
+mermaid_import_get_options <- function(project, method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"), save, token = mermaid_token()) {
+  check_import_inputs(method)
 
   method[method == "bleaching"] <- "bleachingqc"
-
-  if (any(method == "all")) {
-    method <- c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleachingqc", "habitatcomplexity")
-  }
 
   endpoint <- glue::glue("collectrecords/ingest_schema/{method}")
 
@@ -54,14 +50,7 @@ mermaid_import_get_options <- function(project, method = c("fishbelt", "benthicl
 
   res <- purrr::map(res, clean_import_options)
 
-  single_method <- length(method) == 1
-
-  if (single_method) {
-    res <- res[[1]]
-  } else {
-    names(res) <- method
-    res <- res[method]
-  }
+  res <- res[[1]]
 
   if (!missing(save)) {
     # Check that file is xlsx or xls
@@ -75,43 +64,32 @@ mermaid_import_get_options <- function(project, method = c("fishbelt", "benthicl
     # Create workbook
     wb <- openxlsx::createWorkbook()
 
-    # If only one method, temporarily put it back in a named list
-    if (single_method) {
-      temp_res <- list(res)
-      names(temp_res) <- method
-    } else {
-      temp_res <- res
-    }
+    # Iterate through through fields and save each to a sheet
+    purrr::imap(res, function(field_data, field_name) {
+      # Need to remove : and * from field names
+      field_name <- field_name %>%
+        stringr::str_remove_all(":") %>%
+        stringr::str_remove_all("\\*") %>%
+        stringr::str_trim()
 
-    # Iterate through methods, and through fields, and save each method/field combination to a sheet
-    purrr::imap(
-      temp_res,
-      function(data, method) {
+      # Name sheets by the field name
+      openxlsx::addWorksheet(wb, field_name)
 
-        purrr::imap(data, function(field_data, field_name) {
-          # Need to remove : and * from field names
-          field_name <- field_name %>%
-            stringr::str_remove_all(":") %>%
-            stringr::str_remove_all("\\*") %>%
-            stringr::str_trim()
+      # Add "required"
+      openxlsx::writeData(wb, field_name, "required")
+      # Convert to character, otherwise writes TRUE/FALSE as 1/0
+      required <- as.character(field_data[["required"]])
+      openxlsx::writeData(wb, field_name, required, startRow = 2)
 
-          # Append method to field name if there are multiple methods, otherwise just name sheets by the field name
-          sheet_name <- ifelse(single_method, field_name, paste0(method, "- ", field_name))
-          openxlsx::addWorksheet(wb, sheet_name)
+      # Add "help text"
+      openxlsx::writeData(wb, field_name, "help_text", startRow = 4)
+      openxlsx::writeData(wb, field_name, field_data[["help_text"]], startRow = 5)
 
-          # Add "required"
-          openxlsx::writeData(wb, sheet_name, "required")
-          # Convert to character, otherwise writes TRUE/FALSE as 1/0
-          required <- as.character(field_data[["required"]])
-          openxlsx::writeData(wb, sheet_name, required, startRow = 2)
-
-          # Add "choices" if not NULL
-          if (!is.null(field_data[["choices"]])) {
-            openxlsx::writeData(wb, sheet_name, field_data[["choices"]], startRow = 4)
-          }
-        })
+      # Add "choices" if not NULL
+      if (!is.null(field_data[["choices"]])) {
+        openxlsx::writeData(wb, field_name, field_data[["choices"]], startRow = 7)
       }
-    )
+    })
 
     # Write workbook
     openxlsx::saveWorkbook(wb, save, overwrite = TRUE)
