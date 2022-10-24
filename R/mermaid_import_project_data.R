@@ -11,7 +11,6 @@
 #'
 #' @export
 mermaid_import_project_data <- function(data, project_id, method = c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "bleaching"), dryrun = TRUE, clearexisting = FALSE, token = mermaid_token()) {
-
   check_internet()
 
   # Check if data is a data frame

@@ -54,23 +54,16 @@ mermaid_import_get_options <- function(project, method = c("fishbelt", "benthicl
 
   if (!missing(save)) {
     # Check that file is xlsx or xls
-    pos <- regexpr("\\.([[:alnum:]]+)$", save)
-    filetype <- substring(save, pos + 1L)
-
-    if (!filetype %in% c("xlsx", "xls")) {
-      stop("`save` must be an xls or xlsx file", call. = FALSE)
-    }
+    check_excel_file(save)
 
     # Create workbook
     wb <- openxlsx::createWorkbook()
 
     # Iterate through through fields and save each to a sheet
     purrr::imap(res, function(field_data, field_name) {
-      # Need to remove : and * from field names
+      # Need to remove : and * from field names, limit to 31 characters
       field_name <- field_name %>%
-        stringr::str_remove_all(":") %>%
-        stringr::str_remove_all("\\*") %>%
-        stringr::str_trim()
+        clean_excel_sheet_name()
 
       # Name sheets by the field name
       openxlsx::addWorksheet(wb, field_name)
@@ -98,6 +91,14 @@ mermaid_import_get_options <- function(project, method = c("fishbelt", "benthicl
   }
 
   res
+}
+
+clean_excel_sheet_name <- function(name) {
+  name %>%
+    stringr::str_remove_all(":") %>%
+    stringr::str_remove_all("\\*") %>%
+    stringr::str_trim() %>%
+    stringr::str_sub(1, 31)
 }
 
 clean_import_options <- function(data) {

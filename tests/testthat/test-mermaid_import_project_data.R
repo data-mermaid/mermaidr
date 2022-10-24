@@ -268,11 +268,13 @@ test_that("mermaid_import_project_data allows NA/NULL for bleaching percent cove
     `Hard coral % cover` = 5,
     `Macroalgae coral % cover` = NA,
     `Soft coral % cover` = 5
-  ), row.names = 1L,
+  ),
+  row.names = 1L,
   class = c(
     "tbl_df", "tbl",
     "data.frame"
-  ))
+  )
+  )
 
   p <- "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
 

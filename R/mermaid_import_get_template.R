@@ -22,12 +22,7 @@ mermaid_import_get_template <- function(method = c("fishbelt", "benthiclit", "be
 
   if (!missing(save)) {
     # Check that file is xlsx or xls
-    pos <- regexpr("\\.([[:alnum:]]+)$", save)
-    filetype <- substring(save, pos + 1L)
-
-    if (!filetype %in% c("xlsx", "xls")) {
-      stop("`save` must be an xls or xlsx file", call. = FALSE)
-    }
+    check_excel_file(save)
 
     # Create workbook
     wb <- openxlsx::createWorkbook()
@@ -41,7 +36,6 @@ mermaid_import_get_template <- function(method = c("fishbelt", "benthiclit", "be
     openxlsx::writeData(wb, method, res)
 
     # Write workbook
-    browser()
     openxlsx::saveWorkbook(wb, save, overwrite = TRUE)
 
     usethis::ui_done("Import template written to {save}")
@@ -51,7 +45,16 @@ mermaid_import_get_template <- function(method = c("fishbelt", "benthiclit", "be
 }
 
 check_import_inputs <- function(method, data) {
-  if (!all(method %in% c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching")) | length(method) > 1) {
-    stop('`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"', call. = FALSE)
+  if (!all(method %in% c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleachingqc")) | length(method) > 1) {
+    stop('`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleachingqc", "habitatcomplexity"', call. = FALSE)
+  }
+}
+
+check_excel_file <- function(save) {
+  pos <- regexpr("\\.([[:alnum:]]+)$", save)
+  filetype <- substring(save, pos + 1L)
+
+  if (!tolower(filetype) %in% c("xlsx", "xls") | pos <= 1) { # pos checks if it is just e.g. "xlsx" or ".xlsx", with no actual basename
+    stop("`save` must be an xls or xlsx file", call. = FALSE)
   }
 }
