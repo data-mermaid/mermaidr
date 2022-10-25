@@ -38,7 +38,7 @@
 #' names(bleaching_obs)
 #' # [1] "colonies_bleached" "percent_cover"
 #' }
-mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE) {
+mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE, legacy = FALSE) {
   check_project_data_inputs(method, data)
 
   if (any(method == "all")) {
@@ -48,7 +48,7 @@ mermaid_get_project_data <- function(project = mermaid_get_default_project(), me
     data <- c("observations", "sampleunits", "sampleevents")
   }
 
-  endpoint <- construct_endpoint(method, data)
+  endpoint <- construct_endpoint(method, data, legacy)
 
   res <- purrr::map(endpoint, ~ get_project_endpoint(project, .x, limit, token, covariates = covariates))
 
@@ -104,7 +104,7 @@ check_project_data_inputs <- function(method, data) {
   }
 }
 
-construct_endpoint <- function(method, data) {
+construct_endpoint <- function(method, data, legacy) {
   method_data <- tidyr::expand_grid(method = method, data = data)
 
   method_data <- method_data %>%
@@ -129,8 +129,10 @@ construct_endpoint <- function(method, data) {
     ) %>%
     tidyr::separate_rows(method, data, sep = ",")
 
+  csv_endpoint <- ifelse(legacy, "", "/csv")
+
   method_data <- method_data %>%
-    dplyr::mutate(endpoint = paste0(.data$method, "/", .data$data))
+    dplyr::mutate(endpoint = paste0(.data$method, "/", .data$data, csv_endpoint))
 
   method_data_list <- method_data %>%
     split(method_data$method) %>%
@@ -172,6 +174,17 @@ project_data_columns <- list(
   `bleachingqcs/sampleevents` = c(common_cols[["se"]], "quadrat_size_avg", "count_total_avg", "count_total_sd", "count_genera_avg", "count_genera_sd", "percent_normal_avg", "percent_normal_sd", "percent_pale_avg", "percent_pale_sd", "percent_bleached_avg", "percent_bleached_sd", "quadrat_count_avg", "percent_hard_avg_avg", "percent_hard_avg_sd", "percent_soft_avg_avg", "percent_soft_avg_sd", "percent_algae_avg_avg", "percent_algae_avg_sd", "data_policy_bleachingqc", common_cols[["se_closing"]]
   )
 )
+
+project_data_columns_csv <- list(
+  "beltfishes/obstransectbeltfishes/csv" = project_data_columns[["beltfishes/obstransectbeltfishes"]],
+  "benthicpits/obstransectbenthicpits/csv" = project_data_columns[["benthicpits/obstransectbenthicpits"]],
+  "benthiclits/obstransectbenthiclits/csv" = project_data_columns[["benthiclits/obstransectbenthiclits"]],
+  "habitatcomplexities/obshabitatcomplexities/csv" = project_data_columns[["habitatcomplexities/obshabitatcomplexities"]],
+  "bleachingqcs/obscoloniesbleacheds/csv" = project_data_columns[["bleachingqcs/obscoloniesbleacheds"]],
+  "bleachingqcs/obsquadratbenthicpercents/csv" = project_data_columns[["bleachingqcs/obsquadratbenthicpercents"]]
+)
+
+project_data_columns <- append(project_data_columns, project_data_columns_csv)
 
 # For testing columns, after df-cols have been expanded
 project_data_df_columns_list <- list(

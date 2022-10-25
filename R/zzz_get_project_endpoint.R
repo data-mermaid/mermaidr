@@ -16,7 +16,7 @@ NULL
 #' test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
-get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents", "benthicpits/obstransectbenthicpits", "benthicpits/sampleunits", "benthicpits/sampleevents", "benthiclits/obstransectbenthiclits", "benthiclits/sampleunits", "benthiclits/sampleevents", "benthicpqts/obstransectbenthicpqts", "benthicpqts/sampleunits", "benthicpqts/sampleevents", "habitatcomplexities/obshabitatcomplexities", "habitatcomplexities/sampleunits", "habitatcomplexities/sampleevents", "bleachingqcs/obscoloniesbleacheds", "bleachingqcs/obsquadratbenthicpercents", "bleachingqcs/sampleunits", "bleachingqcs/sampleevents", "collectrecords/ingest_schema/fishbelt", "collectrecords/ingest_schema/benthiclit", "collectrecords/ingest_schema/benthicpit", "collectrecords/ingest_schema/benthicpqt", "collectrecords/ingest_schema/bleachingqc", "collectrecords/ingest_schema/habitatcomplexity"), limit = NULL, token = mermaid_token(), filter = NULL, covariates = FALSE) {
+get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/obstransectbeltfishes/csv", "beltfishes/sampleunits", "beltfishes/sampleevents", "benthicpits/obstransectbenthicpits", "benthicpits/obstransectbenthicpits/csv", "benthicpits/sampleunits", "benthicpits/sampleevents", "benthiclits/obstransectbenthiclits", "benthiclits/obstransectbenthiclits/csv", "benthiclits/sampleunits", "benthiclits/sampleevents", "benthicpqts/obstransectbenthicpqts", "benthicpqts/obstransectbenthicpqts/csv", "benthicpqts/sampleunits", "benthicpqts/sampleevents", "habitatcomplexities/obshabitatcomplexities", "habitatcomplexities/obshabitatcomplexities/csv", "habitatcomplexities/sampleunits", "habitatcomplexities/sampleevents", "bleachingqcs/obscoloniesbleacheds", "bleachingqcs/obsquadratbenthicpercents", "bleachingqcs/obscoloniesbleacheds/csv", "bleachingqcs/obsquadratbenthicpercents/csv", "bleachingqcs/sampleunits", "bleachingqcs/sampleevents", "collectrecords/ingest_schema/fishbelt", "collectrecords/ingest_schema/benthiclit", "collectrecords/ingest_schema/benthicpit", "collectrecords/ingest_schema/benthicpqt", "collectrecords/ingest_schema/bleachingqc", "collectrecords/ingest_schema/habitatcomplexity"), limit = NULL, token = mermaid_token(), filter = NULL, covariates = FALSE) {
   project_id <- as_id(project)
   check_project(project_id)
   endpoint <- match.arg(endpoint, several.ok = TRUE)
@@ -74,8 +74,37 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
   }
 
   res_lookups <- lookup_choices(res, endpoint, endpoint_type = "project")
-  res_strip_suffix <- strip_name_suffix(res_lookups, covariates = covariates)
-  construct_project_endpoint_columns(res_strip_suffix, endpoint, multiple_projects = length(initial_res) > 1, covariates = covariates)
+  res_strip_suffix <- strip_name_suffix(res_lookups)
+  res <- construct_project_endpoint_columns(res_strip_suffix, endpoint, multiple_projects = length(initial_res) > 1, covariates = covariates)
+
+  # Convert any JSON remaining in CSV columns to comma separated list
+  json_cols <- res %>%
+    head(1) %>%
+    dplyr::mutate_all(as.character) %>%
+    tidyr::pivot_longer(dplyr::everything()) %>%
+    dplyr::filter(stringr::str_starts(.data$value, "\\[\\{"))
+
+  # Treat tags separately
+  if ("tags" %in% json_cols[["name"]]) {
+    res[["tags"]] <- res[["tags"]] %>%
+      stringr::str_replace_all("'", '"') %>%
+      purrr::map(function(tags) {
+        tags %>%
+          jsonlite::fromJSON() %>%
+          dplyr::pull(name) %>%
+          paste0(collapse = "; ")
+      }) %>%
+      unlist()
+  }
+
+  json_cols <- json_cols %>%
+    dplyr::filter(.data$name != "tags")
+
+  if (nrow(json_cols > 0)) {
+    browser()
+  }
+
+  res
 }
 
 check_project <- function(project) {
