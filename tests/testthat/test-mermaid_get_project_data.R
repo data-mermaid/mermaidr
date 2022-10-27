@@ -1080,6 +1080,7 @@ test_that("mermaid_get_project_data with covariates = TRUE returns covars, all t
   )
 })
 
+<<<<<<< HEAD
 # _by_ removal ----
 
 test_that("All expanded columns that formerly had _by_ in them are properly pulled down", {
@@ -1239,4 +1240,31 @@ test_that("Bleaching - standard deviations calculated in API are the same as SDs
   ## Sample events
   p %>%
     check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
+})
+
+# CSV endpoint ----
+
+test_that("new method of using CSV endpoint produces same data as old method (using JSON)", {
+  p <- "02e6915c-1c64-4d2c-bac0-326b560415a2"
+  new <- mermaid_get_project_data(p, method = "fishbelt", data = "observations", legacy = FALSE)
+  old <- mermaid_get_project_data(p, method = "fishbelt", data = "observations", legacy = TRUE)
+
+  # Some conversion required - old has empty strings ("") while new has NA, difference in column types
+  old <- old %>% dplyr::mutate_all(as.character)
+  old <- old %>% dplyr::mutate_all(~ ifelse(.x == "", NA_character_, .x))
+  old <- old %>% dplyr::mutate_all(as.character)
+  new <- new %>% dplyr::mutate_all(as.character)
+
+  expect_identical(old, new)
+
+  new <- mermaid_get_project_data(p, method = "fishbelt", data = "sampleunits", legacy = FALSE)
+  old <- mermaid_get_project_data(p, method = "fishbelt", data = "sampleunits", legacy = TRUE)
+
+  # Some conversion required - old has empty strings ("") while new has NA, difference in column types
+  old <- old %>% dplyr::mutate_all(as.character)
+  old <- old %>% dplyr::mutate_all(~ ifelse(.x == "", NA_character_, .x))
+  old <- old %>% dplyr::mutate_all(as.character)
+  new <- new %>% dplyr::mutate_all(as.character)
+
+  expect_identical(old, new)
 })

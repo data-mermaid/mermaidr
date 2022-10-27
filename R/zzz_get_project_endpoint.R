@@ -133,10 +133,11 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
     if (all(c("sample_date_year", "sample_date_month", "sample_date_day") %in% names(res))) {
       res <- res %>%
         dplyr::mutate(
-          sample_date = ISOdate(sample_date_year, sample_date_month, sample_date_day),
-          sample_date = as.Date(sample_date)
+          sample_date = ISOdate(.data$sample_date_year, .data$sample_date_month, .data$sample_date_day),
+          sample_date = as.Date(.data$sample_date)
         ) %>%
-        dplyr::relocate(sample_date, .after = management_rules)
+        dplyr::relocate(.data$sample_date, .after = .data$management_rules) %>%
+        dplyr::select(-.data$sample_date_year, -.data$sample_date_month, -.data$sample_date_day)
     }
   }
 
