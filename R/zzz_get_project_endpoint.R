@@ -78,30 +78,66 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
   res <- construct_project_endpoint_columns(res_strip_suffix, endpoint, multiple_projects = length(initial_res) > 1, covariates = covariates)
 
   # Convert any JSON remaining in CSV columns to comma separated list
-  json_cols <- res %>%
-    head(1) %>%
-    dplyr::mutate_all(as.character) %>%
-    tidyr::pivot_longer(dplyr::everything()) %>%
-    dplyr::filter(stringr::str_starts(.data$value, "\\[\\{"))
+  if (stringr::str_ends(endpoint, "csv")) {
+    json_cols <- res %>%
+      head(1) %>%
+      dplyr::mutate_all(as.character) %>%
+      tidyr::pivot_longer(dplyr::everything()) %>%
+      dplyr::filter(stringr::str_starts(.data$value, "\\[\\{") | stringr::str_starts(.data$value, "\\{"))
 
-  # Treat tags separately
-  if ("tags" %in% json_cols[["name"]]) {
-    res[["tags"]] <- res[["tags"]] %>%
-      stringr::str_replace_all("'", '"') %>%
-      purrr::map(function(tags) {
-        tags %>%
-          jsonlite::fromJSON() %>%
-          dplyr::pull(name) %>%
-          paste0(collapse = "; ")
-      }) %>%
-      unlist()
-  }
+    # Treat tags separately
+    if ("tags" %in% json_cols[["name"]]) {
+      res[["tags"]] <- res[["tags"]] %>%
+        stringr::str_replace_all("'", '"') %>%
+        purrr::map(function(tags) {
+          tags %>%
+            jsonlite::fromJSON() %>%
+            dplyr::pull(name) %>%
+            paste0(collapse = "; ")
+        }) %>%
+        unlist()
+    }
 
-  json_cols <- json_cols %>%
-    dplyr::filter(.data$name != "tags")
+    json_cols <- json_cols %>%
+      dplyr::filter(.data$name != "tags")
 
-  if (nrow(json_cols > 0)) {
-    browser()
+    if (nrow(json_cols > 0)) {
+      # Iterate through columns, unnest etc, widen
+      cols <- json_cols[["name"]]
+      res <- res %>%
+        dplyr::mutate(dplyr::across(
+          tidyselect::all_of(cols),
+          function(data) {
+            data %>%
+              stringr::str_replace_all("'", '"') %>%
+              purrr::map(jsonlite::fromJSON) %>%
+              purrr::transpose() %>%
+              tibble::enframe() %>%
+              tidyr::pivot_wider(names_from = name, values_from = value) %>%
+              tidyr::unnest(dplyr::everything()) %>%
+              dplyr::mutate_all(~ purrr::map(.x, function(y) { # Convert NULL to NA
+                ifelse(is.null(y), NA, y)
+              }) %>%
+                unlist())
+          }
+        )) %>%
+        tidyr::unpack(tidyselect::all_of(cols), names_sep = "_")
+
+      names(res) <- stringr::str_replace_all(names(res), "-", "_")
+
+      # TODO not all same cols
+      # TODO handle []
+    }
+
+    # Combine sample date year, month, day, into single field, place after management_rules
+    if (all(c("sample_date_year", "sample_date_month", "sample_date_day") %in% names(res))) {
+      res <- res %>%
+        dplyr::mutate(
+          sample_date = ISOdate(sample_date_year, sample_date_month, sample_date_day),
+          sample_date = as.Date(sample_date)
+        ) %>%
+        dplyr::relocate(sample_date, .after = management_rules)
+    }
   }
 
   res

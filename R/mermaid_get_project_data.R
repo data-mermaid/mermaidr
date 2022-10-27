@@ -177,12 +177,16 @@ project_data_columns <- list(
 
 project_data_columns_csv <- list(
   "beltfishes/obstransectbeltfishes/csv" = project_data_columns[["beltfishes/obstransectbeltfishes"]],
+  "beltfishes/sampleunits/csv" = project_data_columns[["beltfishes/sampleunits"]],
   "benthicpits/obstransectbenthicpits/csv" = project_data_columns[["benthicpits/obstransectbenthicpits"]],
   "benthiclits/obstransectbenthiclits/csv" = project_data_columns[["benthiclits/obstransectbenthiclits"]],
   "habitatcomplexities/obshabitatcomplexities/csv" = project_data_columns[["habitatcomplexities/obshabitatcomplexities"]],
   "bleachingqcs/obscoloniesbleacheds/csv" = project_data_columns[["bleachingqcs/obscoloniesbleacheds"]],
   "bleachingqcs/obsquadratbenthicpercents/csv" = project_data_columns[["bleachingqcs/obsquadratbenthicpercents"]]
 )
+
+project_data_columns_csv <- project_data_columns_csv %>%
+  purrr::map(~ c(.x, "sample_date_year", "sample_date_month", "sample_date_day"))
 
 project_data_columns <- append(project_data_columns, project_data_columns_csv)
 
