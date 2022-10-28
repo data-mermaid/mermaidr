@@ -63,7 +63,8 @@ test_that("mermaid_import_get_options with 'save' writes a sheet for every field
     if (!is.null(options_choices)) {
       expect_identical(
         contents %>% dplyr::filter(id > 5) %>% dplyr::pull(X1),
-        options_choices)
+        options_choices
+      )
     }
   })
 })

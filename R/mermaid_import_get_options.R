@@ -40,6 +40,8 @@
 #' # 4 wall
 #' }
 mermaid_import_get_options <- function(project, method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"), save, token = mermaid_token()) {
+  # TODO: check only one project allowed
+
   check_import_inputs(method)
 
   method[method == "bleaching"] <- "bleachingqc"
