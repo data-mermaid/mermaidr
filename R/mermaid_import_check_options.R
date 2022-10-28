@@ -1,3 +1,33 @@
+#' Check field options for MERMAID import
+#'
+#' Check that your data matches allowed field options for importing data for a given method into MERMAID.
+#'
+#' @param data Data to be imported into MERMAID.
+#' @param options Field options for the same method as \code{data}, from \code{\link{mermaid_import_get_options}}.
+#' @param field Field to check options for (from \code{options}).
+#'
+#' @export
+#'
+#' @examples
+#' library(dplyr)
+#'
+#' projects <- mermaid_get_my_projects()
+#'
+#' options <- projects %>%
+#'   head(1) %>%
+#'   mermaid_import_get_options("fishbelt")
+#'
+#' data <- tibble(Visibility = c("<1m - bad", "10+m - exellent"))
+#'
+#' data %>%
+#'   mermaid_import_check_options(options, "Visibility")
+#'
+#' # • Some errors in values of `Visibility` - please check table below
+#' # # A tibble: 2 × 3
+#' # data_value        closest_choice   match
+#' # <chr>             <chr>            <lgl>
+#' # 1 10+m - exellent 10+m - excellent FALSE
+#' # 2 <1m - bad       <1m - bad        TRUE
 mermaid_import_check_options <- function(data, options, field) {
   # Check field exists in options
   options_fields <- names(options)
@@ -62,7 +92,7 @@ mermaid_import_check_options <- function(data, options, field) {
     fuzzyjoin::stringdist_left_join(
       options_field,
       by = c("data_value" = "choices"),
-      ignore_case = TRUE, # TODO check if case insensitive
+      ignore_case = TRUE,
       distance_col = "diff",
       max_dist = Inf
     ) %>%
