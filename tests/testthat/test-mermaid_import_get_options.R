@@ -33,6 +33,10 @@ test_that("mermaid_import_get_options contains 'required' and 'help_text'", {
 })
 
 test_that("mermaid_import_get_options with 'save' writes a sheet for every field, that contains required, help_text, and choices if not null", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   save_location <- tempfile(fileext = ".xlsx")
   project <- "02e6915c-1c64-4d2c-bac0-326b560415a2"
   options <- mermaid_import_get_options(project, "habitatcomplexity", save = save_location)
@@ -65,6 +69,10 @@ test_that("mermaid_import_get_options with 'save' writes a sheet for every field
 })
 
 test_that("mermaid_import_get_options produces a message with where the file is saved", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   save_location <- tempfile(fileext = ".xlsx")
   project <- "02e6915c-1c64-4d2c-bac0-326b560415a2"
   expect_message(mermaid_import_get_options(project, "habitatcomplexity", save = save_location), glue::glue("Import field options written to {save_location}"))

@@ -7,7 +7,7 @@
 mermaid_import_get_options(
   project,
   method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching",
-    "habitatcomplexity", "all"),
+    "habitatcomplexity"),
   save,
   token = mermaid_token()
 )
@@ -15,20 +15,20 @@ mermaid_import_get_options(
 \arguments{
 \item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_my_projects}} or \code{\link{mermaid_search_my_projects}}. Defaults to the projects listed via \code{mermaid_get_default_project}, if available.}
 
-\item{method}{Method to get import fields and options for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", or "all" (to get fields for all methods).}
+\item{method}{Method to get import fields and options for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", or "habitatcomplexity".}
 
 \item{save}{Excel file to save field options to. Optional.}
 
 \item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
 }
 \description{
-Check the options available for importing a given method into MERMAID, either to see what the options are for each field or to check that your data matches the available fields. Returns a list of each field for a given method, whether it's required (in \code{required}), and a list of available choices, if relevant (in \code{choices}).  Optionally, the fields and options can be saved into an Excel file using the \code{save} parameter.
+Check the options available for importing a given method into MERMAID, either to see what the options are for each field or to check that your data matches the available fields. Returns a list of each field for a given method, whether it's required (in \code{required}), any available description or help with the field (in \code{help_text}), and a list of available choices, if relevant (in \code{choices}). Optionally, the fields and options can be saved into an Excel file using the \code{save} parameter.
 }
 \examples{
 \dontrun{
 options <- mermaid_get_my_projects() \%>\%
   head(1) \%>\%
-  mermaid_import_get_options("fishbelt", save = "test.xlsx")
+  mermaid_import_get_options("fishbelt")
 
 names(options)
 # [1] "Site *"                     "Management *"
