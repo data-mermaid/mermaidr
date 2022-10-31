@@ -4,6 +4,7 @@
 * Add `mermaid_import_get_template()` to get a template / column names for importing any method into MERMAID.
 * Add `mermaid_import_get_options()` to see field options to import into MERMAID.
 * Add `mermaid_import_check_options()` for verifying that data being prepared for import matches the field options allowed.
+* Remove `mermaid_import_field_options()`, replaced by the above two functions (which are more feature rich and complete).
 
 # mermaidr 0.4.6
 
