@@ -16,7 +16,7 @@ NULL
 #' test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
-get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "obsbenthiclits", "obsbenthicpits", "obshabitatcomplexities", "obstransectbeltfishs", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents", "benthicpits/obstransectbenthicpits", "benthicpits/sampleunits", "benthicpits/sampleevents", "benthiclits/obstransectbenthiclits", "benthiclits/sampleunits", "benthiclits/sampleevents", "habitatcomplexities/obshabitatcomplexities", "habitatcomplexities/sampleunits", "habitatcomplexities/sampleevents", "bleachingqcs/obscoloniesbleacheds", "bleachingqcs/obsquadratbenthicpercents", "bleachingqcs/sampleunits", "bleachingqcs/sampleevents"), limit = NULL, token = mermaid_token()) {
+get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents", "benthicpits/obstransectbenthicpits", "benthicpits/sampleunits", "benthicpits/sampleevents", "benthiclits/obstransectbenthiclits", "benthiclits/sampleunits", "benthiclits/sampleevents", "habitatcomplexities/obshabitatcomplexities", "habitatcomplexities/sampleunits", "habitatcomplexities/sampleevents", "bleachingqcs/obscoloniesbleacheds", "bleachingqcs/obsquadratbenthicpercents", "bleachingqcs/sampleunits", "bleachingqcs/sampleevents", "collectrecords/ingest_schema/fishbelt", "collectrecords/ingest_schema/benthiclit", "collectrecords/ingest_schema/benthicpit", "collectrecords/ingest_schema/benthicpqt", "collectrecords/ingest_schema/bleachingqc", "collectrecords/ingest_schema/habitatcomplexity"), limit = NULL, token = mermaid_token()) {
   project_id <- as_id(project)
   check_project(project_id)
   endpoint <- match.arg(endpoint, several.ok = TRUE)
@@ -36,7 +36,7 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   }
 
   # Expand df-cols, only for project_data functions (which have a / in their endpoints)
-  if (all(stringr::str_detect(endpoint, "/"))) {
+  if (all(stringr::str_detect(endpoint, "/")) & !any(stringr::str_detect(endpoint, "ingest_schema"))) {
     if (length(endpoint) == 1) {
       if (nrow(res) == 0) {
         dplyr::select(res, project_data_test_columns[[endpoint]])
@@ -57,6 +57,11 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
 
 get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, token = mermaid_token(), project_id, project) {
   initial_res <- mermaid_GET(full_endpoint, limit = limit, token = token)
+
+  # Return ingest schema for tidying separately
+  if (stringr::str_detect(endpoint, "ingest_schema")) {
+    return(initial_res)
+  }
 
   # Combine multiple projects
   if (length(initial_res) > 1) {

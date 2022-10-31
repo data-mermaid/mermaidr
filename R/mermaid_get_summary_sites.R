@@ -4,11 +4,12 @@
 #'
 #' @inheritParams mermaid_GET
 #'
-#' @return
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' mermaid_get_summary_sites()
+#' }
 mermaid_get_summary_sites <- function(limit = NULL) {
   res <- get_endpoint("summarysites", limit = limit)
 

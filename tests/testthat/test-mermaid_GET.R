@@ -144,8 +144,8 @@ test_that("expand_covariates pulls max value when there are multiples, and can h
 
   expected <- tibble::tribble(
     ~id, ~aca_benthic, ~aca_geomorphic, ~beyer_score, ~beyer_scorecn, ~beyer_scorecy,
-    1L,           NA,              NA,          0.2,            0.3,            0.1,
-    2L,   "Seagrass",       "Plateau",          0.2,             NA,             NA
+    1L, NA, NA, 0.2, 0.3, 0.1,
+    2L, "Seagrass", "Plateau", 0.2, NA, NA
   )
 
   expect_identical(covariates_expanded, expected)

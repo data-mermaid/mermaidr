@@ -4,11 +4,12 @@
 #'
 #' @inheritParams mermaid_GET
 #'
-#' @return
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' mermaid_get_summary_sampleevents()
+#' }
 mermaid_get_summary_sampleevents <- function(limit = NULL) {
   res <- get_endpoint("summarysampleevents", limit = limit)
 
@@ -22,7 +23,7 @@ unpack_protocols <- function(x) {
   protocols_cols <- names(x[["protocols"]])
 
   x <- x %>%
-    tidyr::unpack(protocols)
+    tidyr::unpack(.data$protocols)
 
   unpack_all_df_cols(x)
 }

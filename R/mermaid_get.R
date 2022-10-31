@@ -26,7 +26,7 @@ mermaid_GET <- function(endpoint, limit = NULL, token = NULL, ...) {
   res <- purrr::map2(path, basename(names(path)), get_response, ua = ua, token = token, limit = limit)
 
   # Remove validation column, collapse list-cols
-  purrr::map2(res, basename(names(res)), initial_cleanup)
+  purrr::map2(res, names(res), initial_cleanup)
 }
 
 check_errors <- function(response) {
@@ -55,6 +55,10 @@ construct_api_path <- function(endpoint, token, limit, ...) {
 get_response <- function(path, endpoint, ua, token, limit) {
   if (endpoint == "choices") {
     get_choices_response(path, endpoint, ua, token, limit)
+  } else if (stringr::str_detect(path, "ingest_schema_csv")) {
+    get_csv_response(path, ua, token)
+  } else if (stringr::str_detect(path, "ingest_schema")) {
+    get_ingest_schema_response(path, ua, token)
   } else {
     get_paginated_response(path, ua, token, limit)
   }
@@ -72,10 +76,15 @@ get_choices_response <- function(path, endpoint, ua, token, limit) {
   }
 }
 
+get_csv_response <- function(path, ua, token) {
+  get_and_parse(path, ua, token)
+}
+
 get_paginated_response <- function(path, ua, token, limit) {
   all_res <- list()
   i <- 1
   res <- get_and_parse(path = path, ua = ua, token = token)
+
   all_res[[i]] <- res[["results"]]
   n_res <- nrow(all_res[[i]])
 
@@ -97,10 +106,21 @@ get_paginated_response <- function(path, ua, token, limit) {
   }
 }
 
-get_and_parse <- function(path, ua, token) {
+get_ingest_schema_response <- function(path, ua, token) {
+  get_and_parse(path, ua, token, simplify_df = FALSE)
+}
+
+get_and_parse <- function(path, ua, token, simplify_df = TRUE) {
   resp <- suppress_http_warning(httr::RETRY("GET", path, ua, token, terminate_on = c(401, 403)))
   check_errors(resp)
-  jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyDataFrame = TRUE)
+
+  # Parse CSV and JSON differently
+  if (httr::headers(resp)[["Content-Type"]] == "text/csv") {
+    httr::content(resp, "raw", encoding = "UTF-8") %>%
+      readr::read_csv(show_col_types = FALSE, progress = FALSE)
+  } else {
+    jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyDataFrame = simplify_df)
+  }
 }
 
 suppress_http_warning <- function(expr, warning_function = "parse_http_status", warning_regex = "NAs introduced by coercion") {
@@ -112,7 +132,14 @@ suppress_http_warning <- function(expr, warning_function = "parse_http_status", 
 }
 
 initial_cleanup <- function(results, endpoint) {
-  if (nrow(results) == 0 || ncol(results) == 0) {
+  path <- endpoint
+  endpoint <- basename(path)
+
+  if (stringr::str_detect(path, "ingest_schema")) {
+    return(results)
+  }
+
+  if ((nrow(results) == 0 || ncol(results) == 0) & !stringr::str_detect(path, "ingest_schema_csv")) {
     return(
       tibble::tibble()
     )
