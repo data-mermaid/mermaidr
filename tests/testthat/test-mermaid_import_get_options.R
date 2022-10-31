@@ -78,3 +78,18 @@ test_that("mermaid_import_get_options produces a message with where the file is 
   project <- "02e6915c-1c64-4d2c-bac0-326b560415a2"
   expect_message(mermaid_import_get_options(project, "habitatcomplexity", save = save_location), glue::glue("Import field options written to {save_location}"))
 })
+
+test_that("mermaid_import_get_options can take a project id or tibble", {
+  expect_silent(mermaid_get_my_projects() %>%
+    head(1) %>%
+    mermaid_import_get_options("fishbelt"))
+
+  expect_silent(mermaid_import_get_options("02e6915c-1c64-4d2c-bac0-326b560415a2", "benthicpit"))
+})
+
+test_that("mermaid_import_get_options only takes one project", {
+  expect_error(
+    mermaid_import_get_options(c("a", "b"), "benthiclit"),
+    "only one project"
+  )
+})
