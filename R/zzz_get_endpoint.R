@@ -2,7 +2,7 @@
 #'
 #' @inheritParams mermaid_GET
 #' @noRd
-get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites"), limit = NULL, ...) {
+get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites", "summarysampleevents", "summarysites"), limit = NULL, ...) {
   url <- base_url
 
   endpoint <- match.arg(endpoint, several.ok = TRUE)
@@ -123,5 +123,7 @@ mermaid_endpoint_columns <- list(
   managements = managements_columns,
   projects = projects_columns,
   projecttags = projecttags_columns,
-  sites = sites_columns
+  sites = sites_columns,
+  summarysampleevents = summary_sampleevents_columns,
+  summarysites = summary_sites_columns
 )

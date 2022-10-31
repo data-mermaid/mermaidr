@@ -1,6 +1,6 @@
 Package: mermaidr
 Title: Interface to the 'MERMAID' API
-Version: 0.4.6
+Version: 0.5.0
 Authors@R: 
     c(person(given = "Sharla",
            family = "Gelfand",
@@ -31,8 +31,10 @@ Imports:
     glue,
     stringr,
     usethis,
-    fuzzyjoin
-RoxygenNote: 7.1.1
+    fuzzyjoin,
+    readr,
+    openxlsx
+RoxygenNote: 7.2.0
 Suggests: 
     testthat (>= 2.1.0),
     knitr,
