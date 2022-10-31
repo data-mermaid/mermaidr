@@ -11,8 +11,12 @@
 #' \dontrun{
 #' mermaid_import_get_template("fishbelt")
 #' }
-mermaid_import_get_template <- function(method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleachingqc", "habitatcomplexity"), save) {
+mermaid_import_get_template <- function(method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"), save) {
   check_import_inputs(method)
+
+  if (method == "bleaching") {
+    method <- "bleachingqc"
+  }
 
   endpoints <- glue::glue("ingest_schema_csv/{method}")
 
@@ -45,8 +49,8 @@ mermaid_import_get_template <- function(method = c("fishbelt", "benthiclit", "be
 }
 
 check_import_inputs <- function(method, data) {
-  if (!all(method %in% c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleachingqc")) | length(method) > 1) {
-    stop('`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleachingqc", "habitatcomplexity"', call. = FALSE)
+  if (!all(method %in% c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching")) | length(method) > 1) {
+    stop('`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"', call. = FALSE)
   }
 }
 

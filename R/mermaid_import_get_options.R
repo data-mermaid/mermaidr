@@ -44,7 +44,9 @@ mermaid_import_get_options <- function(project, method = c("fishbelt", "benthicl
 
   check_import_inputs(method)
 
-  method[method == "bleaching"] <- "bleachingqc"
+  if (method == "bleaching") {
+    method <- "bleachingqc"
+  }
 
   endpoint <- glue::glue("collectrecords/ingest_schema/{method}")
 
