@@ -134,6 +134,7 @@ test_that("mermaid_get_project_data with multiple methods returns a list with mu
   expect_true(all(project_data_test_columns[["benthicpits/sampleevents"]] %in% names(output[["benthicpit"]])))
 })
 
+# Fails
 test_that("mermaid_get_project_data does not return the df-column in cases where there is no data: not for a single project and one endpoint, nor for a single project and multiple endpoints, nor for multiple projects (one of which has data, one of which does not), nor for multiple projects (neither of which have data)", {
   skip_if_offline()
   skip_on_ci()
@@ -163,6 +164,7 @@ test_that("mermaid_get_project_data does not return the df-column in cases where
 
 ## Vanilla fishbelt ----
 
+# FAILS
 test_that("Vanilla fishbelt sample unit aggregation is the same as manually aggregating observations", {
   skip_if_offline()
   skip_on_ci()
@@ -254,6 +256,7 @@ test_that("Variables widths fishbelt observations view biomass is the same as ma
   expect_true(all(obs_biomass_calc[["match"]]))
 })
 
+# Fails
 test_that("Variable widths fishbelt sample unit aggregation is the same as manually aggregating observations", {
   skip_if_offline()
   skip_on_ci()
@@ -317,6 +320,7 @@ test_that("Variable widths fishbelt sample event aggregation is the same as manu
 
 ## Big/small fish ----
 
+# Fails
 test_that("Big/small fish fishbelt sample unit aggregation is the same as manually aggregating observations", {
   skip_if_offline()
   skip_on_ci()
@@ -324,84 +328,83 @@ test_that("Big/small fish fishbelt sample unit aggregation is the same as manual
 
   project_id <- "507d1af9-edbd-417e-a65c-350f8bba1299"
 
-  # TODO
-  # obs <- mermaid_get_project_data(project_id, "fishbelt", "observations")
-  #
-  # sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
-  #
-  # obs <- obs %>%
-  #   construct_fake_sample_unit_id()
-  #
-  # # Remove SUs with zero observations, since they don't appear in the observations endpoint and will mess up the comparisons
-  #
-  # sus_minus_zeros <- sus %>%
-  #   dplyr::filter(biomass_kgha != 0) %>%
-  #   construct_fake_sample_unit_id()
-  #
-  # # Check first that there are the same number of fake SUs as real SUs
-  # test_n_fake_sus(obs, sus_minus_zeros)
-  #
-  # # Check that su.sample_unit_ids contains obs.sample_unit_id for cases where they have the same fake_sample_unit_id
-  #
-  # sus_ids <- sus_minus_zeros %>%
-  #   dplyr::select(fake_sample_unit_id, sample_unit_id = sample_unit_ids) %>%
-  #   tidyr::separate_rows(sample_unit_id, sep = "; ") %>%
-  #   dplyr::arrange(fake_sample_unit_id, sample_unit_id)
-  #
-  # obs_ids <- obs %>%
-  #   dplyr::select(fake_sample_unit_id, sample_unit_id) %>%
-  #   dplyr::distinct() %>%
-  #   dplyr::arrange(fake_sample_unit_id, sample_unit_id)
-  #
-  # expect_identical(sus_ids, obs_ids)
-  #
-  # # Check that every sample unit has a big/small transect
-  # # This means that each "fake" sample unit id has 2 (pseudo) sample unit ids
-  # expect_equal(sus_ids %>%
-  #   dplyr::count(fake_sample_unit_id) %>%
-  #   dplyr::pull(n) %>%
-  #   unique(), 2)
-  #
-  # # Also means that every set of observations is either BF or SF, and has a corresponding SF/BF
-  # expect_identical(
-  #   obs %>%
-  #     dplyr::distinct(fake_sample_unit_id, label) %>%
-  #     dplyr::group_by(fake_sample_unit_id) %>%
-  #     dplyr::summarise(
-  #       label = paste0(sort(label), collapse = ","),
-  #       .groups = "drop"
-  #     ) %>%
-  #     dplyr::pull(label) %>%
-  #     unique(),
-  #   "BF,SF"
-  # )
-  #
-  # # Aggregate observations to sample units
-  # # Calculate biomass_kgha, biomass_kgha_trophic_group, and biomass_kgha_fish_family
-  # # Also concatenate labels, width, fish size bin, reef slope, visibility, current, relative depth, and tide
-  #
-  # obs_agg_biomass_long <- calculate_obs_biomass_long(obs) %>%
-  #   dplyr::mutate_if(is.numeric, round) %>%
-  #   dplyr::mutate(obs = as.character(obs))
-  #
-  # obs_agg_concatenate_long <- obs %>%
-  #   dplyr::group_by(fake_sample_unit_id) %>%
-  #   dplyr::summarise(dplyr::across(c(label, size_bin, transect_width, reef_slope, visibility, current, relative_depth, tide), ~ paste(sort(unique(.x)), collapse = ", ")),
-  #     .groups = "drop"
-  #   ) %>%
-  #   tidyr::pivot_longer(-fake_sample_unit_id, values_to = "obs")
-  #
-  # obs_agg_for_su_comparison <- obs_agg_biomass_long %>%
-  #   dplyr::bind_rows(obs_agg_concatenate_long)
-  #
-  # sus_for_su_comparison <- aggregate_sus_biomass_long(sus_minus_zeros) %>%
-  #   dplyr::mutate_if(is.numeric, round) %>%
-  #   dplyr::mutate(su = as.character(su)) %>%
-  #   dplyr::bind_rows(sus_minus_zeros %>%
-  #     dplyr::select(fake_sample_unit_id, label, size_bin, transect_width, reef_slope, visibility, current, relative_depth, tide) %>%
-  #     tidyr::pivot_longer(-fake_sample_unit_id, values_to = "su"))
-  #
-  # test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
+  obs <- mermaid_get_project_data(project_id, "fishbelt", "observations")
+
+  sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
+
+  obs <- obs %>%
+    construct_fake_sample_unit_id()
+
+  # Remove SUs with zero observations, since they don't appear in the observations endpoint and will mess up the comparisons
+
+  sus_minus_zeros <- sus %>%
+    dplyr::filter(biomass_kgha != 0) %>%
+    construct_fake_sample_unit_id()
+
+  # Check first that there are the same number of fake SUs as real SUs
+  test_n_fake_sus(obs, sus_minus_zeros)
+
+  # Check that su.sample_unit_ids contains obs.sample_unit_id for cases where they have the same fake_sample_unit_id
+
+  sus_ids <- sus_minus_zeros %>%
+    dplyr::select(fake_sample_unit_id, sample_unit_id = sample_unit_ids) %>%
+    tidyr::separate_rows(sample_unit_id, sep = "; ") %>%
+    dplyr::arrange(fake_sample_unit_id, sample_unit_id)
+
+  obs_ids <- obs %>%
+    dplyr::select(fake_sample_unit_id, sample_unit_id) %>%
+    dplyr::distinct() %>%
+    dplyr::arrange(fake_sample_unit_id, sample_unit_id)
+
+  expect_identical(sus_ids, obs_ids)
+
+  # Check that every sample unit has a big/small transect
+  # This means that each "fake" sample unit id has 2 (pseudo) sample unit ids
+  expect_equal(sus_ids %>%
+    dplyr::count(fake_sample_unit_id) %>%
+    dplyr::pull(n) %>%
+    unique(), 2)
+
+  # Also means that every set of observations is either BF or SF, and has a corresponding SF/BF
+  expect_identical(
+    obs %>%
+      dplyr::distinct(fake_sample_unit_id, label) %>%
+      dplyr::group_by(fake_sample_unit_id) %>%
+      dplyr::summarise(
+        label = paste0(sort(label), collapse = ","),
+        .groups = "drop"
+      ) %>%
+      dplyr::pull(label) %>%
+      unique(),
+    "BF,SF"
+  )
+
+  # Aggregate observations to sample units
+  # Calculate biomass_kgha, biomass_kgha_trophic_group, and biomass_kgha_fish_family
+  # Also concatenate labels, width, fish size bin, reef slope, visibility, current, relative depth, and tide
+
+  obs_agg_biomass_long <- calculate_obs_biomass_long(obs) %>%
+    dplyr::mutate_if(is.numeric, round) %>%
+    dplyr::mutate(obs = as.character(obs))
+
+  obs_agg_concatenate_long <- obs %>%
+    dplyr::group_by(fake_sample_unit_id) %>%
+    dplyr::summarise(dplyr::across(c(label, size_bin, transect_width, reef_slope, visibility, current, relative_depth, tide), ~ paste(sort(unique(.x)), collapse = ", ")),
+      .groups = "drop"
+    ) %>%
+    tidyr::pivot_longer(-fake_sample_unit_id, values_to = "obs")
+
+  obs_agg_for_su_comparison <- obs_agg_biomass_long %>%
+    dplyr::bind_rows(obs_agg_concatenate_long)
+
+  sus_for_su_comparison <- aggregate_sus_biomass_long(sus_minus_zeros) %>%
+    dplyr::mutate_if(is.numeric, round) %>%
+    dplyr::mutate(su = as.character(su)) %>%
+    dplyr::bind_rows(sus_minus_zeros %>%
+      dplyr::select(fake_sample_unit_id, label, size_bin, transect_width, reef_slope, visibility, current, relative_depth, tide) %>%
+      tidyr::pivot_longer(-fake_sample_unit_id, values_to = "su"))
+
+  test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })
 
 test_that("Big/small fish fishbelt sample event aggregation is the same as manually aggregating sample units", {
@@ -432,6 +435,7 @@ test_that("Big/small fish fishbelt sample event aggregation is the same as manua
 
 ## Missing sample unit cases ----
 
+Fails
 test_that("Fishbelt sample unit aggregation is the same as manually aggregating observations, cases where some sample units were previously missing", {
   skip_if_offline()
   skip_on_ci()
@@ -494,55 +498,55 @@ test_that("Fishbelt sample unit aggregation is the same as manually aggregating 
 
 ## Deep/shallow ----
 
+# Fails
 test_that("Deep/shallow fishbelt sample unit aggregation is the same as manually aggregating observations", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
 
-  # TODO
-  # project_id <- "75ef7a5a-c770-4ca6-b9f8-830cab74e425"
-  #
-  # obs <- mermaid_get_project_data(project_id, "fishbelt", "observations")
-  #
-  # sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
-  #
-  # obs <- obs %>%
-  #   construct_fake_sample_unit_id()
-  #
-  # # Remove SUs with zero observations, since they don't appear in the observations endpoint and will mess up the comparisons
-  #
-  # sus_minus_zeros <- sus %>%
-  #   dplyr::filter(biomass_kgha != 0) %>%
-  #   construct_fake_sample_unit_id()
-  #
-  # # Check first that there are the same number of fake SUs as real SUs
-  # test_n_fake_sus(obs, sus_minus_zeros)
-  #
-  # # Doing this confirms that even if a set of observations are at the same site, same date, transect, and transect length, if they have different depths (deep/shallow cases), they are treated as *different* sample units and not combined
-  # # To triple check: for every site/sample date/transect number/transect length, the number of unique IDs should be the same as the number of unique depths (and both the same as the number of fake IDs)
-  # sus_depth_different_sample_unit <- sus_minus_zeros %>%
-  #   dplyr::group_by(site, sample_date, transect_number, transect_length) %>%
-  #   dplyr::summarise(
-  #     n_depths = dplyr::n_distinct(depth),
-  #     n_ids = dplyr::n_distinct(sample_unit_ids),
-  #     n_fake_ids = dplyr::n_distinct(fake_sample_unit_id),
-  #     match_depth_ids = n_depths == n_ids,
-  #     match_depth_fake_ids = n_depths == n_fake_ids,
-  #     .groups = "drop"
-  #   )
-  #
-  # expect_true(all(sus_depth_different_sample_unit[["match_depth_ids"]]))
-  # expect_true(all(sus_depth_different_sample_unit[["match_depth_fake_ids"]]))
-  #
-  # # Aggregate observations to sample units
-  # # Calculate biomass_kgha, biomass_kgha_trophic_group, and biomass_kgha_fish_family
-  # # Do NOT concatenate any fields
-  #
-  # obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
-  #
-  # sus_for_su_comparison <- aggregate_sus_biomass_long(sus_minus_zeros)
-  #
-  # test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
+  project_id <- "75ef7a5a-c770-4ca6-b9f8-830cab74e425"
+
+  obs <- mermaid_get_project_data(project_id, "fishbelt", "observations")
+
+  sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
+
+  obs <- obs %>%
+    construct_fake_sample_unit_id()
+
+  # Remove SUs with zero observations, since they don't appear in the observations endpoint and will mess up the comparisons
+
+  sus_minus_zeros <- sus %>%
+    dplyr::filter(biomass_kgha != 0) %>%
+    construct_fake_sample_unit_id()
+
+  # Check first that there are the same number of fake SUs as real SUs
+  test_n_fake_sus(obs, sus_minus_zeros)
+
+  # Doing this confirms that even if a set of observations are at the same site, same date, transect, and transect length, if they have different depths (deep/shallow cases), they are treated as *different* sample units and not combined
+  # To triple check: for every site/sample date/transect number/transect length, the number of unique IDs should be the same as the number of unique depths (and both the same as the number of fake IDs)
+  sus_depth_different_sample_unit <- sus_minus_zeros %>%
+    dplyr::group_by(site, sample_date, transect_number, transect_length) %>%
+    dplyr::summarise(
+      n_depths = dplyr::n_distinct(depth),
+      n_ids = dplyr::n_distinct(sample_unit_ids),
+      n_fake_ids = dplyr::n_distinct(fake_sample_unit_id),
+      match_depth_ids = n_depths == n_ids,
+      match_depth_fake_ids = n_depths == n_fake_ids,
+      .groups = "drop"
+    )
+
+  expect_true(all(sus_depth_different_sample_unit[["match_depth_ids"]]))
+  expect_true(all(sus_depth_different_sample_unit[["match_depth_fake_ids"]]))
+
+  # Aggregate observations to sample units
+  # Calculate biomass_kgha, biomass_kgha_by_trophic_group, and biomass_kgha_by_fish_family
+  # Do NOT concatenate any fields
+
+  obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
+
+  sus_for_su_comparison <- aggregate_sus_biomass_long(sus_minus_zeros)
+
+  test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })
 
 test_that("Deep/shallow fishbelt sample event aggregation is the same as manually aggregating sample units", {
@@ -783,6 +787,7 @@ test_that("NULL values for percent cover in bleaching observations come through 
   expect_identical(res[["percent_soft"]], NA)
 })
 
+# Fails
 test_that("Bleaching sample unit aggregation is the same as manually aggregating observations", {
   skip_if_offline()
   skip_on_ci()
