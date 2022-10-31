@@ -21,6 +21,8 @@ reference:
     - mermaid_get_managements
     - mermaid_get_reference
     - mermaid_get_endpoint
+    - mermaid_get_summary_sampleevents
+    - mermaid_get_summary_sites
     - mermaid_countries
 
   - title: Accessing Project-Specific Data
@@ -36,7 +38,9 @@ reference:
   - title: Importing Data
     contents:
     - mermaid_import_project_data
-    - mermaid_import_field_options
+    - mermaid_import_get_template
+    - mermaid_import_get_options
+    - mermaid_import_check_options
 
 articles:
   - title: Case Studies
