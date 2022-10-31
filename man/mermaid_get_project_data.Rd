@@ -11,7 +11,8 @@ mermaid_get_project_data(
   data = c("observations", "sampleunits", "sampleevents", "all"),
   limit = NULL,
   token = mermaid_token(),
-  covariates = FALSE
+  covariates = FALSE,
+  legacy = FALSE
 )
 }
 \arguments{

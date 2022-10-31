@@ -163,6 +163,7 @@ project_data_columns <- list(
   `benthicpits/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "interval_start", "interval_size", "observers", "percent_cover_benthic_category", "data_policy_benthicpit", common_cols[["su_closing"]]),
   `benthicpits/sampleevents` = c(common_cols[["se"]], "percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd", "data_policy_benthicpit", common_cols[["se_closing"]]),
   `benthiclits/obstransectbenthiclits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "benthic_category", "benthic_attribute", "growth_form", "length", "total_length", "data_policy_benthiclit", common_cols[["obs_closing"]]),
+<<<<<<< HEAD
   `benthiclits/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "total_length", "percent_cover_benthic_category", "data_policy_benthiclit", common_cols[["su_closing"]]),
   `benthiclits/sampleevents` = c(common_cols[["se"]], "percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd", "data_policy_benthiclit", common_cols[["se_closing"]]),
   `habitatcomplexities/obshabitatcomplexities` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "interval_size", "observers", "interval", "score", "score_name", "data_policy_habitatcomplexity", common_cols[["obs_closing"]]),
@@ -175,15 +176,8 @@ project_data_columns <- list(
   )
 )
 
-project_data_columns_csv <- list(
-  "beltfishes/obstransectbeltfishes/csv" = project_data_columns[["beltfishes/obstransectbeltfishes"]],
-  "beltfishes/sampleunits/csv" = project_data_columns[["beltfishes/sampleunits"]],
-  "benthicpits/obstransectbenthicpits/csv" = project_data_columns[["benthicpits/obstransectbenthicpits"]],
-  "benthiclits/obstransectbenthiclits/csv" = project_data_columns[["benthiclits/obstransectbenthiclits"]],
-  "habitatcomplexities/obshabitatcomplexities/csv" = project_data_columns[["habitatcomplexities/obshabitatcomplexities"]],
-  "bleachingqcs/obscoloniesbleacheds/csv" = project_data_columns[["bleachingqcs/obscoloniesbleacheds"]],
-  "bleachingqcs/obsquadratbenthicpercents/csv" = project_data_columns[["bleachingqcs/obsquadratbenthicpercents"]]
-)
+project_data_columns_csv <- project_data_columns
+names(project_data_columns_csv) <- paste0(names(project_data_columns), "/csv")
 
 project_data_columns_csv <- project_data_columns_csv %>%
   purrr::map(~ c(.x, "sample_date_year", "sample_date_month", "sample_date_day"))

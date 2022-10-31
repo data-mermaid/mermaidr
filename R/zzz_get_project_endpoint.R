@@ -16,10 +16,9 @@ NULL
 #' test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
-get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/obstransectbeltfishes/csv", "beltfishes/sampleunits", "beltfishes/sampleevents", "benthicpits/obstransectbenthicpits", "benthicpits/obstransectbenthicpits/csv", "benthicpits/sampleunits", "benthicpits/sampleevents", "benthiclits/obstransectbenthiclits", "benthiclits/obstransectbenthiclits/csv", "benthiclits/sampleunits", "benthiclits/sampleevents", "benthicpqts/obstransectbenthicpqts", "benthicpqts/obstransectbenthicpqts/csv", "benthicpqts/sampleunits", "benthicpqts/sampleevents", "habitatcomplexities/obshabitatcomplexities", "habitatcomplexities/obshabitatcomplexities/csv", "habitatcomplexities/sampleunits", "habitatcomplexities/sampleevents", "bleachingqcs/obscoloniesbleacheds", "bleachingqcs/obsquadratbenthicpercents", "bleachingqcs/obscoloniesbleacheds/csv", "bleachingqcs/obsquadratbenthicpercents/csv", "bleachingqcs/sampleunits", "bleachingqcs/sampleevents", "collectrecords/ingest_schema/fishbelt", "collectrecords/ingest_schema/benthiclit", "collectrecords/ingest_schema/benthicpit", "collectrecords/ingest_schema/benthicpqt", "collectrecords/ingest_schema/bleachingqc", "collectrecords/ingest_schema/habitatcomplexity"), limit = NULL, token = mermaid_token(), filter = NULL, covariates = FALSE) {
+get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint, limit = NULL, token = mermaid_token(), filter = NULL, covariates = FALSE) {
   project_id <- as_id(project)
   check_project(project_id)
-  endpoint <- match.arg(endpoint, several.ok = TRUE)
 
   # Construct full endpoints (with project id)
   full_endpoints <- purrr::map(endpoint, ~ paste0("projects/", project_id, "/", .x))
@@ -39,13 +38,13 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   if (all(stringr::str_detect(endpoint, "/")) & !any(stringr::str_detect(endpoint, "ingest_schema"))) {
     if (length(endpoint) == 1) {
       if (nrow(res) == 0) {
-        dplyr::select(res, project_data_test_columns[[endpoint]])
+        dplyr::select(res, tidyselect::any_of(project_data_test_columns[[endpoint]]))
       } else {
         clean_df_cols(res)
       }
     } else {
       if (all(purrr::map_dbl(res, nrow) == 0)) {
-        purrr::imap(res, ~ dplyr::select(.x, project_data_test_columns[[.y]]))
+        purrr::imap(res, ~ dplyr::select(.x, tidyselect::any_of(project_data_test_columns[[.y]])))
       } else {
         purrr::map(res, clean_df_cols)
       }
