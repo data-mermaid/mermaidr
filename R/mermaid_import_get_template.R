@@ -3,7 +3,7 @@
 #' Get a template of the fields for importing into MERMAID. Used along with \code{\link{mermaid_import_get_options}}, which contains details on which fields are required and their possible options, if relevant. Optionally, the template can be saved into an Excel file using the \code{save} parameter.
 #'
 #' @param method Method to get import template for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", or "habitatcomplexity".
-#' @param save Excel file to save template to. Optional.
+#' @param save Excel file to save template to - .xlsx or .xls or .csv file. Optional.
 #'
 #' @export
 #'
@@ -25,22 +25,27 @@ mermaid_import_get_template <- function(method = c("fishbelt", "benthiclit", "be
   res <- res[[1]][[1]]
 
   if (!missing(save)) {
-    # Check that file is xlsx or xls
-    check_excel_file(save)
+    # Check that file is xlsx or xls or csv
+    check_excel_file(save, csv = TRUE)
 
-    # Create workbook
-    wb <- openxlsx::createWorkbook()
+    if (!stringr::str_ends(save, "\\.csv")) {
 
-    # Save to a sheet
-    openxlsx::addWorksheet(wb, method)
+      # Create workbook
+      wb <- openxlsx::createWorkbook()
 
-    # Set to full width for each column
-    openxlsx::setColWidths(wb, method, 1:ncol(res), nchar(names(res)) + 2) # Buffer
+      # Save to a sheet
+      openxlsx::addWorksheet(wb, method)
 
-    openxlsx::writeData(wb, method, res)
+      # Set to full width for each column
+      openxlsx::setColWidths(wb, method, 1:ncol(res), nchar(names(res)) + 2) # Buffer
 
-    # Write workbook
-    openxlsx::saveWorkbook(wb, save, overwrite = TRUE)
+      openxlsx::writeData(wb, method, res)
+
+      # Write workbook
+      openxlsx::saveWorkbook(wb, save, overwrite = TRUE)
+    } else {
+      readr::write_csv(res, save)
+    }
 
     usethis::ui_done("Import template written to {save}")
   }
@@ -54,11 +59,17 @@ check_import_inputs <- function(method, data) {
   }
 }
 
-check_excel_file <- function(save) {
+check_excel_file <- function(save, csv = FALSE) {
   pos <- regexpr("\\.([[:alnum:]]+)$", save)
   filetype <- substring(save, pos + 1L)
 
-  if (!tolower(filetype) %in% c("xlsx", "xls") | pos <= 1) { # pos checks if it is just e.g. "xlsx" or ".xlsx", with no actual basename
-    stop("`save` must be an xls or xlsx file", call. = FALSE)
+  options <- c("xlsx", "xls")
+
+  if (csv) {
+    options <- c(options, "csv")
+  }
+
+  if (!tolower(filetype) %in% options | pos <= 1) { # pos checks if it is just e.g. "xlsx" or ".xlsx", with no actual basename
+    stop("`save` must be an ", paste0(options, collapse = " or "), " file", call. = FALSE)
   }
 }

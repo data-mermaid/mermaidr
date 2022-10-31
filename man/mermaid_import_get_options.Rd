@@ -17,7 +17,7 @@ mermaid_import_get_options(
 
 \item{method}{Method to get import fields and options for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", or "habitatcomplexity".}
 
-\item{save}{Excel file to save field options to. Optional.}
+\item{save}{Excel file to save field options to - .xlsx or xls file. Optional.}
 
 \item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
 }
@@ -31,11 +31,11 @@ options <- mermaid_get_my_projects() \%>\%
   mermaid_import_get_options("fishbelt")
 
 names(options)
-# [1] "Site *"                     "Management *"
-# [3] "Sample date: Year *"        "Sample date: Month *"
-# [5] "Sample date: Day *"         "Sample time"
-# [7] "Depth *"                    "Transect number *"
-# [9] "Transect label"             "Transect length surveyed *"
+# [1] "Site *"                      "Management *"
+# [3] "Sample date: Year *"         "Sample date: Month *"
+# [5] "Sample date: Day *"          "Sample time"
+# [7] "Depth *"                     "Transect number *"
+# [9] "Transect label"              "Transect length surveyed *"
 # [11] "Width *"                    "Fish size bin *"
 # [13] "Reef slope"                 "Visibility"
 # [15] "Current"                    "Relative depth"

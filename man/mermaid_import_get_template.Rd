@@ -5,7 +5,7 @@
 \title{Get template for MERMAID import}
 \usage{
 mermaid_import_get_template(
-  method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleachingqc",
+  method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching",
     "habitatcomplexity"),
   save
 )
@@ -13,7 +13,7 @@ mermaid_import_get_template(
 \arguments{
 \item{method}{Method to get import template for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", or "habitatcomplexity".}
 
-\item{save}{Excel file to save template to. Optional.}
+\item{save}{Excel file to save template to - .xlsx or .xls or .csv file. Optional.}
 }
 \description{
 Get a template of the fields for importing into MERMAID. Used along with \code{\link{mermaid_import_get_options}}, which contains details on which fields are required and their possible options, if relevant. Optionally, the template can be saved into an Excel file using the \code{save} parameter.

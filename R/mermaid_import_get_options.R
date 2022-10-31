@@ -3,7 +3,7 @@
 #' Check the options available for importing a given method into MERMAID to see what the options are for each field. Returns a list of each field for a given method, whether it's required (in \code{required}), any available description or help with the field (in \code{help_text}), and a list of available choices, if relevant (in \code{choices}). Optionally, the fields and options can be saved into an Excel file using the \code{save} parameter. See also \code{\link{mermaid_import_check_options}} for checking that your data matches the allowed values.
 #'
 #' @param method Method to get import fields and options for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", or "habitatcomplexity".
-#' @param save Excel file to save field options to. Optional.
+#' @param save Excel file to save field options to - .xlsx or xls file. Optional.
 #' @inheritParams get_project_endpoint
 #'
 #' @export
@@ -15,11 +15,11 @@
 #'   mermaid_import_get_options("fishbelt")
 #'
 #' names(options)
-#' # [1] "Site *"                     "Management *"
-#' # [3] "Sample date: Year *"        "Sample date: Month *"
-#' # [5] "Sample date: Day *"         "Sample time"
-#' # [7] "Depth *"                    "Transect number *"
-#' # [9] "Transect label"             "Transect length surveyed *"
+#' # [1] "Site *"                      "Management *"
+#' # [3] "Sample date: Year *"         "Sample date: Month *"
+#' # [5] "Sample date: Day *"          "Sample time"
+#' # [7] "Depth *"                     "Transect number *"
+#' # [9] "Transect label"              "Transect length surveyed *"
 #' # [11] "Width *"                    "Fish size bin *"
 #' # [13] "Reef slope"                 "Visibility"
 #' # [15] "Current"                    "Relative depth"
