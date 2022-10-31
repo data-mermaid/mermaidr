@@ -81,7 +81,7 @@ test_that("mermaid_import_check_options returns message, ends when no choices pr
 
   expect_message(
     mermaid_import_check_options(dplyr::tibble(`Count *` = "test"), options, "Count *"),
-    "any value is allowed"
+    "Any value is allowed"
   )
 })
 

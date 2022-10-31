@@ -5,7 +5,7 @@ test_that("mermaid_import_get_options returns a list with the same names as merm
 
   project <- "02e6915c-1c64-4d2c-bac0-326b560415a2"
 
-  purrr::walk(c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleachingqc", "habitatcomplexity"), function(method) {
+  purrr::walk(c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"), function(method) {
     option <- mermaid_import_get_options(project, method)
     template <- mermaid_import_get_template(method)
     expect_identical(names(option), names(template))
@@ -80,6 +80,10 @@ test_that("mermaid_import_get_options produces a message with where the file is 
 })
 
 test_that("mermaid_import_get_options can take a project id or tibble", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   expect_silent(mermaid_get_my_projects() %>%
     head(1) %>%
     mermaid_import_get_options("fishbelt"))
@@ -88,6 +92,10 @@ test_that("mermaid_import_get_options can take a project id or tibble", {
 })
 
 test_that("mermaid_import_get_options only takes one project", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   expect_error(
     mermaid_import_get_options(c("a", "b"), "benthiclit"),
     "only one project"

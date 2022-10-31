@@ -9,6 +9,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(dplyr)
 #'
 #' projects <- mermaid_get_my_projects()
@@ -28,6 +29,7 @@
 #' # <chr>             <chr>            <lgl>
 #' # 1 10+m - exellent 10+m - excellent FALSE
 #' # 2 <1m - bad       <1m - bad        TRUE
+#' }
 mermaid_import_check_options <- function(data, options, field) {
   # Check field exists in options
   options_fields <- names(options)

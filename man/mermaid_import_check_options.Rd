@@ -17,6 +17,7 @@ mermaid_import_check_options(data, options, field)
 Check that your data matches allowed field options for importing data for a given method into MERMAID.
 }
 \examples{
+\dontrun{
 library(dplyr)
 
 projects <- mermaid_get_my_projects()
@@ -36,4 +37,5 @@ data \%>\%
 # <chr>             <chr>            <lgl>
 # 1 10+m - exellent 10+m - excellent FALSE
 # 2 <1m - bad       <1m - bad        TRUE
+}
 }
