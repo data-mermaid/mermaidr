@@ -82,7 +82,19 @@
     <loc>/reference/mermaid_get_sites.html</loc>
   </url>
   <url>
-    <loc>/reference/mermaid_import_field_options.html</loc>
+    <loc>/reference/mermaid_get_summary_sampleevents.html</loc>
+  </url>
+  <url>
+    <loc>/reference/mermaid_get_summary_sites.html</loc>
+  </url>
+  <url>
+    <loc>/reference/mermaid_import_check_options.html</loc>
+  </url>
+  <url>
+    <loc>/reference/mermaid_import_get_options.html</loc>
+  </url>
+  <url>
+    <loc>/reference/mermaid_import_get_template.html</loc>
   </url>
   <url>
     <loc>/reference/mermaid_import_project_data.html</loc>

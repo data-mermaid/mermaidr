@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -81,46 +81,57 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">mermaid_search_my_projects</span><span class="op">(</span>
-  name <span class="op">=</span> <span class="cn">NULL</span>,
-  countries <span class="op">=</span> <span class="cn">NULL</span>,
-  tags <span class="op">=</span> <span class="cn">NULL</span>,
-  include_test_projects <span class="op">=</span> <span class="cn">FALSE</span>,
-  limit <span class="op">=</span> <span class="cn">NULL</span>,
-  token <span class="op">=</span> <span class="fu"><a href="mermaid_token.html">mermaid_token</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mermaid_search_my_projects</span><span class="op">(</span></span>
+<span>  name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  countries <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  tags <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  include_test_projects <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  limit <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  token <span class="op">=</span> <span class="fu"><a href="mermaid_token.html">mermaid_token</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>name</dt>
 <dd><p>Project name</p></dd>
+
+
 <dt>countries</dt>
 <dd><p>Project country. Projects are returned if the <code>countries</code> field contains <code>countries</code>, not just if it is exactly the same. For a list of countries used in MERMAID, see <code><a href="mermaid_countries.html">mermaid_countries</a></code></p></dd>
+
+
 <dt>tags</dt>
 <dd><p>Project tags. Projects are returned if the <code>tags</code> field contains <code>tags</code>, not just if it is exactly the same.</p></dd>
+
+
 <dt>include_test_projects</dt>
 <dd><p>Whether to include test projects. Defaults to FALSE.</p></dd>
+
+
 <dt>limit</dt>
 <dd><p>Number of records to get. Use NULL (the default) to get all records.</p></dd>
+
+
 <dt>token</dt>
 <dd><p>API token. Not required for unauthenticated endpoints. Get manually via <code><a href="mermaid_auth.html">mermaid_auth</a></code> or automatically when running a function that requires a token.</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">mermaid_search_my_projects</span><span class="op">(</span>tags <span class="op">=</span> <span class="st">"WCS Indonesia"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">mermaid_search_my_projects</span><span class="op">(</span>countries <span class="op">=</span> <span class="st">"Indonesia"</span>, tags <span class="op">=</span> <span class="st">"Vibrant Oceans"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># The country (or tag) do not have to be exactly the same</span></span>
-<span class="r-in"><span class="co"># A project is returned if it *contains* the country/tag:</span></span>
-<span class="r-in"><span class="fu">mermaid_search_my_projects</span><span class="op">(</span>tags <span class="op">=</span> <span class="st">"WCS"</span>, limit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">[[</span><span class="st">"tags"</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"><span class="co"># [1] "WCS Indonesia; Vibrant Oceans"</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># To search all projects (not just yours), use mermaid_search_projects():</span></span>
-<span class="r-in"><span class="fu"><a href="mermaid_search_projects.html">mermaid_search_projects</a></span><span class="op">(</span>countries <span class="op">=</span> <span class="st">"Fiji"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">mermaid_search_my_projects</span><span class="op">(</span>tags <span class="op">=</span> <span class="st">"WCS Indonesia"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">mermaid_search_my_projects</span><span class="op">(</span>countries <span class="op">=</span> <span class="st">"Indonesia"</span>, tags <span class="op">=</span> <span class="st">"Vibrant Oceans"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The country (or tag) do not have to be exactly the same</span></span></span>
+<span class="r-in"><span><span class="co"># A project is returned if it *contains* the country/tag:</span></span></span>
+<span class="r-in"><span><span class="fu">mermaid_search_my_projects</span><span class="op">(</span>tags <span class="op">=</span> <span class="st">"WCS"</span>, limit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">[[</span><span class="st">"tags"</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="co"># [1] "WCS Indonesia; Vibrant Oceans"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># To search all projects (not just yours), use mermaid_search_projects():</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mermaid_search_projects.html">mermaid_search_projects</a></span><span class="op">(</span>countries <span class="op">=</span> <span class="st">"Fiji"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -135,7 +146,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

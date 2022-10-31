@@ -20,7 +20,7 @@ they can be automatically refreshed, as necessary."><!-- mathjax --><script src=
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -87,13 +87,13 @@ they can be automatically refreshed, as necessary.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">mermaid_auth</span><span class="op">(</span>
-  token <span class="op">=</span> <span class="cn">NULL</span>,
-  new_user <span class="op">=</span> <span class="cn">FALSE</span>,
-  key <span class="op">=</span> <span class="va">mermaid_key</span>,
-  cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mermaidr.httr_oauth_cache"</span><span class="op">)</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mermaid_auth</span><span class="op">(</span></span>
+<span>  token <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  new_user <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  key <span class="op">=</span> <span class="va">mermaid_key</span>,</span>
+<span>  cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mermaidr.httr_oauth_cache"</span><span class="op">)</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -101,17 +101,26 @@ they can be automatically refreshed, as necessary.</p>
     <dl><dt>token</dt>
 <dd><p>optional; an actual token object or the path to a valid token
 stored as an <code>.rds</code> file</p></dd>
+
+
 <dt>new_user</dt>
 <dd><p>logical, defaults to <code>FALSE</code>. Set to <code>TRUE</code> if you
 want to wipe the slate clean and re-authenticate with the same or different account. This disables the <code>.httr-oauth</code> file in current
 working directory.</p></dd>
+
+
 <dt>key</dt>
 <dd><p>the "Client ID" for the application</p></dd>
+
+
 <dt>cache</dt>
 <dd><p>logical indicating if <code>mermaidr</code> should cache
 credentials in the default cache file <code>.httr-oauth</code></p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>logical; do you want informative messages?</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -134,28 +143,29 @@ arguments are controlled via options, which, if undefined at the time
 
 
 </dl><p>To override these defaults in persistent way, predefine one or more of
-them with lines like this in a <code>.Rprofile</code> file:</p><div class="sourceCode"><pre><code><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>mermaidr.httr_oauth_cache <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div><p>See <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">Startup</a></code> for possible locations for this file and the
+them with lines like this in a <code>.Rprofile</code> file:</p><div class="sourceCode"><pre><code><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>mermaidr.httr_oauth_cache <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p>See <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">Startup</a></code> for possible locations for this file and the
 implications thereof.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># Load/refresh existing credentials, if available</span></span>
-<span class="r-in"><span class="co"># Otherwise, go to browser for authentication and authorization</span></span>
-<span class="r-in"><span class="fu">mermaid_auth</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Force a new token to be obtained</span></span>
-<span class="r-in"><span class="fu">mermaid_auth</span><span class="op">(</span>new_user <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Store token in an object and then to file</span></span>
-<span class="r-in"><span class="va">ttt</span> <span class="op">&lt;-</span> <span class="fu">mermaid_auth</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">ttt</span>, <span class="st">"ttt.rds"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Load a pre-existing token</span></span>
-<span class="r-in"><span class="fu">mermaid_auth</span><span class="op">(</span>token <span class="op">=</span> <span class="va">ttt</span><span class="op">)</span> <span class="co"># from an object</span></span>
-<span class="r-in"><span class="fu">mermaid_auth</span><span class="op">(</span>token <span class="op">=</span> <span class="st">"ttt.rds"</span><span class="op">)</span> <span class="co"># from .rds file</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># Load/refresh existing credentials, if available</span></span></span>
+<span class="r-in"><span><span class="co"># Otherwise, go to browser for authentication and authorization</span></span></span>
+<span class="r-in"><span><span class="fu">mermaid_auth</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Force a new token to be obtained</span></span></span>
+<span class="r-in"><span><span class="fu">mermaid_auth</span><span class="op">(</span>new_user <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Store token in an object and then to file</span></span></span>
+<span class="r-in"><span><span class="va">ttt</span> <span class="op">&lt;-</span> <span class="fu">mermaid_auth</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">ttt</span>, <span class="st">"ttt.rds"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Load a pre-existing token</span></span></span>
+<span class="r-in"><span><span class="fu">mermaid_auth</span><span class="op">(</span>token <span class="op">=</span> <span class="va">ttt</span><span class="op">)</span> <span class="co"># from an object</span></span></span>
+<span class="r-in"><span><span class="fu">mermaid_auth</span><span class="op">(</span>token <span class="op">=</span> <span class="st">"ttt.rds"</span><span class="op">)</span> <span class="co"># from .rds file</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -170,7 +180,7 @@ implications thereof.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
