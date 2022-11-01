@@ -32,7 +32,7 @@ test_that("mermaid_import_get_options contains 'required' and 'help_text'", {
   expect_true(all(c("required", "help_text") %in% names(options[["Visibility"]])))
 })
 
-test_that("mermaid_import_get_options with 'save' writes a sheet for every field, that contains required, help_text, and choices if not null", {
+test_that("mermaid_import_get_options with 'save' writes a sheet for every field that has choices, and a metadata sheet that writes the name/required/help text for ALL fields", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
@@ -41,31 +41,28 @@ test_that("mermaid_import_get_options with 'save' writes a sheet for every field
   project <- "02e6915c-1c64-4d2c-bac0-326b560415a2"
   options <- mermaid_import_get_options(project, "habitatcomplexity", save = save_location)
 
+  # Check metadata sheet
+  metadata <- openxlsx::read.xlsx(save_location, "Metadata", sep.names = " ")
+  expect_identical(metadata[["Column Name"]], names(options))
+  options_transposed <- options %>% purrr::transpose()
+  expect_identical(metadata[["Required"]], ifelse(options_transposed[["required"]], "Yes", "No"))
+  expect_identical(metadata[["Description"]], unlist(options_transposed[["help_text"]]) %>% unname())
+
   # Clean names to match excel sheet names
   names(options) <- purrr::map_chr(names(options), clean_excel_sheet_name)
 
+  # Get cols that have options
+  cols_with_options <- options %>% purrr::keep(~ "choices" %in% names(.x)) %>% names()
+
   # Check sheet names
   sheet_names <- openxlsx::getSheetNames(save_location)
-  expect_identical(names(options), sheet_names)
+  expect_identical(c("Metadata", cols_with_options), sheet_names)
 
-  # Read each sheet, check for "required" and "help_text" and "choices"
-  purrr::walk(sheet_names, function(sheet) {
-    contents <- openxlsx::read.xlsx(save_location, sheet = sheet, colNames = FALSE) %>%
-      dplyr::mutate(id = dplyr::row_number())
+  # Read each sheet, check choices
+  purrr::walk(cols_with_options, function(sheet) {
+    contents <- openxlsx::read.xlsx(save_location, sheet = sheet, colNames = FALSE)
 
-    expect_identical("required", contents %>% dplyr::filter(id == 1) %>% dplyr::pull(X1))
-    expect_identical(contents %>% dplyr::filter(id == 2) %>% dplyr::pull(X1) %>% as.logical(), options[[sheet]][["required"]])
-    expect_identical("help_text", contents %>% dplyr::filter(id == 3) %>% dplyr::pull(X1))
-    expect_identical(contents %>% dplyr::filter(id == 4) %>% dplyr::pull(X1), options[[sheet]][["help_text"]])
-
-    options_choices <- options[[sheet]][["choices"]][["value"]]
-
-    if (!is.null(options_choices)) {
-      expect_identical(
-        contents %>% dplyr::filter(id > 5) %>% dplyr::pull(X1),
-        options_choices
-      )
-    }
+    expect_identical(contents %>% dplyr::pull(X1), options[[sheet]][["choices"]][["value"]])
   })
 })
 
