@@ -12,14 +12,14 @@
 #' \dontrun{
 #' options <- mermaid_get_my_projects() %>%
 #'   head(1) %>%
-#'   mermaid_import_get_options("fishbelt")
+#'   mermaid_import_get_options("fishbelt", "fishbelt.xlsx")
 #'
 #' names(options)
-#' # [1] "Site *"                      "Management *"
-#' # [3] "Sample date: Year *"         "Sample date: Month *"
-#' # [5] "Sample date: Day *"          "Sample time"
-#' # [7] "Depth *"                     "Transect number *"
-#' # [9] "Transect label"              "Transect length surveyed *"
+#' # [1]  "Site *"                     "Management *"
+#' # [3]  "Sample date: Year *"        "Sample date: Month *"
+#' # [5]  "Sample date: Day *"         "Sample time"
+#' # [7]  "Depth *"                    "Transect number *"
+#' # [9]  "Transect label"             "Transect length surveyed *"
 #' # [11] "Width *"                    "Fish size bin *"
 #' # [13] "Reef slope"                 "Visibility"
 #' # [15] "Current"                    "Relative depth"
@@ -69,30 +69,50 @@ mermaid_import_get_options <- function(project, method = c("fishbelt", "benthicl
     # Create workbook
     wb <- openxlsx::createWorkbook()
 
+    # Write a metadata sheet with description/required
+    openxlsx::addWorksheet(wb, "Metadata")
+    openxlsx::writeData(wb, "Metadata", startCol = 1, "Column Name")
+    openxlsx::writeData(wb, "Metadata", startCol = 2, "Required")
+    openxlsx::writeData(wb, "Metadata", startCol = 3, "Description")
+
+    metadata_row <- 2
+
     # Iterate through through fields and save each to a sheet
     purrr::imap(res, function(field_data, field_name) {
-      # Need to remove : and * from field names, limit to 31 characters
-      field_name <- field_name %>%
-        clean_excel_sheet_name()
+      # Write name, required, and help text to metadata sheet
+      openxlsx::writeData(wb, "Metadata",
+        startCol = 1, startRow = metadata_row,
+        field_name
+      )
+      openxlsx::writeData(wb, "Metadata",
+        startCol = 2, startRow = metadata_row,
+        ifelse(field_data[["required"]], "Yes", "No")
+      )
+      openxlsx::writeData(wb, "Metadata",
+        startCol = 3, startRow = metadata_row,
+        field_data[["help_text"]]
+      )
 
-      # Name sheets by the field name
-      openxlsx::addWorksheet(wb, field_name)
+      metadata_row <<- metadata_row + 1
 
-      # Add "required"
-      openxlsx::writeData(wb, field_name, "required")
-      # Convert to character, otherwise writes TRUE/FALSE as 1/0
-      required <- as.character(field_data[["required"]])
-      openxlsx::writeData(wb, field_name, required, startRow = 2)
-
-      # Add "help text"
-      openxlsx::writeData(wb, field_name, "help_text", startRow = 4)
-      openxlsx::writeData(wb, field_name, field_data[["help_text"]], startRow = 5)
+      # Only write sheet for column if choices is not NULL
 
       # Add "choices" if not NULL
       if (!is.null(field_data[["choices"]])) {
-        openxlsx::writeData(wb, field_name, field_data[["choices"]], startRow = 7)
+
+        # Need to remove : and * from field names, limit to 31 characters
+        field_name <- field_name %>%
+          clean_excel_sheet_name()
+
+        # Name sheets by the field name
+        openxlsx::addWorksheet(wb, field_name)
+
+        openxlsx::writeData(wb, field_name, field_data[["choices"]][["value"]])
       }
     })
+
+    # Make metadata sheet column name column full width
+    openxlsx::setColWidths(wb, "Metadata", 1, max(nchar(names(res))) + 2) # Buffer
 
     # Write workbook
     openxlsx::saveWorkbook(wb, save, overwrite = TRUE)
