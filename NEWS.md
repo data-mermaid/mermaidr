@@ -1,8 +1,7 @@
 # mermaidr 0.5.0
 
 * Add `mermaid_get_summary_sampleevents()` for getting aggregated metrics for all MERMAID surveys, by site, by date, and `mermaid_get_summary_sites()` for getting aggregated metrics for all MERMAID surveys, by site, for *all* dates.
-* Add `mermaid_import_get_template()` to get a template / column names for importing any method into MERMAID.
-* Add `mermaid_import_get_options()` to see field options to import into MERMAID.
+* Add `mermaid_import_get_template_and_options()` to get a template and field options for importing any method into MERMAID.
 * Add `mermaid_import_check_options()` for verifying that data being prepared for import matches the field options allowed.
 * Remove `mermaid_import_field_options()`, replaced by the above two functions (which are more feature rich and complete).
 
