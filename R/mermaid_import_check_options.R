@@ -3,25 +3,25 @@
 #' Check that your data matches allowed field options for importing data for a given method into MERMAID.
 #'
 #' @param data Data to be imported into MERMAID.
-#' @param options Field options for the same method as \code{data}, from \code{\link{mermaid_import_get_options}}.
+#' @param options Field options for the same method as \code{data}, from \code{\link{mermaid_import_get_template_and_options}}.
 #' @param field Field to check options for (from \code{options}).
 #'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' library(dplyr)
+#' library(tibble)
 #'
 #' projects <- mermaid_get_my_projects()
 #'
-#' options <- projects %>%
+#' options_and_template <- projects %>%
 #'   head(1) %>%
-#'   mermaid_import_get_options("fishbelt")
+#'   mermaid_import_get_template_and_options("fishbelt")
 #'
 #' data <- tibble(Visibility = c("<1m - bad", "10+m - exellent"))
 #'
 #' data %>%
-#'   mermaid_import_check_options(options, "Visibility")
+#'   mermaid_import_check_options(options_and_template, "Visibility")
 #'
 #' # • Some errors in values of `Visibility` - please check table below
 #' # # A tibble: 2 × 3
@@ -31,6 +31,12 @@
 #' # 2 <1m - bad       <1m - bad        TRUE
 #' }
 mermaid_import_check_options <- function(data, options, field) {
+
+  # Check field is not "Template"
+  if (field == "Template") {
+    stop("`Template` is not a valid field to check")
+  }
+
   # Check field exists in options
   options_fields <- names(options)
   if (!field %in% options_fields) {

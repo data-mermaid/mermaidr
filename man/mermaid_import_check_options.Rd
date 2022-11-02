@@ -9,7 +9,7 @@ mermaid_import_check_options(data, options, field)
 \arguments{
 \item{data}{Data to be imported into MERMAID.}
 
-\item{options}{Field options for the same method as \code{data}, from \code{\link{mermaid_import_get_options}}.}
+\item{options}{Field options for the same method as \code{data}, from \code{\link{mermaid_import_get_template_and_options}}.}
 
 \item{field}{Field to check options for (from \code{options}).}
 }
@@ -18,18 +18,18 @@ Check that your data matches allowed field options for importing data for a give
 }
 \examples{
 \dontrun{
-library(dplyr)
+library(tibble)
 
 projects <- mermaid_get_my_projects()
 
-options <- projects \%>\%
+options_and_template <- projects \%>\%
   head(1) \%>\%
-  mermaid_import_get_options("fishbelt")
+  mermaid_import_get_template_and_options("fishbelt")
 
 data <- tibble(Visibility = c("<1m - bad", "10+m - exellent"))
 
 data \%>\%
-  mermaid_import_check_options(options, "Visibility")
+  mermaid_import_check_options(options_and_template, "Visibility")
 
 # • Some errors in values of `Visibility` - please check table below
 # # A tibble: 2 × 3
