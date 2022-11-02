@@ -12,6 +12,21 @@ test_that("mermaid_import_check_options fails if field is not in options", {
   )
 })
 
+test_that("mermaid_import_check_options fails if field is Template", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  p <- "02e6915c-1c64-4d2c-bac0-326b560415a2"
+  options <- mermaid_import_get_options(p, "fishbelt")
+
+  expect_error(
+    mermaid_import_check_options(dplyr::tibble(), options, "Template"),
+    "is not a valid field to check"
+  )
+})
+
+
 test_that("mermaid_import_check_options fails if field is not in data", {
   skip_if_offline()
   skip_on_ci()

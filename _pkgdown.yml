@@ -37,10 +37,9 @@ reference:
 
   - title: Importing Data
     contents:
-    - mermaid_import_project_data
-    - mermaid_import_get_template
-    - mermaid_import_get_options
+    - mermaid_import_get_template_and_options
     - mermaid_import_check_options
+    - mermaid_import_project_data
 
 articles:
   - title: Case Studies
