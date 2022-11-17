@@ -1,3 +1,7 @@
+# mermaid 0.6.0
+
+* Remove `mermaid_get_summary_sites()` as endpoint has been removed.
+
 # mermaidr 0.5.1
 
 * Fix bug with retrieving content type from headers.
