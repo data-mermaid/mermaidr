@@ -114,8 +114,17 @@ get_and_parse <- function(path, ua, token, simplify_df = TRUE) {
   resp <- suppress_http_warning(httr::RETRY("GET", path, ua, token, terminate_on = c(401, 403)))
   check_errors(resp)
 
+  # Check if content type is available in header, otherwise use path for deciding what to parse
+  content_type <- httr::headers(resp)[["content-type"]]
+
+  if (is.null(content_type)) {
+    parse_csv <- stringr::str_detect(path, "csv")
+  } else {
+    parse_csv <- content_type == "text/csv"
+  }
+
   # Parse CSV and JSON differently
-  if (httr::headers(resp)[["content-type"]] == "text/csv") {
+  if (parse_csv) {
     httr::content(resp, "raw", encoding = "UTF-8") %>%
       readr::read_csv(show_col_types = FALSE, progress = FALSE)
   } else {
