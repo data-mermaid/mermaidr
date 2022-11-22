@@ -1,3 +1,7 @@
+# mermaidr 0.5.1
+
+* Fix bug with retrieving content type from headers.
+
 # mermaidr 0.5.0
 
 * Add `mermaid_get_summary_sampleevents()` for getting aggregated metrics for all MERMAID surveys, by site, by date, and `mermaid_get_summary_sites()` for getting aggregated metrics for all MERMAID surveys, by site, for *all* dates.
