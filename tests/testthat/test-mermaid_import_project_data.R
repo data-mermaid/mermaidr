@@ -280,3 +280,43 @@ test_that("mermaid_import_project_data allows NA/NULL for bleaching percent cove
 
   expect_message(mermaid_import_project_data(df, p, method = "bleaching"), "successfully")
 })
+
+test_that("mermaid_import_project_data with NA in CSVs converts NAs to '' and successfully uploads", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  df <- structure(list(
+    `Site *` = "1201", `Management *` = "Fake Management Organization",
+    `Sample date: Year *` = 2022, `Sample date: Month *` = 6,
+    `Sample date: Day *` = 15, `Sample time` = "10:01", `Depth *` = 8, `Transect number *` = 1,
+    `Transect label` = NA, `Transect length surveyed *` = 50,
+    `Width *` = "5m", `Fish size bin *` = 5, `Reef slope` = NA,
+    Visibility = NA, Current = NA, `Relative depth` = NA,
+    Tide = "falling", Notes = NA, `Observer emails *` = "sharla.gelfand@gmail.com",
+    `Fish name *` = "chaetodon auriga", `Size *` = 7.5, `Count *` = 4
+  ), row.names = c(
+    NA,
+    -1L
+  ), class = c("tbl_df", "tbl", "data.frame"))
+
+  temp <- tempfile(fileext = ".csv")
+
+  utils::write.csv(df, temp, row.names = FALSE)
+
+  project_id <- "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
+  mermaid_import_project_data(temp, project_id, "fishbelt", dryrun = FALSE)
+  collect_records <- mermaid_get_project_endpoint(project_id, "collectrecords") %>%
+    tidyr::unpack(data) %>%
+    tidyr::unpack(sample_event) %>%
+    dplyr::filter(sample_date == "2022-06-15") %>%
+    dplyr::select(fishbelt_transect) %>%
+    tidyr::unpack(fishbelt_transect)
+
+  expect_true(all(collect_records[["label"]] == ""))
+  expect_true(all(is.na(collect_records[["reef_slope"]])))
+  expect_true(all(is.na(collect_records[["visibility"]])))
+  expect_true(all(is.na(collect_records[["current"]])))
+  expect_true(all(is.na(collect_records[["relative_depth"]])))
+  expect_true(all(collect_records[["notes"]] == ""))
+})

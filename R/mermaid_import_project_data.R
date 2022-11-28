@@ -34,16 +34,12 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
       stop("`data` must be a data frame or path to a CSV file.", call. = FALSE)
     }
 
-    # Read in the data, convert any NA Sample times to "", then write to tempfile
+    # Read in the data, convert any NAs to "", then write to tempfile
     data <- utils::read.csv(data, check.names = FALSE)
 
-    if ("Sample time" %in% names(data)) {
-      data <- data %>%
-        dplyr::mutate(`Sample time` = ifelse(is.na(.data$`Sample time`), "", .data$`Sample time`))
-    }
-
     # Save to tempfile
-    utils::write.csv(data, data_file_location, row.names = FALSE)
+    # na = "" saves any NAs as empty strings, so they appear as e.g. "a",,"b" instead of "a","NA","b"
+    utils::write.csv(data, data_file_location, row.names = FALSE, na = "")
   }
 
   # Check project ID
