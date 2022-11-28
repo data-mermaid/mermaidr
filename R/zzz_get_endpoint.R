@@ -124,6 +124,5 @@ mermaid_endpoint_columns <- list(
   projects = projects_columns,
   projecttags = projecttags_columns,
   sites = sites_columns,
-  summarysampleevents = summary_sampleevents_columns,
-  summarysites = summary_sites_columns
+  summarysampleevents = summary_sampleevents_columns
 )

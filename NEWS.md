@@ -1,3 +1,8 @@
+# mermaidr 0.6.0
+
+* Remove `mermaid_get_summary_sites()` as endpoint has been removed.
+* Ensure all `NA`s are written to `''` to appear as blanks, not literal `"NA"` in mermaid_import_project_data().
+
 # mermaidr 0.5.1
 
 * Fix bug with retrieving content type from headers.
