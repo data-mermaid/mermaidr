@@ -22,7 +22,6 @@ reference:
     - mermaid_get_reference
     - mermaid_get_endpoint
     - mermaid_get_summary_sampleevents
-    - mermaid_get_summary_sites
     - mermaid_countries
 
   - title: Accessing Project-Specific Data
