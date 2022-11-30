@@ -1,3 +1,7 @@
+# mermaidr 0.6.1
+
+Remove fuzzyjoin/stringdist dependency, calculate differences for strings in `mermaid_import_check_options()` more manually.
+
 # mermaidr 0.6.0
 
 * Remove `mermaid_get_summary_sites()` as endpoint has been removed.
