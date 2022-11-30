@@ -160,3 +160,50 @@ test_that("mermaid_import_check_options returns message and table when some or a
     res
   )
 })
+
+test_that("closest_string_match is not case sensitive", {
+  res <- tibble::tibble(data_value = "TEST") %>% closest_string_match(tibble::tibble(choices = "test"))
+  expect_identical(
+    res,
+    tibble::tribble(
+      ~data_value, ~closest_choice, ~match,
+      "TEST", "test", TRUE
+    )
+  )
+})
+
+test_that("closest_string_match works", {
+  res <- tibble::tibble(data_value = c("test", "toss")) %>% closest_string_match(tibble::tibble(choices = c("test", "tess", "tests", "ross")))
+  expect_identical(
+    res,
+    tibble::tribble(
+      ~data_value, ~closest_choice, ~match,
+      "test", "test", TRUE,
+      "toss", "tess", FALSE
+    )
+  )
+})
+
+test_that("closest_string_match returns in same order passed", {
+  res <- tibble::tibble(data_value = c("toss", "test")) %>% closest_string_match(tibble::tibble(choices = c("test", "tess", "tests", "ross")))
+  expect_identical(
+    res,
+    tibble::tribble(
+      ~data_value, ~closest_choice, ~match,
+      "toss", "tess", FALSE,
+      "test", "test", TRUE
+    )
+  )
+})
+
+test_that("closest_string_match de-duplicates", {
+  res <- tibble::tibble(data_value = c("toss", "toss","test")) %>% closest_string_match(tibble::tibble(choices = c("test", "tess", "tests", "ross")))
+  expect_identical(
+    res,
+    tibble::tribble(
+      ~data_value, ~closest_choice, ~match,
+      "toss", "tess", FALSE,
+      "test", "test", TRUE
+    )
+  )
+})

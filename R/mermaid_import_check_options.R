@@ -95,21 +95,7 @@ mermaid_import_check_options <- function(data, options, field) {
   # Check data field against options field (case insensitive)
   names(options_field) <- "choices"
 
-  matches <- data_field %>%
-    dplyr::filter(!is.na(.data$data_value)) %>%
-    fuzzyjoin::stringdist_left_join(
-      options_field,
-      by = c("data_value" = "choices"),
-      ignore_case = TRUE,
-      distance_col = "diff",
-      max_dist = Inf
-    ) %>%
-    dplyr::group_by(.data$data_value) %>%
-    dplyr::filter(diff == min(.data$diff)) %>%
-    dplyr::filter(dplyr::row_number() == 1) %>%
-    dplyr::mutate(match = .data$diff == 0) %>%
-    dplyr::ungroup() %>%
-    dplyr::select(.data$data_value, closest_choice = .data$choices, .data$match)
+  matches <- closest_string_match(data_field, options_field)
 
   # Return message about whether fields match or do not
   if (all(matches[["match"]])) {
@@ -121,4 +107,30 @@ mermaid_import_check_options <- function(data, options, field) {
   # Return tibble of data vs options and if they are a match
   matches %>%
     dplyr::arrange(.data$match) # Put non-matches first
+}
+
+closest_string_match <- function(data_field, options_field) {
+  data_field %>%
+    dplyr::filter(!is.na(.data$data_value)) %>%
+    dplyr::mutate(join = TRUE) %>%
+    dplyr::mutate(data_value = forcats::fct_inorder(.data$data_value)) %>%
+    dplyr::full_join(options_field %>% dplyr::mutate(join = TRUE),
+      by = "join"
+    ) %>%
+    dplyr::mutate(
+      data_value_lower = tolower(.data$data_value),
+      choices_lower = tolower(.data$choices),
+      diff = purrr::map2_dbl(
+        .data$data_value_lower, .data$choices_lower,
+        function(x, y) utils::adist(x, y)[, 1]
+      )
+    ) %>%
+    dplyr::group_by(.data$data_value) %>%
+    dplyr::arrange(.data$diff) %>%
+    dplyr::slice(1) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(match = .data$diff == 0) %>%
+    dplyr::arrange(.data$data_value) %>%
+    dplyr::mutate(data_value = as.character(.data$data_value)) %>%
+    dplyr::select(.data$data_value, closest_choice = .data$choices, .data$match)
 }
