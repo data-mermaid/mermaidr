@@ -39,7 +39,7 @@ test_that("mermaid_import_project_data errors with an invalid project", {
   skip_on_cran()
   expect_error(
     mermaid_import_project_data(dplyr::tibble(), "test", method = "fishbelt"),
-    "is not a valid project_id"
+    "is not a valid project ID"
   )
 })
 
