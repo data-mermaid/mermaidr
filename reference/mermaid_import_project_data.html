@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.2</span>
       </span>
     </div>
 
@@ -83,8 +83,9 @@
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mermaid_import_project_data</span><span class="op">(</span></span>
 <span>  <span class="va">data</span>,</span>
-<span>  <span class="va">project_id</span>,</span>
-<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"benthicpit"</span>, <span class="st">"benthiclit"</span>, <span class="st">"habitatcomplexity"</span>, <span class="st">"bleaching"</span><span class="op">)</span>,</span>
+<span>  <span class="va">project</span>,</span>
+<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"benthicpit"</span>, <span class="st">"benthiclit"</span>, <span class="st">"benthicpqt"</span>, <span class="st">"habitatcomplexity"</span>,</span>
+<span>    <span class="st">"bleaching"</span><span class="op">)</span>,</span>
 <span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  clearexisting <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  token <span class="op">=</span> <span class="fu"><a href="mermaid_token.html">mermaid_token</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -97,12 +98,12 @@
 <dd><p>Data to import. Either a data frame or a file path.</p></dd>
 
 
-<dt>project_id</dt>
-<dd><p>ID of project to import data into.</p></dd>
+<dt>project</dt>
+<dd><p>A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from <code><a href="mermaid_get_my_projects.html">mermaid_get_my_projects</a></code> or <code><a href="mermaid_search_my_projects.html">mermaid_search_my_projects</a></code>. Defaults to the projects listed via <code>mermaid_get_default_project</code>, if available.</p></dd>
 
 
 <dt>method</dt>
-<dd><p>Method to import data for. One of "fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity"</p></dd>
+<dd><p>Method to import data for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"</p></dd>
 
 
 <dt>dryrun</dt>
@@ -114,7 +115,7 @@
 
 
 <dt>token</dt>
-<dd><p>API token.</p></dd>
+<dd><p>API token. Authenticate manually via <code><a href="mermaid_auth.html">mermaid_auth</a></code>, or automatically when running any project- or user-specific functions (like this one).</p></dd>
 
 </dl></div>
 
