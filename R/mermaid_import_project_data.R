@@ -3,15 +3,22 @@
 #' Import data into MERMAID Collect. By default this function just checks records to see if they can successfully be imported into Collect - if not, a warning is returned with import errors. If there are no import errors, then running the function again with the setting \code{dryrun = FALSE} will actually import the records into Collect.
 #'
 #' @param data Data to import. Either a data frame or a file path.
-#' @param project_id ID of project to import data into.
-#' @param method Method to import data for. One of "fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity"
+#' @param method Method to import data for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"
 #' @param dryrun Whether the import is a dry run. If \code{TRUE}, records are checked for errors, but nothing is saved in Collect. If \code{FALSE}, records are checked for errors and passing records ARE saved to Collect. Defaults to \code{TRUE}.
 #' @param clearexisting Whether to remove ALL existing records for that method. Should only be used with extreme caution, if e.g. you made a mistake in import and want to overwrite ALL existing fishbelt / benthic PIT / etc records.
-#' @param token API token.
+#' @inheritParams get_project_endpoint
 #'
 #' @export
-mermaid_import_project_data <- function(data, project_id, method = c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "bleaching"), dryrun = TRUE, clearexisting = FALSE, token = mermaid_token()) {
+mermaid_import_project_data <- function(data, project, method = c("fishbelt", "benthicpit", "benthiclit", "benthicpqt", "habitatcomplexity", "bleaching"), dryrun = TRUE, clearexisting = FALSE, token = mermaid_token()) {
   check_internet()
+
+  project <- as_id(project)
+  check_project(project)
+
+  # Check only one project
+  if (length(project) > 1) {
+    stop("Please supply only one project", call. = FALSE)
+  }
 
   # Check if data is a data frame
   data_is_df <- inherits(data, "data.frame")
@@ -45,12 +52,12 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
   # Check project ID
 
   # Check method
-  if (!method %in% c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "bleaching")) {
-    stop('`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity"', call. = FALSE)
+  if (!method %in% c("fishbelt", "benthicpit", "benthiclit", "benthicpqt", "habitatcomplexity", "bleaching")) {
+    stop('`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"', call. = FALSE)
   }
 
   # Construct ingestion URL
-  ingest_url <- glue::glue("{base_url}/v1/projects/{project_id}/collectrecords/ingest/")
+  ingest_url <- glue::glue("{base_url}/v1/projects/{project}/collectrecords/ingest/")
 
   method <- ifelse(method == "bleaching", "bleachingqc", method)
 
@@ -95,7 +102,7 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
     error_invalid_project <- stringr::str_detect(error, "Not Found") | stringr::str_detect(error, "is not a valid uuid")
 
     if (error_invalid_project) {
-      stop("Failed to import data. '", project_id, "' is not a valid project_id.", call. = FALSE)
+      stop("Failed to import data. '", project, "' is not a valid project ID", call. = FALSE)
     }
 
     error_not_in_project <- stringr::str_detect(error, "ou are not part of this project")
@@ -134,10 +141,6 @@ mermaid_import_project_data <- function(data, project_id, method = c("fishbelt",
   if (dryrun) {
     message("Records successfully checked! To import, please run the function again with `dryrun = FALSE`.")
   } else {
-    # If it wasn't, tell them to go to Collect!
-    collect_url <- glue::glue("{collect_url}/#/projects/{project_id}/collect",
-      collect_url = stringr::str_replace(base_url, "api", "collect")
-    )
     message("Records successfully imported! Please review in Collect.")
   }
 }

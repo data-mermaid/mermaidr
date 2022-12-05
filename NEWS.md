@@ -1,6 +1,11 @@
+# mermaidr 0.6.2
+
+* Allow import of "benthicpqt" data via `mermaid_import_project_data()`
+* Enable `mermaid_import_project_data()` to take `project`, not `project_id`, consistent with other functions
+
 # mermaidr 0.6.1
 
-Remove fuzzyjoin/stringdist dependency, calculate differences for strings in `mermaid_import_check_options()` more manually.
+* Remove fuzzyjoin/stringdist dependency, calculate differences for strings in `mermaid_import_check_options()` more manually.
 
 # mermaidr 0.6.0
 
