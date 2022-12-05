@@ -6,8 +6,9 @@
 \usage{
 mermaid_import_project_data(
   data,
-  project_id,
-  method = c("fishbelt", "benthicpit", "benthiclit", "habitatcomplexity", "bleaching"),
+  project,
+  method = c("fishbelt", "benthicpit", "benthiclit", "benthicpqt", "habitatcomplexity",
+    "bleaching"),
   dryrun = TRUE,
   clearexisting = FALSE,
   token = mermaid_token()
@@ -16,15 +17,15 @@ mermaid_import_project_data(
 \arguments{
 \item{data}{Data to import. Either a data frame or a file path.}
 
-\item{project_id}{ID of project to import data into.}
+\item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_my_projects}} or \code{\link{mermaid_search_my_projects}}. Defaults to the projects listed via \code{mermaid_get_default_project}, if available.}
 
-\item{method}{Method to import data for. One of "fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity"}
+\item{method}{Method to import data for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"}
 
 \item{dryrun}{Whether the import is a dry run. If \code{TRUE}, records are checked for errors, but nothing is saved in Collect. If \code{FALSE}, records are checked for errors and passing records ARE saved to Collect. Defaults to \code{TRUE}.}
 
 \item{clearexisting}{Whether to remove ALL existing records for that method. Should only be used with extreme caution, if e.g. you made a mistake in import and want to overwrite ALL existing fishbelt / benthic PIT / etc records.}
 
-\item{token}{API token.}
+\item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
 }
 \description{
 Import data into MERMAID Collect. By default this function just checks records to see if they can successfully be imported into Collect - if not, a warning is returned with import errors. If there are no import errors, then running the function again with the setting \code{dryrun = FALSE} will actually import the records into Collect.
