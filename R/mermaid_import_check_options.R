@@ -113,7 +113,7 @@ closest_string_match <- function(data_field, options_field) {
   data_field %>%
     dplyr::filter(!is.na(.data$data_value)) %>%
     dplyr::mutate(join = TRUE) %>%
-    dplyr::mutate(data_value = forcats::fct_inorder(.data$data_value)) %>%
+    dplyr::mutate(data_value = forcats::fct_inorder(as.character(.data$data_value))) %>%
     dplyr::full_join(options_field %>% dplyr::mutate(join = TRUE),
       by = "join"
     ) %>%
