@@ -1,6 +1,6 @@
 #' Import project sites into MERMAID Collect
 #'
-#' @param data Data to import. A data frame containing the fields: \code{name}, \code{latitude}, \code{longitude}, \code{notes}, \code{country}, \code{reef_type}, \code{reef_zone}, \code{exposure}.
+#' @param data Data to import. A data frame containing the fields: \code{name}, \code{latitude}, \code{longitude}, \code{country}, \code{reef_type}, \code{reef_zone}, \code{exposure}, and optionally \code{notes}. Any extra fields are dropped.
 #' @inheritParams get_project_endpoint
 #'
 #' @export
@@ -29,7 +29,7 @@ mermaid_import_project_sites <- function(project, data, token = mermaid_token())
   check_project(project)
 
   # Check columns
-  col_names <- c("name", "latitude", "longitude", "notes", "country", "reef_type", "reef_zone", "exposure")
+  col_names <- c("name", "latitude", "longitude", "country", "reef_type", "reef_zone", "exposure")
   if (!all(col_names %in% names(data))) {
     stop("`data` must contain columns: ", paste0(col_names, collapse = ", "), call. = FALSE)
   }
@@ -105,8 +105,10 @@ mermaid_import_project_sites <- function(project, data, token = mermaid_token())
         data[["latitude"]] <- data[["longitude"]] <- NULL
 
         # Convert any NA notes to ""
-        if (is.na(data[["notes"]])) {
-          data[["notes"]] <- ""
+        if ("notes" %in% names(data)) {
+          if (is.na(data[["notes"]])) {
+            data[["notes"]] <- ""
+          }
         }
 
         # Set up path to post to
