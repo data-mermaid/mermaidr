@@ -1,33 +1,3 @@
-# Site import
-
-# Name
-# Latitude
-# Longitude
-# Country (id)
-# Exposure (id)
-# Reef type (id)
-# Reef zone (id)
-
-# Notes (not mandatory)
-
-# {
-#   "id": null,
-#   "name": "Site Variable Test",
-#   "location": {
-#     "type": "Point",
-#     "coordinates": [
-#       178.4793,
-#       -17.2792
-#     ]
-#   },
-#   "notes": "",
-#   "project": "170e7182-700a-4814-8f1e-45ee1caf3b44",
-#   "country": "dd865c41-6f84-4e47-8fd7-8a6de436881f",
-#   "reef_type": "2b99cdf4-9566-4e60-8700-4ec3b9c7e322",
-#   "reef_zone": "0e5ac2d0-d1cc-4f04-a696-f6d3db2b9ca8",
-#   "exposure": "997c6cb3-c5e5-4df6-9cfa-5814a58a7b9e"
-# }
-
 mermaid_import_project_sites <- function(project, data, token = mermaid_token()) {
   # Convert project to ID
   project <- as_id(project)
@@ -104,13 +74,20 @@ mermaid_import_project_sites <- function(project, data, token = mermaid_token())
     data[["notes"]] <- ""
   }
 
-  data %>%
-    post_data()
+  # Set up path to post to
+  browser()
+  path <- glue::glue("{base_url}/v1/projects/{project}/sites/")
+
+  # This returns the status code, so check that they are all 201
+  post_data(path, data)
 
 }
 
-post_data <- function(data, token = mermaid_token()) {
-  httr::POST("https://dev-api.datamermaid.org/v1/projects/02e6915c-1c64-4d2c-bac0-326b560415a2/sites/", encode = "json", body = data, ua, token)
+post_data <- function(path, data, token = mermaid_token()) {
+  resp <- suppress_http_warning(httr::RETRY("POST", path, encode = "json", body = data, ua, token, terminate_on = c(401, 403)))
+  check_errors(resp)
+
+  resp$status_code
 }
 
 get_choice_from_choices <- function(choices, name) {
