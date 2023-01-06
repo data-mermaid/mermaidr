@@ -1,3 +1,28 @@
+#' Import project sites into MERMAID Collect
+#'
+#' @param data Data to import. A data frame containing the fields: \code{name}, \code{latitude}, \code{longitude}, \code{notes}, \code{country}, \code{reef_type}, \code{reef_zone}, \code{exposure}.
+#' @inheritParams get_project_endpoint
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' project <- mermaid_search_my_projects("Sharla test", include_test_projects = TRUE)
+#'
+#' data <- dplyr::tibble(
+#'   name = "Test site",
+#'   latitude = 43.651070,
+#'   longitude = -79.347015,
+#'   notes = NA,
+#'   country = "Canada",
+#'   reef_type = "fringing",
+#'   reef_zone = "crest",
+#'   exposure = "semi-exposed"
+#' )
+#'
+#' project %>%
+#'   mermaid_import_project_sites(data)
+#' }
 mermaid_import_project_sites <- function(project, data, token = mermaid_token()) {
   # Convert project to ID
   project <- as_id(project)
