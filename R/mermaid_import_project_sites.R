@@ -1,6 +1,6 @@
 #' Import project sites into MERMAID Collect
 #'
-#' @param data Data to import. A data frame containing the fields: \code{name}, \code{latitude}, \code{longitude}, \code{country}, \code{reef_type}, \code{reef_zone}, \code{exposure}, and optionally \code{notes}.
+#' @param data Data to import. A data frame containing the fields: \code{name}, \code{latitude}, \code{longitude}, \code{country}, \code{reef_type}, \code{reef_zone}, \code{exposure}, and optionally \code{notes} and \code{project}.
 #' @inheritParams get_project_endpoint
 #'
 #' @export
@@ -35,14 +35,22 @@ mermaid_import_project_sites <- function(project, data, token = mermaid_token())
   }
 
   # Check excess columns
-  col_names <- c(col_names, "notes")
+  col_names <- c(col_names, "notes", "project")
   if (!all(names(data) %in% col_names)) {
     stop("`data` can only contain columns: ", paste0(col_names, collapse = ", "), call. = FALSE)
   }
 
-  # Append project id to df
-  data <- data %>%
-    dplyr::mutate(project = project)
+  # If there is already project column, check if matches `project`
+  browser()
+  if ("project" %in% names(data)) {
+    if (!all(data[["project"]] == project)) {
+      stop("`project` column does not match project being imported into.", call. = FALSE)
+    }
+  } else {
+    # Append project id to df
+    data <- data %>%
+      dplyr::mutate(project = project)
+  }
 
   # Check that latitude and longitude are numeric
   if (!all(is.numeric(data[["latitude"]]) & is.numeric(data[["longitude"]]))) {
@@ -60,10 +68,10 @@ mermaid_import_project_sites <- function(project, data, token = mermaid_token())
   # Check if values match, and if so, convert to IDs
   for (col in c("country", "reef_type", "reef_zone", "exposure")) {
     choices_col <- switch(col,
-                          "country" = "countries",
-                          "reef_type" = "reeftypes",
-                          "reef_zone" = "reefzones",
-                          "exposure" = "reefexposures"
+      "country" = "countries",
+      "reef_type" = "reeftypes",
+      "reef_zone" = "reefzones",
+      "exposure" = "reefexposures"
     )
 
     col_choices <- choices %>%
@@ -83,7 +91,7 @@ mermaid_import_project_sites <- function(project, data, token = mermaid_token())
 
       message("Not all values of `", col, "` are valid. Invalid values: ", paste0(invalid_values, collapse = ", "), ". Valid values below:")
       return(col_choices %>%
-               dplyr::select({{ col }}))
+        dplyr::select({{ col }}))
     }
 
     # Otherwise, replace col with id
