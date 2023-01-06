@@ -1,6 +1,6 @@
 #' Import project sites into MERMAID Collect
 #'
-#' @param data Data to import. A data frame containing the fields: \code{name}, \code{latitude}, \code{longitude}, \code{country}, \code{reef_type}, \code{reef_zone}, \code{exposure}, and optionally \code{notes}. Any extra fields are dropped.
+#' @param data Data to import. A data frame containing the fields: \code{name}, \code{latitude}, \code{longitude}, \code{country}, \code{reef_type}, \code{reef_zone}, \code{exposure}, and optionally \code{notes}.
 #' @inheritParams get_project_endpoint
 #'
 #' @export
@@ -34,6 +34,12 @@ mermaid_import_project_sites <- function(project, data, token = mermaid_token())
     stop("`data` must contain columns: ", paste0(col_names, collapse = ", "), call. = FALSE)
   }
 
+  # Check excess columns
+  col_names <- c(col_names, "notes")
+  if (!all(names(data) %in% col_names)) {
+    stop("`data` can only contain columns: ", paste0(col_names, collapse = ", "), call. = FALSE)
+  }
+
   # Append project id to df
   data <- data %>%
     dplyr::mutate(project = project)
@@ -54,10 +60,10 @@ mermaid_import_project_sites <- function(project, data, token = mermaid_token())
   # Check if values match, and if so, convert to IDs
   for (col in c("country", "reef_type", "reef_zone", "exposure")) {
     choices_col <- switch(col,
-      "country" = "countries",
-      "reef_type" = "reeftypes",
-      "reef_zone" = "reefzones",
-      "exposure" = "reefexposures"
+                          "country" = "countries",
+                          "reef_type" = "reeftypes",
+                          "reef_zone" = "reefzones",
+                          "exposure" = "reefexposures"
     )
 
     col_choices <- choices %>%
@@ -77,7 +83,7 @@ mermaid_import_project_sites <- function(project, data, token = mermaid_token())
 
       message("Not all values of `", col, "` are valid. Invalid values: ", paste0(invalid_values, collapse = ", "), ". Valid values below:")
       return(col_choices %>%
-        dplyr::select({{ col }}))
+               dplyr::select({{ col }}))
     }
 
     # Otherwise, replace col with id
