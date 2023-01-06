@@ -5,13 +5,18 @@ mermaid_import_project_sites <- function(project, data, token = mermaid_token())
 
   # Check columns
   col_names <- c("name", "latitude", "longitude", "notes", "country", "reef_type", "reef_zone", "exposure")
-  if (!all(col_names %in% names(data))){
+  if (!all(col_names %in% names(data))) {
     stop("`data` must contain columns: ", paste0(col_names, collapse = ", "), call. = FALSE)
   }
 
   # Append project id to df
   data <- data %>%
     dplyr::mutate(project = project)
+
+  # Check that latitude and longitude are numeric
+  if (!all(is.numeric(data[["latitude"]]) & is.numeric(data[["longitude"]]))) {
+    stop("`latitude` and `longitude` must be numeric.", call. = FALSE)
+  }
 
   # Check country, exposure, reef type, reef zone
   # If not matching options, then error and show valid options
@@ -57,35 +62,54 @@ mermaid_import_project_sites <- function(project, data, token = mermaid_token())
   }
 
   # Post row by row
-  # Convert each row to a list
-  data <- data %>% as.list()
-  # Convert lat/long to a single location col, with format list(type = "Point", coordinates = c(lat, long))
-  #   "location": {
-  #     "type": "Point",
-  #     "coordinates": [
-  #       178.4793,
-  #       -17.2792
-  #     ]
-  data[["location"]] <- list(type = "Point", coordinates = c(data[["longitude"]], data[["latitude"]]))
-  data[["latitude"]] <- data[["longitude"]] <- NULL
+  data <- data %>%
+    dplyr::mutate(row = dplyr::row_number()) %>%
+    split(.$row)
 
-  # Convert any NA notes to ""
-  if (is.na(data[["notes"]])) {
-    data[["notes"]] <- ""
+  site_posts <- data %>%
+    purrr::map_dfr(
+      function(data) {
+        post_row <- data[["row"]]
+        # Convert each row to a list
+        data <- data %>%
+          dplyr::select(-.data$row) %>%
+          as.list()
+        # Convert lat/long to a single location col, with format list(type = "Point", coordinates = c(lat, long))
+
+        data[["location"]] <- list(type = "Point", coordinates = c(data[["longitude"]], data[["latitude"]]))
+        data[["latitude"]] <- data[["longitude"]] <- NULL
+
+        # Convert any NA notes to ""
+        if (is.na(data[["notes"]])) {
+          data[["notes"]] <- ""
+        }
+
+        # Set up path to post to
+        path <- glue::glue("{base_url}/v1/projects/{project}/sites/")
+
+        # Returns the status code
+        status_code <- post_data(path, data)
+
+        dplyr::tibble(
+          row = post_row,
+          status_code = status_code
+        )
+      }
+    )
+
+  if (!all(site_posts[["status_code"]] == 201)) {
+    failed_post <- site_posts %>%
+      dplyr::filter(status_code != 201) %>%
+      dplyr::pull(row)
+
+    usethis::ui_todo("Not all sites imported successfully. The following rows did not import: {paste(failed_post, collapse = ',')}")
+  } else {
+    usethis::ui_done("All sites imported!")
   }
-
-  # Set up path to post to
-  browser()
-  path <- glue::glue("{base_url}/v1/projects/{project}/sites/")
-
-  # This returns the status code, so check that they are all 201
-  post_data(path, data)
-
 }
 
 post_data <- function(path, data, token = mermaid_token()) {
   resp <- suppress_http_warning(httr::RETRY("POST", path, encode = "json", body = data, ua, token, terminate_on = c(401, 403)))
-  check_errors(resp)
 
   resp$status_code
 }
