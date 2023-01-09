@@ -17,4 +17,4 @@ mermaid_get_project_managements <- function(project = mermaid_get_default_projec
   get_project_endpoint(project, endpoint = "managements", limit, token)
 }
 
-project_managements_columns <- c("id", "name", "name_secondary", "notes", "est_year", "no_take", "periodic_closure", "open_access", "size_limits", "gear_restriction", "species_restriction", "compliance", "parties", "created_on", "updated_on")
+project_managements_columns <- c("id", "name", "name_secondary", "est_year", "size", "parties", "compliance", "open_access", "no_take", "access_restriction", "periodic_closure",  "size_limits", "gear_restriction", "species_restriction", "notes", "created_on", "updated_on")

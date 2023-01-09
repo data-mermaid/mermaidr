@@ -41,7 +41,6 @@ mermaid_import_project_sites <- function(project, data, token = mermaid_token())
   }
 
   # If there is already project column, check if matches `project`
-  browser()
   if ("project" %in% names(data)) {
     if (!all(data[["project"]] == project)) {
       stop("`project` column does not match project being imported into.", call. = FALSE)
