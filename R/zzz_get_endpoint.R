@@ -97,7 +97,7 @@ lookup_variable <- function(.data, choices, variable) {
   names(join_by) <- paste0(variable, "_id")
 
   # Check if there are multiple IDs in .data column, and separate, join, then re-combine
-  if (any(stringr::str_detect(.data[[join_by]], ";"))) {
+  if (any(stringr::str_detect(.data[[join_by]], ";"), na.rm = TRUE)) {
     .data_temp <- .data %>%
       dplyr::mutate(temp_row_for_rejoin = dplyr::row_number())
 
