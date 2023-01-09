@@ -103,6 +103,7 @@ lookup_variable <- function(.data, choices, variable) {
 
     .data_sep <- .data_temp %>%
       dplyr::select(.data$temp_row_for_rejoin, tidyselect::all_of(join_by)) %>%
+      # TODO - this can't just be parties_id! Needs to be general enough to take whatever the column is
       tidyr::separate_rows(.data$parties_id, sep = "; ")
 
     .data_to_name <- variable_names %>%
