@@ -17,4 +17,4 @@ mermaid_get_project_sites <- function(project = mermaid_get_default_project(), l
   get_project_endpoint(project = project, endpoint = "sites", limit = limit, token = token)
 }
 
-project_sites_columns <- c("id", "name", "notes", "latitude", "longitude", "country", "reef_type", "reef_zone", "exposure", "predecessor", "created_on", "updated_on")
+project_sites_columns <- c("id", "name", "notes", "latitude", "longitude", "country", "reef_type", "reef_zone", "exposure", "created_on", "updated_on")
