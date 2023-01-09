@@ -48,6 +48,13 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
       lookup_variable(choices, "exposure") %>%
       dplyr::rename_at(dplyr::vars(.data$country_name, .data$reef_type_name, .data$reef_zone_name, .data$exposure_name), ~ gsub("_name", "", .x))
   } else if (endpoint == "managements") {
+    choices <- mermaid_GET("choices")[["choices"]]
+
+    results <- results %>%
+      lookup_variable(choices, "parties") %>%
+      lookup_variable(choices, "compliance") %>%
+      dplyr::rename_at(dplyr::vars(.data$compliance_name, .data$parties_name), ~ gsub("_name", "", .x))
+
     if ("project_name" %in% names(results)) {
       results <- dplyr::rename(results, project = .data$project_name)
     }
@@ -74,7 +81,9 @@ lookup_variable <- function(.data, choices, variable) {
     country = "countries",
     reef_type = "reeftypes",
     reef_zone = "reefzones",
-    exposure = "reefexposures"
+    exposure = "reefexposures",
+    compliance = "managementcompliances",
+    parties = "managementparties"
   )
 
   variable_names <- choices %>%
@@ -87,8 +96,28 @@ lookup_variable <- function(.data, choices, variable) {
   join_by <- variable
   names(join_by) <- paste0(variable, "_id")
 
-  variable_names %>%
-    dplyr::right_join(.data, by = join_by)
+  # Check if there are multiple IDs in .data column, and separate, join, then re-combine
+  if (any(stringr::str_detect(.data[[join_by]], ";"))) {
+    .data_temp <- .data %>%
+      dplyr::mutate(temp_row_for_rejoin = dplyr::row_number())
+
+    .data_sep <- .data_temp %>%
+      dplyr::select(.data$temp_row_for_rejoin, tidyselect::all_of(join_by)) %>%
+      tidyr::separate_rows(.data$parties_id, sep = "; ")
+
+    .data_to_name <- variable_names %>%
+      dplyr::right_join(.data_sep, by = names(join_by)) %>%
+      dplyr::group_by(.data$temp_row_for_rejoin) %>%
+      dplyr::summarise(dplyr::across(tidyselect::all_of(c(names(join_by), paste0(join_by, "_name"))), ~ stringr::str_c(.x, collapse = "; ")))
+
+    .data_temp %>%
+      dplyr::left_join(.data_to_name, by = "temp_row_for_rejoin") %>%
+      dplyr::select(-.data$temp_row_for_rejoin, -tidyselect::all_of(join_by))
+  } else {
+    # Otherwise, just join by ID
+    variable_names %>%
+      dplyr::right_join(.data, by = join_by)
+  }
 }
 
 construct_endpoint_columns <- function(x, endpoint) {
