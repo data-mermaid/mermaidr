@@ -28,20 +28,20 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
   project <- as_id(project)
   check_project(project)
 
-  # Check columns - required - TODO: at least one rule is required
+  # Check columns - required ----
   required_columns <- c("name")
   if (!all(required_columns %in% names(data))) {
     stop("`data` must contain columns: ", paste0(required_columns, collapse = ", "), call. = FALSE)
   }
 
-  # Check excess columns (compared with optional)
+  # Check excess columns (compared with optional) -----
   optional_columns <- c("name_secondary", "est_year", "size", "parties", "compliance", "open_access", "no_take", "access_restriction", "periodic_closure", "size_limits", "gear_restriction", "species_restriction", "notes")
   col_names <- c(required_columns, optional_columns)
   if (!all(names(data) %in% col_names)) {
     stop("`data` can only contain columns: ", paste0(col_names, collapse = ", "), call. = FALSE)
   }
 
-  # Append project id to df
+  # Append project id to df -----
   data <- data %>%
     dplyr::mutate(project = project)
 
@@ -57,7 +57,7 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
     }
   }
 
-  # Check compliance, parties
+  # Check compliance, parties ----
   # If not matching options, then error and show valid options
   # If all good, get IDs
 
@@ -138,7 +138,75 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
     }
   }
 
-  # Post row by row
+  # Check rules ----
+  partial_restrictions_cols <- c("access_restriction", "periodic_closure", "size_limits", "gear_restriction", "species_restriction")
+  rules_cols <- c("open_access", "no_take", partial_restrictions_cols)
+
+  ## At least one rule ----
+
+  # Missing cols
+  missing_rules_cols <- !any(rules_cols %in% names(data))
+
+  # All (present) FALSE
+  if (!missing_rules_cols) {
+    all_false <- data %>%
+      dplyr::mutate(.temp_row = dplyr::row_number()) %>%
+      dplyr::select(.temp_row, tidyselect::any_of(rules_cols)) %>%
+      tidyr::pivot_longer(tidyselect::any_of(rules_cols)) %>%
+      dplyr::group_by(.temp_row) %>%
+      dplyr::summarise(all_false = all(!value)) %>%
+      dplyr::filter(all_false) %>%
+      nrow() > 0
+  } else {
+    all_false <- FALSE
+  }
+
+  if (missing_rules_cols | all_false) {
+    stop("data must contain at least one of the rules: ", paste0(rules_cols, collapse = ", "), " with value TRUE.", call. = FALSE)
+  }
+
+  ## No conflict of rules
+
+  ### No open/no take ----
+  if (all(c("no_take", "open_access") %in% names(data))) {
+    open_no_take <- data %>%
+      dplyr::filter(.data$open_access & .data$no_take) %>%
+      nrow() > 0
+
+    if (open_no_take)  {
+      stop("Cannot have both `open_access` and `no_take` as TRUE.", call. = FALSE)
+    }
+  }
+
+  ### No open/partial ----
+  if ("open_access" %in% names(data) & any(partial_restrictions_cols %in% names(data))) {
+    open_and_partial <- data %>%
+      dplyr::mutate(.temp_row = dplyr::row_number()) %>%
+      dplyr::select(.temp_row, .data$open_access, tidyselect::any_of(partial_restrictions_cols)) %>%
+      tidyr::pivot_longer(tidyselect::any_of(partial_restrictions_cols)) %>%
+      dplyr::group_by(.data$.temp_row, .data$open_access) %>%
+      dplyr::summarise(any_partial_rules = any(.data$value)) %>% dplyr::ungroup() %>% dplyr::filter(.data$open_access & .data$any_partial_rules) %>% nrow() > 0
+
+    if (open_and_partial)  {
+      stop("Cannot have both `open_access` and any partial restrictions rules (`",  paste0(partial_restrictions_cols, collapse = "`, `"), "`) as TRUE.", call. = FALSE)
+    }
+  }
+
+  ### No "no take"/partial -----
+  if ("no_take" %in% names(data) & any(partial_restrictions_cols %in% names(data))) {
+    open_and_partial <- data %>%
+      dplyr::mutate(.temp_row = dplyr::row_number()) %>%
+      dplyr::select(.temp_row, .data$no_take, tidyselect::any_of(partial_restrictions_cols)) %>%
+      tidyr::pivot_longer(tidyselect::any_of(partial_restrictions_cols)) %>%
+      dplyr::group_by(.data$.temp_row, .data$no_take) %>%
+      dplyr::summarise(any_partial_rules = any(.data$value)) %>% dplyr::ungroup() %>% dplyr::filter(.data$no_take & .data$any_partial_rules) %>% nrow() > 0
+
+    if (open_and_partial)  {
+      stop("Cannot have both `no_take` and any partial restrictions rules (`",  paste0(partial_restrictions_cols, collapse = "`, `"), "`) as TRUE.", call. = FALSE)
+    }
+  }
+
+  # Post row by row ----
   data <- data %>%
     dplyr::mutate(row = dplyr::row_number()) %>%
     split(.$row)
