@@ -90,8 +90,10 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
         .data_sep <- .data_temp %>%
           dplyr::select(.data$temp_row_for_rejoin, .data$parties) %>%
           tidyr::separate_rows(.data$parties, sep = ";") %>%
-          dplyr::mutate(parties = stringr::str_trim(.data$parties),
-                        parties = tolower(.data$parties))
+          dplyr::mutate(
+            parties = stringr::str_trim(.data$parties),
+            parties = tolower(.data$parties)
+          )
 
         .data_to_id <- col_choices %>%
           dplyr::right_join(.data_sep, by = "parties")
@@ -115,7 +117,7 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
           dplyr::select(-.data$parties) %>%
           dplyr::left_join(.data_to_id, by = "temp_row_for_rejoin") %>%
           dplyr::select(-.data$temp_row_for_rejoin)
-      } else if (col == "compliance"){
+      } else if (col == "compliance") {
         data <- data %>%
           dplyr::mutate(dplyr::across(tidyselect::all_of(col), tolower)) %>%
           dplyr::left_join(col_choices, by = col)
@@ -173,7 +175,7 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
       dplyr::filter(.data$open_access & .data$no_take) %>%
       nrow() > 0
 
-    if (open_no_take)  {
+    if (open_no_take) {
       stop("Cannot have both `open_access` and `no_take` as TRUE.", call. = FALSE)
     }
   }
@@ -185,10 +187,13 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
       dplyr::select(.data$.temp_row, .data$open_access, tidyselect::any_of(partial_restrictions_cols)) %>%
       tidyr::pivot_longer(tidyselect::any_of(partial_restrictions_cols)) %>%
       dplyr::group_by(.data$.temp_row, .data$open_access) %>%
-      dplyr::summarise(any_partial_rules = any(.data$value)) %>% dplyr::ungroup() %>% dplyr::filter(.data$open_access & .data$any_partial_rules) %>% nrow() > 0
+      dplyr::summarise(any_partial_rules = any(.data$value)) %>%
+      dplyr::ungroup() %>%
+      dplyr::filter(.data$open_access & .data$any_partial_rules) %>%
+      nrow() > 0
 
-    if (open_and_partial)  {
-      stop("Cannot have both `open_access` and any partial restrictions rules (`",  paste0(partial_restrictions_cols, collapse = "`, `"), "`) as TRUE.", call. = FALSE)
+    if (open_and_partial) {
+      stop("Cannot have both `open_access` and any partial restrictions rules (`", paste0(partial_restrictions_cols, collapse = "`, `"), "`) as TRUE.", call. = FALSE)
     }
   }
 
@@ -199,10 +204,13 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
       dplyr::select(.data$.temp_row, .data$no_take, tidyselect::any_of(partial_restrictions_cols)) %>%
       tidyr::pivot_longer(tidyselect::any_of(partial_restrictions_cols)) %>%
       dplyr::group_by(.data$.temp_row, .data$no_take) %>%
-      dplyr::summarise(any_partial_rules = any(.data$value)) %>% dplyr::ungroup() %>% dplyr::filter(.data$no_take & .data$any_partial_rules) %>% nrow() > 0
+      dplyr::summarise(any_partial_rules = any(.data$value)) %>%
+      dplyr::ungroup() %>%
+      dplyr::filter(.data$no_take & .data$any_partial_rules) %>%
+      nrow() > 0
 
-    if (open_and_partial)  {
-      stop("Cannot have both `no_take` and any partial restrictions rules (`",  paste0(partial_restrictions_cols, collapse = "`, `"), "`) as TRUE.", call. = FALSE)
+    if (open_and_partial) {
+      stop("Cannot have both `no_take` and any partial restrictions rules (`", paste0(partial_restrictions_cols, collapse = "`, `"), "`) as TRUE.", call. = FALSE)
     }
   }
 
