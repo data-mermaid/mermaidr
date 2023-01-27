@@ -317,11 +317,19 @@ test_that("missing all rules errors", {
   skip_on_cran()
 
   data <- tibble::tibble(
-    name = "Test missing all rules", name_secondary = "", notes = NA, est_year = 2018,
-    size = 5
+    name = "Test missing all rules"
   )
-  # TODO: API allows this, so WE have to check that there is at least one
-  expect_error(mermaid_import_project_managements("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", data))
+  expect_error(mermaid_import_project_managements("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", data), "data must contain at least one of the rules:")
+
+  data <- tibble::tibble(
+    name = "Test has FALSE rules", open_access = FALSE
+  )
+  expect_error(mermaid_import_project_managements("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", data), "data must contain at least one of the rules:")
+
+  data <- tibble::tibble(
+    name = c("Test has FALSE rules", "Test has a TRUE rule"), open_access = c(F, T)
+  )
+  expect_error(mermaid_import_project_managements("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", data), "data must contain at least one of the rules:")
 })
 
 test_that("open access AND no take, a conflict, errors", {
@@ -330,12 +338,10 @@ test_that("open access AND no take, a conflict, errors", {
   skip_on_cran()
 
   data <- tibble::tibble(
-    name = "Test open access AND no take", name_secondary = "", notes = NA, est_year = 2018,
-    size = 5, open_access = TRUE, no_take = TRUE
+    name = "Test open access AND no take", open_access = TRUE, no_take = TRUE
   )
-  # TODO: API allows this but takes "no take" as TRUE and "open access" as FALSE, so we should check
 
-  expect_error(mermaid_import_project_managements("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", data))
+  expect_error(mermaid_import_project_managements("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", data), "Cannot have both `open_access` and `no_take` as TRUE.")
 })
 
 test_that("open access AND partial restrictions, a conflict, errors", {
@@ -344,10 +350,20 @@ test_that("open access AND partial restrictions, a conflict, errors", {
   skip_on_cran()
 
   data <- tibble::tibble(
-    name = "Test open access AND partial", name_secondary = "", notes = NA, est_year = 2018,
-    size = 5, open_access = TRUE, gear_restriction = TRUE
+    name = "Test open access AND partial", open_access = TRUE, gear_restriction = TRUE, size_limits = FALSE
   )
 
-  expect_error(mermaid_import_project_managements("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", data))
-  # TODO: API allows this but takes "gear restriction" as TRUE and "open access" as FALSE, so we should check
+  expect_error(mermaid_import_project_managements("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", data), "Cannot have both `open_access` and any partial restrictions rules")
+})
+
+test_that("no take AND partial restrictions, a conflict, errors", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  data <- tibble::tibble(
+    name = "Test no take AND partial", no_take = TRUE, gear_restriction = TRUE
+  )
+
+  expect_error(mermaid_import_project_managements("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", data), "Cannot have both `no_take` and any partial restrictions rules")
 })
