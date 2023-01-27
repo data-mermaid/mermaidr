@@ -46,69 +46,95 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
     dplyr::mutate(project = project)
 
   # Check that est_year and size are numeric
-  if (!all(is.numeric(data[["size"]]), na.rm = TRUE) | !all(is.numeric(data[["est_year"]]), na.rm = TRUE)) {
-    stop("`est_year` and `size` must be numeric.", call. = FALSE)
+  if (!(all(is.na(data[["size"]])))) {
+    if (!all(is.numeric(data[["size"]]), na.rm = TRUE)) {
+      stop("`size` must be numeric.", call. = FALSE)
+    }
+  }
+  if (!(all(is.na(data[["est_year"]])))) {
+    if (!all(is.numeric(data[["est_year"]]), na.rm = TRUE)) {
+      stop("`est_year` must be numeric.", call. = FALSE)
+    }
   }
 
-  # Check country, exposure, reef type, reef zone
+  # Check compliance, parties
   # If not matching options, then error and show valid options
   # If all good, get IDs
 
+  choices_cols <- c("compliance", "parties")
+
   # Get choices
-  choices <- mermaid_get_endpoint("choices")
+  if (any(choices_cols %in% names(data))) {
+    choices <- mermaid_get_endpoint("choices")
+  }
 
   # Iterate over compliance, parties
   # Check if values match, and if so, convert to IDs
   # For parties, since multiple are allowed, collapse into a vector
-  for (col in c("compliance", "parties")) {
-    choices_col <- switch(col,
-      compliance = "managementcompliances",
-      parties = "managementparties"
-    )
+  for (col in choices_cols) {
+    if (col %in% names(data)) {
+      choices_col <- switch(col,
+        compliance = "managementcompliances",
+        parties = "managementparties"
+      )
 
-    col_choices <- choices %>%
-      get_choice_from_choices(choices_col) %>%
-      dplyr::rename({{ col }} := name)
+      col_choices <- choices %>%
+        get_choice_from_choices(choices_col) %>%
+        dplyr::mutate(name = tolower(.data$name)) %>%
+        dplyr::rename({{ col }} := name)
 
-    if (col == "parties") {
-      .data_temp <- data %>%
-        dplyr::mutate(temp_row_for_rejoin = dplyr::row_number())
+      if (col == "parties") {
+        .data_temp <- data %>%
+          dplyr::mutate(temp_row_for_rejoin = dplyr::row_number())
 
-      .data_sep <- .data_temp %>%
-        dplyr::select(.data$temp_row_for_rejoin, parties) %>%
-        tidyr::separate_rows(.data$parties, sep = "; ")
+        .data_sep <- .data_temp %>%
+          dplyr::select(.data$temp_row_for_rejoin, parties) %>%
+          tidyr::separate_rows(.data$parties, sep = ";") %>%
+          dplyr::mutate(parties = stringr::str_trim(.data$parties),
+                        parties = tolower(.data$parties))
 
-      # TODO - check that all are valid
+        .data_to_id <- col_choices %>%
+          dplyr::right_join(.data_sep, by = "parties")
 
-      .data_to_id <- col_choices %>%
-        dplyr::right_join(.data_sep, by = "parties") %>%
-        dplyr::select(.data$temp_row_for_rejoin, .data$id) %>%
-        dplyr::group_nest(.data$temp_row_for_rejoin, .key = "parties")
+        # Check that are are valid
+        invalid_values <- .data_to_id %>%
+          dplyr::filter(is.na(.data$id) & !is.na(parties)) %>%
+          dplyr::pull({{ col }})
 
-      data <- .data_temp %>%
-        dplyr::select(-.data$parties) %>%
-        dplyr::left_join(.data_to_id, by = "temp_row_for_rejoin") %>%
-        dplyr::select(-.data$temp_row_for_rejoin)
-    } else {
-      data <- data %>%
-        dplyr::left_join(col_choices, by = col)
+        if (length(invalid_values) > 0) {
+          message("Not all values of `", col, "` are valid. Invalid values: '", paste0(invalid_values, collapse = "', '"), "'. Values should be separated by ;. Valid values below:")
+          return(col_choices %>%
+            dplyr::select({{ col }}))
+        }
 
-      # If any `id` are NA, error
-      # TODO - what if value is just NA?
-      invalid_values <- data %>%
-        dplyr::filter(is.na(.data$id)) %>%
-        dplyr::pull({{ col }})
+        .data_to_id <- .data_to_id %>%
+          dplyr::select(.data$temp_row_for_rejoin, .data$id) %>%
+          dplyr::group_nest(.data$temp_row_for_rejoin, .key = "parties")
 
-      if (length(invalid_values) > 0) {
-        message("Not all values of `", col, "` are valid. Invalid values: ", paste0(invalid_values, collapse = ", "), ". Valid values below:")
-        return(col_choices %>%
-          dplyr::select({{ col }}))
+        data <- .data_temp %>%
+          dplyr::select(-.data$parties) %>%
+          dplyr::left_join(.data_to_id, by = "temp_row_for_rejoin") %>%
+          dplyr::select(-.data$temp_row_for_rejoin)
+      } else if (col == "compliance"){
+        data <- data %>%
+          dplyr::mutate(dplyr::across(tidyselect::all_of(col), tolower)) %>%
+          dplyr::left_join(col_choices, by = col)
+
+        invalid_values <- data %>%
+          dplyr::filter(is.na(.data$id) & !is.na(compliance)) %>%
+          dplyr::pull({{ col }})
+
+        if (length(invalid_values) > 0) {
+          message("Not all values of `", col, "` are valid. Invalid values: ", paste0(invalid_values, collapse = ", "), ". Valid values below:")
+          return(col_choices %>%
+            dplyr::select({{ col }}))
+        }
+
+        # Otherwise, replace col with id
+        data <- data %>%
+          dplyr::select(-{{ col }}) %>%
+          dplyr::rename({{ col }} := id)
       }
-
-      # Otherwise, replace col with id
-      data <- data %>%
-        dplyr::select(-{{ col }}) %>%
-        dplyr::rename({{ col }} := id)
     }
   }
 
