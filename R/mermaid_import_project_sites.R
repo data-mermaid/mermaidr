@@ -149,7 +149,7 @@ mermaid_import_project_sites <- function(project, data, token = mermaid_token())
 }
 
 post_data <- function(path, data, token = mermaid_token()) {
-  resp <- suppress_http_warning(httr::RETRY("POST", path, encode = "json", body = data, ua, token, terminate_on = c(401, 403)))
+  resp <- suppress_http_warning(httr::RETRY("POST", path, encode = "json", body = data, ua, token, terminate_on = c(401, 403, 400)))
 
   resp$status_code
 }
