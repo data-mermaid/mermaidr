@@ -81,14 +81,14 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
       col_choices <- choices %>%
         get_choice_from_choices(choices_col) %>%
         dplyr::mutate(name = tolower(.data$name)) %>%
-        dplyr::rename({{ col }} := name)
+        dplyr::rename({{ col }} := .data$name)
 
       if (col == "parties") {
         .data_temp <- data %>%
           dplyr::mutate(temp_row_for_rejoin = dplyr::row_number())
 
         .data_sep <- .data_temp %>%
-          dplyr::select(.data$temp_row_for_rejoin, parties) %>%
+          dplyr::select(.data$temp_row_for_rejoin, .data$parties) %>%
           tidyr::separate_rows(.data$parties, sep = ";") %>%
           dplyr::mutate(parties = stringr::str_trim(.data$parties),
                         parties = tolower(.data$parties))
@@ -98,7 +98,7 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
 
         # Check that are are valid
         invalid_values <- .data_to_id %>%
-          dplyr::filter(is.na(.data$id) & !is.na(parties)) %>%
+          dplyr::filter(is.na(.data$id) & !is.na(.data$parties)) %>%
           dplyr::pull({{ col }})
 
         if (length(invalid_values) > 0) {
@@ -121,7 +121,7 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
           dplyr::left_join(col_choices, by = col)
 
         invalid_values <- data %>%
-          dplyr::filter(is.na(.data$id) & !is.na(compliance)) %>%
+          dplyr::filter(is.na(.data$id) & !is.na(.data$compliance)) %>%
           dplyr::pull({{ col }})
 
         if (length(invalid_values) > 0) {
@@ -133,7 +133,7 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
         # Otherwise, replace col with id
         data <- data %>%
           dplyr::select(-{{ col }}) %>%
-          dplyr::rename({{ col }} := id)
+          dplyr::rename({{ col }} := .data$id)
       }
     }
   }
@@ -151,11 +151,11 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
   if (!missing_rules_cols) {
     all_false <- data %>%
       dplyr::mutate(.temp_row = dplyr::row_number()) %>%
-      dplyr::select(.temp_row, tidyselect::any_of(rules_cols)) %>%
+      dplyr::select(.data$.temp_row, tidyselect::any_of(rules_cols)) %>%
       tidyr::pivot_longer(tidyselect::any_of(rules_cols)) %>%
-      dplyr::group_by(.temp_row) %>%
-      dplyr::summarise(all_false = all(!value)) %>%
-      dplyr::filter(all_false) %>%
+      dplyr::group_by(.data$.temp_row) %>%
+      dplyr::summarise(all_false = all(!.data$value)) %>%
+      dplyr::filter(.data$all_false) %>%
       nrow() > 0
   } else {
     all_false <- FALSE
@@ -182,7 +182,7 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
   if ("open_access" %in% names(data) & any(partial_restrictions_cols %in% names(data))) {
     open_and_partial <- data %>%
       dplyr::mutate(.temp_row = dplyr::row_number()) %>%
-      dplyr::select(.temp_row, .data$open_access, tidyselect::any_of(partial_restrictions_cols)) %>%
+      dplyr::select(.data$.temp_row, .data$open_access, tidyselect::any_of(partial_restrictions_cols)) %>%
       tidyr::pivot_longer(tidyselect::any_of(partial_restrictions_cols)) %>%
       dplyr::group_by(.data$.temp_row, .data$open_access) %>%
       dplyr::summarise(any_partial_rules = any(.data$value)) %>% dplyr::ungroup() %>% dplyr::filter(.data$open_access & .data$any_partial_rules) %>% nrow() > 0
@@ -196,7 +196,7 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
   if ("no_take" %in% names(data) & any(partial_restrictions_cols %in% names(data))) {
     open_and_partial <- data %>%
       dplyr::mutate(.temp_row = dplyr::row_number()) %>%
-      dplyr::select(.temp_row, .data$no_take, tidyselect::any_of(partial_restrictions_cols)) %>%
+      dplyr::select(.data$.temp_row, .data$no_take, tidyselect::any_of(partial_restrictions_cols)) %>%
       tidyr::pivot_longer(tidyselect::any_of(partial_restrictions_cols)) %>%
       dplyr::group_by(.data$.temp_row, .data$no_take) %>%
       dplyr::summarise(any_partial_rules = any(.data$value)) %>% dplyr::ungroup() %>% dplyr::filter(.data$no_take & .data$any_partial_rules) %>% nrow() > 0
@@ -257,8 +257,8 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
 
   if (!all(site_posts[["status_code"]] == 201)) {
     failed_post <- site_posts %>%
-      dplyr::filter(status_code != 201) %>%
-      dplyr::pull(row)
+      dplyr::filter(.data$status_code != 201) %>%
+      dplyr::pull(.data$row)
 
     usethis::ui_todo("Not all managements imported successfully. The following rows did not import: {paste(failed_post, collapse = ', ')}")
   } else {

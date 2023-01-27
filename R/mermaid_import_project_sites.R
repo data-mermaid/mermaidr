@@ -75,7 +75,7 @@ mermaid_import_project_sites <- function(project, data, token = mermaid_token())
 
     col_choices <- choices %>%
       get_choice_from_choices(choices_col) %>%
-      dplyr::rename({{ col }} := name)
+      dplyr::rename({{ col }} := .data$name)
 
     data <- data %>%
       dplyr::left_join(col_choices, by = col)
@@ -96,7 +96,7 @@ mermaid_import_project_sites <- function(project, data, token = mermaid_token())
     # Otherwise, replace col with id
     data <- data %>%
       dplyr::select(-{{ col }}) %>%
-      dplyr::rename({{ col }} := id)
+      dplyr::rename({{ col }} := .data$id)
   }
 
   # Post row by row
@@ -139,8 +139,8 @@ mermaid_import_project_sites <- function(project, data, token = mermaid_token())
 
   if (!all(site_posts[["status_code"]] == 201)) {
     failed_post <- site_posts %>%
-      dplyr::filter(status_code != 201) %>%
-      dplyr::pull(row)
+      dplyr::filter(.data$status_code != 201) %>%
+      dplyr::pull(.data$row)
 
     usethis::ui_todo("Not all sites imported successfully. The following rows did not import: {paste(failed_post, collapse = ',')}")
   } else {
