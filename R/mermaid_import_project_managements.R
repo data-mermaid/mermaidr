@@ -46,7 +46,7 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
     dplyr::mutate(project = project)
 
   # Check that est_year and size are numeric
-  if (!all(is.numeric(data[["size"]]), na.rm = TRUE)) {
+  if (!all(is.numeric(data[["size"]]), na.rm = TRUE) | !all(is.numeric(data[["est_year"]]), na.rm = TRUE)) {
     stop("`est_year` and `size` must be numeric.", call. = FALSE)
   }
 
@@ -121,19 +121,30 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
     purrr::map_dfr(
       function(data) {
         post_row <- data[["row"]]
-        browser()
         # Convert each row to a list
         data <- data %>%
           dplyr::select(-.data$row) %>%
           as.list()
 
-        # Convert parties to a single vector
+        # Convert parties to a list if there is 1, keep as vector if > 1
+        # Weird unboxing bug when converting to JSON
         data[["parties"]] <- data$parties[[1]][["id"]]
+
+        if (length(data[["parties"]] == 1)) {
+          data[["parties"]] <- as.list(data[["parties"]])
+        }
 
         # Convert any NA notes to ""
         if ("notes" %in% names(data)) {
           if (is.na(data[["notes"]])) {
             data[["notes"]] <- ""
+          }
+        }
+
+        # Any other NA columns, set to NULL
+        for (col in names(data)) {
+          if (all(is.na(data[[col]]))) {
+            data[col] <- list(NULL)
           }
         }
 
@@ -150,26 +161,13 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
       }
     )
 
-  browser()
-
   if (!all(site_posts[["status_code"]] == 201)) {
     failed_post <- site_posts %>%
       dplyr::filter(status_code != 201) %>%
       dplyr::pull(row)
 
-    usethis::ui_todo("Not all managements imported successfully. The following rows did not import: {paste(failed_post, collapse = ',')}")
+    usethis::ui_todo("Not all managements imported successfully. The following rows did not import: {paste(failed_post, collapse = ', ')}")
   } else {
     usethis::ui_done("All managements imported!")
   }
-}
-
-post_data <- function(path, data, token = mermaid_token()) {
-  resp <- suppress_http_warning(httr::RETRY("POST", path, encode = "json", body = data, ua, token, terminate_on = c(401, 403)))
-
-  resp$status_code
-}
-
-get_choice_from_choices <- function(choices, name) {
-  dplyr::filter(choices, .data$name == !!name)[["data"]][[1]] %>%
-    dplyr::select(.data$id, .data$name)
 }
