@@ -367,3 +367,11 @@ test_that("no take AND partial restrictions, a conflict, errors", {
 
   expect_error(mermaid_import_project_managements("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", data), "Cannot have both `no_take` and any partial restrictions rules")
 })
+
+test_that("Multiple managements import properly", {
+  expect_true(FALSE)
+})
+
+test_that("Multiple managements, with some failures, show row of error", {
+  expect_true(FALSE)
+})
