@@ -1,8 +1,4 @@
 test_that("non-numeric year results in error", {
-  skip_if_offline()
-  skip_on_ci()
-  skip_on_cran()
-
   data <- tibble::tibble(
     name = "Test non-numeric year", name_secondary = "", notes = NA,
     est_year = "2018", size = NA, no_take = FALSE, periodic_closure = TRUE,
@@ -17,9 +13,6 @@ test_that("non-numeric year results in error", {
 })
 
 test_that("non-numeric size results in error", {
-  skip_if_offline()
-  skip_on_ci()
-  skip_on_cran()
 
   # Non-numeric size
   data <- tibble::tibble(
@@ -374,4 +367,15 @@ test_that("Multiple managements import properly", {
 
 test_that("Multiple managements, with some failures, show row of error", {
   expect_true(FALSE)
+})
+
+test_that("project col that does not match project listed produces error", {
+  data <- tibble::tibble(
+    name = "Test wrong project", project = "test"
+  )
+
+  expect_error(
+    mermaid_import_project_managements("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", data),
+    "`project` column does not match project being imported into."
+  )
 })

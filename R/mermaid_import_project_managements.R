@@ -35,7 +35,7 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
   }
 
   # Check excess columns (compared with optional) -----
-  optional_columns <- c("name_secondary", "est_year", "size", "parties", "compliance", "open_access", "no_take", "access_restriction", "periodic_closure", "size_limits", "gear_restriction", "species_restriction", "notes")
+  optional_columns <- c("name_secondary", "est_year", "size", "parties", "compliance", "open_access", "no_take", "access_restriction", "periodic_closure", "size_limits", "gear_restriction", "species_restriction", "notes", "project")
   col_names <- c(required_columns, optional_columns)
   if (!all(names(data) %in% col_names)) {
     stop("`data` can only contain columns: ", paste0(col_names, collapse = ", "), call. = FALSE)
