@@ -2,33 +2,32 @@
 % Please edit documentation in R/mermaid_import_project_managements.R
 \name{mermaid_import_project_managements}
 \alias{mermaid_import_project_managements}
-\title{Import project managements into MERMAID Collect}
+\title{Import project management regimes into MERMAID Collect}
 \usage{
 mermaid_import_project_managements(project, data, token = mermaid_token())
 }
 \arguments{
 \item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_my_projects}} or \code{\link{mermaid_search_my_projects}}. Defaults to the projects listed via \code{mermaid_get_default_project}, if available.}
 
-\item{data}{Data to import. A data frame containing the fields: \code{name}, \code{latitude}, \code{longitude}, \code{country}, \code{reef_type}, \code{reef_zone}, \code{exposure}, and optionally \code{notes}.}
+\item{data}{Data to import. A data frame containing \code{name}, and optionally \code{name_secondary}, \code{est_year} (numeric), \code{size} (numeric, in hectares), \code{parties} (separated by ;), \code{compliance}, \code{notes}, and \code{project}. The data \strong{must} contain at least one rule with \code{TRUE}. The rules columns are:  \code{open_access}, \code{no_take}, \code{access_restriction}, \code{periodic_closure}, \code{size_limits}, \code{gear_restriction}. Any missing rules will be treated as \code{FALSE}. All rules columns can be included (with \code{FALSE}) if they are not applicable for the given management regime (i.e., in the case of importing many MRs at once with different rules).}
 
 \item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
 }
 \description{
-Import project managements into MERMAID Collect
+Import project management regimes into MERMAID Collect
 }
 \examples{
 \dontrun{
 project <- mermaid_search_my_projects("Sharla test", include_test_projects = TRUE)
 
 data <- dplyr::tibble(
-  name = "Test site",
-  latitude = 43.651070,
-  longitude = -79.347015,
-  notes = NA,
-  country = "Canada",
-  reef_type = "fringing",
-  reef_zone = "crest",
-  exposure = "semi-exposed"
+  name = "Test management regime",
+  est_year = 2020,
+  size = 5,
+  parties = "NGO; private sector",
+  compliance = "full",
+  access_restriction = TRUE,
+  periodic_closure = TRUE,
 )
 
 project \%>\%
