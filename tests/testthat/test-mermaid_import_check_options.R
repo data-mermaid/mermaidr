@@ -197,7 +197,7 @@ test_that("closest_string_match returns in same order passed", {
 })
 
 test_that("closest_string_match de-duplicates", {
-  res <- tibble::tibble(data_value = c("toss", "toss","test")) %>% closest_string_match(tibble::tibble(choices = c("test", "tess", "tests", "ross")))
+  res <- tibble::tibble(data_value = c("toss", "toss", "test")) %>% closest_string_match(tibble::tibble(choices = c("test", "tess", "tests", "ross")))
   expect_identical(
     res,
     tibble::tribble(
