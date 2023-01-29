@@ -1,4 +1,4 @@
-#' Import project managements into MERMAID Collect
+#' Import project management regimes into MERMAID Collect
 #'
 #' @param data Data to import. A data frame containing the fields: \code{name}, \code{latitude}, \code{longitude}, \code{country}, \code{reef_type}, \code{reef_zone}, \code{exposure}, and optionally \code{notes}.
 #' @inheritParams get_project_endpoint
@@ -41,9 +41,16 @@ mermaid_import_project_managements <- function(project, data, token = mermaid_to
     stop("`data` can only contain columns: ", paste0(col_names, collapse = ", "), call. = FALSE)
   }
 
-  # Append project id to df -----
-  data <- data %>%
-    dplyr::mutate(project = project)
+  # If there is already project column, check if matches `project`
+  if ("project" %in% names(data)) {
+    if (!all(data[["project"]] == project)) {
+      stop("`project` column does not match project being imported into.", call. = FALSE)
+    }
+  } else {
+    # Append project id to df
+    data <- data %>%
+      dplyr::mutate(project = project)
+  }
 
   # Check that est_year and size are numeric
   if (!(all(is.na(data[["size"]])))) {
