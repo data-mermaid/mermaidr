@@ -4,12 +4,12 @@
 \alias{mermaid_import_project_managements}
 \title{Import project management regimes into MERMAID Collect}
 \usage{
-mermaid_import_project_managements(project, data, token = mermaid_token())
+mermaid_import_project_managements(data, project, token = mermaid_token())
 }
 \arguments{
-\item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_my_projects}} or \code{\link{mermaid_search_my_projects}}. Defaults to the projects listed via \code{mermaid_get_default_project}, if available.}
-
 \item{data}{Data to import. A data frame containing \code{name}, and optionally \code{name_secondary}, \code{est_year} (numeric), \code{size} (numeric, in hectares), \code{parties} (separated by ;), \code{compliance}, \code{notes}, and \code{project}. The data \strong{must} contain at least one rule with \code{TRUE}. The rules columns are:  \code{open_access}, \code{no_take}, \code{access_restriction}, \code{periodic_closure}, \code{size_limits}, \code{gear_restriction}. Any missing rules will be treated as \code{FALSE}. All rules columns can be included (with \code{FALSE}) if they are not applicable for the given management regime (i.e., in the case of importing many MRs at once with different rules).}
+
+\item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_my_projects}} or \code{\link{mermaid_search_my_projects}}. Defaults to the projects listed via \code{mermaid_get_default_project}, if available.}
 
 \item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
 }
@@ -30,7 +30,7 @@ data <- dplyr::tibble(
   periodic_closure = TRUE,
 )
 
-project \%>\%
-  mermaid_import_project_managements(data)
+data \%>\%
+  mermaid_import_project_managements(project)
 }
 }

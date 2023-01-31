@@ -19,10 +19,10 @@
 #'   periodic_closure = TRUE,
 #' )
 #'
-#' project %>%
-#'   mermaid_import_project_managements(data)
+#' data %>%
+#'   mermaid_import_project_managements(project)
 #' }
-mermaid_import_project_managements <- function(project, data, token = mermaid_token()) {
+mermaid_import_project_managements <- function(data, project, token = mermaid_token()) {
   # Convert project to ID
   project <- as_id(project)
   check_project(project)
