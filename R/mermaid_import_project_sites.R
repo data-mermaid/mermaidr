@@ -20,10 +20,10 @@
 #'   exposure = "semi-exposed"
 #' )
 #'
-#' project %>%
-#'   mermaid_import_project_sites(data)
+#' data %>%
+#'   mermaid_import_project_sites(project)
 #' }
-mermaid_import_project_sites <- function(project, data, token = mermaid_token()) {
+mermaid_import_project_sites <- function(data, project, token = mermaid_token()) {
   # Convert project to ID
   project <- as_id(project)
   check_project(project)
