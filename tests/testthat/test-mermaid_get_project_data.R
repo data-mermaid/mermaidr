@@ -912,3 +912,18 @@ test_that("Manual extraction of ACA covariates (choosing value with highest area
   expect_identical(sus[["aca_geomorphic"]], sus_csv[["aca_geomorphic"]])
   expect_identical(sus[["aca_benthic"]], sus_csv[["aca_benthic"]])
 })
+
+# Benthic PQT ----
+
+test_that("mermaid_get_project_data for benthicpqt returns a data frame with the correct names", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+  p <- mermaid_get_my_projects(include_test_projects = TRUE)
+  output <- mermaid_get_project_data(p, method = "benthicpqt", data = "all", limit = 1)
+  expect_true(all(project_data_test_columns[["benthicpqts/observations"]] %in% names(output[["observations"]])))
+  expect_true(all(project_data_test_columns[["benthicpqts/sampleunits"]] %in% names(output[["sampleunits"]])))
+  expect_true(all(project_data_test_columns[["benthicpqts/sampleevents"]] %in% names(output[["sampleevents"]])))
+  expect_true(any(stringr::str_starts(names(output[["sampleunits"]]), project_data_df_columns_list_names[["benthicpqts/sampleunits"]])))
+  expect_true(any(stringr::str_starts(names(output[["sampleevents"]]), project_data_df_columns_list_names[["benthicpqts/sampleevents"]])))
+})
