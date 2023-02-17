@@ -1084,7 +1084,6 @@ test_that("mermaid_get_project_data with covariates = TRUE returns covars, all t
   )
 })
 
-<<<<<<< HEAD
 # _by_ removal ----
 
 test_that("All expanded columns that formerly had _by_ in them are properly pulled down", {
