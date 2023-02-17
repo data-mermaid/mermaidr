@@ -1,3 +1,7 @@
+# mermaidr 0.6.3
+
+* Allow export of "benthicpqt" data via `mermaid_get_project_data()`
+
 # mermaidr 0.6.2
 
 * Allow import of "benthicpqt" data via `mermaid_import_project_data()`

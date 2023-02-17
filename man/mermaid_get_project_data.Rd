@@ -6,8 +6,8 @@
 \usage{
 mermaid_get_project_data(
   project = mermaid_get_default_project(),
-  method = c("fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity",
-    "all"),
+  method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching",
+    "habitatcomplexity", "all"),
   data = c("observations", "sampleunits", "sampleevents", "all"),
   limit = NULL,
   token = mermaid_token()
@@ -16,7 +16,7 @@ mermaid_get_project_data(
 \arguments{
 \item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_my_projects}} or \code{\link{mermaid_search_my_projects}}. Defaults to the projects listed via \code{mermaid_get_default_project}, if available.}
 
-\item{method}{Method to get data for. One of "fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity", or "all" (to get data for all methods).}
+\item{method}{Method to get data for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", "habitatcomplexity", or "all" (to get data for all methods).}
 
 \item{data}{Data to return. One of "observations", "sampleunits", "sampleevents", or all (to get all three kinds of data). See details for more.}
 
@@ -34,9 +34,11 @@ Benthic LIT method data is available by setting \code{method} to "benthiclit". B
 
 Benthic PIT method data is available by setting \code{method} to "benthicpit". Similarly to Benthic LIT, Benthic PIT observations contain individual observations, sample units data returns percent cover per sample unit, by benthic category, and sample events contain \emph{mean} percent cover per sample event, by benthic category.
 
+Benthic Photo Quadrat method data is available by setting \code{method} to "benthicpqt". Benthic PQT observations contain individual observations, sample units data returns percent cover per sample unit, by benthic category, and sample events contain \emph{mean} percent cover per sample event, by benthic category.
+
 Bleaching method data is available by setting \code{method} to "bleaching". When Bleaching observations are requested, two types of observations are returned: Colonies Bleached and Percent Cover. Sample units data contains both Colonies Bleached data (number of coral genera and total number of colonies, and percent normal, pale, and bleached colonies) and Percent Cover data (Number of quadrats, and average percent cover for hard coral, soft coral, and macroalgae), all per sample unit. Sample events data contains \emph{mean} values of all the data in sample units, for both Colonies Bleached (average quadrat size, average number of coral genera and average total colonies, average percent normal, pale, and bleached colonies) and Percent Cover (average number of quadrats, and average of average hard coral, soft coral, and macroalgae cover).
 
-Habitat Complexity  data is available by setting \code{method} to "habitatcomplexity". Observations contain individual observations, with the habitat complexity score at each interval. Sample units data contains the average habitat complexity score for the sample unit, and sample events data contains the average of those averages habitat complexity scores.
+Habitat Complexity data is available by setting \code{method} to "habitatcomplexity". Observations contain individual observations, with the habitat complexity score at each interval. Sample units data contains the average habitat complexity score for the sample unit, and sample events data contains the average of those averages habitat complexity scores.
 }
 \examples{
 \dontrun{

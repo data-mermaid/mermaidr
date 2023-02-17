@@ -10,7 +10,7 @@ mermaid_get_summary_sampleevents(limit = NULL)
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 }
 \description{
-Get aggregated metrics from all surveys associated with each site, by date. Includes data from all methods - Fish Belt, Benthic LIT, Benthic PIT, Bleaching, and Habitat Complexity - if the data sharing policy for that method is public summary or public (and just includes the sample unit count otherwise). Does not require authorization.
+Get aggregated metrics from all surveys associated with each site, by date. Includes data from all methods - Fish Belt, Benthic LIT, Benthic PIT, Benthic Photo Quadrat, Bleaching, and Habitat Complexity, - if the data sharing policy for that method is public summary or public (and just includes the sample unit count otherwise). Does not require authorization.
 }
 \examples{
 \dontrun{
