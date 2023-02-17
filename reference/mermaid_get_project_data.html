@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3</span>
       </span>
     </div>
 
@@ -83,8 +83,8 @@
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mermaid_get_project_data</span><span class="op">(</span></span>
 <span>  project <span class="op">=</span> <span class="fu"><a href="mermaid_default_project.html">mermaid_get_default_project</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"benthiclit"</span>, <span class="st">"benthicpit"</span>, <span class="st">"bleaching"</span>, <span class="st">"habitatcomplexity"</span>,</span>
-<span>    <span class="st">"all"</span><span class="op">)</span>,</span>
+<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"benthiclit"</span>, <span class="st">"benthicpit"</span>, <span class="st">"benthicpqt"</span>, <span class="st">"bleaching"</span>,</span>
+<span>    <span class="st">"habitatcomplexity"</span>, <span class="st">"all"</span><span class="op">)</span>,</span>
 <span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"observations"</span>, <span class="st">"sampleunits"</span>, <span class="st">"sampleevents"</span>, <span class="st">"all"</span><span class="op">)</span>,</span>
 <span>  limit <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  token <span class="op">=</span> <span class="fu"><a href="mermaid_token.html">mermaid_token</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -98,7 +98,7 @@
 
 
 <dt>method</dt>
-<dd><p>Method to get data for. One of "fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity", or "all" (to get data for all methods).</p></dd>
+<dd><p>Method to get data for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", "habitatcomplexity", or "all" (to get data for all methods).</p></dd>
 
 
 <dt>data</dt>
@@ -118,8 +118,9 @@
     <p>Fish Belt method data is available by setting <code>method</code> to "fishbelt". Fish Belt observations data contains individual observations recorded in MERMAID, while sample units contains total biomass in kg/ha per sample unit, by trophic group and by fish family. Sample events data contains <em>mean</em> total biomass in kg/ha per sample event, and by trophic group and by fish family.</p>
 <p>Benthic LIT method data is available by setting <code>method</code> to "benthiclit". Benthic LIT observations contain individual observations. Sample units data returns percent cover per sample unit, by benthic category. Sample events contain <em>mean</em> percent cover per sample event, by benthic category.</p>
 <p>Benthic PIT method data is available by setting <code>method</code> to "benthicpit". Similarly to Benthic LIT, Benthic PIT observations contain individual observations, sample units data returns percent cover per sample unit, by benthic category, and sample events contain <em>mean</em> percent cover per sample event, by benthic category.</p>
+<p>Benthic Photo Quadrat method data is available by setting <code>method</code> to "benthicpqt". Benthic PQT observations contain individual observations, sample units data returns percent cover per sample unit, by benthic category, and sample events contain <em>mean</em> percent cover per sample event, by benthic category.</p>
 <p>Bleaching method data is available by setting <code>method</code> to "bleaching". When Bleaching observations are requested, two types of observations are returned: Colonies Bleached and Percent Cover. Sample units data contains both Colonies Bleached data (number of coral genera and total number of colonies, and percent normal, pale, and bleached colonies) and Percent Cover data (Number of quadrats, and average percent cover for hard coral, soft coral, and macroalgae), all per sample unit. Sample events data contains <em>mean</em> values of all the data in sample units, for both Colonies Bleached (average quadrat size, average number of coral genera and average total colonies, average percent normal, pale, and bleached colonies) and Percent Cover (average number of quadrats, and average of average hard coral, soft coral, and macroalgae cover).</p>
-<p>Habitat Complexity  data is available by setting <code>method</code> to "habitatcomplexity". Observations contain individual observations, with the habitat complexity score at each interval. Sample units data contains the average habitat complexity score for the sample unit, and sample events data contains the average of those averages habitat complexity scores.</p>
+<p>Habitat Complexity data is available by setting <code>method</code> to "habitatcomplexity". Observations contain individual observations, with the habitat complexity score at each interval. Sample units data contains the average habitat complexity score for the sample unit, and sample events data contains the average of those averages habitat complexity scores.</p>
     </div>
 
     <div id="ref-examples">
@@ -151,7 +152,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
