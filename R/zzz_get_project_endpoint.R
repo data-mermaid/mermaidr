@@ -79,10 +79,10 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
   # Convert any JSON remaining in CSV columns to comma separated list
   if (stringr::str_ends(endpoint, "csv")) {
     json_cols <- res %>%
-      head(1) %>%
       dplyr::mutate_all(as.character) %>%
       tidyr::pivot_longer(dplyr::everything()) %>%
-      dplyr::filter(stringr::str_starts(.data$value, "\\[\\{") | stringr::str_starts(.data$value, "\\{"))
+      dplyr::filter(stringr::str_starts(.data$value, "\\[\\{") | stringr::str_starts(.data$value, "\\{")) %>%
+      dplyr::distinct(name)
 
     # Treat tags separately
     if ("tags" %in% json_cols[["name"]]) {
