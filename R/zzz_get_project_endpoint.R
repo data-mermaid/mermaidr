@@ -179,18 +179,22 @@ rbind_project_endpoints <- function(x, endpoint) {
 
   if (length(df_cols) == 0) {
     if (all(purrr::map_lgl(purrr::map(x, names), ~ "project_id" %in% .x))) {
-      purrr::map_dfr(purrr::keep(x, ~ nrow(.x) > 0), tibble::as_tibble)
+      x <- purrr::map(purrr::keep(x, ~ nrow(.x) > 0), tibble::as_tibble)
+      do.call("rbind", x)
     } else {
-      purrr::map_dfr(purrr::keep(x, ~ nrow(.x) > 0), tibble::as_tibble, .id = "project_id")
+      x <- purrr::map(purrr::keep(x, ~ nrow(.x) > 0), tibble::as_tibble)
+      x <- purrr::imap(x, function(x, name) x %>% dplyr::mutate(project_id = name))
+      do.call("rbind", x)
     }
   } else {
     x_unpack <- purrr::map(x, unpack_df_cols, df_cols = df_cols)
     x_unpack <- purrr::keep(x_unpack, ~ nrow(.x) > 0)
 
     if (all(unlist(purrr::map(x_unpack, ~ "project_id" %in% names(.x))))) {
-      x_rbind <- dplyr::bind_rows(x_unpack)
+      x_rbind <- do.call("rbind", x_unpack)
     } else {
-      x_rbind <- dplyr::bind_rows(x_unpack, .id = "project_id")
+      x_rbind <- purrr::imap(x_unpack, function(x, name) x %>% dplyr::mutate(project_id = name))
+      x_rbind <- do.call("rbind", x_rbind)
     }
 
     attr(x_rbind, "df_cols") <- attr(x_unpack[[1]], "df_cols")
