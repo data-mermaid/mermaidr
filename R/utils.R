@@ -74,3 +74,20 @@ sub_one_for_many <- function(x, pattern, replacement) {
     c(x[1:(removal_index - 1)], replacement, x[(removal_index + 1):length(x)])
   }
 }
+
+combine_coltypes_and_bind_rows <- function(data, .id = NULL) {
+  # Convert all to character
+  data <- data %>%
+    purrr::map(~ .x %>% dplyr::mutate_all(as.character))
+
+  # Bind rows
+  data <- data %>%
+    dplyr::bind_rows(.id = .id)
+
+  # Write to temp CSV
+  temp_file <- tempfile(fileext = ".csv")
+  readr::write_csv(data, temp_file)
+
+  # Read back in to get correct column types
+  readr::read_csv(temp_file, show_col_types = FALSE, progress = FALSE)
+}

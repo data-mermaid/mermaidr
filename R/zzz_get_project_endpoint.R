@@ -89,6 +89,9 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
       res[["tags"]] <- res[["tags"]] %>%
         stringr::str_replace_all("'", '"') %>%
         purrr::map(function(tags) {
+          if (is.na(tags)) {
+            return(NA)
+          }
           tags %>%
             jsonlite::fromJSON() %>%
             dplyr::pull(name) %>%
@@ -180,21 +183,22 @@ rbind_project_endpoints <- function(x, endpoint) {
   if (length(df_cols) == 0) {
     if (all(purrr::map_lgl(purrr::map(x, names), ~ "project_id" %in% .x))) {
       x <- purrr::map(purrr::keep(x, ~ nrow(.x) > 0), tibble::as_tibble)
-      do.call("rbind", x)
+      combine_coltypes_and_bind_rows(x)
     } else {
       x <- purrr::map(purrr::keep(x, ~ nrow(.x) > 0), tibble::as_tibble)
-      x <- purrr::imap(x, function(x, name) x %>% dplyr::mutate(project_id = name))
-      do.call("rbind", x)
+      x %>%
+        combine_coltypes_and_bind_rows(.id = "project_id")
     }
   } else {
     x_unpack <- purrr::map(x, unpack_df_cols, df_cols = df_cols)
     x_unpack <- purrr::keep(x_unpack, ~ nrow(.x) > 0)
 
     if (all(unlist(purrr::map(x_unpack, ~ "project_id" %in% names(.x))))) {
-      x_rbind <- do.call("rbind", x_unpack)
+      x_rbind <- x_unpack %>%
+        combine_coltypes_and_bind_rows()
     } else {
-      x_rbind <- purrr::imap(x_unpack, function(x, name) x %>% dplyr::mutate(project_id = name))
-      x_rbind <- do.call("rbind", x_rbind)
+      x_rbind <- x_unpack %>%
+        combine_coltypes_and_bind_rows(.id = "project_id")
     }
 
     attr(x_rbind, "df_cols") <- attr(x_unpack[[1]], "df_cols")
@@ -264,6 +268,10 @@ repack_df_cols <- function(x) {
 }
 
 add_project_identifiers <- function(res, project) {
+  if (is.null(res)) {
+    return(tibble::tibble())
+  }
+
   if (ncol(res) == 0) {
     return(res)
   }
