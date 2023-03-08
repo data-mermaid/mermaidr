@@ -95,7 +95,7 @@ common_cols <- list(
 # For select columns and setting order
 project_data_columns <- list(
   `benthicpqts/obstransectbenthicpqts` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "quadrat_size", "num_quadrats", "num_points_per_quadrat", "observers", "quadrat_number", "benthic_category", "benthic_attribute", "growth_form", "num_points", "data_policy_benthicpqt", common_cols[["obs_closing"]]),
-  `benthicpqts/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "percent_cover_by_benthic_category", "data_policy_benthicpqt", common_cols[["obs_closing"]]),
+  `benthicpqts/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "percent_cover_by_benthic_category", "data_policy_benthicpqt", common_cols[["su_closing"]]),
   `benthicpqts/sampleevents` = c(common_cols[["se"]], "percent_cover_by_benthic_category_avg", "data_policy_benthicpqt", common_cols[["se_closing"]]),
   `beltfishes/obstransectbeltfishes` = c(common_cols[["obs/su"]], "transect_length", "transect_width", "size_bin", "observers", "transect_number", "label", "fish_family", "fish_genus", "fish_taxon", "size", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "count", "biomass_kgha", "trophic_level", "trophic_group", "functional_group", "vulnerability", "data_policy_beltfish", common_cols[["obs_closing"]]),
   `beltfishes/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "label", "size_bin", "transect_length", "transect_width", "biomass_kgha", "total_abundance", "biomass_kgha_by_trophic_group", "biomass_kgha_by_fish_family", "data_policy_beltfish", common_cols[["su_closing"]]),
