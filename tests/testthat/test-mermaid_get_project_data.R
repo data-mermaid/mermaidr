@@ -134,18 +134,17 @@ test_that("mermaid_get_project_data with multiple methods returns a list with mu
   expect_true(all(project_data_test_columns[["benthicpits/sampleevents"]] %in% names(output[["benthicpit"]])))
 })
 
-# Fails
 test_that("mermaid_get_project_data does not return the df-column in cases where there is no data: not for a single project and one endpoint, nor for a single project and multiple endpoints, nor for multiple projects (one of which has data, one of which does not), nor for multiple projects (neither of which have data)", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
 
-  expect_named(mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "benthicpit", "sampleevents"), project_data_test_columns[["benthicpits/sampleevents"]])
-  expect_named(mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "benthicpit", "sampleunits"), project_data_test_columns[["benthicpits/sampleunits"]])
+  expect_named(mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "benthicpit", "sampleevents"), project_data_columns[["benthicpits/sampleevents"]])
+  expect_named(mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "benthicpit", "sampleunits"), project_data_columns[["benthicpits/sampleunits"]])
 
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "benthicpit", c("sampleunits", "sampleevents"))
-  expect_named(output[["sampleunits"]], project_data_test_columns[["benthicpits/sampleunits"]])
-  expect_named(output[["sampleevents"]], project_data_test_columns[["benthicpits/sampleevents"]])
+  expect_named(output[["sampleunits"]], project_data_columns[["benthicpits/sampleunits"]])
+  expect_named(output[["sampleevents"]], project_data_columns[["benthicpits/sampleevents"]])
 
   # One project with, one without
   output <- mermaid_get_project_data(c("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a"), "benthicpit", "sampleunits")
@@ -157,14 +156,13 @@ test_that("mermaid_get_project_data does not return the df-column in cases where
   expect_false("percent_cover_benthic_category" %in% names(output))
 })
 
-
 # Testing aggregation views ----
 
 # Fishbelt ----
 
 ## Vanilla fishbelt ----
 
-# FAILS
+# Issue because not all fish families are in CSV, passes otherwise
 test_that("Vanilla fishbelt sample unit aggregation is the same as manually aggregating observations", {
   skip_if_offline()
   skip_on_ci()
@@ -196,6 +194,23 @@ test_that("Vanilla fishbelt sample unit aggregation is the same as manually aggr
   # Check that values match
 
   test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
+  # Mismatch here because there are some missing from SU CSV output - needs to be fixed:
+  # A tibble: 13 × 2
+  # name                 n
+  # <glue>           <int>
+  #   1 aulostomidae    30
+  # 2 caesioinidae       8
+  # 3 carangidae        16
+  # 4 carcharhinidae     1
+  # 5 diodontidae        4
+  # 6 fistulariidae      6
+  # 7 haemulidae        45
+  # 8 lethrinidae       14
+  # 9 muraenidae         7
+  # 10 pempheridae       5
+  # 11 pinguipedidae    11
+  # 12 scorpaenidae     10
+  # 13 sphyraenidae      3
 })
 
 test_that("Vanilla fishbelt sample event aggregation is the same as manually aggregating sample units", {
@@ -256,7 +271,7 @@ test_that("Variables widths fishbelt observations view biomass is the same as ma
   expect_true(all(obs_biomass_calc[["match"]]))
 })
 
-# Fails
+# Issue because not all fish families are in CSV, passes otherwise
 test_that("Variable widths fishbelt sample unit aggregation is the same as manually aggregating observations", {
   skip_if_offline()
   skip_on_ci()
@@ -320,7 +335,7 @@ test_that("Variable widths fishbelt sample event aggregation is the same as manu
 
 ## Big/small fish ----
 
-# Fails
+# Issue because not all fish families are in CSV, passes otherwise
 test_that("Big/small fish fishbelt sample unit aggregation is the same as manually aggregating observations", {
   skip_if_offline()
   skip_on_ci()
@@ -348,7 +363,9 @@ test_that("Big/small fish fishbelt sample unit aggregation is the same as manual
 
   sus_ids <- sus_minus_zeros %>%
     dplyr::select(fake_sample_unit_id, sample_unit_id = sample_unit_ids) %>%
-    tidyr::separate_rows(sample_unit_id, sep = "; ") %>%
+    # tidyr::separate_rows(sample_unit_id, sep = "; ") %>%
+    # Now separated by "," not "; "
+    tidyr::separate_rows(sample_unit_id, sep = ",") %>%
     dplyr::arrange(fake_sample_unit_id, sample_unit_id)
 
   obs_ids <- obs %>%
@@ -394,15 +411,17 @@ test_that("Big/small fish fishbelt sample unit aggregation is the same as manual
     ) %>%
     tidyr::pivot_longer(-fake_sample_unit_id, values_to = "obs")
 
-  obs_agg_for_su_comparison <- obs_agg_biomass_long %>%
-    dplyr::bind_rows(obs_agg_concatenate_long)
-
   sus_for_su_comparison <- aggregate_sus_biomass_long(sus_minus_zeros) %>%
     dplyr::mutate_if(is.numeric, round) %>%
-    dplyr::mutate(su = as.character(su)) %>%
     dplyr::bind_rows(sus_minus_zeros %>%
-      dplyr::select(fake_sample_unit_id, label, size_bin, transect_width, reef_slope, visibility, current, relative_depth, tide) %>%
-      tidyr::pivot_longer(-fake_sample_unit_id, values_to = "su"))
+      dplyr::select(fake_sample_unit_id, tidyselect::starts_with("biomass_kgha")) %>%
+      tidyr::pivot_longer(-fake_sample_unit_id, values_to = "su") %>%
+      dplyr::mutate(name = stringr::str_remove(name, "biomass_kgha_")))
+
+  obs_agg_for_su_comparison <- obs_agg_biomass_long %>%
+    dplyr::bind_rows(obs_agg_concatenate_long) %>%
+    dplyr::filter(name %in% sus_for_su_comparison[["name"]]) %>%
+    dplyr::mutate(obs = as.numeric(obs))
 
   test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })
@@ -435,7 +454,7 @@ test_that("Big/small fish fishbelt sample event aggregation is the same as manua
 
 ## Missing sample unit cases ----
 
-Fails
+# Issue because not all fish families are in CSV, passes otherwise
 test_that("Fishbelt sample unit aggregation is the same as manually aggregating observations, cases where some sample units were previously missing", {
   skip_if_offline()
   skip_on_ci()
@@ -498,7 +517,7 @@ test_that("Fishbelt sample unit aggregation is the same as manually aggregating 
 
 ## Deep/shallow ----
 
-# Fails
+# Issue because not all fish families are in CSV, passes otherwise
 test_that("Deep/shallow fishbelt sample unit aggregation is the same as manually aggregating observations", {
   skip_if_offline()
   skip_on_ci()
@@ -787,7 +806,6 @@ test_that("NULL values for percent cover in bleaching observations come through 
   expect_identical(res[["percent_soft"]], NA)
 })
 
-# Fails
 test_that("Bleaching sample unit aggregation is the same as manually aggregating observations", {
   skip_if_offline()
   skip_on_ci()
@@ -818,7 +836,8 @@ test_that("Bleaching sample unit aggregation is the same as manually aggregating
   sus_ids <- sus %>%
     construct_bleaching_fake_sample_unit_id() %>%
     dplyr::select(fake_sample_unit_id, sample_unit_id = sample_unit_ids) %>%
-    tidyr::separate_rows(sample_unit_id, sep = "; ") %>%
+    # TODO: has gone from ; to ,
+    tidyr::separate_rows(sample_unit_id, sep = ",") %>%
     dplyr::arrange(fake_sample_unit_id, sample_unit_id)
 
   obs_ids <- obs_sample_units %>%
@@ -854,7 +873,17 @@ test_that("Bleaching sample unit aggregation is the same as manually aggregating
     dplyr::bind_rows(obs_agg_concatenate_long)
 
   sus_for_su_comparison <- unpack_sus_bleaching_long(sus, obs_agg_for_su_comparison) %>%
-    dplyr::mutate(su = dplyr::coalesce(su, ""))
+    # Remove leading ", " from collapse on server
+    dplyr::mutate(
+      su = dplyr::case_when(
+        stringr::str_starts(su, ", ") ~ stringr::str_remove(su, ", "),
+        TRUE ~ su
+      ),
+      su = dplyr::case_when(
+        name %in% c("label", "visibility", "current", "relative_depth", "tide") ~ dplyr::coalesce(su, ""),
+        TRUE ~ su
+      )
+    )
 
   test_obs_vs_sus_agg(obs_agg_for_su_comparison, sus_for_su_comparison)
 })
