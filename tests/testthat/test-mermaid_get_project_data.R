@@ -945,7 +945,6 @@ test_that("mermaid_get_project_data with covariates = FALSE (the default) doesn'
   expect_true(FALSE)
 })
 
-
 test_that("mermaid_get_project_data with covariates = TRUE returns covars, all the way down", {
   skip_if_offline()
   skip_on_ci()
