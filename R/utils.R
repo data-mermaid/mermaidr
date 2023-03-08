@@ -84,10 +84,14 @@ combine_coltypes_and_bind_rows <- function(data, .id = NULL) {
   data <- data %>%
     dplyr::bind_rows(.id = .id)
 
-  # Write to temp CSV
-  temp_file <- tempfile(fileext = ".csv")
-  readr::write_csv(data, temp_file)
+  if (nrow(data) > 0) {
+    # Write to temp CSV
+    temp_file <- tempfile(fileext = ".csv")
+    readr::write_csv(data, temp_file)
 
-  # Read back in to get correct column types
-  readr::read_csv(temp_file, show_col_types = FALSE, progress = FALSE)
+    # Read back in to get correct column types
+    readr::read_csv(temp_file, show_col_types = FALSE, progress = FALSE)
+  } else {
+    tibble::tibble()
+  }
 }
