@@ -90,7 +90,7 @@ combine_coltypes_and_bind_rows <- function(data, .id = NULL) {
     readr::write_csv(data, temp_file)
 
     # Read back in to get correct column types
-    readr::read_csv(temp_file, show_col_types = FALSE, progress = FALSE)
+    readr::read_csv(temp_file, show_col_types = FALSE, progress = FALSE, guess_max = nrow(data))
   } else {
     tibble::tibble()
   }
