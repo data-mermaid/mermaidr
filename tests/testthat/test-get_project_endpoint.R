@@ -20,8 +20,7 @@ test_that("get_project_endpoint returns a tibble when passed a known endpoint, e
   skip_on_ci()
   skip_on_cran()
 
-  # TODO
-  test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
+  test_project <- mermaid_search_projects("Sharla test")
   expect_named(get_project_endpoint(test_project, "benthictransects", limit = 1), mermaid_project_endpoint_columns[["benthictransects"]])
 })
 
@@ -42,6 +41,15 @@ test_that("get_project_endpoint allows multiple projects, and combines the resul
   expect_named(get_project_endpoint(p, "project_profiles", limit = 1), c("project_id", mermaid_project_endpoint_columns[["project_profiles"]]))
   expect_named(get_project_endpoint(p, "sampleevents", limit = 1), c("project_id", mermaid_project_endpoint_columns[["sampleevents"]]))
   expect_named(get_project_endpoint(p, "sites", limit = 1), c("project_id", cols_without_covars(mermaid_project_endpoint_columns[["sites"]], covars_cols)))
+})
+
+test_that("agg endpoints - get_project_endpoint allows multiple projects and combines results", {
+
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  p <- c("9de82789-c38e-462e-a1a8-e02c020c7a35", "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a", "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b")
 
   expect_named(get_project_endpoint(p, "beltfishes/obstransectbeltfishes", limit = 1), c(mermaid_project_endpoint_columns[["beltfishes/obstransectbeltfishes"]]))
   sus <- get_project_endpoint(p, "beltfishes/sampleunits", limit = 1)
@@ -69,12 +77,22 @@ test_that("get_project_endpoint allows multiple projects, and combines the resul
 
   expect_named(get_project_endpoint(p, "habitatcomplexities/obshabitatcomplexities", limit = 1), c(mermaid_project_endpoint_columns[["habitatcomplexities/obshabitatcomplexities"]]))
   expect_named(get_project_endpoint(p, "habitatcomplexities/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["habitatcomplexities/sampleunits"]]))
-  expect_named(get_project_endpoint(p, "habitatcomplexities/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["habitatcomplexities/sampleevents"]]))
+  ses <- get_project_endpoint(p, "habitatcomplexities/sampleevents", limit = 1)
+  expect_true(all(project_data_test_columns[["habitatcomplexities/sampleevents"]] %in% names(ses)))
 
   expect_named(get_project_endpoint(p, "bleachingqcs/obscoloniesbleacheds", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/obscoloniesbleacheds"]]))
   expect_named(get_project_endpoint(p, "bleachingqcs/obsquadratbenthicpercents", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/obsquadratbenthicpercents"]]))
   expect_named(get_project_endpoint(p, "bleachingqcs/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/sampleunits"]]))
   expect_named(get_project_endpoint(p, "bleachingqcs/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/sampleevents"]]))
+
+  p <- "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
+  expect_named(get_project_endpoint(p, "benthicpqts/obstransectbenthicpqts", limit = 1), c(mermaid_project_endpoint_columns[["benthicpqts/obstransectbenthicpqts"]]))
+  sus <- get_project_endpoint(p, "benthicpqts/sampleunits", limit = 1)
+  expect_true(all(project_data_test_columns[["benthicpqts/sampleunits"]] %in% names(sus)))
+  expect_true(any(stringr::str_starts(names(sus), project_data_df_columns_list_names[["benthicpqts/sampleunits"]])))
+  ses <- get_project_endpoint(p, "benthicpqts/sampleevents", limit = 1)
+  expect_true(all(project_data_test_columns[["benthicpqts/sampleevents"]] %in% names(ses)))
+  expect_true(any(stringr::str_starts(names(ses), project_data_df_columns_list_names[["benthicpqts/sampleevents"]])))
 })
 
 test_that("unpack_df_cols and repack_df_cols work as expected", {
