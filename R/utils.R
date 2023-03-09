@@ -76,22 +76,42 @@ sub_one_for_many <- function(x, pattern, replacement) {
 }
 
 combine_coltypes_and_bind_rows <- function(data, .id = NULL) {
-  # Convert all to character
-  data <- data %>%
-    purrr::map(~ .x %>% dplyr::mutate_all(as.character))
 
-  # Bind rows
-  data <- data %>%
-    dplyr::bind_rows(.id = .id)
+  # Go through each column and get its ptype from each data set
+  # If not all the same, combine and get the overall ptype and cast to that
+  # Then bind together
+  cols <- data %>%
+    purrr::map(names) %>%
+    unlist() %>%
+    unique()
 
-  if (nrow(data) > 0) {
-    # Write to temp CSV
-    temp_file <- tempfile(fileext = ".csv")
-    readr::write_csv(data, temp_file)
+  for (col in cols) {
+    col_ptypes <- data %>%
+      purrr::map_chr(function(x) {
+        vec_class <- x[[col]] %>%
+          vctrs::vec_ptype() %>%
+          class()
 
-    # Read back in to get correct column types
-    readr::read_csv(temp_file, show_col_types = FALSE, progress = FALSE, guess_max = nrow(data))
-  } else {
-    tibble::tibble()
+        paste0(vec_class, collapse = "_")
+      }) %>%
+      unique()
+
+    if (length(col_ptypes) > 1) {
+
+      combined_coltype <- data %>%
+        purrr::map(col) %>%
+        unlist() %>%
+        vctrs::vec_ptype() %>%
+        class()
+      data <- data %>%
+        purrr::map(function(x) {
+          x[[col]] <- as(x[[col]], combined_coltype)
+
+          x
+        })
+    }
   }
+
+  data %>%
+    dplyr::bind_rows(.id = .id)
 }
