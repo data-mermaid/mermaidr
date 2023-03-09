@@ -109,7 +109,7 @@ get_paginated_response <- function(path, ua, token, limit) {
 }
 
 get_ingest_schema_response <- function(path, ua, token) {
-  get_and_parse(path, ua, token, simplify_df = FALSE)
+  get_and_parse(path, ua, token = token, simplify_df = FALSE)
 }
 
 get_and_parse <- function(path, ua, limit = NULL, token, simplify_df = TRUE) {

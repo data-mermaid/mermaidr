@@ -155,7 +155,7 @@ mermaid_import_get_template <- function(method = c("fishbelt", "benthiclit", "be
 mermaid_import_get_options <- function(project, method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleachingqc", "habitatcomplexity"), token = mermaid_token()) {
   endpoint <- glue::glue("collectrecords/ingest_schema/{method}")
 
-  res <- purrr::map(endpoint, ~ get_project_endpoint(project, .x, limit = NULL, token))
+  res <- purrr::map(endpoint, ~ get_project_endpoint(project, .x, limit = NULL, token = token))
 
   res <- purrr::map(res, clean_import_options)
 
