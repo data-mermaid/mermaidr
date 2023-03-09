@@ -87,13 +87,20 @@ combine_coltypes_and_bind_rows <- function(data, .id = NULL) {
 
   for (col in cols) {
     col_ptypes <- data %>%
-      purrr::map_chr(function(x) {
+      purrr::map(function(x) {
+        if (is.null(x[[col]])) {
+          return(NULL)
+        }
         vec_class <- x[[col]] %>%
           vctrs::vec_ptype() %>%
           class()
 
         paste0(vec_class, collapse = "_")
-      }) %>%
+      })
+
+    col_ptypes <- col_ptypes %>%
+      purrr::compact() %>%
+      unlist() %>%
       unique()
 
     if (length(col_ptypes) > 1) {
@@ -105,7 +112,9 @@ combine_coltypes_and_bind_rows <- function(data, .id = NULL) {
         class()
       data <- data %>%
         purrr::map(function(x) {
-          x[[col]] <- as(x[[col]], combined_coltype)
+          if (!is.null(x[[col]])) {
+            x[[col]] <- as(x[[col]], combined_coltype)
+          }
 
           x
         })
