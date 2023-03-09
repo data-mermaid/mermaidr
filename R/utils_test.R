@@ -60,7 +60,7 @@ test_obs_vs_sus_agg <- function(obs_agg, sus_agg) {
     ) %>%
     dplyr::filter(!is.na(.data$obs) | !is.na(.data$su)) %>%
     dplyr::mutate_if(is.double, as.numeric) # %>%
-    # dplyr::mutate_if(is.numeric, dplyr::coalesce, 0)
+  # dplyr::mutate_if(is.numeric, dplyr::coalesce, 0)
   # remove this piece until all fish families are in CSV
 
   # Same as above
@@ -68,7 +68,8 @@ test_obs_vs_sus_agg <- function(obs_agg, sus_agg) {
     testthat::expect_true(all(obs_vs_su_match[["obs"]] == obs_vs_su_match[["su"]]))
   } else {
     testthat::expect_true(all(obs_vs_su_match[["obs"]] - obs_vs_su_match[["su"]] < 1,
-                          na.rm = TRUE)) # Same as above
+      na.rm = TRUE
+    )) # Same as above
   }
 }
 

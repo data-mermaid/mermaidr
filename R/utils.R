@@ -81,51 +81,51 @@ combine_coltypes_and_bind_rows <- function(data, .id = NULL) {
 
   if (inherits(res, "try-error")) {
 
-      # Go through each column and get its ptype from each data set
-      # If not all the same, combine and get the overall ptype and cast to that
-      # Then bind together
-      cols <- data %>%
-        purrr::map(names) %>%
+    # Go through each column and get its ptype from each data set
+    # If not all the same, combine and get the overall ptype and cast to that
+    # Then bind together
+    cols <- data %>%
+      purrr::map(names) %>%
+      unlist() %>%
+      unique()
+
+    for (col in cols) {
+      col_ptypes <- data %>%
+        purrr::map(function(x) {
+          if (is.null(x[[col]])) {
+            return(NULL)
+          }
+          vec_class <- x[[col]] %>%
+            vctrs::vec_ptype() %>%
+            class()
+
+          paste0(vec_class, collapse = "_")
+        })
+
+      col_ptypes <- col_ptypes %>%
+        purrr::compact() %>%
         unlist() %>%
         unique()
 
-      for (col in cols) {
-        col_ptypes <- data %>%
-          purrr::map(function(x) {
-            if (is.null(x[[col]])) {
-              return(NULL)
-            }
-            vec_class <- x[[col]] %>%
-              vctrs::vec_ptype() %>%
-              class()
-
-            paste0(vec_class, collapse = "_")
-          })
-
-        col_ptypes <- col_ptypes %>%
-          purrr::compact() %>%
+      if (length(col_ptypes) > 1) {
+        combined_coltype <- data %>%
+          purrr::map(col) %>%
           unlist() %>%
-          unique()
+          vctrs::vec_ptype() %>%
+          class()
+        data <- data %>%
+          purrr::map(function(x) {
+            if (!is.null(x[[col]])) {
+              x[[col]] <- as(x[[col]], combined_coltype)
+            }
 
-        if (length(col_ptypes) > 1) {
-          combined_coltype <- data %>%
-            purrr::map(col) %>%
-            unlist() %>%
-            vctrs::vec_ptype() %>%
-            class()
-          data <- data %>%
-            purrr::map(function(x) {
-              if (!is.null(x[[col]])) {
-                x[[col]] <- as(x[[col]], combined_coltype)
-              }
-
-              x
-            })
-        }
+            x
+          })
       }
+    }
 
-      res <- data %>%
-        dplyr::bind_rows(.id = .id)
+    res <- data %>%
+      dplyr::bind_rows(.id = .id)
   }
 
   res
