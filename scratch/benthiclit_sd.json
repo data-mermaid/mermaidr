@@ -1,0 +1,233 @@
+[
+  {
+    "project_name": "WCS Mozambique Coral Reef Monitoring",
+    "sample_event_id": "157e2a88-3e5b-4f68-8798-6e6f40f96805",
+    "depth_sd": 0,
+    "percent_cover_benthic_category_sd": [
+      {
+        "bare_substrate": 0,
+        "crustose_coralline_algae": 4.1683,
+        "cyanobacteria": 0,
+        "hard_coral": 6.9415,
+        "macroalgae": 3.2181,
+        "other_invertebrates": 0,
+        "rubble": 0,
+        "sand": 0,
+        "seagrass": 0,
+        "soft_coral": 1.8669,
+        "trash": 0,
+        "turf_algae": 7.6266
+      }
+    ]
+  },
+  {
+    "project_name": "WCS Mozambique Coral Reef Monitoring",
+    "sample_event_id": "18f8d0c8-1c9e-4d02-8a81-d7fa2f5d8853",
+    "depth_sd": 0,
+    "percent_cover_benthic_category_sd": [
+      {
+        "bare_substrate": 0,
+        "crustose_coralline_algae": 0.4205,
+        "cyanobacteria": 0,
+        "hard_coral": 10.5631,
+        "macroalgae": 0.3225,
+        "other_invertebrates": 0,
+        "rubble": 0,
+        "sand": 9.6357,
+        "seagrass": 0,
+        "soft_coral": 0.8369,
+        "trash": 0,
+        "turf_algae": 12.7019
+      }
+    ]
+  },
+  {
+    "project_name": "WCS Mozambique Coral Reef Monitoring",
+    "sample_event_id": "3e664aa4-b597-4605-b0a8-9df1d6f767aa",
+    "depth_sd": 1.4289,
+    "percent_cover_benthic_category_sd": [
+      {
+        "bare_substrate": 0,
+        "crustose_coralline_algae": 6.9684,
+        "cyanobacteria": 0,
+        "hard_coral": 6.1438,
+        "macroalgae": 0.274,
+        "other_invertebrates": 0.3103,
+        "rubble": 0,
+        "sand": 1.0819,
+        "seagrass": 0,
+        "soft_coral": 4.7076,
+        "trash": 0,
+        "turf_algae": 10.6808
+      }
+    ]
+  },
+  {
+    "project_name": "WCS Mozambique Coral Reef Monitoring",
+    "sample_event_id": "62e25cb2-8cd9-4f6a-85e2-06cba2c0c0ac",
+    "depth_sd": 0.8944,
+    "percent_cover_benthic_category_sd": [
+      {
+        "bare_substrate": 0,
+        "crustose_coralline_algae": 0,
+        "cyanobacteria": 0,
+        "hard_coral": 15.2217,
+        "macroalgae": 1.4558,
+        "other_invertebrates": 1.3774,
+        "rubble": 0,
+        "sand": 7.1502,
+        "seagrass": 0.8735,
+        "soft_coral": 2.2987,
+        "trash": 0,
+        "turf_algae": 12.3888
+      }
+    ]
+  },
+  {
+    "project_name": "WCS Mozambique Coral Reef Monitoring",
+    "sample_event_id": "643eb41d-2e04-4cdf-867f-0319cee8e1f2",
+    "depth_sd": 0,
+    "percent_cover_benthic_category_sd": [
+      {
+        "bare_substrate": 0,
+        "crustose_coralline_algae": 2.582,
+        "cyanobacteria": 0,
+        "hard_coral": 15.9747,
+        "macroalgae": 2.5633,
+        "other_invertebrates": 0.7933,
+        "rubble": 0,
+        "sand": 15.1341,
+        "seagrass": 0,
+        "soft_coral": 0,
+        "trash": 0,
+        "turf_algae": 10.5844
+      }
+    ]
+  },
+  {
+    "project_name": "WCS Mozambique Coral Reef Monitoring",
+    "sample_event_id": "84e364ae-4eb7-46bb-9309-7b0129817df5",
+    "depth_sd": null,
+    "percent_cover_benthic_category_sd": [
+      {
+        "bare_substrate": null,
+        "crustose_coralline_algae": null,
+        "cyanobacteria": null,
+        "hard_coral": null,
+        "macroalgae": null,
+        "other_invertebrates": null,
+        "rubble": null,
+        "sand": null,
+        "seagrass": null,
+        "soft_coral": null,
+        "trash": null,
+        "turf_algae": null
+      }
+    ]
+  },
+  {
+    "project_name": "WCS Mozambique Coral Reef Monitoring",
+    "sample_event_id": "9f0527a0-df3a-4aaa-9a0d-e74a48af9191",
+    "depth_sd": 0,
+    "percent_cover_benthic_category_sd": [
+      {
+        "bare_substrate": 0,
+        "crustose_coralline_algae": 6.2116,
+        "cyanobacteria": 0,
+        "hard_coral": 14.2833,
+        "macroalgae": 1.315,
+        "other_invertebrates": 1.0575,
+        "rubble": 0,
+        "sand": 5.1895,
+        "seagrass": 0,
+        "soft_coral": 4.8216,
+        "trash": 0,
+        "turf_algae": 10.3529
+      }
+    ]
+  },
+  {
+    "project_name": "WCS Mozambique Coral Reef Monitoring",
+    "sample_event_id": "b95a3450-af58-4af3-a181-eebb1482ab7c",
+    "depth_sd": 0,
+    "percent_cover_benthic_category_sd": [
+      {
+        "bare_substrate": 0,
+        "crustose_coralline_algae": 1.1885,
+        "cyanobacteria": 0,
+        "hard_coral": 7.1139,
+        "macroalgae": 7.5747,
+        "other_invertebrates": 1.4557,
+        "rubble": 0,
+        "sand": 3.838,
+        "seagrass": 0,
+        "soft_coral": 0,
+        "trash": 0,
+        "turf_algae": 8.7016
+      }
+    ]
+  },
+  {
+    "project_name": "WCS Mozambique Coral Reef Monitoring",
+    "sample_event_id": "bc3de1fc-9e50-44ef-af56-3e68f5cfc6eb",
+    "depth_sd": 0,
+    "percent_cover_benthic_category_sd": [
+      {
+        "bare_substrate": 0,
+        "crustose_coralline_algae": 1.4189,
+        "cyanobacteria": 0,
+        "hard_coral": 12.7354,
+        "macroalgae": 3.8766,
+        "other_invertebrates": 0,
+        "rubble": 0,
+        "sand": 4.5094,
+        "seagrass": 0,
+        "soft_coral": 5.5813,
+        "trash": 0,
+        "turf_algae": 10.3728
+      }
+    ]
+  },
+  {
+    "project_name": "WCS Mozambique Coral Reef Monitoring",
+    "sample_event_id": "de6b403d-29cc-4912-a03e-e9532610ba57",
+    "depth_sd": 0,
+    "percent_cover_benthic_category_sd": [
+      {
+        "bare_substrate": 0,
+        "crustose_coralline_algae": 6.0177,
+        "cyanobacteria": 0,
+        "hard_coral": 6.2276,
+        "macroalgae": 0.7932,
+        "other_invertebrates": 3.8824,
+        "rubble": 0,
+        "sand": 9.9658,
+        "seagrass": 0,
+        "soft_coral": 5.968,
+        "trash": 0,
+        "turf_algae": 3.7726
+      }
+    ]
+  },
+  {
+    "project_name": "WCS Mozambique Coral Reef Monitoring",
+    "sample_event_id": "ef54b9bd-e5c4-4989-a5ef-0184ddca15fe",
+    "depth_sd": 0,
+    "percent_cover_benthic_category_sd": [
+      {
+        "bare_substrate": 0,
+        "crustose_coralline_algae": 5.8972,
+        "cyanobacteria": 0,
+        "hard_coral": 6.5612,
+        "macroalgae": 12.2833,
+        "other_invertebrates": 0.7293,
+        "rubble": 0,
+        "sand": 3.4644,
+        "seagrass": 0,
+        "soft_coral": 2.5269,
+        "trash": 0,
+        "turf_algae": 19.9428
+      }
+    ]
+  }
+]
