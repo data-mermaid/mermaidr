@@ -1,0 +1,150 @@
+---
+title: TODO
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+###############################################################
+### MERMAID Webinar: Ingesting legacy data using to MERMAID  ##
+################## Author: Amkieltiela ########################
+##################### 28 March 2023 ###########################
+############## contact@datamermaid.org ########################
+###############################################################
+
+# set working directory
+
+#### Libraries ####
+#Run the code below to install mermaidr for the first time
+remotes::install_github("data-mermaid/mermaidr")
+
+library(mermaidr)
+library(plyr)
+library(dplyr)
+library(tidyr)
+library(reshape2)
+library(ggplot2)
+library(tibble)
+library(stringr)
+
+#### Ingesting data to MERMAID ####
+# STEP 1 - Get MERMAID Project
+# Rename to projects
+projects <- mermaid_get_my_projects()
+
+# STEP 2 - Filter to select just the project you are working on (and rename as object)
+mermaid <- projects %>% filter(name == 'MERMAID reef survey')
+
+# Probably need admin access, 403
+# STEP 3 - Getting the import template and options
+fish_template_and_options <- mermaid_import_get_template_and_options(
+  mermaid,
+  "fishbelt",
+  "fishbelt_mermaid_template.xlsx" )
+
+# STEP 4 - Prepare the data
+# load data
+SiteData <- read.csv("import-demo/04_SiteData.csv", sep = ';', header = TRUE)
+Fish <- read.csv("import-demo/03_FishBelt.csv", sep = ';', header = TRUE)
+
+# Reformatting
+# Fish template consist of: Site *, Management *, Sample date: Year *, Sample date: Month *, Sample date: Day *,
+# Sample time, Depth *, Transect number *, Transect label, Transect length surveyed *, Width *,
+# Fish size bin *, Reef slope, Visibility, Current, Relative depth, Tide, Sample unit notes,
+# Observer emails *, Fish name *, Size *, Count *
+#(Column name must be exactly the same and * means mandatory)
+colnames(Fish)
+fish_mermaid <- Fish
+fish_mermaid <- select(fish_mermaid, -(X))
+colnames(fish_mermaid)
+
+names(fish_mermaid)[names(fish_mermaid) == 'SiteID'] <- 'Site *'
+names(fish_mermaid)[names(fish_mermaid) == 'Depth'] <- 'Depth *'
+names(fish_mermaid)[names(fish_mermaid) == 'Transect_length'] <- 'Transect length surveyed *'
+names(fish_mermaid)[names(fish_mermaid) == 'Width'] <- 'Width *'
+names(fish_mermaid)[names(fish_mermaid) == 'Transect_number'] <- 'Transect number *'
+names(fish_mermaid)[names(fish_mermaid) == 'Fish.species'] <- 'Fish name *'
+names(fish_mermaid)[names(fish_mermaid) == 'Size_cm'] <- 'Size *'
+names(fish_mermaid)[names(fish_mermaid) == 'Abundance'] <- 'Count *'
+
+colnames(SiteData)
+#colnames(SamplingEvent)
+
+fish_mermaid <- add_column(fish_mermaid, 'Management *'= SiteData$Zone[match(fish_mermaid$`Site *`, SiteData$SiteID)], .before = 'Depth *')
+fish_mermaid <- add_column(fish_mermaid, 'Sample date: Year *' = SiteData$Year[match(fish_mermaid$`Site *`, SiteData$SiteID)], .before = 'Depth *')
+fish_mermaid <- add_column(fish_mermaid, 'Sample date: Month *' = SiteData$Month[match(fish_mermaid$`Site *`, SiteData$SiteID)], .before = 'Depth *')
+fish_mermaid <- add_column(fish_mermaid, 'Sample date: Day *' = SiteData$Day[match(fish_mermaid$`Site *`, SiteData$SiteID)], .before = 'Depth *')
+fish_mermaid$`Width *` <- 'Mixed: >10 cm & <35 cm @ 5 m, >=35 cm @ 20 m'
+fish_mermaid <- add_column(fish_mermaid, 'Fish size bin *' = 1, .before = 'Fish name *')
+
+fish_mermaid <- add_column(fish_mermaid, 'Reef slope' = SiteData$Reef_slope[match(fish_mermaid$`Site *`, SiteData$SiteID)], .before = 'Fish name *')
+#Reef slope option: crest, flat, slope, wall
+
+fish_mermaid <- add_column(fish_mermaid, 'Visibility' = SiteData$visibility[match(fish_mermaid$`Site *`, SiteData$SiteID)], .before = 'Fish name *')
+fish_mermaid$Visibility <- ifelse(fish_mermaid$Visibility<1, '<1m - bad',
+                                  ifelse(fish_mermaid$Visibility>=1 & fish_mermaid$Visibility<=5, '1-5m - poor',
+                                         ifelse(fish_mermaid$Visibility>5 & fish_mermaid$Visibility<=10, '5-10m - fair',
+                                                ifelse(fish_mermaid$Visibility>=10, '>10m - excellent', 'NA'))))
+
+unique(fish_mermaid$Visibility)
+
+fish_mermaid <- add_column(fish_mermaid, 'Current' = SiteData$current[match(fish_mermaid$`Site *`, SiteData$SiteID)], .before = 'Fish name *')
+#current options: high, low, moderate
+
+fish_mermaid <- add_column(fish_mermaid, 'Observer emails *' = 'email@mermaid.org', .before = 'Fish name *')
+
+# STEP 5 - Check that data matches the template and the options allowed
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Site *")
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Management *")
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Sample date: Year *")
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Sample date: Month *")
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Sample date: Day *")
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Depth *")
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Transect number *")
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Transect length surveyed *")
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Width *")
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Fish size bin *")
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Reef slope")
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Visibility")
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Current")
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Observer emails *")
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Fish name *")
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Size *")
+mermaid_import_check_options(fish_mermaid, fish_template_and_options, "Count *")
+
+## Clean fish species ##
+unique(fish_mermaid$`Fish name *`)
+
+fish_mermaid$`Fish name *` <- str_replace_all(fish_mermaid$`Fish name *`,
+                                              c('Parupeneus multifaskiatus'='Parupeneus multifasciatus',
+                                                'Parupeneus indikus'='Parupeneus indicus',
+                                                'Lutjanus sp.'='Lutjanus'))
+
+
+#### Save Fish ####
+write.csv(fish_mermaid, "2021_fish_mermaid_clean.csv")
+
+# STEP 6 - Importing data to MERMAID
+# Let r recheck the data once more
+mermaid_import_project_data(
+  fish_mermaid,
+  mermaid[["id"]],
+  method = "fishbelt",
+  dryrun = TRUE
+)
+
+#When dataset has been checked and accepted, re-run the command setting 'dryrun = False' to complete the upload
+mermaid_import_project_data(
+  fish_mermaid,
+  mermaid[["id"]],
+  method = "fishbelt",
+  dryrun = FALSE,
+  clearexisting = FALSE #BE CAUTIOUS if clearexisitng is set to TRUE, then it will automatically remove all the sample units in the collecting page for all users
+)
+
+
+```
+
