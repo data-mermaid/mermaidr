@@ -1,3 +1,7 @@
+# mermaidr 0.6.4
+
+* Add ingestion docs
+
 # mermaidr 0.6.3
 
 * Allow export of "benthicpqt" data via `mermaid_get_project_data()`
