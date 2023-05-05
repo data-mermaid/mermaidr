@@ -45,6 +45,7 @@ articles:
     navbar: Case Studies
     contents:
     - articles/vo_baseline_monitoring
+    - articles/importing_fishbelt
   - title: Getting Started
     navbar: Getting Started
     contents:
