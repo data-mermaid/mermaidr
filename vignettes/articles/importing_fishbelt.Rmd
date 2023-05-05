@@ -7,9 +7,23 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Get MERMAID project
+Do you have a lot of existing data and just starting to use MERMAID? You might be wondering on how to import those  data into MERMAID. You can import (ingest) your legacy data into MERMAID by using the mermaidr package. More info on the ingestion workflow with mermaidr can be seen on the ingestion [documentation](https://datamermaid.org/documentation/ingesting-legacy-data-using-r-studio). Other use of mermaidr package can be seen on the [package website](https://data-mermaid.github.io/mermaidr/).
 
-Note `search-run` chunk is what will actually run, but not be shown (`echo = FALSE`), because it has the `include_test_projects = TRUE` flag, but we don't want users to worry about that.
+Here we provide an example on how to import your fish data that uses the **fish belt method** into MERMAID using the mermaidr package. Please note that you need to **prepare your project in the app first** before starting this process. Detail on how to set a new project can be seen [here](https://datamermaid.org/documentation/setting-up-a-new-project). For this example, we have already prepared a project in the MERMAID app named **MERMAID reef survey**. The steps are:
+1. Download the fish belt MERMAID template
+2. Reformat your data to match the template
+3. Address errors and warnings
+4. Import (ingest) data to MERMAID
+
+# 1. Download the fish belt MERMAID template
+Before downloading the MERMAID template, make sure that you already have mermaidr package installed on your R studio. You can install the package from GitHub using the code below:
+
+```{r}
+remotes::install_github("data-mermaid/mermaidr")
+```
+
+
+In this example, we are going to also use the tidyverse package. The first step is to load the packages and access your MERMAID projects. Access your project by using the [`mermaid_search_my_projects` function](https://data-mermaid.github.io/mermaidr/reference/mermaid_search_projects.html) and write the project name. You can set the `include_test_projects` to FALSE if your project is not a test projects. For this example, we set it to TRUE to be able to access the **MERMAID reef survey** project that we set as a test project.
 
 ```{r search-run, include = FALSE}
 library(mermaidr)
@@ -18,7 +32,7 @@ library(tidyverse)
 reef_survey <- mermaid_search_my_projects("MERMAID reef survey", include_test_projects = TRUE)
 ```
 
-This chunk will show, but not run (`eval = FALSE`), mimicking as if we are just searching projects, not worrying about the test flag.
+At this point, a browser window will open for you to authenticate by logging in to MERMAID app. Once you've logged in, you can close the browser and come back to R. Your login credentials will last for a day and after it expires you will need to log in again.
 
 ```{r search-show, eval = FALSE}
 library(mermaidr)
@@ -27,7 +41,7 @@ library(tidyverse)
 reef_survey <- mermaid_search_my_projects("MERMAID reef survey")
 ```
 
-Get import template and options, save to a file called "fishbelt_mermaid_template.xlsx"
+Next step is to get the fish belt MERMAID template and options using the [`mermaid_import_get_template_and_options` function](https://data-mermaid.github.io/mermaidr/reference/mermaid_import_get_template_and_options.html) and save it to a file called "fishbelt_mermaid_template.xlsx".
 
 ```{r template}
 fish_template_and_options <- mermaid_import_get_template_and_options(
@@ -37,32 +51,40 @@ fish_template_and_options <- mermaid_import_get_template_and_options(
 )
 ```
 
+![Fish Belt MERMAID Template.](/Users/amkieltiela/Library/CloudStorage/GoogleDrive-amkieltiela@padmi.org/My Drive/00_Work/2023_WCS_MERMAID/MERMAID/Website/MERMAID documentation/mermaidr/Figures/fishbelt_template.png)
+The XLSX file consists of the fish belt MERMAID template and the options that are tailored based on your project. For example, the site options that are accepted are all the sites that you have added in the project through the MERMAID app.
+
 ```{r email-options-edit, echo = FALSE}
 # Altering the emails options behind the scenes so no actual emails are exposed
 fish_template_and_options[["Observer emails *"]][["choices"]] <- tibble(value = "email@mermaid.org")
 ```
 
-Maybe we can have a screenshot here of what the template looks like? But can also preview in R:
-
-```{r}
-names(fish_template_and_options)
-```
- 
-Look at the template:
+You can also preview the template in R:
 
 ```{r}
 fish_template_and_options[["Template"]]
 ```
 
-Look at some options:
+Or if you want to investigate the column names in R, you can use the code below:
+
+```{r}
+names(fish_template_and_options)
+```
+
+All column names with asterix sign shows that it is mandatory to be filled. You can leave the columns without the asterix blank if the data is not available.
+
+Investigate all the available options for each column before adjusting the format. For example, to look at the options for site:
 
 ```{r}
 fish_template_and_options[["Site *"]]
 ```
 
-Read in data. Again, one chunk is actually run (the first) and one is shown (the second). The first is run because it is more specific to where the data is stored, but we assume people will be reading data from their Rstudio project directory - also using read_csv() in the second because it is commonly used, and we don't need to get into ; vs , here.
+#2. Reformat your data to match the template
+After downloading the fish belt MERMAID template, you're ready to start reformatting your data. In this example, we are using a fish belt width of 5 m for fish size 10-34 cm, and 20 m for fish size bigger than 34 cm. We also identify the fish size up to the closest cm.
 
-You will probably want to change the file location to reflect your own too.
+The first step is to read in your data. We have prepared our data in a CSV file and stored it in our project directory. You will probably want to change the file location to reflect your own too. To read the CSV file, Here we used the function *read_csv* so we don't need to worry if the separate sign used is either ';' or ','. 
+
+In this example, we are going to read our fish belt data (stored in fishbelt.csv file) and our sampling event data (stored in sites.csv file), and save it to two different files.
 
 ```{r data-run, echo = FALSE, message = FALSE}
 fishbelt_data <- read_delim(here::here("inst", "extdata", "import-fishbelt-vignette", "fishbelt.csv"), delim = ";")
@@ -74,7 +96,7 @@ fishbelt_data <- read_csv("fishbelt.csv")
 sites_data <- read_csv("sites.csv")
 ```
 
-A number of columns are in the `sites` data set and need to be added to fishbelt:
+The MERMAID ingestion template requires the sample event data and the observation data to be in the same file. Therefore, we need to add the `sites` data set to fish observation data. Investigate the available columns in the `site` and `fishbelt` data sets, and add the `site` data to `fishbelt` data using the `left_join` function:
 
 ```{r}
 sites_data
@@ -87,13 +109,15 @@ fishbelt_data <- fishbelt_data %>%
   left_join(sites_data, by = "SiteID")
 ```
 
-Add columns manually - look at options to know what is allowed:
+Looking at the available data, there are still two mandatory fields that are not yet added (i.e., Fish size bin and Observer emails) and one mandatory field that need to be adjusted (i.e., Fishbelt Width). We need to look at the options allowed for these columns:
 
 ```{r}
 fish_template_and_options[["Width *"]]
 fish_template_and_options[["Fish size bin *"]]
 fish_template_and_options[["Observer emails *"]]
 ```
+
+Now we know the available options to reflect our method, now we are going to add them manually using the code below:
 
 ```{r}
 fishbelt_data <- fishbelt_data %>%
@@ -104,7 +128,7 @@ fishbelt_data <- fishbelt_data %>%
   )
 ```
 
-Recode visibility, check how it is formatted in template:
+Notice that the visibility data are not the same as the options accepted by MERMAID? Let's check how it is formatted in template and implement the option into our data:
 
 ```{r}
 fish_template_and_options[["Visibility"]][["choices"]]
@@ -118,7 +142,7 @@ fishbelt_data <- fishbelt_data %>%
   ))
 ```
 
-Rename and reorder columns in one step
+Until this step you might already noticed that the column names in our dataset are not the same with the template, and you might be wondering if it should be the same. The answer is **yes, they must have exactly the same name** but not necessarily the same order. Lets rename and reorder columns the columns. First check the names in the template and in our data:
 
 ```{r}
 names(fish_template_and_options[["Template"]])
@@ -128,7 +152,9 @@ names(fish_template_and_options[["Template"]])
 names(fishbelt_data)
 ```
 
-Don't have any of `Sample time`, `Transect label`, `Relative depth`, `Tide`, `Sample unit notes`, which is fine because none of them are required
+Don't worry if you don't have any of `Sample time`, `Transect label`, `Relative depth`, `Tide`, `Sample unit notes` information, because none of them are required. It will not prevent you from importing (ingesting) your data into MERMAID. However, if you have those data, it is strongly recommended to add it as well.
+
+Next step is to rename and reorder the columns in one step:
 
 ```{r}
 fishbelt_data <- fishbelt_data %>%
@@ -155,7 +181,8 @@ fishbelt_data <- fishbelt_data %>%
 fishbelt_data
 ```
 
-Check columns one by one
+#3. Address errors and warnings
+After reformatting our data, we're going to clean our data using the `mermaid_import_check_options` function. We need to check the columns one by one to ensure the data are accepted by the MERMAID template. The code below is to check our data that we've reformatted with the fish belt template we've downloaded. If the data matches, then a green checklist will appear:
 
 ```{r}
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Site *")
@@ -177,7 +204,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Size *")
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Count *")
 ```
 
-There are issues in Fish name that need to be fixed
+There are issues in the Fish name that need to be fixed marked by the `FALSE` note under the match column. MERMAID also provides the closest choice to help us with data cleaning. We need to fix theses issues to be able to ingest our data:
 
 ```{r}
 fishbelt_data <- fishbelt_data %>%
@@ -189,13 +216,13 @@ fishbelt_data <- fishbelt_data %>%
   ))
 ```
 
-Check values again
+After fixing the issues, lets check again the values to makes sure we receive a green checklist to move forward with the process.
 
 ```{r}
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Fish name *")
 ```
 
-Save clean file
+Once we got the green checklist, we have the cleaned version of our data that is ready to be ingested. Lets save the cleaned fishbelt data:
 
 ```{r save-run, echo = FALSE}
 write_delim(fishbelt_data, here::here("inst", "extdata", "import-fishbelt-vignette", "fishbelt_clean.csv"), delim = ";")
@@ -211,7 +238,8 @@ fishbelt_data <- fishbelt_data %>%
   mutate(`Observer emails *` = "sharla.gelfand@gmail.com")
 ```
 
-Import data to MERMAID - note this is not R checking, but the actual MERMAID API - does lots of checks that we hope to save people from having to deal with by doing all the steps first
+#4. Import (ingest) data to MERMAID
+Once we have our cleaned MERMAID formatted data, the next step is ingesting the data. However, to ensure all the data are acceptable, we will check once more the entire dataset using the [`mermaid_import_project_data`](https://data-mermaid.github.io/mermaidr/reference/mermaid_import_project_data.html). The code is the same with ingesting the data, but we set the `dryrun` to `TRUE`:
 
 ```{r}
 mermaid_import_project_data(
@@ -222,7 +250,7 @@ mermaid_import_project_data(
 )
 ```
 
-Not sure if we need to include clearexisting or any explanation, it is by default set to FALSE so I think better to just not mention it?
+Once we got the message **Records successfully checked!**, change the `dryrun` option to `FALSE` to start ingesting your data into MERMAID. Once you got the message **Records successfully imported! Please review in Collect.**, your can head to the `Collecting Page` in your project in the MERMAID app and start validating and submitting each transect.
 
 ```{r}
 mermaid_import_project_data(
