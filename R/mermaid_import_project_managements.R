@@ -3,8 +3,6 @@
 #' @param data Data to import. A data frame containing \code{name}, and optionally \code{name_secondary}, \code{est_year} (numeric), \code{size} (numeric, in hectares), \code{parties} (separated by ;), \code{compliance}, \code{notes}, and \code{project}. The data \strong{must} contain at least one rule with \code{TRUE}. The rules columns are:  \code{open_access}, \code{no_take}, \code{access_restriction}, \code{periodic_closure}, \code{size_limits}, \code{gear_restriction}. Any missing rules will be treated as \code{FALSE}. All rules columns can be included (with \code{FALSE}) if they are not applicable for the given management regime (i.e., in the case of importing many MRs at once with different rules).
 #' @inheritParams get_project_endpoint
 #'
-#' @export
-#'
 #' @examples
 #' \dontrun{
 #' project <- mermaid_search_my_projects("Sharla test", include_test_projects = TRUE)
@@ -22,6 +20,7 @@
 #' data %>%
 #'   mermaid_import_project_managements(project)
 #' }
+#' @noRd
 mermaid_import_project_managements <- function(data, project, token = mermaid_token()) {
   # Convert project to ID
   project <- as_id(project)

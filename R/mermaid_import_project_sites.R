@@ -3,8 +3,6 @@
 #' @param data Data to import. A data frame containing the fields: \code{name}, \code{latitude}, \code{longitude}, \code{country}, \code{reef_type}, \code{reef_zone}, \code{exposure}, and optionally \code{notes} and \code{project}.
 #' @inheritParams get_project_endpoint
 #'
-#' @export
-#'
 #' @examples
 #' \dontrun{
 #' project <- mermaid_search_my_projects("Sharla test", include_test_projects = TRUE)
@@ -23,6 +21,7 @@
 #' data %>%
 #'   mermaid_import_project_sites(project)
 #' }
+#' @noRd
 mermaid_import_project_sites <- function(data, project, token = mermaid_token()) {
   # Convert project to ID
   project <- as_id(project)
