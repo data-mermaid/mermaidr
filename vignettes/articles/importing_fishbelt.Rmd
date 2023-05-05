@@ -54,11 +54,12 @@ fish_template_and_options <- mermaid_import_get_template_and_options(
 ## ✔ Import template and field options written to fishbelt_mermaid_template.xlsx
 ```
 
-![Fish Belt MERMAID Template](fishbelt_template.png)
+<img src = "fishbelt_template.png" width = "75%" title = "Fish belt MERMAID template">
 
 The XLSX file consists of the fish belt MERMAID template and the options that are tailored based on your project. For example, the site options that are accepted are all the sites that you have added in the project through the MERMAID app.
 
-![Site options](fishbelt_template_sites.png)
+
+<img src = "fishbelt_template_sites.png" width = "50%" title = "Site options">
 
 
 
