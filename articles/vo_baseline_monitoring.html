@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.4</span>
       </span>
     </div>
 
@@ -54,6 +54,9 @@
 <li class="dropdown-header">Case Studies</li>
     <li>
       <a href="../articles/vo_baseline_monitoring.html">WCS Vibrant Oceans Baseline Coral Reef Monitoring</a>
+    </li>
+    <li>
+      <a href="../articles/importing_fishbelt.html">Ingesting legacy data into MERMAID</a>
     </li>
     <li class="divider">
     </li>
@@ -96,10 +99,11 @@
 
       
 
-      </header><script src="vo_baseline_monitoring_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>WCS Vibrant Oceans Baseline Coral Reef Monitoring</h1>
+      <h1 data-toc-skip>WCS Vibrant Oceans Baseline Coral Reef
+Monitoring</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/HEAD/vignettes/articles/vo_baseline_monitoring.Rmd" class="external-link"><code>vignettes/articles/vo_baseline_monitoring.Rmd</code></a></small>
@@ -109,8 +113,16 @@
 
     
     
-<p>This case study follows an analysis of baseline coral reef studies for Vibrant Oceans, completed by the Wildlife Conservation Society (WCS). The original survey and analysis covered 168 sites across Tanzania, Fiji, and Indonesia, surveying underwater information across a diversity of management, habitat types, and other environmental characteristics. This analysis is a small subset, only using publicly available data, and intended to illustrate the usage of <code>mermaidr</code> for such a project.</p>
-<p>First, we load <code>mermaidr</code> and search for projects tagged with “Vibrant Oceans”:</p>
+<p>This case study follows an analysis of baseline coral reef studies
+for Vibrant Oceans, completed by the Wildlife Conservation Society
+(WCS). The original survey and analysis covered 168 sites across
+Tanzania, Fiji, and Indonesia, surveying underwater information across a
+diversity of management, habitat types, and other environmental
+characteristics. This analysis is a small subset, only using publicly
+available data, and intended to illustrate the usage of
+<code>mermaidr</code> for such a project.</p>
+<p>First, we load <code>mermaidr</code> and search for projects tagged
+with “Vibrant Oceans”:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://data-mermaid.github.io/mermaidr" class="external-link">mermaidr</a></span><span class="op">)</span></span>
 <span></span>
@@ -128,8 +140,19 @@
 <span><span class="co">#&gt; # … with 6 more variables: data_policy_benthiclit &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>
-<p>For this analysis, WCS field teams accessed ecological condition using underwater surveys to assess two key indicators of coral reef health: live hard coral cover and reef fish biomass. This data is available from <code>mermaidr</code> via the benthic PIT and fishbelt methods, respectively. We’ll focus on projects that have summary data publicly available for these methods.</p>
-<p>We are able to see the data policy of projects and methods by looking at the <code>data_policy_*</code> columns of <code>vo_projects</code>. For example, focusing on benthic PIT and fishbelt, we can see that the Taka Bonerate NP-2019 project has summary data publicly available for fishbelt and benthic PIT, while the 2019 Dama Bureta Waibula and Dawasamu-WISH ecological survey has public data available for only benthic PIT.</p>
+<p>For this analysis, WCS field teams accessed ecological condition
+using underwater surveys to assess two key indicators of coral reef
+health: live hard coral cover and reef fish biomass. This data is
+available from <code>mermaidr</code> via the benthic PIT and fishbelt
+methods, respectively. We’ll focus on projects that have summary data
+publicly available for these methods.</p>
+<p>We are able to see the data policy of projects and methods by looking
+at the <code>data_policy_*</code> columns of <code>vo_projects</code>.
+For example, focusing on benthic PIT and fishbelt, we can see that the
+Taka Bonerate NP-2019 project has summary data publicly available for
+fishbelt and benthic PIT, while the 2019 Dama Bureta Waibula and
+Dawasamu-WISH ecological survey has public data available for only
+benthic PIT.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span></span>
@@ -146,7 +169,10 @@
 <div class="section level2">
 <h2 id="live-hard-coral-cover">Live hard coral cover<a class="anchor" aria-label="anchor" href="#live-hard-coral-cover"></a>
 </h2>
-<p>We’ll focus on hard coral (benthic PIT) data first. We can get this data by filtering for projects that have publicly available summary data for it (returning both the Taka Bonerate and Dama Bureta Waibula and Dawasamu projects):</p>
+<p>We’ll focus on hard coral (benthic PIT) data first. We can get this
+data by filtering for projects that have publicly available summary data
+for it (returning both the Taka Bonerate and Dama Bureta Waibula and
+Dawasamu projects):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">projects_public_benthic</span> <span class="op">&lt;-</span> <span class="va">vo_projects</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">data_policy_benthicpit</span> <span class="op">==</span> <span class="st">"Public Summary"</span><span class="op">)</span></span>
@@ -158,7 +184,12 @@
 <span><span class="co">#&gt;   &lt;chr&gt;                                                       </span></span>
 <span><span class="co">#&gt; 1 2019_Dama Bureta Waibula and Dawasamu-WISH ecological survey</span></span>
 <span><span class="co">#&gt; 2 Taka Bonerate NP-2019</span></span></code></pre></div>
-<p>And then by querying for public summary data, using <code><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code>, specifying the “benthicpit” method with “sampleevents” data. The key to accessing public summary data is to set our token to <code>NULL</code> - this makes it so that <code>mermaidr</code> won’t try to authenticate us, and instead just returns the data <em>if</em> the data policy allows it.</p>
+<p>And then by querying for public summary data, using
+<code><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code>, specifying the “benthicpit”
+method with “sampleevents” data. The key to accessing public summary
+data is to set our token to <code>NULL</code> - this makes it so that
+<code>mermaidr</code> won’t try to authenticate us, and instead just
+returns the data <em>if</em> the data policy allows it.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">benthic_data</span> <span class="op">&lt;-</span> <span class="va">projects_public_benthic</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"benthicpit"</span>, <span class="st">"sampleevents"</span>, token <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
@@ -180,12 +211,23 @@
 <span><span class="co">#&gt; #   andrello_cumul_score &lt;dbl&gt;, beyer_score &lt;dbl&gt;, beyer_scorecn &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   beyer_scorecy &lt;dbl&gt;, beyer_scorepfc &lt;dbl&gt;, beyer_scoreth &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   beyer_scoretr &lt;dbl&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;, …</span></span></code></pre></div>
-<p>At a high level, this returns the aggregations for a survey at the <em>sample event</em> level; roughly, it provides a summary of all observations for all transects at a given site and date, giving us information like the average percent cover for each benthic category. Let’s focus in on the <code>country</code>, <code>site</code>, and <code>percent_cover_benthic_category_avg_hard_coral</code> columns.</p>
+<p>At a high level, this returns the aggregations for a survey at the
+<em>sample event</em> level; roughly, it provides a summary of all
+observations for all transects at a given site and date, giving us
+information like the average percent cover for each benthic category.
+Let’s focus in on the <code>country</code>, <code>site</code>, and
+<code>percent_cover_benthic_category_avg_hard_coral</code> columns.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">benthic_data</span> <span class="op">&lt;-</span> <span class="va">benthic_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">country</span>, <span class="va">site</span>, hard_coral <span class="op">=</span> <span class="va">percent_cover_benthic_category_avg_hard_coral</span><span class="op">)</span></span></code></pre></div>
-<p>We’d like to summarise hard coral coverage across these sites. WCS considers a 10% cover as a minimum threshold of carbonate production and reef growth, while 30% cover may be more related to a threshold for biodiversity and fisheries production, so we will aggregate and visualize the coverage.</p>
-<p>First, let’s categorize each value of <code>hard_coral</code> according to whether it’s below 10%, between 10% and 30%, or above 30%:</p>
+<p>We’d like to summarise hard coral coverage across these sites. WCS
+considers a 10% cover as a minimum threshold of carbonate production and
+reef growth, while 30% cover may be more related to a threshold for
+biodiversity and fisheries production, so we will aggregate and
+visualize the coverage.</p>
+<p>First, let’s categorize each value of <code>hard_coral</code>
+according to whether it’s below 10%, between 10% and 30%, or above
+30%:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">benthic_data</span> <span class="op">&lt;-</span> <span class="va">benthic_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>threshold <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
@@ -193,7 +235,10 @@
 <span>    <span class="va">hard_coral</span> <span class="op">&gt;=</span> <span class="fl">10</span> <span class="op">&amp;</span> <span class="va">hard_coral</span> <span class="op">&lt;</span> <span class="fl">30</span> <span class="op">~</span> <span class="st">"Midrange 10-30% cover"</span>,</span>
 <span>    <span class="va">hard_coral</span> <span class="op">&gt;=</span> <span class="fl">30</span> <span class="op">~</span> <span class="st">"Above 30% hard coral cover"</span></span>
 <span>  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>We can count how many fall into each category - it looks like the bulk of sites (57%) fall into the midrange 10 - 30% cover category, a small number (8.9%) are below 10%, and about a third (34.2%) of surveyed sites have above 30% hard coral cover.</p>
+<p>We can count how many fall into each category - it looks like the
+bulk of sites (57%) fall into the midrange 10 - 30% cover category, a
+small number (8.9%) are below 10%, and about a third (34.2%) of surveyed
+sites have above 30% hard coral cover.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">benthic_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">threshold</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -204,7 +249,8 @@
 <span><span class="co">#&gt; 1 Above 30% hard coral cover    27 0.342 </span></span>
 <span><span class="co">#&gt; 2 Below 10% cover                7 0.0886</span></span>
 <span><span class="co">#&gt; 3 Midrange 10-30% cover         45 0.570</span></span></code></pre></div>
-<p>We’d also like to see the distribution of these values - for example, what do those 10 - 30% coverages actually look like?</p>
+<p>We’d also like to see the distribution of these values - for example,
+what do those 10 - 30% coverages actually look like?</p>
 <p>Let’s visualize the data, using <code>ggplot2</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
@@ -212,7 +258,13 @@
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">benthic_data</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">hard_coral</span>, y <span class="op">=</span> <span class="va">site</span>, fill <span class="op">=</span> <span class="va">threshold</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vo-unnamed-chunk-9-1.png" title="A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, below 10% cover, or 10-30% cover, respectively. The sites are ordered alphabeticaly." alt="A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, below 10% cover, or 10-30% cover, respectively. The sites are ordered alphabeticaly."></p>
-<p>This is a good start, but it would probably be much more useful with a few changes. We can recorder the sites so that they go in descending order, from highest to lowest hard coral coverage. We can also rearrange the threshold legend, so that it follows a logical order, from highest to lowest coverage (instead of alphabetical). It would also be helpful to add a line at the 10% and 30% points, to visualize those thresholds more explicitly.</p>
+<p>This is a good start, but it would probably be much more useful with
+a few changes. We can recorder the sites so that they go in descending
+order, from highest to lowest hard coral coverage. We can also rearrange
+the threshold legend, so that it follows a logical order, from highest
+to lowest coverage (instead of alphabetical). It would also be helpful
+to add a line at the 10% and 30% points, to visualize those thresholds
+more explicitly.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">benthic_data</span> <span class="op">&lt;-</span> <span class="va">benthic_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -227,7 +279,11 @@
 <span></span>
 <span><span class="va">hard_coral_plot</span></span></code></pre></div>
 <p><img src="vo-unnamed-chunk-10-1.png" title="A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, 10-30% cover, or below 10% cover. The sites are ordered by their hard coral coverage, from highest to lowest. There is a dashed vertical line at 10% and 30% hard coral." alt="A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, 10-30% cover, or below 10% cover. The sites are ordered by their hard coral coverage, from highest to lowest. There is a dashed vertical line at 10% and 30% hard coral."></p>
-<p>Finally, we can make some visual changes, like updating the theme, removing the site names (we care more about the distribution than which site they correspond to for this plot), adding axis labels for every 10%, cleaning up labels, and some other fiddly bits to create a beautiful plot!</p>
+<p>Finally, we can make some visual changes, like updating the theme,
+removing the site names (we care more about the distribution than which
+site they correspond to for this plot), adding axis labels for every
+10%, cleaning up labels, and some other fiddly bits to create a
+beautiful plot!</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hard_coral_plot</span> <span class="op">&lt;-</span> <span class="va">hard_coral_plot</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Hard coral cover, %"</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">70</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -248,7 +304,10 @@
 <div class="section level2">
 <h2 id="reef-fish-biomass">Reef fish biomass<a class="anchor" aria-label="anchor" href="#reef-fish-biomass"></a>
 </h2>
-<p>Next, let’s turn to reef fish biomass. Similarly to the step above, we can get this data by filtering for projects that have publicly available summary data for it, returning only the Taka Bonerate project.</p>
+<p>Next, let’s turn to reef fish biomass. Similarly to the step above,
+we can get this data by filtering for projects that have publicly
+available summary data for it, returning only the Taka Bonerate
+project.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">projects_public_fishbelt</span> <span class="op">&lt;-</span> <span class="va">vo_projects</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">data_policy_beltfish</span> <span class="op">==</span> <span class="st">"Public Summary"</span><span class="op">)</span></span>
@@ -259,7 +318,9 @@
 <span><span class="co">#&gt;   name                 </span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;                </span></span>
 <span><span class="co">#&gt; 1 Taka Bonerate NP-2019</span></span></code></pre></div>
-<p>Next, we query for public summary data, again using <code>mermaid_get_project_data</code> to get “sampleevents” data, this time specifying the “fishbelt” method:</p>
+<p>Next, we query for public summary data, again using
+<code>mermaid_get_project_data</code> to get “sampleevents” data, this
+time specifying the “fishbelt” method:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fishbelt_data</span> <span class="op">&lt;-</span> <span class="va">projects_public_fishbelt</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleevents"</span>, token <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
@@ -281,12 +342,20 @@
 <span><span class="co">#&gt; #   andrello_cumul_score &lt;dbl&gt;, beyer_score &lt;dbl&gt;, beyer_scorecn &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   beyer_scorecy &lt;dbl&gt;, beyer_scorepfc &lt;dbl&gt;, beyer_scoreth &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   beyer_scoretr &lt;dbl&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;, …</span></span></code></pre></div>
-<p>Again, this summarises all observations for all transects at a given site and date, and gives us information like the average biomass at that site, and average biomass across groupings like trophic group or fish family.</p>
+<p>Again, this summarises all observations for all transects at a given
+site and date, and gives us information like the average biomass at that
+site, and average biomass across groupings like trophic group or fish
+family.</p>
 <p>We’ll just focus on the average biomass:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fishbelt_data</span> <span class="op">&lt;-</span> <span class="va">fishbelt_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">country</span>, <span class="va">site</span>, biomass <span class="op">=</span> <span class="va">biomass_kgha_avg</span><span class="op">)</span></span></code></pre></div>
-<p>WCS considers 500 kg/ha as a threshold where below this biomass, ecosystems may pass critical thresholds of ecosystem decline, and often seek to maintain reef fish biomass above 500 kg/ha as a management target. Let’s categorize each value of <code>biomass</code> according to whether it’s above or below 500 kg/ha, and reorder both the sites and the threshold factor from highest to lowest biomass:</p>
+<p>WCS considers 500 kg/ha as a threshold where below this biomass,
+ecosystems may pass critical thresholds of ecosystem decline, and often
+seek to maintain reef fish biomass above 500 kg/ha as a management
+target. Let’s categorize each value of <code>biomass</code> according to
+whether it’s above or below 500 kg/ha, and reorder both the sites and
+the threshold factor from highest to lowest biomass:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fishbelt_data</span> <span class="op">&lt;-</span> <span class="va">fishbelt_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -297,7 +366,8 @@
 <span>    threshold <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_reorder.html" class="external-link">fct_reorder</a></span><span class="op">(</span><span class="va">threshold</span>, <span class="va">biomass</span>, .desc <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    site <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_reorder.html" class="external-link">fct_reorder</a></span><span class="op">(</span><span class="va">site</span>, <span class="va">biomass</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p>Then, we can visualize the distribution of average biomass in sites, similar to our visualization before:</p>
+<p>Then, we can visualize the distribution of average biomass in sites,
+similar to our visualization before:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">fishbelt_data</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">biomass</span>, y <span class="op">=</span> <span class="va">site</span>, fill <span class="op">=</span> <span class="va">threshold</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>

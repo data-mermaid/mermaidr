@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.4</span>
       </span>
     </div>
 
@@ -54,6 +54,9 @@
 <li class="dropdown-header">Case Studies</li>
     <li>
       <a href="../articles/vo_baseline_monitoring.html">WCS Vibrant Oceans Baseline Coral Reef Monitoring</a>
+    </li>
+    <li>
+      <a href="../articles/importing_fishbelt.html">Ingesting legacy data into MERMAID</a>
     </li>
     <li class="divider">
     </li>
@@ -96,10 +99,11 @@
 
       
 
-      </header><script src="accessing_dev_collect_data_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Accessing data from the development version of MERMAID</h1>
+      <h1 data-toc-skip>Accessing data from the development version of
+MERMAID</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/HEAD/vignettes/articles/accessing_dev_collect_data.Rmd" class="external-link"><code>vignettes/articles/accessing_dev_collect_data.Rmd</code></a></small>
@@ -109,18 +113,29 @@
 
     
     
-<p>In order to access data from the <a href="https://dev-collect.datamermaid.org/" class="external-link">development version of MERMAID</a>, please re-install the mermaidr package from the <code>dev</code> branch on GitHub:</p>
+<p>In order to access data from the <a href="https://dev-collect.datamermaid.org/" class="external-link">development version of
+MERMAID</a>, please re-install the mermaidr package from the
+<code>dev</code> branch on GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"data-mermaid/mermaidr"</span>, ref <span class="op">=</span> <span class="st">"dev"</span><span class="op">)</span></span></code></pre></div>
-<p>When using the development version, you can only access data from the development version of MERMAID Collect. There may also be differences in the MERMAID API (which can affect things like the columns returned) and functions in <code>mermaidr</code> that are in-progress and not yet available from the “production” version of the package.</p>
-<p>If you are having trouble authenticating with the development version or get the following error:</p>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"data-mermaid/mermaidr"</span>, ref <span class="op">=</span> <span class="st">"dev"</span><span class="op">)</span></span></code></pre></div>
+<p>When using the development version, you can only access data from the
+development version of MERMAID Collect. There may also be differences in
+the MERMAID API (which can affect things like the columns returned) and
+functions in <code>mermaidr</code> that are in-progress and not yet
+available from the “production” version of the package.</p>
+<p>If you are having trouble authenticating with the development version
+or get the following error:</p>
 <p><code>Error: Mermaid API request failed: (401) Unauthorized</code></p>
-<p>Please delete the <code>.httr-oauth</code> file, which contains the MERMAID token required to access data, then restart R and try to access data again.</p>
-<p>To switch back to <a href="https://collect.datamermaid.org/" class="external-link">the production version of MERMAID and production data</a>, re-install without specifying a branch:</p>
+<p>Please delete the <code>.httr-oauth</code> file, which contains the
+MERMAID token required to access data, then restart R and try to access
+data again.</p>
+<p>To switch back to <a href="https://collect.datamermaid.org/" class="external-link">the
+production version of MERMAID and production data</a>, re-install
+without specifying a branch:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"data-mermaid/mermaidr"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"data-mermaid/mermaidr"</span><span class="op">)</span></span></code></pre></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
