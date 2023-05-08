@@ -159,7 +159,7 @@ fishbelt_data <- fishbelt_data %>%
   ))
 ```
 
-You might already noticed that the column names in our dataset are not the same with the template, and you might be wondering if it should be the same. The answer is **yes, they must have exactly the same name** but not necessarily the same order. Lets rename and reorder columns the columns. First check the names in the template and in our data:
+You might already noticed that the column names in our dataset are not the same with the template, and you might be wondering if it should be the same. The answer is **yes, they must have exactly the same name** but not necessarily the same order. Lets rename and reorder the columns. First check the names in the template and in our data:
 
 ```{r}
 names(fish_template_and_options[["Template"]])
