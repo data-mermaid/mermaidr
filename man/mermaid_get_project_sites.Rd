@@ -19,7 +19,7 @@ mermaid_get_project_sites(
 \item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
 }
 \description{
-Get sites for specified MERMAID project(s). Returns metadata on sites, including site ID and name, notes, latitude and longitude, country, reef type and zone, exposure, and when the site was created and last updated. Requires authorization.
+Get sites for specified MERMAID project(s). Returns metadata on sites, including site ID and name, notes, latitude and longitude, country, reef type and zone, exposure, and when the site was created and last updated. Optionally, get covariates (Allen Coral Atlas, Andrello, Beyer) for sites. Requires authorization.
 }
 \examples{
 \dontrun{

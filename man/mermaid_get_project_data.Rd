@@ -10,7 +10,8 @@ mermaid_get_project_data(
     "habitatcomplexity", "all"),
   data = c("observations", "sampleunits", "sampleevents", "all"),
   limit = NULL,
-  token = mermaid_token()
+  token = mermaid_token(),
+  covariates = FALSE
 )
 }
 \arguments{

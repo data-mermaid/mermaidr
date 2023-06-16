@@ -10,7 +10,7 @@ NULL
 #'
 #' @inheritParams mermaid_GET
 #' @noRd
-mermaid_GET <- function(endpoint, limit = NULL, filter = NULL, token = NULL, ...) {
+mermaid_GET <- function(endpoint, limit = NULL, token = NULL, filter = NULL, ...) {
   check_internet()
   limit <- check_limit(limit)
 
