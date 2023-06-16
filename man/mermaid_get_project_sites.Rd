@@ -7,7 +7,8 @@
 mermaid_get_project_sites(
   project = mermaid_get_default_project(),
   limit = NULL,
-  token = mermaid_token()
+  token = mermaid_token(),
+  covariates = FALSE
 )
 }
 \arguments{
