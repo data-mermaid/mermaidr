@@ -15,13 +15,16 @@
 #'   mermaid_get_project_sites()
 #' }
 mermaid_get_project_sites <- function(project = mermaid_get_default_project(), limit = NULL, token = mermaid_token(), covariates = FALSE) {
-  get_project_endpoint(project = project, endpoint = "sites", limit = limit, token = token, filter = list(covars = covariates))
+  if (covariates) {
+    get_project_endpoint(project = project, endpoint = "sites", limit = limit, token = token, filter = list(covars = "true"))
+  } else {
+    get_project_endpoint(project = project, endpoint = "sites", limit = limit, token = token)
+  }
 }
 
 project_sites_columns <- c(
   "id", "name", "notes", "latitude", "longitude", "country", "reef_type", "reef_zone", "exposure",
   # Covariates
-  "aca_geomorphic", "aca_benthic", "andrello_grav_nc", "andrello_sediment", "andrello_nutrient", "andrello_pop_count", "andrello_num_ports", "andrello_reef_value", "andrello_cumul_score", "beyer_score", "beyer_scorecn", "beyer_scorecy", "beyer_scorepfc", "beyer_scoreth", "beyer_scoretr",
-
+  covars_cols,
   "created_on", "updated_on"
 )
