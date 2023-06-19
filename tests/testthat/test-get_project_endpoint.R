@@ -30,7 +30,7 @@ test_that("get_project_endpoint allows multiple projects, and combines the resul
   skip_on_ci()
   skip_on_cran()
   p <- mermaid_get_my_projects()
-  expect_named(get_project_endpoint(p, "sites", limit = 1), c("project", mermaid_project_endpoint_columns[["sites"]]))
+  expect_named(get_project_endpoint(p, "sites", limit = 1), c("project", cols_without_covars(mermaid_project_endpoint_columns[["sites"]], covars_cols)))
 
   p <- c("9de82789-c38e-462e-a1a8-e02c020c7a35", "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a", "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b")
   expect_named(get_project_endpoint(p, "beltfishtransectmethods", limit = 1), c("project_id", mermaid_project_endpoint_columns[["beltfishtransectmethods"]]))
@@ -41,7 +41,7 @@ test_that("get_project_endpoint allows multiple projects, and combines the resul
   expect_named(get_project_endpoint(p, "observers", limit = 1), c("project_id", mermaid_project_endpoint_columns[["observers"]]))
   expect_named(get_project_endpoint(p, "project_profiles", limit = 1), c("project_id", mermaid_project_endpoint_columns[["project_profiles"]]))
   expect_named(get_project_endpoint(p, "sampleevents", limit = 1), c("project_id", mermaid_project_endpoint_columns[["sampleevents"]]))
-  expect_named(get_project_endpoint(p, "sites", limit = 1), c("project_id", mermaid_project_endpoint_columns[["sites"]]))
+  expect_named(get_project_endpoint(p, "sites", limit = 1), c("project_id", cols_without_covars(mermaid_project_endpoint_columns[["sites"]], covars_cols)))
 
   expect_named(get_project_endpoint(p, "beltfishes/obstransectbeltfishes", limit = 1), c(mermaid_project_endpoint_columns[["beltfishes/obstransectbeltfishes"]]))
   sus <- get_project_endpoint(p, "beltfishes/sampleunits", limit = 1)
