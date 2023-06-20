@@ -1031,10 +1031,12 @@ test_that("mermaid_get_project_data with covariates = TRUE returns covars, all t
   expect_true(all(covars_cols %in% names(output)))
 
   # Multiple projects, contains cols
-  p <- c("02e6915c-1c64-4d2c-bac0-326b560415a2",
-         "170e7182-700a-4814-8f1e-45ee1caf3b44",
-         "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b",
-         "2c0c9857-b11c-4b82-b7ef-e9b383d1233c")
+  p <- c(
+    "02e6915c-1c64-4d2c-bac0-326b560415a2",
+    "170e7182-700a-4814-8f1e-45ee1caf3b44",
+    "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b",
+    "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
+  )
   output <- mermaid_get_project_data(p, "all", "all", limit = 1, covariates = TRUE)
   output_t <- output %>%
     purrr::transpose()

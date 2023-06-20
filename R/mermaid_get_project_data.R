@@ -1,6 +1,6 @@
 #' Get MERMAID project data
 #'
-#' Get Fish Belt, Benthic LIT, Benthic PIT, Bleaching, or Habitat Complexity data for your MERMAID projects. Data is available at the observation, sample unit, and sample event level. See Details section for more. Requires authorization.
+#' Get Fish Belt, Benthic LIT, Benthic PIT, Bleaching, or Habitat Complexity data for your MERMAID projects. Data is available at the observation, sample unit, and sample event level. Optionally get covariates (Allen Coral Atlas, Andrello, Beyer) for sites. See Details section for more. Requires authorization.
 #'
 #' Fish Belt method data is available by setting \code{method} to "fishbelt". Fish Belt observations data contains individual observations recorded in MERMAID, while sample units contains total biomass in kg/ha per sample unit, by trophic group and by fish family. Sample events data contains \emph{mean} total biomass in kg/ha per sample event, and by trophic group and by fish family.
 #'
@@ -15,7 +15,7 @@
 #' Habitat Complexity data is available by setting \code{method} to "habitatcomplexity". Observations contain individual observations, with the habitat complexity score at each interval. Sample units data contains the average habitat complexity score for the sample unit, and sample events data contains the average of those averages habitat complexity scores.
 #'
 #' @param method Method to get data for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", "habitatcomplexity", or "all" (to get data for all methods).
-#' @param data Data to return. One of "observations", "sampleunits", "sampleevents", or all (to get all three kinds of data). See details for more.
+#' @param data Data to return. One of "observations", "sampleunits", "sampleevents", or "all" (to get all three kinds of data). See details for more.
 #' @inheritParams get_project_endpoint
 #' @inheritParams mermaid_GET
 #' @inheritParams mermaid_get_project_sites
@@ -72,7 +72,7 @@ mermaid_get_project_data <- function(project = mermaid_get_default_project(), me
     project_sites_covariates <- project %>%
       mermaid_get_project_sites(covariates = TRUE) %>%
       dplyr::select(tidyselect::any_of("project"),
-        site = name,
+        site = .data$name,
         tidyselect::all_of(covars_cols)
       )
 
