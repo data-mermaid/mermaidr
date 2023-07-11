@@ -16,7 +16,7 @@ NULL
 #' test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
-get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents", "benthicpits/obstransectbenthicpits", "benthicpits/sampleunits", "benthicpits/sampleevents", "benthiclits/obstransectbenthiclits", "benthiclits/sampleunits", "benthiclits/sampleevents", "benthicpqts/obstransectbenthicpqts", "benthicpqts/sampleunits", "benthicpqts/sampleevents", "habitatcomplexities/obshabitatcomplexities", "habitatcomplexities/sampleunits", "habitatcomplexities/sampleevents", "bleachingqcs/obscoloniesbleacheds", "bleachingqcs/obsquadratbenthicpercents", "bleachingqcs/sampleunits", "bleachingqcs/sampleevents", "collectrecords/ingest_schema/fishbelt", "collectrecords/ingest_schema/benthiclit", "collectrecords/ingest_schema/benthicpit", "collectrecords/ingest_schema/benthicpqt", "collectrecords/ingest_schema/bleachingqc", "collectrecords/ingest_schema/habitatcomplexity"), limit = NULL, token = mermaid_token()) {
+get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents", "benthicpits/obstransectbenthicpits", "benthicpits/sampleunits", "benthicpits/sampleevents", "benthiclits/obstransectbenthiclits", "benthiclits/sampleunits", "benthiclits/sampleevents", "benthicpqts/obstransectbenthicpqts", "benthicpqts/sampleunits", "benthicpqts/sampleevents", "habitatcomplexities/obshabitatcomplexities", "habitatcomplexities/sampleunits", "habitatcomplexities/sampleevents", "bleachingqcs/obscoloniesbleacheds", "bleachingqcs/obsquadratbenthicpercents", "bleachingqcs/sampleunits", "bleachingqcs/sampleevents", "collectrecords/ingest_schema/fishbelt", "collectrecords/ingest_schema/benthiclit", "collectrecords/ingest_schema/benthicpit", "collectrecords/ingest_schema/benthicpqt", "collectrecords/ingest_schema/bleachingqc", "collectrecords/ingest_schema/habitatcomplexity"), limit = NULL, token = mermaid_token(), filter = NULL) {
   project_id <- as_id(project)
   check_project(project_id)
   endpoint <- match.arg(endpoint, several.ok = TRUE)
@@ -25,7 +25,7 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   full_endpoints <- purrr::map(endpoint, ~ paste0("projects/", project_id, "/", .x))
 
   # Get endpoint results
-  endpoints_res <- purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, token = token, project_id = project_id, project = project)
+  endpoints_res <- purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, filter = filter, token = token, project_id = project_id, project = project)
   names(endpoints_res) <- endpoint
 
   # Return endpoints
@@ -55,8 +55,8 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   }
 }
 
-get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, token = mermaid_token(), project_id, project) {
-  initial_res <- mermaid_GET(full_endpoint, limit = limit, token = token)
+get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, token = mermaid_token(), filter = NULL, project_id, project) {
+  initial_res <- mermaid_GET(full_endpoint, limit = limit, filter = filter, token = token)
 
   # Return ingest schema for tidying separately
   if (stringr::str_detect(endpoint, "ingest_schema")) {

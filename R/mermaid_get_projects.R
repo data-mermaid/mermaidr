@@ -15,7 +15,7 @@ mermaid_get_projects <- function(include_test_projects = FALSE, limit = NULL) {
   if (include_test_projects) {
     res <- mermaid_GET("projects", limit = limit)
   } else {
-    res <- mermaid_GET("projects", limit = limit, status = 90)
+    res <- mermaid_GET("projects", limit = limit, filter = list(status = 90))
   }
 
   res <- res[["projects"]]

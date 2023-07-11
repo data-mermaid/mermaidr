@@ -2,6 +2,10 @@
 
 # General ----
 
+cols_without_covars <- function(x, covars_cols) {
+  x[!x %in% covars_cols]
+}
+
 # Construct a fake sample unit, which combines site, sample date, management, depth, transect number, and transect length to make an ID
 construct_fake_sample_unit_id <- function(data) {
   data %>%

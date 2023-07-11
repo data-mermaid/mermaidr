@@ -13,5 +13,5 @@ test_that("mermaid_set_default_project and get_default_project work with multipl
   expect_equal(mermaid_get_default_project(), p[["id"]])
   output <- mermaid_get_project_endpoint(endpoint = "managements", limit = 1)
   expect_is(output, "tbl_df")
-  expect_true(all(output[["project_id"]] == p[["id"]]))
+  expect_true(all(sort(output[["project_id"]]) == sort(p[["id"]])))
 })

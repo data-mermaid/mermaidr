@@ -2,12 +2,12 @@
 #'
 #' @inheritParams mermaid_GET
 #' @noRd
-get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites", "summarysampleevents", "summarysites"), limit = NULL, ...) {
+get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites", "summarysampleevents", "summarysites"), limit = NULL, filter = NULL, ...) {
   url <- base_url
 
   endpoint <- match.arg(endpoint, several.ok = TRUE)
 
-  res <- mermaid_GET(endpoint, limit = limit, ...)
+  res <- mermaid_GET(endpoint, limit = limit, filter = filter, ...)
 
   res_lookups <- purrr::map2(res, names(res), lookup_choices)
   res_strip_name_suffix <- purrr::map(res_lookups, strip_name_suffix)
