@@ -1,4 +1,8 @@
 test_that("fishbelt - new method of using CSV endpoint produces same data as old method (using JSON)", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   p <- c(
     "02e6915c-1c64-4d2c-bac0-326b560415a2", "2c0c9857-b11c-4b82-b7ef-e9b383d1233c",
     "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
@@ -58,6 +62,10 @@ test_that("fishbelt - new method of using CSV endpoint produces same data as old
 })
 
 test_that("benthiclit - new method of using CSV endpoint produces same data as old method (using JSON)", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   p <- c("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "2c0c9857-b11c-4b82-b7ef-e9b383d1233c")
   old <- mermaid_get_project_data_legacy(p, method = "benthiclit", data = "all")
   new <- mermaid_get_project_data(p, method = "benthiclit", data = "all")
@@ -112,6 +120,10 @@ test_that("benthiclit - new method of using CSV endpoint produces same data as o
 })
 
 test_that("benthicpit - new method of using CSV endpoint produces same data as old method (using JSON)", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   p <- c(
     "2c0c9857-b11c-4b82-b7ef-e9b383d1233c", "5679ef3d-bafc-453d-9e1a-a4b282a8a997",
     "e1efb1e0-0af8-495a-9c69-fddcdba11c14"
@@ -159,6 +171,10 @@ test_that("benthicpit - new method of using CSV endpoint produces same data as o
 })
 
 test_that("benthicpqt - new method of using CSV endpoint produces same data as old method (using JSON)", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   p <- "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
   old <- mermaid_get_project_data_legacy(p, method = "benthicpqt", data = "all")
   new <- mermaid_get_project_data(p, method = "benthicpqt", data = "all")
@@ -207,6 +223,10 @@ test_that("benthicpqt - new method of using CSV endpoint produces same data as o
 })
 
 test_that("habitatcomplexity - new method of using CSV endpoint produces same data as old method (using JSON)", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   p <- c(
     "e1efb1e0-0af8-495a-9c69-fddcdba11c14", "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a",
     "bacd3529-e0f4-40f4-a089-992c5bd5cc02", "2c0c9857-b11c-4b82-b7ef-e9b383d1233c",
@@ -255,6 +275,10 @@ test_that("habitatcomplexity - new method of using CSV endpoint produces same da
 })
 
 test_that("bleaching - new method of using CSV endpoint produces same data as old method (using JSON)", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   p <- "d065cba4-ed09-47fd-89fb-2293fbbf617f"
   old <- mermaid_get_project_data_legacy(p, method = "bleaching", data = "all")
   new <- mermaid_get_project_data(p, method = "bleaching", data = "all")
@@ -309,3 +333,5 @@ test_that("bleaching - new method of using CSV endpoint produces same data as ol
       dplyr::select(-management_parties)
   )
 })
+
+# TODO - test covariates too?
