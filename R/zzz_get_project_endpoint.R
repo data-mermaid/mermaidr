@@ -82,7 +82,7 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
       dplyr::mutate_all(as.character) %>%
       tidyr::pivot_longer(dplyr::everything()) %>%
       dplyr::filter(stringr::str_starts(.data$value, "\\[\\{") | stringr::str_starts(.data$value, "\\{")) %>%
-      dplyr::distinct(name)
+      dplyr::distinct(.data$name)
 
     # Treat tags separately
     if ("tags" %in% json_cols[["name"]]) {
@@ -94,7 +94,7 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
           }
           tags %>%
             jsonlite::fromJSON() %>%
-            dplyr::pull(name) %>%
+            dplyr::pull(.data$name) %>%
             paste0(collapse = "; ")
         }) %>%
         unlist()
@@ -115,7 +115,7 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
               purrr::map(jsonlite::fromJSON) %>%
               purrr::transpose() %>%
               tibble::enframe() %>%
-              tidyr::pivot_wider(names_from = name, values_from = value) %>%
+              tidyr::pivot_wider(names_from = .data$name, values_from = .data$value) %>%
               tidyr::unnest(dplyr::everything()) %>%
               dplyr::mutate_all(~ purrr::map(.x, function(y) { # Convert NULL to NA
                 ifelse(is.null(y), NA, y)

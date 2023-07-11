@@ -116,7 +116,7 @@ combine_coltypes_and_bind_rows <- function(data, .id = NULL) {
         data <- data %>%
           purrr::map(function(x) {
             if (!is.null(x[[col]])) {
-              x[[col]] <- as(x[[col]], combined_coltype)
+              x[[col]] <- methods::as(x[[col]], combined_coltype)
             }
 
             x

@@ -178,14 +178,14 @@ add_covariates_to_data <- function(data, covariates) {
         if ("project" %in% names(covariates)) {
           # Always coerce site to character in both, in case of sites with all numeric names causing join issues
           data[[i]] <- data[[i]] %>%
-            dplyr::mutate(site = as.character(site)) %>%
+            dplyr::mutate(site = as.character(.data$site)) %>%
             dplyr::left_join(covariates %>%
-              dplyr::mutate(site = as.character(site)), by = c("project", "site"))
+              dplyr::mutate(site = as.character(.data$site)), by = c("project", "site"))
         } else {
           data[[i]] <- data[[i]] %>%
-            dplyr::mutate(site = as.character(site)) %>%
+            dplyr::mutate(site = as.character(.data$site)) %>%
             dplyr::left_join(covariates %>%
-              dplyr::mutate(site = as.character(site)), by = "site")
+              dplyr::mutate(site = as.character(.data$site)), by = "site")
         }
       }
 
