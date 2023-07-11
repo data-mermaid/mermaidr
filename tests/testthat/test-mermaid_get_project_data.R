@@ -198,7 +198,7 @@ test_that("Vanilla fishbelt sample unit aggregation is the same as manually aggr
   # A tibble: 13 × 2
   # name                 n
   # <glue>           <int>
-  #   1 aulostomidae    30
+  # 1 aulostomidae      30
   # 2 caesioinidae       8
   # 3 carangidae        16
   # 4 carcharhinidae     1

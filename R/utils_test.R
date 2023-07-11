@@ -55,21 +55,17 @@ test_sus_vs_ses_agg <- function(sus_agg, ses_agg) {
 # Compare (aggregated) values from observations versus from SUs
 test_obs_vs_sus_agg <- function(obs_agg, sus_agg) {
   obs_vs_su_match <- obs_agg %>%
-    dplyr::inner_join(sus_agg,
+    dplyr::full_join(sus_agg,
       by = c("fake_sample_unit_id", "name")
     ) %>%
     dplyr::filter(!is.na(.data$obs) | !is.na(.data$su)) %>%
-    dplyr::mutate_if(is.double, as.numeric) # %>%
-  # dplyr::mutate_if(is.numeric, dplyr::coalesce, 0)
-  # remove this piece until all fish families are in CSV
+    dplyr::mutate_if(is.double, as.numeric) %>%
+    dplyr::mutate_if(is.numeric, dplyr::coalesce, 0)
 
-  # Same as above
   if (any(is.na(suppressWarnings(as.numeric(obs_vs_su_match[["su"]]))))) {
     testthat::expect_true(all(obs_vs_su_match[["obs"]] == obs_vs_su_match[["su"]]))
   } else {
-    testthat::expect_true(all(obs_vs_su_match[["obs"]] - obs_vs_su_match[["su"]] < 1,
-      na.rm = TRUE
-    )) # Same as above
+    testthat::expect_true(all(obs_vs_su_match[["obs"]] - obs_vs_su_match[["su"]] < 1))
   }
 }
 
