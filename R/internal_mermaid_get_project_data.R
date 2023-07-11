@@ -1,4 +1,4 @@
-internal_mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, legacy = FALSE, token = mermaid_token()) {
+internal_mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, legacy = FALSE, covariates = FALSE, token = mermaid_token()) {
   check_project_data_inputs(method, data)
 
   if (any(method == "all")) {
@@ -27,6 +27,20 @@ internal_mermaid_get_project_data <- function(project = mermaid_get_default_proj
       res[["bleachingqcs"]][["observations"]] <- list(colonies_bleached = res[["bleachingqcs"]][["colonies_bleached"]], percent_cover = res[["bleachingqcs"]][["percent_cover"]])
       res[["bleachingqcs"]] <- res[["bleachingqcs"]][data]
     }
+  }
+
+  # If covariates = TRUE, get sites for each project
+  if (covariates) {
+    project_sites_covariates <- project %>%
+      mermaid_get_project_sites(covariates = TRUE) %>%
+      dplyr::select(tidyselect::any_of("project"),
+        site = .data$name,
+        tidyselect::all_of(covars_cols)
+      )
+
+    # Join covariates to any DFs in ress
+    res <- res %>%
+      add_covariates_to_data(project_sites_covariates)
   }
 
   if (length(endpoint) == 1) {
@@ -84,9 +98,11 @@ construct_endpoint <- function(method, data, legacy) {
   method_data_list[unique(method_data[["method"]])]
 }
 
+covars_cols <- c("aca_geomorphic", "aca_benthic", "andrello_grav_nc", "andrello_sediment", "andrello_nutrient", "andrello_pop_count", "andrello_num_ports", "andrello_reef_value", "andrello_cumul_score", "beyer_score", "beyer_scorecn", "beyer_scorecy", "beyer_scorepfc", "beyer_scoreth", "beyer_scoretr")
+
 common_cols <- list(
-  "obs/su" = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "aca_geomorphic", "aca_benthic", "andrello_grav_nc", "andrello_sediment", "andrello_nutrient", "andrello_pop_count", "andrello_num_ports", "andrello_reef_value", "andrello_cumul_score", "beyer_score", "beyer_scorecn", "beyer_scorecy", "beyer_scorepfc", "beyer_scoreth", "beyer_scoretr", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth"),
-  "se" = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "aca_geomorphic", "aca_benthic", "andrello_grav_nc", "andrello_sediment", "andrello_nutrient", "andrello_pop_count", "andrello_num_ports", "andrello_reef_value", "andrello_cumul_score", "beyer_score", "beyer_scorecn", "beyer_scorecy", "beyer_scorepfc", "beyer_scoreth", "beyer_scoretr", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg"),
+  "obs/su" = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth"),
+  "se" = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg"),
   "obs_closing" = c("project_notes", "site_notes", "management_notes", "sample_unit_id", "sample_event_id", "contact_link"),
   "su_closing" = c("project_notes", "site_notes", "management_notes", "sample_unit_notes", "sample_event_id", "sample_unit_ids", "id", "contact_link"),
   "se_closing" = c("project_notes", "site_notes", "management_notes", "id", "sample_unit_count", "contact_link")
@@ -147,3 +163,42 @@ project_data_test_columns <- project_data_columns %>%
   dplyr::anti_join(project_data_df_columns, by = c("endpoint", "value")) %>%
   split(.$endpoint) %>%
   purrr::map(dplyr::pull, value)
+
+
+add_covariates_to_data <- function(data, covariates) {
+  for (i in names(data)) {
+    if (inherits(data[[i]], "tbl_df")) {
+      if (nrow(data[[i]]) == 0) {
+        covars_temp <- covariates %>%
+          dplyr::select(tidyselect::all_of(covars_cols)) %>%
+          dplyr::slice(0)
+        data[[i]] <- data[[i]] %>%
+          dplyr::bind_cols(covars_temp)
+      } else {
+        if ("project" %in% names(covariates)) {
+          # Always coerce site to character in both, in case of sites with all numeric names causing join issues
+          data[[i]] <- data[[i]] %>%
+            dplyr::mutate(site = as.character(site)) %>%
+            dplyr::left_join(covariates %>%
+              dplyr::mutate(site = as.character(site)), by = c("project", "site"))
+        } else {
+          data[[i]] <- data[[i]] %>%
+            dplyr::mutate(site = as.character(site)) %>%
+            dplyr::left_join(covariates %>%
+              dplyr::mutate(site = as.character(site)), by = "site")
+        }
+      }
+
+      # Move to before "managements"
+      data[[i]] <- data[[i]] %>%
+        dplyr::relocate(tidyselect::all_of(covars_cols), .before = "management")
+    } else {
+      if (inherits(data[[i]], "list")) {
+        data[[i]] <- data[[i]] %>%
+          add_covariates_to_data(covariates)
+      }
+    }
+  }
+
+  data
+}
