@@ -33,7 +33,8 @@ Imports:
     usethis,
     readr,
     openxlsx,
-    forcats
+    forcats,
+    vctrs
 RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 2.1.0),
