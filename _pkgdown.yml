@@ -5,9 +5,6 @@ template:
   params:
     bootswatch: flatly
 
-toc:
-  depth: 1
-
 reference:
   - title: Authentication
     contents:
