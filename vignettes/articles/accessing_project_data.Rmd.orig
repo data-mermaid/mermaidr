@@ -68,11 +68,11 @@ indonesia_projects %>%
   mermaid_get_project_managements()
 ```
 
-### Method data
+# Method data
 
 You can also access data on your projects' Fish Belt, Benthic LIT, Benthic PIT, Bleaching, and Habitat Complexity methods. The details are in the following sections.
 
-#### Fish Belt data
+## Fish Belt data
 
 To access Fish Belt data for a project, use `mermaid_get_project_data()` with `method = "fishbelt"`.
 
@@ -102,7 +102,7 @@ xpdc_sample_events <- xpdc %>%
 xpdc_sample_events
 ```
 
-#### Benthic LIT data
+## Benthic LIT data
 
 To access Benthic LIT data, use `mermaid_get_project_data()` with `method = "benthiclit"`.
 
@@ -123,7 +123,7 @@ mozambique %>%
   mermaid_get_project_data(method = "benthiclit", data = "sampleunits")
 ```
 
-#### Benthic PIT data
+## Benthic PIT data
 
 To access Benthic LIT data, change `method` to "benthicpit":
 
@@ -144,7 +144,7 @@ names(xpdc_sample_units_events)
 xpdc_sample_units_events[["sampleunits"]]
 ```
 
-#### Bleaching
+## Bleaching
 
 To access Bleaching data, set `method` to "bleaching". There are two types of observations data for the Bleaching method: Colonies Bleached and Percent Cover. These are both returned when pulling observations data, in a list:
 
@@ -164,7 +164,7 @@ mozambique %>%
   mermaid_get_project_data("bleaching", "sampleevents")
 ```
 
-#### Habitat Complexity
+## Habitat Complexity
 
 Finally, to access Habitat Complexity data, set `method` to "habitatcomplexity". As with all other methods, you can access observations, sample units, and sample events:
 
@@ -173,7 +173,7 @@ xpdc %>%
   mermaid_get_project_data("habitatcomplexity", "sampleevents")
 ```
 
-#### Multiple methods data
+## Multiple methods data
 
 To pull data for both fish belt and benthic PIT methods, you can set `method` to include both.
 
@@ -201,7 +201,7 @@ names(all_project_data)
 names(all_project_data[["benthicpit"]])
 ```
 
-#### Multiple projects
+## Multiple projects
 
 Pulling data for multiple projects is the exact same, except there will be an additional "project" column at the beginning to distinguish which projects the data comes from. Recall that `my_projects` contains six projects:
 
@@ -215,3 +215,20 @@ my_projects %>%
 ```
 
 Note the `limit` argument here, which just limits the data pulled to one record (per project, method, and data combination). This is useful if you want to get a preview of what your data will look like without having to pull it all in.
+
+# Accessing covariates
+
+Prior to `mermaidr 0.7.0`, covariates were automatically included in all `mermaid_get_project_data()` function calls. Now, to access covariates, include `covariates = TRUE` in the function call:
+
+```{r}
+my_projects %>%
+  head(1) %>%
+  mermaid_get_project_data("fishbelt", "sampleevents", limit = 1, covariates = TRUE)
+```
+
+You can also access covariates at the site level, using `mermaid_get_project_sites()` with `covariates = TRUE`:
+
+```{r}
+my_projects %>%
+  mermaid_get_project_sites(covariates = TRUE)
+```
