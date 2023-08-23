@@ -74,7 +74,7 @@ mermaid_import_project_sites <- function(data, project, token = mermaid_token())
 
     col_choices <- choices %>%
       get_choice_from_choices(choices_col) %>%
-      dplyr::rename({{ col }} := .data$name)
+      dplyr::rename({{ col }} := "name")
 
     data <- data %>%
       dplyr::left_join(col_choices, by = col)
@@ -95,7 +95,7 @@ mermaid_import_project_sites <- function(data, project, token = mermaid_token())
     # Otherwise, replace col with id
     data <- data %>%
       dplyr::select(-{{ col }}) %>%
-      dplyr::rename({{ col }} := .data$id)
+      dplyr::rename({{ col }} := "id")
   }
 
   # Post row by row
@@ -109,7 +109,7 @@ mermaid_import_project_sites <- function(data, project, token = mermaid_token())
         post_row <- data[["row"]]
         # Convert each row to a list
         data <- data %>%
-          dplyr::select(-.data$row) %>%
+          dplyr::select(-tidyselect::all_of("row")) %>%
           as.list()
         # Convert lat/long to a single location col, with format list(type = "Point", coordinates = c(lat, long))
 
@@ -155,5 +155,5 @@ post_data <- function(path, data, token = mermaid_token()) {
 
 get_choice_from_choices <- function(choices, name) {
   dplyr::filter(choices, .data$name == !!name)[["data"]][[1]] %>%
-    dplyr::select(.data$id, .data$name)
+    dplyr::select(c("id", "name"))
 }

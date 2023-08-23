@@ -73,9 +73,12 @@ mermaid_get_project_data <- function(project = mermaid_get_default_project(), me
   if (covariates) {
     project_sites_covariates <- project %>%
       mermaid_get_project_sites(covariates = TRUE) %>%
-      dplyr::select(tidyselect::any_of("project"),
-        site = .data$name,
-        tidyselect::all_of(covars_cols)
+      dplyr::select(
+        tidyselect::any_of("project"),
+        tidyselect::all_of(c(
+          site = "name",
+          covars_cols
+        ))
       )
 
     res <- res %>%

@@ -86,15 +86,15 @@ mermaid_import_project_managements <- function(data, project, token = mermaid_to
       col_choices <- choices %>%
         get_choice_from_choices(choices_col) %>%
         dplyr::mutate(name = tolower(.data$name)) %>%
-        dplyr::rename({{ col }} := .data$name)
+        dplyr::rename({{ col }} := "name")
 
       if (col == "parties") {
         .data_temp <- data %>%
           dplyr::mutate(temp_row_for_rejoin = dplyr::row_number())
 
         .data_sep <- .data_temp %>%
-          dplyr::select(.data$temp_row_for_rejoin, .data$parties) %>%
-          tidyr::separate_rows(.data$parties, sep = ";") %>%
+          dplyr::select(tidyselect::all_of(c("temp_row_for_rejoin", "parties"))) %>%
+          tidyr::separate_rows("parties", sep = ";") %>%
           dplyr::mutate(
             parties = stringr::str_trim(.data$parties),
             parties = tolower(.data$parties)
@@ -115,13 +115,13 @@ mermaid_import_project_managements <- function(data, project, token = mermaid_to
         }
 
         .data_to_id <- .data_to_id %>%
-          dplyr::select(.data$temp_row_for_rejoin, .data$id) %>%
+          dplyr::select("temp_row_for_rejoin", "id") %>%
           dplyr::group_nest(.data$temp_row_for_rejoin, .key = "parties")
 
         data <- .data_temp %>%
-          dplyr::select(-.data$parties) %>%
+          dplyr::select(-tidyselect::all_of("parties")) %>%
           dplyr::left_join(.data_to_id, by = "temp_row_for_rejoin") %>%
-          dplyr::select(-.data$temp_row_for_rejoin)
+          dplyr::select(-tidyselect::all_of(c("temp_row_for_rejoin")))
       } else if (col == "compliance") {
         data <- data %>%
           dplyr::mutate(dplyr::across(tidyselect::all_of(col), tolower)) %>%
@@ -140,7 +140,7 @@ mermaid_import_project_managements <- function(data, project, token = mermaid_to
         # Otherwise, replace col with id
         data <- data %>%
           dplyr::select(-{{ col }}) %>%
-          dplyr::rename({{ col }} := .data$id)
+          dplyr::rename({{ col }} := "id")
       }
     }
   }
@@ -158,7 +158,7 @@ mermaid_import_project_managements <- function(data, project, token = mermaid_to
   if (!missing_rules_cols) {
     all_false <- data %>%
       dplyr::mutate(.temp_row = dplyr::row_number()) %>%
-      dplyr::select(.data$.temp_row, tidyselect::any_of(rules_cols)) %>%
+      dplyr::select(tidyselect::all_of(".temp_row"), tidyselect::any_of(rules_cols)) %>%
       tidyr::pivot_longer(tidyselect::any_of(rules_cols)) %>%
       dplyr::group_by(.data$.temp_row) %>%
       dplyr::summarise(all_false = all(!.data$value)) %>%
@@ -189,7 +189,7 @@ mermaid_import_project_managements <- function(data, project, token = mermaid_to
   if ("open_access" %in% names(data) & any(partial_restrictions_cols %in% names(data))) {
     open_and_partial <- data %>%
       dplyr::mutate(.temp_row = dplyr::row_number()) %>%
-      dplyr::select(.data$.temp_row, .data$open_access, tidyselect::any_of(partial_restrictions_cols)) %>%
+      dplyr::select(tidyselect::all_of(c(".temp_row", "open_access")),tidyselect::any_of(partial_restrictions_cols)) %>%
       tidyr::pivot_longer(tidyselect::any_of(partial_restrictions_cols)) %>%
       dplyr::group_by(.data$.temp_row, .data$open_access) %>%
       dplyr::summarise(any_partial_rules = any(.data$value)) %>%
@@ -206,7 +206,7 @@ mermaid_import_project_managements <- function(data, project, token = mermaid_to
   if ("no_take" %in% names(data) & any(partial_restrictions_cols %in% names(data))) {
     open_and_partial <- data %>%
       dplyr::mutate(.temp_row = dplyr::row_number()) %>%
-      dplyr::select(.data$.temp_row, .data$no_take, tidyselect::any_of(partial_restrictions_cols)) %>%
+      dplyr::select(tidyselect::all_of(c(".temp_row", "no_take")), tidyselect::any_of(partial_restrictions_cols)) %>%
       tidyr::pivot_longer(tidyselect::any_of(partial_restrictions_cols)) %>%
       dplyr::group_by(.data$.temp_row, .data$no_take) %>%
       dplyr::summarise(any_partial_rules = any(.data$value)) %>%
@@ -230,7 +230,7 @@ mermaid_import_project_managements <- function(data, project, token = mermaid_to
         post_row <- data[["row"]]
         # Convert each row to a list
         data <- data %>%
-          dplyr::select(-.data$row) %>%
+          dplyr::select(-tidyselect::all_of("row")) %>%
           as.list()
 
         # Convert parties to a list if there is 1, keep as vector if > 1

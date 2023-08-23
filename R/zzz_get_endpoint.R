@@ -46,17 +46,17 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
       lookup_variable(choices, "reef_type") %>%
       lookup_variable(choices, "reef_zone") %>%
       lookup_variable(choices, "exposure") %>%
-      dplyr::rename_at(dplyr::vars(.data$country_name, .data$reef_type_name, .data$reef_zone_name, .data$exposure_name), ~ gsub("_name", "", .x))
+      dplyr::rename_at(c("country_name", "reef_type_name", "reef_zone_name", "exposure_name"), ~ gsub("_name", "", .x))
   } else if (endpoint == "managements") {
     choices <- mermaid_GET("choices")[["choices"]]
 
     results <- results %>%
       lookup_variable(choices, "parties") %>%
       lookup_variable(choices, "compliance") %>%
-      dplyr::rename_at(dplyr::vars(.data$compliance_name, .data$parties_name), ~ gsub("_name", "", .x))
+      dplyr::rename_at(c("compliance_name", "parties_name"), ~ gsub("_name", "", .x))
 
     if ("project_name" %in% names(results)) {
-      results <- dplyr::rename(results, project = .data$project_name)
+      results <- dplyr::rename(results, project = "project_name")
     }
   }
 
@@ -88,9 +88,9 @@ lookup_variable <- function(.data, choices, variable) {
 
   variable_names <- choices %>%
     dplyr::filter(name == !!name) %>%
-    dplyr::select(-.data$name) %>%
+    dplyr::select(-"name") %>%
     tidyr::unnest(data) %>%
-    dplyr::select(.data$id, .data$name) %>%
+    dplyr::select(tidyselect::all_of(c("id", "name"))) %>%
     dplyr::rename_all(~ paste0(variable, "_", .x))
 
   join_by <- variable
@@ -102,7 +102,7 @@ lookup_variable <- function(.data, choices, variable) {
       dplyr::mutate(temp_row_for_rejoin = dplyr::row_number())
 
     .data_sep <- .data_temp %>%
-      dplyr::select(.data$temp_row_for_rejoin, tidyselect::all_of(join_by)) %>%
+      dplyr::select(tidyselect::all_of(c("temp_row_for_rejoin", join_by))) %>%
       tidyr::separate_rows(tidyselect::all_of(names(join_by)), sep = "; ")
 
     .data_to_name <- variable_names %>%
@@ -112,7 +112,7 @@ lookup_variable <- function(.data, choices, variable) {
 
     .data_temp %>%
       dplyr::left_join(.data_to_name, by = "temp_row_for_rejoin") %>%
-      dplyr::select(-.data$temp_row_for_rejoin, -tidyselect::all_of(join_by))
+      dplyr::select(-tidyselect::all_of(c("temp_row_for_rejoin", join_by)))
   } else {
     # Otherwise, just join by ID
     variable_names %>%

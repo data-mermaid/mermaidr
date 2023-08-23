@@ -132,5 +132,5 @@ closest_string_match <- function(data_field, options_field) {
     dplyr::mutate(match = .data$diff == 0) %>%
     dplyr::arrange(.data$data_value) %>%
     dplyr::mutate(data_value = as.character(.data$data_value)) %>%
-    dplyr::select(.data$data_value, closest_choice = .data$choices, .data$match)
+    dplyr::select(tidyselect::all_of(c("data_value", closest_choice = "choices", "match")))
 }
