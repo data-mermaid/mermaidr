@@ -20,16 +20,16 @@ library(mermaidr)
 vo_projects <- mermaid_search_projects(tags = "Vibrant Oceans")
 
 vo_projects
-#> # A tibble: 5 × 14
-#>   id        name        countries   num_sites tags    notes status data_policy_bel…
-#>   <chr>     <chr>       <chr>           <int> <chr>   <chr> <chr>  <chr>           
-#> 1 3a9ecb7c… Aceh Jaya … Indonesia          18 Vibran… ""    Open   Private         
-#> 2 507d1af9… Karimunjaw… Indonesia          43 Vibran… ""    Open   Private         
-#> 3 95e0ffc7… 2019_Dama … Fiji               44 Vibran… ""    Open   Private         
-#> 4 a93b43f1… Tanzania V… Tanzania, …        24 Vibran… ""    Open   Private         
-#> 5 bcb1f115… Taka Boner… Indonesia          39 Vibran… ""    Open   Public Summary  
-#> # … with 6 more variables: data_policy_benthiclit <chr>,
-#> #   data_policy_benthicpit <chr>, data_policy_habitatcomplexity <chr>,
+#> # A tibble: 5 × 15
+#>   id                  name  countries num_sites tags  notes status data_policy_beltfish
+#>   <chr>               <chr> <chr>         <int> <chr> <chr> <chr>  <chr>               
+#> 1 3a9ecb7c-f908-4262… Aceh… Indonesia        18 WCS … ""    Open   Private             
+#> 2 507d1af9-edbd-417e… Kari… Indonesia        43 WCS … ""    Open   Private             
+#> 3 5f13e6dc-40cc-4ef9… Copy… Indonesia        43 WCS … ""    Open   Public Summary      
+#> 4 95e0ffc7-3a7d-4538… 2019… Fiji             44 WCS … ""    Open   Private             
+#> 5 bcb1f115-804d-4b23… Taka… Indonesia        39 WCS … ""    Open   Public Summary      
+#> # ℹ 7 more variables: data_policy_benthiclit <chr>, data_policy_benthicpit <chr>,
+#> #   data_policy_benthicpqt <chr>, data_policy_habitatcomplexity <chr>,
 #> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
 ```
 
@@ -44,13 +44,13 @@ library(tidyverse)
 vo_projects %>%
   select(name, data_policy_beltfish, data_policy_benthicpit)
 #> # A tibble: 5 × 3
-#>   name                                      data_policy_beltfi… data_policy_benthi…
-#>   <chr>                                     <chr>               <chr>              
-#> 1 Aceh Jaya Coastal Park                    Private             Private            
-#> 2 Karimunjawa National Park                 Private             Private            
-#> 3 2019_Dama Bureta Waibula and Dawasamu-WI… Private             Public Summary     
-#> 4 Tanzania Vibrant Oceans 2019              Private             Private            
-#> 5 Taka Bonerate NP-2019                     Public Summary      Public Summary
+#>   name                                      data_policy_beltfish data_policy_benthicpit
+#>   <chr>                                     <chr>                <chr>                 
+#> 1 Aceh Jaya Coastal Park                    Private              Private               
+#> 2 Karimunjawa National Park                 Private              Private               
+#> 3 Copy of Karimunjawa National Park_2022    Public Summary       Public Summary        
+#> 4 2019_Dama Bureta Waibula and Dawasamu-WI… Private              Public Summary        
+#> 5 Taka Bonerate NP-2019                     Public Summary       Public Summary
 ```
 
 # Live hard coral cover
@@ -64,11 +64,12 @@ projects_public_benthic <- vo_projects %>%
 
 projects_public_benthic %>%
   select(name)
-#> # A tibble: 2 × 1
+#> # A tibble: 3 × 1
 #>   name                                                        
 #>   <chr>                                                       
-#> 1 2019_Dama Bureta Waibula and Dawasamu-WISH ecological survey
-#> 2 Taka Bonerate NP-2019
+#> 1 Copy of Karimunjawa National Park_2022                      
+#> 2 2019_Dama Bureta Waibula and Dawasamu-WISH ecological survey
+#> 3 Taka Bonerate NP-2019
 ```
 
 And then by querying for public summary data, using `mermaid_get_project_data()`, specifying the "benthicpit" method with "sampleevents" data. The key to accessing public summary data is to set our token to `NULL` - this makes it so that `mermaidr` won't try to authenticate us, and instead just returns the data *if* the data policy allows it.
@@ -79,22 +80,22 @@ benthic_data <- projects_public_benthic %>%
   mermaid_get_project_data("benthicpit", "sampleevents", token = NULL)
 
 head(benthic_data)
-#> # A tibble: 6 × 56
-#>   project  tags  country site  latitude longitude reef_type reef_zone reef_exposure
-#>   <chr>    <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>     <chr>        
-#> 1 2019_Da… WCS … Fiji    BuC1     -17.6      179. fringing  fore reef sheltered    
-#> 2 2019_Da… WCS … Fiji    BuC2     -17.7      179. fringing  fore reef sheltered    
-#> 3 2019_Da… WCS … Fiji    BuC3     -17.6      179. fringing  fore reef sheltered    
-#> 4 2019_Da… WCS … Fiji    BuC4     -17.7      179. fringing  fore reef sheltered    
-#> 5 2019_Da… WCS … Fiji    BuC5     -17.6      179. fringing  fore reef sheltered    
-#> 6 2019_Da… WCS … Fiji    BuC6     -17.7      179. fringing  fore reef sheltered    
-#> # … with 47 more variables: tide <chr>, current <chr>, visibility <chr>,
-#> #   aca_geomorphic <chr>, aca_benthic <chr>, andrello_grav_nc <dbl>,
-#> #   andrello_sediment <dbl>, andrello_nutrient <dbl>, andrello_pop_count <dbl>,
-#> #   andrello_num_ports <dbl>, andrello_reef_value <dbl>,
-#> #   andrello_cumul_score <dbl>, beyer_score <dbl>, beyer_scorecn <dbl>,
-#> #   beyer_scorecy <dbl>, beyer_scorepfc <dbl>, beyer_scoreth <dbl>,
-#> #   beyer_scoretr <dbl>, management <chr>, management_secondary <chr>, …
+#> # A tibble: 6 × 40
+#>   project      tags  country site  latitude longitude reef_type reef_zone reef_exposure
+#>   <chr>        <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>     <chr>        
+#> 1 2019_Dama B… Vibr… Fiji    BuC1     -17.6      179. fringing  fore reef sheltered    
+#> 2 2019_Dama B… Vibr… Fiji    BuC2     -17.7      179. fringing  fore reef sheltered    
+#> 3 2019_Dama B… Vibr… Fiji    BuC3     -17.6      179. fringing  fore reef sheltered    
+#> 4 2019_Dama B… Vibr… Fiji    BuC4     -17.7      179. fringing  fore reef sheltered    
+#> 5 2019_Dama B… Vibr… Fiji    BuC5     -17.6      179. fringing  fore reef sheltered    
+#> 6 2019_Dama B… Vibr… Fiji    BuC6     -17.7      179. fringing  fore reef sheltered    
+#> # ℹ 31 more variables: tide <chr>, current <chr>, visibility <chr>, management <chr>,
+#> #   management_secondary <chr>, management_est_year <int>, management_size <lgl>,
+#> #   management_parties <chr>, management_compliance <chr>, management_rules <chr>,
+#> #   sample_date <date>, depth_avg <dbl>,
+#> #   percent_cover_benthic_category_avg_sand <dbl>,
+#> #   percent_cover_benthic_category_avg_trash <dbl>,
+#> #   percent_cover_benthic_category_avg_rubble <dbl>, …
 ```
 
 At a high level, this returns the aggregations for a survey at the *sample event* level; roughly, it provides a summary of all observations for all transects at a given site and date, giving us information like the average percent cover for each benthic category. Let's focus in on the `country`, `site`, and `percent_cover_benthic_category_avg_hard_coral` columns.
@@ -202,10 +203,11 @@ projects_public_fishbelt <- vo_projects %>%
 
 projects_public_fishbelt %>%
   select(name)
-#> # A tibble: 1 × 1
-#>   name                 
-#>   <chr>                
-#> 1 Taka Bonerate NP-2019
+#> # A tibble: 2 × 1
+#>   name                                  
+#>   <chr>                                 
+#> 1 Copy of Karimunjawa National Park_2022
+#> 2 Taka Bonerate NP-2019
 ```
 
 Next, we query for public summary data, again using `mermaid_get_project_data` to get "sampleevents" data, this time specifying the "fishbelt" method:
@@ -216,22 +218,22 @@ fishbelt_data <- projects_public_fishbelt %>%
   mermaid_get_project_data("fishbelt", "sampleevents", token = NULL)
 
 head(fishbelt_data)
-#> # A tibble: 6 × 106
-#>   project  tags  country site  latitude longitude reef_type reef_zone reef_exposure
-#>   <chr>    <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>     <chr>        
-#> 1 Taka Bo… WCS … Indone… Ampa…    -6.92      121. atoll     back reef sheltered    
-#> 2 Taka Bo… WCS … Indone… Bela…    -6.40      121. atoll     fore reef exposed      
-#> 3 Taka Bo… WCS … Indone… Bung…    -6.82      121. atoll     fore reef exposed      
-#> 4 Taka Bo… WCS … Indone… Jina…    -6.77      121. atoll     fore reef exposed      
-#> 5 Taka Bo… WCS … Indone… Jina…    -6.76      121. atoll     back reef semi-exposed 
-#> 6 Taka Bo… WCS … Indone… Kayu…    -6.81      121. fringing  fore reef exposed      
-#> # … with 97 more variables: tide <chr>, current <chr>, visibility <chr>,
-#> #   aca_geomorphic <chr>, aca_benthic <chr>, andrello_grav_nc <dbl>,
-#> #   andrello_sediment <dbl>, andrello_nutrient <dbl>, andrello_pop_count <dbl>,
-#> #   andrello_num_ports <dbl>, andrello_reef_value <dbl>,
-#> #   andrello_cumul_score <dbl>, beyer_score <dbl>, beyer_scorecn <dbl>,
-#> #   beyer_scorecy <dbl>, beyer_scorepfc <dbl>, beyer_scoreth <dbl>,
-#> #   beyer_scoretr <dbl>, management <chr>, management_secondary <chr>, …
+#> # A tibble: 6 × 87
+#>   project      tags  country site  latitude longitude reef_type reef_zone reef_exposure
+#>   <chr>        <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>     <chr>        
+#> 1 Taka Bonera… Vibr… Indone… Ampa…    -6.92      121. atoll     back reef sheltered    
+#> 2 Taka Bonera… Vibr… Indone… Bela…    -6.40      121. atoll     fore reef exposed      
+#> 3 Taka Bonera… Vibr… Indone… Bung…    -6.82      121. atoll     fore reef exposed      
+#> 4 Taka Bonera… Vibr… Indone… Jina…    -6.77      121. atoll     fore reef exposed      
+#> 5 Taka Bonera… Vibr… Indone… Jina…    -6.76      121. atoll     back reef semi-exposed 
+#> 6 Taka Bonera… Vibr… Indone… Kayu…    -6.81      121. fringing  fore reef exposed      
+#> # ℹ 78 more variables: tide <chr>, current <chr>, visibility <chr>, management <chr>,
+#> #   management_secondary <chr>, management_est_year <int>, management_size <lgl>,
+#> #   management_parties <chr>, management_compliance <chr>, management_rules <chr>,
+#> #   sample_date <date>, depth_avg <dbl>, biomass_kgha_avg <dbl>,
+#> #   biomass_kgha_trophic_group_avg_omnivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_piscivore <dbl>,
+#> #   biomass_kgha_trophic_group_avg_planktivore <dbl>, …
 ```
 
 Again, this summarises all observations for all transects at a given site and date, and gives us information like the average biomass at that site, and average biomass across groupings like trophic group or fish family.
