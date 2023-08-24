@@ -179,13 +179,14 @@ aggregate_ses_biomass_avg_long <- function(ses, aggregate_cols = c("trophic_grou
 
 calculate_lit_obs_percent_cover_long <- function(obs) {
   obs_agg <- obs %>%
-    dplyr::group_by(.data$fake_sample_unit_id, .data$benthic_category) %>%
-    dplyr::summarise(
-      percent_cover_by_benthic_category = round(sum(.data$length, na.rm = TRUE) * 100 / .data$total_length, 2),
-      .groups = "drop"
-    ) %>%
-    dplyr::distinct() %>%
-    tidyr::pivot_wider(names_from = "benthic_category", values_from = "percent_cover_by_benthic_category")
+    dplyr::group_by(.data$fake_sample_unit_id, .data$benthic_category, .data$total_length) %>%
+    dplyr::summarise(length_sum = sum(.data$length, na.rm = TRUE), .groups = "drop") %>%
+    dplyr::mutate(percent_cover_by_benthic_category = round(.data$length_sum * 100 / .data$total_length, 2)) %>%
+    dplyr::select(-tidyselect::all_of(c("total_length", "length_sum"))) %>%
+    tidyr::pivot_wider(
+      names_from = "benthic_category",
+      values_from = "percent_cover_by_benthic_category"
+    )
 
   obs_agg %>%
     tidyr::pivot_longer(-"fake_sample_unit_id", values_to = "obs") %>%
