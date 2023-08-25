@@ -16,7 +16,7 @@ NULL
 #' test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
-get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents", "benthicpits/obstransectbenthicpits", "benthicpits/sampleunits", "benthicpits/sampleevents", "benthiclits/obstransectbenthiclits", "benthiclits/sampleunits", "benthiclits/sampleevents", "benthicpqts/obstransectbenthicpqts", "benthicpqts/sampleunits", "benthicpqts/sampleevents", "habitatcomplexities/obshabitatcomplexities", "habitatcomplexities/sampleunits", "habitatcomplexities/sampleevents", "bleachingqcs/obscoloniesbleacheds", "bleachingqcs/obsquadratbenthicpercents", "bleachingqcs/sampleunits", "bleachingqcs/sampleevents", "collectrecords/ingest_schema/fishbelt", "collectrecords/ingest_schema/benthiclit", "collectrecords/ingest_schema/benthicpit", "collectrecords/ingest_schema/benthicpqt", "collectrecords/ingest_schema/bleachingqc", "collectrecords/ingest_schema/habitatcomplexity"), limit = NULL, token = mermaid_token(), filter = NULL) {
+get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents", "benthicpits/obstransectbenthicpits", "benthicpits/sampleunits", "benthicpits/sampleevents", "benthiclits/obstransectbenthiclits", "benthiclits/sampleunits", "benthiclits/sampleevents", "benthicpqts/obstransectbenthicpqts", "benthicpqts/sampleunits", "benthicpqts/sampleevents", "habitatcomplexities/obshabitatcomplexities", "habitatcomplexities/sampleunits", "habitatcomplexities/sampleevents", "bleachingqcs/obscoloniesbleacheds", "bleachingqcs/obsquadratbenthicpercents", "bleachingqcs/sampleunits", "bleachingqcs/sampleevents", "collectrecords/ingest_schema/fishbelt", "collectrecords/ingest_schema/benthiclit", "collectrecords/ingest_schema/benthicpit", "collectrecords/ingest_schema/benthicpqt", "collectrecords/ingest_schema/bleachingqc", "collectrecords/ingest_schema/habitatcomplexity"), limit = NULL, token = mermaid_token(), filter = NULL, covariates = FALSE) {
   project_id <- as_id(project)
   check_project(project_id)
   endpoint <- match.arg(endpoint, several.ok = TRUE)
@@ -25,7 +25,7 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   full_endpoints <- purrr::map(endpoint, ~ paste0("projects/", project_id, "/", .x))
 
   # Get endpoint results
-  endpoints_res <- purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, filter = filter, token = token, project_id = project_id, project = project)
+  endpoints_res <- purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, filter = filter, token = token, project_id = project_id, project = project, covariates = covariates)
   names(endpoints_res) <- endpoint
 
   # Return endpoints
@@ -55,7 +55,7 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   }
 }
 
-get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, token = mermaid_token(), filter = NULL, project_id, project) {
+get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, token = mermaid_token(), filter = NULL, project_id, project, covariates = FALSE) {
   initial_res <- mermaid_GET(full_endpoint, limit = limit, filter = filter, token = token)
 
   # Return ingest schema for tidying separately
@@ -74,8 +74,8 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
   }
 
   res_lookups <- lookup_choices(res, endpoint, endpoint_type = "project")
-  res_strip_suffix <- strip_name_suffix(res_lookups)
-  construct_project_endpoint_columns(res_strip_suffix, endpoint, multiple_projects = length(initial_res) > 1)
+  res_strip_suffix <- strip_name_suffix(res_lookups, covariates = covariates)
+  construct_project_endpoint_columns(res_strip_suffix, endpoint, multiple_projects = length(initial_res) > 1, covariates = covariates)
 }
 
 check_project <- function(project) {
@@ -84,16 +84,22 @@ check_project <- function(project) {
   }
 }
 
-construct_project_endpoint_columns <- function(res, endpoint, multiple_projects = FALSE) {
+construct_project_endpoint_columns <- function(res, endpoint, multiple_projects = FALSE, covariates = FALSE) {
+  # If covariates = TRUE, add site_id to columns selected (just for now!)
+  endpoint_cols <- mermaid_project_endpoint_columns[[endpoint]]
+
+  if (covariates) {
+    endpoint_cols <- c("site_id", endpoint_cols)
+  }
+
   if (nrow(res) == 0 && ncol(res) == 0) {
-    cols <- mermaid_project_endpoint_columns[[endpoint]]
-    res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)), .name_repair = "minimal")
-    names(res) <- cols
+    res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(endpoint_cols)), .name_repair = "minimal")
+    names(res) <- endpoint_cols
     res
   } else if (multiple_projects) {
-    dplyr::select(res, tidyselect::any_of(c("project_id", "project")), tidyselect::any_of(mermaid_project_endpoint_columns[[endpoint]]))
+    dplyr::select(res, tidyselect::any_of(c("project_id", "project")), tidyselect::any_of(endpoint_cols))
   } else {
-    dplyr::select(res, dplyr::any_of(mermaid_project_endpoint_columns[[endpoint]]))
+    dplyr::select(res, dplyr::any_of(endpoint_cols))
   }
 }
 

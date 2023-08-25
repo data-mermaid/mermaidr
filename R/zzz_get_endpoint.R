@@ -124,7 +124,7 @@ construct_endpoint_columns <- function(x, endpoint) {
   dplyr::select(x, mermaid_endpoint_columns[[endpoint]])
 }
 
-strip_name_suffix <- function(results) {
+strip_name_suffix <- function(results, covariates = FALSE) {
   res_names <- names(results)
   # Remove any _name suffixes, except score_name since we want to keep both score and score_name
   # Convert score_name to score_NAME first (so _name isn't removed from it)
@@ -138,7 +138,11 @@ strip_name_suffix <- function(results) {
 
   names(results) <- res_names
 
-  results[, !grepl("_id$", names(results)) | names(results) == "project_id" | names(results) == "sample_event_id" | names(results) == "sample_unit_id"]
+  if (covariates) {
+    results[, !grepl("_id$", names(results)) | names(results) %in% c("project_id", "site_id") | names(results) == "sample_event_id" | names(results) == "sample_unit_id"]
+  } else {
+    results[, !grepl("_id$", names(results)) | names(results) == "project_id" | names(results) == "sample_event_id" | names(results) == "sample_unit_id"]
+  }
 }
 
 # Defined in respective function files

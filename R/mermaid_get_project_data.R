@@ -50,7 +50,7 @@ mermaid_get_project_data <- function(project = mermaid_get_default_project(), me
 
   endpoint <- construct_endpoint(method, data)
 
-  res <- purrr::map(endpoint, ~ get_project_endpoint(project, .x, limit, token))
+  res <- purrr::map(endpoint, ~ get_project_endpoint(project, .x, limit, token, covariates = covariates))
 
   if (all(purrr::map_lgl(res, inherits, "list"))) {
     res <- purrr::map(res, ~ {
@@ -76,15 +76,14 @@ mermaid_get_project_data <- function(project = mermaid_get_default_project(), me
       dplyr::select(
         tidyselect::any_of("project"),
         tidyselect::all_of(c(
-          site = "name",
+          site_id = "id",
           covars_cols
         ))
       )
 
+    # Join covariates to any DFs in res
     res <- res %>%
       add_covariates_to_data(project_sites_covariates)
-
-    # Join covariates to any DFs in res
   }
 
   if (length(endpoint) == 1) {
@@ -202,10 +201,10 @@ add_covariates_to_data <- function(data, covariates) {
       } else {
         if ("project" %in% names(covariates)) {
           data[[i]] <- data[[i]] %>%
-            dplyr::left_join(covariates, by = c("project", "site"))
+            dplyr::left_join(covariates, by = c("project", "site_id"))
         } else {
           data[[i]] <- data[[i]] %>%
-            dplyr::left_join(covariates, by = "site")
+            dplyr::left_join(covariates, by = "site_id")
         }
       }
 
