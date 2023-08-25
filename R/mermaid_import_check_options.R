@@ -115,7 +115,7 @@ closest_string_match <- function(data_field, options_field) {
     dplyr::mutate(join = TRUE) %>%
     dplyr::mutate(data_value = forcats::fct_inorder(as.character(.data$data_value))) %>%
     dplyr::full_join(options_field %>% dplyr::mutate(join = TRUE),
-      by = "join"
+      by = "join", relationship = "many-to-many"
     ) %>%
     dplyr::mutate(
       data_value_lower = tolower(.data$data_value),

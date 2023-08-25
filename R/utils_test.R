@@ -233,12 +233,14 @@ aggregate_ses_percent_cover_avg_long <- function(ses, sus_agg) {
 
 calculate_pit_obs_percent_cover_long <- function(obs) {
   obs %>%
-    dplyr::group_by(.data$fake_sample_unit_id, .data$benthic_category) %>%
+    dplyr::group_by(.data$fake_sample_unit_id, .data$benthic_category, .data$transect_length) %>%
     dplyr::summarise(
-      percent_cover_by_benthic_category = round(sum(.data$interval_size, na.rm = TRUE) * 100 / .data$transect_length, 2),
+      interval_size_sum = sum(.data$interval_size, na.rm = TRUE),
       .groups = "drop"
     ) %>%
-    dplyr::distinct() %>%
+    dplyr::mutate(percent_cover_by_benthic_category = round(.data$interval_size_sum * 100 / .data$transect_length, 2)
+    ) %>%
+    dplyr::select(-tidyselect::all_of(c("interval_size_sum", "transect_length"))) %>%
     tidyr::pivot_wider(names_from = "benthic_category", values_from = "percent_cover_by_benthic_category") %>%
     tidyr::pivot_longer(-"fake_sample_unit_id", values_to = "obs") %>%
     dplyr::mutate(
