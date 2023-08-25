@@ -9,6 +9,8 @@ Do you have a lot of existing data and are just starting to use MERMAID? You mig
 
 Here we provide an example on how to import your fish data that uses the **fish belt method** into MERMAID using mermaidr. Please note that you need to **prepare your project in the app first** before starting this process. Detail on how to set a new project can be seen [here](https://datamermaid.org/documentation/setting-up-a-new-project). For this example, we have already prepared a project in the MERMAID app named **MERMAID reef survey**.
 
+We have also prepared <a href="https://www.youtube.com/watch?v=bgmz0vhg2QI" target="_blank">a video</a> to walk you through the ingestion steps, using the historical fishbelt data below as an example.
+
 The steps for importing legacy fish belt data are:
 
 1. Download the fish belt MERMAID template
