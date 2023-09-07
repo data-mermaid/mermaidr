@@ -262,13 +262,14 @@ extract_covariates <- function(results) {
 
 get_covariate_value <- function(x) {
   if (length(x) == 0) { # If there is no value, return NA
-    return(NA)
+    return(NA_character_)
   } else if (length(x) == 1) { # If it's a single value, just return the value
-    return(x)
+    return(as.character(x))
   }
 
   # Otherwise, get the value for the max area
   x %>%
     dplyr::filter(.data$area == max(.data$area)) %>%
-    dplyr::pull(.data$name)
+    dplyr::pull(.data$name) %>%
+    as.character()
 }
