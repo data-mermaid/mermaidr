@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -129,16 +129,16 @@ with “Vibrant Oceans”:</p>
 <span><span class="va">vo_projects</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mermaid_search_projects.html">mermaid_search_projects</a></span><span class="op">(</span>tags <span class="op">=</span> <span class="st">"Vibrant Oceans"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">vo_projects</span></span>
-<span><span class="co">#&gt; # A tibble: 5 × 14</span></span>
-<span><span class="co">#&gt;   id        name        countries   num_sites tags    notes status data_policy_bel…</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;           &lt;int&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;           </span></span>
-<span><span class="co">#&gt; 1 3a9ecb7c… Aceh Jaya … Indonesia          18 Vibran… ""    Open   Private         </span></span>
-<span><span class="co">#&gt; 2 507d1af9… Karimunjaw… Indonesia          43 Vibran… ""    Open   Private         </span></span>
-<span><span class="co">#&gt; 3 95e0ffc7… 2019_Dama … Fiji               44 Vibran… ""    Open   Private         </span></span>
-<span><span class="co">#&gt; 4 a93b43f1… Tanzania V… Tanzania, …        24 Vibran… ""    Open   Private         </span></span>
-<span><span class="co">#&gt; 5 bcb1f115… Taka Boner… Indonesia          39 Vibran… ""    Open   Public Summary  </span></span>
-<span><span class="co">#&gt; # … with 6 more variables: data_policy_benthiclit &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; # A tibble: 5 × 15</span></span>
+<span><span class="co">#&gt;   id                  name  countries num_sites tags  notes status data_policy_beltfish</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;               &lt;chr&gt; &lt;chr&gt;         &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;               </span></span>
+<span><span class="co">#&gt; 1 3a9ecb7c-f908-4262… Aceh… Indonesia        18 WCS … ""    Open   Private             </span></span>
+<span><span class="co">#&gt; 2 507d1af9-edbd-417e… Kari… Indonesia        43 WCS … ""    Open   Private             </span></span>
+<span><span class="co">#&gt; 3 5f13e6dc-40cc-4ef9… Copy… Indonesia        43 WCS … ""    Open   Public Summary      </span></span>
+<span><span class="co">#&gt; 4 95e0ffc7-3a7d-4538… 2019… Fiji             44 WCS … ""    Open   Private             </span></span>
+<span><span class="co">#&gt; 5 bcb1f115-804d-4b23… Taka… Indonesia        39 WCS … ""    Open   Public Summary      </span></span>
+<span><span class="co">#&gt; # ℹ 7 more variables: data_policy_benthiclit &lt;chr&gt;, data_policy_benthicpit &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_benthicpqt &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>
 <p>For this analysis, WCS field teams accessed ecological condition
 using underwater surveys to assess two key indicators of coral reef
@@ -159,13 +159,13 @@ benthic PIT.</p>
 <span><span class="va">vo_projects</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">data_policy_beltfish</span>, <span class="va">data_policy_benthicpit</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 5 × 3</span></span>
-<span><span class="co">#&gt;   name                                      data_policy_beltfi… data_policy_benthi…</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;                                     &lt;chr&gt;               &lt;chr&gt;              </span></span>
-<span><span class="co">#&gt; 1 Aceh Jaya Coastal Park                    Private             Private            </span></span>
-<span><span class="co">#&gt; 2 Karimunjawa National Park                 Private             Private            </span></span>
-<span><span class="co">#&gt; 3 2019_Dama Bureta Waibula and Dawasamu-WI… Private             Public Summary     </span></span>
-<span><span class="co">#&gt; 4 Tanzania Vibrant Oceans 2019              Private             Private            </span></span>
-<span><span class="co">#&gt; 5 Taka Bonerate NP-2019                     Public Summary      Public Summary</span></span></code></pre></div>
+<span><span class="co">#&gt;   name                                      data_policy_beltfish data_policy_benthicpit</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                                     &lt;chr&gt;                &lt;chr&gt;                 </span></span>
+<span><span class="co">#&gt; 1 Aceh Jaya Coastal Park                    Private              Private               </span></span>
+<span><span class="co">#&gt; 2 Karimunjawa National Park                 Private              Private               </span></span>
+<span><span class="co">#&gt; 3 Copy of Karimunjawa National Park_2022    Public Summary       Public Summary        </span></span>
+<span><span class="co">#&gt; 4 2019_Dama Bureta Waibula and Dawasamu-WI… Private              Public Summary        </span></span>
+<span><span class="co">#&gt; 5 Taka Bonerate NP-2019                     Public Summary       Public Summary</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="live-hard-coral-cover">Live hard coral cover<a class="anchor" aria-label="anchor" href="#live-hard-coral-cover"></a>
 </h2>
@@ -179,11 +179,12 @@ Dawasamu projects):</p>
 <span></span>
 <span><span class="va">projects_public_benthic</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 2 × 1</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 1</span></span>
 <span><span class="co">#&gt;   name                                                        </span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;                                                       </span></span>
-<span><span class="co">#&gt; 1 2019_Dama Bureta Waibula and Dawasamu-WISH ecological survey</span></span>
-<span><span class="co">#&gt; 2 Taka Bonerate NP-2019</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 Copy of Karimunjawa National Park_2022                      </span></span>
+<span><span class="co">#&gt; 2 2019_Dama Bureta Waibula and Dawasamu-WISH ecological survey</span></span>
+<span><span class="co">#&gt; 3 Taka Bonerate NP-2019</span></span></code></pre></div>
 <p>And then by querying for public summary data, using
 <code><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code>, specifying the “benthicpit”
 method with “sampleevents” data. The key to accessing public summary
@@ -195,22 +196,22 @@ returns the data <em>if</em> the data policy allows it.</p>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"benthicpit"</span>, <span class="st">"sampleevents"</span>, token <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">benthic_data</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 6 × 56</span></span>
-<span><span class="co">#&gt;   project  tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt; 1 2019_Da… WCS … Fiji    BuC1     -17.6      179. fringing  fore reef sheltered    </span></span>
-<span><span class="co">#&gt; 2 2019_Da… WCS … Fiji    BuC2     -17.7      179. fringing  fore reef sheltered    </span></span>
-<span><span class="co">#&gt; 3 2019_Da… WCS … Fiji    BuC3     -17.6      179. fringing  fore reef sheltered    </span></span>
-<span><span class="co">#&gt; 4 2019_Da… WCS … Fiji    BuC4     -17.7      179. fringing  fore reef sheltered    </span></span>
-<span><span class="co">#&gt; 5 2019_Da… WCS … Fiji    BuC5     -17.6      179. fringing  fore reef sheltered    </span></span>
-<span><span class="co">#&gt; 6 2019_Da… WCS … Fiji    BuC6     -17.7      179. fringing  fore reef sheltered    </span></span>
-<span><span class="co">#&gt; # … with 47 more variables: tide &lt;chr&gt;, current &lt;chr&gt;, visibility &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   aca_geomorphic &lt;chr&gt;, aca_benthic &lt;chr&gt;, andrello_grav_nc &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   andrello_sediment &lt;dbl&gt;, andrello_nutrient &lt;dbl&gt;, andrello_pop_count &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   andrello_num_ports &lt;dbl&gt;, andrello_reef_value &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   andrello_cumul_score &lt;dbl&gt;, beyer_score &lt;dbl&gt;, beyer_scorecn &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   beyer_scorecy &lt;dbl&gt;, beyer_scorepfc &lt;dbl&gt;, beyer_scoreth &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   beyer_scoretr &lt;dbl&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 6 × 40</span></span>
+<span><span class="co">#&gt;   project      tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
+<span><span class="co">#&gt; 1 2019_Dama B… Vibr… Fiji    BuC1     -17.6      179. fringing  fore reef sheltered    </span></span>
+<span><span class="co">#&gt; 2 2019_Dama B… Vibr… Fiji    BuC2     -17.7      179. fringing  fore reef sheltered    </span></span>
+<span><span class="co">#&gt; 3 2019_Dama B… Vibr… Fiji    BuC3     -17.6      179. fringing  fore reef sheltered    </span></span>
+<span><span class="co">#&gt; 4 2019_Dama B… Vibr… Fiji    BuC4     -17.7      179. fringing  fore reef sheltered    </span></span>
+<span><span class="co">#&gt; 5 2019_Dama B… Vibr… Fiji    BuC5     -17.6      179. fringing  fore reef sheltered    </span></span>
+<span><span class="co">#&gt; 6 2019_Dama B… Vibr… Fiji    BuC6     -17.7      179. fringing  fore reef sheltered    </span></span>
+<span><span class="co">#&gt; # ℹ 31 more variables: tide &lt;chr&gt;, current &lt;chr&gt;, visibility &lt;chr&gt;, management &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   management_secondary &lt;chr&gt;, management_est_year &lt;int&gt;, management_size &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   management_parties &lt;chr&gt;, management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   sample_date &lt;date&gt;, depth_avg &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   percent_cover_benthic_category_avg_sand &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   percent_cover_benthic_category_avg_trash &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   percent_cover_benthic_category_avg_rubble &lt;dbl&gt;, …</span></span></code></pre></div>
 <p>At a high level, this returns the aggregations for a survey at the
 <em>sample event</em> level; roughly, it provides a summary of all
 observations for all transects at a given site and date, giving us
@@ -314,10 +315,11 @@ project.</p>
 <span></span>
 <span><span class="va">projects_public_fishbelt</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 1 × 1</span></span>
-<span><span class="co">#&gt;   name                 </span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;                </span></span>
-<span><span class="co">#&gt; 1 Taka Bonerate NP-2019</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 2 × 1</span></span>
+<span><span class="co">#&gt;   name                                  </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                                 </span></span>
+<span><span class="co">#&gt; 1 Copy of Karimunjawa National Park_2022</span></span>
+<span><span class="co">#&gt; 2 Taka Bonerate NP-2019</span></span></code></pre></div>
 <p>Next, we query for public summary data, again using
 <code>mermaid_get_project_data</code> to get “sampleevents” data, this
 time specifying the “fishbelt” method:</p>
@@ -326,22 +328,22 @@ time specifying the “fishbelt” method:</p>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleevents"</span>, token <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fishbelt_data</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 6 × 106</span></span>
-<span><span class="co">#&gt;   project  tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt; 1 Taka Bo… WCS … Indone… Ampa…    -6.92      121. atoll     back reef sheltered    </span></span>
-<span><span class="co">#&gt; 2 Taka Bo… WCS … Indone… Bela…    -6.40      121. atoll     fore reef exposed      </span></span>
-<span><span class="co">#&gt; 3 Taka Bo… WCS … Indone… Bung…    -6.82      121. atoll     fore reef exposed      </span></span>
-<span><span class="co">#&gt; 4 Taka Bo… WCS … Indone… Jina…    -6.77      121. atoll     fore reef exposed      </span></span>
-<span><span class="co">#&gt; 5 Taka Bo… WCS … Indone… Jina…    -6.76      121. atoll     back reef semi-exposed </span></span>
-<span><span class="co">#&gt; 6 Taka Bo… WCS … Indone… Kayu…    -6.81      121. fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt; # … with 97 more variables: tide &lt;chr&gt;, current &lt;chr&gt;, visibility &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   aca_geomorphic &lt;chr&gt;, aca_benthic &lt;chr&gt;, andrello_grav_nc &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   andrello_sediment &lt;dbl&gt;, andrello_nutrient &lt;dbl&gt;, andrello_pop_count &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   andrello_num_ports &lt;dbl&gt;, andrello_reef_value &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   andrello_cumul_score &lt;dbl&gt;, beyer_score &lt;dbl&gt;, beyer_scorecn &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   beyer_scorecy &lt;dbl&gt;, beyer_scorepfc &lt;dbl&gt;, beyer_scoreth &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   beyer_scoretr &lt;dbl&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 6 × 87</span></span>
+<span><span class="co">#&gt;   project      tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
+<span><span class="co">#&gt; 1 Taka Bonera… Vibr… Indone… Ampa…    -6.92      121. atoll     back reef sheltered    </span></span>
+<span><span class="co">#&gt; 2 Taka Bonera… Vibr… Indone… Bela…    -6.40      121. atoll     fore reef exposed      </span></span>
+<span><span class="co">#&gt; 3 Taka Bonera… Vibr… Indone… Bung…    -6.82      121. atoll     fore reef exposed      </span></span>
+<span><span class="co">#&gt; 4 Taka Bonera… Vibr… Indone… Jina…    -6.77      121. atoll     fore reef exposed      </span></span>
+<span><span class="co">#&gt; 5 Taka Bonera… Vibr… Indone… Jina…    -6.76      121. atoll     back reef semi-exposed </span></span>
+<span><span class="co">#&gt; 6 Taka Bonera… Vibr… Indone… Kayu…    -6.81      121. fringing  fore reef exposed      </span></span>
+<span><span class="co">#&gt; # ℹ 78 more variables: tide &lt;chr&gt;, current &lt;chr&gt;, visibility &lt;chr&gt;, management &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   management_secondary &lt;chr&gt;, management_est_year &lt;int&gt;, management_size &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   management_parties &lt;chr&gt;, management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   sample_date &lt;date&gt;, depth_avg &lt;dbl&gt;, biomass_kgha_avg &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   biomass_kgha_trophic_group_avg_omnivore &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   biomass_kgha_trophic_group_avg_piscivore &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   biomass_kgha_trophic_group_avg_planktivore &lt;dbl&gt;, …</span></span></code></pre></div>
 <p>Again, this summarises all observations for all transects at a given
 site and date, and gives us information like the average biomass at that
 site, and average biomass across groupings like trophic group or fish
