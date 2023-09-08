@@ -11,3 +11,4 @@ tests/testthat/.httr-oauth
 vignettes/
 ^scratch$
 ^import-demo$
+^examples$

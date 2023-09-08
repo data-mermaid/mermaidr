@@ -3,21 +3,24 @@ test_that("mermaid_import_project_data errors if data is not a data frame or pat
   skip_on_ci()
   skip_on_cran()
 
+  p <- mermaid_get_my_projects() %>%
+    head(1)
+
   # Valid file, but not CSV
   expect_error(
-    mermaid_import_project_data(system.file("extdata/mermaid_ingest.json", package = "mermaidr")),
+    mermaid_import_project_data(system.file("extdata/mermaid_ingest.json", package = "mermaidr"), p),
     "path to a CSV"
   )
 
   # Invalid file
   expect_error(
-    mermaid_import_project_data(tempfile()),
+    mermaid_import_project_data(tempfile(), p),
     "path to a CSV"
   )
 
   # List
   expect_error(
-    mermaid_import_project_data(list()),
+    mermaid_import_project_data(list(), p),
     "path to a CSV"
   )
 })
@@ -27,8 +30,11 @@ test_that("mermaid_import_project_data errors if method doesn't match", {
   skip_on_ci()
   skip_on_cran()
 
+  p <- mermaid_get_my_projects() %>%
+    head(1)
+
   expect_error(
-    mermaid_import_project_data(mtcars, method = "nope"),
+    mermaid_import_project_data(mtcars, p, method = "nope"),
     "must be one of"
   )
 })
@@ -308,6 +314,7 @@ test_that("mermaid_import_project_data with NA in CSVs converts NAs to '' and su
   mermaid_import_project_data(temp, project_id, "fishbelt", dryrun = FALSE)
   collect_records <- mermaid_get_project_endpoint(project_id, "collectrecords") %>%
     tidyr::unpack(data) %>%
+    dplyr::select(-id, -created_on, -updated_on) %>%
     tidyr::unpack(sample_event) %>%
     dplyr::filter(sample_date == "2022-06-15") %>%
     dplyr::select(fishbelt_transect) %>%

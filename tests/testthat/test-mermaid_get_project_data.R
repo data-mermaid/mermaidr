@@ -58,7 +58,7 @@ test_that("mermaid_get_project_data setting 'all' works", {
   skip_on_cran()
   p <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
   output <- mermaid_get_project_data(p, method = "all", data = "all", limit = 1)
-  expect_named(output, c("fishbelt", "benthiclit", "benthicpit", "bleaching", "habitatcomplexity"))
+  expect_named(output, c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"))
   purrr::walk(output, expect_named, c("observations", "sampleunits", "sampleevents"))
 })
 
@@ -884,35 +884,6 @@ test_that("Bleaching sample event aggregation is the same as manually aggregatin
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
 
-# Covariates ----
-
-test_that("ACA covariates are included in all aggregated endpoints", {
-  expect_true(
-    project_data_test_columns %>%
-      purrr::map_lgl(~ all(c("aca_geomorphic", "aca_benthic") %in% .x)) %>%
-      all()
-  )
-})
-
-test_that("Manual extraction of ACA covariates (choosing value with highest area) matches what comes from CSV output", {
-  skip_if_offline()
-  skip_on_ci()
-  skip_on_cran()
-
-  project_id <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
-
-  sus <- mermaid_get_project_data(project_id, "fishbelt", "sampleunits")
-
-  # Hit CSV endpoint
-  path <- glue::glue("https://dev-api.datamermaid.org/v1/projects/{project_id}/beltfishes/sampleunits/csv/?limit=5000")
-  resp <- httr::GET(path, ua, mermaid_token())
-  sus_csv <- read.csv(text = httr::content(resp, "text", encoding = "UTF-8"), na.strings = "") %>%
-    dplyr::as_tibble()
-
-  expect_identical(sus[["aca_geomorphic"]], sus_csv[["aca_geomorphic"]])
-  expect_identical(sus[["aca_benthic"]], sus_csv[["aca_benthic"]])
-})
-
 # Benthic PQT ----
 
 test_that("mermaid_get_project_data for benthicpqt returns a data frame with the correct names", {
@@ -925,4 +896,183 @@ test_that("mermaid_get_project_data for benthicpqt returns a data frame with the
   expect_true(all(project_data_test_columns[["benthicpqts/sampleevents"]] %in% names(output[["sampleevents"]])))
   expect_true(any(stringr::str_starts(names(output[["sampleunits"]]), project_data_df_columns_list_names[["benthicpqts/sampleunits"]])))
   expect_true(any(stringr::str_starts(names(output[["sampleevents"]]), project_data_df_columns_list_names[["benthicpqts/sampleevents"]])))
+})
+
+# Covariates ----
+
+test_that("mermaid_get_project_data with covariates = FALSE (the default) doesn't return any covars", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  p <- mermaid_get_my_projects()
+  output <- mermaid_get_project_data(p, "all", "all", limit = 1)
+})
+
+
+test_that("mermaid_get_project_data with covariates = TRUE returns covars, all the way down", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  # No data, still contains cols
+  p <- "173c2353-3ee3-49d1-b08a-a6bdeca2b52c"
+  output <- mermaid_get_project_data(p, "all", "all", limit = 1, covariates = TRUE)
+  output_t <- output %>%
+    purrr::transpose()
+  purrr::walk(
+    output_t[["sampleunits"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  purrr::walk(
+    output_t[["sampleevents"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  purrr::walk(
+    output_t[["observations"]][names(output_t[["observations"]]) != "bleaching"],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  purrr::walk(
+    output_t[["observations"]][["bleaching"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  output <- mermaid_get_project_data(p, "fishbelt", "all", limit = 1, covariates = TRUE)
+  purrr::walk(
+    output,
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  output <- mermaid_get_project_data(p, "fishbelt", "observations", limit = 1, covariates = TRUE)
+  expect_true(all(covars_cols %in% names(output)))
+  output <- mermaid_get_project_data(p, "bleaching", "all", limit = 1, covariates = TRUE)
+  expect_true(all(covars_cols %in% names(output[["sampleunits"]])))
+  expect_true(all(covars_cols %in% names(output[["sampleevents"]])))
+  purrr::walk(
+    output[["observations"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  output <- mermaid_get_project_data(p, "bleaching", "observations", limit = 1, covariates = TRUE)
+  purrr::walk(
+    output,
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+
+  # One project, contains cols
+  p <- "02e6915c-1c64-4d2c-bac0-326b560415a2"
+  output <- mermaid_get_project_data(p, c("fishbelt", "habitatcomplexity"), "all", limit = 1, covariates = TRUE)
+  output_t <- output %>%
+    purrr::transpose()
+  purrr::walk(
+    output_t[["sampleunits"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  purrr::walk(
+    output_t[["sampleevents"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  purrr::walk(
+    output_t[["observations"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  output <- mermaid_get_project_data(p, "fishbelt", "all", limit = 1, covariates = TRUE)
+  purrr::walk(
+    output,
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  output <- mermaid_get_project_data(p, "fishbelt", "observations", limit = 1, covariates = TRUE)
+  expect_true(all(covars_cols %in% names(output)))
+
+  p <- "170e7182-700a-4814-8f1e-45ee1caf3b44"
+  output <- mermaid_get_project_data(p, c("fishbelt", "benthicpit"), "all", limit = 1, covariates = TRUE)
+  output_t <- output %>%
+    purrr::transpose()
+  purrr::walk(
+    output_t[["sampleunits"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  purrr::walk(
+    output_t[["sampleevents"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  purrr::walk(
+    output_t[["observations"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  output <- mermaid_get_project_data(p, "fishbelt", "all", limit = 1, covariates = TRUE)
+  purrr::walk(
+    output,
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  output <- mermaid_get_project_data(p, "fishbelt", "observations", limit = 1, covariates = TRUE)
+  expect_true(all(covars_cols %in% names(output)))
+
+  p <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
+  output <- mermaid_get_project_data(p, c("bleaching", "benthiclit"), "all", limit = 1, covariates = TRUE)
+  output_t <- output %>%
+    purrr::transpose()
+  purrr::walk(
+    output_t[["sampleunits"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  purrr::walk(
+    output_t[["sampleevents"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  expect_true(all(covars_cols %in% names(output_t[["observations"]][["benthiclit"]])))
+  purrr::walk(
+    output_t[["observations"]][["bleaching"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  output <- mermaid_get_project_data(p, "benthiclit", "all", limit = 1, covariates = TRUE)
+  purrr::walk(
+    output,
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  output <- mermaid_get_project_data(p, "benthiclit", "observations", limit = 1, covariates = TRUE)
+  expect_true(all(covars_cols %in% names(output)))
+
+  # Multiple projects, contains cols
+  p <- c(
+    "02e6915c-1c64-4d2c-bac0-326b560415a2",
+    "170e7182-700a-4814-8f1e-45ee1caf3b44",
+    "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b",
+    "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
+  )
+  output <- mermaid_get_project_data(p, "all", "all", limit = 1, covariates = TRUE)
+  output_t <- output %>%
+    purrr::transpose()
+  purrr::walk(
+    output_t[["sampleunits"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  purrr::walk(
+    output_t[["sampleevents"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  purrr::walk(
+    output_t[["observations"]][names(output_t[["observations"]]) != "bleaching"],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  purrr::walk(
+    output_t[["observations"]][["bleaching"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  output <- mermaid_get_project_data(p, "fishbelt", "all", limit = 1, covariates = TRUE)
+  purrr::walk(
+    output,
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  output <- mermaid_get_project_data(p, "fishbelt", "observations", limit = 1, covariates = TRUE)
+  expect_true(all(covars_cols %in% names(output)))
+  output <- mermaid_get_project_data(p, "bleaching", "all", limit = 1, covariates = TRUE)
+  expect_true(all(covars_cols %in% names(output[["sampleunits"]])))
+  expect_true(all(covars_cols %in% names(output[["sampleevents"]])))
+  purrr::walk(
+    output[["observations"]],
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
+  output <- mermaid_get_project_data(p, "bleaching", "observations", limit = 1, covariates = TRUE)
+  purrr::walk(
+    output,
+    ~ expect_true(all(covars_cols %in% names(.x)))
+  )
 })

@@ -10,7 +10,7 @@ NULL
 #'
 #' @inheritParams mermaid_GET
 #' @noRd
-mermaid_GET <- function(endpoint, limit = NULL, token = NULL, ...) {
+mermaid_GET <- function(endpoint, limit = NULL, token = NULL, filter = NULL, ...) {
   check_internet()
   limit <- check_limit(limit)
 
@@ -19,7 +19,7 @@ mermaid_GET <- function(endpoint, limit = NULL, token = NULL, ...) {
   names(endpoints) <- endpoint
 
   # Construct API path
-  path <- purrr::map(names(endpoints), construct_api_path, token = token, limit = limit, ...)
+  path <- purrr::map(names(endpoints), construct_api_path, token = token, limit = limit, filter = filter, ...)
   names(path) <- endpoint
 
   # Call API and return results
@@ -40,15 +40,17 @@ check_errors <- function(response) {
   }
 }
 
-construct_api_path <- function(endpoint, token, limit, ...) {
+construct_api_path <- function(endpoint, token, limit, filter = NULL, ...) {
   # Construct first page - maximum size is 5000
   limit <- ifelse(is.null(limit) || limit > 5000, 5000, limit)
 
+  query <- append(list(limit = limit), filter)
+
   if (endpoint == "projects" & is.null(token)) {
     # Need showall = TRUE if it's the "projects" endpoint and not an authenticated call
-    path <- httr::modify_url(base_url, path = paste0("v1/", endpoint, "/"), query = list(limit = limit, showall = TRUE, ...))
+    path <- httr::modify_url(base_url, path = paste0("v1/", endpoint, "/"), query = append(query, list(showall = TRUE)))
   } else {
-    path <- httr::modify_url(base_url, path = paste0("v1/", endpoint, "/"), query = list(limit = limit, ...))
+    path <- httr::modify_url(base_url, path = paste0("v1/", endpoint, "/"), query = query)
   }
 }
 
@@ -156,17 +158,17 @@ initial_cleanup <- function(results, endpoint) {
 
   if ("validations" %in% names(results)) {
     results <- results %>%
-      dplyr::select(-.data$validations)
+      dplyr::select(-tidyselect::all_of("validations"))
   }
 
   if (endpoint == "sites") {
     results <- results %>%
-      tidyr::unpack(cols = c(.data$location)) %>%
+      tidyr::unpack(cols = "location") %>%
       tidyr::hoist(.data$coordinates,
         latitude = 2,
         longitude = 1
       ) %>%
-      dplyr::select(-.data$type)
+      dplyr::select(-tidyselect::all_of("type"))
   }
 
   if ("covariates" %in% names(results)) {
@@ -184,17 +186,17 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if (all(c("profile", "profile_name") %in% names(results))) {
-    results <- dplyr::select(results, -.data$profile) %>%
-      dplyr::rename(profile = .data$profile_name)
+    results <- dplyr::select(results, -tidyselect::all_of("profile")) %>%
+      dplyr::rename(profile = "profile_name")
   }
 
   if (all(c("project", "project_name") %in% names(results))) {
-    results <- dplyr::select(results, -.data$project) %>%
-      dplyr::rename(project = .data$project_name)
+    results <- dplyr::select(results, -tidyselect::all_of("project")) %>%
+      dplyr::rename(project = "project_name")
   }
 
   if ("transect_len_surveyed" %in% names(results)) {
-    results <- dplyr::rename(results, transect_length = .data$transect_len_surveyed)
+    results <- dplyr::rename(results, transect_length = "transect_len_surveyed")
   }
 
   if ("sample_date" %in% names(results)) {
@@ -217,7 +219,7 @@ collapse_id_name_lists <- function(results) {
       results <- results %>%
         tidyr::hoist(list_cols[[i]], list_name = "name") %>%
         dplyr::select(-list_cols[[i]]) %>%
-        dplyr::rename(!!list_cols[[i]] := .data$list_name)
+        dplyr::rename(!!list_cols[[i]] := "list_name")
     }
   }
 
@@ -225,40 +227,49 @@ collapse_id_name_lists <- function(results) {
 }
 
 extract_covariates <- function(results) {
-  covariates_expanded <- results[["covariates"]] %>%
-    purrr::compact() %>%
-    purrr::map(function(x) {
-      x %>%
-        dplyr::mutate(value = purrr::map(
-          .data$value,
-          function(y) {
-            if (is.null(y)) NA else y
-          }
-        ))
-    }) %>%
-    dplyr::bind_rows(.id = "row") %>%
-    dplyr::select(.data$row, .data$name, .data$value) %>%
-    split(.$name) %>%
-    purrr::map(~ .x %>% dplyr::mutate(value = purrr::map_chr(.data$value, get_covariate_value))) %>%
-    dplyr::bind_rows() %>%
-    tidyr::pivot_wider(id_cols = row, names_from = .data$name, values_from = .data$value) %>%
-    dplyr::mutate(dplyr::across(-dplyr::starts_with("aca_"), as.numeric))
+  if (length(results[["covariates"]]) != 0) {
+    covariates_expanded <- results[["covariates"]] %>%
+      purrr::compact() %>%
+      purrr::map(function(x) {
+        x %>%
+          dplyr::mutate(value = purrr::map(
+            .data$value,
+            function(y) {
+              if (is.null(y)) NA else y
+            }
+          ))
+      }) %>%
+      dplyr::bind_rows(.id = "row") %>%
+      dplyr::select(tidyselect::all_of(c("row", "name", "value"))) %>%
+      split(.$name) %>%
+      purrr::map(~ .x %>% dplyr::mutate(value = purrr::map_chr(.data$value, get_covariate_value))) %>%
+      dplyr::bind_rows() %>%
+      tidyr::pivot_wider(id_cols = row, names_from = "name", values_from = "value") %>%
+      dplyr::mutate(dplyr::across(-dplyr::starts_with("aca_"), as.numeric))
 
-  results %>%
-    dplyr::mutate(row = dplyr::row_number()) %>%
-    dplyr::left_join(covariates_expanded, by = "row") %>%
-    dplyr::select(-.data$row, -.data$covariates)
+    results %>%
+      dplyr::mutate(row = dplyr::row_number()) %>%
+      dplyr::left_join(covariates_expanded, by = "row") %>%
+      dplyr::select(-tidyselect::all_of(c("row", "covariates")))
+  } else {
+    covars <- tibble::as_tibble(matrix(nrow = , ncol = length(covars_cols)), .name_repair = "minimal")
+    names(covars) <- covars_cols
+    results %>%
+      dplyr::select(-tidyselect::all_of("covariates")) %>%
+      dplyr::bind_cols(covars)
+  }
 }
 
 get_covariate_value <- function(x) {
   if (length(x) == 0) { # If there is no value, return NA
-    return(NA)
+    return(NA_character_)
   } else if (length(x) == 1) { # If it's a single value, just return the value
-    return(x)
+    return(as.character(x))
   }
 
   # Otherwise, get the value for the max area
   x %>%
     dplyr::filter(.data$area == max(.data$area)) %>%
-    dplyr::pull(.data$name)
+    dplyr::pull(.data$name) %>%
+    as.character()
 }

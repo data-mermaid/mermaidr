@@ -43,7 +43,7 @@ get_single_reference <- function(reference, limit = NULL, choices = mermaid_get_
 get_reference_fishgenera <- function(limit = NULL) {
   fishgenera <- get_endpoint("fishgenera", limit = limit)
   fishfamilies <- get_endpoint("fishfamilies") %>%
-    dplyr::select(.data$id, family = .data$name)
+    dplyr::select(tidyselect::all_of(c("id", family = "name")))
 
   fishgenera %>%
     dplyr::left_join(fishfamilies, by = c("family" = "id"), suffix = c("_id", ""))
@@ -58,19 +58,19 @@ get_reference_fishspecies <- function(limit = NULL, choices = mermaid_get_endpoi
     tibble::deframe()
 
   fishgroupsizes <- choices[["fishgroupsizes"]] %>%
-    dplyr::select(.data$id, group_size = .data$name)
+    dplyr::select(tidyselect::all_of(c("id", group_size = "name")))
 
   fishgrouptrophics <- choices[["fishgrouptrophics"]] %>%
-    dplyr::select(.data$id, trophic_group = .data$name)
+    dplyr::select(tidyselect::all_of(c("id", trophic_group = "name")))
 
   fishgroupfunctions <- choices[["fishgroupfunctions"]] %>%
-    dplyr::select(.data$id, functional_group = .data$name)
+    dplyr::select(tidyselect::all_of(c("id", functional_group = "name")))
 
   genus <- fishgenera %>%
-    dplyr::select(.data$id, genus = .data$name)
+    dplyr::select(tidyselect::all_of(c("id", genus = "name")))
 
   fishspecies %>%
-    dplyr::rename(species = .data$display) %>%
+    dplyr::rename(species = "display") %>%
     dplyr::left_join(genus, by = c("genus" = "id"), suffix = c("_id", "")) %>%
     dplyr::left_join(fishgroupsizes, by = c("group_size" = "id"), suffix = c("_id", "")) %>%
     dplyr::left_join(fishgrouptrophics, by = c("trophic_group" = "id"), suffix = c("_id", "")) %>%
@@ -82,21 +82,21 @@ get_reference_benthicattributes <- function(limit = NULL) {
 
   benthicattributes %>%
     dplyr::left_join(benthicattributes %>%
-      dplyr::select(parent_id = .data$id, parent = .data$name), by = c("parent" = "parent_id"), suffix = c("_id", ""))
+      dplyr::select(tidyselect::all_of(c(parent_id = "id", parent = "name"))), by = c("parent" = "parent_id"), suffix = c("_id", ""))
 }
 
 lookup_regions <- function(results, choices = mermaid_get_endpoint("choices")) {
   regions <- choices %>%
     tibble::deframe() %>%
     purrr::pluck("regions") %>%
-    dplyr::select(.data$id, regions = .data$name)
+    dplyr::select(tidyselect::all_of(c("id", regions = "name")))
 
   results_row <- results %>%
     dplyr::mutate(row = dplyr::row_number())
 
   row_regions <- results_row %>%
-    dplyr::select(.data$row, .data$regions) %>%
-    tidyr::separate_rows(.data$regions, sep = "; ") %>%
+    dplyr::select(tidyselect::all_of(c("row", "regions"))) %>%
+    tidyr::separate_rows("regions", sep = "; ") %>%
     dplyr::filter(.data$regions != "NA") %>%
     dplyr::left_join(regions, by = c("regions" = "id"), suffix = c("_id", "")) %>%
     dplyr::group_by(.data$row) %>%
@@ -104,7 +104,7 @@ lookup_regions <- function(results, choices = mermaid_get_endpoint("choices")) {
 
   results_row %>%
     dplyr::left_join(row_regions, by = "row", suffix = c("_id", "")) %>%
-    dplyr::select(-.data$row, -.data$regions_id) %>%
+    dplyr::select(-tidyselect::all_of(c("row", "regions_id"))) %>%
     dplyr::select(names(results))
 }
 

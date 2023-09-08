@@ -1,3 +1,8 @@
+# mermaidr 0.7.0
+
+* Covariates are no longer included in `mermaid_get_project_data()` functions by default, require settings `covariates = TRUE`
+* `mermaid_get_project_sites()` also gains `covariate` argument, which when set to `TRUE` returns covariates at the site level
+
 # mermaidr 0.6.4
 
 * Add ingestion docs

@@ -31,7 +31,6 @@
 #' # 2 <1m - bad       <1m - bad        TRUE
 #' }
 mermaid_import_check_options <- function(data, options, field) {
-
   # Check field is not "Template"
   if (field == "Template") {
     stop("`Template` is not a valid field to check")
@@ -110,13 +109,32 @@ mermaid_import_check_options <- function(data, options, field) {
 }
 
 closest_string_match <- function(data_field, options_field) {
-  data_field %>%
+  data_field <- data_field %>%
     dplyr::filter(!is.na(.data$data_value)) %>%
     dplyr::mutate(join = TRUE) %>%
-    dplyr::mutate(data_value = forcats::fct_inorder(as.character(.data$data_value))) %>%
-    dplyr::full_join(options_field %>% dplyr::mutate(join = TRUE),
-      by = "join"
-    ) %>%
+    dplyr::mutate(data_value = forcats::fct_inorder(as.character(.data$data_value)))
+
+  # Account for different versions of dplyr to handle warnings
+  dplyr_version <- as.character(packageVersion("dplyr"))
+
+  if (utils::compareVersion(dplyr_version, "1.1.1")) {
+    data_with_options <- data_field %>%
+      dplyr::full_join(options_field %>% dplyr::mutate(join = TRUE),
+        by = "join", relationship = "many-to-many"
+      )
+  } else if (utils::compareVersion(dplyr_version, "1.1.0")) {
+    data_with_options <- data_field %>%
+      dplyr::full_join(options_field %>% dplyr::mutate(join = TRUE),
+        by = "join", multiple = "all"
+      )
+  } else {
+    data_with_options <- data_field %>%
+      dplyr::full_join(options_field %>% dplyr::mutate(join = TRUE),
+        by = "join"
+      )
+  }
+
+  data_with_options %>%
     dplyr::mutate(
       data_value_lower = tolower(.data$data_value),
       choices_lower = tolower(.data$choices),
@@ -132,5 +150,5 @@ closest_string_match <- function(data_field, options_field) {
     dplyr::mutate(match = .data$diff == 0) %>%
     dplyr::arrange(.data$data_value) %>%
     dplyr::mutate(data_value = as.character(.data$data_value)) %>%
-    dplyr::select(.data$data_value, closest_choice = .data$choices, .data$match)
+    dplyr::select(tidyselect::all_of(c("data_value", closest_choice = "choices", "match")))
 }
