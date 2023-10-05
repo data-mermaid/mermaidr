@@ -192,6 +192,87 @@ hard_coral_plot
 
 That looks much better!
 
+For further analysis, we can also calculate the average hard coral cover and its standard error, then show them in a beautiful graph. To do this, first, we need to calculate the average hard coral cover and its standard error. Since the highest level in the data after site is country, in this example, we will calculate the average hard coral cover per country and treat sites as the replicates per country. We’re going to use the `ddply` function from `plyr` to calculate the average hard coral cover and its standard error.
+
+
+```r
+Library(plyr)
+
+hc_country <- ddply(benthic_data, "country", summarise,
+                    nSite = length(site), 
+                    avrg_hc = mean(hard_coral),
+                    se_hc = sd(hard_coral)/sqrt(nSite))
+```
+
+Take a look at the `hc_country` dataframe. There are only four columns with four rows of data. You can also use the code to calculate the average hard coral cover percentage based on other columns. For example, if you want to average per management regime, you need to make sure that the column is in your data and change `country` with the column name where your management regimes are. You can also calculate the average and standard error for other benthic attribute, such as soft coral, macroalgae, etc.
+
+Now that we’ve calculated the average hard coral cover and standard error, the next step is to put the result in a nice graph. We will do this using the `ggplot2` as we did it previously.
+
+```r
+avrg_hc_plot <- ggplot(hc_country, aes(x = country, y = avrg_hc, fill = country)) + 
+  geom_bar(stat = "identity") +
+  labs(x = "Country", y = "Average Hard Coral Cover (%)") + 
+  guides(fill=guide_legend(title="Countries")) +
+  ggtitle("Average Hard Coral Cover per Country") +
+  geom_errorbar(aes(ymin = avrg_hc - se_hc, ymax = avrg_hc + se_hc), width = .2, position = position_dodge(.9)) + 
+  theme_classic() +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5))
+  
+avrg_hc_plot
+```
+<img src="vo-average-hard-coral-cover-per-country.png" title="A bar chart with country on the x axis and average hard coral cover on the y axis. The bars are colored in red, green, tosca, and purple, according to country. The bar chart has a standard error for each country, using site as the replicates. The plot now has a title: Average Hard Coral Cover per Country. The x axis is titled: Country and the y axis is titled: Average Hard Coral Cover (%)." />
+
+
+It might also be interesting to see the changes in hard coral cover through time. To make this graph, first, we need to add the data column in our benthic data.
+
+```r
+benthic_data <- projects_public_benthic %>%
+  mermaid_get_project_data("benthicpit", "sampleevents", token = NULL)
+head(benthic_data)
+
+benthic_data <- benthic_data %>%
+  select(country, site, sample_date, hard_coral = percent_cover_benthic_category_avg_hard_coral)
+```
+
+After adding the date column, the next step is to separate it into year, month, and day. To do this, we’re going to use the `separate` function from `tidyr` package.
+
+```r
+Library(tidyr)
+
+benthic_data <- benthic_data %>% separate(sample_date, into = c('Year', 'Month', 'Day'),
+                                        sep = '-')
+```
+
+Now we have all of the columns that we need, we can continue by calculating the average hard coral cover per year per country.
+
+```r
+hc_country_year <- ddply(benthic_data, c("country", "Year"), summarise,
+                         avrg_hc = mean(hard_coral))
+```
+
+In the `hc_country_year` dataframe, you can see that only `Fiji` and `Indonesia` have more than one year data. So, we’re going to remove countries that only have one year data.
+
+```r
+hc_country_year <- hc_country_year[c(hc_country_year=="Fiji" | hc_country_year=="Indonesia"),]
+```
+
+Now, we are ready to present the data in a line plot using the `ggplot2` package.
+
+```r
+avrg_hc_year_plot <- ggplot(hc_country_year, aes(x = Year, y = avrg_hc, group = country)) + 
+  geom_line(aes(color = country)) +
+  geom_point(aes(color = country)) +
+  labs(x = "Year", y = "Average Hard Coral Cover (%)") + ggtitle("Trend Average Hard Coral Cover per Country") +
+  guides(color=guide_legend(title="Countries")) +
+  theme_classic() +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5))
+
+avrg_hc_year_plot
+```
+<img src="vo-trend-hc-per-country.png" title="A line chart with year on the x axis and average hard coral cover on the y axis. The lines are colored in red and blue to differentiate per country. The plot now has a title: Trend Average Hard Coral Cover per Country. The x axis is titled: Year and the y axis is titled: Average Hard Coral Cover (%)." />
+
+Looks great! You can save the plot and use it in your report!
+
 # Reef fish biomass
 
 Next, let's turn to reef fish biomass. Similarly to the step above, we can get this data by filtering for projects that have publicly available summary data for it, returning only the Taka Bonerate project.
@@ -281,3 +362,60 @@ ggplot(fishbelt_data) +
 ```
 
 <img src="vo-unnamed-chunk-16-1.png" title="A bar chart showing total reef fish biomass in kilograms per hectare (on the axis) by site (on the y axis). The sites are shown in order of their biomass, from highest to lowest. The bars are grey if the biomass is above 500 kg and red if it is below 500kg. There is a vertical dashed line at the 500kg mark. The plot is titled 'A sample of WCS Vibrant Oceans survey sites, ordered by reef fish biomass.'" alt="A bar chart showing total reef fish biomass in kilograms per hectare (on the axis) by site (on the y axis). The sites are shown in order of their biomass, from highest to lowest. The bars are grey if the biomass is above 500 kg and red if it is below 500kg. There is a vertical dashed line at the 500kg mark. The plot is titled 'A sample of WCS Vibrant Oceans survey sites, ordered by reef fish biomass.'"  />
+
+
+We can also calculate the average fish biomass per country with standard errors and fish biomass trend through time, just like we did for benthic. First, let's calculate the average fish biomass per country and present it in a bar plot.
+
+```r
+fb_country <- ddply(fishbelt_data, "country", summarise,
+                    nSite = length(site), 
+                    avrg_fb = mean(biomass),
+                    se_fb = sd(biomass)/sqrt(nSite))
+
+fb_country_plot <- ggplot(fb_country, aes(x = country, y = avrg_fb, fill = country)) + 
+  geom_bar(stat = "identity") +
+  labs(x = "Country", y = "Average Fish Biomass (kg/ha)") + 
+  guides(fill=guide_legend(title="Countries")) +
+  ggtitle("Average Fish Biomass per Country") +
+  geom_errorbar(aes(ymin = avrg_fb - se_fb, ymax = avrg_fb + se_fb), width = .2, position = position_dodge(.9)) + 
+  theme_classic() +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5))
+
+fb_country_plot
+```
+<img src="vo-fb-per-country.png" title="A bar chart with country on the x axis and average fish biomass on the y axis. The bars are colored in red, green, and blue to differentiate per country. The plot now has a title: Average Fish Biomass per Country. The x axis is titled: Country and the y axis is titled: Average Fish Biomass (kg/ha)." />
+
+
+We have our average fish biomass per country plot. Let’s continue with visualizing the changes in fish biomass per country. Again, we don’t yet have the year column, so we need to add the date column to our data.
+
+```r
+fishbelt_data <- projects_public_fishbelt %>%
+  mermaid_get_project_data("fishbelt", "sampleevents", token = NULL)
+head(benthic_data)
+
+fishbelt_data <- fishbelt_data %>%
+  select(country, site, sample_date, biomass = biomass_kgha_avg)
+
+fishbelt_data <- fishbelt_data %>% separate(sample_date, into = c('Year', 'Month', 'Day'),
+                                          sep = '-')
+
+fb_country_year <- ddply(fishbelt_data, c("country", "Year"), summarise,
+                         avrg_fb = mean(biomass))
+```
+
+Looking at the `fb_country_year` dataframe, we can see that there are only two countries that have more than one year of fish data, which are Indonesia and Tanzania. So, we are going to use data from only the two countries, then visualize it in a line plot.
+
+```r
+fb_country_year <- fb_country_year[c(fb_country_year=="Tanzania" | fb_country_year=="Indonesia"),]
+
+avrg_fb_year_plot <- ggplot(fb_country_year, aes(x = Year, y = avrg_fb, group = country)) + 
+  geom_line(aes(color = country)) +
+  geom_point(aes(color = country)) +
+  labs(x = "Year", y = "Average Fish Biomass (kg/ha)") + ggtitle("Trend Average Fish Biomass per Country") +
+  guides(color=guide_legend(title="Countries")) +
+  theme_classic() +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5))
+
+avrg_fb_year_plot
+```
+<img src="vo-trend-fb-per-country.png" title="A line chart with year on the x axis and average fish biomass on the y axis. The lines are colored in red and tosca to differentiate per country. The plot now has a title: Trend Average Fish Biomass per Country. The x axis is titled: Year and the y axis is titled: Average Fish Biomass (kg/ha)." />
