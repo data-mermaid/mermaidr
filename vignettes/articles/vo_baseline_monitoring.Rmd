@@ -132,7 +132,7 @@ hard_coral_plot <- ggplot(benthic_data) +
 hard_coral_plot
 ```
 
-Finally, we can make some visual changes, like updating the theme, removing the site names (we care more about the distribution than which site they correspond to for this plot), adding axis labels for every 10%, cleaning up labels, and some other fiddly bits to create a beautiful plot!
+Finally, we can make some visual changes, like updating the theme, removing the site names; we care more about the distribution than which site they correspond to (which isn't legible anyways!) for this plot, adding axis labels for every 10%, cleaning up labels, and some other fiddly bits to create a beautiful plot!
 
 ```{r, fig.alt = "A bar chart with hard coral cover on the x axis and sites on the y axis. The bars are colored in grey, yellow, and red, according to whether they have above 30% hard coral cover, 10-30% cover, or below 10% cover. The sites are ordered by their hard coral coverage, from highest to lowest. There is a vertical line at 10% and 30% hard coral cover. The site names have been removed and the plot now has a title: A sample of WCS Vibrant Ocean survey sites, ordered by hard coral cover. The x axis is titled: Hard coral cover, %."}
 hard_coral_plot <- hard_coral_plot +
