@@ -152,38 +152,59 @@ hard_coral_plot
 
 That looks much better!
 
-For further analysis, we can also calculate the average hard coral cover and its standard error, then show them in a beautiful graph. To do this, first, we need to calculate the average hard coral cover and its standard error. Since the highest level in the data after site is country, in this example, we will calculate the average hard coral cover per country and treat sites as the replicates per country. We’re going to use the `ddply` function from `plyr` to calculate the average hard coral cover and its standard error.
 
-
-```{r}
-library(plyr)
-
-hc_country <- ddply(benthic_data, "country", summarise,
-                    nSite = length(site), 
-                    avrg_hc = mean(hard_coral),
-                    se_hc = sd(hard_coral)/sqrt(nSite))
-```
-
-Take a look at the `hc_country` dataframe. There are only four columns with four rows of data. You can also use the code to calculate the average hard coral cover percentage based on other columns. For example, if you want to average per management regime, you need to make sure that the column is in your data and change `country` with the column name where your management regimes are. You can also calculate the average and standard error for other benthic attribute, such as soft coral, macroalgae, etc.
-
-Now that we’ve calculated the average hard coral cover and standard error, the next step is to put the result in a nice graph. We will do this using the `ggplot2` as we did it previously.
+For further analysis, we can also calculate the average hard coral cover (and its standard error) then show them in a beautiful graph. Since the highest level in the data after site is country, in this example, we will calculate the average hard coral cover per country and treat sites as the replicates per country.
 
 ```{r}
-avrg_hc_plot <- ggplot(hc_country, aes(x = country, y = avrg_hc, fill = country)) + 
-  geom_bar(stat = "identity") +
-  labs(x = "Country", y = "Average Hard Coral Cover (%)") + 
-  guides(fill=guide_legend(title="Countries")) +
-  ggtitle("Average Hard Coral Cover per Country") +
-  geom_errorbar(aes(ymin = avrg_hc - se_hc, ymax = avrg_hc + se_hc), width = .2, position = position_dodge(.9)) + 
-  theme_classic() +
-  theme(plot.title = element_text(face = "bold", hjust = 0.5))
+hard_coral_by_country <- benthic_data %>%
+  group_by(country) %>%
+  summarise(
+    n_sites = n_distinct(site),
+    hard_coral_average = mean(hard_coral),
+    hard_coral_sd = sd(hard_coral),
+    hard_coral_se = hard_coral_sd / sqrt(n_sites)
+  )
 
-avrg_hc_plot
+hard_coral_by_country
 ```
-<img src="vo-average-hard-coral-cover-per-country.png" title="A bar chart with country on the x axis and average hard coral cover on the y axis. The bars are colored in red, green, tosca, and purple, according to country. The bar chart has a standard error for each country, using site as the replicates. The plot now has a title: Average Hard Coral Cover per Country. The x axis is titled: Country and the y axis is titled: Average Hard Coral Cover (%)." />
 
+Take a look at the `hard_coral_by_country` data frame. There are only five columns with four rows of data. 
 
-It might also be interesting to see the changes in hard coral cover through time. To make this graph, first, we need to add the data column in our benthic data.
+You can also use the code to calculate the average hard coral cover percentage based on other columns. For example, if you want to average per management regime, you can group by `management` instead:
+
+```{r}
+benthic_data %>%
+  group_by(management) %>%
+  summarise(
+    n_sites = n_distinct(site),
+    hard_coral_average = mean(hard_coral),
+    hard_coral_sd = sd(hard_coral),
+    hard_coral_se = hard_coral_sd / sqrt(n_sites)
+  )
+```
+
+You can also calculate the average and standard error for other benthic attribute, such as soft coral, macroalgae, etc.
+
+Now that we've calculated the average hard coral cover and standard error, the next step is to put the result in a nice graph. We will do this using the `ggplot2` as we did it previously, using `geom_col()` to create the bars and `geom_errorbar()` to show the standard errors.
+
+```{r fig.alt = "A bar chart with country on the x axis and average hard coral cover on the y axis. The bars are colored in according to country. The bar chart has a standard error for each country, using site as the replicates. The plot now has a title: Average Hard Coral Cover by Country. The x axis is titled: Country and the y axis is titled: Average Hard Coral Cover (%) plus or minus standard error."}
+ggplot(hard_coral_by_country, aes(x = country, y = hard_coral_average)) +
+  geom_col(aes(fill = country)) +
+  geom_errorbar(
+    aes(
+      x = country, y = hard_coral_average,
+      ymin = hard_coral_average - hard_coral_se,
+      ymax = hard_coral_average + hard_coral_se
+    ),
+    width = 0.2
+  ) +
+  labs(x = "Country", y = "Average Hard Coral Cover (%)\n\u00B1 Standard Error", title = "Average Hard Coral Cover by Country") +
+  theme_minimal() +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+It might also be interesting to see the changes in hard coral cover over time. To make this graph, first, we need to add the data column in our benthic data.
 
 ```{r}
 benthic_data <- projects_public_benthic %>%
@@ -194,42 +215,54 @@ benthic_data <- benthic_data %>%
   select(country, site, sample_date, hard_coral = percent_cover_benthic_category_avg_hard_coral)
 ```
 
-After adding the date column, the next step is to separate it into year, month, and day. To do this, we’re going to use the `separate` function from `tidyr` package.
+After adding the date column, the next step is to separate it into year, month, and day. To do this, we're going to use the `separate()` function.
 
 ```{r}
-library(tidyr)
+benthic_data <- benthic_data %>%
+  separate(sample_date,
+    into = c("year", "month", "day"),
+    sep = "-"
+  )
 
-benthic_data <- benthic_data %>% separate(sample_date, into = c('Year', 'Month', 'Day'),
-                                        sep = '-')
+benthic_data
 ```
 
-Now we have all of the columns that we need, we can continue by calculating the average hard coral cover per year per country.
+Now we have all of the columns that we need, we can continue by calculating the average hard coral cover by year by country.
+
+```{r message = FALSE}
+hard_coral_by_country_by_year <- benthic_data %>%
+  group_by(country, year) %>%
+  summarise(hard_coral_average = mean(hard_coral)) %>%
+  ungroup()
+  
+hard_coral_by_country_by_year
+```
+
+In the `hard_coral_by_country_by_year` data frame, you can see that only `Fiji` and `Indonesia` have more than one year data. So, we're going to remove countries that only have one year of data.
 
 ```{r}
-hc_country_year <- ddply(benthic_data, c("country", "Year"), summarise,
-                         avrg_hc = mean(hard_coral))
+hard_coral_by_country_by_year <- hard_coral_by_country_by_year %>%
+  group_by(country) %>%
+  mutate(n_years = n_distinct(year)) %>% 
+  filter(n_years > 1) %>% 
+  ungroup() %>%
+  select(-n_years)
 ```
 
-In the `hc_country_year` dataframe, you can see that only `Fiji` and `Indonesia` have more than one year data. So, we’re going to remove countries that only have one year data.
+Now, we are ready to present the data in a line plot.
 
-```{r}
-hc_country_year <- hc_country_year[c(hc_country_year=="Fiji" | hc_country_year=="Indonesia"),]
+```{r fig.alt="A line chart with year on the x axis and average hard coral cover on the y axis. The lines are colored in red and blue to differentiate per country. The plot now has a title: Trend Average Hard Coral Cover per Country. The x axis is titled: Year and the y axis is titled: Average Hard Coral Cover (%)."}
+ggplot(
+  hard_coral_by_country_by_year,
+  aes(x = year, y = hard_coral_average, group = country, color = country)
+) +
+  geom_line() +
+  geom_point() +
+  labs(x = "Year", y = "Average Hard Coral Cover (%)", title = "Trend of Average Hard Coral Cover by Country") +
+  scale_color_discrete(name = "Country") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 ```
-
-Now, we are ready to present the data in a line plot using the `ggplot2` package.
-
-```{r}
-avrg_hc_year_plot <- ggplot(hc_country_year, aes(x = Year, y = avrg_hc, group = country)) + 
-  geom_line(aes(color = country)) +
-  geom_point(aes(color = country)) +
-  labs(x = "Year", y = "Average Hard Coral Cover (%)") + ggtitle("Trend Average Hard Coral Cover per Country") +
-  guides(color=guide_legend(title="Countries")) +
-  theme_classic() +
-  theme(plot.title = element_text(face = "bold", hjust = 0.5))
-
-avrg_hc_year_plot
-```
-<img src="vo-trend-hc-per-country.png" title="A line chart with year on the x axis and average hard coral cover on the y axis. The lines are colored in red and blue to differentiate per country. The plot now has a title: Trend Average Hard Coral Cover per Country. The x axis is titled: Year and the y axis is titled: Average Hard Coral Cover (%)." />
 
 Looks great! You can save the plot and use it in your report!
 
