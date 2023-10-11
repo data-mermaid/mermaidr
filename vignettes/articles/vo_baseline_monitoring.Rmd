@@ -292,11 +292,6 @@ Again, this summarises all observations for all transects at a given site and da
 We'll just focus on the average biomass, at the latest sample date for each site:
 
 ```{r}
-
-```
-
-
-```{r}
 fishbelt_data <- fishbelt_data %>%
   group_by(site) %>%
   filter(sample_date == max(sample_date)) %>%
