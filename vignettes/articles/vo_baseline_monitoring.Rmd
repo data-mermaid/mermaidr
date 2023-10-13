@@ -197,7 +197,10 @@ ggplot(hard_coral_by_country, aes(x = country, y = hard_coral_average)) +
     ),
     width = 0.2
   ) +
-  labs(x = "Country", y = "Average Hard Coral Cover (%)\n\u00B1 Standard Error", title = "Average Hard Coral Cover by Country") +
+  labs(
+    x = "Country", y = "Average Hard Coral Cover (%)\n\u00B1 Standard Error",
+    title = "Average Hard Coral Cover by Country"
+  ) +
   theme_minimal() +
   theme(
     legend.position = "none",
@@ -255,7 +258,10 @@ ggplot(
 ) +
   geom_line() +
   geom_point() +
-  labs(x = "Year", y = "Average Hard Coral Cover (%)", title = "Trend of Average Hard Coral Cover by Country") +
+  labs(
+    x = "Year", y = "Average Hard Coral Cover (%)",
+    title = "Trend of Average Hard Coral Cover by Country"
+  ) +
   scale_color_discrete(name = "Country") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"))
@@ -353,7 +359,10 @@ ggplot(fish_biomass_by_country, aes(x = country, y = fish_biomass_average)) +
     ),
     width = 0.2
   ) +
-  labs(x = "Country", y = "Average Fish Biomass (kg/ha)\n\u00B1 Standard Error", title = "Average Fish Biomass by Country") +
+  labs(
+    x = "Country", y = "Average Fish Biomass (kg/ha)\n\u00B1 Standard Error",
+    title = "Average Fish Biomass by Country"
+  ) +
   theme_minimal() +
   theme(
     legend.position = "none",
@@ -382,7 +391,7 @@ fishbelt_biomass_by_country_by_year
 
 Looking at the `fishbelt_biomass_by_country_by_year` data frame, we can see that there are only two countries that have more than one year of fish data, which are Indonesia and Tanzania. So, we are going to only use data from countries with more than one year of data, then visualize it in a line plot.
 
-```{r fig.alt="A line chart with year on the x axis and average fish biomass on the y axis. The lines are colored in red and tosca to differentiate per country. The plot now has a title: Trend of  Average Fish Biomass per Country. The x axis is titled: Year and the y axis is titled: Average Fish Biomass (kg/ha)."}
+```{r fig.alt="A line chart with year on the x axis and average fish biomass on the y axis. The lines are colored in red and tosca to differentiate per country. The plot now has a title: Trend of  Average Fish Biomass by Country. The x axis is titled: Year and the y axis is titled: Average Fish Biomass (kg/ha)."}
 fishbelt_biomass_by_country_by_year <- fishbelt_biomass_by_country_by_year %>%
   group_by(country) %>%
   mutate(n_years = n_distinct(year)) %>%
@@ -396,7 +405,10 @@ ggplot(
 ) +
   geom_line() +
   geom_point() +
-  labs(x = "Year", y = "Average Fish Biomass (kg/ha)", title = "Trend of Average Fish Biomass per Country") +
+  labs(
+    x = "Year", y = "Average Fish Biomass (kg/ha)",
+    title = "Trend of Average Fish Biomass by Country"
+  ) +
   scale_color_discrete(name = "Country") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"))
