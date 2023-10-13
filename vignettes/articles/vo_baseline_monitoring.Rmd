@@ -67,8 +67,8 @@ head(benthic_data)
 At a high level, this returns the aggregations for a survey at the *sample event* level; roughly, it provides a summary of all observations for all transects at a given site and date, giving us information like the average percent cover for each benthic category. Let's get the data for the latest date for each site, then focus in on the `country`, `site`, and `percent_cover_benthic_category_avg_hard_coral` columns. 
 
 ```{r}
-benthic_data <- benthic_data %>%
-  group_by(site) %>% 
+benthic_data_latest <- benthic_data %>%
+  group_by(site) %>%
   filter(sample_date == max(sample_date)) %>%
   ungroup() %>%
   select(country, site, management, hard_coral = percent_cover_benthic_category_avg_hard_coral)
@@ -79,7 +79,7 @@ We'd like to summarise hard coral coverage across these sites. WCS considers a 1
 First, let's categorize each value of `hard_coral` according to whether it's below 10%, between 10% and 30%, or above 30%:
 
 ```{r}
-benthic_data <- benthic_data %>%
+benthic_data_latest <- benthic_data_latest %>%
   mutate(threshold = case_when(
     hard_coral < 10 ~ "Below 10% cover",
     hard_coral >= 10 & hard_coral < 30 ~ "Midrange 10-30% cover",
@@ -88,7 +88,7 @@ benthic_data <- benthic_data %>%
 ```
 
 ```{r echo = FALSE}
-threshold <- benthic_data %>%
+threshold <- benthic_data_latest %>%
   count(threshold) %>%
   mutate(prop = n / sum(n)) %>%
   split(.$threshold) %>%
@@ -99,7 +99,7 @@ threshold <- benthic_data %>%
 We can count how many fall into each category - it looks like the bulk of sites (`r threshold[["Above 30% hard coral cover"]]`) have above 30% hard coral cover, a small number (`r threshold[["Below 10% cover"]]`) are below 10%, and just over a third (`r threshold[["Midrange 10-30% cover"]]`) of surveyed sites are in the midrange of 10-30% cover.
 
 ```{r}
-benthic_data %>%
+benthic_data_latest %>%
   count(threshold) %>%
   mutate(prop = n / sum(n))
 ```
@@ -111,23 +111,23 @@ Let's visualize the data, using `ggplot2`:
 ```{r, fig.height = 8, fig.alt = "A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, below 10% cover, or 10-30% cover, respectively. The sites are ordered alphabeticaly."}
 library(ggplot2)
 
-ggplot(benthic_data) +
+ggplot(benthic_data_latest) +
   geom_col(aes(x = hard_coral, y = site, fill = threshold))
 ```
 
 This is a good start, but it would probably be much more useful with a few changes. We can recorder the sites so that they go in descending order, from highest to lowest hard coral coverage. We can also rearrange the threshold legend, so that it follows a logical order, from highest to lowest coverage (instead of alphabetical). It would also be helpful to add a line at the 10% and 30% points, to visualize those thresholds more explicitly.
 
 ```{r, fig.height = 8, fig.alt = "A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, 10-30% cover, or below 10% cover. The sites are ordered by their hard coral coverage, from highest to lowest. There is a dashed vertical line at 10% and 30% hard coral."}
-benthic_data <- benthic_data %>%
+benthic_data_latest <- benthic_data_latest %>%
   mutate(
     threshold = fct_reorder(threshold, hard_coral, .desc = TRUE),
     site = fct_reorder(site, hard_coral)
   )
 
-hard_coral_plot <- ggplot(benthic_data) +
+hard_coral_plot <- ggplot(benthic_data_latest) +
   geom_col(aes(x = hard_coral, y = site, fill = threshold), alpha = 0.8) +
-  geom_vline(xintercept = 10, linetype = "dashed", size = 0.25) +
-  geom_vline(xintercept = 30, linetype = "dashed", size = 0.25)
+  geom_vline(xintercept = 10, linetype = "dashed", linewidth = 0.25) +
+  geom_vline(xintercept = 30, linetype = "dashed", linewidth = 0.25)
 
 hard_coral_plot
 ```
@@ -152,11 +152,10 @@ hard_coral_plot
 
 That looks much better!
 
-
 For further analysis, we can also calculate the average hard coral cover (and its standard error) then show them in a beautiful graph. Since the highest level in the data after site is country, in this example, we will calculate the average hard coral cover per country and treat sites as the replicates per country.
 
 ```{r}
-hard_coral_by_country <- benthic_data %>%
+hard_coral_by_country <- benthic_data_latest %>%
   group_by(country) %>%
   summarise(
     n_sites = n_distinct(site),
@@ -173,7 +172,7 @@ Take a look at the `hard_coral_by_country` data frame. There are only five colum
 You can also use the code to calculate the average hard coral cover percentage based on other columns. For example, if you want to average per management regime, you can group by `management` instead:
 
 ```{r}
-benthic_data %>%
+benthic_data_latest %>%
   group_by(management) %>%
   summarise(
     n_sites = n_distinct(site),
@@ -200,22 +199,20 @@ ggplot(hard_coral_by_country, aes(x = country, y = hard_coral_average)) +
   ) +
   labs(x = "Country", y = "Average Hard Coral Cover (%)\n\u00B1 Standard Error", title = "Average Hard Coral Cover by Country") +
   theme_minimal() +
-  theme(legend.position = "none",
-        plot.title = element_text(hjust = 0.5, face = "bold"))
+  theme(
+    legend.position = "none",
+    plot.title = element_text(hjust = 0.5, face = "bold")
+  )
 ```
 
-It might also be interesting to see the changes in hard coral cover over time. To make this graph, first, we need to add the data column in our benthic data.
+It might also be interesting to see the changes in hard coral cover over time. To make this graph, first, we need to go back to the original `benthic_data` data set which contains sample date.
 
 ```{r}
-benthic_data <- projects_public_benthic %>%
-  mermaid_get_project_data("benthicpit", "sampleevents", token = NULL)
-head(benthic_data)
-
 benthic_data <- benthic_data %>%
   select(country, site, sample_date, hard_coral = percent_cover_benthic_category_avg_hard_coral)
 ```
 
-After adding the date column, the next step is to separate it into year, month, and day. To do this, we're going to use the `separate()` function.
+The next step is to separate it into year, month, and day. To do this, we're going to use the `separate()` function.
 
 ```{r}
 benthic_data <- benthic_data %>%
@@ -234,7 +231,7 @@ hard_coral_by_country_by_year <- benthic_data %>%
   group_by(country, year) %>%
   summarise(hard_coral_average = mean(hard_coral)) %>%
   ungroup()
-  
+
 hard_coral_by_country_by_year
 ```
 
@@ -243,8 +240,8 @@ In the `hard_coral_by_country_by_year` data frame, you can see that only `Fiji` 
 ```{r}
 hard_coral_by_country_by_year <- hard_coral_by_country_by_year %>%
   group_by(country) %>%
-  mutate(n_years = n_distinct(year)) %>% 
-  filter(n_years > 1) %>% 
+  mutate(n_years = n_distinct(year)) %>%
+  filter(n_years > 1) %>%
   ungroup() %>%
   select(-n_years)
 ```
@@ -292,7 +289,7 @@ Again, this summarises all observations for all transects at a given site and da
 We'll just focus on the average biomass, at the latest sample date for each site:
 
 ```{r}
-fishbelt_data <- fishbelt_data %>%
+fishbelt_data_latest <- fishbelt_data %>%
   group_by(site) %>%
   filter(sample_date == max(sample_date)) %>%
   ungroup() %>%
@@ -303,7 +300,7 @@ fishbelt_data <- fishbelt_data %>%
 WCS considers 500 kg/ha as a threshold where below this biomass, ecosystems may pass critical thresholds of ecosystem decline, and often seek to maintain reef fish biomass above 500 kg/ha as a management target. Let's categorize each value of `biomass` according to whether it's above or below 500 kg/ha, and reorder both the sites and the threshold factor from highest to lowest biomass:
 
 ```{r}
-fishbelt_data <- fishbelt_data %>%
+fishbelt_data_latest <- fishbelt_data_latest %>%
   mutate(
     threshold = case_when(
       biomass >= 500 ~ "Above 500 kg/ha",
@@ -317,7 +314,7 @@ fishbelt_data <- fishbelt_data %>%
 Then, we can visualize the distribution of average biomass in sites, similar to our visualization before:
 
 ```{r, fig.alt = "A bar chart showing total reef fish biomass in kilograms per hectare (on the axis) by site (on the y axis). The sites are shown in order of their biomass, from highest to lowest. The bars are grey if the biomass is above 500 kg and red if it is below 500kg. There is a vertical dashed line at the 500kg mark. The plot is titled 'A sample of WCS Vibrant Oceans survey sites, ordered by reef fish biomass.'"}
-ggplot(fishbelt_data) +
+ggplot(fishbelt_data_latest) +
   geom_col(aes(x = biomass, y = site, fill = threshold), alpha = 0.8) +
   geom_vline(xintercept = 500, linetype = "dashed", size = 0.25) +
   scale_x_continuous(name = "Total reef fish biomass, kg/ha") +
@@ -330,4 +327,77 @@ ggplot(fishbelt_data) +
     panel.grid.minor = element_blank(),
     panel.grid.major.y = element_blank()
   )
+```
+
+We can also calculate the average fish biomass per country with standard errors and fish biomass trend through time, just like we did for benthic. First, let's calculate the average fish biomass bt country and present it in a bar plot.
+
+```{r fig.alt="A bar chart with country on the x axis and average fish biomass on the y axis. The bars are colored in red, green, and blue to differentiate per country. The plot now has a title: Average Fish Biomass per Country. The x axis is titled: Country and the y axis is titled: Average Fish Biomass (kg/ha)."}
+fish_biomass_by_country <- fishbelt_data_latest %>%
+  group_by(country) %>%
+  summarise(
+    n_sites = n_distinct(site),
+    fish_biomass_average = mean(biomass),
+    fish_biomass_sd = sd(biomass),
+    fish_biomass_se = fish_biomass_sd / sqrt(n_sites)
+  )
+
+fish_biomass_by_country
+
+ggplot(fish_biomass_by_country, aes(x = country, y = fish_biomass_average)) +
+  geom_col(aes(fill = country)) +
+  geom_errorbar(
+    aes(
+      x = country, y = fish_biomass_average,
+      ymin = fish_biomass_average - fish_biomass_se,
+      ymax = fish_biomass_average + fish_biomass_se
+    ),
+    width = 0.2
+  ) +
+  labs(x = "Country", y = "Average Fish Biomass (kg/ha)\n\u00B1 Standard Error", title = "Average Fish Biomass by Country") +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(hjust = 0.5, face = "bold")
+  )
+```
+
+We have our average fish biomass per country plot. Let's continue with visualizing the changes in fish biomass per country. Again, we'll go back to the original `fishbelt_data` data set which has the sample date.
+
+```{r}
+fishbelt_data <- fishbelt_data %>%
+  select(country, site, sample_date, biomass = biomass_kgha_avg)
+
+fishbelt_data <- fishbelt_data %>% separate(sample_date,
+  into = c("year", "month", "day"),
+  sep = "-"
+)
+
+fishbelt_biomass_by_country_by_year <- fishbelt_data %>%
+  group_by(country, year) %>%
+  summarise(fish_biomass_average = mean(biomass)) %>%
+  ungroup()
+
+fishbelt_biomass_by_country_by_year
+```
+
+Looking at the `fishbelt_biomass_by_country_by_year` data frame, we can see that there are only two countries that have more than one year of fish data, which are Indonesia and Tanzania. So, we are going to only use data from countries with more than one year of data, then visualize it in a line plot.
+
+```{r fig.alt="A line chart with year on the x axis and average fish biomass on the y axis. The lines are colored in red and tosca to differentiate per country. The plot now has a title: Trend of  Average Fish Biomass per Country. The x axis is titled: Year and the y axis is titled: Average Fish Biomass (kg/ha)."}
+fishbelt_biomass_by_country_by_year <- fishbelt_biomass_by_country_by_year %>%
+  group_by(country) %>%
+  mutate(n_years = n_distinct(year)) %>%
+  filter(n_years > 1) %>%
+  ungroup() %>%
+  select(-n_years)
+
+ggplot(
+  fishbelt_biomass_by_country_by_year,
+  aes(x = year, y = fish_biomass_average, group = country, color = country)
+) +
+  geom_line() +
+  geom_point() +
+  labs(x = "Year", y = "Average Fish Biomass (kg/ha)", title = "Trend of Average Fish Biomass per Country") +
+  scale_color_discrete(name = "Country") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 ```
