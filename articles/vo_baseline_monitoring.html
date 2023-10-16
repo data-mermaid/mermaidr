@@ -300,7 +300,7 @@ what do those 10 - 30% coverages actually look like?</p>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">benthic_data_latest</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">hard_coral</span>, y <span class="op">=</span> <span class="va">site</span>, fill <span class="op">=</span> <span class="va">threshold</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vo-unnamed-chunk-10-1.png" alt="A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, below 10% cover, or 10-30% cover, respectively. The sites are ordered alphabeticaly." width="2187.5"></p>
+<p><img src="vo-unnamed-chunk-11-1.png" alt="A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, below 10% cover, or 10-30% cover, respectively. The sites are ordered alphabeticaly." width="2187.5"></p>
 <p>This is a good start, but it would probably be much more useful with
 a few changes. We can recorder the sites so that they go in descending
 order, from highest to lowest hard coral coverage. We can also rearrange
@@ -321,12 +321,12 @@ more explicitly.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">30</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, linewidth <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">hard_coral_plot</span></span></code></pre></div>
-<p><img src="vo-unnamed-chunk-11-1.png" alt="A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, 10-30% cover, or below 10% cover. The sites are ordered by their hard coral coverage, from highest to lowest. There is a dashed vertical line at 10% and 30% hard coral." width="2187.5"></p>
+<p><img src="vo-unnamed-chunk-13-1.png" alt="A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, 10-30% cover, or below 10% cover. The sites are ordered by their hard coral coverage, from highest to lowest. There is a dashed vertical line at 10% and 30% hard coral." width="2187.5"></p>
 <p>Finally, we can make some visual changes, like updating the theme,
 removing the site names; we care more about the distribution than which
-site they correspond to (which isn’t legible anyways!) for this plot,
-adding axis labels for every 10%, cleaning up labels, and some other
-fiddly bits to create a beautiful plot!</p>
+site they correspond to (which is too small to read anyways!) for this
+plot, adding axis labels for every 10%, cleaning up labels, and some
+other fiddly bits to create a beautiful plot!</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hard_coral_plot</span> <span class="op">&lt;-</span> <span class="va">hard_coral_plot</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Hard coral cover, %"</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">80</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -341,7 +341,7 @@ fiddly bits to create a beautiful plot!</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">hard_coral_plot</span></span></code></pre></div>
-<p><img src="vo-unnamed-chunk-12-1.png" alt="A bar chart with hard coral cover on the x axis and sites on the y axis. The bars are colored in grey, yellow, and red, according to whether they have above 30% hard coral cover, 10-30% cover, or below 10% cover. The sites are ordered by their hard coral coverage, from highest to lowest. There is a vertical line at 10% and 30% hard coral cover. The site names have been removed and the plot now has a title: A sample of WCS Vibrant Ocean survey sites, ordered by hard coral cover. The x axis is titled: Hard coral cover, %." width="2187.5"></p>
+<p><img src="vo-unnamed-chunk-14-1.png" alt="A bar chart with hard coral cover on the x axis and sites on the y axis. The bars are colored in grey, yellow, and red, according to whether they have above 30% hard coral cover, 10-30% cover, or below 10% cover. The sites are ordered by their hard coral coverage, from highest to lowest. There is a vertical line at 10% and 30% hard coral cover. The site names have been removed and the plot now has a title: A sample of WCS Vibrant Ocean survey sites, ordered by hard coral cover. The x axis is titled: Hard coral cover, %." width="2187.5"></p>
 <p>That looks much better!</p>
 <p>For further analysis, we can also calculate the average hard coral
 cover (and its standard error) then show them in a beautiful graph.
@@ -422,7 +422,7 @@ this using the <code>ggplot2</code> as we did it previously, using
 <span>    legend.position <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="vo-unnamed-chunk-15-1.png" alt="A bar chart with country on the x axis and average hard coral cover on the y axis. The bars are colored in according to country. The bar chart has a standard error for each country, using site as the replicates. The plot now has a title: Average Hard Coral Cover by Country. The x axis is titled: Country and the y axis is titled: Average Hard Coral Cover (%) plus or minus standard error." width="2187.5"></p>
+<p><img src="vo-unnamed-chunk-17-1.png" alt="A bar chart with country on the x axis and average hard coral cover on the y axis. The bars are colored in according to country. The bar chart has a standard error for each country, using site as the replicates. The plot now has a title: Average Hard Coral Cover by Country. The x axis is titled: Country and the y axis is titled: Average Hard Coral Cover (%) plus or minus standard error." width="2187.5"></p>
 <p>It might also be interesting to see the changes in hard coral cover
 over time. To make this graph, first, we need to go back to the original
 <code>benthic_data</code> data set which contains sample date.</p>
@@ -499,7 +499,7 @@ one year of data.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_discrete.html" class="external-link">scale_color_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Country"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vo-unnamed-chunk-20-1.png" alt="A line chart with year on the x axis and average hard coral cover on the y axis. The lines are colored in red and blue to differentiate per country. The plot now has a title: Trend Average Hard Coral Cover per Country. The x axis is titled: Year and the y axis is titled: Average Hard Coral Cover (%)." width="2187.5"></p>
+<p><img src="vo-unnamed-chunk-22-1.png" alt="A line chart with year on the x axis and average hard coral cover on the y axis. The lines are colored in red and blue to differentiate per country. The plot now has a title: Trend Average Hard Coral Cover per Country. The x axis is titled: Year and the y axis is titled: Average Hard Coral Cover (%)." width="2187.5"></p>
 <p>Looks great! You can save the plot and use it in your report!</p>
 </div>
 <div class="section level2">
@@ -599,7 +599,7 @@ similar to our visualization before:</p>
 <span>    panel.grid.minor <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    panel.grid.major.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="vo-unnamed-chunk-25-1.png" alt="A bar chart showing total reef fish biomass in kilograms per hectare (on the axis) by site (on the y axis). The sites are shown in order of their biomass, from highest to lowest. The bars are grey if the biomass is above 500 kg and red if it is below 500kg. There is a vertical dashed line at the 500kg mark. The plot is titled 'A sample of WCS Vibrant Oceans survey sites, ordered by reef fish biomass.'" width="2187.5"></p>
+<p><img src="vo-unnamed-chunk-27-1.png" alt="A bar chart showing total reef fish biomass in kilograms per hectare (on the axis) by site (on the y axis). The sites are shown in order of their biomass, from highest to lowest. The bars are grey if the biomass is above 500 kg and red if it is below 500kg. There is a vertical dashed line at the 500kg mark. The plot is titled 'A sample of WCS Vibrant Oceans survey sites, ordered by reef fish biomass.'" width="2187.5"></p>
 <p>We can also calculate the average fish biomass per country with
 standard errors and fish biomass trend through time, just like we did
 for benthic. First, let’s calculate the average fish biomass bt country
@@ -641,7 +641,7 @@ and present it in a bar plot.</p>
 <span>    legend.position <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="vo-unnamed-chunk-26-1.png" alt="A bar chart with country on the x axis and average fish biomass on the y axis. The bars are colored in red, green, and blue to differentiate per country. The plot now has a title: Average Fish Biomass per Country. The x axis is titled: Country and the y axis is titled: Average Fish Biomass (kg/ha)." width="2187.5"></p>
+<p><img src="vo-unnamed-chunk-28-1.png" alt="A bar chart with country on the x axis and average fish biomass on the y axis. The bars are colored in red, green, and blue to differentiate per country. The plot now has a title: Average Fish Biomass per Country. The x axis is titled: Country and the y axis is titled: Average Fish Biomass (kg/ha)." width="2187.5"></p>
 <p>We have our average fish biomass per country plot. Let’s continue
 with visualizing the changes in fish biomass per country. Again, we’ll
 go back to the original <code>fishbelt_data</code> data set which has
@@ -697,7 +697,7 @@ then visualize it in a line plot.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_discrete.html" class="external-link">scale_color_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Country"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vo-unnamed-chunk-28-1.png" alt="A line chart with year on the x axis and average fish biomass on the y axis. The lines are colored in red and tosca to differentiate per country. The plot now has a title: Trend of  Average Fish Biomass by Country. The x axis is titled: Year and the y axis is titled: Average Fish Biomass (kg/ha)." width="2187.5"></p>
+<p><img src="vo-unnamed-chunk-30-1.png" alt="A line chart with year on the x axis and average fish biomass on the y axis. The lines are colored in red and tosca to differentiate per country. The plot now has a title: Trend of  Average Fish Biomass by Country. The x axis is titled: Year and the y axis is titled: Average Fish Biomass (kg/ha)." width="2187.5"></p>
 </div>
   </div>
 
