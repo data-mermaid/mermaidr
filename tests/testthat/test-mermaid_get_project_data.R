@@ -1115,12 +1115,13 @@ test_that("All expanded columns that formerly had _by_ in them are properly pull
 
 # Standard Deviations ----
 
-test_that("Every column ending in _avg has an _sd column accounted for in col selection", {
+test_that("Every column ending in _avg has an _sd column accounted for in col selection, except quadrat_size_avg and quadrat_count_avg", {
   cols_by_endpoint <- project_data_columns %>%
     purrr::map_df(dplyr::as_tibble, .id = "endpoint")
 
   avg_cols <- cols_by_endpoint %>%
-    dplyr::filter(stringr::str_ends(value, "_avg"))
+    dplyr::filter(stringr::str_ends(value, "_avg")) %>%
+    dplyr::filter(!value %in% c("quadrat_size_avg", "quadrat_count_avg"))
 
   avg_cols_sd_counterpart <- avg_cols %>%
     dplyr::mutate(value = stringr::str_replace(value, "_avg$", "_sd"))
@@ -1146,9 +1147,6 @@ test_that("Fishbelt - standard deviations calculated in API are the same as SDs 
   ## Sample events
   p %>%
     check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
-
-  # NOTE: assumption is that NAs are getting treated as 0s
-  # e.g. if some SUs in an SE have data for fish_family_balistidae, but one does not, the one that does not is a 0, not an NA that is removed
 })
 
 test_that("Benthic LIT - standard deviations calculated in API are the same as SDs calculated manually", {
@@ -1212,16 +1210,12 @@ test_that("Habtitat Complexity - standard deviations calculated in API are the s
   p <- mermaid_get_my_projects()
 
   ## Sample units
-  # TODO: Score SD doesn't exist
   p %>%
     check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleunits")
 
   ## Sample events
   p %>%
     check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
-
-  # NOTE: assumption is that NAs are getting treated as 0s
-  # e.g. if some SUs in an SE have data for fish_family_balistidae, but one does not, the one that does not is a 0, not an NA that is removed
 })
 
 
@@ -1231,12 +1225,9 @@ test_that("Bleaching - standard deviations calculated in API are the same as SDs
   skip_on_cran()
 
   method <- "bleaching"
-  sd_cols <- get_sd_cols(method) %>%
-    # TODO - not present
-    dplyr::filter(!value %in% c("quadrat_count_sd", "quadrat_size_sd"))
+  sd_cols <- get_sd_cols(method)
   p <- mermaid_get_my_projects()
 
-  # None for percent_hard_avg, percent_soft_avg, percent_algae_avg
   ## Sample units
   p %>%
     check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleunits")
@@ -1244,7 +1235,4 @@ test_that("Bleaching - standard deviations calculated in API are the same as SDs
   ## Sample events
   p %>%
     check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
-
-  # NOTE: assumption is that NAs are getting treated as 0s
-  # e.g. if some SUs in an SE have data for fish_family_balistidae, but one does not, the one that does not is a 0, not an NA that is removed
 })

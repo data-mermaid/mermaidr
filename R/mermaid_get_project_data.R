@@ -169,21 +169,20 @@ project_data_columns <- list(
   `bleachingqcs/obscoloniesbleacheds` = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "observers", "benthic_attribute", "growth_form", "count_normal", "count_pale", "count_20", "count_50", "count_80", "count_100", "count_dead", "data_policy_bleachingqc", common_cols[["obs_closing"]]),
   `bleachingqcs/obsquadratbenthicpercents` = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "observers", "quadrat_number", "percent_hard", "percent_soft", "percent_algae", "data_policy_bleachingqc", common_cols[["obs_closing"]]),
   `bleachingqcs/sampleunits` = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "count_total", "count_genera", "percent_normal", "percent_pale", "percent_bleached", "quadrat_count", "percent_hard_avg", "percent_hard_sd", "percent_soft_avg", "percent_soft_sd", "percent_algae_avg", "percent_algae_sd", "data_policy_bleachingqc", common_cols[["su_closing"]]),
-  `bleachingqcs/sampleevents` = c(common_cols[["se"]], "quadrat_size_avg", "quadrat_size_sd", "count_total_avg", "count_total_sd", "count_genera_avg", "count_genera_sd", "percent_normal_avg", "percent_normal_sd", "percent_pale_avg", "percent_pale_sd", "percent_bleached_avg", "percent_bleached_sd", "quadrat_count_avg", "quadrat_count_sd", "percent_hard_avg_avg", "percent_hard_avg_sd", "percent_soft_avg_avg", "percent_soft_avg_sd", "percent_algae_avg_avg", "percent_algae_avg_sd", "data_policy_bleachingqc", common_cols[["se_closing"]]
+  `bleachingqcs/sampleevents` = c(common_cols[["se"]], "quadrat_size_avg", "count_total_avg", "count_total_sd", "count_genera_avg", "count_genera_sd", "percent_normal_avg", "percent_normal_sd", "percent_pale_avg", "percent_pale_sd", "percent_bleached_avg", "percent_bleached_sd", "quadrat_count_avg", "percent_hard_avg_avg", "percent_hard_avg_sd", "percent_soft_avg_avg", "percent_soft_avg_sd", "percent_algae_avg_avg", "percent_algae_avg_sd", "data_policy_bleachingqc", common_cols[["se_closing"]]
   )
 )
 
 # For testing columns, after df-cols have been expanded
-# TODO - add SD columns here
 project_data_df_columns_list <- list(
   `beltfishes/sampleunits` = c("biomass_kgha_trophic_group", "biomass_kgha_fish_family"),
-  `beltfishes/sampleevents` = c("biomass_kgha_trophic_group_avg", "biomass_kgha_fish_family_avg"),
+  `beltfishes/sampleevents` = c("biomass_kgha_trophic_group_avg", "biomass_kgha_fish_family_avg", "biomass_kgha_trophic_group_sd", "biomass_kgha_fish_family_sd"),
   `benthicpits/sampleunits` = c("percent_cover_benthic_category"),
-  `benthicpits/sampleevents` = c("percent_cover_benthic_category_avg"),
+  `benthicpits/sampleevents` = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd"),
   `benthiclits/sampleunits` = c("percent_cover_benthic_category"),
-  `benthiclits/sampleevents` = c("percent_cover_benthic_category_avg"),
+  `benthiclits/sampleevents` = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd"),
   `benthicpqts/sampleunits` = c("percent_cover_benthic_category"),
-  `benthicpqts/sampleevents` = c("percent_cover_benthic_category_avg")
+  `benthicpqts/sampleevents` = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_avg")
 )
 
 project_data_df_columns_list_names <- project_data_df_columns_list %>%
