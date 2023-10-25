@@ -160,14 +160,38 @@ construct_project_endpoint_columns <- function(res, endpoint, multiple_projects 
     endpoint_cols <- c("site_id", endpoint_cols)
   }
 
+  # Some are df-cols which are pre-expanded, so remove from from `endpoint_cols` and get cols that _start_ with those separately, but place in the right space
+  endpoint <- stringr::str_remove(endpoint, "/csv")
+  df_cols <- project_data_df_columns_list[[endpoint]]
+
+  endpoint_cols_without_expand <- endpoint_cols[which(!endpoint_cols %in% df_cols)]
+
   if (nrow(res) == 0 && ncol(res) == 0) {
-    res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(endpoint_cols)), .name_repair = "minimal")
-    names(res) <- endpoint_cols
+    res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(endpoint_cols_without_expand)), .name_repair = "minimal")
+    names(res) <- endpoint_cols_without_expand
     res
-  } else if (multiple_projects) {
-    dplyr::select(res, tidyselect::any_of(c("project_id", "project")), tidyselect::any_of(endpoint_cols))
   } else {
-    dplyr::select(res, dplyr::any_of(endpoint_cols))
+    # This ensures the correct ordering
+    for (col in df_cols) {
+      df_col_names <- res %>%
+        dplyr::select(dplyr::starts_with(col)) %>%
+        names()
+
+      df_col_placement <- which(endpoint_cols == col)
+
+      endpoint_cols <- c(endpoint_cols[1:(df_col_placement - 1)], df_col_names, endpoint_cols[(df_col_placement + 1):length(endpoint_cols)])
+    }
+
+    if (multiple_projects) {
+      res <- dplyr::select(res, tidyselect::any_of(c("project_id", "project")), tidyselect::any_of(endpoint_cols))
+    } else {
+      res <- dplyr::select(res, dplyr::any_of(endpoint_cols))
+    }
+
+    # TODO - don't need to use snakecase, is done in another way elsewhere
+    names(res) <- snakecase::to_snake_case(names(res))
+
+    res
   }
 }
 

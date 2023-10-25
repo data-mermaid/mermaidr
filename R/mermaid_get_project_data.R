@@ -50,7 +50,7 @@ internal_mermaid_get_project_data <- function(project = mermaid_get_default_proj
 
   endpoint <- construct_endpoint(method, data, legacy)
 
-  res <- purrr::map(endpoint, ~ get_project_endpoint(project, .x, limit, token, covariates = covariates))
+  res <- purrr::map(endpoint, function(x) get_project_endpoint(project, x, limit, token, covariates = covariates))
 
   if (all(purrr::map_lgl(res, inherits, "list"))) {
     res <- purrr::map(res, ~ {
