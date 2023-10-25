@@ -149,12 +149,12 @@ test_that("mermaid_get_project_data does not return the df-column in cases where
 
   # One project with, one without
   output <- mermaid_get_project_data(c("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a"), "benthicpit", "sampleunits")
-  expect_false("percent_cover_by_benthic_category" %in% names(output))
+  expect_false("percent_cover_benthic_category" %in% names(output))
 
   # Multiple without
   output <- mermaid_get_project_data(c("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "4d23d2a1-774f-4ccf-b567-69f95e4ff572"), "benthicpit", "sampleunits")
   expect_named(output, project_data_test_columns[["benthicpits/sampleunits"]])
-  expect_false("percent_cover_by_benthic_category" %in% names(output))
+  expect_false("percent_cover_benthic_category" %in% names(output))
 })
 
 
@@ -186,7 +186,7 @@ test_that("Vanilla fishbelt sample unit aggregation is the same as manually aggr
   test_n_fake_sus(obs, sus_minus_zeros)
 
   # Aggregate observations to sample units - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc
-  # Just aggregate straight up to calculate biomass_kgha, biomass_kgha_by_trophic_group, and biomass_kgha_by_fish_family
+  # Just aggregate straight up to calculate biomass_kgha, biomass_kgha_trophic_group, and biomass_kgha_fish_family
 
   obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
 
@@ -215,7 +215,7 @@ test_that("Vanilla fishbelt sample event aggregation is the same as manually agg
   test_n_fake_ses(sus, ses)
 
   # Aggregate sample units to sample events - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc - but will want to check these in the other fishbelts!
-  # Just aggregate straight up to calculate depth_avg, biomass_kgha_avg, biomass_kgha_by_trophic_group_avg, and biomass_kgha_by_fish_family_avg
+  # Just aggregate straight up to calculate depth_avg, biomass_kgha_avg, biomass_kgha_trophic_group_avg, and biomass_kgha_fish_family_avg
 
   sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus)
 
@@ -279,7 +279,7 @@ test_that("Variable widths fishbelt sample unit aggregation is the same as manua
   test_n_fake_sus(obs, sus_minus_zeros)
 
   # Aggregate observations to sample units - there should be no combining of fields like reef type, reef zone, etc etc
-  # Just aggregate straight up to calculate biomass_kgha, biomass_kgha_by_trophic_group, and biomass_kgha_by_fish_family
+  # Just aggregate straight up to calculate biomass_kgha, biomass_kgha_trophic_group, and biomass_kgha_fish_family
 
   obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
 
@@ -307,7 +307,7 @@ test_that("Variable widths fishbelt sample event aggregation is the same as manu
   # Check first that there are the same number of fake SEs as real SEs
   test_n_fake_ses(sus, ses)
 
-  # Aggregate sample units to sample events - calculate depth_avg, biomass_kgha_avg, biomass_kgha_by_trophic_group_avg, and biomass_kgha_by_fish_family_avg, and compare to SE values
+  # Aggregate sample units to sample events - calculate depth_avg, biomass_kgha_avg, biomass_kgha_trophic_group_avg, and biomass_kgha_fish_family_avg, and compare to SE values
 
   sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus)
 
@@ -378,7 +378,7 @@ test_that("Big/small fish fishbelt sample unit aggregation is the same as manual
   # )
   #
   # # Aggregate observations to sample units
-  # # Calculate biomass_kgha, biomass_kgha_by_trophic_group, and biomass_kgha_by_fish_family
+  # # Calculate biomass_kgha, biomass_kgha_trophic_group, and biomass_kgha_fish_family
   # # Also concatenate labels, width, fish size bin, reef slope, visibility, current, relative depth, and tide
   #
   # obs_agg_biomass_long <- calculate_obs_biomass_long(obs) %>%
@@ -423,7 +423,7 @@ test_that("Big/small fish fishbelt sample event aggregation is the same as manua
   test_n_fake_ses(sus, ses)
 
   # Aggregate SUs to sample events
-  # Calculate biomass_kgha_avg, biomass_kgha_by_trophic_group_avg, and biomgass_kgha_by_fish_family_avg
+  # Calculate biomass_kgha_avg, biomass_kgha_trophic_group_avg, and biomgass_kgha_fish_family_avg
   sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus)
 
   ses_for_se_comparison <- aggregate_ses_biomass_avg_long(ses)
@@ -455,7 +455,7 @@ test_that("Fishbelt sample unit aggregation is the same as manually aggregating 
   test_n_fake_sus(obs, sus_minus_zeros)
 
   # Aggregate observations to sample units - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc
-  # Just aggregate straight up to calculate biomass_kgha, biomass_kgha_by_trophic_group, and biomass_kgha_by_fish_family
+  # Just aggregate straight up to calculate biomass_kgha, biomass_kgha_trophic_group, and biomass_kgha_fish_family
 
   obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
 
@@ -482,7 +482,7 @@ test_that("Fishbelt sample unit aggregation is the same as manually aggregating 
   test_n_fake_sus(obs, sus_minus_zeros)
 
   # Aggregate observations to sample units - since this is vanilla fishbelt, there should be no combining of fields like reef type, reef zone, etc etc
-  # Just aggregate straight up to calculate biomass_kgha, biomass_kgha_by_trophic_group, and biomass_kgha_by_fish_family
+  # Just aggregate straight up to calculate biomass_kgha, biomass_kgha_trophic_group, and biomass_kgha_fish_family
 
   obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
 
@@ -536,7 +536,7 @@ test_that("Deep/shallow fishbelt sample unit aggregation is the same as manually
   # expect_true(all(sus_depth_different_sample_unit[["match_depth_fake_ids"]]))
   #
   # # Aggregate observations to sample units
-  # # Calculate biomass_kgha, biomass_kgha_by_trophic_group, and biomass_kgha_by_fish_family
+  # # Calculate biomass_kgha, biomass_kgha_trophic_group, and biomass_kgha_fish_family
   # # Do NOT concatenate any fields
   #
   # obs_agg_for_su_comparison <- calculate_obs_biomass_long(obs)
@@ -564,7 +564,7 @@ test_that("Deep/shallow fishbelt sample event aggregation is the same as manuall
   test_n_fake_ses(sus, ses)
 
   # Aggregate observations to sample events
-  # Calculate biomass_kgha_avg, biomass_kgha_by_trophic_group_avg, and biomass_kgha_by_fish_family_avg
+  # Calculate biomass_kgha_avg, biomass_kgha_trophic_group_avg, and biomass_kgha_fish_family_avg
 
   sus_agg_for_se_comparison <- calculate_sus_biomass_avg_long(sus)
 
@@ -593,7 +593,7 @@ test_that("Benthic LIT sample unit aggregation is the same as manually aggregati
   test_n_fake_sus(obs, sus)
 
   # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
-  # Just aggregate straight up to percent_cover_by_benthic_category
+  # Just aggregate straight up to percent_cover_benthic_category
 
   obs_agg_for_su_comparison <- calculate_lit_obs_percent_cover_long(obs)
 
@@ -620,7 +620,7 @@ test_that("Benthic LIT sample event aggregation is the same as manually aggregat
   test_n_fake_ses(sus, ses)
 
   # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
-  # Just aggregate straight up to percent_cover_by_benthic_category_avg and depth_avg
+  # Just aggregate straight up to percent_cover_benthic_category_avg and depth_avg
 
   sus_agg_for_se_comparison <- calculate_sus_percent_cover_avg_long(sus)
 
@@ -649,7 +649,7 @@ test_that("Benthic PIT sample unit aggregation is the same as manually aggregati
   test_n_fake_sus(obs, sus)
 
   # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
-  # Just aggregate straight up to percent_cover_by_benthic_category
+  # Just aggregate straight up to percent_cover_benthic_category
   # Do this by getting the length for each benthic category (sum of interval_size) divided by the total length (transect_length)
 
   obs_agg_for_su_comparison <- calculate_pit_obs_percent_cover_long(obs)
@@ -677,7 +677,7 @@ test_that("Benthic PIT sample event aggregation is the same as manually aggregat
   test_n_fake_ses(sus, ses)
 
   # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
-  # Just aggregate straight up to percent_cover_by_benthic_category_avg and depth_avg
+  # Just aggregate straight up to percent_cover_benthic_category_avg and depth_avg
 
   sus_agg_for_se_comparison <- calculate_sus_percent_cover_avg_long(sus)
 
@@ -706,7 +706,7 @@ test_that("Benthic PIT sample unit aggregation is the same as manually aggregati
   test_n_fake_sus(obs, sus)
 
   # Aggregate observations to sample units - no combining of fields like reef type, reef zone, etc etc
-  # Just aggregate straight up to percent_cover_by_benthic_category
+  # Just aggregate straight up to percent_cover_benthic_category
   # Do this by getting the length for each benthic category (sum of interval_size) divided by the total length (transect_length)
 
   obs_agg_for_su_comparison <- calculate_pit_obs_percent_cover_long(obs)
@@ -906,7 +906,10 @@ test_that("mermaid_get_project_data with covariates = FALSE (the default) doesn'
   skip_on_cran()
 
   p <- mermaid_get_my_projects()
-  output <- mermaid_get_project_data(p, "all", "all", limit = 1)
+  # output <- mermaid_get_project_data(p, "all", "all", limit = 1)
+
+  # TODO
+  expect_true(FALSE)
 })
 
 
@@ -1075,4 +1078,37 @@ test_that("mermaid_get_project_data with covariates = TRUE returns covars, all t
     output,
     ~ expect_true(all(covars_cols %in% names(.x)))
   )
+})
+
+# _by_ removal ----
+
+test_that("All expanded columns that formerly had _by_ in them are properly pulled down", {
+  p <- mermaid_get_my_projects()
+  cols <- project_data_df_columns_list %>%
+    purrr::map_dfr(dplyr::as_tibble, .id = "method_data") %>%
+    tidyr::separate(method_data, into = c("method", "data"), sep = "/") %>%
+    dplyr::mutate(method = dplyr::case_when(
+      method == "beltfishes" ~ "fishbelt",
+      stringr::str_starts(method, "benthic") ~ stringr::str_remove(method, "s")
+    ))
+
+  cols %>%
+    dplyr::distinct(method, data) %>%
+    dplyr::mutate(id = dplyr::row_number()) %>%
+    split(.$id) %>%
+    purrr::map(
+      function(x) {
+        res <- mermaid_get_project_data(p, x$method, x$data)
+        col <- x %>%
+          dplyr::left_join(cols, by = c("method", "data")) %>%
+          dplyr::pull(value)
+
+        purrr::walk(
+          col,
+          function(col) {
+            expect_true(any(stringr::str_starts(names(res), col)))
+          }
+        )
+      }
+    )
 })
