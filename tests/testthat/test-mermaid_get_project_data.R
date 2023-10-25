@@ -1132,85 +1132,93 @@ test_that("Every column ending in _avg has an _sd column accounted for in col se
 })
 
 test_that("Fishbelt - standard deviations calculated in API are the same as SDs calculated manually", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   method <- "fishbelt"
   sd_cols <- get_sd_cols(method)
   p <- mermaid_get_my_projects()
 
-  ## Sample units ----
-  # sd_cols %>%
-    # check_agg_sd_vs_agg_from_raw(method, "sampleunits")
+  ## Sample units
+  # No fishbelt sampleunits cols to test
 
-  ## Sample events ----
-  sd_cols %>%
-    check_agg_sd_vs_agg_from_raw(method, "sampleevents")
+  ## Sample events
+  p %>%
+    check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
 
   # NOTE: assumption is that NAs are getting treated as 0s
   # e.g. if some SUs in an SE have data for fish_family_balistidae, but one does not, the one that does not is a 0, not an NA that is removed
 })
 
 test_that("Benthic LIT - standard deviations calculated in API are the same as SDs calculated manually", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   method <- "benthiclit"
   sd_cols <- get_sd_cols(method)
   p <- mermaid_get_my_projects()
 
-  ## Sample units ----
-  # sd_cols %>%
-    # check_agg_sd_vs_agg_from_raw(method, "sampleunits")
+  ## Sample units
+  # No benthiclit sampleunits cols to test
 
-  ## Sample events ----
-  sd_cols %>%
-    check_agg_sd_vs_agg_from_raw(method, "sampleevents")
-
-  # NOTE: assumption is that NAs are getting treated as 0s
-  # e.g. if some SUs in an SE have data for fish_family_balistidae, but one does not, the one that does not is a 0, not an NA that is removed
+  ## Sample events
+  p %>%
+    check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
 })
 
 test_that("Benthic PIT - standard deviations calculated in API are the same as SDs calculated manually", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   method <- "benthicpit"
   sd_cols <- get_sd_cols(method)
   p <- mermaid_get_my_projects()
 
-  ## Sample units ----
-  # sd_cols %>%
-    # check_agg_sd_vs_agg_from_raw(method, "sampleunits")
+  ## Sample units
+  # No benthicpit sampleunits cols to test
 
-  ## Sample events ----
-  sd_cols %>%
-    check_agg_sd_vs_agg_from_raw(method, "sampleevents")
-
-  # NOTE: assumption is that NAs are getting treated as 0s
-  # e.g. if some SUs in an SE have data for fish_family_balistidae, but one does not, the one that does not is a 0, not an NA that is removed
+  ## Sample events
+  p %>%
+    check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
 })
 
 test_that("Benthic PQT - standard deviations calculated in API are the same as SDs calculated manually", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   method <- "benthicpqt"
   sd_cols <- get_sd_cols(method)
   p <- mermaid_get_my_projects()
 
-  ## Sample units ----
-  # sd_cols %>%
-    # check_agg_sd_vs_agg_from_raw(method, "sampleunits")
+  ## Sample units
+  # No benthicpqt sampleunits cols to test
 
-  ## Sample events ----
-  sd_cols %>%
-    check_agg_sd_vs_agg_from_raw(method, "sampleevents")
-
-  # NOTE: assumption is that NAs are getting treated as 0s
-  # e.g. if some SUs in an SE have data for fish_family_balistidae, but one does not, the one that does not is a 0, not an NA that is removed
+  ## Sample events
+  p %>%
+    check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
 })
 
 test_that("Habtitat Complexity - standard deviations calculated in API are the same as SDs calculated manually", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   method <- "habitatcomplexity"
   sd_cols <- get_sd_cols(method)
   p <- mermaid_get_my_projects()
 
-  ## Sample units ----
-  # sd_cols %>%
-    # check_agg_sd_vs_agg_from_raw(method, "sampleunits")
+  ## Sample units
+  # TODO: Score SD doesn't exist
+  p %>%
+    check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleunits")
 
-  ## Sample events ----
-  sd_cols %>%
-    check_agg_sd_vs_agg_from_raw(method, "sampleevents")
+  ## Sample events
+  p %>%
+    check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
 
   # NOTE: assumption is that NAs are getting treated as 0s
   # e.g. if some SUs in an SE have data for fish_family_balistidae, but one does not, the one that does not is a 0, not an NA that is removed
@@ -1218,17 +1226,24 @@ test_that("Habtitat Complexity - standard deviations calculated in API are the s
 
 
 test_that("Bleaching - standard deviations calculated in API are the same as SDs calculated manually", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   method <- "bleaching"
-  sd_cols <- get_sd_cols(method)
+  sd_cols <- get_sd_cols(method) %>%
+    # TODO - not present
+    dplyr::filter(!value %in% c("quadrat_count_sd", "quadrat_size_sd"))
   p <- mermaid_get_my_projects()
 
-  ## Sample units ----
-  # sd_cols %>%
-    # check_agg_sd_vs_agg_from_raw(method, "sampleunits")
+  # None for percent_hard_avg, percent_soft_avg, percent_algae_avg
+  ## Sample units
+  p %>%
+    check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleunits")
 
-  ## Sample events ----
-  sd_cols %>%
-    check_agg_sd_vs_agg_from_raw(method, "sampleevents")
+  ## Sample events
+  p %>%
+    check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
 
   # NOTE: assumption is that NAs are getting treated as 0s
   # e.g. if some SUs in an SE have data for fish_family_balistidae, but one does not, the one that does not is a 0, not an NA that is removed
