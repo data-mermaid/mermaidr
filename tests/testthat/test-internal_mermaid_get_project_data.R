@@ -12,7 +12,7 @@ test_that("fishbelt - new method of using CSV endpoint produces same data as old
 
   old_obs <- old[["observations"]] %>%
     dplyr::arrange(project, site, management, management_secondary, management_parties, sample_date, sample_time, label, reef_slope, current, depth, relative_depth, transect_number, fish_family, fish_genus, fish_taxon, count) %>%
-    dplyr::mutate_if(is.numeric, round, 2) %>%
+    dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
     dplyr::select(-management_parties, -management_rules, -observers) %>%
     dplyr::mutate_all(as.character)
 
@@ -23,7 +23,7 @@ test_that("fishbelt - new method of using CSV endpoint produces same data as old
         dplyr::coalesce("")
     })) %>%
     dplyr::arrange(project, site, management, management_secondary, management_parties, sample_date, sample_time, label, reef_slope, current, depth, relative_depth, transect_number, fish_family, fish_genus, fish_taxon, count) %>%
-    dplyr::mutate_if(is.numeric, round, 2) %>%
+    dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
     dplyr::select(-management_parties, -management_rules, -observers) %>%
     dplyr::mutate_all(as.character)
 
@@ -32,7 +32,7 @@ test_that("fishbelt - new method of using CSV endpoint produces same data as old
   old_su <- old[["sampleunits"]] %>%
     dplyr::select(tidyselect::all_of(names(new[["sampleunits"]]))) %>%
     dplyr::arrange(project, management, site, sample_date, sample_time, tide, current, visibility, relative_depth, depth, reef_slope, transect_number) %>%
-    dplyr::mutate_if(is.numeric, round, 2) %>%
+    dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
     dplyr::select(-management_parties, -management_rules, -sample_unit_ids) %>%
     dplyr::mutate_all(as.character)
 
@@ -43,7 +43,7 @@ test_that("fishbelt - new method of using CSV endpoint produces same data as old
         dplyr::coalesce("")
     })) %>%
     dplyr::arrange(project, management, site, sample_date, sample_time, tide, current, visibility, relative_depth, depth, reef_slope, transect_number) %>%
-    dplyr::mutate_if(is.numeric, round, 2) %>%
+    dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
     dplyr::select(-management_parties, -management_rules, -sample_unit_ids) %>%
     dplyr::mutate_all(as.character)
 
@@ -52,11 +52,11 @@ test_that("fishbelt - new method of using CSV endpoint produces same data as old
   expect_identical(
     old[["sampleevents"]] %>%
       dplyr::select(tidyselect::all_of(names(new[["sampleevents"]]))) %>%
-      dplyr::mutate_if(is.numeric, round, 2) %>%
+      dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
       dplyr::select(-management_parties, -management_rules),
     new[["sampleevents"]] %>%
       dplyr::mutate(dplyr::across(c(management_secondary, management_parties, site_notes, management_notes, project_notes), dplyr::coalesce, "")) %>%
-      dplyr::mutate_if(is.numeric, round, 2) %>%
+      dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
       dplyr::select(-management_parties, -management_rules)
   )
 })
@@ -73,7 +73,7 @@ test_that("benthiclit - new method of using CSV endpoint produces same data as o
   expect_identical(
     old[["observations"]] %>%
       dplyr::arrange(project, site, management_parties, sample_date, sample_time) %>%
-      dplyr::mutate_if(is.numeric, round, 3) %>%
+      dplyr::mutate_if(is.numeric, ~ round(.x, 3)) %>%
       dplyr::select(-management_parties, -management_rules, -observers) %>%
       dplyr::mutate_all(as.character),
     new[["observations"]] %>%
@@ -134,12 +134,14 @@ test_that("benthicpit - new method of using CSV endpoint produces same data as o
   expect_identical(
     old[["observations"]] %>%
       dplyr::arrange(project, site, management_parties, sample_date, sample_time, tide, current, visibility, relative_depth, depth, reef_slope) %>%
+      # TODO
       dplyr::select(-management_parties, -management_rules) %>%
       dplyr::mutate_if(is.numeric, round, 3) %>%
       dplyr::mutate_all(as.character),
     new[["observations"]] %>%
       dplyr::mutate(dplyr::across(c(management_secondary, management_parties, label, site_notes, management_notes, project_notes), dplyr::coalesce, "")) %>%
       dplyr::arrange(project, site, management_parties, sample_date, sample_time, tide, current, visibility, relative_depth, depth, reef_slope) %>%
+      # TODO
       dplyr::select(-management_parties, -management_rules) %>%
       dplyr::mutate_if(is.numeric, round, 3) %>%
       dplyr::mutate_all(as.character)
@@ -149,13 +151,13 @@ test_that("benthicpit - new method of using CSV endpoint produces same data as o
     old[["sampleunits"]] %>%
       dplyr::arrange(project, site, management_parties, sample_date, sample_time, tide, current, visibility, relative_depth, depth, reef_slope) %>%
       dplyr::select(-management_parties, -management_rules) %>%
-      dplyr::mutate_if(is.numeric, round, 2) %>%
+      dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
       dplyr::mutate_all(as.character),
     new[["sampleunits"]] %>%
       dplyr::mutate(dplyr::across(c(management_secondary, management_parties, label, site_notes, management_notes, project_notes, sample_unit_notes), dplyr::coalesce, "")) %>%
       dplyr::arrange(project, site, management_parties, sample_date, sample_time, tide, current, visibility, relative_depth, depth, reef_slope) %>%
       dplyr::select(-management_parties, -management_rules) %>%
-      dplyr::mutate_if(is.numeric, round, 2) %>%
+      dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
       dplyr::mutate_all(as.character)
   )
 
@@ -193,13 +195,13 @@ test_that("benthicpqt - new method of using CSV endpoint produces same data as o
 
   expect_identical(
     old[["sampleunits"]] %>%
-      dplyr::mutate_if(is.numeric, round, 2) %>%
+      dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
       dplyr::mutate_all(as.character) %>%
       dplyr::mutate(dplyr::across(c(management_secondary, management_parties, label, site_notes, management_notes), dplyr::coalesce, "")) %>%
       dplyr::arrange(project, site, management_parties, sample_date, sample_time, tide, current, visibility, relative_depth, depth, reef_slope) %>%
       dplyr::select(-management_parties, -management_rules),
     new[["sampleunits"]] %>%
-      dplyr::mutate_if(is.numeric, round, 2) %>%
+      dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
       dplyr::mutate_all(as.character) %>%
       dplyr::mutate(dplyr::across(c(management_secondary, management_parties, label, site_notes, management_notes, sample_unit_notes), dplyr::coalesce, "")) %>%
       dplyr::arrange(project, site, management_parties, sample_date, sample_time, tide, current, visibility, relative_depth, depth, reef_slope) %>%
@@ -208,13 +210,13 @@ test_that("benthicpqt - new method of using CSV endpoint produces same data as o
 
   expect_identical(
     old[["sampleevents"]] %>%
-      dplyr::mutate_if(is.numeric, round, 2) %>%
+      dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
       dplyr::mutate_all(as.character) %>%
       dplyr::mutate(dplyr::across(c(management_secondary, management_parties, site_notes, management_notes), dplyr::coalesce, "")) %>%
       dplyr::arrange(project, site, management_parties, sample_date, tide, current, visibility) %>%
       dplyr::select(-management_parties, -management_rules),
     new[["sampleevents"]] %>%
-      dplyr::mutate_if(is.numeric, round, 2) %>%
+      dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
       dplyr::mutate_all(as.character) %>%
       dplyr::mutate(dplyr::across(c(management_secondary, management_parties, site_notes, management_notes), dplyr::coalesce, "")) %>%
       dplyr::arrange(project, site, management_parties, sample_date, tide, current, visibility) %>%
@@ -253,13 +255,13 @@ test_that("habitatcomplexity - new method of using CSV endpoint produces same da
     old[["sampleunits"]] %>%
       dplyr::arrange(project, site, management_parties, sample_date, sample_time, tide, current, visibility, relative_depth, depth, reef_slope) %>%
       dplyr::select(-management_parties, -management_rules) %>%
-      dplyr::mutate_if(is.numeric, round, 2) %>%
+      dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
       dplyr::mutate_all(as.character),
     new[["sampleunits"]] %>%
       dplyr::mutate(dplyr::across(c(management_secondary, management_parties, label, site_notes, management_notes, project_notes, sample_unit_notes), dplyr::coalesce, "")) %>%
       dplyr::arrange(project, site, management_parties, sample_date, sample_time, tide, current, visibility, relative_depth, depth, reef_slope) %>%
       dplyr::select(-management_parties, -management_rules) %>%
-      dplyr::mutate_if(is.numeric, round, 2) %>%
+      dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
       dplyr::mutate_all(as.character)
   )
 
@@ -311,11 +313,11 @@ test_that("bleaching - new method of using CSV endpoint produces same data as ol
 
   expect_identical(
     old[["sampleunits"]] %>%
-      dplyr::mutate_if(is.numeric, round, 2) %>%
+      dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
       dplyr::mutate_all(as.character) %>%
       dplyr::select(-management_parties),
     new[["sampleunits"]] %>%
-      dplyr::mutate_if(is.numeric, round, 2) %>%
+      dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
       dplyr::mutate_all(as.character) %>%
       dplyr::mutate(dplyr::across(c(management_secondary, management_parties, label, site_notes, management_notes, sample_unit_notes), dplyr::coalesce, "")) %>%
       dplyr::select(-management_parties)
@@ -323,15 +325,13 @@ test_that("bleaching - new method of using CSV endpoint produces same data as ol
 
   expect_identical(
     old[["sampleevents"]] %>%
-      dplyr::mutate_if(is.numeric, round, 2) %>%
+      dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
       dplyr::mutate_all(as.character) %>%
       dplyr::select(-management_parties),
     new[["sampleevents"]] %>%
-      dplyr::mutate_if(is.numeric, round, 2) %>%
+      dplyr::mutate_if(is.numeric, ~ round(.x, 2)) %>%
       dplyr::mutate_all(as.character) %>%
       dplyr::mutate(dplyr::across(c(management_secondary, management_parties, site_notes, management_notes), dplyr::coalesce, "")) %>%
       dplyr::select(-management_parties)
   )
 })
-
-# TODO - test covariates too?
