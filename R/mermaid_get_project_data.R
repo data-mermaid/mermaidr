@@ -182,7 +182,7 @@ project_data_df_columns_list <- list(
   `benthiclits/sampleunits` = c("percent_cover_benthic_category"),
   `benthiclits/sampleevents` = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd"),
   `benthicpqts/sampleunits` = c("percent_cover_benthic_category"),
-  `benthicpqts/sampleevents` = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_avg")
+  `benthicpqts/sampleevents` = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd")
 )
 
 project_data_df_columns_list_names <- project_data_df_columns_list %>%
