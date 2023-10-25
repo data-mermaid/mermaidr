@@ -153,6 +153,7 @@ calculate_sus_biomass_avg_long <- function(sus, aggregate_cols = c("trophic_grou
 aggregate_ses_biomass_avg_long <- function(ses, aggregate_cols = c("trophic_group", "fish_family")) {
   aggregate_by_col <- function(col) {
     ses %>%
+      dplyr::select(-tidyselect::all_of("sample_event_id")) %>%
       dplyr::rename(sample_event_id = "id") %>%
       dplyr::select(tidyselect::all_of("sample_event_id"), dplyr::starts_with(col), tidyselect::all_of(c("depth_avg", "biomass_kgha_avg"))) %>%
       tidyr::pivot_longer(-"sample_event_id", values_to = "se") %>%
@@ -283,6 +284,7 @@ calculate_sus_score_avg_long <- function(sus) {
 
 unpack_ses_score_avg_long <- function(ses, sus_agg) {
   ses %>%
+    dplyr::select(-tidyselect::all_of("sample_event_id")) %>%
     dplyr::rename(sample_event_id = "id") %>%
     dplyr::select(dplyr::all_of(c("sample_event_id", sus_agg[["name"]]))) %>%
     tidyr::pivot_longer(-"sample_event_id", values_to = "se") %>%
@@ -355,6 +357,7 @@ calculate_sus_bleaching_long <- function(sus) {
 
 unpack_sus_bleaching_avg_long <- function(ses, sus_agg) {
   ses %>%
+    dplyr::select(-dplyr::all_of(c("sample_event_id"))) %>%
     dplyr::rename(sample_event_id = "id") %>%
     dplyr::select(dplyr::all_of(c("sample_event_id", sus_agg[["name"]]))) %>%
     tidyr::pivot_longer(-"sample_event_id", values_to = "se") %>%
