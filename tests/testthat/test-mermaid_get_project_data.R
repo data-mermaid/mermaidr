@@ -906,7 +906,10 @@ test_that("mermaid_get_project_data with covariates = FALSE (the default) doesn'
   skip_on_cran()
 
   p <- mermaid_get_my_projects()
-  output <- mermaid_get_project_data(p, "all", "all", limit = 1)
+  # output <- mermaid_get_project_data(p, "all", "all", limit = 1)
+
+  # TODO
+  expect_true(FALSE)
 })
 
 
