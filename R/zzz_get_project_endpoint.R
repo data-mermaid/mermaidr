@@ -86,6 +86,7 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
 
     # Treat tags separately
     if ("tags" %in% json_cols[["name"]]) {
+      browser()
       res[["tags"]] <- res[["tags"]] %>%
         stringr::str_replace_all("'", '"') %>%
         purrr::map(function(tags) {
@@ -95,7 +96,7 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
           tags %>%
             jsonlite::fromJSON() %>%
             dplyr::pull(.data$name) %>%
-            paste0(collapse = "; ")
+            paste0(collapse = ", ")
         }) %>%
         unlist()
     }
@@ -138,8 +139,8 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
           sample_date = ISOdate(.data$sample_date_year, .data$sample_date_month, .data$sample_date_day),
           sample_date = as.Date(.data$sample_date)
         ) %>%
-        dplyr::relocate(.data$sample_date, .after = .data$management_rules) %>%
-        dplyr::select(-.data$sample_date_year, -.data$sample_date_month, -.data$sample_date_day)
+        dplyr::relocate("sample_date", .after = "management_rules") %>%
+        dplyr::select(-dplyr::all_of(c("sample_date_year", "sample_date_month", "sample_date_day")))
     }
   }
 

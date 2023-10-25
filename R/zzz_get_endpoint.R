@@ -77,6 +77,7 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
 }
 
 lookup_variable <- function(.data, choices, variable) {
+  browser()
   name <- switch(variable,
     country = "countries",
     reef_type = "reeftypes",
@@ -97,18 +98,18 @@ lookup_variable <- function(.data, choices, variable) {
   names(join_by) <- paste0(variable, "_id")
 
   # Check if there are multiple IDs in .data column, and separate, join, then re-combine
-  if (any(stringr::str_detect(.data[[join_by]], ";"), na.rm = TRUE)) {
+  if (any(stringr::str_detect(.data[[join_by]], ",|;"), na.rm = TRUE)) {
     .data_temp <- .data %>%
       dplyr::mutate(temp_row_for_rejoin = dplyr::row_number())
 
     .data_sep <- .data_temp %>%
       dplyr::select(tidyselect::all_of(c("temp_row_for_rejoin", join_by))) %>%
-      tidyr::separate_rows(tidyselect::all_of(names(join_by)), sep = "; ")
+      tidyr::separate_rows(tidyselect::all_of(names(join_by)), sep = ", ")
 
     .data_to_name <- variable_names %>%
       dplyr::right_join(.data_sep, by = names(join_by)) %>%
       dplyr::group_by(.data$temp_row_for_rejoin) %>%
-      dplyr::summarise(dplyr::across(tidyselect::all_of(c(names(join_by), paste0(join_by, "_name"))), ~ stringr::str_c(.x, collapse = "; ")))
+      dplyr::summarise(dplyr::across(tidyselect::all_of(c(names(join_by), paste0(join_by, "_name"))), ~ stringr::str_c(.x, collapse = ", ")))
 
     .data_temp %>%
       dplyr::left_join(.data_to_name, by = "temp_row_for_rejoin") %>%

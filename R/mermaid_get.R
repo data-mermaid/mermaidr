@@ -183,7 +183,7 @@ initial_cleanup <- function(results, endpoint) {
 
     results <- results %>%
       dplyr::rowwise() %>%
-      dplyr::mutate_if(is_list_col, ~ paste0(.x, collapse = "; ")) %>%
+      dplyr::mutate_if(is_list_col, ~ paste0(.x, collapse = ", ")) %>%
       dplyr::ungroup()
   }
 
