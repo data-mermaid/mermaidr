@@ -1083,6 +1083,10 @@ test_that("mermaid_get_project_data with covariates = TRUE returns covars, all t
 # _by_ removal ----
 
 test_that("All expanded columns that formerly had _by_ in them are properly pulled down", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   p <- mermaid_get_my_projects()
   cols <- project_data_df_columns_list %>%
     purrr::map_dfr(dplyr::as_tibble, .id = "method_data") %>%
