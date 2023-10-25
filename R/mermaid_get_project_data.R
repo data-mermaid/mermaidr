@@ -152,17 +152,17 @@ common_cols <- list(
 # For select columns and setting order
 project_data_columns <- list(
   `benthicpqts/obstransectbenthicpqts` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "quadrat_size", "num_quadrats", "num_points_per_quadrat", "observers", "quadrat_number", "benthic_category", "benthic_attribute", "growth_form", "num_points", "data_policy_benthicpqt", common_cols[["obs_closing"]]),
-  `benthicpqts/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "percent_cover_by_benthic_category", "data_policy_benthicpqt", common_cols[["su_closing"]]),
-  `benthicpqts/sampleevents` = c(common_cols[["se"]], "percent_cover_by_benthic_category_avg", "data_policy_benthicpqt", common_cols[["se_closing"]]),
+  `benthicpqts/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "percent_cover_benthic_category", "data_policy_benthicpqt", common_cols[["su_closing"]]),
+  `benthicpqts/sampleevents` = c(common_cols[["se"]], "percent_cover_benthic_category_avg", "data_policy_benthicpqt", common_cols[["se_closing"]]),
   `beltfishes/obstransectbeltfishes` = c(common_cols[["obs/su"]], "transect_length", "transect_width", "size_bin", "observers", "transect_number", "label", "fish_family", "fish_genus", "fish_taxon", "size", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "count", "biomass_kgha", "trophic_level", "trophic_group", "functional_group", "vulnerability", "data_policy_beltfish", common_cols[["obs_closing"]]),
-  `beltfishes/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "label", "size_bin", "transect_length", "transect_width", "biomass_kgha", "total_abundance", "biomass_kgha_by_trophic_group", "biomass_kgha_by_fish_family", "data_policy_beltfish", common_cols[["su_closing"]]),
-  `beltfishes/sampleevents` = c(common_cols[["se"]], "biomass_kgha_avg", "biomass_kgha_by_trophic_group_avg", "biomass_kgha_by_fish_family_avg", "data_policy_beltfish", common_cols[["se_closing"]]),
+  `beltfishes/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "label", "size_bin", "transect_length", "transect_width", "biomass_kgha", "total_abundance", "biomass_kgha_trophic_group", "biomass_kgha_fish_family", "data_policy_beltfish", common_cols[["su_closing"]]),
+  `beltfishes/sampleevents` = c(common_cols[["se"]], "biomass_kgha_avg", "biomass_kgha_trophic_group_avg", "biomass_kgha_fish_family_avg", "data_policy_beltfish", common_cols[["se_closing"]]),
   `benthicpits/obstransectbenthicpits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "interval_start", "interval_size", "label", "observers", "interval", "benthic_category", "benthic_attribute", "growth_form", "data_policy_benthicpit", common_cols[["obs_closing"]]),
-  `benthicpits/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "interval_start", "interval_size", "observers", "percent_cover_by_benthic_category", "data_policy_benthicpit", common_cols[["su_closing"]]),
-  `benthicpits/sampleevents` = c(common_cols[["se"]], "percent_cover_by_benthic_category_avg", "data_policy_benthicpit", common_cols[["se_closing"]]),
+  `benthicpits/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "interval_start", "interval_size", "observers", "percent_cover_benthic_category", "data_policy_benthicpit", common_cols[["su_closing"]]),
+  `benthicpits/sampleevents` = c(common_cols[["se"]], "percent_cover_benthic_category_avg", "data_policy_benthicpit", common_cols[["se_closing"]]),
   `benthiclits/obstransectbenthiclits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "benthic_category", "benthic_attribute", "growth_form", "length", "total_length", "data_policy_benthiclit", common_cols[["obs_closing"]]),
-  `benthiclits/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "total_length", "percent_cover_by_benthic_category", "data_policy_benthiclit", common_cols[["su_closing"]]),
-  `benthiclits/sampleevents` = c(common_cols[["se"]], "percent_cover_by_benthic_category_avg", "data_policy_benthiclit", common_cols[["se_closing"]]),
+  `benthiclits/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "total_length", "percent_cover_benthic_category", "data_policy_benthiclit", common_cols[["su_closing"]]),
+  `benthiclits/sampleevents` = c(common_cols[["se"]], "percent_cover_benthic_category_avg", "data_policy_benthiclit", common_cols[["se_closing"]]),
   `habitatcomplexities/obshabitatcomplexities` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "interval_size", "observers", "interval", "score", "score_name", "data_policy_habitatcomplexity", common_cols[["obs_closing"]]),
   `habitatcomplexities/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "score_avg", "data_policy_habitatcomplexity", common_cols[["su_closing"]]),
   `habitatcomplexities/sampleevents` = c(common_cols[["se"]], "score_avg_avg", "data_policy_habitatcomplexity", common_cols[["se_closing"]]),
@@ -175,18 +175,17 @@ project_data_columns <- list(
 
 # For testing columns, after df-cols have been expanded
 project_data_df_columns_list <- list(
-  `beltfishes/sampleunits` = c("biomass_kgha_by_trophic_group", "biomass_kgha_by_fish_family"),
-  `beltfishes/sampleevents` = c("biomass_kgha_by_trophic_group_avg", "biomass_kgha_by_fish_family_avg"),
-  `benthicpits/sampleunits` = c("percent_cover_by_benthic_category"),
-  `benthicpits/sampleevents` = c("percent_cover_by_benthic_category_avg"),
-  `benthiclits/sampleunits` = c("percent_cover_by_benthic_category"),
-  `benthiclits/sampleevents` = c("percent_cover_by_benthic_category_avg"),
-  `benthicpqts/sampleunits` = c("percent_cover_by_benthic_category"),
-  `benthicpqts/sampleevents` = c("percent_cover_by_benthic_category_avg")
+  `beltfishes/sampleunits` = c("biomass_kgha_trophic_group", "biomass_kgha_fish_family"),
+  `beltfishes/sampleevents` = c("biomass_kgha_trophic_group_avg", "biomass_kgha_fish_family_avg"),
+  `benthicpits/sampleunits` = c("percent_cover_benthic_category"),
+  `benthicpits/sampleevents` = c("percent_cover_benthic_category_avg"),
+  `benthiclits/sampleunits` = c("percent_cover_benthic_category"),
+  `benthiclits/sampleevents` = c("percent_cover_benthic_category_avg"),
+  `benthicpqts/sampleunits` = c("percent_cover_benthic_category"),
+  `benthicpqts/sampleevents` = c("percent_cover_benthic_category_avg")
 )
 
 project_data_df_columns_list_names <- project_data_df_columns_list %>%
-  purrr::map(stringr::str_remove_all, "_by") %>%
   purrr::map(paste0, collapse = "|")
 
 project_data_df_columns <- project_data_df_columns_list %>%

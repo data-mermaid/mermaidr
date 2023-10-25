@@ -225,7 +225,7 @@ clean_df_cols <- function(.data) {
 
   .data %>%
     tidyr::unpack(cols = dplyr::all_of(df_cols), names_sep = "_") %>%
-    dplyr::rename_all(~ stringr::str_remove(.x, "_by") %>%
+    dplyr::rename_all(~ .x %>%
       stringr::str_replace_all(" |-", "_") %>%
       stringr::str_to_lower())
 }
