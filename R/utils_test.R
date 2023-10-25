@@ -49,7 +49,6 @@ test_sus_vs_ses_agg <- function(sus_agg, ses_agg) {
     dplyr::filter(!is.na(.data$se) | !is.na(.data$su)) %>%
     dplyr::mutate(dplyr::across(c("se", "su"), as.numeric))
 
-
   testthat::expect_true(all(sus_vs_ses_match[["se"]] - sus_vs_ses_match[["su"]] < 1))
 }
 
@@ -239,8 +238,7 @@ calculate_pit_obs_percent_cover_long <- function(obs) {
       interval_size_sum = sum(.data$interval_size, na.rm = TRUE),
       .groups = "drop"
     ) %>%
-    dplyr::mutate(percent_cover_benthic_category = round(.data$interval_size_sum * 100 / .data$transect_length, 2)
-    ) %>%
+    dplyr::mutate(percent_cover_benthic_category = round(.data$interval_size_sum * 100 / .data$transect_length, 2)) %>%
     dplyr::select(-tidyselect::all_of(c("interval_size_sum", "transect_length"))) %>%
     tidyr::pivot_wider(names_from = "benthic_category", values_from = "percent_cover_benthic_category") %>%
     tidyr::pivot_longer(-"fake_sample_unit_id", values_to = "obs") %>%
@@ -363,4 +361,186 @@ unpack_sus_bleaching_avg_long <- function(ses, sus_agg) {
     tidyr::pivot_longer(-"sample_event_id", values_to = "se") %>%
     dplyr::filter(!is.na(.data$se)) %>%
     dplyr::mutate(se = round(.data$se))
+}
+
+# Standard deviations -----
+
+get_sd_cols <- function(method) {
+  project_data_columns %>%
+    purrr::map_df(dplyr::as_tibble, .id = "endpoint") %>%
+    dplyr::filter(stringr::str_ends(value, "sd")) %>%
+    tidyr::separate(endpoint, into = c("method", "data"), sep = "/") %>%
+    dplyr::mutate(
+      method = dplyr::case_when(
+        stringr::str_starts(method, "benthic") ~ stringr::str_remove(method, "s"),
+        method == "beltfishes" ~ "fishbelt",
+        method == "bleachingqcs" ~ "bleaching",
+        method == "habitatcomplexities" ~ "habitatcomplexity"
+      ),
+      coalesce = value %in% c("biomass_kgha_trophic_group_sd", "biomass_kgha_fish_family_sd")
+    ) %>%
+    dplyr::filter(method == !!method)
+}
+
+check_agg_sd_vs_agg_from_raw <- function(p, sd_cols, method, data) {
+  raw_cols <- sd_cols %>%
+    dplyr::filter(data == !!data) %>%
+    dplyr::select(value) %>%
+    dplyr::mutate(
+      value = stringr::str_replace(value, "_by_", "_"),
+      col = stringr::str_remove(value, "_sd")
+    )
+
+  if (data == "sampleunits") {
+    raw <- mermaid_get_project_data(p, method, "observations")
+    agg <- mermaid_get_project_data(p, method, "sampleunits")
+
+    if (method == "bleaching") {
+      raw <- raw[["percent_cover"]]
+    }
+
+    raw_cols %>%
+      split(.$value) %>%
+      purrr::walk(function(x) {
+        if (x$col %in% names(raw)) {
+          raw_col <- raw %>%
+            dplyr::select(dplyr::all_of(c("project", "sample_unit_id", x$col)))
+          names(raw_col) <- c("project", "id", "col")
+
+          coalesce_zero <- sd_cols %>%
+            dplyr::inner_join(x, by = "value") %>%
+            dplyr::pull(coalesce)
+
+          if (coalesce_zero) {
+            raw_col <- raw_col %>%
+              dplyr::mutate(col = dplyr::coalesce(col, 0))
+          }
+
+          raw_agg <- raw_col %>%
+            dplyr::group_by(project, id) %>%
+            dplyr::summarise(agg = sd(col, na.rm = TRUE))
+
+          agg_col <- agg %>%
+            dplyr::select(dplyr::all_of(c("project", "sample_unit_ids", x$value)))
+          names(agg_col) <- c("project", "id", "agg")
+
+          raw_vs_agg <- agg_col %>%
+            dplyr::inner_join(raw_agg, by = c("project", "id"), suffix = c("", "_raw"))
+        } else {
+          raw_col <- raw %>%
+            dplyr::select(project, sample_event_id, dplyr::starts_with(x$col)) %>%
+            tidyr::pivot_longer(-c(project, sample_event_id))
+          names(raw_col) <- c("project", "id", "name", "value")
+
+          raw_agg <- raw_col %>%
+            # dplyr::mutate(value = dplyr::coalesce(value, 0)) %>%
+            dplyr::group_by(project, id, name) %>%
+            dplyr::summarise(
+              agg = sd(value, na.rm = TRUE),
+              .groups = "drop"
+            )
+
+          agg_col <- agg %>%
+            dplyr::select(project, sample_event_id, dplyr::starts_with(x$value)) %>%
+            tidyr::pivot_longer(-c(project, sample_event_id)) %>%
+            dplyr::mutate(name = stringr::str_replace_all(name, "_sd_", "_"))
+          names(agg_col) <- c("project", "id", "name", "agg")
+
+          raw_vs_agg <- agg_col %>%
+            dplyr::inner_join(raw_agg, by = c("project", "id", "name"), suffix = c("", "_raw"))
+        }
+
+        raw_vs_agg$agg <- as.numeric(raw_vs_agg$agg) # In case all NA, then it is lgl - make numeric
+
+        # Round all to 1 decimal place for ease
+        raw_vs_agg$agg_raw <- round(raw_vs_agg$agg_raw, 1)
+        raw_vs_agg$agg <- round(raw_vs_agg$agg_raw, 1)
+
+        pass <- identical(raw_vs_agg$agg, raw_vs_agg$agg_raw)
+
+        if (!pass) {
+          browser()
+        }
+
+        expect_true(pass)
+      })
+  } else if (data == "sampleevents") {
+    raw <- mermaid_get_project_data(p, method, "sampleunits")
+    agg <- mermaid_get_project_data(p, method, "sampleevents")
+
+    # Go through each sd column
+    raw_cols %>%
+      split(.$value) %>%
+      purrr::walk(function(x) {
+        if (x$col %in% names(raw)) {
+          raw_col <- raw %>%
+            dplyr::select(dplyr::all_of(c("project", "sample_event_id", x$col)))
+          names(raw_col) <- c("project", "id", "col")
+
+          coalesce_zero <- sd_cols %>%
+            dplyr::inner_join(x, by = "value") %>%
+            dplyr::pull(coalesce)
+
+          if (coalesce_zero) {
+            raw_col <- raw_col %>%
+              dplyr::mutate(col = dplyr::coalesce(col, 0))
+          }
+
+          raw_agg <- raw_col %>%
+            dplyr::group_by(project, id) %>%
+            dplyr::summarise(agg = sd(col, na.rm = TRUE))
+
+          agg_col <- agg %>%
+            dplyr::select(dplyr::all_of(c("project", "sample_event_id", x$value)))
+          names(agg_col) <- c("project", "id", "agg")
+
+          raw_vs_agg <- agg_col %>%
+            dplyr::inner_join(raw_agg, by = c("project", "id"), suffix = c("", "_raw"))
+        } else {
+          raw_col <- raw %>%
+            dplyr::select(project, sample_event_id, dplyr::starts_with(x$col)) %>%
+            tidyr::pivot_longer(-c(project, sample_event_id))
+          names(raw_col) <- c("project", "id", "name", "value")
+
+          coalesce_zero <- sd_cols %>%
+            dplyr::inner_join(x, by = "value") %>%
+            dplyr::pull(coalesce)
+
+          if (coalesce_zero) {
+            raw_col <- raw_col %>%
+              dplyr::mutate(value = dplyr::coalesce(value, 0))
+          }
+
+          raw_agg <- raw_col %>%
+            dplyr::group_by(project, id, name) %>%
+            dplyr::summarise(
+              agg = sd(value, na.rm = TRUE),
+              .groups = "drop"
+            )
+
+          agg_col <- agg %>%
+            dplyr::select(project, sample_event_id, dplyr::starts_with(x$value)) %>%
+            tidyr::pivot_longer(-c(project, sample_event_id)) %>%
+            dplyr::mutate(name = stringr::str_replace_all(name, "_sd_", "_"))
+          names(agg_col) <- c("project", "id", "name", "agg")
+
+          raw_vs_agg <- agg_col %>%
+            dplyr::inner_join(raw_agg, by = c("project", "id", "name"), suffix = c("", "_raw"))
+        }
+
+        raw_vs_agg$agg <- as.numeric(raw_vs_agg$agg) # In case all NA, then it is lgl - make numeric
+
+        # Round all to 1 decimal place for ease
+        raw_vs_agg$agg_raw <- round(raw_vs_agg$agg_raw, 1)
+        raw_vs_agg$agg <- round(raw_vs_agg$agg, 1)
+
+        pass <- all(abs(raw_vs_agg$agg - raw_vs_agg$agg_raw) < 0.2, na.rm = TRUE)
+
+        if (!pass) {
+          browser()
+        }
+
+        expect_true(pass)
+      })
+  }
 }

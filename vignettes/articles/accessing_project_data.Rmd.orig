@@ -93,7 +93,7 @@ xpdc %>%
   mermaid_get_project_data("fishbelt", "sampleunits")
 ```
 
-And finally, sample events data, which are aggregated further, to the sample event level. Fish belt sample events contain *mean* total biomass in kg/ha per sample event, by trophic group and by fish family:
+And finally, sample events data, which are aggregated further, to the sample event level. Fish belt sample events contain *mean* total biomass in kg/ha per sample event, by trophic group and by fish family, as well as *standard deviations*:
 
 ```{r}
 xpdc_sample_events <- xpdc %>%
@@ -116,7 +116,7 @@ mozambique %>%
 
 You can access sample units and sample events the same way.
 
-For Benthic LIT, sample units contain percent cover per sample unit, by benthic category. Sample *events* contain *mean* percent cover per sample event, by benthic category.
+For Benthic LIT, sample units contain percent cover per sample unit, by benthic category. Sample *events* contain *mean* percent cover per sample event, by benthic category, and standard deviations for these values:
 
 ```{r}
 mozambique %>%

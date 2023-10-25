@@ -1083,6 +1083,10 @@ test_that("mermaid_get_project_data with covariates = TRUE returns covars, all t
 # _by_ removal ----
 
 test_that("All expanded columns that formerly had _by_ in them are properly pulled down", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   p <- mermaid_get_my_projects()
   cols <- project_data_df_columns_list %>%
     purrr::map_dfr(dplyr::as_tibble, .id = "method_data") %>%
@@ -1111,4 +1115,128 @@ test_that("All expanded columns that formerly had _by_ in them are properly pull
         )
       }
     )
+})
+
+# Standard Deviations ----
+
+test_that("Every column ending in _avg has an _sd column accounted for in col selection, except quadrat_size_avg and quadrat_count_avg", {
+  cols_by_endpoint <- project_data_columns %>%
+    purrr::map_df(dplyr::as_tibble, .id = "endpoint")
+
+  avg_cols <- cols_by_endpoint %>%
+    dplyr::filter(stringr::str_ends(value, "_avg")) %>%
+    dplyr::filter(!value %in% c("quadrat_size_avg", "quadrat_count_avg"))
+
+  avg_cols_sd_counterpart <- avg_cols %>%
+    dplyr::mutate(value = stringr::str_replace(value, "_avg$", "_sd"))
+
+  sd_counterpart_matched <- avg_cols_sd_counterpart %>%
+    dplyr::inner_join(cols_by_endpoint, by = c("endpoint", "value"))
+
+  expect_identical(sd_counterpart_matched, avg_cols_sd_counterpart)
+})
+
+test_that("Fishbelt - standard deviations calculated in API are the same as SDs calculated manually", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  method <- "fishbelt"
+  sd_cols <- get_sd_cols(method)
+  p <- mermaid_get_my_projects()
+
+  ## Sample units
+  # No fishbelt sampleunits cols to test
+
+  ## Sample events
+  p %>%
+    check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
+})
+
+test_that("Benthic LIT - standard deviations calculated in API are the same as SDs calculated manually", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  method <- "benthiclit"
+  sd_cols <- get_sd_cols(method)
+  p <- mermaid_get_my_projects()
+
+  ## Sample units
+  # No benthiclit sampleunits cols to test
+
+  ## Sample events
+  p %>%
+    check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
+})
+
+test_that("Benthic PIT - standard deviations calculated in API are the same as SDs calculated manually", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  method <- "benthicpit"
+  sd_cols <- get_sd_cols(method)
+  p <- mermaid_get_my_projects()
+
+  ## Sample units
+  # No benthicpit sampleunits cols to test
+
+  ## Sample events
+  p %>%
+    check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
+})
+
+test_that("Benthic PQT - standard deviations calculated in API are the same as SDs calculated manually", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  method <- "benthicpqt"
+  sd_cols <- get_sd_cols(method)
+  p <- mermaid_get_my_projects()
+
+  ## Sample units
+  # No benthicpqt sampleunits cols to test
+
+  ## Sample events
+  p %>%
+    check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
+})
+
+test_that("Habtitat Complexity - standard deviations calculated in API are the same as SDs calculated manually", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  method <- "habitatcomplexity"
+  sd_cols <- get_sd_cols(method)
+  p <- mermaid_get_my_projects()
+
+  ## Sample units
+  p %>%
+    check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleunits")
+
+  ## Sample events
+  p %>%
+    check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
+})
+
+
+test_that("Bleaching - standard deviations calculated in API are the same as SDs calculated manually", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  method <- "bleaching"
+  sd_cols <- get_sd_cols(method)
+  p <- mermaid_get_my_projects()
+
+  ## Sample units
+  p %>%
+    check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleunits")
+
+  ## Sample events
+  p %>%
+    check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
 })
