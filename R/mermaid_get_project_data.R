@@ -144,9 +144,9 @@ covars_cols <- c("aca_geomorphic", "aca_benthic", "andrello_grav_nc", "andrello_
 common_cols <- list(
   "obs/su" = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth"),
   "se" = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "depth_sd"),
-  "obs_closing" = c("project_notes", "site_notes", "management_notes", "sample_unit_id", "sample_event_id", "contact_link"),
-  "su_closing" = c("project_notes", "site_notes", "management_notes", "sample_unit_notes", "sample_event_id", "sample_unit_ids", "contact_link"),
-  "se_closing" = c("project_notes", "site_notes", "management_notes", "id", "sample_unit_count", "contact_link", "sample_event_id")
+  "obs_closing" = c("project_notes", "site_notes", "management_notes", "sample_unit_id", "sample_event_id", "project_admins", "contact_link"),
+  "su_closing" = c("project_notes", "site_notes", "management_notes", "sample_unit_notes", "sample_event_id", "sample_unit_ids", "project_admins", "contact_link"),
+  "se_closing" = c("project_notes", "site_notes", "management_notes", "id", "sample_unit_count", "project_admins", "contact_link", "sample_event_id")
 )
 
 # For select columns and setting order
