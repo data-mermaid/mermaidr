@@ -202,6 +202,11 @@ project_data_df_columns_list <- list(
   `benthicpqts/sampleevents` = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd")
 )
 
+project_data_df_columns_list_csv <- project_data_df_columns_list
+names(project_data_df_columns_list_csv) <- paste0(names(project_data_df_columns_list_csv), "/csv")
+
+project_data_df_columns_list <- append(project_data_df_columns_list, project_data_df_columns_list_csv)
+
 project_data_df_columns_list_names <- project_data_df_columns_list %>%
   purrr::map(paste0, collapse = "|")
 
@@ -211,6 +216,7 @@ project_data_df_columns <- project_data_df_columns_list %>%
 project_data_test_columns <- project_data_columns %>%
   purrr::map_df(dplyr::as_tibble, .id = "endpoint") %>%
   dplyr::anti_join(project_data_df_columns, by = c("endpoint", "value")) %>%
+  dplyr::filter(!value %in% c("sample_date_year", "sample_date_month", "sample_date_day")) %>%
   split(.$endpoint) %>%
   purrr::map(dplyr::pull, value)
 

@@ -368,6 +368,7 @@ unpack_sus_bleaching_avg_long <- function(ses, sus_agg) {
 get_sd_cols <- function(method) {
   project_data_columns %>%
     purrr::map_df(dplyr::as_tibble, .id = "endpoint") %>%
+    dplyr::filter(!stringr::str_ends(endpoint, "csv")) %>%
     dplyr::filter(stringr::str_ends(value, "sd")) %>%
     tidyr::separate(endpoint, into = c("method", "data"), sep = "/") %>%
     dplyr::mutate(

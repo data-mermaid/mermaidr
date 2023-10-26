@@ -26,9 +26,12 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
 
   if (nrow(results) == 0) {
     if (endpoint_type == "main") {
+      browser()
       cols <- mermaid_endpoint_columns[[endpoint]]
     } else if (endpoint_type == "project") {
       cols <- mermaid_project_endpoint_columns[[endpoint]]
+      remove_cols <- project_data_df_columns_list[[stringr::str_remove(endpoint, "/csv")]]
+      cols <- cols[cols != remove_cols]
     }
     if (ncol(results) != 0) {
       cols <- unique(c(names(results), cols))
@@ -77,7 +80,6 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
 }
 
 lookup_variable <- function(.data, choices, variable) {
-  browser()
   name <- switch(variable,
     country = "countries",
     reef_type = "reeftypes",
