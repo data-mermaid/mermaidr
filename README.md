@@ -232,7 +232,7 @@ You can also get a list of *all* projects (not just your own):
 
 ``` r
 mermaid_get_projects()
-#> # A tibble: 165 × 15
+#> # A tibble: 166 × 15
 #>    id          name  countries num_sites tags  notes status data_policy_beltfish
 #>    <chr>       <chr> <chr>         <int> <chr> <chr> <chr>  <chr>               
 #>  1 00673bdf-b… TPK … "Indones…        15 "WCS… ""    Open   Private             
@@ -245,7 +245,7 @@ mermaid_get_projects()
 #>  8 0de6f1fc-1… Copy… "Fiji"            9 "WWF… "Dat… Open   Public Summary      
 #>  9 0f17035f-0… what  ""                0 ""    ""    Open   Public Summary      
 #> 10 124b9142-3… Sam   ""                0 ""    ""    Open   Private             
-#> # ℹ 155 more rows
+#> # ℹ 156 more rows
 #> # ℹ 7 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_benthicpqt <chr>,
 #> #   data_policy_habitatcomplexity <chr>, data_policy_bleachingqc <chr>,
@@ -256,7 +256,7 @@ As well as all sites:
 
 ``` r
 mermaid_get_sites()
-#> # A tibble: 2,684 × 13
+#> # A tibble: 2,688 × 13
 #>    id         name  notes project latitude longitude country reef_type reef_zone
 #>    <chr>      <chr> <chr> <chr>      <dbl>     <dbl> <chr>   <chr>     <chr>    
 #>  1 0415d9e5-… mysi… ""    2c56b9…     -1         -1  Bangla… atoll     back reef
@@ -269,7 +269,7 @@ mermaid_get_sites()
 #>  8 19258ea5-… BA15  ""    a1b7ff…    -17.2      178. Fiji    atoll     back reef
 #>  9 19e60884-… YA02  ""    a1b7ff…    -17.0      177. Fiji    atoll     back reef
 #> 10 20aeb13f-… BA11  ""    a1b7ff…    -17.3      178. Fiji    atoll     back reef
-#> # ℹ 2,674 more rows
+#> # ℹ 2,678 more rows
 #> # ℹ 4 more variables: exposure <chr>, predecessor <chr>, created_on <chr>,
 #> #   updated_on <chr>
 ```
@@ -278,7 +278,7 @@ And all managements:
 
 ``` r
 mermaid_get_managements()
-#> # A tibble: 1,183 × 17
+#> # A tibble: 1,250 × 17
 #>    id         name  name_secondary est_year  size parties compliance open_access
 #>    <chr>      <chr> <chr>             <int> <dbl> <chr>   <chr>      <lgl>      
 #>  1 0031d438-… Mata… "Fish Habitat…     2018    25 commun… full       FALSE      
@@ -291,7 +291,7 @@ mermaid_get_managements()
 #>  8 04286cba-… Test… ""                 2018    NA govern… full       FALSE      
 #>  9 044c6e26-… Fono… "Fish Habitat…     2017   191 commun… full       FALSE      
 #> 10 05227cee-… Test… ""                 2018     5 <NA>    full       FALSE      
-#> # ℹ 1,173 more rows
+#> # ℹ 1,240 more rows
 #> # ℹ 9 more variables: no_take <lgl>, access_restriction <lgl>,
 #> #   periodic_closure <lgl>, size_limits <lgl>, gear_restriction <lgl>,
 #> #   species_restriction <lgl>, notes <chr>, created_on <chr>, updated_on <chr>
