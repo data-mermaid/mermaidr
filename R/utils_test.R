@@ -509,9 +509,9 @@ check_agg_sd_vs_agg_from_raw <- function(p, sd_cols, method, data) {
           }
 
           raw_agg <- raw_col %>%
-            dplyr::group_by(data$project, data$id, data$name) %>%
+            dplyr::group_by(.data$project, .data$id, .data$name) %>%
             dplyr::summarise(
-              agg = stats::sd(data$value, na.rm = TRUE),
+              agg = stats::sd(.data$value, na.rm = TRUE),
               .groups = "drop"
             )
 

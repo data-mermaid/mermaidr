@@ -80,7 +80,6 @@ combine_coltypes_and_bind_rows <- function(data, .id = NULL) {
   res <- try(dplyr::bind_rows(data, .id = .id), silent = TRUE)
 
   if (inherits(res, "try-error")) {
-
     # Go through each column and get its ptype from each data set
     # If not all the same, combine and get the overall ptype and cast to that
     # Then bind together

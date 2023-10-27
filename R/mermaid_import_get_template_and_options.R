@@ -113,7 +113,6 @@ mermaid_import_get_template_and_options <- function(project, method, save, token
 
       # Add "choices" if not NULL
       if (!is.null(field_data[["choices"]])) {
-
         # Need to remove : and * from field names, limit to 31 characters
         field_name <- field_name %>%
           clean_excel_sheet_name()

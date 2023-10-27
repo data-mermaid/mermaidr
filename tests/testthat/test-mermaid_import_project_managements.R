@@ -13,7 +13,6 @@ test_that("non-numeric year results in error", {
 })
 
 test_that("non-numeric size results in error", {
-
   # Non-numeric size
   data <- tibble::tibble(
     name = "Test non-numeric size", name_secondary = "", notes = NA,

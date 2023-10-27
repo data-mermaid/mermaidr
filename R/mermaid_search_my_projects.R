@@ -35,7 +35,7 @@ mermaid_search_my_projects <- function(name = NULL, countries = NULL, tags = NUL
     }
     # API now returns project if name contains, not exactly equal to - so filter further
     projects <- projects %>%
-        dplyr::filter(name == !!name)
+      dplyr::filter(name == !!name)
 
     if (is.null(countries) & is.null(tags)) {
       check_single_project(projects, name)

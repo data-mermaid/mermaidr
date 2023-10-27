@@ -31,11 +31,12 @@ mermaid_GET <- function(endpoint, limit = NULL, token = NULL, filter = NULL, ...
 
 check_errors <- function(response) {
   if (httr::http_error(response)) {
-    stop(paste0(
-      "Mermaid API request failed: (", httr::status_code(response), ") ",
-      httr::http_status(response)[["reason"]]
-    ),
-    call. = FALSE
+    stop(
+      paste0(
+        "Mermaid API request failed: (", httr::status_code(response), ") ",
+        httr::http_status(response)[["reason"]]
+      ),
+      call. = FALSE
     )
   }
 }
