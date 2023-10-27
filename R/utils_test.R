@@ -56,11 +56,12 @@ test_sus_vs_ses_agg <- function(sus_agg, ses_agg) {
 test_obs_vs_sus_agg <- function(obs_agg, sus_agg) {
   obs_vs_su_match <- obs_agg %>%
     dplyr::full_join(sus_agg,
-      by = c("fake_sample_unit_id", "name")
+      by = c("fake_sample_unit_id", "name"),
+      relationship = "many-to-many"
     ) %>%
     dplyr::filter(!is.na(.data$obs) | !is.na(.data$su)) %>%
     dplyr::mutate_if(is.double, as.numeric) %>%
-    dplyr::mutate_if(is.numeric, dplyr::coalesce, 0)
+    dplyr::mutate_if(is.numeric, ~ (dplyr::coalesce(.x, 0)))
 
   if (any(is.na(suppressWarnings(as.numeric(obs_vs_su_match[["su"]]))))) {
     testthat::expect_true(all(obs_vs_su_match[["obs"]] == obs_vs_su_match[["su"]]))

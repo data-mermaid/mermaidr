@@ -73,7 +73,7 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
   }
 
   res_lookups <- lookup_choices(res, endpoint, endpoint_type = "project")
-  res_strip_suffix <- strip_name_suffix(res_lookups)
+  res_strip_suffix <- strip_name_suffix(res_lookups, covariates)
   res <- construct_project_endpoint_columns(res_strip_suffix, endpoint, multiple_projects = length(initial_res) > 1, covariates = covariates)
 
   # Combine sample date year, month, day, into single field, place after management_rules

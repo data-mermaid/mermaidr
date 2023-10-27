@@ -103,13 +103,13 @@ test_that("mermaid_search_projects returns `countries` and `tags` that are chara
   expect_is(output[["tags"]], "character")
 })
 
-test_that("mermaid_search_projects returns `countries` and `tags` that are semi-colon separated", {
+test_that("mermaid_search_projects returns `countries` and `tags` that are comma separated", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
   output <- mermaid_search_projects(countries = "Fiji")
-  expect_true(any(grepl(";", output[["countries"]])))
-  expect_true(any(grepl(";", output[["tags"]])))
+  expect_true(any(grepl(",", output[["countries"]])))
+  expect_true(any(grepl(",", output[["tags"]])))
 })
 
 test_that("mermaid_search_projects respects limit", {

@@ -916,11 +916,32 @@ test_that("mermaid_get_project_data with covariates = FALSE (the default) doesn'
   skip_on_ci()
   skip_on_cran()
 
-  p <- mermaid_get_my_projects()
-  # output <- mermaid_get_project_data(p, "all", "all", limit = 1)
+  p <- c(
+    "02e6915c-1c64-4d2c-bac0-326b560415a2",
+    "170e7182-700a-4814-8f1e-45ee1caf3b44",
+    "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b",
+    "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
+  )
+  output <- mermaid_get_project_data(p, "all", "all", limit = 1)
+  output_t <- output %>%
+    purrr::transpose()
 
-  # TODO
-  expect_true(FALSE)
+  purrr::walk(
+    output_t[["sampleunits"]],
+    ~ expect_true(!any(covars_cols %in% names(.x)))
+  )
+  purrr::walk(
+    output_t[["sampleevents"]],
+    ~ expect_true(!any(covars_cols %in% names(.x)))
+  )
+  purrr::walk(
+    output_t[["observations"]][names(output_t[["observations"]]) != "bleaching"],
+    ~ expect_true(!any(covars_cols %in% names(.x)))
+  )
+  purrr::walk(
+    output_t[["observations"]][["bleaching"]],
+    ~ expect_true(!any(covars_cols %in% names(.x)))
+  )
 })
 
 test_that("mermaid_get_project_data with covariates = TRUE returns covars, all the way down", {
@@ -1268,8 +1289,8 @@ test_that("new method of using CSV endpoint produces same data as old method (us
 
   expect_identical(old, new)
 
-  new <- internal_mermaid_get_project_data()(p, method = "fishbelt", data = "sampleunits", legacy = FALSE)
-  old <- internal_mermaid_get_project_data()(p, method = "fishbelt", data = "sampleunits", legacy = TRUE)
+  new <- internal_mermaid_get_project_data(p, method = "fishbelt", data = "sampleunits", legacy = FALSE)
+  old <- internal_mermaid_get_project_data(p, method = "fishbelt", data = "sampleunits", legacy = TRUE)
 
   # Some conversion required - old has empty strings ("") while new has NA, difference in column types
   old <- old %>% dplyr::mutate_all(as.character)
