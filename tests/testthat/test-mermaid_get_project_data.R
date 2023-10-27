@@ -814,7 +814,6 @@ test_that("Bleaching sample unit aggregation is the same as manually aggregating
   sus_ids <- sus %>%
     construct_bleaching_fake_sample_unit_id() %>%
     dplyr::select(fake_sample_unit_id, sample_unit_id = sample_unit_ids) %>%
-    # TODO: has gone from ; to ,
     tidyr::separate_rows(sample_unit_id, sep = ",") %>%
     dplyr::arrange(fake_sample_unit_id, sample_unit_id)
 
