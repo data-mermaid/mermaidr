@@ -1277,6 +1277,10 @@ test_that("Bleaching - standard deviations calculated in API are the same as SDs
 # CSV endpoint ----
 
 test_that("new method of using CSV endpoint produces same data as old method (using JSON)", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   p <- "02e6915c-1c64-4d2c-bac0-326b560415a2"
   new <- internal_mermaid_get_project_data(p, method = "fishbelt", data = "observations", legacy = FALSE)
   old <- internal_mermaid_get_project_data(p, method = "fishbelt", data = "observations", legacy = TRUE)

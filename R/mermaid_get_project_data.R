@@ -38,6 +38,10 @@
 #' names(bleaching_obs)
 #' # [1] "colonies_bleached" "percent_cover"
 #' }
+mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE) {
+  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates, legacy = FALSE, token)
+}
+
 internal_mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, covariates = FALSE, legacy = legacy, token = mermaid_token()) {
   check_project_data_inputs(method, data)
 
@@ -92,10 +96,6 @@ internal_mermaid_get_project_data <- function(project = mermaid_get_default_proj
     names(res) <- method
     res
   }
-}
-
-mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE) {
-  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates, legacy = FALSE, token)
 }
 
 mermaid_get_project_data_legacy <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE) {
