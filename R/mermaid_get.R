@@ -31,11 +31,12 @@ mermaid_GET <- function(endpoint, limit = NULL, token = NULL, filter = NULL, ...
 
 check_errors <- function(response) {
   if (httr::http_error(response)) {
-    stop(paste0(
-      "Mermaid API request failed: (", httr::status_code(response), ") ",
-      httr::http_status(response)[["reason"]]
-    ),
-    call. = FALSE
+    stop(
+      paste0(
+        "Mermaid API request failed: (", httr::status_code(response), ") ",
+        httr::http_status(response)[["reason"]]
+      ),
+      call. = FALSE
     )
   }
 }
@@ -57,8 +58,8 @@ construct_api_path <- function(endpoint, token, limit, filter = NULL, ...) {
 get_response <- function(path, endpoint, ua, token, limit) {
   if (endpoint == "choices") {
     get_choices_response(path, endpoint, ua, token, limit)
-  } else if (stringr::str_detect(path, "ingest_schema_csv")) {
-    get_csv_response(path, ua, token)
+  } else if (stringr::str_detect(path, "ingest_schema_csv") | endpoint == "csv") {
+    get_csv_response(path, ua, limit, token)
   } else if (stringr::str_detect(path, "ingest_schema")) {
     get_ingest_schema_response(path, ua, token)
   } else {
@@ -78,8 +79,8 @@ get_choices_response <- function(path, endpoint, ua, token, limit) {
   }
 }
 
-get_csv_response <- function(path, ua, token) {
-  get_and_parse(path, ua, token)
+get_csv_response <- function(path, ua, limit, token) {
+  get_and_parse(path, ua, limit, token)
 }
 
 get_paginated_response <- function(path, ua, token, limit) {
@@ -109,10 +110,10 @@ get_paginated_response <- function(path, ua, token, limit) {
 }
 
 get_ingest_schema_response <- function(path, ua, token) {
-  get_and_parse(path, ua, token, simplify_df = FALSE)
+  get_and_parse(path, ua, token = token, simplify_df = FALSE)
 }
 
-get_and_parse <- function(path, ua, token, simplify_df = TRUE) {
+get_and_parse <- function(path, ua, limit = NULL, token, simplify_df = TRUE) {
   resp <- suppress_http_warning(httr::RETRY("GET", path, ua, token, terminate_on = c(401, 403)))
   check_errors(resp)
 
@@ -127,11 +128,13 @@ get_and_parse <- function(path, ua, token, simplify_df = TRUE) {
 
   # Parse CSV and JSON differently
   if (parse_csv) {
-    httr::content(resp, "raw", encoding = "UTF-8") %>%
-      readr::read_csv(show_col_types = FALSE, progress = FALSE)
+    res <- httr::content(resp, "raw", encoding = "UTF-8") %>%
+      readr::read_csv(show_col_types = FALSE, progress = FALSE, n_max = ifelse(is.null(limit), Inf, limit))
   } else {
-    jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyDataFrame = simplify_df)
+    res <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyDataFrame = simplify_df)
   }
+
+  res
 }
 
 suppress_http_warning <- function(expr, warning_function = "parse_http_status", warning_regex = "NAs introduced by coercion") {
@@ -181,7 +184,7 @@ initial_cleanup <- function(results, endpoint) {
 
     results <- results %>%
       dplyr::rowwise() %>%
-      dplyr::mutate_if(is_list_col, ~ paste0(.x, collapse = "; ")) %>%
+      dplyr::mutate_if(is_list_col, ~ paste0(.x, collapse = ", ")) %>%
       dplyr::ungroup()
   }
 

@@ -56,11 +56,12 @@ test_sus_vs_ses_agg <- function(sus_agg, ses_agg) {
 test_obs_vs_sus_agg <- function(obs_agg, sus_agg) {
   obs_vs_su_match <- obs_agg %>%
     dplyr::full_join(sus_agg,
-      by = c("fake_sample_unit_id", "name")
+      by = c("fake_sample_unit_id", "name"),
+      relationship = "many-to-many"
     ) %>%
     dplyr::filter(!is.na(.data$obs) | !is.na(.data$su)) %>%
     dplyr::mutate_if(is.double, as.numeric) %>%
-    dplyr::mutate_if(is.numeric, dplyr::coalesce, 0)
+    dplyr::mutate_if(is.numeric, ~ (dplyr::coalesce(.x, 0)))
 
   if (any(is.na(suppressWarnings(as.numeric(obs_vs_su_match[["su"]]))))) {
     testthat::expect_true(all(obs_vs_su_match[["obs"]] == obs_vs_su_match[["su"]]))
@@ -368,16 +369,17 @@ unpack_sus_bleaching_avg_long <- function(ses, sus_agg) {
 get_sd_cols <- function(method) {
   project_data_columns %>%
     purrr::map_df(dplyr::as_tibble, .id = "endpoint") %>%
-    dplyr::filter(stringr::str_ends(value, "sd")) %>%
-    tidyr::separate(endpoint, into = c("method", "data"), sep = "/") %>%
+    dplyr::filter(!stringr::str_ends(.data$endpoint, "csv")) %>%
+    dplyr::filter(stringr::str_ends(.data$value, "sd")) %>%
+    tidyr::separate(dplyr::all_of("endpoint"), into = c("method", "data"), sep = "/") %>%
     dplyr::mutate(
       method = dplyr::case_when(
-        stringr::str_starts(method, "benthic") ~ stringr::str_remove(method, "s"),
+        stringr::str_starts(.data$method, "benthic") ~ stringr::str_remove(.data$method, "s"),
         method == "beltfishes" ~ "fishbelt",
         method == "bleachingqcs" ~ "bleaching",
         method == "habitatcomplexities" ~ "habitatcomplexity"
       ),
-      coalesce = value %in% c("biomass_kgha_trophic_group_sd", "biomass_kgha_fish_family_sd")
+      coalesce = .data$value %in% c("biomass_kgha_trophic_group_sd", "biomass_kgha_fish_family_sd")
     ) %>%
     dplyr::filter(method == !!method)
 }
@@ -385,10 +387,10 @@ get_sd_cols <- function(method) {
 check_agg_sd_vs_agg_from_raw <- function(p, sd_cols, method, data) {
   raw_cols <- sd_cols %>%
     dplyr::filter(data == !!data) %>%
-    dplyr::select(value) %>%
+    dplyr::select(dplyr::all_of("value")) %>%
     dplyr::mutate(
-      value = stringr::str_replace(value, "_by_", "_"),
-      col = stringr::str_remove(value, "_sd")
+      value = stringr::str_replace(.data$value, "_by_", "_"),
+      col = stringr::str_remove(.data$value, "_sd")
     )
 
   if (data == "sampleunits") {
@@ -409,16 +411,16 @@ check_agg_sd_vs_agg_from_raw <- function(p, sd_cols, method, data) {
 
           coalesce_zero <- sd_cols %>%
             dplyr::inner_join(x, by = "value") %>%
-            dplyr::pull(coalesce)
+            dplyr::pull(dplyr::all_of("coalesce"))
 
           if (coalesce_zero) {
             raw_col <- raw_col %>%
-              dplyr::mutate(col = dplyr::coalesce(col, 0))
+              dplyr::mutate(col = dplyr::coalesce(.data$col, 0))
           }
 
           raw_agg <- raw_col %>%
-            dplyr::group_by(project, id) %>%
-            dplyr::summarise(agg = sd(col, na.rm = TRUE))
+            dplyr::group_by(.data$project, .data$id) %>%
+            dplyr::summarise(agg = stats::sd(.data$col, na.rm = TRUE))
 
           agg_col <- agg %>%
             dplyr::select(dplyr::all_of(c("project", "sample_unit_ids", x$value)))
@@ -428,22 +430,21 @@ check_agg_sd_vs_agg_from_raw <- function(p, sd_cols, method, data) {
             dplyr::inner_join(raw_agg, by = c("project", "id"), suffix = c("", "_raw"))
         } else {
           raw_col <- raw %>%
-            dplyr::select(project, sample_event_id, dplyr::starts_with(x$col)) %>%
-            tidyr::pivot_longer(-c(project, sample_event_id))
+            dplyr::select(dplyr::all_of(c("project", "sample_event_id")), dplyr::starts_with(x$col)) %>%
+            tidyr::pivot_longer(-dplyr::all_of(c("project", "sample_event_id")))
           names(raw_col) <- c("project", "id", "name", "value")
 
           raw_agg <- raw_col %>%
-            # dplyr::mutate(value = dplyr::coalesce(value, 0)) %>%
-            dplyr::group_by(project, id, name) %>%
+            dplyr::group_by(.data$project, .data$id, .data$name) %>%
             dplyr::summarise(
-              agg = sd(value, na.rm = TRUE),
+              agg = stats::sd(.data$value, na.rm = TRUE),
               .groups = "drop"
             )
 
           agg_col <- agg %>%
-            dplyr::select(project, sample_event_id, dplyr::starts_with(x$value)) %>%
-            tidyr::pivot_longer(-c(project, sample_event_id)) %>%
-            dplyr::mutate(name = stringr::str_replace_all(name, "_sd_", "_"))
+            dplyr::select(dplyr::all_of(c("project", "sample_event_id")), dplyr::starts_with(x$value)) %>%
+            tidyr::pivot_longer(-dplyr::all_of(c("project", "sample_event_id"))) %>%
+            dplyr::mutate(name = stringr::str_replace_all(.data$name, "_sd_", "_"))
           names(agg_col) <- c("project", "id", "name", "agg")
 
           raw_vs_agg <- agg_col %>%
@@ -458,11 +459,7 @@ check_agg_sd_vs_agg_from_raw <- function(p, sd_cols, method, data) {
 
         pass <- identical(raw_vs_agg$agg, raw_vs_agg$agg_raw)
 
-        if (!pass) {
-          browser()
-        }
-
-        expect_true(pass)
+        testthat::expect_true(pass)
       })
   } else if (data == "sampleevents") {
     raw <- mermaid_get_project_data(p, method, "sampleunits")
@@ -479,16 +476,16 @@ check_agg_sd_vs_agg_from_raw <- function(p, sd_cols, method, data) {
 
           coalesce_zero <- sd_cols %>%
             dplyr::inner_join(x, by = "value") %>%
-            dplyr::pull(coalesce)
+            dplyr::pull(dplyr::all_of("coalesce"))
 
           if (coalesce_zero) {
             raw_col <- raw_col %>%
-              dplyr::mutate(col = dplyr::coalesce(col, 0))
+              dplyr::mutate(col = dplyr::coalesce(.data$col, 0))
           }
 
           raw_agg <- raw_col %>%
-            dplyr::group_by(project, id) %>%
-            dplyr::summarise(agg = sd(col, na.rm = TRUE))
+            dplyr::group_by(.data$project, .data$id) %>%
+            dplyr::summarise(agg = stats::sd(.data$col, na.rm = TRUE))
 
           agg_col <- agg %>%
             dplyr::select(dplyr::all_of(c("project", "sample_event_id", x$value)))
@@ -498,30 +495,30 @@ check_agg_sd_vs_agg_from_raw <- function(p, sd_cols, method, data) {
             dplyr::inner_join(raw_agg, by = c("project", "id"), suffix = c("", "_raw"))
         } else {
           raw_col <- raw %>%
-            dplyr::select(project, sample_event_id, dplyr::starts_with(x$col)) %>%
-            tidyr::pivot_longer(-c(project, sample_event_id))
+            dplyr::select(dplyr::all_of(c("project", "sample_event_id")), dplyr::starts_with(x$col)) %>%
+            tidyr::pivot_longer(-dplyr::all_of(c("project", "sample_event_id")))
           names(raw_col) <- c("project", "id", "name", "value")
 
           coalesce_zero <- sd_cols %>%
             dplyr::inner_join(x, by = "value") %>%
-            dplyr::pull(coalesce)
+            dplyr::pull(dplyr::all_of("coalesce"))
 
           if (coalesce_zero) {
             raw_col <- raw_col %>%
-              dplyr::mutate(value = dplyr::coalesce(value, 0))
+              dplyr::mutate(value = dplyr::coalesce(.data$value, 0))
           }
 
           raw_agg <- raw_col %>%
-            dplyr::group_by(project, id, name) %>%
+            dplyr::group_by(.data$project, .data$id, .data$name) %>%
             dplyr::summarise(
-              agg = sd(value, na.rm = TRUE),
+              agg = stats::sd(.data$value, na.rm = TRUE),
               .groups = "drop"
             )
 
           agg_col <- agg %>%
-            dplyr::select(project, sample_event_id, dplyr::starts_with(x$value)) %>%
-            tidyr::pivot_longer(-c(project, sample_event_id)) %>%
-            dplyr::mutate(name = stringr::str_replace_all(name, "_sd_", "_"))
+            dplyr::select(dplyr::all_of(c("project", "sample_event_id")), dplyr::starts_with(x$value)) %>%
+            tidyr::pivot_longer(-dplyr::all_of(c("project", "sample_event_id"))) %>%
+            dplyr::mutate(name = stringr::str_replace_all(.data$name, "_sd_", "_"))
           names(agg_col) <- c("project", "id", "name", "agg")
 
           raw_vs_agg <- agg_col %>%
@@ -536,11 +533,7 @@ check_agg_sd_vs_agg_from_raw <- function(p, sd_cols, method, data) {
 
         pass <- all(abs(raw_vs_agg$agg - raw_vs_agg$agg_raw) < 0.2, na.rm = TRUE)
 
-        if (!pass) {
-          browser()
-        }
-
-        expect_true(pass)
+        testthat::expect_true(pass)
       })
   }
 }

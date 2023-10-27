@@ -16,10 +16,9 @@ NULL
 #' test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
-get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "beltfishes", "benthiclittransectmethods", "benthicpittransectmethods", "benthicpits", "benthictransects", "collectrecords", "fishbelttransects", "habitatcomplexities", "managements", "observers", "project_profiles", "sampleevents", "sites", "beltfishes/obstransectbeltfishes", "beltfishes/sampleunits", "beltfishes/sampleevents", "benthicpits/obstransectbenthicpits", "benthicpits/sampleunits", "benthicpits/sampleevents", "benthiclits/obstransectbenthiclits", "benthiclits/sampleunits", "benthiclits/sampleevents", "benthicpqts/obstransectbenthicpqts", "benthicpqts/sampleunits", "benthicpqts/sampleevents", "habitatcomplexities/obshabitatcomplexities", "habitatcomplexities/sampleunits", "habitatcomplexities/sampleevents", "bleachingqcs/obscoloniesbleacheds", "bleachingqcs/obsquadratbenthicpercents", "bleachingqcs/sampleunits", "bleachingqcs/sampleevents", "collectrecords/ingest_schema/fishbelt", "collectrecords/ingest_schema/benthiclit", "collectrecords/ingest_schema/benthicpit", "collectrecords/ingest_schema/benthicpqt", "collectrecords/ingest_schema/bleachingqc", "collectrecords/ingest_schema/habitatcomplexity"), limit = NULL, token = mermaid_token(), filter = NULL, covariates = FALSE) {
+get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint, limit = NULL, token = mermaid_token(), filter = NULL, covariates = FALSE) {
   project_id <- as_id(project)
   check_project(project_id)
-  endpoint <- match.arg(endpoint, several.ok = TRUE)
 
   # Construct full endpoints (with project id)
   full_endpoints <- purrr::map(endpoint, ~ paste0("projects/", project_id, "/", .x))
@@ -39,13 +38,13 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   if (all(stringr::str_detect(endpoint, "/")) & !any(stringr::str_detect(endpoint, "ingest_schema"))) {
     if (length(endpoint) == 1) {
       if (nrow(res) == 0) {
-        dplyr::select(res, project_data_test_columns[[endpoint]])
+        dplyr::select(res, tidyselect::any_of(project_data_test_columns[[endpoint]]))
       } else {
         clean_df_cols(res)
       }
     } else {
       if (all(purrr::map_dbl(res, nrow) == 0)) {
-        purrr::imap(res, ~ dplyr::select(.x, project_data_test_columns[[.y]]))
+        purrr::imap(res, ~ dplyr::select(.x, tidyselect::any_of(project_data_test_columns[[.y]])))
       } else {
         purrr::map(res, clean_df_cols)
       }
@@ -74,8 +73,21 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
   }
 
   res_lookups <- lookup_choices(res, endpoint, endpoint_type = "project")
-  res_strip_suffix <- strip_name_suffix(res_lookups, covariates = covariates)
-  construct_project_endpoint_columns(res_strip_suffix, endpoint, multiple_projects = length(initial_res) > 1, covariates = covariates)
+  res_strip_suffix <- strip_name_suffix(res_lookups, covariates)
+  res <- construct_project_endpoint_columns(res_strip_suffix, endpoint, multiple_projects = length(initial_res) > 1, covariates = covariates)
+
+  # Combine sample date year, month, day, into single field, place after management_rules
+  if (all(c("sample_date_year", "sample_date_month", "sample_date_day") %in% names(res))) {
+    res <- res %>%
+      dplyr::mutate(
+        sample_date = ISOdate(.data$sample_date_year, .data$sample_date_month, .data$sample_date_day),
+        sample_date = as.Date(.data$sample_date)
+      ) %>%
+      dplyr::relocate("sample_date", .after = "management_rules") %>%
+      dplyr::select(-dplyr::all_of(c("sample_date_year", "sample_date_month", "sample_date_day")))
+  }
+
+  res
 }
 
 check_project <- function(project) {
@@ -92,14 +104,38 @@ construct_project_endpoint_columns <- function(res, endpoint, multiple_projects 
     endpoint_cols <- c("site_id", endpoint_cols)
   }
 
+  # Some are df-cols which are pre-expanded, so remove from from `endpoint_cols` and get cols that _start_ with those separately, but place in the right space
+  endpoint <- stringr::str_remove(endpoint, "/csv")
+  df_cols <- project_data_df_columns_list[[endpoint]]
+
+  endpoint_cols_without_expand <- endpoint_cols[which(!endpoint_cols %in% df_cols)]
+
   if (nrow(res) == 0 && ncol(res) == 0) {
-    res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(endpoint_cols)), .name_repair = "minimal")
-    names(res) <- endpoint_cols
+    res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(endpoint_cols_without_expand)), .name_repair = "minimal")
+    names(res) <- endpoint_cols_without_expand
     res
-  } else if (multiple_projects) {
-    dplyr::select(res, tidyselect::any_of(c("project_id", "project")), tidyselect::any_of(endpoint_cols))
   } else {
-    dplyr::select(res, dplyr::any_of(endpoint_cols))
+    # This ensures the correct ordering
+    for (col in df_cols) {
+      df_col_names <- res %>%
+        dplyr::select(dplyr::starts_with(col)) %>%
+        names()
+
+      df_col_placement <- which(endpoint_cols == col)
+
+      endpoint_cols <- c(endpoint_cols[1:(df_col_placement - 1)], df_col_names, endpoint_cols[(df_col_placement + 1):length(endpoint_cols)])
+    }
+
+    if (multiple_projects) {
+      res <- dplyr::select(res, tidyselect::any_of(c("project_id", "project")), tidyselect::any_of(endpoint_cols))
+    } else {
+      res <- dplyr::select(res, dplyr::any_of(endpoint_cols))
+    }
+
+    # TODO - don't need to use snakecase, is done in another way elsewhere
+    names(res) <- snakecase::to_snake_case(names(res))
+
+    res
   }
 }
 
@@ -114,18 +150,23 @@ rbind_project_endpoints <- function(x, endpoint) {
 
   if (length(df_cols) == 0) {
     if (all(purrr::map_lgl(purrr::map(x, names), ~ "project_id" %in% .x))) {
-      purrr::map_dfr(purrr::keep(x, ~ nrow(.x) > 0), tibble::as_tibble)
+      x <- purrr::map(purrr::keep(x, ~ nrow(.x) > 0), tibble::as_tibble)
+      combine_coltypes_and_bind_rows(x)
     } else {
-      purrr::map_dfr(purrr::keep(x, ~ nrow(.x) > 0), tibble::as_tibble, .id = "project_id")
+      x <- purrr::map(purrr::keep(x, ~ nrow(.x) > 0), tibble::as_tibble)
+      x %>%
+        combine_coltypes_and_bind_rows(.id = "project_id")
     }
   } else {
     x_unpack <- purrr::map(x, unpack_df_cols, df_cols = df_cols)
     x_unpack <- purrr::keep(x_unpack, ~ nrow(.x) > 0)
 
     if (all(unlist(purrr::map(x_unpack, ~ "project_id" %in% names(.x))))) {
-      x_rbind <- dplyr::bind_rows(x_unpack)
+      x_rbind <- x_unpack %>%
+        combine_coltypes_and_bind_rows()
     } else {
-      x_rbind <- dplyr::bind_rows(x_unpack, .id = "project_id")
+      x_rbind <- x_unpack %>%
+        combine_coltypes_and_bind_rows(.id = "project_id")
     }
 
     attr(x_rbind, "df_cols") <- attr(x_unpack[[1]], "df_cols")
@@ -195,6 +236,10 @@ repack_df_cols <- function(x) {
 }
 
 add_project_identifiers <- function(res, project) {
+  if (is.null(res)) {
+    return(tibble::tibble())
+  }
+
   if (ncol(res) == 0) {
     return(res)
   }

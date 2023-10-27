@@ -39,6 +39,10 @@
 #' # [1] "colonies_bleached" "percent_cover"
 #' }
 mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE) {
+  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates, legacy = FALSE, token)
+}
+
+internal_mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, covariates = FALSE, legacy = legacy, token = mermaid_token()) {
   check_project_data_inputs(method, data)
 
   if (any(method == "all")) {
@@ -48,9 +52,9 @@ mermaid_get_project_data <- function(project = mermaid_get_default_project(), me
     data <- c("observations", "sampleunits", "sampleevents")
   }
 
-  endpoint <- construct_endpoint(method, data)
+  endpoint <- construct_endpoint(method, data, legacy)
 
-  res <- purrr::map(endpoint, ~ get_project_endpoint(project, .x, limit, token, covariates = covariates))
+  res <- purrr::map(endpoint, function(x) get_project_endpoint(project, x, limit, token, covariates = covariates))
 
   if (all(purrr::map_lgl(res, inherits, "list"))) {
     res <- purrr::map(res, ~ {
@@ -94,6 +98,9 @@ mermaid_get_project_data <- function(project = mermaid_get_default_project(), me
   }
 }
 
+mermaid_get_project_data_legacy <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE) {
+  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates, legacy = TRUE, token)
+}
 
 check_project_data_inputs <- function(method, data) {
   if (!all(method %in% c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching", "all"))) {
@@ -104,7 +111,7 @@ check_project_data_inputs <- function(method, data) {
   }
 }
 
-construct_endpoint <- function(method, data) {
+construct_endpoint <- function(method, data, legacy) {
   method_data <- tidyr::expand_grid(method = method, data = data)
 
   method_data <- method_data %>%
@@ -129,8 +136,10 @@ construct_endpoint <- function(method, data) {
     ) %>%
     tidyr::separate_rows(method, data, sep = ",")
 
+  csv_endpoint <- ifelse(legacy, "", "/csv")
+
   method_data <- method_data %>%
-    dplyr::mutate(endpoint = paste0(.data$method, "/", .data$data))
+    dplyr::mutate(endpoint = paste0(.data$method, "/", .data$data, csv_endpoint))
 
   method_data_list <- method_data %>%
     split(method_data$method) %>%
@@ -169,9 +178,16 @@ project_data_columns <- list(
   `bleachingqcs/obscoloniesbleacheds` = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "observers", "benthic_attribute", "growth_form", "count_normal", "count_pale", "count_20", "count_50", "count_80", "count_100", "count_dead", "data_policy_bleachingqc", common_cols[["obs_closing"]]),
   `bleachingqcs/obsquadratbenthicpercents` = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "observers", "quadrat_number", "percent_hard", "percent_soft", "percent_algae", "data_policy_bleachingqc", common_cols[["obs_closing"]]),
   `bleachingqcs/sampleunits` = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "count_total", "count_genera", "percent_normal", "percent_pale", "percent_bleached", "quadrat_count", "percent_hard_avg", "percent_hard_sd", "percent_soft_avg", "percent_soft_sd", "percent_algae_avg", "percent_algae_sd", "data_policy_bleachingqc", common_cols[["su_closing"]]),
-  `bleachingqcs/sampleevents` = c(common_cols[["se"]], "quadrat_size_avg", "count_total_avg", "count_total_sd", "count_genera_avg", "count_genera_sd", "percent_normal_avg", "percent_normal_sd", "percent_pale_avg", "percent_pale_sd", "percent_bleached_avg", "percent_bleached_sd", "quadrat_count_avg", "percent_hard_avg_avg", "percent_hard_avg_sd", "percent_soft_avg_avg", "percent_soft_avg_sd", "percent_algae_avg_avg", "percent_algae_avg_sd", "data_policy_bleachingqc", common_cols[["se_closing"]]
-  )
+  `bleachingqcs/sampleevents` = c(common_cols[["se"]], "quadrat_size_avg", "count_total_avg", "count_total_sd", "count_genera_avg", "count_genera_sd", "percent_normal_avg", "percent_normal_sd", "percent_pale_avg", "percent_pale_sd", "percent_bleached_avg", "percent_bleached_sd", "quadrat_count_avg", "percent_hard_avg_avg", "percent_hard_avg_sd", "percent_soft_avg_avg", "percent_soft_avg_sd", "percent_algae_avg_avg", "percent_algae_avg_sd", "data_policy_bleachingqc", common_cols[["se_closing"]])
 )
+
+project_data_columns_csv <- project_data_columns
+names(project_data_columns_csv) <- paste0(names(project_data_columns), "/csv")
+
+project_data_columns_csv <- project_data_columns_csv %>%
+  purrr::map(~ c(.x, "sample_date_year", "sample_date_month", "sample_date_day"))
+
+project_data_columns <- append(project_data_columns, project_data_columns_csv)
 
 # For testing columns, after df-cols have been expanded
 project_data_df_columns_list <- list(
@@ -185,6 +201,11 @@ project_data_df_columns_list <- list(
   `benthicpqts/sampleevents` = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd")
 )
 
+project_data_df_columns_list_csv <- project_data_df_columns_list
+names(project_data_df_columns_list_csv) <- paste0(names(project_data_df_columns_list_csv), "/csv")
+
+project_data_df_columns_list <- append(project_data_df_columns_list, project_data_df_columns_list_csv)
+
 project_data_df_columns_list_names <- project_data_df_columns_list %>%
   purrr::map(paste0, collapse = "|")
 
@@ -194,6 +215,7 @@ project_data_df_columns <- project_data_df_columns_list %>%
 project_data_test_columns <- project_data_columns %>%
   purrr::map_df(dplyr::as_tibble, .id = "endpoint") %>%
   dplyr::anti_join(project_data_df_columns, by = c("endpoint", "value")) %>%
+  dplyr::filter(!value %in% c("sample_date_year", "sample_date_month", "sample_date_day")) %>%
   split(.$endpoint) %>%
   purrr::map(dplyr::pull, value)
 

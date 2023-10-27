@@ -6,3 +6,4 @@ tests/testthat/mermaidr_token.rds
 *.DS_Store
 docs/
 inst/doc
+scratch/
