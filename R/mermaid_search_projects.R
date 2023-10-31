@@ -22,42 +22,7 @@
 #' mermaid_search_my_projects(countries = "Fiji")
 #' }
 mermaid_search_projects <- function(name = NULL, countries = NULL, tags = NULL, include_test_projects = FALSE, limit = NULL) {
-  if (is.null(name) & is.null(countries) & is.null(tags)) {
-    stop("You haven't provided `name`, `countries`, or `tags` to search by.",
-      call. = FALSE
-    )
-  }
-
-  if (!is.null(name)) {
-    if (include_test_projects) {
-      projects <- get_endpoint("projects", limit = limit, filter = list(name = name))
-    } else {
-      projects <- get_endpoint("projects", limit = limit, filter = list(name = name, status = 90))
-    }
-
-    if (is.null(countries) & is.null(tags)) {
-      check_single_project(projects, name)
-    }
-  } else if (!is.null(countries) | !is.null(tags)) {
-    projects <- mermaid_get_projects(include_test_projects = include_test_projects)
-  }
-
-  if (!is.null(countries)) {
-    projects <- projects %>%
-      dplyr::filter(grepl(!!countries, .data$countries))
-  }
-  if (!is.null(tags)) {
-    projects <- projects %>%
-      dplyr::filter(grepl(!!tags, .data$tags))
-  }
-
-  if (is.null(limit)) {
-    lookup_choices(projects, endpoint = "projects")
-  } else {
-    head(
-      lookup_choices(projects, endpoint = "projects"), limit
-    )
-  }
+  mermaid_search_my_projects(name, countries, tags, include_test_projects, limit, token = NULL)
 }
 
 check_single_project <- function(projects, name) {

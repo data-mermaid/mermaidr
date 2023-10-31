@@ -115,7 +115,7 @@ site/date, and broken down by trophic group and fish family.
 
 ``` r
 wcs_mozambique_fishbelt_samples
-#> # A tibble: 79 × 58
+#> # A tibble: 79 × 90
 #>    project            tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>              <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #>  1 WCS Mozambique Co… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
@@ -129,12 +129,12 @@ wcs_mozambique_fishbelt_samples
 #>  9 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef
 #> 10 WCS Mozambique Co… WCS … Mozamb… Dogt…    -12.5      40.6 fringing  crest    
 #> # ℹ 69 more rows
-#> # ℹ 50 more variables: reef_exposure <chr>, tide <lgl>, current <lgl>,
+#> # ℹ 82 more variables: reef_exposure <chr>, tide <lgl>, current <lgl>,
 #> #   visibility <lgl>, management <chr>, management_secondary <chr>,
 #> #   management_est_year <int>, management_size <dbl>, management_parties <chr>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   depth_avg <dbl>, biomass_kgha_avg <dbl>,
-#> #   biomass_kgha_trophic_group_avg_piscivore <dbl>, …
+#> #   depth_avg <dbl>, depth_sd <dbl>, biomass_kgha_avg <dbl>,
+#> #   biomass_kgha_sd <dbl>, biomass_kgha_trophic_group_avg_piscivore <dbl>, …
 ```
 
 If you’d like data related to the **units** of survey (for example, to
@@ -144,7 +144,7 @@ transects or quadrats), it’s just a matter of changing `data` to
 ``` r
 wcs_mozambique %>%
   mermaid_get_project_data(method = "fishbelt", data = "sampleunits")
-#> # A tibble: 108 × 70
+#> # A tibble: 108 × 69
 #>    project            tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>              <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
 #>  1 WCS Mozambique Co… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
@@ -158,7 +158,7 @@ wcs_mozambique %>%
 #>  9 WCS Mozambique Co… WCS … Mozamb… Bunt…    -12.6      40.6 fringing  fore reef
 #> 10 WCS Mozambique Co… WCS … Mozamb… Bunt…    -12.6      40.6 fringing  fore reef
 #> # ℹ 98 more rows
-#> # ℹ 62 more variables: reef_exposure <chr>, reef_slope <lgl>, tide <lgl>,
+#> # ℹ 61 more variables: reef_exposure <chr>, reef_slope <lgl>, tide <lgl>,
 #> #   current <lgl>, visibility <lgl>, relative_depth <lgl>, management <chr>,
 #> #   management_secondary <chr>, management_est_year <int>,
 #> #   management_size <dbl>, management_parties <chr>,
@@ -190,7 +190,7 @@ wcs_mozambique %>%
 #> #   management_secondary <chr>, management_est_year <int>,
 #> #   management_size <dbl>, management_parties <chr>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
-#> #   sample_time <chr>, transect_length <int>, transect_width <chr>, …
+#> #   sample_time <chr>, depth <dbl>, transect_length <int>, …
 ```
 
 For more details on accessing project data, please see the [Accessing
@@ -232,7 +232,7 @@ You can also get a list of *all* projects (not just your own):
 
 ``` r
 mermaid_get_projects()
-#> # A tibble: 167 × 15
+#> # A tibble: 166 × 15
 #>    id          name  countries num_sites tags  notes status data_policy_beltfish
 #>    <chr>       <chr> <chr>         <int> <chr> <chr> <chr>  <chr>               
 #>  1 00673bdf-b… TPK … "Indones…        15 "WCS… ""    Open   Private             
@@ -242,10 +242,10 @@ mermaid_get_projects()
 #>  5 0b39fe6c-0… Open… "Indones…         2 "WCS… "Thi… Open   Private             
 #>  6 0c000a00-f… 2019… "Fiji"           18 "WCS… ""    Open   Private             
 #>  7 0c16681c-6… REEF… ""                0 ""    ""    Open   Public Summary      
-#>  8 0d87490d-3… Test… "Indones…         2 ""    ""    Open   Public Summary      
-#>  9 0de6f1fc-1… Copy… "Fiji"            9 "WWF… "Dat… Open   Public Summary      
-#> 10 0f17035f-0… what  ""                0 ""    ""    Open   Public Summary      
-#> # ℹ 157 more rows
+#>  8 0de6f1fc-1… Copy… "Fiji"            9 "WWF… "Dat… Open   Public Summary      
+#>  9 0f17035f-0… what  ""                0 ""    ""    Open   Public Summary      
+#> 10 124b9142-3… Sam   ""                0 ""    ""    Open   Private             
+#> # ℹ 156 more rows
 #> # ℹ 7 more variables: data_policy_benthiclit <chr>,
 #> #   data_policy_benthicpit <chr>, data_policy_benthicpqt <chr>,
 #> #   data_policy_habitatcomplexity <chr>, data_policy_bleachingqc <chr>,
@@ -256,7 +256,7 @@ As well as all sites:
 
 ``` r
 mermaid_get_sites()
-#> # A tibble: 2,696 × 13
+#> # A tibble: 2,688 × 13
 #>    id         name  notes project latitude longitude country reef_type reef_zone
 #>    <chr>      <chr> <chr> <chr>      <dbl>     <dbl> <chr>   <chr>     <chr>    
 #>  1 0415d9e5-… mysi… ""    2c56b9…     -1         -1  Bangla… atoll     back reef
@@ -269,7 +269,7 @@ mermaid_get_sites()
 #>  8 19258ea5-… BA15  ""    a1b7ff…    -17.2      178. Fiji    atoll     back reef
 #>  9 19e60884-… YA02  ""    a1b7ff…    -17.0      177. Fiji    atoll     back reef
 #> 10 20aeb13f-… BA11  ""    a1b7ff…    -17.3      178. Fiji    atoll     back reef
-#> # ℹ 2,686 more rows
+#> # ℹ 2,678 more rows
 #> # ℹ 4 more variables: exposure <chr>, predecessor <chr>, created_on <chr>,
 #> #   updated_on <chr>
 ```
@@ -278,7 +278,7 @@ And all managements:
 
 ``` r
 mermaid_get_managements()
-#> # A tibble: 1,016 × 17
+#> # A tibble: 1,250 × 17
 #>    id         name  name_secondary est_year  size parties compliance open_access
 #>    <chr>      <chr> <chr>             <int> <dbl> <chr>   <chr>      <lgl>      
 #>  1 0031d438-… Mata… "Fish Habitat…     2018    25 commun… full       FALSE      
@@ -291,7 +291,7 @@ mermaid_get_managements()
 #>  8 04286cba-… Test… ""                 2018    NA govern… full       FALSE      
 #>  9 044c6e26-… Fono… "Fish Habitat…     2017   191 commun… full       FALSE      
 #> 10 05227cee-… Test… ""                 2018     5 <NA>    full       FALSE      
-#> # ℹ 1,006 more rows
+#> # ℹ 1,240 more rows
 #> # ℹ 9 more variables: no_take <lgl>, access_restriction <lgl>,
 #> #   periodic_closure <lgl>, size_limits <lgl>, gear_restriction <lgl>,
 #> #   species_restriction <lgl>, notes <chr>, created_on <chr>, updated_on <chr>

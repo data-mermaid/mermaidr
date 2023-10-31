@@ -260,26 +260,27 @@ test_that("mermaid_import_project_data allows NA/NULL for bleaching percent cove
   skip_on_ci()
   skip_on_cran()
 
-  df <- structure(list(
-    `Site *` = "1201",
-    `Management *` = "Fisheries",
-    `Sample date: Year *` = 2009,
-    `Sample date: Month *` = 12,
-    `Sample date: Day *` = 5,
-    `Sample time` = "1:00:00 PM",
-    `Depth *` = 29,
-    `Quadrat size *` = 2,
-    `Observer emails *` = "sharla.gelfand@gmail.com",
-    `Quadrat number` = 1,
-    `Hard coral % cover` = 5,
-    `Macroalgae coral % cover` = NA,
-    `Soft coral % cover` = 5
-  ),
-  row.names = 1L,
-  class = c(
-    "tbl_df", "tbl",
-    "data.frame"
-  )
+  df <- structure(
+    list(
+      `Site *` = "1201",
+      `Management *` = "Fisheries",
+      `Sample date: Year *` = 2009,
+      `Sample date: Month *` = 12,
+      `Sample date: Day *` = 5,
+      `Sample time` = "1:00:00 PM",
+      `Depth *` = 29,
+      `Quadrat size *` = 2,
+      `Observer emails *` = "sharla.gelfand@gmail.com",
+      `Quadrat number` = 1,
+      `Hard coral % cover` = 5,
+      `Macroalgae coral % cover` = NA,
+      `Soft coral % cover` = 5
+    ),
+    row.names = 1L,
+    class = c(
+      "tbl_df", "tbl",
+      "data.frame"
+    )
   )
 
   p <- "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"

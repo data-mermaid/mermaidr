@@ -115,7 +115,7 @@ closest_string_match <- function(data_field, options_field) {
     dplyr::mutate(data_value = forcats::fct_inorder(as.character(.data$data_value)))
 
   # Account for different versions of dplyr to handle warnings
-  dplyr_version <- as.character(packageVersion("dplyr"))
+  dplyr_version <- as.character(utils::packageVersion("dplyr"))
 
   if (utils::compareVersion(dplyr_version, "1.1.1")) {
     data_with_options <- data_field %>%

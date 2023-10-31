@@ -2,17 +2,17 @@
 #'
 #' Get Fish Belt, Benthic LIT, Benthic PIT, Bleaching, or Habitat Complexity data for your MERMAID projects. Data is available at the observation, sample unit, and sample event level. Optionally get covariates at the site level. See Details section for more. Requires authorization.
 #'
-#' Fish Belt method data is available by setting \code{method} to "fishbelt". Fish Belt observations data contains individual observations recorded in MERMAID, while sample units contains total biomass in kg/ha per sample unit, by trophic group and by fish family. Sample events data contains \emph{mean} total biomass in kg/ha per sample event, and by trophic group and by fish family.
+#' Fish Belt method data is available by setting \code{method} to "fishbelt". Fish Belt observations data contains individual observations recorded in MERMAID, while sample units contains total biomass in kg/ha per sample unit, by trophic group and by fish family. Sample events data contains \emph{mean} total biomass in kg/ha per sample event, and by trophic group and by fish family, as well as the  \emph{standard deviation} of the total biomass as well as per trophic group and fish family.
 #'
-#' Benthic LIT method data is available by setting \code{method} to "benthiclit". Benthic LIT observations contain individual observations. Sample units data returns percent cover per sample unit, by benthic category. Sample events contain \emph{mean} percent cover per sample event, by benthic category.
+#' Benthic LIT method data is available by setting \code{method} to "benthiclit". Benthic LIT observations contain individual observations. Sample units data returns percent cover per sample unit, by benthic category. Sample events contain \emph{mean} percent cover per sample event, by benthic category, and standard deviations of these values.
 #'
-#' Benthic PIT method data is available by setting \code{method} to "benthicpit". Similarly to Benthic LIT, Benthic PIT observations contain individual observations, sample units data returns percent cover per sample unit, by benthic category, and sample events contain \emph{mean} percent cover per sample event, by benthic category.
+#' Benthic PIT method data is available by setting \code{method} to "benthicpit". Similarly to Benthic LIT, Benthic PIT observations contain individual observations, sample units data returns percent cover per sample unit, by benthic category, and sample events contain \emph{mean} percent cover per sample event, by benthic category, and standard deviations of these values.
 #'
-#' Benthic Photo Quadrat method data is available by setting \code{method} to "benthicpqt". Benthic PQT observations contain individual observations, sample units data returns percent cover per sample unit, by benthic category, and sample events contain \emph{mean} percent cover per sample event, by benthic category.
+#' Benthic Photo Quadrat method data is available by setting \code{method} to "benthicpqt". Benthic PQT observations contain individual observations, sample units data returns percent cover per sample unit, by benthic category, and sample events contain \emph{mean} percent cover per sample event, by benthic category, and standard deviations of these values.
 #'
-#' Bleaching method data is available by setting \code{method} to "bleaching". When Bleaching observations are requested, two types of observations are returned: Colonies Bleached and Percent Cover. Sample units data contains both Colonies Bleached data (number of coral genera and total number of colonies, and percent normal, pale, and bleached colonies) and Percent Cover data (Number of quadrats, and average percent cover for hard coral, soft coral, and macroalgae), all per sample unit. Sample events data contains \emph{mean} values of all the data in sample units, for both Colonies Bleached (average quadrat size, average number of coral genera and average total colonies, average percent normal, pale, and bleached colonies) and Percent Cover (average number of quadrats, and average of average hard coral, soft coral, and macroalgae cover).
+#' Bleaching method data is available by setting \code{method} to "bleaching". When Bleaching observations are requested, two types of observations are returned: Colonies Bleached and Percent Cover. Sample units data contains both Colonies Bleached data (number of coral genera and total number of colonies, and percent normal, pale, and bleached colonies) and Percent Cover data (Number of quadrats, and average percent cover for hard coral, soft coral, and macroalgae), all per sample unit. Sample events data contains \emph{mean} values of all the data in sample units, for both Colonies Bleached (average quadrat size, average number of coral genera and average total colonies, average percent normal, pale, and bleached colonies) and Percent Cover (average number of quadrats, and average of average hard coral, soft coral, and macroalgae cover). Mean percent cover values also come with standard deviations.
 #'
-#' Habitat Complexity data is available by setting \code{method} to "habitatcomplexity". Observations contain individual observations, with the habitat complexity score at each interval. Sample units data contains the average habitat complexity score for the sample unit, and sample events data contains the average of those averages habitat complexity scores.
+#' Habitat Complexity data is available by setting \code{method} to "habitatcomplexity". Observations contain individual observations, with the habitat complexity score at each interval. Sample units data contains the average habitat complexity score for the sample unit, and sample events data contains the average of those averages habitat complexity scores, along with standard deviations.
 #'
 #' The included covariates are: geomorphic zonation and benthic habitat from the \href{https://allencoralatlas.org}{Allen Coral Atlas}; market gravity, water pollution (sediments and nitrogen), coastal population, industrial development (number of ports), tourism (reef value), and a cumulative pressure index from \href{https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12858}{\emph{A global map of human pressures on tropical coral reefs}} by Andrello et al., 2022; scores from \href{https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12587}{\emph{Risk-sensitive planning for conserving coral reefs under rapid climate change}} by Beyer et al., 2018.
 #'
@@ -39,6 +39,10 @@
 #' # [1] "colonies_bleached" "percent_cover"
 #' }
 mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE) {
+  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates, legacy = FALSE, token)
+}
+
+internal_mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, covariates = FALSE, legacy = legacy, token = mermaid_token()) {
   check_project_data_inputs(method, data)
 
   if (any(method == "all")) {
@@ -48,9 +52,9 @@ mermaid_get_project_data <- function(project = mermaid_get_default_project(), me
     data <- c("observations", "sampleunits", "sampleevents")
   }
 
-  endpoint <- construct_endpoint(method, data)
+  endpoint <- construct_endpoint(method, data, legacy)
 
-  res <- purrr::map(endpoint, ~ get_project_endpoint(project, .x, limit, token, covariates = covariates))
+  res <- purrr::map(endpoint, function(x) get_project_endpoint(project, x, limit, token, covariates = covariates))
 
   if (all(purrr::map_lgl(res, inherits, "list"))) {
     res <- purrr::map(res, ~ {
@@ -94,6 +98,9 @@ mermaid_get_project_data <- function(project = mermaid_get_default_project(), me
   }
 }
 
+mermaid_get_project_data_legacy <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE) {
+  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates, legacy = TRUE, token)
+}
 
 check_project_data_inputs <- function(method, data) {
   if (!all(method %in% c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching", "all"))) {
@@ -104,7 +111,7 @@ check_project_data_inputs <- function(method, data) {
   }
 }
 
-construct_endpoint <- function(method, data) {
+construct_endpoint <- function(method, data, legacy) {
   method_data <- tidyr::expand_grid(method = method, data = data)
 
   method_data <- method_data %>%
@@ -129,8 +136,10 @@ construct_endpoint <- function(method, data) {
     ) %>%
     tidyr::separate_rows(method, data, sep = ",")
 
+  csv_endpoint <- ifelse(legacy, "", "/csv")
+
   method_data <- method_data %>%
-    dplyr::mutate(endpoint = paste0(.data$method, "/", .data$data))
+    dplyr::mutate(endpoint = paste0(.data$method, "/", .data$data, csv_endpoint))
 
   method_data_list <- method_data %>%
     split(method_data$method) %>%
@@ -141,43 +150,63 @@ construct_endpoint <- function(method, data) {
 
 covars_cols <- c("aca_geomorphic", "aca_benthic", "andrello_grav_nc", "andrello_sediment", "andrello_nutrient", "andrello_pop_count", "andrello_num_ports", "andrello_reef_value", "andrello_cumul_score", "beyer_score", "beyer_scorecn", "beyer_scorecy", "beyer_scorepfc", "beyer_scoreth", "beyer_scoretr")
 
+common_cols <- list(
+  "obs/su" = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth"),
+  "se" = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "depth_sd"),
+  "obs_closing" = c("project_notes", "site_notes", "management_notes", "sample_unit_id", "sample_event_id", "project_admins", "contact_link"),
+  "su_closing" = c("project_notes", "site_notes", "management_notes", "sample_unit_notes", "sample_event_id", "sample_unit_ids", "project_admins", "contact_link"),
+  "se_closing" = c("project_notes", "site_notes", "management_notes", "id", "sample_unit_count", "project_admins", "contact_link", "sample_event_id")
+)
+
 # For select columns and setting order
 project_data_columns <- list(
-  `beltfishes/obstransectbeltfishes` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "transect_length", "transect_width", "size_bin", "observers", "depth", "transect_number", "label", "fish_family", "fish_genus", "fish_taxon", "size", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "count", "biomass_kgha", "trophic_level", "trophic_group", "functional_group", "vulnerability", "data_policy_beltfish", "project_notes", "site_notes", "management_notes", "sample_unit_id", "sample_event_id", "contact_link"),
-  `beltfishes/sampleunits` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "transect_number", "label", "size_bin", "transect_length", "transect_width", "biomass_kgha", "total_abundance", "biomass_kgha_by_trophic_group", "biomass_kgha_by_fish_family", "data_policy_beltfish", "project_notes", "site_notes", "management_notes", "sample_unit_notes", "sample_event_id", "sample_unit_ids", "id", "contact_link"),
-  `beltfishes/sampleevents` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "biomass_kgha_avg", "biomass_kgha_by_trophic_group_avg", "biomass_kgha_by_fish_family_avg", "data_policy_beltfish", "project_notes", "site_notes", "management_notes", "id", "sample_unit_count", "contact_link"),
-  `benthicpits/obstransectbenthicpits` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "transect_number", "transect_length", "interval_start", "interval_size", "label", "observers", "interval", "benthic_category", "benthic_attribute", "growth_form", "data_policy_benthicpit", "project_notes", "site_notes", "management_notes", "sample_unit_id", "sample_event_id", "contact_link"),
-  `benthicpits/sampleunits` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "transect_number", "transect_length", "label", "interval_start", "interval_size", "observers", "percent_cover_by_benthic_category", "data_policy_benthicpit", "project_notes", "site_notes", "management_notes", "sample_unit_notes", "sample_event_id", "sample_unit_ids", "id", "contact_link"),
-  `benthicpits/sampleevents` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "percent_cover_by_benthic_category_avg", "data_policy_benthicpit", "project_notes", "site_notes", "management_notes", "id", "sample_unit_count", "contact_link"),
-  `benthiclits/obstransectbenthiclits` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "transect_number", "transect_length", "label", "observers", "benthic_category", "benthic_attribute", "growth_form", "length", "total_length", "data_policy_benthiclit", "project_notes", "site_notes", "management_notes", "sample_unit_id", "sample_event_id", "contact_link"),
-  `benthiclits/sampleunits` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "transect_number", "transect_length", "label", "observers", "total_length", "percent_cover_by_benthic_category", "data_policy_benthiclit", "project_notes", "site_notes", "management_notes", "sample_unit_notes", "sample_event_id", "sample_unit_ids", "id", "contact_link"),
-  `benthiclits/sampleevents` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "percent_cover_by_benthic_category_avg", "data_policy_benthiclit", "project_notes", "site_notes", "management_notes", "id", "sample_unit_count", "contact_link"),
-  `benthicpqts/obstransectbenthicpqts` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "transect_number", "transect_length", "label", "quadrat_size", "num_quadrats", "num_points_per_quadrat", "observers", "quadrat_number", "benthic_category", "benthic_attribute", "growth_form", "num_points", "data_policy_benthicpqt", "project_notes", "site_notes", "management_notes", "sample_unit_id", "sample_event_id", "contact_link"),
-  `benthicpqts/sampleunits` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "transect_number", "transect_length", "label", "observers", "percent_cover_by_benthic_category", "data_policy_benthicpqt", "project_notes", "site_notes", "management_notes", "sample_unit_notes", "sample_event_id", "sample_unit_ids", "id", "contact_link"),
-  `benthicpqts/sampleevents` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "percent_cover_by_benthic_category_avg", "data_policy_benthicpqt", "project_notes", "site_notes", "management_notes", "id", "sample_unit_count", "contact_link"),
-  `habitatcomplexities/obshabitatcomplexities` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "transect_number", "transect_length", "label", "interval_size", "observers", "interval", "score", "score_name", "data_policy_habitatcomplexity", "project_notes", "site_notes", "management_notes", "id", "sample_unit_id", "sample_event_id", "contact_link"),
-  `habitatcomplexities/sampleunits` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "transect_number", "transect_length", "label", "observers", "score_avg", "data_policy_habitatcomplexity", "project_notes", "site_notes", "management_notes", "sample_unit_notes", "sample_event_id", "sample_unit_ids", "id", "contact_link"),
-  `habitatcomplexities/sampleevents` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "score_avg_avg", "data_policy_habitatcomplexity", "project_notes", "site_notes", "management_notes", "id", "sample_unit_count", "contact_link"),
-  `bleachingqcs/obscoloniesbleacheds` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "quadrat_size", "label", "observers", "benthic_attribute", "growth_form", "count_normal", "count_pale", "count_20", "count_50", "count_80", "count_100", "count_dead", "data_policy_bleachingqc", "project_notes", "site_notes", "management_notes", "sample_unit_id", "sample_event_id", "contact_link"),
-  `bleachingqcs/obsquadratbenthicpercents` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "quadrat_size", "label", "observers", "quadrat_number", "percent_hard", "percent_soft", "percent_algae", "data_policy_bleachingqc", "project_notes", "site_notes", "management_notes", "sample_unit_id", "sample_event_id", "contact_link"),
-  `bleachingqcs/sampleunits` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth", "quadrat_size", "label", "count_total", "count_genera", "percent_normal", "percent_pale", "percent_bleached", "quadrat_count", "percent_hard_avg", "percent_soft_avg", "percent_algae_avg", "data_policy_bleachingqc", "project_notes", "site_notes", "management_notes", "sample_unit_notes", "sample_event_id", "sample_unit_ids", "id", "contact_link"),
-  `bleachingqcs/sampleevents` = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "quadrat_size_avg", "count_total_avg", "count_genera_avg", "percent_normal_avg", "percent_pale_avg", "percent_bleached_avg", "quadrat_count_avg", "percent_hard_avg_avg", "percent_soft_avg_avg", "percent_algae_avg_avg", "data_policy_bleachingqc", "project_notes", "site_notes", "management_notes", "id", "sample_unit_count", "contact_link")
+  `benthicpqts/obstransectbenthicpqts` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "quadrat_size", "num_quadrats", "num_points_per_quadrat", "observers", "quadrat_number", "benthic_category", "benthic_attribute", "growth_form", "num_points", "data_policy_benthicpqt", common_cols[["obs_closing"]]),
+  `benthicpqts/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "num_points_nonother", "percent_cover_benthic_category", "data_policy_benthicpqt", common_cols[["su_closing"]]),
+  `benthicpqts/sampleevents` = c(common_cols[["se"]], "percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd", "num_points_nonother", "data_policy_benthicpqt", common_cols[["se_closing"]]),
+  `beltfishes/obstransectbeltfishes` = c(common_cols[["obs/su"]], "transect_length", "transect_width", "assigned_transect_width_m", "size_bin", "observers", "transect_number", "label", "fish_family", "fish_genus", "fish_taxon", "size", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "count", "biomass_kgha", "trophic_level", "trophic_group", "functional_group", "vulnerability", "data_policy_beltfish", common_cols[["obs_closing"]]),
+  `beltfishes/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "label", "size_bin", "transect_length", "transect_width", "biomass_kgha", "total_abundance", "biomass_kgha_trophic_group", "biomass_kgha_fish_family", "data_policy_beltfish", common_cols[["su_closing"]]),
+  `beltfishes/sampleevents` = c(common_cols[["se"]], "biomass_kgha_avg", "biomass_kgha_sd", "biomass_kgha_trophic_group_avg", "biomass_kgha_trophic_group_sd", "biomass_kgha_fish_family_avg", "biomass_kgha_fish_family_sd", "data_policy_beltfish", common_cols[["se_closing"]]),
+  `benthicpits/obstransectbenthicpits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "interval_start", "interval_size", "label", "observers", "interval", "benthic_category", "benthic_attribute", "growth_form", "data_policy_benthicpit", common_cols[["obs_closing"]]),
+  `benthicpits/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "interval_start", "interval_size", "observers", "percent_cover_benthic_category", "data_policy_benthicpit", common_cols[["su_closing"]]),
+  `benthicpits/sampleevents` = c(common_cols[["se"]], "percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd", "data_policy_benthicpit", common_cols[["se_closing"]]),
+  `benthiclits/obstransectbenthiclits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "benthic_category", "benthic_attribute", "growth_form", "length", "total_length", "data_policy_benthiclit", common_cols[["obs_closing"]]),
+  `benthiclits/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "total_length", "percent_cover_benthic_category", "data_policy_benthiclit", common_cols[["su_closing"]]),
+  `benthiclits/sampleevents` = c(common_cols[["se"]], "percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd", "data_policy_benthiclit", common_cols[["se_closing"]]),
+  `habitatcomplexities/obshabitatcomplexities` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "interval_size", "observers", "interval", "score", "score_name", "data_policy_habitatcomplexity", common_cols[["obs_closing"]]),
+  `habitatcomplexities/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "score_avg", "score_sd", "data_policy_habitatcomplexity", common_cols[["su_closing"]]),
+  `habitatcomplexities/sampleevents` = c(common_cols[["se"]], "score_avg_avg", "score_avg_sd", "data_policy_habitatcomplexity", common_cols[["se_closing"]]),
+  `bleachingqcs/obscoloniesbleacheds` = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "observers", "benthic_attribute", "growth_form", "count_normal", "count_pale", "count_20", "count_50", "count_80", "count_100", "count_dead", "data_policy_bleachingqc", common_cols[["obs_closing"]]),
+  `bleachingqcs/obsquadratbenthicpercents` = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "observers", "quadrat_number", "percent_hard", "percent_soft", "percent_algae", "data_policy_bleachingqc", common_cols[["obs_closing"]]),
+  `bleachingqcs/sampleunits` = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "count_total", "count_genera", "percent_normal", "percent_pale", "percent_bleached", "quadrat_count", "percent_hard_avg", "percent_hard_sd", "percent_soft_avg", "percent_soft_sd", "percent_algae_avg", "percent_algae_sd", "data_policy_bleachingqc", common_cols[["su_closing"]]),
+  `bleachingqcs/sampleevents` = c(common_cols[["se"]], "quadrat_size_avg", "count_total_avg", "count_total_sd", "count_genera_avg", "count_genera_sd", "percent_normal_avg", "percent_normal_sd", "percent_pale_avg", "percent_pale_sd", "percent_bleached_avg", "percent_bleached_sd", "quadrat_count_avg", "percent_hard_avg_avg", "percent_hard_avg_sd", "percent_soft_avg_avg", "percent_soft_avg_sd", "percent_algae_avg_avg", "percent_algae_avg_sd", "data_policy_bleachingqc", common_cols[["se_closing"]])
 )
+
+project_data_columns_csv <- project_data_columns
+names(project_data_columns_csv) <- paste0(names(project_data_columns), "/csv")
+
+project_data_columns_csv <- project_data_columns_csv %>%
+  purrr::map(~ c(.x, "sample_date_year", "sample_date_month", "sample_date_day"))
+
+project_data_columns <- append(project_data_columns, project_data_columns_csv)
 
 # For testing columns, after df-cols have been expanded
 project_data_df_columns_list <- list(
-  `beltfishes/sampleunits` = c("biomass_kgha_by_trophic_group", "biomass_kgha_by_fish_family"),
-  `beltfishes/sampleevents` = c("biomass_kgha_by_trophic_group_avg", "biomass_kgha_by_fish_family_avg"),
-  `benthicpits/sampleunits` = c("percent_cover_by_benthic_category"),
-  `benthicpits/sampleevents` = c("percent_cover_by_benthic_category_avg"),
-  `benthiclits/sampleunits` = c("percent_cover_by_benthic_category"),
-  `benthiclits/sampleevents` = c("percent_cover_by_benthic_category_avg"),
-  `benthicpqts/sampleunits` = c("percent_cover_by_benthic_category"),
-  `benthicpqts/sampleevents` = c("percent_cover_by_benthic_category_avg")
+  `beltfishes/sampleunits` = c("biomass_kgha_trophic_group", "biomass_kgha_fish_family"),
+  `beltfishes/sampleevents` = c("biomass_kgha_trophic_group_avg", "biomass_kgha_fish_family_avg", "biomass_kgha_trophic_group_sd", "biomass_kgha_fish_family_sd"),
+  `benthicpits/sampleunits` = c("percent_cover_benthic_category"),
+  `benthicpits/sampleevents` = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd"),
+  `benthiclits/sampleunits` = c("percent_cover_benthic_category"),
+  `benthiclits/sampleevents` = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd"),
+  `benthicpqts/sampleunits` = c("percent_cover_benthic_category"),
+  `benthicpqts/sampleevents` = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd")
 )
 
+project_data_df_columns_list_csv <- project_data_df_columns_list
+names(project_data_df_columns_list_csv) <- paste0(names(project_data_df_columns_list_csv), "/csv")
+
+project_data_df_columns_list <- append(project_data_df_columns_list, project_data_df_columns_list_csv)
+
 project_data_df_columns_list_names <- project_data_df_columns_list %>%
-  purrr::map(stringr::str_remove_all, "_by") %>%
   purrr::map(paste0, collapse = "|")
 
 project_data_df_columns <- project_data_df_columns_list %>%
@@ -186,6 +215,7 @@ project_data_df_columns <- project_data_df_columns_list %>%
 project_data_test_columns <- project_data_columns %>%
   purrr::map_df(dplyr::as_tibble, .id = "endpoint") %>%
   dplyr::anti_join(project_data_df_columns, by = c("endpoint", "value")) %>%
+  dplyr::filter(!value %in% c("sample_date_year", "sample_date_month", "sample_date_day")) %>%
   split(.$endpoint) %>%
   purrr::map(dplyr::pull, value)
 

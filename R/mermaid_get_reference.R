@@ -96,11 +96,11 @@ lookup_regions <- function(results, choices = mermaid_get_endpoint("choices")) {
 
   row_regions <- results_row %>%
     dplyr::select(tidyselect::all_of(c("row", "regions"))) %>%
-    tidyr::separate_rows("regions", sep = "; ") %>%
+    tidyr::separate_rows("regions", sep = ", ") %>%
     dplyr::filter(.data$regions != "NA") %>%
     dplyr::left_join(regions, by = c("regions" = "id"), suffix = c("_id", "")) %>%
     dplyr::group_by(.data$row) %>%
-    dplyr::summarise(regions = paste(.data$regions, collapse = "; "))
+    dplyr::summarise(regions = paste(.data$regions, collapse = ", "))
 
   results_row %>%
     dplyr::left_join(row_regions, by = "row", suffix = c("_id", "")) %>%

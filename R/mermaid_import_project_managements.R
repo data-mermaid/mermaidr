@@ -189,7 +189,7 @@ mermaid_import_project_managements <- function(data, project, token = mermaid_to
   if ("open_access" %in% names(data) & any(partial_restrictions_cols %in% names(data))) {
     open_and_partial <- data %>%
       dplyr::mutate(.temp_row = dplyr::row_number()) %>%
-      dplyr::select(tidyselect::all_of(c(".temp_row", "open_access")),tidyselect::any_of(partial_restrictions_cols)) %>%
+      dplyr::select(tidyselect::all_of(c(".temp_row", "open_access")), tidyselect::any_of(partial_restrictions_cols)) %>%
       tidyr::pivot_longer(tidyselect::any_of(partial_restrictions_cols)) %>%
       dplyr::group_by(.data$.temp_row, .data$open_access) %>%
       dplyr::summarise(any_partial_rules = any(.data$value)) %>%

@@ -1,3 +1,17 @@
+# mermaidr 1.0.0
+
+* `mermaid_get_project_data()` now uses CSV endpoints, which significantly speeds up getting data from projects with a large number of observations
+* This endpoint brings a few changes - empty values for text fields such as `label`, `project_notes`, `site_notes`, etc, are now `NA` instead of `""`
+* Fields with multiple values (e.g. `tags`, `management_parties`, etc) are now separated using a comma (`,') instead of a semi-colon (`;`)
+
+* Standard deviations have been added for all columns that have averages in  `mermaid_get_project_data()` - e.g. fishbelt sample events now has `biomass_kgha_trophic_group_sd` in addition to `biomass_kgha_trophic_group_avg`.
+
+* Benthic. PQT sample units and sample events data gain the column `num_points_nonother`, which counts the number of non-other points
+* Fishbelt observations gains the column `assigned_transect_width_m`
+* All data retrieved via `mermaid_get_project_data()` now contains the `project_admins` column
+
+* Sample units data from `mermaid_get_project_data()` no longer has the random `id` column
+
 # mermaidr 0.7.0
 
 * Covariates are no longer included in `mermaid_get_project_data()` functions by default, require settings `covariates = TRUE`

@@ -1,3 +1,11 @@
+test_that("mermaid_search_my_projects only returns projects I have access to", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+  output <- mermaid_search_my_projects(countries = "Indonesia")
+  expect_true(nrow(output) == 7)
+})
+
 test_that("mermaid_search_my_projects throws a message if it returns more than one project (when searched by name only), and doesn't if it only returns one", {
   skip_if_offline()
   skip_on_ci()
@@ -66,12 +74,12 @@ test_that("mermaid_search_my_projects returns `countries` and `tags` that are ch
   expect_is(output[["tags"]], "character")
 })
 
-test_that("mermaid_search_my_projects returns `tags` that are semi-colon separated", {
+test_that("mermaid_search_my_projects returns `tags` that are comma separated", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
   output <- mermaid_search_my_projects(countries = "Indonesia")
-  expect_true(any(grepl(";", output[["tags"]])))
+  expect_true(any(grepl(",", output[["tags"]])))
 })
 
 test_that("mermaid_search_my_projects respects limit", {
