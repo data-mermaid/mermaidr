@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -78,6 +78,17 @@
       <small>Source: <a href="https://github.com/data-mermaid/mermaidr/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.0.0" id="mermaidr-100">mermaidr 1.0.0<a class="anchor" aria-label="anchor" href="#mermaidr-100"></a></h2>
+<ul><li><p><code><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code> now uses CSV endpoints, which significantly speeds up getting data from projects with a large number of observations</p></li>
+<li><p>This endpoint brings a few changes - empty values for text fields such as <code>label</code>, <code>project_notes</code>, <code>site_notes</code>, etc, are now <code>NA</code> instead of <code>""</code></p></li>
+<li><p>Fields with multiple values (e.g. <code>tags</code>, <code>management_parties</code>, etc) are now separated using a comma (<code>,') instead of a semi-colon (</code>;`)</p></li>
+<li><p>Standard deviations have been added for all columns that have averages in <code><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code> - e.g. fishbelt sample events now has <code>biomass_kgha_trophic_group_sd</code> in addition to <code>biomass_kgha_trophic_group_avg</code>.</p></li>
+<li><p>Benthic. PQT sample units and sample events data gain the column <code>num_points_nonother</code>, which counts the number of non-other points</p></li>
+<li><p>Fishbelt observations gains the column <code>assigned_transect_width_m</code></p></li>
+<li><p>All data retrieved via <code><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code> now contains the <code>project_admins</code> column</p></li>
+<li><p>Sample units data from <code><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code> no longer has the random <code>id</code> column</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.7.0" id="mermaidr-070">mermaidr 0.7.0<a class="anchor" aria-label="anchor" href="#mermaidr-070"></a></h2>
 <ul><li>Covariates are no longer included in <code><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code> functions by default, require settings <code>covariates = TRUE</code>

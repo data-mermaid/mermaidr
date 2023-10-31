@@ -34,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -169,7 +169,7 @@
 <p>The <code>data = "sampleevents"</code> argument specifies that I’d like to pull data summarised to the level of a sample <strong>event</strong>, which is a site and date - we can see that this pulls information about the site and date of samples, along with aggregations like the total biomass of that site/date, and broken down by trophic group and fish family.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wcs_mozambique_fishbelt_samples</span></span>
-<span><span class="co">#&gt; # A tibble: 79 × 58</span></span>
+<span><span class="co">#&gt; # A tibble: 79 × 90</span></span>
 <span><span class="co">#&gt;    project            tags  country site  latitude longitude reef_type reef_zone</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span></span>
 <span><span class="co">#&gt;  1 WCS Mozambique Co… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef</span></span>
@@ -183,17 +183,17 @@
 <span><span class="co">#&gt;  9 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef</span></span>
 <span><span class="co">#&gt; 10 WCS Mozambique Co… WCS … Mozamb… Dogt…    -12.5      40.6 fringing  crest    </span></span>
 <span><span class="co">#&gt; # ℹ 69 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 50 more variables: reef_exposure &lt;chr&gt;, tide &lt;lgl&gt;, current &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; # ℹ 82 more variables: reef_exposure &lt;chr&gt;, tide &lt;lgl&gt;, current &lt;lgl&gt;,</span></span>
 <span><span class="co">#&gt; #   visibility &lt;lgl&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   management_est_year &lt;int&gt;, management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span>
-<span><span class="co">#&gt; #   depth_avg &lt;dbl&gt;, biomass_kgha_avg &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   biomass_kgha_trophic_group_avg_piscivore &lt;dbl&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; #   depth_avg &lt;dbl&gt;, depth_sd &lt;dbl&gt;, biomass_kgha_avg &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   biomass_kgha_sd &lt;dbl&gt;, biomass_kgha_trophic_group_avg_piscivore &lt;dbl&gt;, …</span></span></code></pre></div>
 <p>If you’d like data related to the <strong>units</strong> of survey (for example, to transects or quadrats), it’s just a matter of changing <code>data</code> to “sampleunits”:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wcs_mozambique</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fishbelt"</span>, data <span class="op">=</span> <span class="st">"sampleunits"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 108 × 70</span></span>
+<span><span class="co">#&gt; # A tibble: 108 × 69</span></span>
 <span><span class="co">#&gt;    project            tags  country site  latitude longitude reef_type reef_zone</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span></span>
 <span><span class="co">#&gt;  1 WCS Mozambique Co… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef</span></span>
@@ -207,7 +207,7 @@
 <span><span class="co">#&gt;  9 WCS Mozambique Co… WCS … Mozamb… Bunt…    -12.6      40.6 fringing  fore reef</span></span>
 <span><span class="co">#&gt; 10 WCS Mozambique Co… WCS … Mozamb… Bunt…    -12.6      40.6 fringing  fore reef</span></span>
 <span><span class="co">#&gt; # ℹ 98 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 62 more variables: reef_exposure &lt;chr&gt;, reef_slope &lt;lgl&gt;, tide &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; # ℹ 61 more variables: reef_exposure &lt;chr&gt;, reef_slope &lt;lgl&gt;, tide &lt;lgl&gt;,</span></span>
 <span><span class="co">#&gt; #   current &lt;lgl&gt;, visibility &lt;lgl&gt;, relative_depth &lt;lgl&gt;, management &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   management_secondary &lt;chr&gt;, management_est_year &lt;int&gt;,</span></span>
 <span><span class="co">#&gt; #   management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span>
@@ -236,7 +236,7 @@
 <span><span class="co">#&gt; #   management_secondary &lt;chr&gt;, management_est_year &lt;int&gt;,</span></span>
 <span><span class="co">#&gt; #   management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span>
-<span><span class="co">#&gt; #   sample_time &lt;chr&gt;, transect_length &lt;int&gt;, transect_width &lt;chr&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; #   sample_time &lt;chr&gt;, depth &lt;dbl&gt;, transect_length &lt;int&gt;, …</span></span></code></pre></div>
 <p>For more details on accessing project data, please see the <a href="https://data-mermaid.github.io/mermaidr/articles/articles/detailed_usage.html" class="external-link">Accessing Project Data</a> article.</p>
 <p>You may also want to access data that is not related to projects. To access this data, you do not need to authenticate R with MERMAID.</p>
 <p>For example, you can pull reference data (the names and information of the fish and benthic attributes you can choose in MERMAID), using <code><a href="reference/mermaid_get_reference.html">mermaid_get_reference()</a></code>:</p>
@@ -261,7 +261,7 @@
 <p>You can also get a list of <em>all</em> projects (not just your own):</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mermaid_get_projects.html">mermaid_get_projects</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 167 × 15</span></span>
+<span><span class="co">#&gt; # A tibble: 166 × 15</span></span>
 <span><span class="co">#&gt;    id          name  countries num_sites tags  notes status data_policy_beltfish</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;         &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;               </span></span>
 <span><span class="co">#&gt;  1 00673bdf-b… TPK … "Indones…        15 "WCS… ""    Open   Private             </span></span>
@@ -271,10 +271,10 @@
 <span><span class="co">#&gt;  5 0b39fe6c-0… Open… "Indones…         2 "WCS… "Thi… Open   Private             </span></span>
 <span><span class="co">#&gt;  6 0c000a00-f… 2019… "Fiji"           18 "WCS… ""    Open   Private             </span></span>
 <span><span class="co">#&gt;  7 0c16681c-6… REEF… ""                0 ""    ""    Open   Public Summary      </span></span>
-<span><span class="co">#&gt;  8 0d87490d-3… Test… "Indones…         2 ""    ""    Open   Public Summary      </span></span>
-<span><span class="co">#&gt;  9 0de6f1fc-1… Copy… "Fiji"            9 "WWF… "Dat… Open   Public Summary      </span></span>
-<span><span class="co">#&gt; 10 0f17035f-0… what  ""                0 ""    ""    Open   Public Summary      </span></span>
-<span><span class="co">#&gt; # ℹ 157 more rows</span></span>
+<span><span class="co">#&gt;  8 0de6f1fc-1… Copy… "Fiji"            9 "WWF… "Dat… Open   Public Summary      </span></span>
+<span><span class="co">#&gt;  9 0f17035f-0… what  ""                0 ""    ""    Open   Public Summary      </span></span>
+<span><span class="co">#&gt; 10 124b9142-3… Sam   ""                0 ""    ""    Open   Private             </span></span>
+<span><span class="co">#&gt; # ℹ 156 more rows</span></span>
 <span><span class="co">#&gt; # ℹ 7 more variables: data_policy_benthiclit &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, data_policy_benthicpqt &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   data_policy_habitatcomplexity &lt;chr&gt;, data_policy_bleachingqc &lt;chr&gt;,</span></span>
@@ -282,7 +282,7 @@
 <p>As well as all sites:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mermaid_get_sites.html">mermaid_get_sites</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 2,696 × 13</span></span>
+<span><span class="co">#&gt; # A tibble: 2,688 × 13</span></span>
 <span><span class="co">#&gt;    id         name  notes project latitude longitude country reef_type reef_zone</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;    </span></span>
 <span><span class="co">#&gt;  1 0415d9e5-… mysi… ""    2c56b9…     -1         -1  Bangla… atoll     back reef</span></span>
@@ -295,13 +295,13 @@
 <span><span class="co">#&gt;  8 19258ea5-… BA15  ""    a1b7ff…    -17.2      178. Fiji    atoll     back reef</span></span>
 <span><span class="co">#&gt;  9 19e60884-… YA02  ""    a1b7ff…    -17.0      177. Fiji    atoll     back reef</span></span>
 <span><span class="co">#&gt; 10 20aeb13f-… BA11  ""    a1b7ff…    -17.3      178. Fiji    atoll     back reef</span></span>
-<span><span class="co">#&gt; # ℹ 2,686 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 2,678 more rows</span></span>
 <span><span class="co">#&gt; # ℹ 4 more variables: exposure &lt;chr&gt;, predecessor &lt;chr&gt;, created_on &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   updated_on &lt;chr&gt;</span></span></code></pre></div>
 <p>And all managements:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mermaid_get_managements.html">mermaid_get_managements</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 1,016 × 17</span></span>
+<span><span class="co">#&gt; # A tibble: 1,250 × 17</span></span>
 <span><span class="co">#&gt;    id         name  name_secondary est_year  size parties compliance open_access</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;             &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;lgl&gt;      </span></span>
 <span><span class="co">#&gt;  1 0031d438-… Mata… "Fish Habitat…     2018    25 commun… full       FALSE      </span></span>
@@ -314,7 +314,7 @@
 <span><span class="co">#&gt;  8 04286cba-… Test… ""                 2018    NA govern… full       FALSE      </span></span>
 <span><span class="co">#&gt;  9 044c6e26-… Fono… "Fish Habitat…     2017   191 commun… full       FALSE      </span></span>
 <span><span class="co">#&gt; 10 05227cee-… Test… ""                 2018     5 &lt;NA&gt;    full       FALSE      </span></span>
-<span><span class="co">#&gt; # ℹ 1,006 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 1,240 more rows</span></span>
 <span><span class="co">#&gt; # ℹ 9 more variables: no_take &lt;lgl&gt;, access_restriction &lt;lgl&gt;,</span></span>
 <span><span class="co">#&gt; #   periodic_closure &lt;lgl&gt;, size_limits &lt;lgl&gt;, gear_restriction &lt;lgl&gt;,</span></span>
 <span><span class="co">#&gt; #   species_restriction &lt;lgl&gt;, notes &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>

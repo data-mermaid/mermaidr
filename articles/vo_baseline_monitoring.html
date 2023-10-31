@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -148,7 +148,7 @@ with “Vibrant Oceans”:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> bb4899a8-5… ACEH… Indonesia         9 WCS … <span style="color: #949494;">""</span>    Open   Public Summary      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> bcb1f115-8… Taka… Indonesia        39 WCS … <span style="color: #949494;">""</span>    Open   Public Summary      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> c314adef-8… Taka… Indonesia        39 WCS … <span style="color: #949494;">""</span>    Open   Private             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> e9649e0d-7… TBCA… Kenya; T…        15 WCS … <span style="color: #949494;">""</span>    Open   Private             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> e9649e0d-7… TBCA… Kenya, T…        15 WCS … <span style="color: #949494;">""</span>    Open   Private             </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> ea85fea0-c… Aceh… Indonesia        18 WCS … <span style="color: #949494;">""</span>    Open   Public Summary      </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 7 more variables: data_policy_benthiclit &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   data_policy_benthicpit &lt;chr&gt;, data_policy_benthicpqt &lt;chr&gt;,</span></span></span>
@@ -234,7 +234,7 @@ returns the data <em>if</em> the data policy allows it.</p>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"benthicpit"</span>, <span class="st">"sampleevents"</span>, token <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">benthic_data</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 39</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 43</span></span></span>
 <span><span class="co">#&gt;   project            tags   country site  latitude longitude reef_type reef_zone</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Taka Bonerate 2015 WCS I… Indone… Ampa…    -<span style="color: #BB0000;">6.92</span>      121. atoll     back reef</span></span>
@@ -243,13 +243,13 @@ returns the data <em>if</em> the data policy allows it.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Taka Bonerate 2015 WCS I… Indone… Bung…    -<span style="color: #BB0000;">6.94</span>      121. fringing  fore reef</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Taka Bonerate 2015 WCS I… Indone… Bung…    -<span style="color: #BB0000;">6.82</span>      121. atoll     fore reef</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Taka Bonerate 2015 WCS I… Indone… Jina…    -<span style="color: #BB0000;">6.77</span>      121. atoll     fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 31 more variables: reef_exposure &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 35 more variables: reef_exposure &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   visibility &lt;chr&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   management_est_year &lt;int&gt;, management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   management_est_year &lt;dbl&gt;, management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   depth_avg &lt;dbl&gt;, percent_cover_benthic_category_avg_sand &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   percent_cover_benthic_category_avg_rubble &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   percent_cover_benthic_category_avg_seagrass &lt;dbl&gt;, …</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   depth_avg &lt;dbl&gt;, depth_sd &lt;lgl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   percent_cover_benthic_category_avg_sand &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   percent_cover_benthic_category_avg_rubble &lt;dbl&gt;, …</span></span></span></code></pre></div>
 <p>At a high level, this returns the aggregations for a survey at the
 <em>sample event</em> level; roughly, it provides a summary of all
 observations for all transects at a given site and date, giving us
@@ -538,7 +538,7 @@ time specifying the “fishbelt” method:</p>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleevents"</span>, token <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fishbelt_data</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 95</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 101</span></span></span>
 <span><span class="co">#&gt;   project            tags   country site  latitude longitude reef_type reef_zone</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Taka Bonerate 2015 WCS I… Indone… Ampa…    -<span style="color: #BB0000;">6.92</span>      121. atoll     back reef</span></span>
@@ -547,12 +547,12 @@ time specifying the “fishbelt” method:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Taka Bonerate 2015 WCS I… Indone… Bung…    -<span style="color: #BB0000;">6.94</span>      121. fringing  fore reef</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Taka Bonerate 2015 WCS I… Indone… Bung…    -<span style="color: #BB0000;">6.82</span>      121. atoll     fore reef</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Taka Bonerate 2015 WCS I… Indone… Jina…    -<span style="color: #BB0000;">6.77</span>      121. atoll     fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 87 more variables: reef_exposure &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 93 more variables: reef_exposure &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   visibility &lt;chr&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   management_est_year &lt;int&gt;, management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   management_est_year &lt;dbl&gt;, management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   depth_avg &lt;dbl&gt;, biomass_kgha_avg &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   biomass_kgha_trophic_group_avg_omnivore &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   depth_avg &lt;dbl&gt;, depth_sd &lt;lgl&gt;, biomass_kgha_avg &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   biomass_kgha_sd &lt;lgl&gt;, biomass_kgha_trophic_group_avg_omnivore &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   biomass_kgha_trophic_group_avg_piscivore &lt;dbl&gt;, …</span></span></span></code></pre></div>
 <p>Again, this summarises all observations for all transects at a given
 site and date, and gives us information like the average biomass at that
