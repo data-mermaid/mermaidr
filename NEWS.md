@@ -1,3 +1,7 @@
+# mermaidr 1.0.1
+
+* Added `mermaid_get_me()` endpoint to get profile information for the user.
+
 # mermaidr 1.0.0
 
 * `mermaid_get_project_data()` now uses CSV endpoints, which significantly speeds up getting data from projects with a large number of observations
