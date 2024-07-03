@@ -62,6 +62,8 @@ get_response <- function(path, endpoint, ua, token, limit) {
     get_csv_response(path, ua, limit, token)
   } else if (stringr::str_detect(path, "ingest_schema")) {
     get_ingest_schema_response(path, ua, token)
+  } else if (stringr::str_detect(path, "/me/")) {
+    get_me_response(path, ua, limit, token)
   } else {
     get_paginated_response(path, ua, token, limit)
   }
@@ -81,6 +83,13 @@ get_choices_response <- function(path, endpoint, ua, token, limit) {
 
 get_csv_response <- function(path, ua, limit, token) {
   get_and_parse(path, ua, limit, token)
+}
+
+get_me_response <- function(path, ua, limit, token) {
+  res <- get_and_parse(path, ua, limit, token)
+
+  res[c("id", "first_name", "last_name", "email")] %>%
+    dplyr::as_tibble()
 }
 
 get_paginated_response <- function(path, ua, token, limit) {
