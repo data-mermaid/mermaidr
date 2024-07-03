@@ -20,6 +20,7 @@ reference:
     - mermaid_get_endpoint
     - mermaid_get_summary_sampleevents
     - mermaid_countries
+    - mermaid_get_me
 
   - title: Accessing Project-Specific Data
     contents:
