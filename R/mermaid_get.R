@@ -123,7 +123,7 @@ get_ingest_schema_response <- function(path, ua, token) {
 }
 
 get_and_parse <- function(path, ua, limit = NULL, token, simplify_df = TRUE) {
-  resp <- suppress_http_warning(httr::RETRY("GET", path, ua, token, terminate_on = c(401, 403)))
+  resp <- suppress_http_warning(RETRY("GET", path, ua, token, terminate_on = c(401, 403), token = token))
   check_errors(resp)
 
   # Check if content type is available in header, otherwise use path for deciding what to parse
@@ -144,6 +144,49 @@ get_and_parse <- function(path, ua, limit = NULL, token, simplify_df = TRUE) {
   }
 
   res
+}
+
+RETRY <- function(verb, url = NULL, config = list(), ..., body = NULL,
+                  encode = c("multipart", "form", "json", "raw"), times = 3,
+                  pause_base = 1, pause_cap = 60, pause_min = 1, handle = NULL,
+                  quiet = FALSE, terminate_on = NULL, terminate_on_success = TRUE, token) {
+
+  if (is.null(token$auth_token$credentials$shiny)) {
+    token$auth_token$credentials$shiny <- FALSE
+  }
+  actually_refresh <- !token$auth_token$credentials$shiny
+
+  stopifnot(is.numeric(times), length(times) == 1L)
+  stopifnot(is.numeric(pause_base), length(pause_base) == 1L)
+  stopifnot(is.numeric(pause_cap), length(pause_cap) == 1L)
+  stopifnot(is.numeric(terminate_on) || is.null(terminate_on))
+  stopifnot(is.logical(terminate_on_success), length(terminate_on_success) ==
+    1)
+  hu <- httr:::handle_url(handle, url, ...)
+  req <- httr:::request_build(
+    verb, hu$url, httr:::body_config(body, match.arg(encode)),
+    config, ...
+  )
+  resp <- tryCatch(httr:::request_perform(req, hu$handle$handle, refresh = actually_refresh),
+    error = function(e) e
+  )
+  i <- 1
+  while (!httr:::retry_should_terminate(
+    i, times, resp, terminate_on,
+    terminate_on_success
+  )) {
+    httr:::backoff_full_jitter(i, resp, pause_base, pause_cap, pause_min,
+      quiet = quiet
+    )
+    i <- i + 1
+    resp <- tryCatch(httr:::request_perform(req, hu$handle$handle, refresh = actually_refresh),
+      error = function(e) e
+    )
+  }
+  if (inherits(resp, "error")) {
+    stop(resp)
+  }
+  resp
 }
 
 suppress_http_warning <- function(expr, warning_function = "parse_http_status", warning_regex = "NAs introduced by coercion") {

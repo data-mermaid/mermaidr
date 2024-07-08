@@ -43,7 +43,7 @@ mermaid2.0_token <- function(endpoint, app, scope = NULL, user_params = NULL,
 
 renew_mermaid2.0 <- function(credentials) {
   # Check for credentials$shiny, if TRUE then set refresh to FALSE - the credentials are new and do not need to be refreshed manually again
-  if (credentials$shiny) {
+  if (credentials$token$shiny) {
     actually_refresh <- FALSE
   } else {
     actually_refresh <- TRUE
