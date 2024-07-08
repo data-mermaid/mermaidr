@@ -8,7 +8,7 @@
 #' @noRd
 mermaid2.0_token <- function(endpoint, app, scope = NULL, user_params = NULL,
                              type = NULL,
-                             use_oob = getOption("httr_oob_default"),
+                             use_oob = TRUE,
                              oob_value = NULL,
                              as_header = TRUE,
                              use_basic_auth = FALSE,
