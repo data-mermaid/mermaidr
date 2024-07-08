@@ -17,8 +17,7 @@ mermaid2.0_token <- function(endpoint, app, scope = NULL, user_params = NULL,
                              client_credentials = FALSE,
                              credentials = NULL,
                              query_authorize_extra = list(),
-                             refresh = FALSE,
-                             shiny = FALSE) {
+                             refresh = FALSE) {
   params <- list(
     scope = scope,
     user_params = user_params,
@@ -38,20 +37,28 @@ mermaid2.0_token <- function(endpoint, app, scope = NULL, user_params = NULL,
     params = params,
     credentials = credentials,
     cache_path = if (is.null(credentials)) cache else FALSE,
-    refresh = refresh,
-    shiny = shiny
+    refresh = refresh
   )
 }
 
-renew_mermaid2.0 <- function(credentials, shiny = FALSE) {
-  browser()
+renew_mermaid2.0 <- function(credentials) {
+  # Check for credentials$shiny, if TRUE then set refresh to FALSE - the credentials are new and do not need to be refreshed manually again
+  if (credentials$shiny) {
+    actually_refresh <- FALSE
+  } else {
+    actually_refresh <- TRUE
+  }
   mermaid_endpoint <- httr::oauth_endpoint(
     authorize = mermaid_authorize_url,
     access = mermaid_access_url
   )
   mermaid_app <- httr::oauth_app("mermaidr", key = mermaid_key, secret = NULL)
-  renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, refresh = !shiny, query_authorize_extra = list(audience = mermaid_audience))
+  renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, refresh = actually_refresh, query_authorize_extra = list(audience = mermaid_audience))
   credentials$access_token <- renewed_token$credentials$access_token
+
+  # Remove from credentials to use
+  credentials$shiny <- NULL
+
   credentials
 }
 
@@ -59,7 +66,7 @@ Mermaid2.0 <- R6::R6Class("Mermaid2.0", inherit = httr::Token2.0, list(
   initialize = function(app, endpoint, params = list(), credentials = NULL,
                         private_key = NULL,
                         cache_path = getOption("httr_oauth_cache"),
-                        refresh = FALSE, shiny = FALSE) {
+                        refresh = FALSE) {
     self$app <- app
     self$endpoint <- endpoint
     self$params <- params
@@ -85,8 +92,7 @@ Mermaid2.0 <- R6::R6Class("Mermaid2.0", inherit = httr::Token2.0, list(
   },
   refresh = function() {
     cred <- renew_mermaid2.0(
-      self$credentials,
-      shiny = shiny
+      self$credentials
     )
     if (is.null(cred)) {
       remove_cached_token(self)

@@ -75,8 +75,7 @@ mermaid_auth <- function(token = NULL,
                          new_user = FALSE,
                          key = mermaid_key,
                          cache = getOption("mermaidr.httr_oauth_cache"),
-                         verbose = TRUE,
-                         shiny = FALSE) {
+                         verbose = TRUE) {
   if (new_user) {
     mermaid_deauth(clear_cache = TRUE, verbose = verbose)
   }
@@ -87,7 +86,7 @@ mermaid_auth <- function(token = NULL,
       access = mermaid_access_url
     )
     mermaid_app <- httr::oauth_app("mermaidr", key = key, secret = NULL)
-    mermaid_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, cache = cache, query_authorize_extra = list(audience = mermaid_audience), shiny = shiny)
+    mermaid_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, cache = cache, query_authorize_extra = list(audience = mermaid_audience))
     stopifnot(is_legit_token(mermaid_token, verbose = TRUE))
     .state$token <- mermaid_token
   } else if (inherits(token, "Mermaid2.0")) {
@@ -122,7 +121,7 @@ mermaid_auth <- function(token = NULL,
 #' @return a \code{request} object (an S3 class provided by \code{httr})
 #'
 #' @export
-mermaid_token <- function(verbose = FALSE, shiny = FALSE) {
+mermaid_token <- function(verbose = FALSE) {
   if (!token_available(verbose = verbose)) mermaid_auth(verbose = verbose)
   httr::config(token = .state$token)
 }
