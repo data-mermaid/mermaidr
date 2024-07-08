@@ -42,18 +42,19 @@ mermaid2.0_token <- function(endpoint, app, scope = NULL, user_params = NULL,
 }
 
 renew_mermaid2.0 <- function(credentials) {
-  # Check for credentials$shiny, if TRUE then set refresh to FALSE - the credentials are new and do not need to be refreshed manually again
-  if (credentials$token$shiny) {
-    actually_refresh <- FALSE
-  } else {
-    actually_refresh <- TRUE
-  }
   mermaid_endpoint <- httr::oauth_endpoint(
     authorize = mermaid_authorize_url,
     access = mermaid_access_url
   )
   mermaid_app <- httr::oauth_app("mermaidr", key = mermaid_key, secret = NULL)
-  renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, refresh = actually_refresh, query_authorize_extra = list(audience = mermaid_audience))
+
+  # Check for credentials$shiny, if TRUE then use actual credentials instead of refreshing
+  if (credentials$shiny) {
+    renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, query_authorize_extra = list(audience = mermaid_audience), credentials = credentials)
+  } else {
+    renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, query_authorize_extra = list(audience = mermaid_audience))
+  }
+
   credentials$access_token <- renewed_token$credentials$access_token
 
   # Remove from credentials to use
@@ -74,7 +75,7 @@ Mermaid2.0 <- R6::R6Class("Mermaid2.0", inherit = httr::Token2.0, list(
     self$private_key <- private_key
 
     if (!is.null(credentials)) {
-      # Use credentials created elsewhere - usually for tests
+      # Use credentials created elsewhere - usually for tests, or in shiny
       self$credentials <- credentials
       return(self)
     }
