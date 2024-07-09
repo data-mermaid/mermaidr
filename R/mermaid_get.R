@@ -88,7 +88,7 @@ get_csv_response <- function(path, ua, limit, token) {
 get_me_response <- function(path, ua, limit, token) {
   res <- get_and_parse(path, ua, limit, token)
 
-  res[c("id", "first_name", "last_name", "email")] %>%
+  res[c("id", "first_name", "last_name", "email", "projects")] %>%
     dplyr::as_tibble()
 }
 
