@@ -92,7 +92,17 @@ get_me_response <- function(path, ua, limit, token) {
     dplyr::as_tibble()
 
   projects <- res[["projects"]] %>%
-    dplyr::as_tibble() %>%
+    dplyr::as_tibble()
+
+  # Recode roles
+  projects <- projects %>%
+    dplyr::mutate(role = dplyr::case_when(
+      role == 10 ~ "Read-Only",
+      role == 50 ~ "Collector",
+      role == 90 ~ "Admin"
+    ))
+
+  projects <- projects %>%
     tidyr::nest(projects = dplyr::everything())
 
   final_res %>%
