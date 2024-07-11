@@ -49,8 +49,13 @@ renew_mermaid2.0 <- function(credentials) {
   mermaid_app <- httr::oauth_app("mermaidr", key = mermaid_key, secret = NULL)
 
   # Check for credentials$shiny, if TRUE then use actual credentials instead of refreshing
-  if (credentials$shiny) {
-    renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, query_authorize_extra = list(audience = mermaid_audience), credentials = credentials)
+  if (is.null(credentials$shiny)) {
+    shiny <- FALSE
+  } else {
+    shiny <- credentials$shiny
+  }
+  if (shiny) {
+      renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, query_authorize_extra = list(audience = mermaid_audience), credentials = credentials)
   } else {
     renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, query_authorize_extra = list(audience = mermaid_audience))
   }
