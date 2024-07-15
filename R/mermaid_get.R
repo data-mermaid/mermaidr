@@ -88,8 +88,25 @@ get_csv_response <- function(path, ua, limit, token) {
 get_me_response <- function(path, ua, limit, token) {
   res <- get_and_parse(path, ua, limit, token)
 
-  res[c("id", "first_name", "last_name", "email")] %>%
+  final_res <- res[c("id", "first_name", "last_name", "email")] %>%
     dplyr::as_tibble()
+
+  projects <- res[["projects"]] %>%
+    dplyr::as_tibble()
+
+  # Recode roles
+  projects <- projects %>%
+    dplyr::mutate(role = dplyr::case_when(
+      role == 10 ~ "Read-Only",
+      role == 50 ~ "Collector",
+      role == 90 ~ "Admin"
+    ))
+
+  projects <- projects %>%
+    tidyr::nest(projects = dplyr::everything())
+
+  final_res %>%
+    dplyr::bind_cols(projects)
 }
 
 get_paginated_response <- function(path, ua, token, limit) {
@@ -188,7 +205,7 @@ initial_cleanup <- function(results, endpoint) {
       extract_covariates()
   }
 
-  if (endpoint != "choices") {
+  if (!endpoint %in% c("choices", "me")) {
     results <- collapse_id_name_lists(results)
 
     results <- results %>%
