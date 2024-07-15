@@ -1,3 +1,8 @@
+# mermaidr 1.0.2
+
+* Add `projects` column to `mermaid_get_me()`
+* Updates to authentication flow to allow `mermaidr` to work in Shiny
+
 # mermaidr 1.0.1
 
 * Added `mermaid_get_me()` endpoint to get profile information for the user.

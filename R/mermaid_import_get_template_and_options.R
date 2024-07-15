@@ -66,7 +66,7 @@ mermaid_import_get_template_and_options <- function(project, method, save, token
 
   template <- mermaid_import_get_template(method)
 
-  options <- mermaid_import_get_options(project, method, token = mermaid_token())
+  options <- mermaid_import_get_options(project, method, token = token)
 
   if (!missing(save)) {
     # Check that file is xlsx or xls
