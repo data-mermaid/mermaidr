@@ -55,9 +55,9 @@ renew_mermaid2.0 <- function(credentials) {
     shiny <- credentials$shiny
   }
   if (shiny) {
-      renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, query_authorize_extra = list(audience = mermaid_audience), credentials = credentials)
+    renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, query_authorize_extra = list(audience = mermaid_audience), credentials = credentials)
   } else {
-    renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, query_authorize_extra = list(audience = mermaid_audience))
+    renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, query_authorize_extra = list(audience = mermaid_audience), refresh = TRUE)
   }
 
   credentials$access_token <- renewed_token$credentials$access_token

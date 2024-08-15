@@ -1,3 +1,7 @@
+# mermaidr 1.0.3
+
+* Fix bug with refreshing token in authentication flow, introduced in 1.0.2
+
 # mermaidr 1.0.2
 
 * Add `projects` column to `mermaid_get_me()`
