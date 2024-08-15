@@ -119,7 +119,7 @@ ggplot(benthic_data_latest) +
 library(ggplot2)
 
 ggplot(benthic_data_latest) +
-  geom_col(aes(x = hard_coral, y = site, fill = threshold)) + 
+  geom_col(aes(x = hard_coral, y = site, fill = threshold)) +
   theme(axis.text.y = element_text(size = 4), axis.ticks.y = element_line(linewidth = 0.25))
 ```
 
@@ -141,7 +141,6 @@ hard_coral_plot
 ```
 
 ```{r, echo = FALSE, fig.height = 10, fig.alt = "A bar chart with hard coral cover on the x axis (titled hard_coral) and sites on the y axis (titled site). The bars are colored in pink, green, and blue, according to whether they have above 30% hard coral cover, 10-30% cover, or below 10% cover. The sites are ordered by their hard coral coverage, from highest to lowest. There is a dashed vertical line at 10% and 30% hard coral."}
-
 benthic_data_latest <- benthic_data_latest %>%
   mutate(
     threshold = fct_reorder(threshold, hard_coral, .desc = TRUE),
@@ -151,7 +150,7 @@ benthic_data_latest <- benthic_data_latest %>%
 hard_coral_plot <- ggplot(benthic_data_latest) +
   geom_col(aes(x = hard_coral, y = site, fill = threshold), alpha = 0.8) +
   geom_vline(xintercept = 10, linetype = "dashed", linewidth = 0.25) +
-  geom_vline(xintercept = 30, linetype = "dashed", linewidth = 0.25) + 
+  geom_vline(xintercept = 30, linetype = "dashed", linewidth = 0.25) +
   theme(axis.text.y = element_text(size = 4), axis.ticks.y = element_line(linewidth = 0.25))
 
 hard_coral_plot

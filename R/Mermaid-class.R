@@ -42,7 +42,6 @@ mermaid2.0_token <- function(endpoint, app, scope = NULL, user_params = NULL,
 }
 
 renew_mermaid2.0 <- function(credentials) {
-
   mermaid_endpoint <- httr::oauth_endpoint(
     authorize = mermaid_authorize_url,
     access = mermaid_access_url
@@ -56,7 +55,7 @@ renew_mermaid2.0 <- function(credentials) {
     shiny <- credentials$shiny
   }
   if (shiny) {
-      renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, query_authorize_extra = list(audience = mermaid_audience), credentials = credentials)
+    renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, query_authorize_extra = list(audience = mermaid_audience), credentials = credentials)
   } else {
     renewed_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, query_authorize_extra = list(audience = mermaid_audience), refresh = TRUE)
   }
