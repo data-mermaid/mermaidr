@@ -14,6 +14,11 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
 
   res_columns <- purrr::map2(res_strip_name_suffix, names(res_strip_name_suffix), construct_endpoint_columns)
 
+  # Replace any "" or "NA" with NAs
+  if (endpoint != "choices") {
+    res_columns <- purrr::map(res_columns, \(x) x %>% dplyr::mutate(dplyr::across(dplyr::where(is.character), \(y) ifelse(y %in% c("NA", ""), NA_character_, y))))
+  }
+
   if (length(res_columns) > 1) {
     res_columns
   } else {
