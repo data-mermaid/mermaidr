@@ -58,7 +58,9 @@ test_that("agg endpoints - get_project_endpoint allows multiple projects and com
   expect_true(all(project_data_test_columns[["beltfishes/sampleevents"]] %in% names(ses)))
   expect_true(any(stringr::str_starts(names(ses), project_data_df_columns_list_names[["beltfishes/sampleevents"]])))
 
-  expect_named(get_project_endpoint(p, "benthicpits/obstransectbenthicpits", limit = 1), c(mermaid_project_endpoint_columns[["benthicpits/obstransectbenthicpits"]]))
+  obs <- get_project_endpoint(p, "benthicpits/obstransectbenthicpits", limit = 1)
+  expect_true(all(project_data_test_columns[["benthicpits/obstransectbenthicpits"]] %in% names(obs)))
+  expect_true(any(stringr::str_starts(names(obs), project_data_df_columns_list_names[["benthicpits/obstransectbenthicpits"]])))
   sus <- get_project_endpoint(p, "benthicpits/sampleunits", limit = 1)
   expect_true(all(project_data_test_columns[["benthicpits/sampleunits"]] %in% names(sus)))
   expect_true(any(stringr::str_starts(names(sus), project_data_df_columns_list_names[["benthicpits/sampleunits"]])))

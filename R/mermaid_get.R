@@ -205,6 +205,11 @@ initial_cleanup <- function(results, endpoint) {
       extract_covariates()
   }
 
+  if ("life_histories" %in% names(results)) {
+    results <- results %>%
+      extract_life_histories()
+  }
+
   if (!endpoint %in% c("choices", "me")) {
     results <- collapse_id_name_lists(results)
 
@@ -237,6 +242,33 @@ initial_cleanup <- function(results, endpoint) {
 
 is_list_col <- function(x) {
   is.list(x) && !is.data.frame(x)
+}
+
+extract_life_histories <- function(results) {
+  if (!purrr::map_lgl(results[["life_histories"]], is.data.frame) %>% all()) {
+    return(results)
+  }
+  old_names <- names(results)
+
+  res <- results %>%
+    tidyr::unnest(life_histories, names_sep = "___") %>%
+    dplyr::select(-dplyr::all_of(c("life_histories___id"))) %>%
+    tidyr::pivot_wider(
+      names_from = dplyr::all_of("life_histories___name"),
+      values_from = dplyr::all_of("life_histories___proportion")
+    )
+
+  new_names <- names(res)
+  additional_cols <- setdiff(new_names, old_names)
+
+  res <- res %>%
+    dplyr::rename_with(.cols = dplyr::all_of(additional_cols), \(x) glue::glue("life_histories__{x}") %>% snakecase::to_snake_case())
+
+  new_names <- names(res)
+  additional_cols <- setdiff(new_names, old_names)
+
+  res %>%
+    dplyr::relocate(dplyr::all_of(additional_cols), .after = which(old_names == "life_histories") - 1)
 }
 
 collapse_id_name_lists <- function(results) {

@@ -123,7 +123,9 @@ construct_project_endpoint_columns <- function(res, endpoint, multiple_projects 
 
       df_col_placement <- which(endpoint_cols == col)
 
-      endpoint_cols <- c(endpoint_cols[1:(df_col_placement - 1)], df_col_names, endpoint_cols[(df_col_placement + 1):length(endpoint_cols)])
+      if (length(df_col_placement) == 1) {
+        endpoint_cols <- c(endpoint_cols[1:(df_col_placement - 1)], df_col_names, endpoint_cols[(df_col_placement + 1):length(endpoint_cols)])
+      }
     }
 
     if (multiple_projects) {
@@ -132,7 +134,6 @@ construct_project_endpoint_columns <- function(res, endpoint, multiple_projects 
       res <- dplyr::select(res, dplyr::any_of(endpoint_cols))
     }
 
-    # TODO - don't need to use snakecase, is done in another way elsewhere
     names(res) <- snakecase::to_snake_case(names(res))
 
     res
@@ -283,3 +284,5 @@ mermaid_project_endpoint_columns <- list(
 mermaid_project_endpoint_columns <- append(mermaid_project_endpoint_columns, project_other_endpoint_columns)
 
 mermaid_project_endpoint_columns <- append(mermaid_project_endpoint_columns, project_data_columns)
+
+mermaid_project_endpoint_columns_test <- purrr::map(mermaid_project_endpoint_columns, snakecase::to_snake_case)
