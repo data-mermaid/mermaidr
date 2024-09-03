@@ -10,7 +10,7 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
   res <- mermaid_GET(endpoint, limit = limit, filter = filter, ...)
 
   res_lookups <- purrr::map2(res, names(res), lookup_choices)
-  res_strip_name_suffix <- purrr::map(res_lookups, strip_name_suffix, endpoint)
+  res_strip_name_suffix <- purrr::imap(res_lookups, strip_name_suffix)
 
   res_columns <- purrr::map2(res_strip_name_suffix, names(res_strip_name_suffix), construct_endpoint_columns)
 
@@ -129,7 +129,6 @@ construct_endpoint_columns <- function(x, endpoint) {
 }
 
 strip_name_suffix <- function(results, endpoint, covariates = FALSE) {
-
   res_names <- names(results)
   # Remove any _name suffixes, except score_name since we want to keep both score and score_name
   # Convert score_name to score_NAME first (so _name isn't removed from it)
@@ -150,7 +149,10 @@ strip_name_suffix <- function(results, endpoint, covariates = FALSE) {
 allowed_ids <- function(endpoint, covariates = FALSE) {
   ids <- c("project_id", "sample_event_id", "sample_unit_id")
 
-  ids <- c(ids, mermaid_endpoint_columns[[endpoint]][grepl("_id$", mermaid_endpoint_columns[[endpoint]])])
+  if (endpoint %in% names(mermaid_endpoint_columns)) {
+    ids <- c(ids, mermaid_endpoint_columns[[endpoint]][grepl("_id$", mermaid_endpoint_columns[[endpoint]])])
+  }
+
   if (covariates) {
     ids <- c(ids, "site_id")
   }
