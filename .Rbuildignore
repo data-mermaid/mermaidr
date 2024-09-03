@@ -13,3 +13,4 @@ vignettes/
 ^import-demo$
 ^examples$
 ^scratch$
+_auth0.yml
