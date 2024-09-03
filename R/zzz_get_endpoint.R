@@ -10,7 +10,7 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
   res <- mermaid_GET(endpoint, limit = limit, filter = filter, ...)
 
   res_lookups <- purrr::map2(res, names(res), lookup_choices)
-  res_strip_name_suffix <- purrr::map(res_lookups, strip_name_suffix)
+  res_strip_name_suffix <- purrr::map(res_lookups, strip_name_suffix, endpoint)
 
   res_columns <- purrr::map2(res_strip_name_suffix, names(res_strip_name_suffix), construct_endpoint_columns)
 
@@ -128,7 +128,8 @@ construct_endpoint_columns <- function(x, endpoint) {
   dplyr::select(x, mermaid_endpoint_columns[[endpoint]])
 }
 
-strip_name_suffix <- function(results, covariates = FALSE) {
+strip_name_suffix <- function(results, endpoint, covariates = FALSE) {
+
   res_names <- names(results)
   # Remove any _name suffixes, except score_name since we want to keep both score and score_name
   # Convert score_name to score_NAME first (so _name isn't removed from it)
@@ -142,11 +143,19 @@ strip_name_suffix <- function(results, covariates = FALSE) {
 
   names(results) <- res_names
 
+  # Remove IDs, except project ID, sample event/unit ID, site ID (if covariates), or any other IDs included in the requested endpoint
+  results[, (!grepl("_id$", names(results))) | (names(results) %in% allowed_ids(endpoint, covariates = covariates))]
+}
+
+allowed_ids <- function(endpoint, covariates = FALSE) {
+  ids <- c("project_id", "sample_event_id", "sample_unit_id")
+
+  ids <- c(ids, mermaid_endpoint_columns[[endpoint]][grepl("_id$", mermaid_endpoint_columns[[endpoint]])])
   if (covariates) {
-    results[, !grepl("_id$", names(results)) | names(results) %in% c("project_id", "site_id") | names(results) == "sample_event_id" | names(results) == "sample_unit_id"]
-  } else {
-    results[, !grepl("_id$", names(results)) | names(results) == "project_id" | names(results) == "sample_event_id" | names(results) == "sample_unit_id"]
+    ids <- c(ids, "site_id")
   }
+
+  unique(ids)
 }
 
 # Defined in respective function files
