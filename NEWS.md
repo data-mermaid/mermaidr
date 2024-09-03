@@ -1,3 +1,7 @@
+# mermaidr 1.0.4
+
+* Add `project_id`, `site_id`, and `management_id` to `mermaid_get_summary_sampleevents()`
+
 # mermaidr 1.0.3
 
 * Fix bug with refreshing token in authentication flow, introduced in 1.0.2
