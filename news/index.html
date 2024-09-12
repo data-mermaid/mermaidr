@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -75,9 +75,25 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href="https://github.com/data-mermaid/mermaidr/blob/v1.0.4/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/data-mermaid/mermaidr/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.0" id="mermaidr-110">mermaidr 1.1.0<a class="anchor" aria-label="anchor" href="#mermaidr-110"></a></h2>
+<ul><li>Add <code>life_histories</code> and <code>growth_form_life_histories</code> to <code>mermaid_get_reference("benthicattributes")</code>
+</li>
+<li>Add relevant life histories to <code>"benthicpqt"</code> method in <code><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code>
+<ul><li>
+<code>data = "observations"</code> gains <code>life_histories__competitive</code>, <code>life_histories__generalist</code>, <code>life_histories__stress_tolerant</code>, <code>life_histories__weedy</code>
+</li>
+<li>
+<code>data = "sampleunits"</code> gains <code>percent_cover_life_histories_weedy</code>, <code>percent_cover_life_histories_generalist</code>, <code>percent_cover_life_histories_competitive</code>, <code>percent_cover_life_histories_stress_tolerant</code>
+</li>
+<li>
+<code>data = "sampleevents"</code> gains <code>percent_cover_life_histories_avg_weedy</code>, <code>percent_cover_life_histories_avg_generalist</code>, <code>percent_cover_life_histories_avg_competitive</code>, <code>percent_cover_life_histories_avg_stress-tolerant</code>, <code>percent_cover_life_histories_sd_weedy</code>, <code>percent_cover_life_histories_sd_generalist</code>, <code>percent_cover_life_histories_sd_competitive</code>, <code>percent_cover_life_histories_sd_stress-tolerant</code>
+</li>
+</ul></li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.4" id="mermaidr-104">mermaidr 1.0.4<a class="anchor" aria-label="anchor" href="#mermaidr-104"></a></h2>
 <ul><li>Add <code>project_id</code>, <code>site_id</code>, and <code>management_id</code> to <code><a href="../reference/mermaid_get_summary_sampleevents.html">mermaid_get_summary_sampleevents()</a></code>
