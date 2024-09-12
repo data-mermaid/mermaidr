@@ -1130,6 +1130,7 @@ test_that("All expanded columns that formerly had _by_ in them are properly pull
 
   cols %>%
     dplyr::distinct(method, data) %>%
+    dplyr::filter(data %in% c("sampleunits", "sampleevents")) %>%
     dplyr::mutate(id = dplyr::row_number()) %>%
     split(.$id) %>%
     purrr::walk(

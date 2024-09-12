@@ -205,6 +205,16 @@ initial_cleanup <- function(results, endpoint) {
       extract_covariates()
   }
 
+  if ("life_histories" %in% names(results)) {
+    results <- results %>%
+      extract_life_histories()
+  }
+
+  if ("growth_form_life_histories" %in% names(results)) {
+    results <- results %>%
+      extract_growth_form_life_histories()
+  }
+
   if (!endpoint %in% c("choices", "me")) {
     results <- collapse_id_name_lists(results)
 
@@ -236,7 +246,85 @@ initial_cleanup <- function(results, endpoint) {
 }
 
 is_list_col <- function(x) {
-  is.list(x) && !is.data.frame(x)
+  list_col <- is.list(x) && !is.data.frame(x)
+
+  if (list_col) {
+    list_col <- !(purrr::map_lgl(x, is.data.frame) %>% any())
+  }
+
+  list_col
+}
+
+extract_life_histories <- function(results) {
+  if (!purrr::map_lgl(results[["life_histories"]], is.data.frame) %>% any()) {
+    return(results)
+  }
+
+  old_names <- names(results)
+
+  res <- results %>%
+    tidyr::unnest("life_histories", names_sep = "___") %>%
+    dplyr::select(-dplyr::all_of(c("life_histories___id"))) %>%
+    tidyr::pivot_wider(
+      names_from = dplyr::all_of("life_histories___name"),
+      values_from = dplyr::all_of("life_histories___proportion")
+    )
+
+  new_names <- names(res)
+  additional_cols <- setdiff(new_names, old_names)
+
+  res <- res %>%
+    dplyr::rename_with(.cols = dplyr::all_of(additional_cols), \(x) glue::glue("life_histories__{x}") %>% snakecase::to_snake_case())
+
+  new_names <- names(res)
+  additional_cols <- setdiff(new_names, old_names)
+
+  res %>%
+    dplyr::relocate(dplyr::all_of(additional_cols), .after = which(old_names == "life_histories") - 1)
+}
+
+extract_growth_form_life_histories <- function(results) {
+  if (all(results[["growth_form_life_histories"]] %>% is.na())) {
+    return(
+      results %>%
+        dplyr::mutate(growth_form_life_histories = purrr::map(
+          .data$growth_form_life_histories,
+          function(x) {
+            dplyr::tibble(
+              growth_form = character(0),
+              life_history = character(0)
+            )
+          }
+        ))
+    )
+  }
+
+  choices <- mermaid_get_endpoint("choices")
+
+  choices_growth_forms <- choices %>% dplyr::filter(.data$name == "growthforms")
+  choices_growth_forms <- choices_growth_forms[["data"]][[1]]
+
+  choices_life_histories <- choices %>% dplyr::filter(.data$name == "benthiclifehistories")
+  choices_life_histories <- choices_life_histories[["data"]][[1]]
+
+  results %>%
+    dplyr::mutate(growth_form_life_histories = purrr::map(
+      .data$growth_form_life_histories,
+      function(x) {
+        if (is.null(x)) {
+          dplyr::tibble(
+            growth_form = character(0),
+            life_history = character(0)
+          )
+        } else {
+          x %>%
+            dplyr::left_join(choices_growth_forms, by = c("growth_form" = "id")) %>%
+            dplyr::select(dplyr::all_of(c("growth_form" = "name", "life_history"))) %>%
+            dplyr::left_join(choices_life_histories, by = c("life_history" = "id")) %>%
+            dplyr::select(dplyr::all_of(c("growth_form", "life_history" = "name")))
+        }
+      }
+    ))
 }
 
 collapse_id_name_lists <- function(results) {
