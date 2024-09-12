@@ -36,7 +36,7 @@ get_single_reference <- function(reference, limit = NULL, choices = mermaid_get_
     fishfamilies = get_endpoint("fishfamilies", limit = limit),
     fishgenera = get_reference_fishgenera(limit = limit),
     fishspecies = get_reference_fishspecies(limit = limit, choices = choices),
-    benthicattributes = get_reference_benthicattributes(limit = limit)
+    benthicattributes = get_reference_benthicattributes(limit = limit, choices = choices)
   )
 }
 
@@ -77,8 +77,12 @@ get_reference_fishspecies <- function(limit = NULL, choices = mermaid_get_endpoi
     dplyr::left_join(fishgroupfunctions, by = c("functional_group" = "id"), suffix = c("_id", ""))
 }
 
-get_reference_benthicattributes <- function(limit = NULL) {
+get_reference_benthicattributes <- function(limit = NULL, choices = mermaid_get_endpoint("choices")) {
   benthicattributes <- get_endpoint("benthicattributes", limit = limit)
+
+  # Lookup life histories
+  res <- benthicattributes %>%
+    lookup_benthiclifehistories(choices)
 
   benthicattributes %>%
     dplyr::left_join(benthicattributes %>%
@@ -97,9 +101,10 @@ lookup_regions <- function(results, choices = mermaid_get_endpoint("choices")) {
   row_regions <- results_row %>%
     dplyr::select(tidyselect::all_of(c("row", "regions"))) %>%
     tidyr::separate_rows("regions", sep = ", ") %>%
-    dplyr::filter(.data$regions != "NA") %>%
+    dplyr::filter(!is.na(.data$regions)) %>%
     dplyr::left_join(regions, by = c("regions" = "id"), suffix = c("_id", "")) %>%
     dplyr::group_by(.data$row) %>%
+    dplyr::arrange(.data$regions) %>%
     dplyr::summarise(regions = paste(.data$regions, collapse = ", "))
 
   results_row %>%
@@ -108,7 +113,48 @@ lookup_regions <- function(results, choices = mermaid_get_endpoint("choices")) {
     dplyr::select(names(results))
 }
 
+lookup_benthiclifehistories <- function(results, choices = mermaid_get_endpoint("choices")) {
+  life_histories <- choices %>%
+    tibble::deframe() %>%
+    purrr::pluck("benthiclifehistories") %>%
+    dplyr::select(tidyselect::all_of(c("id", "name")))
+
+  results_row <- results %>%
+    dplyr::mutate(row = dplyr::row_number())
+
+  row_lifehistories <- results_row %>%
+    dplyr::select(tidyselect::all_of(c("row", "id" = "life_histories"))) %>%
+    tidyr::separate_rows("id", sep = ", ") %>%
+    dplyr::filter(!is.na(.data$id)) %>%
+    dplyr::left_join(life_histories, by = "id", suffix = c("_id", ""))  %>%
+    dplyr::group_by(.data$row) %>%
+    dplyr::arrange(.data$id) %>%
+    dplyr::summarise(id = paste(.data$name, collapse = ", "))
+
+  names(row_lifehistories) <- c("row", "life_histories")
+
+  results_row %>%
+    dplyr::left_join(row_lifehistories, by = "row", suffix = c("_id", "")) %>%
+    dplyr::select(-tidyselect::all_of(c("row", "life_histories_id"))) %>%
+    dplyr::select(names(results))
+}
+
+match_lifehistories <- function(x, column, life_histories) {
+  x <- x %>%
+    dplyr::select(tidyselect::all_of(c("row", id = "life_histories"))) %>%
+    tidyr::separate_rows("id", sep = ", ") %>%
+    dplyr::filter(!is.na(.data$id)) %>%
+    dplyr::left_join(life_histories, by = "id", suffix = c("_id", ""))  %>%
+    dplyr::group_by(.data$row) %>%
+    dplyr::arrange(.data$id) %>%
+    dplyr::summarise(id = paste(.data$name, collapse = ", "))
+
+  names(x) <- c("id", "life_histories")
+
+  x
+}
+
 fishfamilies_columns <- c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "regions", "created_on", "updated_on")
 fishgenera_columns <- c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "family", "regions", "created_on", "updated_on")
 fishspecies_columns <- c("id", "name", "display", "notes", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "climate_score", "vulnerability", "max_length", "trophic_level", "max_length_type", "genus", "group_size", "trophic_group", "functional_group", "regions", "created_on", "updated_on")
-benthicattributes_columns <- c("id", "name", "status", "parent", "regions", "updated_on", "created_on")
+benthicattributes_columns <- c("id", "name", "status", "parent", "regions", "life_histories", "growth_form_life_histories", "updated_on", "created_on")
