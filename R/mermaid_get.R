@@ -263,7 +263,7 @@ extract_life_histories <- function(results) {
   old_names <- names(results)
 
   res <- results %>%
-    tidyr::unnest(.data$life_histories, names_sep = "___") %>%
+    tidyr::unnest("life_histories", names_sep = "___") %>%
     dplyr::select(-dplyr::all_of(c("life_histories___id"))) %>%
     tidyr::pivot_wider(
       names_from = dplyr::all_of("life_histories___name"),
@@ -319,7 +319,7 @@ extract_growth_form_life_histories <- function(results) {
         } else {
           x %>%
             dplyr::left_join(choices_growth_forms, by = c("growth_form" = "id")) %>%
-            dplyr::select(dplyr::all_of(c("growth_form" = "life_history"))) %>%
+            dplyr::select(dplyr::all_of(c("growth_form" = "name", "life_history"))) %>%
             dplyr::left_join(choices_life_histories, by = c("life_history" = "id")) %>%
             dplyr::select(dplyr::all_of(c("growth_form", "life_history" = "name")))
         }
