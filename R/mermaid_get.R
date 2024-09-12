@@ -210,6 +210,11 @@ initial_cleanup <- function(results, endpoint) {
       extract_life_histories()
   }
 
+  if ("growth_form_life_histories" %in% names(results)) {
+    results <- results %>%
+      extract_growth_form_life_histories()
+  }
+
   if (!endpoint %in% c("choices", "me")) {
     results <- collapse_id_name_lists(results)
 
@@ -241,13 +246,20 @@ initial_cleanup <- function(results, endpoint) {
 }
 
 is_list_col <- function(x) {
-  is.list(x) && !is.data.frame(x)
+  list_col <- is.list(x) && !is.data.frame(x)
+
+  if (list_col) {
+    list_col <- !(purrr::map_lgl(x, is.data.frame) %>% any())
+  }
+
+  list_col
 }
 
 extract_life_histories <- function(results) {
-  if (!purrr::map_lgl(results[["life_histories"]], is.data.frame) %>% all()) {
+  if (!purrr::map_lgl(results[["life_histories"]], is.data.frame) %>% any()) {
     return(results)
   }
+
   old_names <- names(results)
 
   res <- results %>%
@@ -269,6 +281,35 @@ extract_life_histories <- function(results) {
 
   res %>%
     dplyr::relocate(dplyr::all_of(additional_cols), .after = which(old_names == "life_histories") - 1)
+}
+
+extract_growth_form_life_histories <- function(results) {
+  choices <- mermaid_get_endpoint("choices")
+
+  choices_growth_forms <- choices %>% dplyr::filter(name == "growthforms")
+  choices_growth_forms <- choices_growth_forms[["data"]][[1]]
+
+  choices_life_histories <- choices %>% dplyr::filter(name == "benthiclifehistories")
+  choices_life_histories <- choices_life_histories[["data"]][[1]]
+
+  results %>%
+    dplyr::mutate(growth_form_life_histories = purrr::map(
+      growth_form_life_histories,
+      function(x) {
+        if (is.null(x)) {
+          dplyr::tibble(
+            growth_form = character(0),
+            life_history = character(0)
+          )
+        } else {
+          x %>%
+            dplyr::left_join(choices_growth_forms, by = c("growth_form" = "id")) %>%
+            dplyr::select(growth_form = name, life_history) %>%
+            dplyr::left_join(choices_life_histories, by = c("life_history" = "id")) %>%
+            dplyr::select(growth_form, life_history = name)
+        }
+      }
+    ))
 }
 
 collapse_id_name_lists <- function(results) {

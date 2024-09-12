@@ -157,4 +157,4 @@ match_lifehistories <- function(x, column, life_histories) {
 fishfamilies_columns <- c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "regions", "created_on", "updated_on")
 fishgenera_columns <- c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "family", "regions", "created_on", "updated_on")
 fishspecies_columns <- c("id", "name", "display", "notes", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "climate_score", "vulnerability", "max_length", "trophic_level", "max_length_type", "genus", "group_size", "trophic_group", "functional_group", "regions", "created_on", "updated_on")
-benthicattributes_columns <- c("id", "name", "status", "parent", "regions", "life_histories", "updated_on", "created_on")
+benthicattributes_columns <- c("id", "name", "status", "parent", "regions", "life_histories", "growth_form_life_histories", "updated_on", "created_on")
