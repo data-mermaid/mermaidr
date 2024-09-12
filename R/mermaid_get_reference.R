@@ -123,12 +123,12 @@ lookup_benthiclifehistories <- function(results, choices = mermaid_get_endpoint(
     dplyr::mutate(row = dplyr::row_number())
 
   row_lifehistories <- results_row %>%
-    dplyr::select(tidyselect::all_of(c("row", id = "life_histories"))) %>%
+    dplyr::select(tidyselect::all_of(c("row", "id" = "life_histories"))) %>%
     tidyr::separate_rows("id", sep = ", ") %>%
     dplyr::filter(!is.na(.data$id)) %>%
     dplyr::left_join(life_histories, by = "id", suffix = c("_id", ""))  %>%
     dplyr::group_by(.data$row) %>%
-    dplyr::arrange(id) %>%
+    dplyr::arrange(.data$id) %>%
     dplyr::summarise(id = paste(.data$name, collapse = ", "))
 
   names(row_lifehistories) <- c("row", "life_histories")
@@ -146,7 +146,7 @@ match_lifehistories <- function(x, column, life_histories) {
     dplyr::filter(!is.na(.data$id)) %>%
     dplyr::left_join(life_histories, by = "id", suffix = c("_id", ""))  %>%
     dplyr::group_by(.data$row) %>%
-    dplyr::arrange(id) %>%
+    dplyr::arrange(.data$id) %>%
     dplyr::summarise(id = paste(.data$name, collapse = ", "))
 
   names(x) <- c("id", "life_histories")

@@ -263,7 +263,7 @@ extract_life_histories <- function(results) {
   old_names <- names(results)
 
   res <- results %>%
-    tidyr::unnest(life_histories, names_sep = "___") %>%
+    tidyr::unnest(.data$life_histories, names_sep = "___") %>%
     dplyr::select(-dplyr::all_of(c("life_histories___id"))) %>%
     tidyr::pivot_wider(
       names_from = dplyr::all_of("life_histories___name"),
@@ -288,7 +288,7 @@ extract_growth_form_life_histories <- function(results) {
     return(
       results %>%
         dplyr::mutate(growth_form_life_histories = purrr::map(
-          growth_form_life_histories,
+          .data$growth_form_life_histories,
           function(x) {
             dplyr::tibble(
               growth_form = character(0),
@@ -301,15 +301,15 @@ extract_growth_form_life_histories <- function(results) {
 
   choices <- mermaid_get_endpoint("choices")
 
-  choices_growth_forms <- choices %>% dplyr::filter(name == "growthforms")
+  choices_growth_forms <- choices %>% dplyr::filter(.data$name == "growthforms")
   choices_growth_forms <- choices_growth_forms[["data"]][[1]]
 
-  choices_life_histories <- choices %>% dplyr::filter(name == "benthiclifehistories")
+  choices_life_histories <- choices %>% dplyr::filter(.data$name == "benthiclifehistories")
   choices_life_histories <- choices_life_histories[["data"]][[1]]
 
   results %>%
     dplyr::mutate(growth_form_life_histories = purrr::map(
-      growth_form_life_histories,
+      .data$growth_form_life_histories,
       function(x) {
         if (is.null(x)) {
           dplyr::tibble(
@@ -319,9 +319,9 @@ extract_growth_form_life_histories <- function(results) {
         } else {
           x %>%
             dplyr::left_join(choices_growth_forms, by = c("growth_form" = "id")) %>%
-            dplyr::select(growth_form = name, life_history) %>%
+            dplyr::select(dplyr::all_of(c("growth_form" = "life_history"))) %>%
             dplyr::left_join(choices_life_histories, by = c("life_history" = "id")) %>%
-            dplyr::select(growth_form, life_history = name)
+            dplyr::select(dplyr::all_of(c("growth_form", "life_history" = "name")))
         }
       }
     ))
