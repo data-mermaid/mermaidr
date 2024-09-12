@@ -284,6 +284,21 @@ extract_life_histories <- function(results) {
 }
 
 extract_growth_form_life_histories <- function(results) {
+  if (all(results[["growth_form_life_histories"]] %>% is.na())) {
+    return(
+      results %>%
+        dplyr::mutate(growth_form_life_histories = purrr::map(
+          growth_form_life_histories,
+          function(x) {
+            dplyr::tibble(
+              growth_form = character(0),
+              life_history = character(0)
+            )
+          }
+        ))
+    )
+  }
+
   choices <- mermaid_get_endpoint("choices")
 
   choices_growth_forms <- choices %>% dplyr::filter(name == "growthforms")

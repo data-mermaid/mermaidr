@@ -37,3 +37,17 @@ test_that("mermaid_get_reference returns the regions with lookup values", {
   fishfamilies <- mermaid_get_reference("fishfamilies")
   expect_true(any(stringr::str_detect(fishfamilies[["regions"]], "Eastern Indo-Pacific")))
 })
+
+
+test_that("mermaid_get_reference returns growth_form_life_histories as a list of DFs", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+  output <- mermaid_get_reference("benthicattributes")
+  expect_is(output[["growth_form_life_histories"]], "list")
+  expect_true(purrr::map_lgl(output[["growth_form_life_histories"]], is.data.frame) %>% all())
+
+  output <- mermaid_get_reference("benthicattributes", limit = 1)
+  expect_is(output[["growth_form_life_histories"]], "list")
+  expect_true(purrr::map_lgl(output[["growth_form_life_histories"]], is.data.frame) %>% all())
+})
