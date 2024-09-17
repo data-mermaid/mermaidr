@@ -6,13 +6,16 @@
 \usage{
 mermaid_get_reference(
   reference = c("fishfamilies", "fishgenera", "fishspecies", "benthicattributes"),
-  limit = NULL
+  limit = NULL,
+  field_report = TRUE
 )
 }
 \arguments{
 \item{reference}{MERMAID reference. One of "fishfamilies", "fishgenera", "fishspecies", "benthicattributes".}
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
+
+\item{field_report}{Whether the output should be a "field report", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to TRUE, and setting to FALSE is not recommended outside of advanced usage.}
 }
 \description{
 Find the names and information of the fish and benthic attributes you can choose in MERMAID.

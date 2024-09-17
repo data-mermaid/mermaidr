@@ -21,8 +21,8 @@
 #' # To search within your projects only, use mermaid_search_my_projects():
 #' mermaid_search_my_projects(countries = "Fiji")
 #' }
-mermaid_search_projects <- function(name = NULL, countries = NULL, tags = NULL, include_test_projects = FALSE, limit = NULL) {
-  mermaid_search_my_projects(name, countries, tags, include_test_projects, limit, token = NULL)
+mermaid_search_projects <- function(name = NULL, countries = NULL, tags = NULL, include_test_projects = FALSE, limit = NULL, field_report = TRUE) {
+  mermaid_search_my_projects(name, countries, tags, include_test_projects, limit, token = NULL, field_report = field_report)
 }
 
 check_single_project <- function(projects, name) {
