@@ -16,11 +16,11 @@
 #' projects %>%
 #'   mermaid_get_project_sites()
 #' }
-mermaid_get_project_sites <- function(project = mermaid_get_default_project(), limit = NULL, token = mermaid_token(), covariates = FALSE) {
+mermaid_get_project_sites <- function(project = mermaid_get_default_project(), limit = NULL, token = mermaid_token(), covariates = FALSE, field_report = TRUE) {
   if (covariates) {
-    get_project_endpoint(project = project, endpoint = "sites", limit = limit, token = token, filter = list(covars = "true"))
+    get_project_endpoint(project = project, endpoint = "sites", limit = limit, token = token, filter = list(covars = "true"), field_report = field_report)
   } else {
-    get_project_endpoint(project = project, endpoint = "sites", limit = limit, token = token)
+    get_project_endpoint(project = project, endpoint = "sites", limit = limit, token = token, field_report = field_report)
   }
 }
 

@@ -2,25 +2,29 @@
 #'
 #' @inheritParams mermaid_GET
 #' @noRd
-get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites", "summarysampleevents", "classification/labelmappings"), limit = NULL, filter = NULL, ...) {
+get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites", "summarysampleevents", "classification/labelmappings"), limit = NULL, filter = NULL, field_report = TRUE, ...) {
   url <- base_url
 
   endpoint <- match.arg(endpoint, several.ok = TRUE)
 
-  res <- mermaid_GET(endpoint, limit = limit, filter = filter, ...)
-
-  res_lookups <- purrr::map2(res, names(res), lookup_choices)
-  res_strip_name_suffix <- purrr::imap(res_lookups, strip_name_suffix)
-
-  res_columns <- purrr::map2(res_strip_name_suffix, names(res_strip_name_suffix), construct_endpoint_columns)
-
-  # Replace any "" or "NA" with NAs
-  res_columns <- purrr::map(res_columns, \(x) x %>% dplyr::mutate(dplyr::across(dplyr::where(is.character), \(y) ifelse(y %in% c("NA", ""), NA_character_, y))))
-
-  if (length(res_columns) > 1) {
-    res_columns
+  if (!field_report) {
+    res <- mermaid_GET(endpoint, limit = limit, filter = filter, field_report = FALSE, ...)
   } else {
-    res_columns[[endpoint]]
+    res <- mermaid_GET(endpoint, limit = limit, filter = filter, ...)
+
+    res <- purrr::map2(res, names(res), lookup_choices)
+    res <- purrr::imap(res, strip_name_suffix)
+
+    res <- purrr::map2(res, names(res), construct_endpoint_columns)
+
+    # Replace any "" or "NA" with NAs
+    res <- purrr::map(res, \(x) x %>% dplyr::mutate(dplyr::across(dplyr::where(is.character), \(y) ifelse(y %in% c("NA", ""), NA_character_, y))))
+  }
+
+  if (length(res) > 1) {
+    res
+  } else {
+    res[[endpoint]]
   }
 }
 

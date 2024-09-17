@@ -1,6 +1,7 @@
 #' @param endpoint Endpoint
 #' @param limit Number of records to get. Use NULL (the default) to get all records.
 #' @param token API token. Not required for unauthenticated endpoints. Get manually via \code{\link{mermaid_auth}} or automatically when running a function that requires a token.
+#' @param field_report Whether the output should be a "field report", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to TRUE, and setting to FALSE is not recommended outside of advanced usage.
 #' @param ... Additional parameters used as needed
 #'
 #' @name mermaid_GET
@@ -10,7 +11,7 @@ NULL
 #'
 #' @inheritParams mermaid_GET
 #' @noRd
-mermaid_GET <- function(endpoint, limit = NULL, token = NULL, filter = NULL, ...) {
+mermaid_GET <- function(endpoint, limit = NULL, token = NULL, filter = NULL, field_report = TRUE, ...) {
   check_internet()
   limit <- check_limit(limit)
 
@@ -25,8 +26,14 @@ mermaid_GET <- function(endpoint, limit = NULL, token = NULL, filter = NULL, ...
   # Call API and return results
   res <- purrr::map2(path, basename(names(path)), get_response, ua = ua, token = token, limit = limit)
 
-  # Remove validation column, collapse list-cols
-  purrr::map2(res, names(res), initial_cleanup)
+  # Only do any cleaning if field_report is TRUE
+
+  if (field_report) {
+    # Remove validation column, collapse list-cols
+    res <- purrr::map2(res, names(res), initial_cleanup)
+  }
+
+  res
 }
 
 check_errors <- function(response) {
@@ -239,6 +246,8 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if ("transect_len_surveyed" %in% names(results)) {
+    browser()
+    # TODO, transect_len_surveyed does not appear when field_report is FALSE?
     results <- dplyr::rename(results, transect_length = "transect_len_surveyed")
   }
 

@@ -11,8 +11,8 @@
 #' \dontrun{
 #' mermaid_get_me()
 #' }
-mermaid_get_me <- function(token = mermaid_token()) {
-  res <- mermaid_GET("me", token = token)
+mermaid_get_me <- function(token = mermaid_token(), field_report = TRUE) {
+  res <- mermaid_GET("me", token = token, field_report = field_report)
 
   res[["me"]]
 }

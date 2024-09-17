@@ -12,16 +12,18 @@
 #' mermaid_get_reference("benthicattributes")
 #' mermaid_get_reference(c("fishfamilies", "fishgenera"))
 #' }
-mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "fishspecies", "benthicattributes"), limit = NULL) {
+mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "fishspecies", "benthicattributes"), limit = NULL, field_report = TRUE) {
   if (!all(reference %in% c("fishfamilies", "fishgenera", "fishspecies", "benthicattributes"))) {
     stop('`reference` must be one of: "fishfamilies", "fishgenera", "fishspecies", "benthicattributes"', call. = FALSE)
   }
 
   reference <- match.arg(reference, several.ok = TRUE)
 
-  choices <- mermaid_get_endpoint("choices")
-  res <- purrr::map(reference, get_single_reference, limit, choices)
-  res <- purrr::map(res, lookup_regions, choices)
+  choices <- mermaid_get_endpoint("choices", field_report = field_report)
+  res <- purrr::map(reference, get_single_reference, limit, choices, field_report = field_report)
+  if (field_report) {
+    res <- purrr::map(res, lookup_regions, choices)
+  }
 
   if (length(reference) > 1) {
     names(res) <- reference
@@ -31,62 +33,75 @@ mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "f
   }
 }
 
-get_single_reference <- function(reference, limit = NULL, choices = mermaid_get_endpoint("choices")) {
+get_single_reference <- function(reference, limit = NULL, choices = mermaid_get_endpoint("choices"), field_report = TRUE) {
   switch(reference,
-    fishfamilies = get_endpoint("fishfamilies", limit = limit),
-    fishgenera = get_reference_fishgenera(limit = limit),
-    fishspecies = get_reference_fishspecies(limit = limit, choices = choices),
-    benthicattributes = get_reference_benthicattributes(limit = limit, choices = choices)
+    fishfamilies = get_endpoint("fishfamilies", limit = limit, field_report = field_report),
+    fishgenera = get_reference_fishgenera(limit = limit, field_report = field_report),
+    fishspecies = get_reference_fishspecies(limit = limit, choices = choices, field_report = field_report),
+    benthicattributes = get_reference_benthicattributes(limit = limit, choices = choices, field_report = field_report)
   )
 }
 
-get_reference_fishgenera <- function(limit = NULL) {
-  fishgenera <- get_endpoint("fishgenera", limit = limit)
-  fishfamilies <- get_endpoint("fishfamilies") %>%
-    dplyr::select(tidyselect::all_of(c("id", family = "name")))
+get_reference_fishgenera <- function(limit = NULL, field_report = TRUE) {
+  fishgenera <- get_endpoint("fishgenera", limit = limit, field_report = field_report)
 
-  fishgenera %>%
-    dplyr::left_join(fishfamilies, by = c("family" = "id"), suffix = c("_id", ""))
+  if (field_report) {
+    fishfamilies <- get_endpoint("fishfamilies", field_report = field_report) %>%
+      dplyr::select(tidyselect::all_of(c("id", family = "name")))
+
+    fishgenera %>%
+      dplyr::left_join(fishfamilies, by = c("family" = "id"), suffix = c("_id", ""))
+  } else {
+    fishgenera
+  }
 }
 
-get_reference_fishspecies <- function(limit = NULL, choices = mermaid_get_endpoint("choices")) {
-  fishspecies <- get_endpoint("fishspecies", limit = limit)
+get_reference_fishspecies <- function(limit = NULL, choices = mermaid_get_endpoint("choices"), field_report = TRUE) {
+  fishspecies <- get_endpoint("fishspecies", limit = limit, field_report = field_report)
 
-  fishgenera <- get_endpoint("fishgenera")
+  if (field_report) {
+    fishgenera <- get_endpoint("fishgenera", field_report = field_report)
 
-  choices <- choices %>%
-    tibble::deframe()
+    choices <- choices %>%
+      tibble::deframe()
 
-  fishgroupsizes <- choices[["fishgroupsizes"]] %>%
-    dplyr::select(tidyselect::all_of(c("id", group_size = "name")))
+    fishgroupsizes <- choices[["fishgroupsizes"]] %>%
+      dplyr::select(tidyselect::all_of(c("id", group_size = "name")))
 
-  fishgrouptrophics <- choices[["fishgrouptrophics"]] %>%
-    dplyr::select(tidyselect::all_of(c("id", trophic_group = "name")))
+    fishgrouptrophics <- choices[["fishgrouptrophics"]] %>%
+      dplyr::select(tidyselect::all_of(c("id", trophic_group = "name")))
 
-  fishgroupfunctions <- choices[["fishgroupfunctions"]] %>%
-    dplyr::select(tidyselect::all_of(c("id", functional_group = "name")))
+    fishgroupfunctions <- choices[["fishgroupfunctions"]] %>%
+      dplyr::select(tidyselect::all_of(c("id", functional_group = "name")))
 
-  genus <- fishgenera %>%
-    dplyr::select(tidyselect::all_of(c("id", genus = "name")))
+    genus <- fishgenera %>%
+      dplyr::select(tidyselect::all_of(c("id", genus = "name")))
 
-  fishspecies %>%
-    dplyr::rename(species = "display") %>%
-    dplyr::left_join(genus, by = c("genus" = "id"), suffix = c("_id", "")) %>%
-    dplyr::left_join(fishgroupsizes, by = c("group_size" = "id"), suffix = c("_id", "")) %>%
-    dplyr::left_join(fishgrouptrophics, by = c("trophic_group" = "id"), suffix = c("_id", "")) %>%
-    dplyr::left_join(fishgroupfunctions, by = c("functional_group" = "id"), suffix = c("_id", ""))
+    fishspecies %>%
+      dplyr::rename(species = "display") %>%
+      dplyr::left_join(genus, by = c("genus" = "id"), suffix = c("_id", "")) %>%
+      dplyr::left_join(fishgroupsizes, by = c("group_size" = "id"), suffix = c("_id", "")) %>%
+      dplyr::left_join(fishgrouptrophics, by = c("trophic_group" = "id"), suffix = c("_id", "")) %>%
+      dplyr::left_join(fishgroupfunctions, by = c("functional_group" = "id"), suffix = c("_id", ""))
+  } else {
+    fishspecies
+  }
 }
 
-get_reference_benthicattributes <- function(limit = NULL, choices = mermaid_get_endpoint("choices")) {
-  benthicattributes <- get_endpoint("benthicattributes", limit = limit)
+get_reference_benthicattributes <- function(limit = NULL, choices = mermaid_get_endpoint("choices"), field_report = TRUE) {
+  benthicattributes <- get_endpoint("benthicattributes", limit = limit, field_report = field_report)
 
-  # Lookup life histories
-  res <- benthicattributes %>%
-    lookup_benthiclifehistories(choices)
+  if (field_report) {
+    # Lookup life histories
+    res <- benthicattributes %>%
+      lookup_benthiclifehistories(choices)
 
-  benthicattributes %>%
-    dplyr::left_join(benthicattributes %>%
-      dplyr::select(tidyselect::all_of(c(parent_id = "id", parent = "name"))), by = c("parent" = "parent_id"), suffix = c("_id", ""))
+    benthicattributes %>%
+      dplyr::left_join(benthicattributes %>%
+        dplyr::select(tidyselect::all_of(c(parent_id = "id", parent = "name"))), by = c("parent" = "parent_id"), suffix = c("_id", ""))
+  } else {
+    benthicattributes
+  }
 }
 
 lookup_regions <- function(results, choices = mermaid_get_endpoint("choices")) {

@@ -7,7 +7,8 @@
 mermaid_get_my_projects(
   include_test_projects = FALSE,
   limit = NULL,
-  token = mermaid_token()
+  token = mermaid_token(),
+  field_report = TRUE
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ mermaid_get_my_projects(
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
 \item{token}{API token. Not required for unauthenticated endpoints. Get manually via \code{\link{mermaid_auth}} or automatically when running a function that requires a token.}
+
+\item{field_report}{Whether the output should be a "field report", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to TRUE, and setting to FALSE is not recommended outside of advanced usage.}
 }
 \value{
 A tibble of MERMAID projects that you have access to, including project name, countries, number of sites, tags, notes, and data policies.

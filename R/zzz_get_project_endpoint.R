@@ -16,7 +16,7 @@ NULL
 #' test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
-get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint, limit = NULL, token = mermaid_token(), filter = NULL, covariates = FALSE) {
+get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint, limit = NULL, token = mermaid_token(), filter = NULL, covariates = FALSE, field_report = TRUE) {
   project_id <- as_id(project)
   check_project(project_id)
 
@@ -24,7 +24,7 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   full_endpoints <- purrr::map(endpoint, ~ paste0("projects/", project_id, "/", .x))
 
   # Get endpoint results
-  endpoints_res <- purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, filter = filter, token = token, project_id = project_id, project = project, covariates = covariates)
+  endpoints_res <- purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, filter = filter, token = token, project_id = project_id, project = project, covariates = covariates, field_report = field_report)
   names(endpoints_res) <- endpoint
 
   # Return endpoints
@@ -34,28 +34,32 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
     res <- endpoints_res
   }
 
-  # Expand df-cols, only for project_data functions (which have a / in their endpoints)
-  if (all(stringr::str_detect(endpoint, "/")) & !any(stringr::str_detect(endpoint, "ingest_schema"))) {
-    if (length(endpoint) == 1) {
-      if (nrow(res) == 0) {
-        dplyr::select(res, tidyselect::any_of(project_data_test_columns[[endpoint]]))
+  if (field_report) {
+    # Expand df-cols, only for project_data functions (which have a / in their endpoints)
+    if (all(stringr::str_detect(endpoint, "/")) & !any(stringr::str_detect(endpoint, "ingest_schema"))) {
+      if (length(endpoint) == 1) {
+        if (nrow(res) == 0) {
+          dplyr::select(res, tidyselect::any_of(project_data_test_columns[[endpoint]]))
+        } else {
+          clean_df_cols(res)
+        }
       } else {
-        clean_df_cols(res)
+        if (all(purrr::map_dbl(res, nrow) == 0)) {
+          purrr::imap(res, ~ dplyr::select(.x, tidyselect::any_of(project_data_test_columns[[.y]])))
+        } else {
+          purrr::map(res, clean_df_cols)
+        }
       }
     } else {
-      if (all(purrr::map_dbl(res, nrow) == 0)) {
-        purrr::imap(res, ~ dplyr::select(.x, tidyselect::any_of(project_data_test_columns[[.y]])))
-      } else {
-        purrr::map(res, clean_df_cols)
-      }
+      res
     }
   } else {
     res
   }
 }
 
-get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, token = mermaid_token(), filter = NULL, project_id, project, covariates = FALSE) {
-  initial_res <- mermaid_GET(full_endpoint, limit = limit, filter = filter, token = token)
+get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, token = mermaid_token(), filter = NULL, project_id, project, covariates = FALSE, field_report = TRUE) {
+  initial_res <- mermaid_GET(full_endpoint, limit = limit, filter = filter, token = token, field_report = field_report)
 
   # Return ingest schema for tidying separately
   if (stringr::str_detect(endpoint, "ingest_schema")) {
@@ -72,19 +76,21 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
     res <- dplyr::select(res, -tidyselect::any_of("project"))
   }
 
-  res_lookups <- lookup_choices(res, endpoint, endpoint_type = "project")
-  res_strip_suffix <- strip_name_suffix(res_lookups, endpoint, covariates)
-  res <- construct_project_endpoint_columns(res_strip_suffix, endpoint, multiple_projects = length(initial_res) > 1, covariates = covariates)
+  if (field_report) {
+    res_lookups <- lookup_choices(res, endpoint, endpoint_type = "project")
+    res_strip_suffix <- strip_name_suffix(res_lookups, endpoint, covariates)
+    res <- construct_project_endpoint_columns(res_strip_suffix, endpoint, multiple_projects = length(initial_res) > 1, covariates = covariates)
 
-  # Combine sample date year, month, day, into single field, place after management_rules
-  if (all(c("sample_date_year", "sample_date_month", "sample_date_day") %in% names(res))) {
-    res <- res %>%
-      dplyr::mutate(
-        sample_date = ISOdate(.data$sample_date_year, .data$sample_date_month, .data$sample_date_day),
-        sample_date = as.Date(.data$sample_date)
-      ) %>%
-      dplyr::relocate("sample_date", .after = "management_rules") %>%
-      dplyr::select(-dplyr::all_of(c("sample_date_year", "sample_date_month", "sample_date_day")))
+    # Combine sample date year, month, day, into single field, place after management_rules
+    if (all(c("sample_date_year", "sample_date_month", "sample_date_day") %in% names(res))) {
+      res <- res %>%
+        dplyr::mutate(
+          sample_date = ISOdate(.data$sample_date_year, .data$sample_date_month, .data$sample_date_day),
+          sample_date = as.Date(.data$sample_date)
+        ) %>%
+        dplyr::relocate("sample_date", .after = "management_rules") %>%
+        dplyr::select(-dplyr::all_of(c("sample_date_year", "sample_date_month", "sample_date_day")))
+    }
   }
 
   res
