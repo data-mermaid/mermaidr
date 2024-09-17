@@ -13,22 +13,28 @@
 #' \dontrun{
 #' mermaid_get_my_projects()
 #' }
-mermaid_get_my_projects <- function(include_test_projects = FALSE, limit = NULL, token = mermaid_token()) {
+mermaid_get_my_projects <- function(include_test_projects = FALSE, limit = NULL, token = mermaid_token(), field_report = TRUE) {
   if (include_test_projects) {
-    res <- mermaid_GET("projects", limit = limit, token = token)
+    res <- mermaid_GET("projects", limit = limit, token = token, field_report = field_report)
   } else {
-    res <- mermaid_GET("projects", limit = limit, token = token, filter = list(status = 90))
+    res <- mermaid_GET("projects", limit = limit, token = token, filter = list(status = 90), field_report = field_report)
   }
 
   res <- res[["projects"]]
 
-  if (nrow(res) == 0) {
-    cols <- mermaid_endpoint_columns[["projects"]]
-    res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)), .name_repair = "minimal")
-    names(res) <- cols
-    res
+  if (field_report) {
+    if (nrow(res) == 0) {
+      cols <- mermaid_endpoint_columns[["projects"]]
+      res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)), .name_repair = "minimal")
+      names(res) <- cols
+      res
+    } else {
+      res <- res[, mermaid_endpoint_columns[["projects"]]]
+      lookup_choices(res, endpoint = "projects")
+    }
   } else {
-    res <- res[, mermaid_endpoint_columns[["projects"]]]
-    lookup_choices(res, endpoint = "projects")
+    res
+    # NOTE - if 0 projects, then !field_report actually just returns a 0x0 tibble
+    # Which is why field_report constructs the columns above - but should be fine for non-field report, since it very much is "as is"
   }
 }

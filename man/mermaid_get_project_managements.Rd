@@ -7,7 +7,8 @@
 mermaid_get_project_managements(
   project = mermaid_get_default_project(),
   limit = NULL,
-  token = mermaid_token()
+  token = mermaid_token(),
+  field_report = TRUE
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ mermaid_get_project_managements(
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
 \item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
+
+\item{field_report}{Whether the output should be a "field report", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to TRUE, and setting to FALSE is not recommended outside of advanced usage.}
 }
 \description{
 Get managements for specified MERMAID project(s). Returns metadata on project managements, including ID and name, secondary name, rules, notes, year established, and when the management was created and last updated. Requires authorization.

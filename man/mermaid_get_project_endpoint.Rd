@@ -10,7 +10,8 @@ mermaid_get_project_endpoint(
     "benthicpittransectmethods", "benthictransects", "collectrecords",
     "fishbelttransects", "observers", "project_profiles", "sampleevents"),
   limit = NULL,
-  token = mermaid_token()
+  token = mermaid_token(),
+  field_report = TRUE
 )
 }
 \arguments{
@@ -21,6 +22,8 @@ mermaid_get_project_endpoint(
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
 \item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
+
+\item{field_report}{Whether the output should be a "field report", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to TRUE, and setting to FALSE is not recommended outside of advanced usage.}
 }
 \description{
 Get data from MERMAID API project endpoints not covered by other \code{mermaid_get_project_*} functions. Requires authorization.
