@@ -4,13 +4,15 @@
 \alias{mermaid_get_classification_labelmappings}
 \title{Classification label mappings}
 \usage{
-mermaid_get_classification_labelmappings(limit = NULL)
+mermaid_get_classification_labelmappings(provider = NULL, limit = NULL)
 }
 \arguments{
+\item{provider}{Provider to filter the lookup table for, e.g. CoralNet or ReefCloud.}
+
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 }
 \description{
-Get a lookup table that maps MERMAID Benthic Attributes and Growth Forms to labels from other sources (e.g. CoralNet).
+Get a lookup table that maps MERMAID Benthic Attributes and Growth Forms to labels from other providers (e.g. CoralNet, ReefCloud).
 }
 \examples{
 mermaid_get_classification_labelmappings()
