@@ -1,7 +1,7 @@
 #' @param endpoint Endpoint
 #' @param limit Number of records to get. Use NULL (the default) to get all records.
 #' @param token API token. Not required for unauthenticated endpoints. Get manually via \code{\link{mermaid_auth}} or automatically when running a function that requires a token.
-#' @param field_report Whether the output should be a "field report", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to TRUE, and setting to FALSE is not recommended outside of advanced usage.
+#' @param as_is Whether the output should be a "as is", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to FALSE, and setting to TRUE is not recommended outside of advanced usage.
 #' @param ... Additional parameters used as needed
 #'
 #' @name mermaid_GET
@@ -11,7 +11,7 @@ NULL
 #'
 #' @inheritParams mermaid_GET
 #' @noRd
-mermaid_GET <- function(endpoint, limit = NULL, token = NULL, filter = NULL, field_report = TRUE, ...) {
+mermaid_GET <- function(endpoint, limit = NULL, token = NULL, filter = NULL, as_is = FALSE, ...) {
   check_internet()
   limit <- check_limit(limit)
 
@@ -26,9 +26,9 @@ mermaid_GET <- function(endpoint, limit = NULL, token = NULL, filter = NULL, fie
   # Call API and return results
   res <- purrr::map2(path, basename(names(path)), get_response, ua = ua, token = token, limit = limit)
 
-  # Only do any cleaning if field_report is TRUE
+  # Only do any cleaning if as_is is FALSE
 
-  if (field_report) {
+  if (!as_is) {
     # Remove validation column, collapse list-cols
     res <- purrr::map2(res, names(res), initial_cleanup)
   }
@@ -247,7 +247,7 @@ initial_cleanup <- function(results, endpoint) {
 
   if ("transect_len_surveyed" %in% names(results)) {
     browser()
-    # TODO, transect_len_surveyed does not appear when field_report is FALSE?
+    # TODO, transect_len_surveyed does not appear when as_is is TRUE?
     results <- dplyr::rename(results, transect_length = "transect_len_surveyed")
   }
 

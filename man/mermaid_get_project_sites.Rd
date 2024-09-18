@@ -9,7 +9,7 @@ mermaid_get_project_sites(
   limit = NULL,
   token = mermaid_token(),
   covariates = FALSE,
-  field_report = TRUE
+  as_is = FALSE
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ mermaid_get_project_sites(
 
 \item{covariates}{Whether to include covariates. Defaults to FALSE.}
 
-\item{field_report}{Whether the output should be a "field report", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to TRUE, and setting to FALSE is not recommended outside of advanced usage.}
+\item{as_is}{Whether the output should be a "as is", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to FALSE, and setting to TRUE is not recommended outside of advanced usage.}
 }
 \description{
 Get sites for specified MERMAID project(s). Returns metadata on sites, including site ID and name, notes, latitude and longitude, country, reef type and zone, exposure, and when the site was created and last updated. Optionally get covariates. Requires authorization.

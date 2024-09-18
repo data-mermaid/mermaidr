@@ -4,18 +4,14 @@
 \alias{mermaid_get_managements}
 \title{Get MERMAID managements}
 \usage{
-mermaid_get_managements(
-  limit = NULL,
-  token = mermaid_token(),
-  field_report = TRUE
-)
+mermaid_get_managements(limit = NULL, token = mermaid_token(), as_is = FALSE)
 }
 \arguments{
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
 \item{token}{API token. Not required for unauthenticated endpoints. Get manually via \code{\link{mermaid_auth}} or automatically when running a function that requires a token.}
 
-\item{field_report}{Whether the output should be a "field report", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to TRUE, and setting to FALSE is not recommended outside of advanced usage.}
+\item{as_is}{Whether the output should be a "as is", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to FALSE, and setting to TRUE is not recommended outside of advanced usage.}
 }
 \description{
 Get all MERMAID managements (not project specific). Returns metadata on managements, including ID and name, secondary name, rules, notes, year established, and when the management was created and last updated.

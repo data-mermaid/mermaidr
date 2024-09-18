@@ -7,7 +7,7 @@
 mermaid_get_projects(
   include_test_projects = FALSE,
   limit = NULL,
-  field_report = TRUE
+  as_is = FALSE
 )
 }
 \arguments{
@@ -15,7 +15,7 @@ mermaid_get_projects(
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
-\item{field_report}{Whether the output should be a "field report", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to TRUE, and setting to FALSE is not recommended outside of advanced usage.}
+\item{as_is}{Whether the output should be a "as is", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to FALSE, and setting to TRUE is not recommended outside of advanced usage.}
 }
 \description{
 Get all MERMAID projects. Returns metadata on projects, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.

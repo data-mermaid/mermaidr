@@ -11,7 +11,7 @@ mermaid_search_my_projects(
   include_test_projects = FALSE,
   limit = NULL,
   token = mermaid_token(),
-  field_report = TRUE
+  as_is = FALSE
 )
 }
 \arguments{
@@ -27,7 +27,7 @@ mermaid_search_my_projects(
 
 \item{token}{API token. Not required for unauthenticated endpoints. Get manually via \code{\link{mermaid_auth}} or automatically when running a function that requires a token.}
 
-\item{field_report}{Whether the output should be a "field report", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to TRUE, and setting to FALSE is not recommended outside of advanced usage.}
+\item{as_is}{Whether the output should be a "as is", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to FALSE, and setting to TRUE is not recommended outside of advanced usage.}
 }
 \description{
 Search within your MERMAID projects, by project name, country, or tags. Returns metadata on project, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated. Requires authorization.

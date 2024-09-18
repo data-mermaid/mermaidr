@@ -10,8 +10,8 @@
 #' \dontrun{
 #' mermaid_get_sites(limit = 10)
 #' }
-mermaid_get_sites <- function(limit = NULL, token = mermaid_token(), field_report = TRUE) {
-  get_endpoint("sites", limit = limit, token = token, field_report = field_report)
+mermaid_get_sites <- function(limit = NULL, token = mermaid_token(), as_is = FALSE) {
+  get_endpoint("sites", limit = limit, token = token, as_is = as_is)
 }
 
 sites_columns <- c("id", "name", "notes", "project", "latitude", "longitude", "country", "reef_type", "reef_zone", "exposure", "predecessor", "created_on", "updated_on")

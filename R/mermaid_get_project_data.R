@@ -38,11 +38,11 @@
 #' names(bleaching_obs)
 #' # [1] "colonies_bleached" "percent_cover"
 #' }
-mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE, field_report = TRUE) {
-  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates, legacy = FALSE, token, field_report = field_report)
+mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE, as_is = FALSE) {
+  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates, legacy = FALSE, token, as_is = as_is)
 }
 
-internal_mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, covariates = FALSE, legacy = legacy, token = mermaid_token(), field_report = TRUE) {
+internal_mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, covariates = FALSE, legacy = legacy, token = mermaid_token(), as_is = FALSE) {
   check_project_data_inputs(method, data)
 
   if (any(method == "all")) {
@@ -54,7 +54,7 @@ internal_mermaid_get_project_data <- function(project = mermaid_get_default_proj
 
   endpoint <- construct_endpoint(method, data, legacy)
 
-  res <- purrr::map(endpoint, function(x) get_project_endpoint(project, x, limit, token, covariates = covariates, field_report = field_report))
+  res <- purrr::map(endpoint, function(x) get_project_endpoint(project, x, limit, token, covariates = covariates, as_is = as_is))
 
   if (all(purrr::map_lgl(res, inherits, "list"))) {
     res <- purrr::map(res, ~ {
@@ -75,8 +75,8 @@ internal_mermaid_get_project_data <- function(project = mermaid_get_default_proj
 
   # If covariates = TRUE, get sites for each project
   if (covariates) {
-    # TODO if field_report = FALSE and covariates?
-    if (!field_report) {
+    # TODO if as_is = TRUE and covariates?
+    if (as_is) {
       browser()
     } else {
       project_sites_covariates <- project %>%
@@ -103,8 +103,8 @@ internal_mermaid_get_project_data <- function(project = mermaid_get_default_proj
   }
 }
 
-mermaid_get_project_data_legacy <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE, field_report = TRUE) {
-  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates, legacy = TRUE, token, field_report = TRUE)
+mermaid_get_project_data_legacy <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE, as_is = FALSE) {
+  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates, legacy = TRUE, token, as_is = FALSE)
 }
 
 check_project_data_inputs <- function(method, data) {
