@@ -2,13 +2,13 @@
 #'
 #' @inheritParams mermaid_GET
 #' @noRd
-get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites", "summarysampleevents", "classification/labelmappings"), limit = NULL, filter = NULL, field_report = TRUE, ...) {
+get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites", "summarysampleevents", "classification/labelmappings"), limit = NULL, filter = NULL, as_is = TRUE, ...) {
   url <- base_url
 
   endpoint <- match.arg(endpoint, several.ok = TRUE)
 
-  if (!field_report) {
-    res <- mermaid_GET(endpoint, limit = limit, filter = filter, field_report = FALSE, ...)
+  if (as_is) {
+    res <- mermaid_GET(endpoint, limit = limit, filter = filter, as_is = TRUE, ...)
   } else {
     res <- mermaid_GET(endpoint, limit = limit, filter = filter, ...)
 

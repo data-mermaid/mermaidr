@@ -4,12 +4,12 @@
 \alias{mermaid_get_summary_sampleevents}
 \title{Get aggregated metrics for all MERMAID surveys, by site, by date}
 \usage{
-mermaid_get_summary_sampleevents(limit = NULL, field_report = TRUE)
+mermaid_get_summary_sampleevents(limit = NULL, as_is = FALSE)
 }
 \arguments{
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
-\item{field_report}{Whether the output should be a "field report", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to TRUE, and setting to FALSE is not recommended outside of advanced usage.}
+\item{as_is}{Whether the output should be a "as is", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to FALSE, and setting to TRUE is not recommended outside of advanced usage.}
 }
 \description{
 Get aggregated metrics from all surveys associated with each site, by date. Includes data from all methods - Fish Belt, Benthic LIT, Benthic PIT, Benthic Photo Quadrat, Bleaching, and Habitat Complexity, - if the data sharing policy for that method is public summary or public (and just includes the sample unit count otherwise). Does not require authorization.

@@ -12,7 +12,7 @@ mermaid_get_project_data(
   limit = NULL,
   token = mermaid_token(),
   covariates = FALSE,
-  field_report = TRUE
+  as_is = FALSE
 )
 }
 \arguments{
@@ -28,7 +28,7 @@ mermaid_get_project_data(
 
 \item{covariates}{Whether to include covariates. Defaults to FALSE.}
 
-\item{field_report}{Whether the output should be a "field report", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to TRUE, and setting to FALSE is not recommended outside of advanced usage.}
+\item{as_is}{Whether the output should be a "as is", i.e. a cleaned up version of the output with IDs mapped to names and only relevant fields shown. Defaults to FALSE, and setting to TRUE is not recommended outside of advanced usage.}
 }
 \description{
 Get Fish Belt, Benthic LIT, Benthic PIT, Bleaching, or Habitat Complexity data for your MERMAID projects. Data is available at the observation, sample unit, and sample event level. Optionally get covariates at the site level. See Details section for more. Requires authorization.

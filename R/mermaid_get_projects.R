@@ -11,17 +11,17 @@
 #' \dontrun{
 #' mermaid_get_projects(limit = 5)
 #' }
-mermaid_get_projects <- function(include_test_projects = FALSE, limit = NULL, field_report = TRUE) {
+mermaid_get_projects <- function(include_test_projects = FALSE, limit = NULL, as_is = FALSE) {
   if (include_test_projects) {
-    res <- mermaid_GET("projects", limit = limit, field_report = field_report)
+    res <- mermaid_GET("projects", limit = limit, as_is = as_is)
   } else {
-    res <- mermaid_GET("projects", limit = limit, filter = list(status = 90), field_report = field_report)
+    res <- mermaid_GET("projects", limit = limit, filter = list(status = 90), as_is = as_is)
   }
 
   res <- res[["projects"]]
   res <- res[, mermaid_endpoint_columns[["projects"]]]
 
-  if (field_report) {
+  if (!as_is) {
     res <- lookup_choices(res, endpoint = "projects")
   }
 
