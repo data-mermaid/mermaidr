@@ -16,7 +16,7 @@ NULL
 #' test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
-get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint, limit = NULL, token = mermaid_token(), filter = NULL, covariates = FALSE, field_report = TRUE) {
+get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint, limit = NULL, token = mermaid_token(), filter = NULL, covariates = FALSE, as_is = FALSE) {
   project_id <- as_id(project)
   check_project(project_id)
 
@@ -24,7 +24,7 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   full_endpoints <- purrr::map(endpoint, ~ paste0("projects/", project_id, "/", .x))
 
   # Get endpoint results
-  endpoints_res <- purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, filter = filter, token = token, project_id = project_id, project = project, covariates = covariates, field_report = field_report)
+  endpoints_res <- purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, filter = filter, token = token, project_id = project_id, project = project, covariates = covariates, as_is = as_is)
   names(endpoints_res) <- endpoint
 
   # Return endpoints
@@ -34,7 +34,7 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
     res <- endpoints_res
   }
 
-  if (field_report) {
+  if (!as_is) {
     # Expand df-cols, only for project_data functions (which have a / in their endpoints)
     if (all(stringr::str_detect(endpoint, "/")) & !any(stringr::str_detect(endpoint, "ingest_schema"))) {
       if (length(endpoint) == 1) {
@@ -58,8 +58,8 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   }
 }
 
-get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, token = mermaid_token(), filter = NULL, project_id, project, covariates = FALSE, field_report = TRUE) {
-  initial_res <- mermaid_GET(full_endpoint, limit = limit, filter = filter, token = token, field_report = field_report)
+get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, token = mermaid_token(), filter = NULL, project_id, project, covariates = FALSE, as_is = FALSE) {
+  initial_res <- mermaid_GET(full_endpoint, limit = limit, filter = filter, token = token, as_is = as_is)
 
   # Return ingest schema for tidying separately
   if (stringr::str_detect(endpoint, "ingest_schema")) {
@@ -76,7 +76,7 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
     res <- dplyr::select(res, -tidyselect::any_of("project"))
   }
 
-  if (field_report) {
+  if (!as_is) {
     res_lookups <- lookup_choices(res, endpoint, endpoint_type = "project")
     res_strip_suffix <- strip_name_suffix(res_lookups, endpoint, covariates)
     res <- construct_project_endpoint_columns(res_strip_suffix, endpoint, multiple_projects = length(initial_res) > 1, covariates = covariates)

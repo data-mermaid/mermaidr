@@ -10,10 +10,10 @@
 #' \dontrun{
 #' mermaid_get_summary_sampleevents()
 #' }
-mermaid_get_summary_sampleevents <- function(limit = NULL, field_report = TRUE) {
-  res <- get_endpoint("summarysampleevents", limit = limit, field_report = field_report)
+mermaid_get_summary_sampleevents <- function(limit = NULL, as_is = FALSE) {
+  res <- get_endpoint("summarysampleevents", limit = limit, as_is = as_is)
 
-  if (field_report) {
+  if (!as_is) {
     # Unpack all df-cols (protocols, then everything within it)
     res <- unpack_protocols(res)
   }

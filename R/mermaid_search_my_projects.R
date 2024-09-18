@@ -20,7 +20,7 @@
 #' # To search all projects (not just yours), use mermaid_search_projects():
 #' mermaid_search_projects(countries = "Fiji")
 #' }
-mermaid_search_my_projects <- function(name = NULL, countries = NULL, tags = NULL, include_test_projects = FALSE, limit = NULL, token = mermaid_token(), field_report = TRUE) {
+mermaid_search_my_projects <- function(name = NULL, countries = NULL, tags = NULL, include_test_projects = FALSE, limit = NULL, token = mermaid_token(), as_is = FALSE) {
   if (is.null(name) & is.null(countries) & is.null(tags)) {
     stop("You haven't provided `name`, `countries`, or `tags` to search by.",
       call. = FALSE
@@ -29,9 +29,9 @@ mermaid_search_my_projects <- function(name = NULL, countries = NULL, tags = NUL
 
   if (!is.null(name)) {
     if (include_test_projects) {
-      projects <- get_endpoint("projects", limit = limit, token = token, filter = list(name = name), field_report = field_report)
+      projects <- get_endpoint("projects", limit = limit, token = token, filter = list(name = name), as_is = as_is)
     } else {
-      projects <- get_endpoint("projects", limit = limit, token = token, filter = list(name = name, status = 90), field_report = field_report)
+      projects <- get_endpoint("projects", limit = limit, token = token, filter = list(name = name, status = 90), as_is = as_is)
     }
     # API now returns project if name contains, not exactly equal to - so filter further
     projects <- projects %>%
@@ -41,7 +41,7 @@ mermaid_search_my_projects <- function(name = NULL, countries = NULL, tags = NUL
       check_single_project(projects, name)
     }
   } else if (!is.null(countries) | !is.null(tags)) {
-    projects <- mermaid_get_my_projects(include_test_projects = include_test_projects, token = token, field_report = field_report)
+    projects <- mermaid_get_my_projects(include_test_projects = include_test_projects, token = token, as_is = as_is)
   }
 
   if (!is.null(countries)) {
@@ -53,7 +53,7 @@ mermaid_search_my_projects <- function(name = NULL, countries = NULL, tags = NUL
       dplyr::filter(grepl(!!tags, .data$tags))
   }
 
-  if (field_report) {
+  if (!as_is) {
     if (is.null(limit)) {
       lookup_choices(projects, endpoint = "projects")
     } else {

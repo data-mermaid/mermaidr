@@ -13,8 +13,8 @@
 #' projects %>%
 #'   mermaid_get_project_endpoint("observers")
 #' }
-mermaid_get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "benthiclittransectmethods", "benthicpittransectmethods", "benthictransects", "collectrecords", "fishbelttransects", "observers", "project_profiles", "sampleevents"), limit = NULL, token = mermaid_token(), field_report = TRUE) {
-  get_project_endpoint(project, endpoint, limit, token, field_report = field_report)
+mermaid_get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint = c("beltfishtransectmethods", "benthiclittransectmethods", "benthicpittransectmethods", "benthictransects", "collectrecords", "fishbelttransects", "observers", "project_profiles", "sampleevents"), limit = NULL, token = mermaid_token(), as_is = FALSE) {
+  get_project_endpoint(project, endpoint, limit, token, as_is = as_is)
 }
 
 project_other_endpoint_columns <- list(

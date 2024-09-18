@@ -10,8 +10,8 @@
 #' \dontrun{
 #' mermaid_get_managements(limit = 10)
 #' }
-mermaid_get_managements <- function(limit = NULL, token = mermaid_token(), field_report = TRUE) {
-  get_endpoint("managements", limit = limit, token = token, field_report = field_report)
+mermaid_get_managements <- function(limit = NULL, token = mermaid_token(), as_is = FALSE) {
+  get_endpoint("managements", limit = limit, token = token, as_is = as_is)
 }
 
 managements_columns <- c("id", "name", "name_secondary", "est_year", "size", "parties", "compliance", "open_access", "no_take", "access_restriction", "periodic_closure", "size_limits", "gear_restriction", "species_restriction", "notes", "created_on", "updated_on")
