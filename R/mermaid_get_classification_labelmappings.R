@@ -8,7 +8,10 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' mermaid_get_classification_labelmappings()
+#' mermaid_get_classification_labelmappings("CoralNet")
+#' }
 mermaid_get_classification_labelmappings <- function(provider = NULL, limit = NULL) {
   endpoint <- "classification/labelmappings"
 
