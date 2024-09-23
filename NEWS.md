@@ -1,7 +1,7 @@
 # mermaidr 1.1.1
 
 * Handle timeout error in `mermaid_import_project_data()` with suggestions to batch import data by site or date.
-* Add `classification-labelmappings()`
+* Add `mermaid_get_classification_labelmappings()`
 
 # mermaidr 1.1.0
 
