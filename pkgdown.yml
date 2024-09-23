@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.0
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   articles/accessing_dev_collect_data: accessing_dev_collect_data.html
@@ -8,4 +8,4 @@ articles:
   articles/importing_fishbelt: importing_fishbelt.html
   articles/new_to_r: new_to_r.html
   articles/vo_baseline_monitoring: vo_baseline_monitoring.html
-last_built: 2024-09-12T17:38Z
+last_built: 2024-09-23T15:56Z
