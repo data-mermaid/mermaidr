@@ -328,3 +328,47 @@ test_that("mermaid_import_project_data with NA in CSVs converts NAs to '' and su
   expect_true(all(is.na(collect_records[["relative_depth"]])))
   expect_true(all(collect_records[["notes"]] == ""))
 })
+
+test_that("mermaid_import_project_data fails gracefully on 504", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  df <- structure(list(`Site *` = c("Ada01", "Ada01"), `Management *` = c(
+    "Adavaci_open",
+    "Adavaci_open"
+  ), `Sample date: Year *` = c(2017, 2017), `Sample date: Month *` = c(
+    5,
+    5
+  ), `Sample date: Day *` = c(15, 15), `Sample time` = structure(c(
+    43200,
+    43200
+  ), class = c("hms", "difftime"), units = "secs"), `Depth *` = c(
+    8,
+    8
+  ), `Transect number *` = c(1, 1), `Transect label` = c(NA, NA), `Transect length surveyed *` = c(50, 50), `Width *` = c(
+    5,
+    5
+  ), `Fish size bin *` = c(5, 5), `Reef slope` = c(NA, NA), Visibility = c(
+    NA,
+    NA
+  ), Current = c(NA, NA), `Relative depth` = c("Deep", "Deep"), Tide = c("falling", "falling"), Notes = c(NA, NA), `Observer emails *` = c(
+    "wnaisilisili@wcs.org",
+    "wnaisilisili@wcs.org"
+  ), `Fish name *` = c(
+    "chaetodon auriga",
+    "heniochus varius"
+  ), `Size *` = c(7.5, 7.5), `Count *` = c(
+    4,
+    2
+  )), row.names = c(NA, -2L), class = c("tbl_df", "tbl", "data.frame"))
+
+  for (i in 1:12) {
+    df <- dplyr::bind_rows(df, df)
+  }
+
+  expect_error(
+    mermaid_import_project_data(df, "2c0c9857-b11c-4b82-b7ef-e9b383d1233c", "fishbelt", dryrun = TRUE),
+    "timed out due to the size of the data"
+  )
+})

@@ -21,6 +21,7 @@ reference:
     - mermaid_get_summary_sampleevents
     - mermaid_countries
     - mermaid_get_me
+    - mermaid_get_classification_labelmappings
 
   - title: Accessing Project-Specific Data
     contents:

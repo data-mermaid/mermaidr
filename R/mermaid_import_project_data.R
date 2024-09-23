@@ -91,12 +91,18 @@ mermaid_import_project_data <- function(data, project, method = c("fishbelt", "b
   }
 
   # Parse error / say successful
+  error_code <- httr::status_code(response)
 
-  if (httr::status_code(response) == 401) {
+  if (error_code == 401) {
     check_errors(response)
+  } else if (error_code == 504) {
+    stop(
+      "Request timed out due to the size of the data. Please split up your data (e.g. by site or date) and import each split section separately.",
+      call. = FALSE
+    )
   }
 
-  if (httr::http_error(response)) {
+  if (httr::http_error(response) & error_code != 504) {
     error <- httr::content(response, "text", encoding = "UTF-8")
 
     error_invalid_project <- stringr::str_detect(error, "Not Found") | stringr::str_detect(error, "is not a valid uuid")

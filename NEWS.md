@@ -1,3 +1,8 @@
+# mermaidr 1.1.1
+
+* Handle timeout error in `mermaid_import_project_data()` with suggestions to batch import data by site or date.
+* Add `classification-labelmappings()`
+
 # mermaidr 1.1.0
 
 * Add `life_histories` and `growth_form_life_histories` to `mermaid_get_reference("benthicattributes")`
