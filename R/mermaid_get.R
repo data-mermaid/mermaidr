@@ -91,22 +91,26 @@ get_me_response <- function(path, ua, limit, token) {
   final_res <- res[c("id", "first_name", "last_name", "email")] %>%
     dplyr::as_tibble()
 
-  projects <- res[["projects"]] %>%
-    dplyr::as_tibble()
+  if (length(res[["projects"]]) > 0) {
+    projects <- res[["projects"]] %>%
+      dplyr::as_tibble()
 
-  # Recode roles
-  projects <- projects %>%
-    dplyr::mutate(role = dplyr::case_when(
-      role == 10 ~ "Read-Only",
-      role == 50 ~ "Collector",
-      role == 90 ~ "Admin"
-    ))
+    # Recode roles
+    projects <- projects %>%
+      dplyr::mutate(role = dplyr::case_when(
+        role == 10 ~ "Read-Only",
+        role == 50 ~ "Collector",
+        role == 90 ~ "Admin"
+      ))
 
-  projects <- projects %>%
-    tidyr::nest(projects = dplyr::everything())
+    projects <- projects %>%
+      tidyr::nest(projects = dplyr::everything())
 
-  final_res %>%
-    dplyr::bind_cols(projects)
+    final_res <- final_res %>%
+      dplyr::bind_cols(projects)
+  }
+
+  final_res
 }
 
 get_paginated_response <- function(path, ua, token, limit) {
