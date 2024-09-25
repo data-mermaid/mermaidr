@@ -1,3 +1,8 @@
+# mermaidr 1.1.2
+
+* Add fields `management_est_year`, `management_size`, `management_parties`, `management_compliance`, `management_rules` to `mermaid_get_summary_sampleevents()`
+* Handle users without projects in `mermaid_get_me()`
+
 # mermaidr 1.1.1
 
 * Handle timeout error in `mermaid_import_project_data()` with suggestions to batch import data by site or date.
