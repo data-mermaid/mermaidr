@@ -53,7 +53,7 @@ fish_template_and_options <- mermaid_import_get_template_and_options(
 ```
 
 ```
-## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
+## ✔ Import template and field options written to fishbelt_mermaid_template.xlsx
 ```
 
 <img src = "fishbelt_template.png" width = "75%" title = "Fish belt MERMAID template">
@@ -64,9 +64,6 @@ The XLSX file consists of the fish belt MERMAID template and the options that ar
 <img src = "fishbelt_template_sites.png" width = "50%" title = "Site options">
 
 
-```
-## Error in fish_template_and_options[["Observer emails *"]][["choices"]] <- tibble(value = "email@mermaid.org"): object 'fish_template_and_options' not found
-```
 
 You can also preview the template in R:
 
@@ -76,7 +73,14 @@ fish_template_and_options[["Template"]]
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'fish_template_and_options' not found
+## # A tibble: 0 × 22
+## # ℹ 22 variables: Site * <chr>, Management * <chr>,
+## #   Sample date: Year * <chr>, Sample date: Month * <chr>,
+## #   Sample date: Day * <chr>, Sample time <chr>, Depth * <chr>,
+## #   Transect number * <chr>, Transect label <chr>,
+## #   Transect length surveyed * <chr>, Width * <chr>, Fish size bin * <chr>,
+## #   Reef slope <chr>, Visibility <chr>, Current <chr>, Relative depth <chr>,
+## #   Tide <chr>, Sample unit notes <chr>, Observer emails * <chr>, …
 ```
 
 Or if you want to investigate the column names in R, you can use the code below:
@@ -87,7 +91,18 @@ names(fish_template_and_options)
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'fish_template_and_options' not found
+##  [1] "Template"                   "Site *"                    
+##  [3] "Management *"               "Sample date: Year *"       
+##  [5] "Sample date: Month *"       "Sample date: Day *"        
+##  [7] "Sample time"                "Depth *"                   
+##  [9] "Transect number *"          "Transect label"            
+## [11] "Transect length surveyed *" "Width *"                   
+## [13] "Fish size bin *"            "Reef slope"                
+## [15] "Visibility"                 "Current"                   
+## [17] "Relative depth"             "Tide"                      
+## [19] "Sample unit notes"          "Observer emails *"         
+## [21] "Fish name *"                "Size *"                    
+## [23] "Count *"
 ```
 
 All column names with asterisk shows that it is mandatory. You can leave the columns without the asterisk blank if the data is not available.
@@ -100,7 +115,22 @@ fish_template_and_options[["Site *"]]
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'fish_template_and_options' not found
+## $required
+## [1] TRUE
+## 
+## $help_text
+## [1] "A unique name of a site where data was collected. Every site must be defined before ingestion and set up in the project in the web app."
+## 
+## $choices
+## # A tibble: 6 × 1
+##   value    
+##   <chr>    
+## 1 1206     
+## 2 1208     
+## 3 1209     
+## 4 1210     
+## 5 1211     
+## 6 SAV Point
 ```
 
 # 2. Reformat your data to match the template
@@ -140,18 +170,18 @@ fishbelt_data
 
 ```
 ## # A tibble: 10 × 8
-##    SiteID Depth Transect_length Width Transect_number `Fish species`     Size_cm
-##     <dbl> <dbl>           <dbl> <dbl>           <dbl> <chr>                <dbl>
-##  1   1208     5               5     5               1 Parupeneus multif…      15
-##  2   1208     5               5    20               1 Acanthurus bariene      37
-##  3   1208     5               5    20               1 Platax teira            37
-##  4   1208     5               5    20               1 Bolbometopon muri…     120
-##  5   1208     5               5    20               1 Parupeneus indikus      36
-##  6   1208     5               5     5               1 Acanthurus aurant…      17
-##  7   1208     5               5    20               1 Plectorhinchus ch…      36
-##  8   1208     5               5     5               1 Zanclus cornutus        10
-##  9   1208     5               5    20               1 Variola albimargi…      36
-## 10   1208     5               5    20               1 Lutjanus sp.            36
+##    SiteID Depth Transect_length Width Transect_number `Fish species`   Size_cm
+##     <dbl> <dbl>           <dbl> <dbl>           <dbl> <chr>              <dbl>
+##  1   1208     5               5     5               1 Parupeneus mult…      15
+##  2   1208     5               5    20               1 Acanthurus bari…      37
+##  3   1208     5               5    20               1 Platax teira          37
+##  4   1208     5               5    20               1 Bolbometopon mu…     120
+##  5   1208     5               5    20               1 Parupeneus indi…      36
+##  6   1208     5               5     5               1 Acanthurus aura…      17
+##  7   1208     5               5    20               1 Plectorhinchus …      36
+##  8   1208     5               5     5               1 Zanclus cornutus      10
+##  9   1208     5               5    20               1 Variola albimar…      36
+## 10   1208     5               5    20               1 Lutjanus sp.          36
 ## # ℹ 1 more variable: Abundance <dbl>
 ```
 
@@ -171,7 +201,25 @@ fish_template_and_options[["Width *"]]
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'fish_template_and_options' not found
+## $required
+## [1] TRUE
+## 
+## $help_text
+## [1] "Width of fish belt transect, in meters. See relevant tab on ingestion template for choices."
+## 
+## $choices
+## # A tibble: 9 × 1
+##   value                                        
+##   <chr>                                        
+## 1 10m                                          
+## 2 1m                                           
+## 3 20m                                          
+## 4 2m                                           
+## 5 5m                                           
+## 6 Mixed: < 10cm @ 2m, >= 10cm @ 5m             
+## 7 Mixed: >=10 cm & <35 cm @ 5 m, >=35 cm @ 20 m
+## 8 Mixed: < 20cm @ 2m, >= 20cm @ 4m             
+## 9 Mixed: < 20cm @ 4m, >= 20cm @ 8m
 ```
 
 ```r
@@ -179,7 +227,21 @@ fish_template_and_options[["Fish size bin *"]]
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'fish_template_and_options' not found
+## $required
+## [1] TRUE
+## 
+## $help_text
+## [1] "Name of bin scheme used to estimate fish size for the transect. See relevant tab on ingestion template for choices. Choose 1 cm if the fish size recorded does not use bins."
+## 
+## $choices
+## # A tibble: 5 × 1
+##   value    
+##   <chr>    
+## 1 1        
+## 2 10       
+## 3 5        
+## 4 AGRRA    
+## 5 WCS India
 ```
 
 ```r
@@ -187,7 +249,17 @@ fish_template_and_options[["Observer emails *"]]
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'fish_template_and_options' not found
+## $required
+## [1] TRUE
+## 
+## $help_text
+## [1] "Comma-separated list of emails of sample unit observers (e.g. 'me@example.com,you@example.com')."
+## 
+## $choices
+## # A tibble: 1 × 1
+##   value            
+##   <chr>            
+## 1 email@mermaid.org
 ```
 
 Now that we know the available options, we are going to add them manually using the code below:
@@ -225,7 +297,13 @@ fish_template_and_options[["Visibility"]][["choices"]]
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'fish_template_and_options' not found
+## # A tibble: 4 × 1
+##   value           
+##   <chr>           
+## 1 <1m - bad       
+## 2 1-5m - poor     
+## 3 5-10m - fair    
+## 4 >10m - excellent
 ```
 
 ```r
@@ -246,7 +324,17 @@ names(fish_template_and_options[["Template"]])
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'fish_template_and_options' not found
+##  [1] "Site *"                     "Management *"              
+##  [3] "Sample date: Year *"        "Sample date: Month *"      
+##  [5] "Sample date: Day *"         "Sample time"               
+##  [7] "Depth *"                    "Transect number *"         
+##  [9] "Transect label"             "Transect length surveyed *"
+## [11] "Width *"                    "Fish size bin *"           
+## [13] "Reef slope"                 "Visibility"                
+## [15] "Current"                    "Relative depth"            
+## [17] "Tide"                       "Sample unit notes"         
+## [19] "Observer emails *"          "Fish name *"               
+## [21] "Size *"                     "Count *"
 ```
 
 
@@ -324,7 +412,14 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Site *")
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## ✔ All values of `Site *` match
+```
+
+```
+## # A tibble: 1 × 3
+##   data_value closest_choice match
+##   <chr>      <chr>          <lgl>
+## 1 1208       1208           TRUE
 ```
 
 ```r
@@ -332,7 +427,14 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Manageme
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## ✔ All values of `Management *` match
+```
+
+```
+## # A tibble: 1 × 3
+##   data_value closest_choice match
+##   <chr>      <chr>          <lgl>
+## 1 Control    Control        TRUE
 ```
 
 ```r
@@ -340,7 +442,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Sample d
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## ✔ Any value is allowed for `Sample date: Year *` - no checking to be done
 ```
 
 ```r
@@ -348,7 +450,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Sample d
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## ✔ Any value is allowed for `Sample date: Month *` - no checking to be done
 ```
 
 ```r
@@ -356,7 +458,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Sample d
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## ✔ Any value is allowed for `Sample date: Day *` - no checking to be done
 ```
 
 ```r
@@ -364,7 +466,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Depth *"
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## ✔ Any value is allowed for `Depth *` - no checking to be done
 ```
 
 ```r
@@ -372,7 +474,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Transect
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## ✔ Any value is allowed for `Transect number *` - no checking to be done
 ```
 
 ```r
@@ -380,7 +482,8 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Transect
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## ✔ Any value is allowed for `Transect length surveyed *` - no checking to be
+## done
 ```
 
 ```r
@@ -388,7 +491,14 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Width *"
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## • Some errors in values of `Width *` - please check table below
+```
+
+```
+## # A tibble: 1 × 3
+##   data_value                                   closest_choice            match
+##   <chr>                                        <chr>                     <lgl>
+## 1 Mixed: >10 cm & <35 cm @ 5 m, >=35 cm @ 20 m Mixed: >=10 cm & <35 cm … FALSE
 ```
 
 ```r
@@ -396,7 +506,14 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Fish siz
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## ✔ All values of `Fish size bin *` match
+```
+
+```
+## # A tibble: 1 × 3
+##   data_value closest_choice match
+##   <chr>      <chr>          <lgl>
+## 1 1          1              TRUE
 ```
 
 ```r
@@ -404,7 +521,14 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Reef slo
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## ✔ All values of `Reef slope` match
+```
+
+```
+## # A tibble: 1 × 3
+##   data_value closest_choice match
+##   <chr>      <chr>          <lgl>
+## 1 slope      slope          TRUE
 ```
 
 ```r
@@ -412,7 +536,14 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Visibili
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## ✔ All values of `Visibility` match
+```
+
+```
+## # A tibble: 1 × 3
+##   data_value       closest_choice   match
+##   <chr>            <chr>            <lgl>
+## 1 >10m - excellent >10m - excellent TRUE
 ```
 
 ```r
@@ -420,7 +551,14 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Current"
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## • Some errors in values of `Current` - please check table below
+```
+
+```
+## # A tibble: 1 × 3
+##   data_value closest_choice match
+##   <chr>      <chr>          <lgl>
+## 1 low        high           FALSE
 ```
 
 ```r
@@ -428,7 +566,14 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Observer
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## ✔ All values of `Observer emails *` match
+```
+
+```
+## # A tibble: 1 × 3
+##   data_value        closest_choice    match
+##   <chr>             <chr>             <lgl>
+## 1 email@mermaid.org email@mermaid.org TRUE
 ```
 
 ```r
@@ -436,7 +581,23 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Fish nam
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## • Some errors in values of `Fish name *` - please check table below
+```
+
+```
+## # A tibble: 10 × 3
+##    data_value                    closest_choice                match
+##    <chr>                         <chr>                         <lgl>
+##  1 Parupeneus multifaskiatus     Parupeneus multifasciatus     FALSE
+##  2 Parupeneus indikus            Parupeneus indicus            FALSE
+##  3 Lutjanus sp.                  Lutjanus                      FALSE
+##  4 Acanthurus bariene            Acanthurus bariene            TRUE 
+##  5 Platax teira                  Platax teira                  TRUE 
+##  6 Bolbometopon muricatum        Bolbometopon muricatum        TRUE 
+##  7 Acanthurus auranticavus       Acanthurus auranticavus       TRUE 
+##  8 Plectorhinchus chaetodonoides Plectorhinchus chaetodonoides TRUE 
+##  9 Zanclus cornutus              Zanclus cornutus              TRUE 
+## 10 Variola albimarginata         Variola albimarginata         TRUE
 ```
 
 There are issues in the Fish name that need to be fixed, marked by the `FALSE` note under the match column. MERMAID also provides the closest choice to help us with data cleaning. We need to fix theses issues to be able to ingest our data:
@@ -460,7 +621,23 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Fish nam
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## ✔ All values of `Fish name *` match
+```
+
+```
+## # A tibble: 10 × 3
+##    data_value                    closest_choice                match
+##    <chr>                         <chr>                         <lgl>
+##  1 Parupeneus multifasciatus     Parupeneus multifasciatus     TRUE 
+##  2 Acanthurus bariene            Acanthurus bariene            TRUE 
+##  3 Platax teira                  Platax teira                  TRUE 
+##  4 Bolbometopon muricatum        Bolbometopon muricatum        TRUE 
+##  5 Parupeneus indicus            Parupeneus indicus            TRUE 
+##  6 Acanthurus auranticavus       Acanthurus auranticavus       TRUE 
+##  7 Plectorhinchus chaetodonoides Plectorhinchus chaetodonoides TRUE 
+##  8 Zanclus cornutus              Zanclus cornutus              TRUE 
+##  9 Variola albimarginata         Variola albimarginata         TRUE 
+## 10 Lutjanus                      Lutjanus                      TRUE
 ```
 
 And finish checking the columns.
@@ -471,7 +648,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Size *")
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## ✔ Any value is allowed for `Size *` - no checking to be done
 ```
 
 ```r
@@ -479,7 +656,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Count *"
 ```
 
 ```
-## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found
+## ✔ Any value is allowed for `Count *` - no checking to be done
 ```
 
 Once we got the check marks, we have the cleaned version of our data that is ready to be ingested. Let's save the cleaned fishbelt data:
@@ -508,7 +685,24 @@ mermaid_import_project_data(
 ```
 
 ```
-## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
+## Warning: Failed to import data. Problems:
+```
+
+```
+## # A tibble: 10 × 3
+##    row_number data__fishbelt_transect__width            data__fishbelt_trans…¹
+##         <dbl> <chr>                                     <chr>                 
+##  1          1 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+##  2          2 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+##  3          3 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+##  4          4 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+##  5          5 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+##  6          6 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+##  7          7 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+##  8          8 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+##  9          9 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+## 10         10 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+## # ℹ abbreviated name: ¹​data__fishbelt_transect__current
 ```
 
 Once we got the message **Records successfully checked!**, change the `dryrun` option to `FALSE` to start ingesting your data into MERMAID. Once you got the message **Records successfully imported! Please review in Collect.**, you can head to the `Collecting Page` in your project in the MERMAID app and start validating and submitting each transect.
@@ -524,5 +718,22 @@ mermaid_import_project_data(
 ```
 
 ```
-## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
+## Warning: Failed to import data. Problems:
+```
+
+```
+## # A tibble: 10 × 3
+##    row_number data__fishbelt_transect__width            data__fishbelt_trans…¹
+##         <dbl> <chr>                                     <chr>                 
+##  1          1 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+##  2          2 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+##  3          3 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+##  4          4 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+##  5          5 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+##  6          6 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+##  7          7 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+##  8          8 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+##  9          9 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+## 10         10 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
+## # ℹ abbreviated name: ¹​data__fishbelt_transect__current
 ```
