@@ -104,7 +104,7 @@
       <h1 data-toc-skip>Ingesting legacy data into MERMAID</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/v1.1.2/vignettes/articles/importing_fishbelt.Rmd" class="external-link"><code>vignettes/articles/importing_fishbelt.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/master/vignettes/articles/importing_fishbelt.Rmd" class="external-link"><code>vignettes/articles/importing_fishbelt.Rmd</code></a></small>
       <div class="hidden name"><code>importing_fishbelt.Rmd</code></div>
 
     </div>
@@ -167,32 +167,64 @@ to a file called <code>fishbelt_mermaid_template.xlsx</code>.</p>
 <span>  <span class="st">"fishbelt"</span>,</span>
 <span>  <span class="st">"fishbelt_mermaid_template.xlsx"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.</span></span></code></pre>
+<pre><code><span><span class="co">## ✔ Import template and field options written to fishbelt_mermaid_template.xlsx</span></span></code></pre>
 <p><img src="fishbelt_template.png" width="75%" title="Fish belt MERMAID template"></p>
 <p>The XLSX file consists of the fish belt MERMAID template and the
 options that are tailored based on your project. For example, the site
 options that are accepted are all the sites that you have added in the
 project through the MERMAID app.</p>
 <p><img src="fishbelt_template_sites.png" width="50%" title="Site options"></p>
-<pre><code><span><span class="co">## Error in fish_template_and_options[["Observer emails *"]][["choices"]] &lt;- tibble(value = "email@mermaid.org"): object 'fish_template_and_options' not found</span></span></code></pre>
 <p>You can also preview the template in R:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fish_template_and_options</span><span class="op">[[</span><span class="st">"Template"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in eval(expr, envir, enclos): object 'fish_template_and_options' not found</span></span></code></pre>
+<pre><code><span><span class="co">## # A tibble: 0 × 22</span></span>
+<span><span class="co">## # ℹ 22 variables: Site * &lt;chr&gt;, Management * &lt;chr&gt;,</span></span>
+<span><span class="co">## #   Sample date: Year * &lt;chr&gt;, Sample date: Month * &lt;chr&gt;,</span></span>
+<span><span class="co">## #   Sample date: Day * &lt;chr&gt;, Sample time &lt;chr&gt;, Depth * &lt;chr&gt;,</span></span>
+<span><span class="co">## #   Transect number * &lt;chr&gt;, Transect label &lt;chr&gt;,</span></span>
+<span><span class="co">## #   Transect length surveyed * &lt;chr&gt;, Width * &lt;chr&gt;, Fish size bin * &lt;chr&gt;,</span></span>
+<span><span class="co">## #   Reef slope &lt;chr&gt;, Visibility &lt;chr&gt;, Current &lt;chr&gt;, Relative depth &lt;chr&gt;,</span></span>
+<span><span class="co">## #   Tide &lt;chr&gt;, Sample unit notes &lt;chr&gt;, Observer emails * &lt;chr&gt;, …</span></span></code></pre>
 <p>Or if you want to investigate the column names in R, you can use the
 code below:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">fish_template_and_options</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in eval(expr, envir, enclos): object 'fish_template_and_options' not found</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] "Template"                   "Site *"                    </span></span>
+<span><span class="co">##  [3] "Management *"               "Sample date: Year *"       </span></span>
+<span><span class="co">##  [5] "Sample date: Month *"       "Sample date: Day *"        </span></span>
+<span><span class="co">##  [7] "Sample time"                "Depth *"                   </span></span>
+<span><span class="co">##  [9] "Transect number *"          "Transect label"            </span></span>
+<span><span class="co">## [11] "Transect length surveyed *" "Width *"                   </span></span>
+<span><span class="co">## [13] "Fish size bin *"            "Reef slope"                </span></span>
+<span><span class="co">## [15] "Visibility"                 "Current"                   </span></span>
+<span><span class="co">## [17] "Relative depth"             "Tide"                      </span></span>
+<span><span class="co">## [19] "Sample unit notes"          "Observer emails *"         </span></span>
+<span><span class="co">## [21] "Fish name *"                "Size *"                    </span></span>
+<span><span class="co">## [23] "Count *"</span></span></code></pre>
 <p>All column names with asterisk shows that it is mandatory. You can
 leave the columns without the asterisk blank if the data is not
 available.</p>
 <p>Investigate all the available options for each column before
 adjusting the format. For example, to look at the options for site in
 R:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fish_template_and_options</span><span class="op">[[</span><span class="st">"Site *"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in eval(expr, envir, enclos): object 'fish_template_and_options' not found</span></span></code></pre>
+<pre><code><span><span class="co">## $required</span></span>
+<span><span class="co">## [1] TRUE</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $help_text</span></span>
+<span><span class="co">## [1] "A unique name of a site where data was collected. Every site must be defined before ingestion and set up in the project in the web app."</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $choices</span></span>
+<span><span class="co">## # A tibble: 6 × 1</span></span>
+<span><span class="co">##   value    </span></span>
+<span><span class="co">##   &lt;chr&gt;    </span></span>
+<span><span class="co">## 1 1206     </span></span>
+<span><span class="co">## 2 1208     </span></span>
+<span><span class="co">## 3 1209     </span></span>
+<span><span class="co">## 4 1210     </span></span>
+<span><span class="co">## 5 1211     </span></span>
+<span><span class="co">## 6 SAV Point</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="reformat-your-data-to-match-the-template">2. Reformat your data to match the template<a class="anchor" aria-label="anchor" href="#reformat-your-data-to-match-the-template"></a>
@@ -206,7 +238,7 @@ a CSV file and stored it in our project directory.</p>
 <p>We read our fish belt data (stored in <code>fishbelt.csv</code> file)
 and our sampling event data (stored in <code>sites.csv</code> file), and
 save it to two different objects in R.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fishbelt_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="st">"fishbelt.csv"</span><span class="op">)</span></span>
 <span><span class="va">sites_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="st">"sites.csv"</span><span class="op">)</span></span></code></pre></div>
 <p>The MERMAID ingestion template requires the sample event data and the
@@ -214,50 +246,92 @@ observation data to be combined. Therefore, we need to add the
 <code>sites</code> data set to fish observation data. Look at the
 available columns in the <code>site</code> and <code>fishbelt</code>
 data sets:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sites_data</span></span></code></pre></div>
 <pre><code><span><span class="co">## # A tibble: 2 × 8</span></span>
 <span><span class="co">##   SiteID Zone     Year Month   Day Reef_slope visibility current</span></span>
 <span><span class="co">##    &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt;  </span></span>
 <span><span class="co">## 1   1208 Control  2021     3    15 slope              15 low    </span></span>
 <span><span class="co">## 2   1206 Control  2021     3    15 slope              15 low</span></span></code></pre>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fishbelt_data</span></span></code></pre></div>
 <pre><code><span><span class="co">## # A tibble: 10 × 8</span></span>
-<span><span class="co">##    SiteID Depth Transect_length Width Transect_number `Fish species`     Size_cm</span></span>
-<span><span class="co">##     &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt;</span></span>
-<span><span class="co">##  1   1208     5               5     5               1 Parupeneus multif…      15</span></span>
-<span><span class="co">##  2   1208     5               5    20               1 Acanthurus bariene      37</span></span>
-<span><span class="co">##  3   1208     5               5    20               1 Platax teira            37</span></span>
-<span><span class="co">##  4   1208     5               5    20               1 Bolbometopon muri…     120</span></span>
-<span><span class="co">##  5   1208     5               5    20               1 Parupeneus indikus      36</span></span>
-<span><span class="co">##  6   1208     5               5     5               1 Acanthurus aurant…      17</span></span>
-<span><span class="co">##  7   1208     5               5    20               1 Plectorhinchus ch…      36</span></span>
-<span><span class="co">##  8   1208     5               5     5               1 Zanclus cornutus        10</span></span>
-<span><span class="co">##  9   1208     5               5    20               1 Variola albimargi…      36</span></span>
-<span><span class="co">## 10   1208     5               5    20               1 Lutjanus sp.            36</span></span>
+<span><span class="co">##    SiteID Depth Transect_length Width Transect_number `Fish species`   Size_cm</span></span>
+<span><span class="co">##     &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt;</span></span>
+<span><span class="co">##  1   1208     5               5     5               1 Parupeneus mult…      15</span></span>
+<span><span class="co">##  2   1208     5               5    20               1 Acanthurus bari…      37</span></span>
+<span><span class="co">##  3   1208     5               5    20               1 Platax teira          37</span></span>
+<span><span class="co">##  4   1208     5               5    20               1 Bolbometopon mu…     120</span></span>
+<span><span class="co">##  5   1208     5               5    20               1 Parupeneus indi…      36</span></span>
+<span><span class="co">##  6   1208     5               5     5               1 Acanthurus aura…      17</span></span>
+<span><span class="co">##  7   1208     5               5    20               1 Plectorhinchus …      36</span></span>
+<span><span class="co">##  8   1208     5               5     5               1 Zanclus cornutus      10</span></span>
+<span><span class="co">##  9   1208     5               5    20               1 Variola albimar…      36</span></span>
+<span><span class="co">## 10   1208     5               5    20               1 Lutjanus sp.          36</span></span>
 <span><span class="co">## # ℹ 1 more variable: Abundance &lt;dbl&gt;</span></span></code></pre>
 <p>Then combine the <code>site</code> data to <code>fishbelt</code>
 data, joining on the <code>SiteID</code> identifier.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fishbelt_data</span> <span class="op">&lt;-</span> <span class="va">fishbelt_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">sites_data</span>, by <span class="op">=</span> <span class="st">"SiteID"</span><span class="op">)</span></span></code></pre></div>
 <p>Looking at the available data, there are still two mandatory fields
 that are not yet added (Fish size bin and Observer emails) and one
 mandatory field that need to be adjusted ( Fishbelt Width). We need to
 look at the options allowed for these columns:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fish_template_and_options</span><span class="op">[[</span><span class="st">"Width *"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in eval(expr, envir, enclos): object 'fish_template_and_options' not found</span></span></code></pre>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## $required</span></span>
+<span><span class="co">## [1] TRUE</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $help_text</span></span>
+<span><span class="co">## [1] "Width of fish belt transect, in meters. See relevant tab on ingestion template for choices."</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $choices</span></span>
+<span><span class="co">## # A tibble: 9 × 1</span></span>
+<span><span class="co">##   value                                        </span></span>
+<span><span class="co">##   &lt;chr&gt;                                        </span></span>
+<span><span class="co">## 1 10m                                          </span></span>
+<span><span class="co">## 2 1m                                           </span></span>
+<span><span class="co">## 3 20m                                          </span></span>
+<span><span class="co">## 4 2m                                           </span></span>
+<span><span class="co">## 5 5m                                           </span></span>
+<span><span class="co">## 6 Mixed: &lt; 10cm @ 2m, &gt;= 10cm @ 5m             </span></span>
+<span><span class="co">## 7 Mixed: &gt;=10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm @ 20 m</span></span>
+<span><span class="co">## 8 Mixed: &lt; 20cm @ 2m, &gt;= 20cm @ 4m             </span></span>
+<span><span class="co">## 9 Mixed: &lt; 20cm @ 4m, &gt;= 20cm @ 8m</span></span></code></pre>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fish_template_and_options</span><span class="op">[[</span><span class="st">"Fish size bin *"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in eval(expr, envir, enclos): object 'fish_template_and_options' not found</span></span></code></pre>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## $required</span></span>
+<span><span class="co">## [1] TRUE</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $help_text</span></span>
+<span><span class="co">## [1] "Name of bin scheme used to estimate fish size for the transect. See relevant tab on ingestion template for choices. Choose 1 cm if the fish size recorded does not use bins."</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $choices</span></span>
+<span><span class="co">## # A tibble: 5 × 1</span></span>
+<span><span class="co">##   value    </span></span>
+<span><span class="co">##   &lt;chr&gt;    </span></span>
+<span><span class="co">## 1 1        </span></span>
+<span><span class="co">## 2 10       </span></span>
+<span><span class="co">## 3 5        </span></span>
+<span><span class="co">## 4 AGRRA    </span></span>
+<span><span class="co">## 5 WCS India</span></span></code></pre>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fish_template_and_options</span><span class="op">[[</span><span class="st">"Observer emails *"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in eval(expr, envir, enclos): object 'fish_template_and_options' not found</span></span></code></pre>
+<pre><code><span><span class="co">## $required</span></span>
+<span><span class="co">## [1] TRUE</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $help_text</span></span>
+<span><span class="co">## [1] "Comma-separated list of emails of sample unit observers (e.g. 'me@example.com,you@example.com')."</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $choices</span></span>
+<span><span class="co">## # A tibble: 1 × 1</span></span>
+<span><span class="co">##   value            </span></span>
+<span><span class="co">##   &lt;chr&gt;            </span></span>
+<span><span class="co">## 1 email@mermaid.org</span></span></code></pre>
 <p>Now that we know the available options, we are going to add them
 manually using the code below:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fishbelt_data</span> <span class="op">&lt;-</span> <span class="va">fishbelt_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    `Width *` <span class="op">=</span> <span class="st">"Mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm @ 20 m"</span>,</span>
@@ -266,7 +340,7 @@ manually using the code below:</p>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>The visibility data are not the same as the options accepted by
 MERMAID:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fishbelt_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">visibility</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## # A tibble: 1 × 1</span></span>
@@ -275,10 +349,16 @@ MERMAID:</p>
 <span><span class="co">## 1         15</span></span></code></pre>
 <p>Let’s check how it is formatted in template and implement the option
 into our data:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fish_template_and_options</span><span class="op">[[</span><span class="st">"Visibility"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"choices"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in eval(expr, envir, enclos): object 'fish_template_and_options' not found</span></span></code></pre>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## # A tibble: 4 × 1</span></span>
+<span><span class="co">##   value           </span></span>
+<span><span class="co">##   &lt;chr&gt;           </span></span>
+<span><span class="co">## 1 &lt;1m - bad       </span></span>
+<span><span class="co">## 2 1-5m - poor     </span></span>
+<span><span class="co">## 3 5-10m - fair    </span></span>
+<span><span class="co">## 4 &gt;10m - excellent</span></span></code></pre>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fishbelt_data</span> <span class="op">&lt;-</span> <span class="va">fishbelt_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>visibility <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">visibility</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"&lt;1m - bad"</span>,</span>
@@ -292,10 +372,20 @@ be the same. The answer is <strong>yes, they must have exactly the same
 name</strong> but not necessarily the same order. Lets rename and
 reorder the columns. First check the names in the template and in our
 data:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">fish_template_and_options</span><span class="op">[[</span><span class="st">"Template"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in eval(expr, envir, enclos): object 'fish_template_and_options' not found</span></span></code></pre>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">##  [1] "Site *"                     "Management *"              </span></span>
+<span><span class="co">##  [3] "Sample date: Year *"        "Sample date: Month *"      </span></span>
+<span><span class="co">##  [5] "Sample date: Day *"         "Sample time"               </span></span>
+<span><span class="co">##  [7] "Depth *"                    "Transect number *"         </span></span>
+<span><span class="co">##  [9] "Transect label"             "Transect length surveyed *"</span></span>
+<span><span class="co">## [11] "Width *"                    "Fish size bin *"           </span></span>
+<span><span class="co">## [13] "Reef slope"                 "Visibility"                </span></span>
+<span><span class="co">## [15] "Current"                    "Relative depth"            </span></span>
+<span><span class="co">## [17] "Tide"                       "Sample unit notes"         </span></span>
+<span><span class="co">## [19] "Observer emails *"          "Fish name *"               </span></span>
+<span><span class="co">## [21] "Size *"                     "Count *"</span></span></code></pre>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">fishbelt_data</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##  [1] "SiteID"            "Depth"             "Transect_length"  </span></span>
 <span><span class="co">##  [4] "Width"             "Transect_number"   "Fish species"     </span></span>
@@ -310,7 +400,7 @@ none of them are required. It will not prevent you from importing
 (ingesting) your data into MERMAID. However, if you have those data, it
 is strongly recommended to add them as well.</p>
 <p>Next step is to rename and reorder the columns in one step:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fishbelt_data</span> <span class="op">&lt;-</span> <span class="va">fishbelt_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
 <span>    `Site *` <span class="op">=</span> <span class="va">SiteID</span>,</span>
@@ -361,56 +451,102 @@ one by one to ensure the data are accepted by the MERMAID template. The
 code below is to check our data that we’ve reformatted against the fish
 belt template we’ve downloaded. If the data matches, then a check mark
 will appear:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Site *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
+<pre><code><span><span class="co">## ✔ All values of `Site *` match</span></span></code></pre>
+<pre><code><span><span class="co">## # A tibble: 1 × 3</span></span>
+<span><span class="co">##   data_value closest_choice match</span></span>
+<span><span class="co">##   &lt;chr&gt;      &lt;chr&gt;          &lt;lgl&gt;</span></span>
+<span><span class="co">## 1 1208       1208           TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Management *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## ✔ All values of `Management *` match</span></span></code></pre>
+<pre><code><span><span class="co">## # A tibble: 1 × 3</span></span>
+<span><span class="co">##   data_value closest_choice match</span></span>
+<span><span class="co">##   &lt;chr&gt;      &lt;chr&gt;          &lt;lgl&gt;</span></span>
+<span><span class="co">## 1 Control    Control        TRUE</span></span></code></pre>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Sample date: Year *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## ✔ Any value is allowed for `Sample date: Year *` - no checking to be done</span></span></code></pre>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Sample date: Month *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## ✔ Any value is allowed for `Sample date: Month *` - no checking to be done</span></span></code></pre>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Sample date: Day *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## ✔ Any value is allowed for `Sample date: Day *` - no checking to be done</span></span></code></pre>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Depth *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## ✔ Any value is allowed for `Depth *` - no checking to be done</span></span></code></pre>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Transect number *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## ✔ Any value is allowed for `Transect number *` - no checking to be done</span></span></code></pre>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Transect length surveyed *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## ✔ Any value is allowed for `Transect length surveyed *` - no checking to be</span></span>
+<span><span class="co">## done</span></span></code></pre>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Width *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Fish size bin *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
+<pre><code><span><span class="co">## • Some errors in values of `Width *` - please check table below</span></span></code></pre>
+<pre><code><span><span class="co">## # A tibble: 1 × 3</span></span>
+<span><span class="co">##   data_value                                   closest_choice            match</span></span>
+<span><span class="co">##   &lt;chr&gt;                                        &lt;chr&gt;                     &lt;lgl&gt;</span></span>
+<span><span class="co">## 1 Mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm @ 20 m Mixed: &gt;=10 cm &amp; &lt;35 cm … FALSE</span></span></code></pre>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Fish size bin *"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## ✔ All values of `Fish size bin *` match</span></span></code></pre>
+<pre><code><span><span class="co">## # A tibble: 1 × 3</span></span>
+<span><span class="co">##   data_value closest_choice match</span></span>
+<span><span class="co">##   &lt;chr&gt;      &lt;chr&gt;          &lt;lgl&gt;</span></span>
+<span><span class="co">## 1 1          1              TRUE</span></span></code></pre>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Reef slope"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Visibility"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Current"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
+<pre><code><span><span class="co">## ✔ All values of `Reef slope` match</span></span></code></pre>
+<pre><code><span><span class="co">## # A tibble: 1 × 3</span></span>
+<span><span class="co">##   data_value closest_choice match</span></span>
+<span><span class="co">##   &lt;chr&gt;      &lt;chr&gt;          &lt;lgl&gt;</span></span>
+<span><span class="co">## 1 slope      slope          TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Visibility"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## ✔ All values of `Visibility` match</span></span></code></pre>
+<pre><code><span><span class="co">## # A tibble: 1 × 3</span></span>
+<span><span class="co">##   data_value       closest_choice   match</span></span>
+<span><span class="co">##   &lt;chr&gt;            &lt;chr&gt;            &lt;lgl&gt;</span></span>
+<span><span class="co">## 1 &gt;10m - excellent &gt;10m - excellent TRUE</span></span></code></pre>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Current"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## • Some errors in values of `Current` - please check table below</span></span></code></pre>
+<pre><code><span><span class="co">## # A tibble: 1 × 3</span></span>
+<span><span class="co">##   data_value closest_choice match</span></span>
+<span><span class="co">##   &lt;chr&gt;      &lt;chr&gt;          &lt;lgl&gt;</span></span>
+<span><span class="co">## 1 low        high           FALSE</span></span></code></pre>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Observer emails *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## ✔ All values of `Observer emails *` match</span></span></code></pre>
+<pre><code><span><span class="co">## # A tibble: 1 × 3</span></span>
+<span><span class="co">##   data_value        closest_choice    match</span></span>
+<span><span class="co">##   &lt;chr&gt;             &lt;chr&gt;             &lt;lgl&gt;</span></span>
+<span><span class="co">## 1 email@mermaid.org email@mermaid.org TRUE</span></span></code></pre>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Fish name *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
+<pre><code><span><span class="co">## • Some errors in values of `Fish name *` - please check table below</span></span></code></pre>
+<pre><code><span><span class="co">## # A tibble: 10 × 3</span></span>
+<span><span class="co">##    data_value                    closest_choice                match</span></span>
+<span><span class="co">##    &lt;chr&gt;                         &lt;chr&gt;                         &lt;lgl&gt;</span></span>
+<span><span class="co">##  1 Parupeneus multifaskiatus     Parupeneus multifasciatus     FALSE</span></span>
+<span><span class="co">##  2 Parupeneus indikus            Parupeneus indicus            FALSE</span></span>
+<span><span class="co">##  3 Lutjanus sp.                  Lutjanus                      FALSE</span></span>
+<span><span class="co">##  4 Acanthurus bariene            Acanthurus bariene            TRUE </span></span>
+<span><span class="co">##  5 Platax teira                  Platax teira                  TRUE </span></span>
+<span><span class="co">##  6 Bolbometopon muricatum        Bolbometopon muricatum        TRUE </span></span>
+<span><span class="co">##  7 Acanthurus auranticavus       Acanthurus auranticavus       TRUE </span></span>
+<span><span class="co">##  8 Plectorhinchus chaetodonoides Plectorhinchus chaetodonoides TRUE </span></span>
+<span><span class="co">##  9 Zanclus cornutus              Zanclus cornutus              TRUE </span></span>
+<span><span class="co">## 10 Variola albimarginata         Variola albimarginata         TRUE</span></span></code></pre>
 <p>There are issues in the Fish name that need to be fixed, marked by
 the <code>FALSE</code> note under the match column. MERMAID also
 provides the closest choice to help us with data cleaning. We need to
 fix theses issues to be able to ingest our data:</p>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fishbelt_data</span> <span class="op">&lt;-</span> <span class="va">fishbelt_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>`Fish name *` <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">`Fish name *`</span> <span class="op">==</span> <span class="st">"Parupeneus multifaskiatus"</span> <span class="op">~</span> <span class="st">"Parupeneus multifasciatus"</span>,</span>
@@ -420,19 +556,32 @@ fix theses issues to be able to ingest our data:</p>
 <span>  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>After fixing the issues, lets check again the values to makes sure we
 receive a check mark to move forward with the process.</p>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Fish name *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
+<pre><code><span><span class="co">## ✔ All values of `Fish name *` match</span></span></code></pre>
+<pre><code><span><span class="co">## # A tibble: 10 × 3</span></span>
+<span><span class="co">##    data_value                    closest_choice                match</span></span>
+<span><span class="co">##    &lt;chr&gt;                         &lt;chr&gt;                         &lt;lgl&gt;</span></span>
+<span><span class="co">##  1 Parupeneus multifasciatus     Parupeneus multifasciatus     TRUE </span></span>
+<span><span class="co">##  2 Acanthurus bariene            Acanthurus bariene            TRUE </span></span>
+<span><span class="co">##  3 Platax teira                  Platax teira                  TRUE </span></span>
+<span><span class="co">##  4 Bolbometopon muricatum        Bolbometopon muricatum        TRUE </span></span>
+<span><span class="co">##  5 Parupeneus indicus            Parupeneus indicus            TRUE </span></span>
+<span><span class="co">##  6 Acanthurus auranticavus       Acanthurus auranticavus       TRUE </span></span>
+<span><span class="co">##  7 Plectorhinchus chaetodonoides Plectorhinchus chaetodonoides TRUE </span></span>
+<span><span class="co">##  8 Zanclus cornutus              Zanclus cornutus              TRUE </span></span>
+<span><span class="co">##  9 Variola albimarginata         Variola albimarginata         TRUE </span></span>
+<span><span class="co">## 10 Lutjanus                      Lutjanus                      TRUE</span></span></code></pre>
 <p>And finish checking the columns.</p>
-<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Size *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## ✔ Any value is allowed for `Size *` - no checking to be done</span></span></code></pre>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Count *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in mermaid_import_check_options(fishbelt_data, fish_template_and_options, : object 'fish_template_and_options' not found</span></span></code></pre>
+<pre><code><span><span class="co">## ✔ Any value is allowed for `Count *` - no checking to be done</span></span></code></pre>
 <p>Once we got the check marks, we have the cleaned version of our data
 that is ready to be ingested. Let’s save the cleaned fishbelt data:</p>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html" class="external-link">write_csv</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="st">"fishbelt_clean.csv"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -441,14 +590,28 @@ that is ready to be ingested. Let’s save the cleaned fishbelt data:</p>
 <p>Once we have our cleaned MERMAID formatted data, the next step is
 ingesting the data. We do one “dry run” before actually ingesting to
 check the data once more:</p>
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_project_data.html">mermaid_import_project_data</a></span><span class="op">(</span></span>
 <span>  <span class="va">fishbelt_data</span>,</span>
 <span>  <span class="va">reef_survey</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"fishbelt"</span>,</span>
 <span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.</span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Failed to import data. Problems:</span></span></code></pre>
+<pre><code><span><span class="co">## # A tibble: 10 × 3</span></span>
+<span><span class="co">##    row_number data__fishbelt_transect__width            data__fishbelt_trans…¹</span></span>
+<span><span class="co">##         &lt;dbl&gt; &lt;chr&gt;                                     &lt;chr&gt;                 </span></span>
+<span><span class="co">##  1          1 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">##  2          2 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">##  3          3 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">##  4          4 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">##  5          5 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">##  6          6 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">##  7          7 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">##  8          8 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">##  9          9 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">## 10         10 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">## # ℹ abbreviated name: ¹​data__fishbelt_transect__current</span></span></code></pre>
 <p>Once we got the message <strong>Records successfully
 checked!</strong>, change the <code>dryrun</code> option to
 <code>FALSE</code> to start ingesting your data into MERMAID. Once you
@@ -456,14 +619,28 @@ got the message <strong>Records successfully imported! Please review in
 Collect.</strong>, you can head to the <code>Collecting Page</code> in
 your project in the MERMAID app and start validating and submitting each
 transect.</p>
-<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_project_data.html">mermaid_import_project_data</a></span><span class="op">(</span></span>
 <span>  <span class="va">fishbelt_data</span>,</span>
 <span>  <span class="va">reef_survey</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"fishbelt"</span>,</span>
 <span>  dryrun <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.</span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Failed to import data. Problems:</span></span></code></pre>
+<pre><code><span><span class="co">## # A tibble: 10 × 3</span></span>
+<span><span class="co">##    row_number data__fishbelt_transect__width            data__fishbelt_trans…¹</span></span>
+<span><span class="co">##         &lt;dbl&gt; &lt;chr&gt;                                     &lt;chr&gt;                 </span></span>
+<span><span class="co">##  1          1 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">##  2          2 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">##  3          3 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">##  4          4 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">##  5          5 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">##  6          6 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">##  7          7 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">##  8          8 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">##  9          9 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">## 10         10 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
+<span><span class="co">## # ℹ abbreviated name: ¹​data__fishbelt_transect__current</span></span></code></pre>
 </div>
   </div>
 
