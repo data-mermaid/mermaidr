@@ -158,10 +158,10 @@ sites_data
 
 ```
 ## # A tibble: 2 × 8
-##   SiteID Zone     Year Month   Day Reef_slope visibility current
-##    <dbl> <chr>   <dbl> <dbl> <dbl> <chr>           <dbl> <chr>  
-## 1   1208 Control  2021     3    15 slope              15 low    
-## 2   1206 Control  2021     3    15 slope              15 low
+##   SiteID Zone     Year Month   Day Reef_slope visibility current 
+##    <dbl> <chr>   <dbl> <dbl> <dbl> <chr>           <dbl> <chr>   
+## 1   1208 Control  2021     3    15 slope              15 low/none
+## 2   1206 Control  2021     3    15 slope              15 low/none
 ```
 
 ```r
@@ -268,7 +268,7 @@ Now that we know the available options, we are going to add them manually using 
 ```r
 fishbelt_data <- fishbelt_data %>%
   mutate(
-    `Width *` = "Mixed: >10 cm & <35 cm @ 5 m, >=35 cm @ 20 m",
+    `Width *` = "Mixed: >=10 cm & <35 cm @ 5 m, >=35 cm @ 20 m",
     `Fish size bin *` = 1,
     `Observer emails *` = "email@mermaid.org"
   )
@@ -491,14 +491,14 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Width *"
 ```
 
 ```
-## • Some errors in values of `Width *` - please check table below
+## ✔ All values of `Width *` match
 ```
 
 ```
 ## # A tibble: 1 × 3
-##   data_value                                   closest_choice            match
-##   <chr>                                        <chr>                     <lgl>
-## 1 Mixed: >10 cm & <35 cm @ 5 m, >=35 cm @ 20 m Mixed: >=10 cm & <35 cm … FALSE
+##   data_value                                    closest_choice           match
+##   <chr>                                         <chr>                    <lgl>
+## 1 Mixed: >=10 cm & <35 cm @ 5 m, >=35 cm @ 20 m Mixed: >=10 cm & <35 cm… TRUE
 ```
 
 ```r
@@ -551,14 +551,14 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Current"
 ```
 
 ```
-## • Some errors in values of `Current` - please check table below
+## ✔ All values of `Current` match
 ```
 
 ```
 ## # A tibble: 1 × 3
 ##   data_value closest_choice match
 ##   <chr>      <chr>          <lgl>
-## 1 low        high           FALSE
+## 1 low/none   low/none       TRUE
 ```
 
 ```r
@@ -685,24 +685,7 @@ mermaid_import_project_data(
 ```
 
 ```
-## Warning: Failed to import data. Problems:
-```
-
-```
-## # A tibble: 10 × 3
-##    row_number data__fishbelt_transect__width            data__fishbelt_trans…¹
-##         <dbl> <chr>                                     <chr>                 
-##  1          1 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-##  2          2 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-##  3          3 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-##  4          4 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-##  5          5 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-##  6          6 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-##  7          7 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-##  8          8 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-##  9          9 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-## 10         10 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-## # ℹ abbreviated name: ¹​data__fishbelt_transect__current
+## Records successfully checked! To import, please run the function again with `dryrun = FALSE`.
 ```
 
 Once we got the message **Records successfully checked!**, change the `dryrun` option to `FALSE` to start ingesting your data into MERMAID. Once you got the message **Records successfully imported! Please review in Collect.**, you can head to the `Collecting Page` in your project in the MERMAID app and start validating and submitting each transect.
@@ -718,22 +701,5 @@ mermaid_import_project_data(
 ```
 
 ```
-## Warning: Failed to import data. Problems:
-```
-
-```
-## # A tibble: 10 × 3
-##    row_number data__fishbelt_transect__width            data__fishbelt_trans…¹
-##         <dbl> <chr>                                     <chr>                 
-##  1          1 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-##  2          2 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-##  3          3 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-##  4          4 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-##  5          5 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-##  6          6 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-##  7          7 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-##  8          8 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-##  9          9 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-## 10         10 "\"mixed: >10 cm & <35 cm @ 5 m, >=35 cm… "\"low\" is not a val…
-## # ℹ abbreviated name: ¹​data__fishbelt_transect__current
+## Records successfully imported! Please review in Collect.
 ```
