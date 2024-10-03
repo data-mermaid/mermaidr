@@ -249,10 +249,10 @@ data sets:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sites_data</span></span></code></pre></div>
 <pre><code><span><span class="co">## # A tibble: 2 × 8</span></span>
-<span><span class="co">##   SiteID Zone     Year Month   Day Reef_slope visibility current</span></span>
-<span><span class="co">##    &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt;  </span></span>
-<span><span class="co">## 1   1208 Control  2021     3    15 slope              15 low    </span></span>
-<span><span class="co">## 2   1206 Control  2021     3    15 slope              15 low</span></span></code></pre>
+<span><span class="co">##   SiteID Zone     Year Month   Day Reef_slope visibility current </span></span>
+<span><span class="co">##    &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt;   </span></span>
+<span><span class="co">## 1   1208 Control  2021     3    15 slope              15 low/none</span></span>
+<span><span class="co">## 2   1206 Control  2021     3    15 slope              15 low/none</span></span></code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fishbelt_data</span></span></code></pre></div>
 <pre><code><span><span class="co">## # A tibble: 10 × 8</span></span>
@@ -334,7 +334,7 @@ manually using the code below:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fishbelt_data</span> <span class="op">&lt;-</span> <span class="va">fishbelt_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    `Width *` <span class="op">=</span> <span class="st">"Mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm @ 20 m"</span>,</span>
+<span>    `Width *` <span class="op">=</span> <span class="st">"Mixed: &gt;=10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm @ 20 m"</span>,</span>
 <span>    `Fish size bin *` <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    `Observer emails *` <span class="op">=</span> <span class="st">"email@mermaid.org"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
@@ -486,11 +486,11 @@ will appear:</p>
 <span><span class="co">## done</span></span></code></pre>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Width *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## • Some errors in values of `Width *` - please check table below</span></span></code></pre>
+<pre><code><span><span class="co">## ✔ All values of `Width *` match</span></span></code></pre>
 <pre><code><span><span class="co">## # A tibble: 1 × 3</span></span>
-<span><span class="co">##   data_value                                   closest_choice            match</span></span>
-<span><span class="co">##   &lt;chr&gt;                                        &lt;chr&gt;                     &lt;lgl&gt;</span></span>
-<span><span class="co">## 1 Mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm @ 20 m Mixed: &gt;=10 cm &amp; &lt;35 cm … FALSE</span></span></code></pre>
+<span><span class="co">##   data_value                                    closest_choice           match</span></span>
+<span><span class="co">##   &lt;chr&gt;                                         &lt;chr&gt;                    &lt;lgl&gt;</span></span>
+<span><span class="co">## 1 Mixed: &gt;=10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm @ 20 m Mixed: &gt;=10 cm &amp; &lt;35 cm… TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Fish size bin *"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## ✔ All values of `Fish size bin *` match</span></span></code></pre>
@@ -514,11 +514,11 @@ will appear:</p>
 <span><span class="co">## 1 &gt;10m - excellent &gt;10m - excellent TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Current"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## • Some errors in values of `Current` - please check table below</span></span></code></pre>
+<pre><code><span><span class="co">## ✔ All values of `Current` match</span></span></code></pre>
 <pre><code><span><span class="co">## # A tibble: 1 × 3</span></span>
 <span><span class="co">##   data_value closest_choice match</span></span>
 <span><span class="co">##   &lt;chr&gt;      &lt;chr&gt;          &lt;lgl&gt;</span></span>
-<span><span class="co">## 1 low        high           FALSE</span></span></code></pre>
+<span><span class="co">## 1 low/none   low/none       TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Observer emails *"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## ✔ All values of `Observer emails *` match</span></span></code></pre>
@@ -597,21 +597,7 @@ check the data once more:</p>
 <span>  method <span class="op">=</span> <span class="st">"fishbelt"</span>,</span>
 <span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: Failed to import data. Problems:</span></span></code></pre>
-<pre><code><span><span class="co">## # A tibble: 10 × 3</span></span>
-<span><span class="co">##    row_number data__fishbelt_transect__width            data__fishbelt_trans…¹</span></span>
-<span><span class="co">##         &lt;dbl&gt; &lt;chr&gt;                                     &lt;chr&gt;                 </span></span>
-<span><span class="co">##  1          1 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">##  2          2 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">##  3          3 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">##  4          4 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">##  5          5 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">##  6          6 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">##  7          7 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">##  8          8 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">##  9          9 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">## 10         10 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">## # ℹ abbreviated name: ¹​data__fishbelt_transect__current</span></span></code></pre>
+<pre><code><span><span class="co">## Records successfully checked! To import, please run the function again with `dryrun = FALSE`.</span></span></code></pre>
 <p>Once we got the message <strong>Records successfully
 checked!</strong>, change the <code>dryrun</code> option to
 <code>FALSE</code> to start ingesting your data into MERMAID. Once you
@@ -619,28 +605,14 @@ got the message <strong>Records successfully imported! Please review in
 Collect.</strong>, you can head to the <code>Collecting Page</code> in
 your project in the MERMAID app and start validating and submitting each
 transect.</p>
-<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_project_data.html">mermaid_import_project_data</a></span><span class="op">(</span></span>
 <span>  <span class="va">fishbelt_data</span>,</span>
 <span>  <span class="va">reef_survey</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"fishbelt"</span>,</span>
 <span>  dryrun <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: Failed to import data. Problems:</span></span></code></pre>
-<pre><code><span><span class="co">## # A tibble: 10 × 3</span></span>
-<span><span class="co">##    row_number data__fishbelt_transect__width            data__fishbelt_trans…¹</span></span>
-<span><span class="co">##         &lt;dbl&gt; &lt;chr&gt;                                     &lt;chr&gt;                 </span></span>
-<span><span class="co">##  1          1 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">##  2          2 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">##  3          3 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">##  4          4 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">##  5          5 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">##  6          6 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">##  7          7 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">##  8          8 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">##  9          9 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">## 10         10 "\"mixed: &gt;10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm… "\"low\" is not a val…</span></span>
-<span><span class="co">## # ℹ abbreviated name: ¹​data__fishbelt_transect__current</span></span></code></pre>
+<pre><code><span><span class="co">## Records successfully imported! Please review in Collect.</span></span></code></pre>
 </div>
   </div>
 
