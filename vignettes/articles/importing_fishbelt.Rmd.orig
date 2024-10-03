@@ -134,7 +134,7 @@ Now that we know the available options, we are going to add them manually using 
 ```{r}
 fishbelt_data <- fishbelt_data %>%
   mutate(
-    `Width *` = "Mixed: >10 cm & <35 cm @ 5 m, >=35 cm @ 20 m",
+    `Width *` = "Mixed: >=10 cm & <35 cm @ 5 m, >=35 cm @ 20 m",
     `Fish size bin *` = 1,
     `Observer emails *` = "email@mermaid.org"
   )
