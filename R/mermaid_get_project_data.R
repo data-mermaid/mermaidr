@@ -165,8 +165,8 @@ common_cols <- list(
 )
 
 common_benthic_cols <- list(
-  obs = c(common_cols[["obs/su"]], "transect_number", "transect_length", "interval_start", "interval_size", "label", "observers", "interval", "benthic_category", "benthic_attribute", "growth_form"),
-  su = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "interval_start", "interval_size", "observers", "percent_cover_benthic_category"),
+  obs = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "benthic_category", "benthic_attribute", "growth_form"),
+  su = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "percent_cover_benthic_category"),
   se = c(common_cols[["se"]], "percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd")
 )
 
@@ -182,24 +182,28 @@ project_data_columns <- list(
 
   `benthicpits/obstransectbenthicpits` = c(
     common_benthic_cols[["obs"]],
+    "interval", "interval_start", "interval_size",
     common_cols[["life_histories_obs"]],
     "data_policy_benthicpit",
     common_cols[["obs_closing"]]
   ),
   `benthicpits/obstransectbenthicpits/csv` = c(
     common_benthic_cols[["obs"]],
+    "interval", "interval_start", "interval_size",
     common_cols[["life_histories_obs_csv"]],
     "data_policy_benthicpit",
     common_cols[["obs_closing"]]
   ),
   `benthicpits/sampleunits` = c(
     common_benthic_cols[["su"]],
+    "interval_start", "interval_size",
     common_cols[["life_histories_su"]],
     "data_policy_benthicpit",
     common_cols[["su_closing"]]
   ),
   `benthicpits/sampleunits/csv` = c(
     common_benthic_cols[["su"]],
+    "interval_start", "interval_size",
     common_cols[["life_histories_su_csv"]],
     "data_policy_benthicpit",
     common_cols[["su_closing"]]
@@ -221,24 +225,28 @@ project_data_columns <- list(
 
   `benthiclits/obstransectbenthiclits` = c(
     common_benthic_cols[["obs"]],
+    "length", "total_length",
     common_cols[["life_histories_obs"]],
     "data_policy_benthiclit",
     common_cols[["obs_closing"]]
   ),
   `benthiclits/obstransectbenthiclits/csv` = c(
     common_benthic_cols[["obs"]],
+    "length", "total_length",
     common_cols[["life_histories_obs_csv"]],
     "data_policy_benthiclit",
     common_cols[["obs_closing"]]
   ),
   `benthiclits/sampleunits` = c(
     common_benthic_cols[["su"]],
+    "total_length",
     common_cols[["life_histories_su"]],
     "data_policy_benthiclit",
     common_cols[["su_closing"]]
   ),
   `benthiclits/sampleunits/csv` = c(
     common_benthic_cols[["su"]],
+    "total_length",
     common_cols[["life_histories_su_csv"]],
     "data_policy_benthiclit",
     common_cols[["su_closing"]]
@@ -330,8 +338,8 @@ project_data_df_columns_list <- list(
   `beltfishes/sampleunits` = c("biomass_kgha_trophic_group", "biomass_kgha_fish_family"),
   `beltfishes/sampleevents` = c("biomass_kgha_trophic_group_avg", "biomass_kgha_fish_family_avg", "biomass_kgha_trophic_group_sd", "biomass_kgha_fish_family_sd"),
   `benthicpits/obstransectbenthicpits` = testing_cols[["benthic_obs"]],
-  `benthicpits/obstransectbenthiclits` = testing_cols[["benthic_obs"]],
-  `benthicpits/obstransectbenthicpqts` = testing_cols[["benthic_obs"]],
+  `benthiclits/obstransectbenthiclits` = testing_cols[["benthic_obs"]],
+  `benthicpqts/obstransectbenthicpqts` = testing_cols[["benthic_obs"]],
   `benthicpits/sampleunits` = testing_cols[["benthic_su"]],
   `benthicpits/sampleevents` = testing_cols[["benthic_se"]],
   `benthiclits/sampleunits` = testing_cols[["benthic_su"]],
