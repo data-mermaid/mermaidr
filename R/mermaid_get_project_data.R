@@ -152,32 +152,165 @@ covars_cols <- c("aca_geomorphic", "aca_benthic", "andrello_grav_nc", "andrello_
 
 common_cols <- list(
   "obs/su" = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth"),
-  "se" = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "depth_sd"),
-  "obs_closing" = c("project_notes", "site_notes", "management_notes", "sample_unit_id", "sample_event_id", "project_admins", "contact_link"),
-  "su_closing" = c("project_notes", "site_notes", "management_notes", "sample_unit_notes", "sample_event_id", "sample_unit_ids", "project_admins", "contact_link"),
-  "se_closing" = c("project_notes", "site_notes", "management_notes", "id", "sample_unit_count", "project_admins", "contact_link", "sample_event_id")
+  se = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "depth_sd"),
+  obs_closing = c("project_notes", "site_notes", "management_notes", "sample_unit_id", "sample_event_id", "project_admins", "contact_link"),
+  su_closing = c("project_notes", "site_notes", "management_notes", "sample_unit_notes", "sample_event_id", "sample_unit_ids", "project_admins", "contact_link"),
+  se_closing = c("project_notes", "site_notes", "management_notes", "id", "sample_unit_count", "project_admins", "contact_link", "sample_event_id"),
+  life_histories_obs = "life_histories",
+  life_histories_obs_csv = c("life_histories__competitive", "life_histories__generalist", "life_histories__stress-tolerant", "life_histories__weedy"),
+  life_histories_su = "percent_cover_life_histories",
+  life_histories_su_csv = c("percent_cover_life_histories_weedy", "percent_cover_life_histories_generalist", "percent_cover_life_histories_competitive", "percent_cover_life_histories_stress-tolerant"),
+  life_histories_se = c("percent_cover_life_histories_avg", "percent_cover_life_histories_sd"),
+  life_histories_se_csv = c("percent_cover_life_histories_avg_weedy", "percent_cover_life_histories_avg_generalist", "percent_cover_life_histories_avg_competitive", "percent_cover_life_histories_avg_stress-tolerant", "percent_cover_life_histories_sd_weedy", "percent_cover_life_histories_sd_generalist", "percent_cover_life_histories_sd_competitive", "percent_cover_life_histories_sd_stress-tolerant")
+)
+
+common_benthic_cols <- list(
+  obs = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "benthic_category", "benthic_attribute", "growth_form"),
+  su = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "percent_cover_benthic_category"),
+  se = c(common_cols[["se"]], "percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd")
 )
 
 # For select columns and setting order
 project_data_columns <- list(
-  `benthicpqts/obstransectbenthicpqts` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "quadrat_size", "num_quadrats", "num_points_per_quadrat", "observers", "quadrat_number", "benthic_category", "benthic_attribute", "growth_form", "num_points", "data_policy_benthicpqt", common_cols[["obs_closing"]]),
-  `benthicpqts/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "num_points_nonother", "percent_cover_benthic_category", "data_policy_benthicpqt", common_cols[["su_closing"]]),
-  `benthicpqts/sampleevents` = c(common_cols[["se"]], "percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd", "num_points_nonother", "data_policy_benthicpqt", common_cols[["se_closing"]]),
+
+  # Fishbelt
   `beltfishes/obstransectbeltfishes` = c(common_cols[["obs/su"]], "transect_length", "transect_width", "assigned_transect_width_m", "size_bin", "observers", "transect_number", "label", "fish_family", "fish_genus", "fish_taxon", "size", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "count", "biomass_kgha", "trophic_level", "trophic_group", "functional_group", "vulnerability", "data_policy_beltfish", common_cols[["obs_closing"]]),
   `beltfishes/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "label", "size_bin", "transect_length", "transect_width", "biomass_kgha", "total_abundance", "biomass_kgha_trophic_group", "biomass_kgha_fish_family", "data_policy_beltfish", common_cols[["su_closing"]]),
   `beltfishes/sampleevents` = c(common_cols[["se"]], "biomass_kgha_avg", "biomass_kgha_sd", "biomass_kgha_trophic_group_avg", "biomass_kgha_trophic_group_sd", "biomass_kgha_fish_family_avg", "biomass_kgha_fish_family_sd", "data_policy_beltfish", common_cols[["se_closing"]]),
-  `benthicpits/obstransectbenthicpits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "interval_start", "interval_size", "label", "observers", "interval", "benthic_category", "benthic_attribute", "growth_form", "life_histories", "data_policy_benthicpit", common_cols[["obs_closing"]]),
-  `benthicpits/obstransectbenthicpits/csv` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "interval_start", "interval_size", "label", "observers", "interval", "benthic_category", "benthic_attribute", "growth_form", "life_histories__competitive", "life_histories__generalist", "life_histories__stress-tolerant", "life_histories__weedy", "data_policy_benthicpit", common_cols[["obs_closing"]]),
-  `benthicpits/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "interval_start", "interval_size", "observers", "percent_cover_benthic_category", "percent_cover_life_histories", "data_policy_benthicpit", common_cols[["su_closing"]]),
-  `benthicpits/sampleunits/csv` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "interval_start", "interval_size", "observers", "percent_cover_benthic_category", "percent_cover_life_histories_weedy", "percent_cover_life_histories_generalist", "percent_cover_life_histories_competitive", "percent_cover_life_histories_stress-tolerant", "data_policy_benthicpit", common_cols[["su_closing"]]),
-  `benthicpits/sampleevents` = c(common_cols[["se"]], "percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd", "percent_cover_life_histories_avg", "percent_cover_life_histories_sd", "data_policy_benthicpit", common_cols[["se_closing"]]),
-  `benthicpits/sampleevents/csv` = c(common_cols[["se"]], "percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd", "percent_cover_life_histories_avg_weedy", "percent_cover_life_histories_avg_generalist", "percent_cover_life_histories_avg_competitive", "percent_cover_life_histories_avg_stress-tolerant", "percent_cover_life_histories_sd_weedy", "percent_cover_life_histories_sd_generalist", "percent_cover_life_histories_sd_competitive", "percent_cover_life_histories_sd_stress-tolerant", "data_policy_benthicpit", common_cols[["se_closing"]]),
-  `benthiclits/obstransectbenthiclits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "benthic_category", "benthic_attribute", "growth_form", "length", "total_length", "data_policy_benthiclit", common_cols[["obs_closing"]]),
-  `benthiclits/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "total_length", "percent_cover_benthic_category", "data_policy_benthiclit", common_cols[["su_closing"]]),
-  `benthiclits/sampleevents` = c(common_cols[["se"]], "percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd", "data_policy_benthiclit", common_cols[["se_closing"]]),
+
+  # Benthic PIT
+
+  `benthicpits/obstransectbenthicpits` = c(
+    common_benthic_cols[["obs"]],
+    "interval", "interval_start", "interval_size",
+    common_cols[["life_histories_obs"]],
+    "data_policy_benthicpit",
+    common_cols[["obs_closing"]]
+  ),
+  `benthicpits/obstransectbenthicpits/csv` = c(
+    common_benthic_cols[["obs"]],
+    "interval", "interval_start", "interval_size",
+    common_cols[["life_histories_obs_csv"]],
+    "data_policy_benthicpit",
+    common_cols[["obs_closing"]]
+  ),
+  `benthicpits/sampleunits` = c(
+    common_benthic_cols[["su"]],
+    "interval_start", "interval_size",
+    common_cols[["life_histories_su"]],
+    "data_policy_benthicpit",
+    common_cols[["su_closing"]]
+  ),
+  `benthicpits/sampleunits/csv` = c(
+    common_benthic_cols[["su"]],
+    "interval_start", "interval_size",
+    common_cols[["life_histories_su_csv"]],
+    "data_policy_benthicpit",
+    common_cols[["su_closing"]]
+  ),
+  `benthicpits/sampleevents` = c(
+    common_benthic_cols[["se"]],
+    common_cols[["life_histories_se"]],
+    "data_policy_benthicpit",
+    common_cols[["se_closing"]]
+  ),
+  `benthicpits/sampleevents/csv` = c(
+    common_benthic_cols[["se"]],
+    common_cols[["life_histories_se_csv"]],
+    "data_policy_benthicpit",
+    common_cols[["se_closing"]]
+  ),
+
+  # Benthic LIT
+
+  `benthiclits/obstransectbenthiclits` = c(
+    common_benthic_cols[["obs"]],
+    "length", "total_length",
+    common_cols[["life_histories_obs"]],
+    "data_policy_benthiclit",
+    common_cols[["obs_closing"]]
+  ),
+  `benthiclits/obstransectbenthiclits/csv` = c(
+    common_benthic_cols[["obs"]],
+    "length", "total_length",
+    common_cols[["life_histories_obs_csv"]],
+    "data_policy_benthiclit",
+    common_cols[["obs_closing"]]
+  ),
+  `benthiclits/sampleunits` = c(
+    common_benthic_cols[["su"]],
+    "total_length",
+    common_cols[["life_histories_su"]],
+    "data_policy_benthiclit",
+    common_cols[["su_closing"]]
+  ),
+  `benthiclits/sampleunits/csv` = c(
+    common_benthic_cols[["su"]],
+    "total_length",
+    common_cols[["life_histories_su_csv"]],
+    "data_policy_benthiclit",
+    common_cols[["su_closing"]]
+  ),
+  `benthiclits/sampleevents` = c(
+    common_benthic_cols[["se"]],
+    common_cols[["life_histories_se"]],
+    "data_policy_benthiclit",
+    common_cols[["se_closing"]]
+  ),
+  `benthiclits/sampleevents/csv` = c(
+    common_benthic_cols[["se"]],
+    common_cols[["life_histories_se_csv"]],
+    "data_policy_benthiclit",
+    common_cols[["se_closing"]]
+  ),
+
+  # Benthic PQT
+
+  `benthicpqts/obstransectbenthicpqts` = c(
+    common_benthic_cols[["obs"]],
+    common_cols[["life_histories_obs"]],
+    "data_policy_benthicpqt",
+    common_cols[["obs_closing"]]
+  ),
+  `benthicpqts/obstransectbenthicpqts/csv` = c(
+    common_benthic_cols[["obs"]],
+    common_cols[["life_histories_obs_csv"]],
+    "data_policy_benthicpqt",
+    common_cols[["obs_closing"]]
+  ),
+  `benthicpqts/sampleunits` = c(
+    common_benthic_cols[["su"]],
+    common_cols[["life_histories_su"]],
+    "data_policy_benthicpqt",
+    common_cols[["su_closing"]]
+  ),
+  `benthicpqts/sampleunits/csv` = c(
+    common_benthic_cols[["su"]],
+    common_cols[["life_histories_su_csv"]],
+    "data_policy_benthicpqt",
+    common_cols[["su_closing"]]
+  ),
+  `benthicpqts/sampleevents` = c(
+    common_benthic_cols[["se"]],
+    common_cols[["life_histories_se"]],
+    "data_policy_benthicpqt",
+    common_cols[["se_closing"]]
+  ),
+  `benthicpqts/sampleevents/csv` = c(
+    common_benthic_cols[["se"]],
+    common_cols[["life_histories_se_csv"]],
+    "data_policy_benthicpqt",
+    common_cols[["se_closing"]]
+  ),
+
+  # Habitat complexity
+
   `habitatcomplexities/obshabitatcomplexities` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "interval_size", "observers", "interval", "score", "score_name", "data_policy_habitatcomplexity", common_cols[["obs_closing"]]),
   `habitatcomplexities/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "score_avg", "score_sd", "data_policy_habitatcomplexity", common_cols[["su_closing"]]),
   `habitatcomplexities/sampleevents` = c(common_cols[["se"]], "score_avg_avg", "score_avg_sd", "data_policy_habitatcomplexity", common_cols[["se_closing"]]),
+
+  # Bleaching
+
   `bleachingqcs/obscoloniesbleacheds` = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "observers", "benthic_attribute", "growth_form", "count_normal", "count_pale", "count_20", "count_50", "count_80", "count_100", "count_dead", "data_policy_bleachingqc", common_cols[["obs_closing"]]),
   `bleachingqcs/obsquadratbenthicpercents` = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "observers", "quadrat_number", "percent_hard", "percent_soft", "percent_algae", "data_policy_bleachingqc", common_cols[["obs_closing"]]),
   `bleachingqcs/sampleunits` = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "count_total", "count_genera", "percent_normal", "percent_pale", "percent_bleached", "quadrat_count", "percent_hard_avg", "percent_hard_sd", "percent_soft_avg", "percent_soft_sd", "percent_algae_avg", "percent_algae_sd", "data_policy_bleachingqc", common_cols[["su_closing"]]),
@@ -195,16 +328,24 @@ project_data_columns_csv <- project_data_columns_csv %>%
 project_data_columns <- append(project_data_columns[!names(project_data_columns) %in% names(project_data_columns_csv)], project_data_columns_csv)
 
 # For testing columns, after df-cols have been expanded
+testing_cols <- list(
+  benthic_obs = "life_histories",
+  benthic_su = c("percent_cover_benthic_category", "percent_cover_life_histories"),
+  benthic_se = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd", "percent_cover_life_histories_avg", "percent_cover_life_histories_sd")
+)
+
 project_data_df_columns_list <- list(
   `beltfishes/sampleunits` = c("biomass_kgha_trophic_group", "biomass_kgha_fish_family"),
   `beltfishes/sampleevents` = c("biomass_kgha_trophic_group_avg", "biomass_kgha_fish_family_avg", "biomass_kgha_trophic_group_sd", "biomass_kgha_fish_family_sd"),
-  `benthicpits/obstransectbenthicpits` = "life_histories",
-  `benthicpits/sampleunits` = c("percent_cover_benthic_category", "percent_cover_life_histories"),
-  `benthicpits/sampleevents` = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd", "percent_cover_life_histories_avg", "percent_cover_life_histories_sd"),
-  `benthiclits/sampleunits` = c("percent_cover_benthic_category"),
-  `benthiclits/sampleevents` = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd"),
-  `benthicpqts/sampleunits` = c("percent_cover_benthic_category"),
-  `benthicpqts/sampleevents` = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd")
+  `benthicpits/obstransectbenthicpits` = testing_cols[["benthic_obs"]],
+  `benthiclits/obstransectbenthiclits` = testing_cols[["benthic_obs"]],
+  `benthicpqts/obstransectbenthicpqts` = testing_cols[["benthic_obs"]],
+  `benthicpits/sampleunits` = testing_cols[["benthic_su"]],
+  `benthicpits/sampleevents` = testing_cols[["benthic_se"]],
+  `benthiclits/sampleunits` = testing_cols[["benthic_su"]],
+  `benthiclits/sampleevents` = testing_cols[["benthic_se"]],
+  `benthicpqts/sampleunits` = testing_cols[["benthic_su"]],
+  `benthicpqts/sampleevents` = testing_cols[["benthic_se"]]
 )
 
 project_data_df_columns_list_csv <- project_data_df_columns_list

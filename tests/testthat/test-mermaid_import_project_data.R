@@ -56,7 +56,7 @@ test_that("mermaid_import_project_data errors if you are not part of the project
 
   expect_error(
     mermaid_import_project_data(dplyr::tibble(), "00673bdf-b838-4c2e-a305-86c99c378ec5", "fishbelt"),
-    "You are not part of this project"
+    "You do not have permission to perform this action"
   )
 })
 

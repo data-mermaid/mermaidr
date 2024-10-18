@@ -111,7 +111,7 @@ mermaid_import_project_data <- function(data, project, method = c("fishbelt", "b
       stop("Failed to import data. '", project, "' is not a valid project ID", call. = FALSE)
     }
 
-    error_not_in_project <- stringr::str_detect(error, "ou are not part of this project")
+    error_not_in_project <- stringr::str_detect(error, "ou are not part of this project") | stringr::str_detect(error, "ou do not have permission to perform this action")
 
     if (error_not_in_project) {
       error <- jsonlite::fromJSON(error)[["detail"]]

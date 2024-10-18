@@ -68,7 +68,9 @@ test_that("agg endpoints - get_project_endpoint allows multiple projects and com
   expect_true(all(project_data_test_columns[["benthicpits/sampleevents"]] %in% names(ses)))
   expect_true(any(stringr::str_starts(names(ses), project_data_df_columns_list_names[["benthicpits/sampleevents"]])))
 
-  expect_named(get_project_endpoint(p, "benthiclits/obstransectbenthiclits", limit = 1), c(mermaid_project_endpoint_columns[["benthiclits/obstransectbenthiclits"]]))
+  obs <- get_project_endpoint(p, "benthiclits/obstransectbenthiclits", limit = 1)
+  expect_true(all(project_data_test_columns[["benthiclits/obstransectbenthiclits"]] %in% names(obs)))
+  expect_true(any(stringr::str_starts(names(obs), project_data_df_columns_list_names[["benthiclits/obstransectbenthiclits"]])))
   sus <- get_project_endpoint(p, "benthiclits/sampleunits", limit = 1)
   expect_true(all(project_data_test_columns[["benthiclits/sampleunits"]] %in% names(sus)))
   expect_true(any(stringr::str_starts(names(sus), project_data_df_columns_list_names[["benthiclits/sampleunits"]])))
@@ -87,7 +89,9 @@ test_that("agg endpoints - get_project_endpoint allows multiple projects and com
   expect_named(get_project_endpoint(p, "bleachingqcs/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/sampleevents"]]))
 
   p <- "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
-  expect_named(get_project_endpoint(p, "benthicpqts/obstransectbenthicpqts", limit = 1), c(mermaid_project_endpoint_columns[["benthicpqts/obstransectbenthicpqts"]]))
+  obs <- get_project_endpoint(p, "benthicpqts/obstransectbenthicpqts", limit = 1)
+  expect_true(all(project_data_test_columns[["benthicpqts/obstransectbenthicpqts"]] %in% names(obs)))
+  expect_true(any(stringr::str_starts(names(obs), project_data_df_columns_list_names[["benthicpqts/obstransectbenthicpqts"]])))
   sus <- get_project_endpoint(p, "benthicpqts/sampleunits", limit = 1)
   expect_true(all(project_data_test_columns[["benthicpqts/sampleunits"]] %in% names(sus)))
   expect_true(any(stringr::str_starts(names(sus), project_data_df_columns_list_names[["benthicpqts/sampleunits"]])))
