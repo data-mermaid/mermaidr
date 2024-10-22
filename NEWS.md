@@ -1,3 +1,10 @@
+# mermaidr 1.1.3
+
+* Add relevant life histories to `"benthiclit"` and `"benthicpqt"` methods in `mermaid_get_project_data()`
+    * `data = "observations"` gains `life_histories__competitive`, `life_histories__generalist`, `life_histories__stress_tolerant`, `life_histories__weedy`
+    * `data = "sampleunits"` gains `percent_cover_life_histories_weedy`, `percent_cover_life_histories_generalist`, `percent_cover_life_histories_competitive`, `percent_cover_life_histories_stress_tolerant`
+    * `data = "sampleevents"` gains `percent_cover_life_histories_avg_weedy`, `percent_cover_life_histories_avg_generalist`, `percent_cover_life_histories_avg_competitive`, `percent_cover_life_histories_avg_stress-tolerant`, `percent_cover_life_histories_sd_weedy`, `percent_cover_life_histories_sd_generalist`, `percent_cover_life_histories_sd_competitive`, `percent_cover_life_histories_sd_stress-tolerant`
+
 # mermaidr 1.1.2
 
 * Add fields `management_est_year`, `management_size`, `management_parties`, `management_compliance`, `management_rules` to `mermaid_get_summary_sampleevents()`
@@ -11,7 +18,7 @@
 # mermaidr 1.1.0
 
 * Add `life_histories` and `growth_form_life_histories` to `mermaid_get_reference("benthicattributes")`
-* Add relevant life histories to `"benthicpqt"` method in `mermaid_get_project_data()`
+* Add relevant life histories to `"benthicpit"` method in `mermaid_get_project_data()`
     * `data = "observations"` gains `life_histories__competitive`, `life_histories__generalist`, `life_histories__stress_tolerant`, `life_histories__weedy`
     * `data = "sampleunits"` gains `percent_cover_life_histories_weedy`, `percent_cover_life_histories_generalist`, `percent_cover_life_histories_competitive`, `percent_cover_life_histories_stress_tolerant`
     * `data = "sampleevents"` gains `percent_cover_life_histories_avg_weedy`, `percent_cover_life_histories_avg_generalist`, `percent_cover_life_histories_avg_competitive`, `percent_cover_life_histories_avg_stress-tolerant`, `percent_cover_life_histories_sd_weedy`, `percent_cover_life_histories_sd_generalist`, `percent_cover_life_histories_sd_competitive`, `percent_cover_life_histories_sd_stress-tolerant`
