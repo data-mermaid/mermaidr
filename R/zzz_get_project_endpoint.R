@@ -275,14 +275,3 @@ clean_df_cols <- function(.data) {
       stringr::str_replace_all(" |-", "_") %>%
       stringr::str_to_lower())
 }
-
-mermaid_project_endpoint_columns <- list(
-  managements = project_managements_columns,
-  sites = project_sites_columns
-)
-
-mermaid_project_endpoint_columns <- append(mermaid_project_endpoint_columns, project_other_endpoint_columns)
-
-mermaid_project_endpoint_columns <- append(mermaid_project_endpoint_columns, project_data_columns)
-
-mermaid_project_endpoint_columns_test <- purrr::map(mermaid_project_endpoint_columns, snakecase::to_snake_case)
