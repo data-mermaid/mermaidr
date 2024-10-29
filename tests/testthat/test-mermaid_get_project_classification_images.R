@@ -1,4 +1,8 @@
 test_that("mermaid_get_project_classification_images returns expected columns", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   p <- "df2bb123-5bfc-4f3f-aa88-bb102d3b2b35"
   e <- "classification/images"
 
@@ -16,6 +20,10 @@ test_that("mermaid_get_project_classification_images returns expected columns", 
 })
 
 test_that("mermaid_get_project_classification_images does not return columsn in `exclude`", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   p <- "df2bb123-5bfc-4f3f-aa88-bb102d3b2b35"
   e <- "classification/images"
 
