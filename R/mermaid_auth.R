@@ -81,9 +81,11 @@ mermaid_auth <- function(token = NULL,
   }
 
   if (is.null(token)) {
+    # Add audience to endpoint so that when audience changes, token changes accordingly
     mermaid_endpoint <- httr::oauth_endpoint(
       authorize = mermaid_authorize_url,
-      access = mermaid_access_url
+      access = mermaid_access_url,
+      audience = mermaid_audience
     )
     mermaid_app <- httr::oauth_app("mermaidr", key = key, secret = NULL)
     mermaid_token <- mermaid2.0_token(mermaid_endpoint, mermaid_app, cache = cache, query_authorize_extra = list(audience = mermaid_audience))
@@ -107,6 +109,7 @@ mermaid_auth <- function(token = NULL,
     )
   }
 
+
   invisible(.state$token)
 }
 
@@ -122,7 +125,10 @@ mermaid_auth <- function(token = NULL,
 #'
 #' @export
 mermaid_token <- function(verbose = FALSE) {
-  if (!token_available(verbose = verbose)) mermaid_auth(verbose = verbose)
+  if (!token_available(verbose = verbose)) {
+    mermaid_auth(verbose = verbose)
+  }
+
   httr::config(token = .state$token)
 }
 
