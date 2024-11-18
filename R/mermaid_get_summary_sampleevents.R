@@ -18,7 +18,7 @@ mermaid_get_summary_sampleevents <- function(limit = NULL) {
 }
 
 summary_sampleevents_columns <- c(
-  "project_id", "project", "tags", "country", "site_id", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "management_id", "management", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "data_policy_beltfish", "data_policy_benthiclit", "data_policy_benthicpit", "data_policy_benthicpqt", "data_policy_habitatcomplexity", "data_policy_bleachingqc", "project_notes", "site_notes", "management_notes", "contact_link", "protocols"
+  "project_id", "project", "tags", "country", "site_id", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "management_id", "management", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "data_policy_beltfish", "data_policy_benthiclit", "data_policy_benthicpit", "data_policy_benthicpqt", "data_policy_habitatcomplexity", "data_policy_bleachingqc", "project_notes", "site_notes", "management_notes", "observers", "contact_link", "protocols"
 )
 
 unpack_protocols <- function(x) {
