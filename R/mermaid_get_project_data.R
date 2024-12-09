@@ -155,7 +155,7 @@ common_cols <- list(
   se = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "depth_sd"),
   obs_closing = c("project_notes", "site_notes", "management_notes", "sample_unit_id", "sample_event_id", "project_admins", "contact_link"),
   su_closing = c("project_notes", "site_notes", "management_notes", "sample_unit_notes", "sample_event_id", "sample_unit_ids", "project_admins", "contact_link"),
-  se_closing = c("project_notes", "site_notes", "management_notes", "id", "sample_unit_count", "project_admins", "contact_link", "sample_event_id"),
+  se_closing = c("observers", "project_notes", "site_notes", "management_notes", "id", "sample_unit_count", "project_admins", "contact_link", "sample_event_id"),
   life_histories_obs = "life_histories",
   life_histories_obs_csv = c("life_histories__competitive", "life_histories__generalist", "life_histories__stress-tolerant", "life_histories__weedy"),
   life_histories_su = "percent_cover_life_histories",
