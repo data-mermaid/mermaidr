@@ -19,7 +19,7 @@ test_that("mermaid_get_project_classification_images returns expected columns", 
   ) %>% all())
 })
 
-test_that("mermaid_get_project_classification_images does not return columsn in `exclude`", {
+test_that("mermaid_get_project_classification_images does not return columns in `exclude`", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
