@@ -170,6 +170,12 @@ common_benthic_cols <- list(
   se = c(common_cols[["se"]], "percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd")
 )
 
+common_bleaching_cols <- list(
+  obs = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "observers"),
+  su = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "count_total", "count_genera", "percent_normal", "percent_pale", "percent_bleached", "quadrat_count", "percent_hard_avg", "percent_hard_sd", "percent_soft_avg", "percent_soft_sd", "percent_algae_avg", "percent_algae_sd"),
+  se = c(common_cols[["se"]], "quadrat_size_avg", "count_total_avg", "count_total_sd", "count_genera_avg", "count_genera_sd", "percent_normal_avg", "percent_normal_sd", "percent_pale_avg", "percent_pale_sd", "percent_bleached_avg", "percent_bleached_sd", "quadrat_count_avg", "percent_hard_avg_avg", "percent_hard_avg_sd", "percent_soft_avg_avg", "percent_soft_avg_sd", "percent_algae_avg_avg", "percent_algae_avg_sd")
+)
+
 # For select columns and setting order
 project_data_columns <- list(
 
@@ -311,10 +317,84 @@ project_data_columns <- list(
 
   # Bleaching
 
-  `bleachingqcs/obscoloniesbleacheds` = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "observers", "benthic_attribute", "growth_form", "count_normal", "count_pale", "count_20", "count_50", "count_80", "count_100", "count_dead", "data_policy_bleachingqc", common_cols[["obs_closing"]]),
-  `bleachingqcs/obsquadratbenthicpercents` = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "observers", "quadrat_number", "percent_hard", "percent_soft", "percent_algae", "data_policy_bleachingqc", common_cols[["obs_closing"]]),
-  `bleachingqcs/sampleunits` = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "count_total", "count_genera", "percent_normal", "percent_pale", "percent_bleached", "quadrat_count", "percent_hard_avg", "percent_hard_sd", "percent_soft_avg", "percent_soft_sd", "percent_algae_avg", "percent_algae_sd", "data_policy_bleachingqc", common_cols[["su_closing"]]),
-  `bleachingqcs/sampleevents` = c(common_cols[["se"]], "quadrat_size_avg", "count_total_avg", "count_total_sd", "count_genera_avg", "count_genera_sd", "percent_normal_avg", "percent_normal_sd", "percent_pale_avg", "percent_pale_sd", "percent_bleached_avg", "percent_bleached_sd", "quadrat_count_avg", "percent_hard_avg_avg", "percent_hard_avg_sd", "percent_soft_avg_avg", "percent_soft_avg_sd", "percent_algae_avg_avg", "percent_algae_avg_sd", "data_policy_bleachingqc", common_cols[["se_closing"]])
+  `bleachingqcs/obscoloniesbleacheds` =
+    c(
+      common_bleaching_cols[["obs"]],
+      "benthic_attribute",
+      "benthic_category",
+      "growth_form",
+      "count_normal",
+      "count_pale",
+      "count_20",
+      "count_50",
+      "count_80",
+      "count_100",
+      "count_dead",
+      common_cols[["life_histories_obs"]],
+      "data_policy_bleachingqc",
+      common_cols[["obs_closing"]]
+    ),
+  `bleachingqcs/obscoloniesbleached/csv` =
+    c(
+      common_bleaching_cols[["obs"]],
+      "benthic_attribute",
+      "benthic_category",
+      "growth_form",
+      "count_normal",
+      "count_pale",
+      "count_20",
+      "count_50",
+      "count_80",
+      "count_100",
+      "count_dead",
+      common_cols[["life_histories_obs_csv"]],
+      "data_policy_bleachingqc",
+      common_cols[["obs_closing"]]
+    ),
+  `bleachingqcs/obsquadratbenthicpercents` =
+    c(
+      common_bleaching_cols[["obs"]],
+      "quadrat_number",
+      "percent_hard",
+      "percent_soft",
+      "percent_algae",
+      "data_policy_bleachingqc",
+      common_cols[["obs_closing"]]
+    ),
+  `bleachingqcs/obsquadratbenthicpercents/csv` =
+    c(
+      common_bleaching_cols[["obs"]],
+      "quadrat_number",
+      "percent_hard",
+      "percent_soft",
+      "percent_algae",
+      "data_policy_bleachingqc",
+      common_cols[["obs_closing"]]
+    ),
+  `bleachingqcs/sampleunits` = c(
+    common_bleaching_cols[["su"]],
+    common_cols[["life_histories_su"]],
+    "data_policy_bleachingqc",
+    common_cols[["su_closing"]]
+  ),
+  `bleachingqcs/sampleunits/csv` = c(
+    common_bleaching_cols[["su"]],
+    common_cols[["life_histories_su_csv"]],
+    "data_policy_bleachingqc",
+    common_cols[["su_closing"]]
+  ),
+  `bleachingqcs/sampleevents` = c(
+    common_bleaching_cols[["se"]],
+    "data_policy_bleachingqc",
+    common_cols[["life_histories_se"]],
+    common_cols[["se_closing"]]
+  ),
+  `bleachingqcs/sampleevents/csv` = c(
+    common_bleaching_cols[["se"]],
+    "data_policy_bleachingqc",
+    common_cols[["life_histories_se_csv"]],
+    common_cols[["se_closing"]]
+  )
 )
 
 project_data_columns_csv <- project_data_columns[!stringr::str_ends(names(project_data_columns), "/csv")]
@@ -331,7 +411,10 @@ project_data_columns <- append(project_data_columns[!names(project_data_columns)
 testing_cols <- list(
   benthic_obs = "life_histories",
   benthic_su = c("percent_cover_benthic_category", "percent_cover_life_histories"),
-  benthic_se = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd", "percent_cover_life_histories_avg", "percent_cover_life_histories_sd")
+  benthic_se = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd", "percent_cover_life_histories_avg", "percent_cover_life_histories_sd"),
+  bleaching_obs = "life_histories",
+  bleaching_su = c("percent_cover_life_histories"),
+  bleaching_se = c("percent_cover_life_histories_avg", "percent_cover_life_histories_sd")
 )
 
 project_data_df_columns_list <- list(
@@ -340,6 +423,7 @@ project_data_df_columns_list <- list(
   `benthicpits/obstransectbenthicpits` = testing_cols[["benthic_obs"]],
   `benthiclits/obstransectbenthiclits` = testing_cols[["benthic_obs"]],
   `benthicpqts/obstransectbenthicpqts` = testing_cols[["benthic_obs"]],
+  `bleachingqcs/obscoloniesbleacheds` = testing_cols[["bleaching_obs"]],
   `benthicpits/sampleunits` = testing_cols[["benthic_su"]],
   `benthicpits/sampleevents` = testing_cols[["benthic_se"]],
   `benthiclits/sampleunits` = testing_cols[["benthic_su"]],
