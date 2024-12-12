@@ -1,9 +1,23 @@
+#' Get GFCR report for project
+#'
+#' @inheritParams get_project_endpoint
+#' @inheritParams mermaid_GET
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' projects <- mermaid_get_my_projects()
+#' projects %>%
+#'   head(1) %>%
+#'   mermaid_get_project_gfcr_report()
+#' }
 mermaid_get_project_gfcr_report <- function(project, token = mermaid_token()) {
 
   project_id <- as_id(project)
   check_project(project_id)
 
-  check_single_project(project)
+  check_single_project(project_id)
 
   gfcr_export_url <- httr::modify_url(base_url, path = "v1/reports/")
   gfcr_body <- list(
