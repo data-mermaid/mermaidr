@@ -1,6 +1,9 @@
 mermaid_get_project_gfcr_report <- function(project, token = mermaid_token()) {
+
   project_id <- as_id(project)
   check_project(project_id)
+
+  check_single_project(project)
 
   gfcr_export_url <- httr::modify_url(base_url, path = "v1/reports/")
   gfcr_body <- list(

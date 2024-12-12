@@ -16,9 +16,7 @@ mermaid_import_project_data <- function(data, project, method = c("fishbelt", "b
   check_project(project)
 
   # Check only one project
-  if (length(project) > 1) {
-    stop("Please supply only one project", call. = FALSE)
-  }
+  check_single_project(project)
 
   # Check if data is a data frame
   data_is_df <- inherits(data, "data.frame")
