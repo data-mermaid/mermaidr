@@ -21,7 +21,7 @@ mermaid_export_project_gfcr_report <- function(project, token = mermaid_token())
 
   # Check if zip -- if not, error
   if (resp$headers$`content-type` != "application/zip") {
-    browser()
+    stop("Error reading GFCR report. File was not downloaded as a ZIP, as is expected.", call. = FALSE)
   }
 
   utils::unzip(temp_zip, overwrite = TRUE, exdir = report_dir)
@@ -29,8 +29,8 @@ mermaid_export_project_gfcr_report <- function(project, token = mermaid_token())
   # Check that the unzipped dir contains exactly one file .xlsx file and that it starts with "gfcr_"
   gfcr_report_file <- list.files(report_dir, full.names = TRUE)
 
-  if (!(length(gfcr_report_file == 1) & stringr::str_ends(gfcr_report_file, "xlsx") & stringr::str_starts(basename(gfcr_report_file), "gfcr"))) {
-    browser()
+  if (!(length(gfcr_report_file) == 1 & stringr::str_ends(gfcr_report_file, "xlsx") & stringr::str_starts(basename(gfcr_report_file), "gfcr"))) {
+    stop("Error reading GFCR report. The download does not contain a single xlsx file, as expected.", call. = FALSE)
   }
 
   # Read all tabs in
