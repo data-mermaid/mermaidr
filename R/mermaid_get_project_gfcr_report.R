@@ -2,7 +2,7 @@
 #'
 #' @inheritParams get_project_endpoint
 #' @inheritParams mermaid_GET
-#'
+#' @param save Excel file to save GFCR report to - .xlsx or xls file. Optional.
 #' @export
 #'
 #' @examples
