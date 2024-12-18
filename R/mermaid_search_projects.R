@@ -25,7 +25,7 @@ mermaid_search_projects <- function(name = NULL, countries = NULL, tags = NULL, 
   mermaid_search_my_projects(name, countries, tags, include_test_projects, limit, token = NULL)
 }
 
-check_single_project <- function(projects, name) {
+check_single_project_returned <- function(projects, name) {
   if (nrow(projects) > 1) {
     message(paste0("More than one project with the name '", name, "' exists."))
   }

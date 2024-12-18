@@ -29,9 +29,9 @@ test_that("mermaid_search_projects returns a zero row tibble if a project is not
 
 test_that("check_single_project returns a warning if more than one result is returned", {
   x <- data.frame(a = 1:2)
-  expect_message(check_single_project(x, "test"))
+  expect_message(check_single_project_returned(x, "test"))
   y <- data.frame(a = 1)
-  expect_silent(check_single_project(y, "test"))
+  expect_silent(check_single_project_returned(y, "test"))
 })
 
 test_that("mermaid_search_projects returns projects with matching name `name` is used for searching. If there is more than one, there's a message", {
