@@ -36,7 +36,8 @@ Imports:
     forcats,
     vctrs,
     methods,
-    snakecase
+    snakecase,
+    readxl
 RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 2.1.0),
