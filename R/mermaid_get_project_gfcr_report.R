@@ -17,8 +17,6 @@ mermaid_get_project_gfcr_report <- function(project, token = mermaid_token()) {
   project_id <- as_id(project)
   check_project(project_id)
 
-  check_single_project(project_id)
-
   gfcr_export_url <- httr::modify_url(base_url, path = "v1/reports/")
   gfcr_body <- list(
     "report_type" = "gfcr",
@@ -32,7 +30,7 @@ mermaid_get_project_gfcr_report <- function(project, token = mermaid_token()) {
   temp_zip <- glue::glue("{temp_dir}/{temp_file}.zip")
   report_dir <- glue::glue("{temp_dir}/{temp_file}")
 
-  resp <- httr::POST(gfcr_export_url, encode = "multipart", body = gfcr_body, ua, token, httr::write_disk(temp_zip))
+  resp <- httr::POST(gfcr_export_url, encode = "json", body = gfcr_body, ua, token, httr::write_disk(temp_zip))
 
   check_errors(resp)
 
