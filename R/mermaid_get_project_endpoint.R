@@ -22,7 +22,7 @@ project_other_endpoint_columns <- list(
   benthiclittransectmethods = c("id", "transect", "sample_event", "benthic_transect", "observers", "obs_benthic_lits", "created_on", "updated_on"),
   benthicpittransectmethods = c("id", "transect", "interval_size", "sample_event", "benthic_transect", "observers", "obs_benthic_pits", "created_on", "updated_on"),
   benthictransects = c("id", "sample_time", "sample_event", "number", "label", "current", "depth", "len_surveyed", "notes", "reef_slope", "relative_depth", "tide", "visibility", "created_on", "updated_on"),
-  collectrecords = c("id", "profile", "stage", "data", "created_on", "updated_on"),
+  collectrecords = c("id", "profile", "stage", "data", "validations", "created_on", "updated_on"),
   fishbelttransects = c("id", "notes", "number", "len_surveyed", "reef_slope", "width", "size_bin", "sample_event", "created_on", "updated_on"),
   observers = c("id", "profile", "rank", "transectmethod", "created_on", "created_by"),
   project_profiles = c("id", "profile", "is_collector", "is_admin", "role", "created_on", "updated_on"),

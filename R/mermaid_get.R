@@ -190,8 +190,10 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if ("validations" %in% names(results)) {
-    results <- results %>%
-      dplyr::select(-tidyselect::all_of("validations"))
+    if (endpoint != "collectrecords") {
+      results <- results %>%
+        dplyr::select(-tidyselect::all_of("validations"))
+    }
   }
 
   if (endpoint == "sites") {
