@@ -1,8 +1,8 @@
-#' Get GFCR report for project
+#' Get GFCR report for project(s)
 #'
 #' @inheritParams get_project_endpoint
 #' @inheritParams mermaid_GET
-#'
+#' @param save Excel file to save GFCR report to - .xlsx or xls file. Optional.
 #' @export
 #'
 #' @examples
@@ -10,10 +10,9 @@
 #' projects <- mermaid_get_my_projects()
 #' projects %>%
 #'   head(1) %>%
-#'   mermaid_get_project_gfcr_report()
+#'   mermaid_get_gfcr_report()
 #' }
-mermaid_get_project_gfcr_report <- function(project, token = mermaid_token()) {
-
+mermaid_get_gfcr_report <- function(project, save = NULL, token = mermaid_token()) {
   project_id <- as_id(project)
   check_project(project_id)
 
@@ -46,6 +45,15 @@ mermaid_get_project_gfcr_report <- function(project, token = mermaid_token()) {
 
   if (!(length(gfcr_report_file) == 1 & stringr::str_ends(gfcr_report_file, "xlsx") & stringr::str_starts(basename(gfcr_report_file), "gfcr"))) {
     stop("Error reading GFCR report. The download does not contain a single xlsx file, as expected.", call. = FALSE)
+  }
+
+  # If "save" is not NULL, copy the file to the location described
+  if (!is.null(save)) {
+    check_excel_file(save)
+
+    file.copy(gfcr_report_file, save, overwrite = TRUE)
+
+    usethis::ui_done("GFCR report written to {save}")
   }
 
   # Read all tabs in
