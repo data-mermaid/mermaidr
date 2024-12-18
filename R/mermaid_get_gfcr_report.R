@@ -17,9 +17,16 @@ mermaid_get_gfcr_report <- function(project, save = NULL, token = mermaid_token(
   check_project(project_id)
 
   gfcr_export_url <- httr::modify_url(base_url, path = "v1/reports/")
+
+  if(length(project_id) == 1) {
+    project_ids <- list(project_id)
+  } else {
+    project_ids <- project_id
+  }
+
   gfcr_body <- list(
     "report_type" = "gfcr",
-    "project_ids" = project_id,
+    "project_ids" = project_ids,
     "background" = "false"
   )
 
@@ -57,14 +64,12 @@ mermaid_get_gfcr_report <- function(project, save = NULL, token = mermaid_token(
   }
 
   # Read all tabs in
-  gfcr_report_sheets <- openxlsx::getSheetNames(gfcr_report_file)
+  gfcr_report_sheets <- readxl::excel_sheets(gfcr_report_file)
 
   gfcr_report_sheets_res <- gfcr_report_sheets %>%
     purrr::map(\(x)
-    openxlsx::read.xlsx(gfcr_report_file,
-      sheet = x,
-      check.names = FALSE,
-      sep.names = " "
+    readxl::read_xlsx(gfcr_report_file,
+      sheet = x
     ) %>%
       dplyr::as_tibble())
 
