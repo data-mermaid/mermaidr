@@ -38,7 +38,7 @@ mermaid_search_my_projects <- function(name = NULL, countries = NULL, tags = NUL
       dplyr::filter(name == !!name)
 
     if (is.null(countries) & is.null(tags)) {
-      check_single_project(projects, name)
+      check_single_project_returned(projects, name)
     }
   } else if (!is.null(countries) | !is.null(tags)) {
     projects <- mermaid_get_my_projects(include_test_projects = include_test_projects, token = token)

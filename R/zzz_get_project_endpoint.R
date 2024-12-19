@@ -96,6 +96,13 @@ check_project <- function(project) {
   }
 }
 
+check_single_project <- function(project) {
+  # Check only one project
+  if (length(project) > 1) {
+    stop("Please supply only one project", call. = FALSE)
+  }
+}
+
 construct_project_endpoint_columns <- function(res, endpoint, multiple_projects = FALSE, covariates = FALSE) {
   # If covariates = TRUE, add site_id to columns selected (just for now!)
   endpoint_cols <- mermaid_project_endpoint_columns[[endpoint]]
