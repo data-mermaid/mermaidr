@@ -1,3 +1,23 @@
+#' Bulk validate records in Collecting
+#'
+#' Bulk validates records in Collecting for a given project, and returns information on how many records produced errors, produced warnings, or were successfully validated without errors or warnings. To be used after \code{\link{mermaid_import_project_data}}.
+#'
+#' @inheritParams get_project_endpoint
+#' @inheritParams mermaid_GET
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' mermaid_get_my_projects() %>%
+#'   head(1) %>%
+#'   mermaid_import_bulk_validate()
+#'
+#' # 43 records being validated...
+#' # ✖ 27 records produced errors in validation
+#' # • 13 records produced warnings in validation
+#' # ✔ 3 records successfully validated without warnings or errors
+#' }
 mermaid_import_bulk_validate <- function(project, token = mermaid_token()) {
   # Show messages
   silent <- FALSE
@@ -41,7 +61,6 @@ mermaid_import_bulk_validate <- function(project, token = mermaid_token()) {
   # Do in batches of three
   batch_size <- 3
   collect_records_split <- collect_records %>%
-    head(2) %>%
     dplyr::mutate(...validate_group = ceiling(dplyr::row_number() / batch_size)) %>%
     split(.$...validate_group)
 
@@ -106,9 +125,17 @@ get_collecting_records <- function(project, token = mermaid_token()) {
   res <- mermaid_get_project_endpoint(project, "collectrecords")
 
   # Expand validations, just return the status and ID
-  res %>%
+  res <- res %>%
     tidyr::unpack("validations", names_sep = "_") %>%
-    dplyr::select(dplyr::all_of(c("id", "validations_status")))
+    dplyr::select(dplyr::any_of(c("id", "validations_status")))
+
+  # If there is only one record (or multiple?) and it has not been validated, then "validations" overall is NA -> so the column "validations_status" does not exist, need to create it
+  if (!"validations_status" %in% names(res)) {
+    res <- res %>%
+      dplyr::mutate(validations_status = NA_character_)
+  }
+
+  res
 }
 summarise_status <- function(df, status) {
   n_status <- df %>%
