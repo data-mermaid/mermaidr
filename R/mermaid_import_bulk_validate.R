@@ -1,4 +1,7 @@
-mermaid_import_bulk_validate <- function(project, silent = TRUE, token = mermaid_token()) {
+mermaid_import_bulk_validate <- function(project, token = mermaid_token()) {
+  # Show messages
+  silent <- FALSE
+
   # One project at a time
   project_id <- as_id(project)
   check_project(project_id)
@@ -38,11 +41,20 @@ mermaid_import_bulk_validate <- function(project, silent = TRUE, token = mermaid
   # Do in batches of three
   batch_size <- 3
   collect_records_split <- collect_records %>%
+    head(2) %>%
     dplyr::mutate(...validate_group = ceiling(dplyr::row_number() / batch_size)) %>%
     split(.$...validate_group)
 
-  validation_res <- purrr::map_dfr(
-    collect_records_split, \(x) {
+  if (!silent) {
+    progress_bar <- list(format = "{pb_bar} | {pb_percent}") # Show progress bar, but not with ETA -> only % through
+  } else {
+    progress_bar <- FALSE
+  }
+
+  validation_res <- purrr::map(
+    collect_records_split,
+    .progress = progress_bar,
+    \(x) {
       if (nrow(x) == 1) {
         ids <- list(x[["id"]])
       } else {
@@ -65,11 +77,11 @@ mermaid_import_bulk_validate <- function(project, silent = TRUE, token = mermaid
           )
       }
     }
-  )
+  ) %>%
+    purrr::list_rbind()
+
 
   validation_statuses <- c("error", "warning", "ok")
-
-  # browser()
 
   validation_summary <- validation_res %>%
     dplyr::mutate(status = forcats::fct_expand(status, validation_statuses)) %>%
