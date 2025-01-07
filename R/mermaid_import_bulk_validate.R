@@ -30,7 +30,7 @@ mermaid_import_bulk_validate <- function(project, token = mermaid_token()) {
 
   # Get all records in "collecting"
   # Validate ALL, even those that already have warning/error, so that summary is accurate to everything in collecting
-  collect_records <- get_collecting_records(project, token)
+  collect_records <- get_collecting_records(project_id, token)
 
   # Handle the case where there are no records to validate
   if (nrow(collect_records) == 0) {
@@ -55,8 +55,7 @@ mermaid_import_bulk_validate <- function(project, token = mermaid_token()) {
       print()
   }
 
-  # Validate records
-  validate_url <- httr::modify_url(base_url, path = glue::glue("v1/projects/{project_id}/collectrecords/validate/"))
+  # Validate records -----
 
   # Do in batches of three
   batch_size <- 3
@@ -65,7 +64,7 @@ mermaid_import_bulk_validate <- function(project, token = mermaid_token()) {
     split(.$...validate_group)
 
   if (!silent) {
-    progress_bar <- list(format = "{pb_bar} | {pb_percent}") # Show progress bar, but not with ETA -> only % through
+    progress_bar <- list(format = "{cli::pb_bar} | {cli::pb_percent}") # Show progress bar, but not with ETA -> only % through
   } else {
     progress_bar <- FALSE
   }
@@ -74,31 +73,10 @@ mermaid_import_bulk_validate <- function(project, token = mermaid_token()) {
     collect_records_split,
     .progress = progress_bar,
     \(x) {
-      if (nrow(x) == 1) {
-        ids <- list(x[["id"]])
-      } else {
-        ids <- x[["id"]]
-      }
-      validate_body <- list(ids = ids)
-
-      # Post validation
-      response <- httr::POST(validate_url, encode = "json", body = validate_body, ua, token)
-
-      if (httr::http_error(response)) {
-        # If an actual error in sending the request, not the validation itself
-        browser()
-      } else {
-        # Get the status
-        httr::content(response) %>%
-          purrr::map_dfr(
-            .id = "id",
-            \(x) dplyr::tibble(status = x[["status"]])
-          )
-      }
+      validate_collect_records(x, project_id, token = token)
     }
   ) %>%
     purrr::list_rbind()
-
 
   validation_statuses <- c("error", "warning", "ok")
 
@@ -117,11 +95,42 @@ mermaid_import_bulk_validate <- function(project, token = mermaid_token()) {
   }
 }
 
-validate_collect_record <- function(id) {
+validate_collect_records <- function(x, project_id, token = mermaid_token()) {
+  url <- httr::modify_url(base_url, path = glue::glue("v1/projects/{project_id}/collectrecords/validate/"))
 
+  if (nrow(x) == 1) {
+    ids <- list(x[["id"]])
+  } else {
+    ids <- x[["id"]]
+  }
+  validate_body <- list(ids = ids)
+
+  # Post validation
+  response <- httr::POST(url, encode = "json", body = validate_body, ua, token)
+
+  if (httr::http_error(response)) {
+    # If an actual error in sending the request, not the validation itself
+    check_errors(response)
+  } else {
+    # Get the status
+    httr::content(response) %>%
+      purrr::map_dfr(
+        .id = "id",
+        \(x) dplyr::tibble(status = x[["status"]])
+      )
+  }
 }
 
 get_collecting_records <- function(project, token = mermaid_token()) {
+  # Confirm that they are part of the project first
+  in_project <- mermaid_get_me()[["projects"]][[1]] %>%
+    dplyr::filter(id == project) %>%
+    nrow() == 1
+
+  if (!in_project) {
+    stop("You are not a member of this project.", call. = FALSE)
+  }
+
   res <- mermaid_get_project_endpoint(project, "collectrecords")
 
   # Expand validations, just return the status and ID
