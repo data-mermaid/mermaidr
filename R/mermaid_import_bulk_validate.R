@@ -47,10 +47,10 @@ mermaid_import_bulk_validate <- function(project, token = mermaid_token()) {
   # Show a message that records are being validated
 
   n_validating <- nrow(collect_records)
-  n_validating_plural <- plural_space(n_validating)
+  n_validating_plural <- plural(n_validating)
 
   if (!silent) {
-    validating_msg <- glue::glue("{n_validating} record{n_validating_plural}being validated...")
+    validating_msg <- glue::glue("{n_validating} record{n_validating_plural} being validated...")
     usethis::ui_field(validating_msg) %>%
       print()
   }
@@ -137,16 +137,17 @@ get_collecting_records <- function(project, token = mermaid_token()) {
 
   res
 }
+
 summarise_status <- function(df, status) {
   n_status <- df %>%
     dplyr::filter(status == !!status) %>%
     dplyr::pull(n)
 
-  plural <- plural_space(n_status)
+  plural <- plural(n_status)
 
   message <- dplyr::case_when(
-    status %in% c("warning", "error") ~ glue::glue("{n_status} record{plural}produced {status}s in validation"),
-    status == "ok" ~ glue::glue("{n_status} record{plural}successfully validated without warnings or errors")
+    status %in% c("warning", "error") ~ glue::glue("{n_status} record{plural} produced {status}s in validation"),
+    status == "ok" ~ glue::glue("{n_status} record{plural} successfully validated without warnings or errors")
   )
 
   switch(status,
@@ -156,6 +157,6 @@ summarise_status <- function(df, status) {
   )
 }
 
-plural_space <- function(x) {
-  ifelse(x == 1, " ", "s ")
+plural <- function(x) {
+  ifelse(x == 1, "", "s")
 }
