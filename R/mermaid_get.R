@@ -23,7 +23,12 @@ mermaid_GET <- function(endpoint, limit = NULL, token = NULL, filter = NULL, ...
   names(path) <- endpoint
 
   # Call API and return results
-  res <- purrr::map2(path, basename(names(path)), get_response, ua = ua, token = token, limit = limit)
+  res <- withCallingHandlers(
+    purrr::map2(path, basename(names(path)), get_response, ua = ua, token = token, limit = limit),
+    purrr_error_indexed = function(err) {
+      rlang::cnd_signal(err$parent)
+    }
+  )
 
   # Remove validation column, collapse list-cols
   purrr::map2(res, names(res), initial_cleanup)
