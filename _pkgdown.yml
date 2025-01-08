@@ -32,12 +32,14 @@ reference:
     - mermaid_get_project_managements
     - mermaid_get_project_sites
     - mermaid_get_project_endpoint
+    - mermaid_get_gfcr_report
 
   - title: Importing Data
     contents:
     - mermaid_import_get_template_and_options
     - mermaid_import_check_options
     - mermaid_import_project_data
+    - mermaid_import_bulk_validate
 
 articles:
   - title: Case Studies
