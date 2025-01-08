@@ -1,3 +1,10 @@
+# mermaidr 1.2.0
+
+* Add `mermaid_get_gfcr_report()` for exporting GFCR report for project(s)
+* Add bulk validation of records in Collecting via `mermaid_import_bulk_validate()`
+* Add `observers` to "sampleevents" data in `mermaid_get_project_data()` and in `mermaid_get_summary_sampleevents()`
+* Enable switching production/development tokens automatically
+
 # mermaidr 1.1.3
 
 * Add relevant life histories to `"benthiclit"` and `"benthicpqt"` methods in `mermaid_get_project_data()`

@@ -42,9 +42,11 @@ mermaid2.0_token <- function(endpoint, app, scope = NULL, user_params = NULL,
 }
 
 renew_mermaid2.0 <- function(credentials) {
+  # Add audience to endpoint so that when audience changes, token changes accordingly
   mermaid_endpoint <- httr::oauth_endpoint(
     authorize = mermaid_authorize_url,
-    access = mermaid_access_url
+    access = mermaid_access_url,
+    audience = mermaid_audience
   )
   mermaid_app <- httr::oauth_app("mermaidr", key = mermaid_key, secret = NULL)
 

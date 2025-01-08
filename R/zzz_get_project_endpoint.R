@@ -24,7 +24,12 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   full_endpoints <- purrr::map(endpoint, ~ paste0("projects/", project_id, "/", .x))
 
   # Get endpoint results
-  endpoints_res <- purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, filter = filter, token = token, project_id = project_id, project = project, covariates = covariates)
+  endpoints_res <- withCallingHandlers(
+    purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, filter = filter, token = token, project_id = project_id, project = project, covariates = covariates),
+    purrr_error_indexed = function(err) {
+      rlang::cnd_signal(err$parent)
+    }
+  )
   names(endpoints_res) <- endpoint
 
   # Return endpoints
@@ -93,6 +98,13 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
 check_project <- function(project) {
   if (all(project == "")) {
     stop("Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.", call. = FALSE)
+  }
+}
+
+check_single_project <- function(project) {
+  # Check only one project
+  if (length(project) > 1) {
+    stop("Please supply only one project", call. = FALSE)
   }
 }
 

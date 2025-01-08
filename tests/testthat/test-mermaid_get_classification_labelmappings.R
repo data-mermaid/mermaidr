@@ -24,7 +24,6 @@ test_that("mermaid_get_classification_labelmappings filters table by `provider`"
 })
 
 test_that("mermaid_get_classification_labelmappings errors when provider is not one of the allowed ones", {
-
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()

@@ -3,7 +3,7 @@ test_that("mermaid_search_my_projects only returns projects I have access to", {
   skip_on_ci()
   skip_on_cran()
   output <- mermaid_search_my_projects(countries = "Indonesia")
-  expect_true(nrow(output) == 7)
+  expect_true(nrow(output) == 8)
 })
 
 test_that("mermaid_search_my_projects throws a message if it returns more than one project (when searched by name only), and doesn't if it only returns one", {
@@ -35,11 +35,11 @@ test_that("mermaid_search_my_projects returns a zero row tibble if a project is 
   expect_equal(names(output), names(output_exists))
 })
 
-test_that("check_single_project returns a warning if more than one result is returned", {
+test_that("check_single_project_returned returns a warning if more than one result is returned", {
   x <- data.frame(a = 1:2)
-  expect_message(check_single_project(x, "test"))
+  expect_message(check_single_project_returned(x, "test"))
   y <- data.frame(a = 1)
-  expect_silent(check_single_project(y, "test"))
+  expect_silent(check_single_project_returned(y, "test"))
 })
 
 test_that("mermaid_search_my_projects returns projects that all have Country if Country filter is used", {
