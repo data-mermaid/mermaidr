@@ -19,6 +19,7 @@
 <url><loc>/reference/mermaid_default_project.html</loc></url>
 <url><loc>/reference/mermaid_get_classification_labelmappings.html</loc></url>
 <url><loc>/reference/mermaid_get_endpoint.html</loc></url>
+<url><loc>/reference/mermaid_get_gfcr_report.html</loc></url>
 <url><loc>/reference/mermaid_get_managements.html</loc></url>
 <url><loc>/reference/mermaid_get_me.html</loc></url>
 <url><loc>/reference/mermaid_get_my_projects.html</loc></url>
@@ -30,6 +31,7 @@
 <url><loc>/reference/mermaid_get_reference.html</loc></url>
 <url><loc>/reference/mermaid_get_sites.html</loc></url>
 <url><loc>/reference/mermaid_get_summary_sampleevents.html</loc></url>
+<url><loc>/reference/mermaid_import_bulk_validate.html</loc></url>
 <url><loc>/reference/mermaid_import_check_options.html</loc></url>
 <url><loc>/reference/mermaid_import_get_template_and_options.html</loc></url>
 <url><loc>/reference/mermaid_import_project_data.html</loc></url>
