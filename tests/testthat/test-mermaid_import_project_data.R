@@ -314,12 +314,12 @@ test_that("mermaid_import_project_data with NA in CSVs converts NAs to '' and su
   project_id <- "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
   mermaid_import_project_data(temp, project_id, "fishbelt", dryrun = FALSE)
   collect_records <- mermaid_get_project_endpoint(project_id, "collectrecords") %>%
-    tidyr::unpack(data) %>%
+    tidyr::unpack(data, names_repair = "universal") %>%
     dplyr::select(-id, -created_on, -updated_on) %>%
-    tidyr::unpack(sample_event) %>%
+    tidyr::unpack(sample_event, names_repair = "universal") %>%
     dplyr::filter(sample_date == "2022-06-15") %>%
     dplyr::select(fishbelt_transect) %>%
-    tidyr::unpack(fishbelt_transect)
+    tidyr::unpack(fishbelt_transect, names_repair = "universal")
 
   expect_true(all(collect_records[["label"]] == ""))
   expect_true(all(is.na(collect_records[["reef_slope"]])))
