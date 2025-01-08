@@ -18,7 +18,7 @@ mermaid_get_gfcr_report <- function(project, save = NULL, token = mermaid_token(
 
   gfcr_export_url <- httr::modify_url(base_url, path = "v1/reports/")
 
-  if(length(project_id) == 1) {
+  if (length(project_id) == 1) {
     project_ids <- list(project_id)
   } else {
     project_ids <- project_id

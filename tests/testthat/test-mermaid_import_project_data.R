@@ -330,7 +330,6 @@ test_that("mermaid_import_project_data with NA in CSVs converts NAs to '' and su
 })
 
 test_that("mermaid_import_project_data fails gracefully on 504", {
-
   # Test no longer done because timeout increased to 300s -- test would take too long, we know the messaging works
 
   # skip_if_offline()
