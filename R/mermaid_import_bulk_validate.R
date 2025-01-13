@@ -108,6 +108,8 @@ validate_collect_records <- function(x, project_id, token = mermaid_token()) {
   # Post validation
   response <- httr::POST(url, encode = "json", body = validate_body, ua, token)
 
+  saveRDS(response, "response.rds")
+
   if (httr::http_error(response)) {
     # If an actual error in sending the request, not the validation itself
     check_errors(response)
@@ -117,9 +119,6 @@ validate_collect_records <- function(x, project_id, token = mermaid_token()) {
       purrr::map_dfr(
         .id = "id",
         \(x) {
-          if (!"status" %in% names(x)) {
-            saveRDS(x, "error_output.rds")
-          }
           dplyr::tibble(status = x[["status"]])
         }
       )
