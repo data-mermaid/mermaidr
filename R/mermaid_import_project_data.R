@@ -81,7 +81,9 @@ mermaid_import_project_data <- function(data, project, method = c("fishbelt", "b
   }
 
   # Post data
-  response <- httr::POST(ingest_url, encode = "multipart", body = body, ua, token)
+  response <- suppress_http_warning(
+    httr::POST(ingest_url, encode = "multipart", body = body, ua, token)
+  )
 
   # Delete tempfile
   if (data_is_df) {
