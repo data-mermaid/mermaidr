@@ -1,3 +1,8 @@
+# mermaidr 1.2.1
+
+* Bug fixes related to handling `mermaid_import_bulk_validate()` response
+* Consistent suppression of http status parsing warnings
+
 # mermaidr 1.2.0
 
 * Add `mermaid_get_gfcr_report()` for exporting GFCR report for project(s)

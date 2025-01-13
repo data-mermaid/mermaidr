@@ -36,7 +36,9 @@ mermaid_get_gfcr_report <- function(project, save = NULL, token = mermaid_token(
   temp_zip <- glue::glue("{temp_dir}/{temp_file}.zip")
   report_dir <- glue::glue("{temp_dir}/{temp_file}")
 
-  resp <- httr::POST(gfcr_export_url, encode = "json", body = gfcr_body, ua, token, httr::write_disk(temp_zip))
+  resp <- suppress_http_warning(
+    httr::POST(gfcr_export_url, encode = "json", body = gfcr_body, ua, token, httr::write_disk(temp_zip))
+  )
 
   check_errors(resp)
 

@@ -106,17 +106,22 @@ validate_collect_records <- function(x, project_id, token = mermaid_token()) {
   validate_body <- list(ids = ids)
 
   # Post validation
-  response <- httr::POST(url, encode = "json", body = validate_body, ua, token)
+  response <- suppress_http_warning(
+    httr::POST(url, encode = "json", body = validate_body, ua, token)
+  )
 
   if (httr::http_error(response)) {
     # If an actual error in sending the request, not the validation itself
     check_errors(response)
   } else {
     # Get the status
-    httr::content(response) %>%
+    httr::content(response, as = "text", encoding = "UTF-8") %>%
+      jsonlite::fromJSON(simplifyVector = FALSE) %>%
       purrr::map_dfr(
         .id = "id",
-        \(x) dplyr::tibble(status = x[["status"]])
+        \(x) {
+          dplyr::tibble(status = x[["status"]])
+        }
       )
   }
 }
