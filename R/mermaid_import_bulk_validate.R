@@ -113,7 +113,7 @@ validate_collect_records <- function(x, project_id, token = mermaid_token()) {
     check_errors(response)
   } else {
     # Get the status
-    httr::content(response) %>%
+    httr::content(response, as = "parsed") %>%
       purrr::map_dfr(
         .id = "id",
         \(x) {
