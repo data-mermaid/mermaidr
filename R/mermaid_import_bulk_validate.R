@@ -108,14 +108,13 @@ validate_collect_records <- function(x, project_id, token = mermaid_token()) {
   # Post validation
   response <- httr::POST(url, encode = "json", body = validate_body, ua, token)
 
-  saveRDS(response, "response.rds")
-
   if (httr::http_error(response)) {
     # If an actual error in sending the request, not the validation itself
     check_errors(response)
   } else {
     # Get the status
-    httr::content(response, as = "parsed") %>%
+    httr::content(response, as = "text", encoding = "UTF-8") %>%
+      jsonlite::fromJSON(simplifyVector = FALSE) %>%
       purrr::map_dfr(
         .id = "id",
         \(x) {
