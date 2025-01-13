@@ -116,7 +116,12 @@ validate_collect_records <- function(x, project_id, token = mermaid_token()) {
     httr::content(response) %>%
       purrr::map_dfr(
         .id = "id",
-        \(x) dplyr::tibble(status = x[["status"]])
+        \(x) {
+          if (!"status" %in% names(x)) {
+            saveRDS(x, "error_output.rds")
+          }
+          dplyr::tibble(status = x[["status"]])
+        }
       )
   }
 }
