@@ -37,6 +37,7 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
   if (nrow(relevant_records) == 0) {
     if (!silent) {
       no_records_message <- switch(
+        action,
         "validate" = "No records in Collecting to validate.",
         "submit" = "No valid records in Collecting to submit.",
         "edit" = "No submitted records to edit.",
@@ -57,6 +58,7 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
   if (!silent) {
     n_message <- glue::glue("{n_validating} record{n_validating_plural} being {action_verb}...",
       action_verb = switch(
+        action,
         "validate" = "validated",
         "submit" = "submitted",
         "edit" = "edited and moved back to Collecting",
@@ -110,6 +112,7 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
   }
 
   statuses <- switch(
+    action,
     "validate" = c("error", "warning", "ok"),
     "submit" = c("ok", "not_ok"),
     "edit" = c("ok", "not_ok")
@@ -118,3 +121,33 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
   action_res %>%
     summarise_all_statuses(statuses, action)
 }
+
+summarise_all_statuses <- function(df, statuses, type = c("validate", "submit", "action")) {
+  status_summary <- df %>%
+    dplyr::count(status) %>%
+    dplyr::mutate(
+      status = forcats::fct_expand(status, statuses),
+      status = forcats::fct_relevel(status, statuses)
+    ) %>%
+    tidyr::complete(status, fill = list(n = 0)) %>%
+    split(.$status)
+
+  if (type == "validate") {
+    status_summary %>%
+      purrr::walk(summarise_validations_status)
+  } else if (type == "submit") {
+    status_summary %>%
+      purrr::walk(summarise_submit_status)
+  } else {
+    browser()
+  }
+}
+
+plural <- function(x) {
+  ifelse(x == 1, "", "s")
+}
+
+plural_were <- function(x) {
+  ifelse(x == 1, "was", "were")
+}
+

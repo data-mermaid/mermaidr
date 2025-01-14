@@ -139,5 +139,5 @@ test_that("summarise_all_validations_statuses returns the correct messaging", {
 
   expect_snapshot(res %>%
     tidyr::uncount(weights = n) %>%
-    summarise_all_validations_statuses())
+      summarise_all_statuses(c("error", "warning", "ok"), "validate"))
 })

@@ -136,7 +136,3 @@ summarise_submit_status <- function(df, status) {
     "not_ok" = usethis::ui_todo(message)
   )
 }
-
-plural_were <- function(x) {
-  ifelse(x == 1, "was", "were")
-}

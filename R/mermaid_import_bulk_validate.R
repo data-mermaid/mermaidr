@@ -19,68 +19,7 @@
 #' # ✔ 3 records successfully validated without warnings or errors
 #' }
 mermaid_import_bulk_validate <- function(project, token = mermaid_token()) {
-  # Show messages
-  silent <- FALSE
-
-  # One project at a time
-  project_id <- as_id(project)
-  check_project(project_id)
-
-  check_single_project(project_id)
-
-  # Get all records in "collecting"
-  # Validate ALL, even those that already have warning/error, so that summary is accurate to everything in collecting
-  collect_records <- get_collecting_records(project_id, token)
-
-  # Handle the case where there are no records to validate
-  if (nrow(collect_records) == 0) {
-    if (!silent) {
-      usethis::ui_field("No records in Collecting to validate.") %>%
-        print()
-    }
-
-    return(invisible(NULL))
-  }
-
-  # Go through each and validate, one by one
-  # The response returned contains the validation status of each
-  # Show a message that records are being validated
-
-  n_validating <- nrow(collect_records)
-  n_validating_plural <- plural(n_validating)
-
-  if (!silent) {
-    validating_msg <- glue::glue("{n_validating} record{n_validating_plural} being validated...")
-    usethis::ui_field(validating_msg) %>%
-      print()
-  }
-
-  # Validate records -----
-
-  # Do in batches of three
-  batch_size <- 3
-  collect_records_split <- collect_records %>%
-    dplyr::mutate(...validate_group = ceiling(dplyr::row_number() / batch_size)) %>%
-    split(.$...validate_group)
-
-  if (!silent) {
-    progress_bar <- list(format = "{cli::pb_bar} | {cli::pb_percent}") # Show progress bar, but not with ETA -> only % through
-  } else {
-    progress_bar <- FALSE
-  }
-
-  validation_res <- purrr::map(
-    collect_records_split,
-    .progress = progress_bar,
-    \(x) {
-      validate_collect_records(x, project_id, token = token)
-    }
-  ) %>%
-    purrr::list_rbind()
-
-  # Summarise results
-  validation_res %>%
-    summarise_all_statuses(c("error", "warning", "ok"), "validate")
+  import_bulk_action(project, action = "validate", token = token)
 }
 
 get_collecting_records <- function(project, token = mermaid_token()) {
@@ -141,25 +80,6 @@ validate_collect_records <- function(x, project_id, token = mermaid_token()) {
   }
 }
 
-summarise_all_statuses <- function(df, statuses, type = c("validate", "submit")) {
-  status_summary <- df %>%
-    dplyr::count(status) %>%
-    dplyr::mutate(
-      status = forcats::fct_expand(status, statuses),
-      status = forcats::fct_relevel(status, statuses)
-    ) %>%
-    tidyr::complete(status, fill = list(n = 0)) %>%
-    split(.$status)
-
-  if (type == "validate") {
-    status_summary %>%
-      purrr::walk(summarise_validations_status)
-  } else {
-    status_summary %>%
-      purrr::walk(summarise_submit_status)
-  }
-}
-
 summarise_validations_status <- function(df) {
   status <- df[["status"]] %>%
     as.character()
@@ -177,8 +97,4 @@ summarise_validations_status <- function(df) {
     "warning" = usethis::ui_todo(message),
     "ok" = usethis::ui_done(message)
   )
-}
-
-plural <- function(x) {
-  ifelse(x == 1, "", "s")
 }
