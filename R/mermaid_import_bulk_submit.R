@@ -79,23 +79,10 @@ mermaid_import_bulk_submit <- function(project, token = mermaid_token()) {
   ) %>%
     purrr::list_rbind()
 
-  submit_statuses <- c("ok", "not_ok")
-
-  submission_summary <- validation_res %>%
-    dplyr::mutate(status = ifelse(!identical(status, "ok"), "not_ok", "ok")) %>%
-    dplyr::count(status) %>%
-    dplyr::mutate(
-      status = forcats::fct_expand(status, submit_statuses),
-      status = forcats::fct_relevel(status, submit_statuses)
-    ) %>%
-    tidyr::complete(status, fill = list(n = 0))
-
   # Summarise results
-  if (!silent) {
-    submission_summary %>%
-      split(.$status) %>%
-      purrr::walk(summarise_submit_status)
-  }
+  submission_res %>%
+    dplyr::mutate(status = ifelse(!identical(status, "ok"), "not_ok", "ok")) %>%
+    summarise_all_statuses(c("ok", "not_ok"), "submit")
 }
 
 submit_collect_records <- function(x, project_id, token = mermaid_token()) {
@@ -123,8 +110,7 @@ submit_collect_records <- function(x, project_id, token = mermaid_token()) {
       purrr::map_dfr(
         .id = "id",
         \(x) {
-          browser()
-          dplyr::tibble(message = x[["message"]])
+          dplyr::tibble(status = x[["status"]])
         }
       )
   }

@@ -79,19 +79,8 @@ mermaid_import_bulk_validate <- function(project, token = mermaid_token()) {
     purrr::list_rbind()
 
   # Summarise results
-  validation_statuses <- c("error", "warning", "ok")
-
-  validation_summary <- validation_res %>%
-    dplyr::count(status) %>%
-    dplyr::mutate(
-      status = forcats::fct_expand(status, validation_statuses),
-      status = forcats::fct_relevel(status, validation_statuses)
-    ) %>%
-    tidyr::complete(status, fill = list(n = 0))
-
-  validation_summary %>%
-    split(.$status) %>%
-    purrr::walk(summarise_validations_status)
+  validation_res %>%
+    summarise_all_statuses(c("error", "warning", "ok"), "validate")
 }
 
 get_collecting_records <- function(project, token = mermaid_token()) {
@@ -152,18 +141,23 @@ validate_collect_records <- function(x, project_id, token = mermaid_token()) {
   }
 }
 
-summarise_all_validations_statuses <- function(df, statuses = c("error", "warning", "ok")) {
-  validation_summary <- df %>%
+summarise_all_statuses <- function(df, statuses, type = c("validate", "submit")) {
+  status_summary <- df %>%
     dplyr::count(status) %>%
     dplyr::mutate(
       status = forcats::fct_expand(status, statuses),
       status = forcats::fct_relevel(status, statuses)
     ) %>%
-    tidyr::complete(status, fill = list(n = 0))
+    tidyr::complete(status, fill = list(n = 0)) %>%
+    split(.$status)
 
-  validation_summary %>%
-    split(.$status) %>%
-    purrr::walk(summarise_validations_status)
+  if (type == "validate") {
+    status_summary %>%
+      purrr::walk(summarise_validations_status)
+  } else {
+    status_summary %>%
+      purrr::walk(summarise_submit_status)
+  }
 }
 
 summarise_validations_status <- function(df) {

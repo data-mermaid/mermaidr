@@ -31,7 +31,3 @@ project_other_endpoint_columns <- list(
   project_profiles = c("id", "profile", "is_collector", "is_admin", "role", "created_on", "updated_on"),
   sampleevents = c("id", "data", "sample_date", "notes", "created_by", "site", "management", "created_on", "updated_on")
 )
-
-protocol_to_method_endpoint <- function(protocol) {
-
-}
