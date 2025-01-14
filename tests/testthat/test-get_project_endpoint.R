@@ -83,10 +83,16 @@ test_that("agg endpoints - get_project_endpoint allows multiple projects and com
   ses <- get_project_endpoint(p, "habitatcomplexities/sampleevents", limit = 1)
   expect_true(all(project_data_test_columns[["habitatcomplexities/sampleevents"]] %in% names(ses)))
 
-  expect_named(get_project_endpoint(p, "bleachingqcs/obscoloniesbleacheds", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/obscoloniesbleacheds"]]))
+  obs <- get_project_endpoint(p, "bleachingqcs/obscoloniesbleacheds", limit = 1)
+  expect_true(all(project_data_test_columns[["bleachingqcs/obscoloniesbleacheds"]] %in% names(obs)))
+  expect_true(any(stringr::str_starts(names(obs), project_data_df_columns_list_names[["bleachingqcs/obscoloniesbleacheds"]])))
   expect_named(get_project_endpoint(p, "bleachingqcs/obsquadratbenthicpercents", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/obsquadratbenthicpercents"]]))
-  expect_named(get_project_endpoint(p, "bleachingqcs/sampleunits", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/sampleunits"]]))
-  expect_named(get_project_endpoint(p, "bleachingqcs/sampleevents", limit = 1), c(mermaid_project_endpoint_columns[["bleachingqcs/sampleevents"]]))
+  sus <- get_project_endpoint(p, "bleachingqcs/sampleunits", limit = 1)
+  expect_true(all(project_data_test_columns[["bleachingqcs/sampleunits"]] %in% names(sus)))
+  expect_true(any(stringr::str_starts(names(sus), project_data_df_columns_list_names[["bleachingqcs/sampleunits"]])))
+  ses <- get_project_endpoint(p, "bleachingqcs/sampleevents", limit = 1)
+  expect_true(all(project_data_test_columns[["bleachingqcs/sampleevents"]] %in% names(ses)))
+  expect_true(any(stringr::str_starts(names(ses), project_data_df_columns_list_names[["bleachingqcs/sampleevents"]])))
 
   p <- "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
   obs <- get_project_endpoint(p, "benthicpqts/obstransectbenthicpqts", limit = 1)

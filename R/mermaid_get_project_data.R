@@ -429,7 +429,9 @@ project_data_df_columns_list <- list(
   `benthiclits/sampleunits` = testing_cols[["benthic_su"]],
   `benthiclits/sampleevents` = testing_cols[["benthic_se"]],
   `benthicpqts/sampleunits` = testing_cols[["benthic_su"]],
-  `benthicpqts/sampleevents` = testing_cols[["benthic_se"]]
+  `benthicpqts/sampleevents` = testing_cols[["benthic_se"]],
+  `bleachingqcs/sampleunits` = testing_cols[["bleaching_su"]],
+  `bleachingqcs/sampleevents` = testing_cols[["bleaching_se"]]
 )
 
 project_data_df_columns_list_csv <- project_data_df_columns_list
