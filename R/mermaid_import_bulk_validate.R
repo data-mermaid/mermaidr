@@ -106,10 +106,11 @@ get_collecting_records <- function(project, token = mermaid_token()) {
 
   res <- mermaid_get_project_endpoint(project, "collectrecords")
 
-  # Expand validations, just return the status and ID
+  # Expand validations, just return the ID, status, and protocol
   res <- res %>%
     tidyr::unpack("validations", names_sep = "_") %>%
-    dplyr::select(dplyr::any_of(c("id", "validations_status")))
+    tidyr::unpack("data", names_sep = "_") %>%
+    dplyr::select(dplyr::any_of(c("id", "validations_status", "data_protocol")))
 
   # If there is only one record (or multiple?) and it has not been validated, then "validations" overall is NA -> so the column "validations_status" does not exist, need to create it
   if (!"validations_status" %in% names(res)) {
