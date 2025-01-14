@@ -81,17 +81,18 @@ mermaid_import_bulk_validate <- function(project, token = mermaid_token()) {
   validation_statuses <- c("error", "warning", "ok")
 
   validation_summary <- validation_res %>%
-    dplyr::mutate(status = forcats::fct_expand(status, validation_statuses)) %>%
     dplyr::count(status) %>%
+    dplyr::mutate(
+      status = forcats::fct_expand(status, validation_statuses),
+      status = forcats::fct_relevel(status, validation_statuses)
+    ) %>%
     tidyr::complete(status, fill = list(n = 0))
 
   # Summarise results
   if (!silent) {
-    purrr::walk(
-      validation_statuses,
-      \(status) validation_summary %>%
-        summarise_status(status)
-    )
+    validation_summary %>%
+      split(.$status) %>%
+      purrr::walk(summarise_status)
   }
 }
 
@@ -152,10 +153,10 @@ get_collecting_records <- function(project, token = mermaid_token()) {
   res
 }
 
-summarise_status <- function(df, status) {
-  n_status <- df %>%
-    dplyr::filter(status == !!status) %>%
-    dplyr::pull(n)
+summarise_status <- function(df) {
+  status <- df[["status"]] %>%
+    as.character()
+  n_status <- df[["n"]]
 
   plural <- plural(n_status)
 
