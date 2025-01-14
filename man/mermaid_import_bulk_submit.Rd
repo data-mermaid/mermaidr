@@ -29,5 +29,6 @@ p \%>\%
 
 p \%>\%
   mermaid_import_bulk_submit()
+# 3 records being submitted...
 }
 }
