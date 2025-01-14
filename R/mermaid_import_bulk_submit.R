@@ -22,6 +22,9 @@
 #'
 #' p %>%
 #'   mermaid_import_bulk_submit()
+#' # 3 records being submitted...
+# # ✔ 3 records successfully submitted
+# # • 0 records were not successfully submitted
 #' }
 mermaid_import_bulk_submit <- function(project, token = mermaid_token()) {
   # Show messages
@@ -123,14 +126,14 @@ summarise_submit_status <- function(df, status) {
 
   plural <- plural(n_status)
 
-  status <- dplyr::case_when(
-    status == "ok" ~ glue::glue("{n_message} record{plural} successfully submitted"),
-    status == "not_ok" ~ glue::glue("{n_message} record{plural} {plural_were} not successfully submitted")
+  message <- dplyr::case_when(
+    status == "ok" ~ glue::glue("{n_status} record{plural} successfully submitted"),
+    status == "not_ok" ~ glue::glue("{n_status} record{plural} {plural_were(n_status)} not successfully submitted")
   )
 
   switch(status,
-    "ok" = usethis::ui_done(status),
-    "not_ok" = usethis::ui_todo(status)
+    "ok" = usethis::ui_done(message),
+    "not_ok" = usethis::ui_todo(message)
   )
 }
 
