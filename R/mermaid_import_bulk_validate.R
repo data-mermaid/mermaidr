@@ -78,6 +78,7 @@ mermaid_import_bulk_validate <- function(project, token = mermaid_token()) {
   ) %>%
     purrr::list_rbind()
 
+  # Summarise results
   validation_statuses <- c("error", "warning", "ok")
 
   validation_summary <- validation_res %>%
@@ -88,12 +89,35 @@ mermaid_import_bulk_validate <- function(project, token = mermaid_token()) {
     ) %>%
     tidyr::complete(status, fill = list(n = 0))
 
-  # Summarise results
-  if (!silent) {
-    validation_summary %>%
-      split(.$status) %>%
-      purrr::walk(summarise_status)
+  validation_summary %>%
+    split(.$status) %>%
+    purrr::walk(summarise_validations_status)
+}
+
+get_collecting_records <- function(project, token = mermaid_token()) {
+  # Confirm that they are part of the project first
+  in_project <- mermaid_get_me()[["projects"]][[1]] %>%
+    dplyr::filter(id == project) %>%
+    nrow() == 1
+
+  if (!in_project) {
+    stop("You are not a member of this project.", call. = FALSE)
   }
+
+  res <- mermaid_get_project_endpoint(project, "collectrecords")
+
+  # Expand validations, just return the status and ID
+  res <- res %>%
+    tidyr::unpack("validations", names_sep = "_") %>%
+    dplyr::select(dplyr::any_of(c("id", "validations_status")))
+
+  # If there is only one record (or multiple?) and it has not been validated, then "validations" overall is NA -> so the column "validations_status" does not exist, need to create it
+  if (!"validations_status" %in% names(res)) {
+    res <- res %>%
+      dplyr::mutate(validations_status = NA_character_)
+  }
+
+  res
 }
 
 validate_collect_records <- function(x, project_id, token = mermaid_token()) {
@@ -127,33 +151,21 @@ validate_collect_records <- function(x, project_id, token = mermaid_token()) {
   }
 }
 
-get_collecting_records <- function(project, token = mermaid_token()) {
-  # Confirm that they are part of the project first
-  in_project <- mermaid_get_me()[["projects"]][[1]] %>%
-    dplyr::filter(id == project) %>%
-    nrow() == 1
+summarise_all_validations_statuses <- function(df, statuses = c("error", "warning", "ok")) {
+  validation_summary <- df %>%
+    dplyr::count(status) %>%
+    dplyr::mutate(
+      status = forcats::fct_expand(status, statuses),
+      status = forcats::fct_relevel(status, statuses)
+    ) %>%
+    tidyr::complete(status, fill = list(n = 0))
 
-  if (!in_project) {
-    stop("You are not a member of this project.", call. = FALSE)
-  }
-
-  res <- mermaid_get_project_endpoint(project, "collectrecords")
-
-  # Expand validations, just return the status and ID
-  res <- res %>%
-    tidyr::unpack("validations", names_sep = "_") %>%
-    dplyr::select(dplyr::any_of(c("id", "validations_status")))
-
-  # If there is only one record (or multiple?) and it has not been validated, then "validations" overall is NA -> so the column "validations_status" does not exist, need to create it
-  if (!"validations_status" %in% names(res)) {
-    res <- res %>%
-      dplyr::mutate(validations_status = NA_character_)
-  }
-
-  res
+  validation_summary %>%
+    split(.$status) %>%
+    purrr::walk(summarise_validations_status)
 }
 
-summarise_status <- function(df) {
+summarise_validations_status <- function(df) {
   status <- df[["status"]] %>%
     as.character()
   n_status <- df[["n"]]
