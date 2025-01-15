@@ -12,18 +12,22 @@ test_that("Message when none to submit gives a message when there are no records
   )
 })
 
-test_that("submit_collect_records handles errors in sending the request", {
+test_that("validate_or_submit_collect_records handles errors in sending the request", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
 
   expect_error(
-    submit_collect_records("test", mermaid_get_my_projects(limit = 1)[["id"]]),
+    validate_or_submit_collect_records(
+      dplyr::tibble(id = "test"),
+      mermaid_get_my_projects(limit = 1)[["id"]],
+      action = "submit"
+    ),
     "Internal Server Error"
   )
 })
 
-test_that("mermaid_import_bulk_submit submits all valid collecting records", {
+test_that("mermaid_import_bulk_submit submits all valid collecting records, then mermaid_import_bulk_edit moves them back to collecting", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()

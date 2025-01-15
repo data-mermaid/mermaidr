@@ -25,17 +25,21 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
 
   if (action %in% c("validate", "submit")) {
     relevant_records <- get_collecting_records(project_id, token)
-  } else if (action == "submit") {
-    relevant_records <- relevant_records %>%
-      dplyr::filter(validations_status == "ok")
   } else if (action == "edit") {
     method_to_methods_endpoint(method)
     relevant_records <- get_project_endpoint(project_id, method_endpoint)
   }
 
+  if (action == "submit") {
+    relevant_records <- relevant_records %>%
+      dplyr::filter(validations_status == "ok")
+  }
+
   # Messaging if there are no relevant records to operate on ----
   if (nrow(relevant_records) == 0) {
     if (!silent) {
+      # TODO - maybe for "submit", ensure "validate" has been run first?
+
       no_records_message <- switch(
         action,
         "validate" = "No records in Collecting to validate.",
@@ -56,7 +60,7 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
   n_relevant_records_plural <- plural(n_relevant_records)
 
   if (!silent) {
-    n_message <- glue::glue("{n_validating} record{n_validating_plural} being {action_verb}...",
+    n_message <- glue::glue("{n_relevant_records} record{n_relevant_records_plural} being {action_verb}...",
       action_verb = switch(
         action,
         "validate" = "validated",
@@ -93,10 +97,8 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
     relevant_records_split,
     .progress = progress_bar,
     \(x) {
-      if (action == "validate") {
-        validate_collect_records(x, project_id, token = token)
-      } else if (action == "submit") {
-        submit_collect_records(x, project_id, token = token)
+      if (action %in% c("validate", "submit")) {
+        validate_or_submit_collect_records(x, project_id, action, token = token)
       } else if (action == "edit") {
         edit_collect_records(x, project_id, method, token = token)
       }
@@ -108,7 +110,7 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
   if (action == "submit") {
     # Just differentiate between ok/not_ok for submit
     action_res <- action_res %>%
-      dplyr::mutate(status = ifelse(!identical(status, "ok"), "not_ok", "ok"))
+      dplyr::mutate(status = ifelse(status == "ok", "not_ok", "ok"))
   }
 
   statuses <- switch(
@@ -120,6 +122,37 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
 
   action_res %>%
     summarise_all_statuses(statuses, action)
+}
+
+validate_or_submit_collect_records <- function(x, project_id, action, token = mermaid_token()) {
+  url <- httr::modify_url(base_url, path = glue::glue("v1/projects/{project_id}/collectrecords/{action}/"))
+
+  if (nrow(x) == 1) {
+    ids <- list(x[["id"]])
+  } else {
+    ids <- x[["id"]]
+  }
+  body <- list(ids = ids)
+
+  # Post submission
+  response <- suppress_http_warning(
+    httr::POST(url, encode = "json", body = body, ua, token)
+  )
+
+  if (httr::http_error(response)) {
+    # If an actual error in sending the request, not the submission itself
+    check_errors(response)
+  } else {
+    # Get the status
+    httr::content(response, as = "text", encoding = "UTF-8") %>%
+      jsonlite::fromJSON(simplifyVector = FALSE) %>%
+      purrr::map_dfr(
+        .id = "id",
+        \(x) {
+          dplyr::tibble(status = x[["status"]])
+        }
+      )
+  }
 }
 
 summarise_all_statuses <- function(df, statuses, type = c("validate", "submit", "action")) {
