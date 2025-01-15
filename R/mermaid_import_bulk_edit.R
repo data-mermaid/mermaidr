@@ -24,94 +24,34 @@
 #' p %>%
 #'   mermaid_import_bulk_submit()
 #' }
-mermaid_import_bulk_edit <- function(project, token = mermaid_token()) {
-  # Show messages
-  silent <- FALSE
-
-  # One project at a time
-  project_id <- as_id(project)
-  check_project(project_id)
-
-  check_single_project(project_id)
-
-  # Get all records in "collecting"
-  # ONLY submit those with validations_status == "ok"
-  collect_records <- get_collecting_records(project_id, token)
-  valid_collect_records <- collect_records %>%
-    dplyr::filter(validations_status == "ok")
-
-  # Handle the case where there are no records to submit
-  if (nrow(valid_collect_records) == 0) {
-    if (!silent) {
-      usethis::ui_field("No valid records in Collecting to submit.") %>%
-        print()
-    }
-
-    return(invisible(NULL))
-  }
-
-  # Go through each and submit, one by one
-  # The response returned contains the validation status of each
-  # Show a message that records are being validated
-
-  n_submitting <- nrow(valid_collect_records)
-  n_submitting_plural <- plural(n_submitting)
-
-  if (!silent) {
-    submitting_msg <- glue::glue("{n_submitting} record{n_submitting_plural} being submitted...")
-    usethis::ui_field(submitting_msg) %>%
-      print()
-  }
-
-  # Submit records -----
-
-  if (!silent) {
-    progress_bar <- list(format = "{cli::pb_bar} | {cli::pb_percent}") # Show progress bar, but not with ETA -> only % through
-  } else {
-    progress_bar <- FALSE
-  }
-
-  submission_res <- purrr::map(
-    valid_collect_records[["id"]],
-    .progress = progress_bar,
-    \(x) {
-      submit_collect_records(x, project_id, token = token)
-    }
-  ) %>%
-    purrr::list_rbind()
-
-  # Summarise results
-  submission_res %>%
-    dplyr::mutate(status = ifelse(!identical(status, "ok"), "not_ok", "ok")) %>%
-    summarise_all_statuses(c("ok", "not_ok"), "submit")
+mermaid_import_bulk_edit <- function(project, method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"), token = mermaid_token()) {
+  import_bulk_action(project, action = "edit", method = method, token = token)
 }
 
-submit_collect_records <- function(x, project_id, token = mermaid_token()) {
-  url <- httr::modify_url(base_url, path = glue::glue("v1/projects/{project_id}/collectrecords/submit/"))
-
-  if (length(x) == 1) {
-    ids <- list(x)
-  } else {
-    ids <- x
-  }
-  validate_body <- list(ids = ids)
+edit_records <- function(x, project_id, methods_endpoint, token = mermaid_token()) {
+  su_id <- x[["id"]]
+  url <- httr::modify_url(base_url, path = glue::glue("v1/projects/{project_id}/{methods_endpoint}/{su_id}/edit/"))
 
   # Post submission
   response <- suppress_http_warning(
-    httr::POST(url, encode = "json", body = validate_body, ua, token)
+    httr::PUT(url, encode = "json", ua, token)
   )
 
   if (httr::http_error(response)) {
-    # If an actual error in sending the request, not the submission itself
     check_errors(response)
+    # TODO -- handle this as an error in "status" for edit -- for validation, it makes sense to return an error in the API as an error
+    # But for edit, an error *is* failure to edit the record and should be summarised as such
   } else {
     # Get the status
     httr::content(response, as = "text", encoding = "UTF-8") %>%
       jsonlite::fromJSON(simplifyVector = FALSE) %>%
       purrr::map_dfr(
         .id = "id",
+        # What returns is the new collect record ID, no status etc
         \(x) {
-          dplyr::tibble(status = x[["status"]])
+          # Query the collect records and check that the new ID is one of them
+          collect_records <- get_collecting_records(project_id, token = token)
+          dplyr::tibble(status = ifelse(x %in% collect_records[["id"]], "ok", "not_ok"))
         }
       )
   }
@@ -142,3 +82,21 @@ protocol_methods_endpoint_names <- list(
   bleachingqcs = "bleachingquadratcollectionmethods",
   habitatcomplexities = "habitatcomplexitytransectmethods"
 )
+
+summarise_edit_status <- function(df, status) {
+  status <- df[["status"]] %>%
+    as.character()
+  n_status <- df[["n"]]
+
+  plural <- plural(n_status)
+
+  message <- dplyr::case_when(
+    status == "ok" ~ glue::glue("{n_status} record{plural} successfully edited and moved back to Collecting."),
+    status == "not_ok" ~ glue::glue("{n_status} record{plural} {plural_were(n_status)} not successfully edited and moved back to Collecting.")
+  )
+
+  switch(status,
+    "ok" = usethis::ui_done(message),
+    "not_ok" = usethis::ui_todo(message)
+  )
+}

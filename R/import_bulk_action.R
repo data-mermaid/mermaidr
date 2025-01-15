@@ -26,8 +26,11 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
   if (action %in% c("validate", "submit")) {
     relevant_records <- get_collecting_records(project_id, token)
   } else if (action == "edit") {
-    method_to_methods_endpoint(method)
-    relevant_records <- get_project_endpoint(project_id, method_endpoint)
+    edit_methods_endpoint <- method_to_methods_endpoint(method)
+    relevant_records <- get_project_endpoint(
+      project_id,
+      edit_methods_endpoint
+    )
   }
 
   if (action == "submit") {
@@ -40,8 +43,7 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
     if (!silent) {
       # TODO - maybe for "submit", ensure "validate" has been run first?
 
-      no_records_message <- switch(
-        action,
+      no_records_message <- switch(action,
         "validate" = "No records in Collecting to validate.",
         "submit" = "No valid records in Collecting to submit.",
         "edit" = "No submitted records to edit.",
@@ -61,8 +63,7 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
 
   if (!silent) {
     n_message <- glue::glue("{n_relevant_records} record{n_relevant_records_plural} being {action_verb}...",
-      action_verb = switch(
-        action,
+      action_verb = switch(action,
         "validate" = "validated",
         "submit" = "submitted",
         "edit" = "edited and moved back to Collecting",
@@ -73,14 +74,12 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
   }
 
   # Validate/submit/edit records -----
-
-  if (action %in% c("validate")) {
-    # For validation, do in batches of 3
-    batch_size <- 3
-  } else if (action %in% c("submit", "edit")) {
-    # For submit and edit, do one by one
-    batch_size <- 1
-  }
+  # For validation, do in batches of 3
+  # For submit and edit, do one by one
+  batch_size <- dplyr::case_when(
+    action %in% c("validate") ~ 3,
+    action %in% c("submit", "edit") ~ 1
+  )
 
   relevant_records_split <- relevant_records %>%
     dplyr::mutate(...validate_group = ceiling(dplyr::row_number() / batch_size)) %>%
@@ -100,7 +99,7 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
       if (action %in% c("validate", "submit")) {
         validate_or_submit_collect_records(x, project_id, action, token = token)
       } else if (action == "edit") {
-        edit_collect_records(x, project_id, method, token = token)
+        edit_records(x, project_id, edit_methods_endpoint, token = token)
       }
     }
   ) %>%
@@ -110,11 +109,10 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
   if (action == "submit") {
     # Just differentiate between ok/not_ok for submit
     action_res <- action_res %>%
-      dplyr::mutate(status = ifelse(status == "ok", "not_ok", "ok"))
+      dplyr::mutate(status = ifelse(status == "ok", "ok", "not_ok"))
   }
 
-  statuses <- switch(
-    action,
+  statuses <- switch(action,
     "validate" = c("error", "warning", "ok"),
     "submit" = c("ok", "not_ok"),
     "edit" = c("ok", "not_ok")
@@ -140,8 +138,10 @@ validate_or_submit_collect_records <- function(x, project_id, action, token = me
   )
 
   if (httr::http_error(response)) {
-    # If an actual error in sending the request, not the submission itself
+    # If an actual error in sending the request, not the validation itself
     check_errors(response)
+    # TODO -- handle this as an error in "status" for submission -- for validation, it makes sense to return an error in the API as an error
+    # But for submit, an error *is* failure to submit the record and should be summarised as such
   } else {
     # Get the status
     httr::content(response, as = "text", encoding = "UTF-8") %>%
@@ -149,7 +149,12 @@ validate_or_submit_collect_records <- function(x, project_id, action, token = me
       purrr::map_dfr(
         .id = "id",
         \(x) {
-          dplyr::tibble(status = x[["status"]])
+          status <- x[["status"]]
+          # Just differentiate between ok/not_ok for submit
+          if (action == "submit") {
+            status <- ifelse(status == "ok", "ok", "not_ok")
+          }
+          dplyr::tibble(status = status)
         }
       )
   }
@@ -172,7 +177,8 @@ summarise_all_statuses <- function(df, statuses, type = c("validate", "submit", 
     status_summary %>%
       purrr::walk(summarise_submit_status)
   } else {
-    browser()
+    status_summary %>%
+      purrr::walk(summarise_edit_status)
   }
 }
 
@@ -183,4 +189,3 @@ plural <- function(x) {
 plural_were <- function(x) {
   ifelse(x == 1, "was", "were")
 }
-
