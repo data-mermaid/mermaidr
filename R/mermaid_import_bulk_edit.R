@@ -24,7 +24,7 @@
 #' p %>%
 #'   mermaid_import_bulk_submit()
 #' }
-mermaid_import_bulk_edit <- function(project, method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"), token = mermaid_token()) {
+mermaid_import_bulk_edit <- function(project, method = NULL, token = mermaid_token()) {
   import_bulk_action(project, action = "edit", method = method, token = token)
 }
 

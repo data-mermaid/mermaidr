@@ -12,8 +12,11 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
 
   # Check method when action is "edit"
   if (action == "edit") {
-    if (!all(method %in% c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching"))) {
-      stop('`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"', call. = FALSE)
+    stop_msg <- '`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"'
+    if (is.null(method)) {
+      stop(stop_msg, call. = FALSE)
+    } else if (!method %in% c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching")) {
+      stop(stop_msg, call. = FALSE)
     }
   }
 
@@ -62,13 +65,7 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
   n_relevant_records_plural <- plural(n_relevant_records)
 
   if (!silent) {
-    n_message <- glue::glue("{n_relevant_records} record{n_relevant_records_plural} being {action_verb}...",
-      action_verb = switch(action,
-        "validate" = "validated",
-        "submit" = "submitted",
-        "edit" = "edited and moved back to Collecting",
-      )
-    )
+    n_message <- glue::glue("{n_relevant_records} record{n_relevant_records_plural} being {action_verb(action)}...")
     usethis::ui_field(n_message) %>%
       print()
   }
@@ -106,20 +103,20 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
     purrr::list_rbind()
 
   # Summarise results
-  if (action == "submit") {
-    # Just differentiate between ok/not_ok for submit
-    action_res <- action_res %>%
-      dplyr::mutate(status = ifelse(status == "ok", "ok", "not_ok"))
-  }
-
   statuses <- switch(action,
     "validate" = c("error", "warning", "ok"),
     "submit" = c("ok", "not_ok"),
     "edit" = c("ok", "not_ok")
   )
 
+  action_drop_statuses <- switch(action,
+    validate = c("DO NOT DROP"),
+    submit = c("not_ok"),
+    edit = "not_ok"
+  )
+
   action_res %>%
-    summarise_all_statuses(statuses, action)
+    summarise_all_statuses(statuses, action, action_drop_statuses)
 }
 
 validate_or_submit_collect_records <- function(x, project_id, action, token = mermaid_token()) {
@@ -160,7 +157,7 @@ validate_or_submit_collect_records <- function(x, project_id, action, token = me
   }
 }
 
-summarise_all_statuses <- function(df, statuses, type = c("validate", "submit", "action")) {
+summarise_all_statuses <- function(df, statuses, action = c("validate", "submit", "action"), action_drop_statuses) {
   status_summary <- df %>%
     dplyr::count(status) %>%
     dplyr::mutate(
@@ -170,16 +167,40 @@ summarise_all_statuses <- function(df, statuses, type = c("validate", "submit", 
     tidyr::complete(status, fill = list(n = 0)) %>%
     split(.$status)
 
-  if (type == "validate") {
-    status_summary %>%
-      purrr::walk(summarise_validations_status)
-  } else if (type == "submit") {
-    status_summary %>%
-      purrr::walk(summarise_submit_status)
-  } else {
-    status_summary %>%
-      purrr::walk(summarise_edit_status)
+  status_summary %>%
+    purrr::walk(\(x) summarise_single_status(x, action, drop = action_drop_statuses))
+}
+
+summarise_single_status <- function(df, action, drop) {
+  status <- df[["status"]] %>%
+    as.character()
+  n_status <- df[["n"]]
+
+  # Do not return any messaging if the status is listed in "drop" -- e.g. we do not need to provide a message that 0 records were not successfully submitted/edited, only if there is a problem
+  if (status %in% drop & n_status == 0) {
+    return(NULL)
   }
+
+  plural <- plural(n_status)
+
+  if (action %in% c("submit", "edit")) {
+    message <- dplyr::case_when(
+      status == "ok" ~ glue::glue("{n_status} record{plural} successfully {action_verb(action)}."),
+      status == "not_ok" ~ glue::glue("{n_status} record{plural} {plural_were(n_status)} not successfully {action_verb(action)}.")
+    )
+  } else if (action == "validate") {
+    message <- dplyr::case_when(
+      status %in% c("warning", "error") ~ glue::glue("{n_status} record{plural} produced {status}s in validation"),
+      status == "ok" ~ glue::glue("{n_status} record{plural} successfully validated without warnings or errors")
+    )
+  }
+
+  switch(status,
+    "ok" = usethis::ui_done(message),
+    "not_ok" = usethis::ui_todo(message),
+    "error" = usethis::ui_oops(message),
+    "warning" = usethis::ui_todo(message),
+  )
 }
 
 plural <- function(x) {
@@ -188,4 +209,12 @@ plural <- function(x) {
 
 plural_were <- function(x) {
   ifelse(x == 1, "was", "were")
+}
+
+action_verb <- function(action) {
+  switch(action,
+    "validate" = "validated",
+    "submit" = "submitted",
+    "edit" = "edited and moved back to Collecting",
+  )
 }

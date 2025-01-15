@@ -79,22 +79,3 @@ validate_collect_records <- function(x, project_id, token = mermaid_token()) {
       )
   }
 }
-
-summarise_validations_status <- function(df) {
-  status <- df[["status"]] %>%
-    as.character()
-  n_status <- df[["n"]]
-
-  plural <- plural(n_status)
-
-  message <- dplyr::case_when(
-    status %in% c("warning", "error") ~ glue::glue("{n_status} record{plural} produced {status}s in validation"),
-    status == "ok" ~ glue::glue("{n_status} record{plural} successfully validated without warnings or errors")
-  )
-
-  switch(status,
-    "error" = usethis::ui_oops(message),
-    "warning" = usethis::ui_todo(message),
-    "ok" = usethis::ui_done(message)
-  )
-}

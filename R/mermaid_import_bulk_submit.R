@@ -29,21 +29,3 @@
 mermaid_import_bulk_submit <- function(project, token = mermaid_token()) {
   import_bulk_action(project, action = "submit", token = token)
 }
-
-summarise_submit_status <- function(df, status) {
-  status <- df[["status"]] %>%
-    as.character()
-  n_status <- df[["n"]]
-
-  plural <- plural(n_status)
-
-  message <- dplyr::case_when(
-    status == "ok" ~ glue::glue("{n_status} record{plural} successfully submitted"),
-    status == "not_ok" ~ glue::glue("{n_status} record{plural} {plural_were(n_status)} not successfully submitted")
-  )
-
-  switch(status,
-    "ok" = usethis::ui_done(message),
-    "not_ok" = usethis::ui_todo(message)
-  )
-}
