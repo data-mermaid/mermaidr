@@ -15,6 +15,8 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
     stop_msg <- '`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"'
     if (is.null(method)) {
       stop(stop_msg, call. = FALSE)
+    } else if (length(method) > 1) {
+      stop(stop_msg, call. = FALSE)
     } else if (!method %in% c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching")) {
       stop(stop_msg, call. = FALSE)
     }
@@ -51,7 +53,8 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
       )
     }
 
-    usethis::ui_field(no_records_message)
+    usethis::ui_field(no_records_message) %>%
+      print()
 
     return(invisible(NULL))
   }
@@ -64,7 +67,7 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
 
     usethis::ui_field(
       glue::glue("{n_relevant_records} record{n_relevant_records_plural} being {action_verb(action)}...")
-      )
+    )
   }
 
   # Validate/submit/edit records -----
