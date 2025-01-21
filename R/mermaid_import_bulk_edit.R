@@ -38,9 +38,9 @@ edit_records <- function(x, project_id, methods_endpoint, token = mermaid_token(
   )
 
   if (httr::http_error(response)) {
-    check_errors(response)
-    # TODO -- handle this as an error in "status" for edit -- for validation, it makes sense to return an error in the API as an error
+    # Handle this as an error in "status" for edit -- for validation, it makes sense to return an error in the API as an error
     # But for edit, an error *is* failure to edit the record and should be summarised as such
+    dplyr::tibble(status = "not_ok")
   } else {
     # Get the status
     httr::content(response, as = "text", encoding = "UTF-8") %>%
@@ -82,21 +82,3 @@ protocol_methods_endpoint_names <- list(
   bleachingqcs = "bleachingquadratcollectionmethods",
   habitatcomplexities = "habitatcomplexitytransectmethods"
 )
-
-summarise_edit_status <- function(df, status) {
-  status <- df[["status"]] %>%
-    as.character()
-  n_status <- df[["n"]]
-
-  plural <- plural(n_status)
-
-  message <- dplyr::case_when(
-    status == "ok" ~ glue::glue("{n_status} record{plural} successfully edited and moved back to Collecting."),
-    status == "not_ok" ~ glue::glue("{n_status} record{plural} {plural_were(n_status)} not successfully edited and moved back to Collecting.")
-  )
-
-  switch(status,
-    "ok" = usethis::ui_done(message),
-    "not_ok" = usethis::ui_todo(message)
-  )
-}
