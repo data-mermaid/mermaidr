@@ -4,14 +4,14 @@
 \alias{mermaid_import_bulk_edit}
 \title{Bulk edit submitted records, moving them back into Collecting}
 \usage{
-mermaid_import_bulk_edit(project, token = mermaid_token())
+mermaid_import_bulk_edit(project, method = NULL, token = mermaid_token())
 }
 \arguments{
 \item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_my_projects}} or \code{\link{mermaid_search_my_projects}}. Defaults to the projects listed via \code{mermaid_get_default_project}, if available.}
 
-\item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
-
 \item{method}{Method to return submitted data back into "editing" state for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", or "habitatcomplexity".}
+
+\item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
 }
 \description{
 Returns submitted records back to Collecting, where they can be edited, for a given project and method. This should only be used when errors in data are discovered and ALL records need to be moved back to Collecting. To be used after \code{\link{mermaid_import_project_data}}, \code{\link{mermaid_import_bulk_validate}}, and \code{\link{mermaid_import_bulk_submit}}.
@@ -31,5 +31,6 @@ p \%>\%
 
 p \%>\%
   mermaid_import_bulk_submit()
+# 3 records being submitted...
 }
 }
