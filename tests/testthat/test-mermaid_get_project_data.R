@@ -788,7 +788,7 @@ test_that("NULL values for percent cover in bleaching observations come through 
 
   res <- mermaid_get_project_data("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", "bleaching", "observations")[["percent_cover"]]
 
-  expect_true(any(is.na(res[["percent_soft"]])))
+  expect_true(any(res[["percent_soft"]] %>% is.na()))
 })
 
 test_that("Bleaching sample unit aggregation is the same as manually aggregating observations", {
