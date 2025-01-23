@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.2</span>
       </span>
     </div>
 
@@ -75,9 +75,24 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href="https://github.com/data-mermaid/mermaidr/blob/v1.2.1/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/data-mermaid/mermaidr/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.2" id="mermaidr-122">mermaidr 1.2.2<a class="anchor" aria-label="anchor" href="#mermaidr-122"></a></h2>
+<ul><li>Add relevant life histories to <code>"bleaching"</code> method in <code><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code>
+<ul><li>
+<code>data = "observations"</code> (<code>obscoloniesbleacheds</code> entry) gains <code>life_histories__competitive</code>, <code>life_histories__generalist</code>, <code>life_histories__stress_tolerant</code>, <code>life_histories__weedy</code>
+</li>
+<li>
+<code>data = "sampleunits"</code> gains <code>percent_cover_life_histories_weedy</code>, <code>percent_cover_life_histories_generalist</code>, <code>percent_cover_life_histories_competitive</code>, <code>percent_cover_life_histories_stress_tolerant</code>
+</li>
+<li>
+<code>data = "sampleevents"</code> gains <code>percent_cover_life_histories_avg_weedy</code>, <code>percent_cover_life_histories_avg_generalist</code>, <code>percent_cover_life_histories_avg_competitive</code>, <code>percent_cover_life_histories_avg_stress-tolerant</code>, <code>percent_cover_life_histories_sd_weedy</code>, <code>percent_cover_life_histories_sd_generalist</code>, <code>percent_cover_life_histories_sd_competitive</code>, <code>percent_cover_life_histories_sd_stress-tolerant</code>
+</li>
+</ul></li>
+<li>Fix bug with <code><a href="../reference/mermaid_get_gfcr_report.html">mermaid_get_gfcr_report()</a></code> on Windows machines</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.2.1" id="mermaidr-121">mermaidr 1.2.1<a class="anchor" aria-label="anchor" href="#mermaidr-121"></a></h2>
 <ul><li>Bug fixes related to handling <code><a href="../reference/mermaid_import_bulk_validate.html">mermaid_import_bulk_validate()</a></code> response</li>

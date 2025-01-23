@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.2</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@
 Monitoring</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/v1.2.1/vignettes/articles/vo_baseline_monitoring.Rmd" class="external-link"><code>vignettes/articles/vo_baseline_monitoring.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/master/vignettes/articles/vo_baseline_monitoring.Rmd" class="external-link"><code>vignettes/articles/vo_baseline_monitoring.Rmd</code></a></small>
       <div class="hidden name"><code>vo_baseline_monitoring.Rmd</code></div>
 
     </div>
@@ -614,8 +614,8 @@ and present it in a bar plot.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
 <span><span class="co">#&gt;   country   n_sites fish_biomass_average fish_biomass_sd fish_biomass_se</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Fiji           27                 894.            560.           108. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Indonesia      12                 517.            128.            36.8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Fiji           27                 889.            555.           107. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Indonesia      12                 511.            131.            37.7</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Tanzania       39                 250.            232.            37.1</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">fish_biomass_by_country</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">country</span>, y <span class="op">=</span> <span class="va">fish_biomass_average</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -660,12 +660,12 @@ the sample date.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
 <span><span class="co">#&gt;   country   year  fish_biomass_average</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Fiji      2022                 894. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Indonesia 2019                 809. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Indonesia 2022                 484. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Fiji      2022                 889. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Indonesia 2019                 802. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Indonesia 2022                 478. </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Tanzania  2019                 358. </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Tanzania  2022                 369. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Tanzania  2023                  75.0</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Tanzania  2023                  75.1</span></span></code></pre></div>
 <p>Looking at the <code>fishbelt_biomass_by_country_by_year</code> data
 frame, we can see that there are only two countries that have more than
 one year of fish data, which are Indonesia and Tanzania. So, we are
