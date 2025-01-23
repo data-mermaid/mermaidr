@@ -34,7 +34,7 @@ test_that("validate_collect_records handles errors in sending the request", {
 
   expect_error(
     validate_collect_records(dplyr::tibble(x = "test"), mermaid_get_my_projects(limit = 1)[["id"]]),
-    "Internal Server Error"
+    "Bad Request"
   )
 })
 
