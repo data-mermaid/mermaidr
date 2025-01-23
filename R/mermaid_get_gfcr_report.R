@@ -43,7 +43,7 @@ mermaid_get_gfcr_report <- function(project, save = NULL, token = mermaid_token(
   check_errors(resp)
 
   # Check if zip -- if not, error
-  if (resp$headers$`content-type` != "application/zip") {
+  if (resp$headers$`content-encoding` != "gzip") {
     stop("Error reading GFCR report. File was not downloaded as a ZIP, as is expected.", call. = FALSE)
   }
 
