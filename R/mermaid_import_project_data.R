@@ -71,7 +71,7 @@ mermaid_import_project_data <- function(data, project, method = c("fishbelt", "b
   }
 
   if (clearexisting) {
-    clearexisting_confirm <- usethis::ui_yeah("Setting `clearexisting = TRUE` will overwrite ALL existing {method} records.\nPlease only use this option if you would like to remove ALL {method} records and replace them with the ones being imported. Would you like to continue?", yes = "Yes", no = "No", shuffle = FALSE)
+    clearexisting_confirm <- usethis::ui_yeah("Setting `clearexisting = TRUE` will overwrite ALL existing {method} records in Collecting.\nPlease only use this option if you would like to remove ALL {method} records in Collecting and replace them with the ones being imported. Would you like to continue?", yes = "Yes", no = "No", shuffle = FALSE)
 
     if (clearexisting_confirm) {
       body <- append(body, list(clearexisting = "true"))

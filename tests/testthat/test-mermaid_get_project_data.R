@@ -67,7 +67,9 @@ test_that("mermaid_get_project_data with 'bleaching' method and 'observations' d
   skip_on_cran()
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", "observations", limit = 1)
   expect_named(output, c("colonies_bleached", "percent_cover"))
-  expect_named(output[["colonies_bleached"]], project_data_test_columns[["bleachingqcs/obscoloniesbleacheds"]])
+  expect_true(all(project_data_test_columns[["bleachingqcs/obscoloniesbleacheds"]] %in% names(output[["colonies_bleached"]])))
+  # Missing benthic_category still
+  expect_true(any(stringr::str_starts(names(output[["colonies_bleached"]]), project_data_df_columns_list_names[["bleachingqcs/obscoloniesbleacheds"]])))
   expect_named(output[["percent_cover"]], project_data_test_columns[["bleachingqcs/obsquadratbenthicpercents"]])
 })
 
@@ -75,16 +77,17 @@ test_that("mermaid_get_project_data with 'bleaching' method and multiple values 
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
+
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", "all", limit = 1)
   expect_named(output, c("observations", "sampleunits", "sampleevents"))
   expect_named(output[["observations"]], c("colonies_bleached", "percent_cover"))
-  expect_named(output[["observations"]][["colonies_bleached"]], project_data_test_columns[["bleachingqcs/obscoloniesbleacheds"]])
+  expect_true(all(project_data_test_columns[["bleachingqcs/obscoloniesbleacheds"]] %in% names(output[["observations"]][["colonies_bleached"]])))
   expect_named(output[["observations"]][["percent_cover"]], project_data_test_columns[["bleachingqcs/obsquadratbenthicpercents"]])
 
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", c("sampleevents", "observations", "sampleunits"), limit = 1)
   expect_named(output, c("sampleevents", "observations", "sampleunits"))
   expect_named(output[["observations"]], c("colonies_bleached", "percent_cover"))
-  expect_named(output[["observations"]][["colonies_bleached"]], project_data_test_columns[["bleachingqcs/obscoloniesbleacheds"]])
+  expect_true(all(project_data_test_columns[["bleachingqcs/obscoloniesbleacheds"]] %in% names(output[["observations"]][["colonies_bleached"]])))
   expect_named(output[["observations"]][["percent_cover"]], project_data_test_columns[["bleachingqcs/obsquadratbenthicpercents"]])
 })
 
@@ -95,7 +98,7 @@ test_that("mermaid_get_project_data with multiple `methods` (including 'bleachin
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", c("fishbelt", "bleaching"), "observations", limit = 1)
   expect_named(output, c("fishbelt", "bleaching"))
   expect_named(output[["bleaching"]], c("colonies_bleached", "percent_cover"))
-  expect_named(output[["bleaching"]][["colonies_bleached"]], project_data_test_columns[["bleachingqcs/obscoloniesbleacheds"]])
+  expect_true(all(project_data_test_columns[["bleachingqcs/obscoloniesbleacheds"]] %in% names(output[["bleaching"]][["colonies_bleached"]])))
   expect_named(output[["bleaching"]][["percent_cover"]], project_data_test_columns[["bleachingqcs/obsquadratbenthicpercents"]])
 
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", c("bleaching", "benthiclit"), "all", limit = 1)
@@ -110,13 +113,17 @@ test_that("mermaid_get_project_data with multiple data returns a list with multi
   skip_on_cran()
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", c("sampleunits", "sampleevents"), limit = 1)
   expect_named(output, c("sampleunits", "sampleevents"))
-  expect_named(output[["sampleunits"]], project_data_test_columns[["bleachingqcs/sampleunits"]])
-  expect_named(output[["sampleevents"]], project_data_test_columns[["bleachingqcs/sampleevents"]])
+  expect_true(all(project_data_test_columns[["bleachingqcs/sampleunits"]] %in% names(output[["sampleunits"]])))
+  expect_true(any(stringr::str_starts(names(output[["sampleunits"]]), project_data_df_columns_list_names[["bleachingqcs/sampleunits"]])))
+  expect_true(all(project_data_test_columns[["bleachingqcs/sampleevents"]] %in% names(output[["sampleevents"]])))
+  expect_true(any(stringr::str_starts(names(output[["sampleevents"]]), project_data_df_columns_list_names[["bleachingqcs/sampleevents"]])))
 
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", "bleaching", c("sampleevents", "sampleunits"), limit = 1)
   expect_named(output, c("sampleevents", "sampleunits"))
-  expect_named(output[["sampleunits"]], project_data_test_columns[["bleachingqcs/sampleunits"]])
-  expect_named(output[["sampleevents"]], project_data_test_columns[["bleachingqcs/sampleevents"]])
+  expect_true(all(project_data_test_columns[["bleachingqcs/sampleunits"]] %in% names(output[["sampleunits"]])))
+  expect_true(any(stringr::str_starts(names(output[["sampleunits"]]), project_data_df_columns_list_names[["bleachingqcs/sampleunits"]])))
+  expect_true(all(project_data_test_columns[["bleachingqcs/sampleevents"]] %in% names(output[["sampleevents"]])))
+  expect_true(any(stringr::str_starts(names(output[["sampleevents"]]), project_data_df_columns_list_names[["bleachingqcs/sampleevents"]])))
 })
 
 test_that("mermaid_get_project_data with multiple methods returns a list with multiple elements in the same order that they were supplied", {
@@ -125,12 +132,12 @@ test_that("mermaid_get_project_data with multiple methods returns a list with mu
   skip_on_cran()
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", c("bleaching", "benthicpit"), "sampleevents", limit = 1)
   expect_named(output, c("bleaching", "benthicpit"))
-  expect_named(output[["bleaching"]], project_data_test_columns[["bleachingqcs/sampleevents"]])
+  expect_true(all(project_data_test_columns[["bleachingqcs/sampleevents"]] %in% names(output[["bleaching"]])))
   expect_true(all(project_data_test_columns[["benthicpits/sampleevents"]] %in% names(output[["benthicpit"]])))
 
   output <- mermaid_get_project_data("2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b", c("benthicpit", "bleaching"), "sampleevents", limit = 1)
   expect_named(output, c("benthicpit", "bleaching"))
-  expect_named(output[["bleaching"]], project_data_test_columns[["bleachingqcs/sampleevents"]])
+  expect_true(all(project_data_test_columns[["bleachingqcs/sampleevents"]] %in% names(output[["bleaching"]])))
   expect_true(all(project_data_test_columns[["benthicpits/sampleevents"]] %in% names(output[["benthicpit"]])))
 })
 
@@ -781,7 +788,7 @@ test_that("NULL values for percent cover in bleaching observations come through 
 
   res <- mermaid_get_project_data("2c0c9857-b11c-4b82-b7ef-e9b383d1233c", "bleaching", "observations")[["percent_cover"]]
 
-  expect_identical(res[["percent_soft"]], NA)
+  expect_true(any(is.na(res[["percent_soft"]])))
 })
 
 test_that("Bleaching sample unit aggregation is the same as manually aggregating observations", {
@@ -944,7 +951,6 @@ test_that("mermaid_get_project_data with covariates = FALSE (the default) doesn'
 })
 
 test_that("mermaid_get_project_data with covariates = TRUE returns covars, all the way down", {
-  # TODO
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
@@ -1125,7 +1131,8 @@ test_that("All expanded columns that formerly had _by_ in them are properly pull
     tidyr::separate(method_data, into = c("method", "data"), sep = "/") %>%
     dplyr::mutate(method = dplyr::case_when(
       method == "beltfishes" ~ "fishbelt",
-      stringr::str_starts(method, "benthic") ~ stringr::str_remove(method, "s")
+      stringr::str_starts(method, "benthic") ~ stringr::str_remove(method, "s"),
+      method == "bleachingqcs" ~ "bleaching"
     ))
 
   cols %>%

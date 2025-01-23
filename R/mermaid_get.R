@@ -218,7 +218,7 @@ initial_cleanup <- function(results, endpoint) {
 
   if ("life_histories" %in% names(results)) {
     results <- results %>%
-      extract_life_histories()
+      extract_life_histories(endpoint)
   }
 
   if ("growth_form_life_histories" %in% names(results)) {
@@ -266,24 +266,49 @@ is_list_col <- function(x) {
   list_col
 }
 
-extract_life_histories <- function(results) {
-  if (!purrr::map_lgl(results[["life_histories"]], is.data.frame) %>% any()) {
-    return(results)
-  }
-
+extract_life_histories <- function(results, endpoint) {
   old_names <- names(results)
 
-  res <- results %>%
-    tidyr::unnest("life_histories", names_sep = "___") %>%
-    dplyr::select(-dplyr::all_of(c("life_histories___id"))) %>%
-    tidyr::pivot_wider(
-      names_from = dplyr::all_of("life_histories___name"),
-      values_from = dplyr::all_of("life_histories___proportion")
+  if (!purrr::map_lgl(results[["life_histories"]], is.data.frame) %>% any()) {
+    # If it is just a NULL, still auto expand using the correct columns, and make them into 0s? or NAs?
+    endpoint_type <- dplyr::case_when(stringr::str_starts(endpoint, "obs") ~ "obs",
+      endpoint == "sampleunits" ~ "su",
+      endpoint == "sampleevents" ~ "se",
+      .default = NA_character_
     )
 
-  new_names <- names(res)
-  additional_cols <- setdiff(new_names, old_names)
+    if (is.na(endpoint_type)) {
+      # Only do all of the following flow for obs/su/se, otherwise just return the data
+      return(results)
+    } else {
+      additional_cols <- common_cols[[glue::glue("life_histories_{endpoint_type}_csv")]]
 
+      # Append a tibble of the new columns to the original data
+      new_cols_data <- dplyr::as_tibble(
+        matrix(
+          nrow = nrow(results),
+          ncol = length(additional_cols)
+        ),
+        .name_repair = ~additional_cols
+      )
+      res <- results %>%
+        dplyr::select(-dplyr::all_of("life_histories")) %>%
+        dplyr::bind_cols(new_cols_data)
+    }
+  } else {
+    res <- results %>%
+      tidyr::unnest("life_histories", names_sep = "___") %>%
+      dplyr::select(-dplyr::all_of(c("life_histories___id"))) %>%
+      tidyr::pivot_wider(
+        names_from = dplyr::all_of("life_histories___name"),
+        values_from = dplyr::all_of("life_histories___proportion")
+      )
+
+    new_names <- names(res)
+    additional_cols <- setdiff(new_names, old_names)
+  }
+
+  # In both cases, clean up names and relocate
   res <- res %>%
     dplyr::rename_with(.cols = dplyr::all_of(additional_cols), \(x) glue::glue("life_histories__{x}") %>% snakecase::to_snake_case())
 
