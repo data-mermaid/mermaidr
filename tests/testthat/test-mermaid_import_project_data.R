@@ -315,7 +315,7 @@ test_that("mermaid_import_project_data with NA in CSVs converts NAs to '' and su
   mermaid_import_project_data(temp, project_id, "fishbelt", dryrun = FALSE)
   collect_records <- mermaid_get_project_endpoint(project_id, "collectrecords") %>%
     tidyr::unpack(data, names_repair = "universal") %>%
-    dplyr::select(-id, -created_on, -updated_on) %>%
+    dplyr::select(-id...1, -created_on, -updated_on) %>%
     tidyr::unpack(sample_event, names_repair = "universal") %>%
     dplyr::filter(sample_date == "2022-06-15") %>%
     dplyr::select(fishbelt_transect) %>%

@@ -267,7 +267,6 @@ is_list_col <- function(x) {
 }
 
 extract_life_histories <- function(results, endpoint) {
-
   old_names <- names(results)
 
   if (!purrr::map_lgl(results[["life_histories"]], is.data.frame) %>% any()) {
@@ -279,21 +278,23 @@ extract_life_histories <- function(results, endpoint) {
     )
 
     if (is.na(endpoint_type)) {
-      browser()
-    }
-    additional_cols <- common_cols[[glue::glue("life_histories_{endpoint_type}_csv")]]
+      # Only do all of the following flow for obs/su/se, otherwise just return the data
+      return(results)
+    } else {
+      additional_cols <- common_cols[[glue::glue("life_histories_{endpoint_type}_csv")]]
 
-    # Append a tibble of the new columns to the original data
-    new_cols_data <- dplyr::as_tibble(
-      matrix(
-        nrow = nrow(results),
-        ncol = length(additional_cols)
-      ),
-      .name_repair = ~additional_cols
-    )
-    res <- results %>%
-      dplyr::select(-dplyr::all_of("life_histories")) %>%
-      dplyr::bind_cols(new_cols_data)
+      # Append a tibble of the new columns to the original data
+      new_cols_data <- dplyr::as_tibble(
+        matrix(
+          nrow = nrow(results),
+          ncol = length(additional_cols)
+        ),
+        .name_repair = ~additional_cols
+      )
+      res <- results %>%
+        dplyr::select(-dplyr::all_of("life_histories")) %>%
+        dplyr::bind_cols(new_cols_data)
+    }
   } else {
     res <- results %>%
       tidyr::unnest("life_histories", names_sep = "___") %>%
