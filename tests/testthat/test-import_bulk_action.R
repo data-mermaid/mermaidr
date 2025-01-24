@@ -225,8 +225,43 @@ test_that("Entire validate/submit/edit flow works", {
     }
   )
 
+  # Check that mermaid_import_bulk_edit gives a message requiring confirmation
+  expect_error(
+    expect_message(mermaid_import_bulk_edit(p, "fishbelt"), "This will move ALL existing submitted fishbelt records"),
+    "not interactive"
+  )
+
   # Move record back into editing so the test can run again without errors that the SUs are identical
-  mermaid_import_bulk_edit(p, "fishbelt")
+  import_bulk_action(p, action = "edit", method = "fishbelt", bulkeditforce = TRUE)
+
+  # Check that there are no more fishbelt records submitted
+  method_sus_after_editing <- new_collect_record_after_validating %>%
+    dplyr::distinct(data_protocol) %>%
+    split(.$data_protocol) %>%
+    purrr::imap(\(x, method) {
+      methods_endpoint <- method_to_methods_endpoint(method)
+      mermaid_get_project_endpoint(p, methods_endpoint)
+    })
+
+  purrr::walk(
+    names(method_sus),
+    \(method) {
+      expect_true(
+        nrow(method_sus_after_editing[[method]]) == 0
+      )
+    }
+  )
+
+  # Check that they are back in collecting, and they are all stale
+  collecting_records_after_edit <- get_collecting_records(p)
+
+  expect_identical(
+    collecting_records_after_edit %>%
+      dplyr::filter(data_protocol == "fishbelt") %>%
+      dplyr::pull(validations_status) %>%
+      unique(),
+    "stale"
+  )
 })
 
 test_that("summarise_single_status returns the correct messaging", {

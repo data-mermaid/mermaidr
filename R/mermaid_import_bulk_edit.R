@@ -30,7 +30,7 @@
 # ✔ 1 record successfully edited and moved back to Collecting.
 #' }
 mermaid_import_bulk_edit <- function(project, method = NULL, token = mermaid_token()) {
-  import_bulk_action(project, action = "edit", method = method, token = token)
+  import_bulk_action(project, action = "edit", method = method, bulkeditforce = FALSE, token = token)
 }
 
 edit_records <- function(x, project_id, methods_endpoint, token = mermaid_token()) {

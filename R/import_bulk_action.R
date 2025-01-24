@@ -1,6 +1,6 @@
 # Generic function for bulk actions, to reduce code repetition between validate/submit/edit functions
 
-import_bulk_action <- function(project, action, method = NULL, token = mermaid_token()) {
+import_bulk_action <- function(project, action, method = NULL, bulkeditforce = FALSE, token = mermaid_token()) {
   # Show messages
   silent <- FALSE
 
@@ -61,10 +61,12 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
 
   # For bulk edit, require confirmation ----
   if (action == "edit") {
-    edit_confirm <- usethis::ui_yeah("This will move ALL existing submitted {method} records back to Collecting for editing. Would you like to continue?", yes = "Yes", no = "No", shuffle = FALSE)
+    if (!bulkeditforce) {
+      edit_confirm <- usethis::ui_yeah("This will move ALL existing submitted {method} records back to Collecting for editing. Would you like to continue?", yes = "Yes", no = "No", shuffle = FALSE)
 
-    if (!edit_confirm) {
-      return(message("Bulk edit stopped."))
+      if (!edit_confirm) {
+        return(message("Bulk edit stopped."))
+      }
     }
   }
 
