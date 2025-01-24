@@ -22,8 +22,8 @@
 #'
 #' p %>%
 #'   mermaid_import_bulk_submit()
-#'# 3 records being submitted...
-# # ✔ 3 records successfully submitted
+#' # 3 records being submitted...
+#' # ✔ 3 records successfully submitted
 #' }
 mermaid_import_bulk_submit <- function(project, token = mermaid_token()) {
   import_bulk_action(project, action = "submit", token = token)
