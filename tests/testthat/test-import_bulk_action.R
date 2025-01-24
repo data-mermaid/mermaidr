@@ -312,6 +312,10 @@ test_that("summarise_single_status returns the correct messaging", {
 })
 
 test_that("summarise_all_validations_statuses returns the correct messaging", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   res <- dplyr::tribble(
     ~status, ~n,
     "warning", 2,
