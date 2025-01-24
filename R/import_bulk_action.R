@@ -40,7 +40,7 @@ import_bulk_action <- function(project, action, method = NULL, bulkeditforce = F
 
   if (action == "submit") {
     relevant_records <- relevant_records %>%
-      dplyr::filter(validations_status == "ok")
+      dplyr::filter(.data$validations_status == "ok")
   }
 
   # Messaging if there are no relevant records to operate on ----
@@ -133,7 +133,7 @@ import_bulk_action <- function(project, action, method = NULL, bulkeditforce = F
 get_collecting_records <- function(project, token = mermaid_token()) {
   # Confirm that they are part of the project first
   in_project <- mermaid_get_me()[["projects"]][[1]] %>%
-    dplyr::filter(id == project) %>%
+    dplyr::filter(.data$id == project) %>%
     nrow() == 1
 
   if (!in_project) {
@@ -200,12 +200,12 @@ validate_or_submit_collect_records <- function(x, project_id, action, token = me
 
 summarise_all_statuses <- function(df, statuses, action = c("validate", "submit", "action"), action_drop_statuses) {
   status_summary <- df %>%
-    dplyr::count(status) %>%
+    dplyr::count(.data$status) %>%
     dplyr::mutate(
-      status = forcats::fct_expand(status, statuses),
-      status = forcats::fct_relevel(status, statuses)
+      status = forcats::fct_expand(.data$status, statuses),
+      status = forcats::fct_relevel(.data$status, statuses)
     ) %>%
-    tidyr::complete(status, fill = list(n = 0)) %>%
+    tidyr::complete(.data$status, fill = list(n = 0)) %>%
     split(.$status)
 
   status_summary %>%
