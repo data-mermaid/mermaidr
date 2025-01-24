@@ -23,7 +23,7 @@
 #'
 #' p %>%
 #'   mermaid_import_bulk_submit()
-#'# 3 records being submitted...
+#' # 3 records being submitted...
 #' # ✔ 3 records successfully submitted
 #'
 #' mermaid_import_bulk_edit(p, "fishbelt")
