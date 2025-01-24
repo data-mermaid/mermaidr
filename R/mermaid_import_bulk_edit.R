@@ -24,10 +24,10 @@
 #' p %>%
 #'   mermaid_import_bulk_submit()
 #'# 3 records being submitted...
-# # ✔ 3 records successfully submitted
-#
-# mermaid_import_bulk_edit(p, "fishbelt")
-# ✔ 1 record successfully edited and moved back to Collecting.
+#' # ✔ 3 records successfully submitted
+#'
+#' mermaid_import_bulk_edit(p, "fishbelt")
+#' ✔ 3 record successfully edited and moved back to Collecting.
 #' }
 mermaid_import_bulk_edit <- function(project, method = NULL, token = mermaid_token()) {
   import_bulk_action(project, action = "edit", method = method, bulkeditforce = FALSE, token = token)
