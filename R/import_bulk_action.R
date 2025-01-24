@@ -59,6 +59,15 @@ import_bulk_action <- function(project, action, method = NULL, token = mermaid_t
     return(invisible(NULL))
   }
 
+  # For bulk edit, require confirmation ----
+  if (action == "edit") {
+    edit_confirm <- usethis::ui_yeah("This will move ALL existing submitted {method} records back to Collecting for editing. Would you like to continue?", yes = "Yes", no = "No", shuffle = FALSE)
+
+    if (!edit_confirm) {
+      return(message("Bulk edit stopped."))
+    }
+  }
+
   # Show a message that records are being validated/submitted/edited ----
 
   if (!silent) {
