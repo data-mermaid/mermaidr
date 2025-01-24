@@ -1,6 +1,7 @@
 test_that("check_internet throws an error when there is no internet", {
-  with_mock(
-    "curl::has_internet" = function() FALSE,
+  with_mocked_bindings(
+    "has_internet" = function() FALSE,
+    .package = "curl",
     expect_error(check_internet())
   )
 })

@@ -10,6 +10,11 @@
 #'
 #' @export
 mermaid_import_project_data <- function(data, project, method = c("fishbelt", "benthicpit", "benthiclit", "benthicpqt", "habitatcomplexity", "bleaching"), dryrun = TRUE, clearexisting = FALSE, token = mermaid_token()) {
+  import_project_data_internal(data = data, project = project, method = method, dryrun = dryrun, clearexisting = clearexisting, clearexistingforce = FALSE, token = token)
+}
+
+# Internal version of function so that clearexisting can be forced, for testing
+import_project_data_internal <- function(data, project, method = c("fishbelt", "benthicpit", "benthiclit", "benthicpqt", "habitatcomplexity", "bleaching"), dryrun = TRUE, clearexisting = FALSE, clearexistingforce = FALSE, token = mermaid_token()) {
   check_internet()
 
   project <- as_id(project)
@@ -70,7 +75,7 @@ mermaid_import_project_data <- function(data, project, method = c("fishbelt", "b
     stop("Import cannot be run with dryrun = TRUE and clearexisting = TRUE. dryrun = TRUE only checks records without submitting them, and clearexisting = TRUE will overwrite ALL existing ", method, " records. Please double check which option you would like to set.", call. = FALSE)
   }
 
-  if (clearexisting) {
+  if (clearexisting & !clearexistingforce) {
     clearexisting_confirm <- usethis::ui_yeah("Setting `clearexisting = TRUE` will overwrite ALL existing {method} records in Collecting.\nPlease only use this option if you would like to remove ALL {method} records in Collecting and replace them with the ones being imported. Would you like to continue?", yes = "Yes", no = "No", shuffle = FALSE)
 
     if (clearexisting_confirm) {
@@ -78,6 +83,8 @@ mermaid_import_project_data <- function(data, project, method = c("fishbelt", "b
     } else {
       return(message("Import stopped - please run again with `clearexisting = FALSE`."))
     }
+  } else if (clearexisting & clearexistingforce) {
+    body <- append(body, list(clearexisting = "true"))
   }
 
   # Post data

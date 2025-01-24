@@ -40,6 +40,8 @@ reference:
     - mermaid_import_check_options
     - mermaid_import_project_data
     - mermaid_import_bulk_validate
+    - mermaid_import_bulk_submit
+    - mermaid_import_bulk_edit
 
 articles:
   - title: Case Studies
