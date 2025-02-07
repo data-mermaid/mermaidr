@@ -195,7 +195,7 @@ wcs_mozambique %>%
 
 For more details on accessing project data, please see the [Accessing
 Project
-Data](https://data-mermaid.github.io/mermaidr/articles/articles/detailed_usage.html)
+Data](https://data-mermaid.github.io/mermaidr/articles/accessing_project_data.html)
 article.
 
 You may also want to access data that is not related to projects. To
