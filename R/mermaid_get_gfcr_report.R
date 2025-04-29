@@ -52,7 +52,7 @@ mermaid_get_gfcr_report <- function(project, save = NULL, token = mermaid_token(
   # Check that the unzipped dir contains exactly one file .xlsx file and that it starts with "gfcr_"
   gfcr_report_file <- list.files(report_dir, full.names = TRUE)
 
-  if (!(length(gfcr_report_file) == 1 & stringr::str_ends(gfcr_report_file, "xlsx") & stringr::str_starts(basename(gfcr_report_file), "gfcr"))) {
+  if (!(length(gfcr_report_file) == 1 & stringr::str_ends(gfcr_report_file, "xlsx"))) {
     stop("Error reading GFCR report. The download does not contain a single xlsx file, as expected.", call. = FALSE)
   }
 
