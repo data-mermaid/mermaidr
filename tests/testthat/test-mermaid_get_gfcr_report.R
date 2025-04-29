@@ -16,7 +16,7 @@ test_that("mermaid_get_gfcr_report returns a list with set sheets/columns", {
     res[["F1"]],
     c(
       "Project", "Title", "Reporting Date", "Data Type", "Sub-Indicator Name",
-      "Area (km2)"
+      "Area (km2)", "Suggested Citation"
     )
   )
 

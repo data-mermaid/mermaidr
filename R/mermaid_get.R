@@ -149,7 +149,9 @@ get_ingest_schema_response <- function(path, ua, token) {
 }
 
 get_and_parse <- function(path, ua, limit = NULL, token, simplify_df = TRUE) {
-  resp <- suppress_http_warning(httr::RETRY("GET", path, ua, token, terminate_on = c(401, 403)))
+  resp <- httr::RETRY("GET", path, ua, token, terminate_on = c(401, 403)) %>%
+    suppress_http_warning() %>%
+    suppress_utf8_filename_warning()
   check_errors(resp)
 
   # Check if content type is available in header, otherwise use path for deciding what to parse
@@ -175,6 +177,14 @@ get_and_parse <- function(path, ua, limit = NULL, token, simplify_df = TRUE) {
 suppress_http_warning <- function(expr, warning_function = "parse_http_status", warning_regex = "NAs introduced by coercion") {
   withCallingHandlers(expr, warning = function(w) {
     if (length(warning_function) == 1 && length(grep(warning_function, conditionCall(w))) && length(grep(warning_regex, conditionMessage(w)))) {
+      invokeRestart("muffleWarning")
+    }
+  })
+}
+
+suppress_utf8_filename_warning <- function(expr, warning_function ="strsplit", warning_regex = c("unable to translate 'HTTP/2 200", "input string 1 is invalid")) {
+  withCallingHandlers(expr, warning = function(w) {
+    if (length(warning_function) == 1 && length(grep(warning_function, conditionCall(w))) && any(stringr::str_detect(conditionMessage(w), warning_regex))) {
       invokeRestart("muffleWarning")
     }
   })

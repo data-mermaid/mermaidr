@@ -1,3 +1,8 @@
+# mermaidr 1.2.4
+
+* Fix bug in `mermaid_get_gfcr_report()` function, given format of the report file name
+* Fix tests
+
 # mermaidr 1.2.3
 
 * Add bulk submission of valid records in Collecting via `mermaid_import_bulk_submit()`
