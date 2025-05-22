@@ -47,10 +47,15 @@ check_errors <- function(response) {
 }
 
 construct_api_path <- function(endpoint, token, limit, filter = NULL, ...) {
-  # Construct first page - maximum size is 5000
-  limit <- ifelse(is.null(limit) || limit > 5000, 5000, limit)
+  # Do not paginate if it is CSV
+  if (stringr::str_ends(endpoint, "csv")) {
+    query <- NULL
+  } else {
+    # Construct first page - maximum size is 5000
+    limit <- ifelse(is.null(limit) || limit > 5000, 5000, limit)
 
-  query <- append(list(limit = limit), filter)
+    query <- append(list(limit = limit), filter)
+  }
 
   if (endpoint == "projects" & is.null(token)) {
     # Need showall = TRUE if it's the "projects" endpoint and not an authenticated call
@@ -58,6 +63,8 @@ construct_api_path <- function(endpoint, token, limit, filter = NULL, ...) {
   } else {
     path <- httr::modify_url(base_url, path = paste0("v1/", endpoint, "/"), query = query)
   }
+
+  path
 }
 
 get_response <- function(path, endpoint, ua, token, limit) {
@@ -182,7 +189,7 @@ suppress_http_warning <- function(expr, warning_function = "parse_http_status", 
   })
 }
 
-suppress_utf8_filename_warning <- function(expr, warning_function ="strsplit", warning_regex = c("unable to translate 'HTTP/2 200", "input string 1 is invalid")) {
+suppress_utf8_filename_warning <- function(expr, warning_function = "strsplit", warning_regex = c("unable to translate 'HTTP/2 200", "input string 1 is invalid")) {
   withCallingHandlers(expr, warning = function(w) {
     if (length(warning_function) == 1 && length(grep(warning_function, conditionCall(w))) && any(stringr::str_detect(conditionMessage(w), warning_regex))) {
       invokeRestart("muffleWarning")
