@@ -1,3 +1,7 @@
+# mermaidr 1.2.5
+
+* Fix bug causing errors in reading large amounts of data via `mermaid_get_project_data()`
+
 # mermaidr 1.2.4
 
 * Fix bug in `mermaid_get_gfcr_report()` function, given format of the report file name

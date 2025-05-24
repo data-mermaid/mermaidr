@@ -35,6 +35,6 @@ p \%>\%
 # ✔ 3 records successfully submitted
 
 mermaid_import_bulk_edit(p, "fishbelt")
-✔ 3 record successfully edited and moved back to Collecting.
+# ✔ 3 record successfully edited and moved back to Collecting.
 }
 }
