@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.5</span>
       </span>
     </div>
 
@@ -75,7 +75,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Bulk edit submitted records, moving them back into Collecting</h1>
-    <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/v1.2.4/R/mermaid_import_bulk_edit.R" class="external-link"><code>R/mermaid_import_bulk_edit.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/master/R/mermaid_import_bulk_edit.R" class="external-link"><code>R/mermaid_import_bulk_edit.R</code></a></small>
     <div class="hidden name"><code>mermaid_import_bulk_edit.Rd</code></div>
     </div>
 
@@ -106,7 +106,27 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="mermaid_get_my_projects.html">mermaid_get_my_projects</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="mermaid_import_bulk_validate.html">mermaid_import_bulk_validate</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># 43 records being validated...</span></span></span>
+<span class="r-in"><span><span class="co"># ✖ 27 records produced errors in validation</span></span></span>
+<span class="r-in"><span><span class="co"># • 13 records produced warnings in validation</span></span></span>
+<span class="r-in"><span><span class="co"># ✔ 3 records successfully validated without warnings or errors</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="mermaid_import_bulk_submit.html">mermaid_import_bulk_submit</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># 3 records being submitted...</span></span></span>
+<span class="r-in"><span><span class="co"># ✔ 3 records successfully submitted</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">mermaid_import_bulk_edit</span><span class="op">(</span><span class="va">p</span>, <span class="st">"fishbelt"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># ✔ 3 record successfully edited and moved back to Collecting.</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+</code></pre></div>
     </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

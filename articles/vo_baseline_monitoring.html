@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.5</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@
 Monitoring</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/v1.2.4/vignettes/articles/vo_baseline_monitoring.Rmd" class="external-link"><code>vignettes/articles/vo_baseline_monitoring.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/master/vignettes/articles/vo_baseline_monitoring.Rmd" class="external-link"><code>vignettes/articles/vo_baseline_monitoring.Rmd</code></a></small>
       <div class="hidden name"><code>vo_baseline_monitoring.Rmd</code></div>
 
     </div>
@@ -231,12 +231,12 @@ returns the data <em>if</em> the data policy allows it.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 62</span></span></span>
 <span><span class="co">#&gt;   project             tags  country site  latitude longitude reef_type reef_zone</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2022 DamaWISH endl… Vibr… Fiji    DamC1    -<span style="color: #BB0000;">16.8</span>      179. patch     back reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2022 DamaWISH endl… Vibr… Fiji    DamC3    -<span style="color: #BB0000;">16.8</span>      179. patch     back reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2022 DamaWISH endl… Vibr… Fiji    DamC4    -<span style="color: #BB0000;">16.9</span>      179. patch     back reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2022 DamaWISH endl… Vibr… Fiji    DamC5    -<span style="color: #BB0000;">16.9</span>      179. patch     fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2022 DamaWISH endl… Vibr… Fiji    DamC8    -<span style="color: #BB0000;">16.8</span>      179. patch     fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2022 DamaWISH endl… Vibr… Fiji    DamE1    -<span style="color: #BB0000;">16.9</span>      179. patch     back reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2022 DamaWISH endl… WCS … Fiji    DamC4    -<span style="color: #BB0000;">16.9</span>      179. patch     back reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2022 DamaWISH endl… WCS … Fiji    DamC5    -<span style="color: #BB0000;">16.9</span>      179. patch     fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2022 DamaWISH endl… WCS … Fiji    DamE7    -<span style="color: #BB0000;">16.9</span>      179. patch     fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2022 DamaWISH endl… WCS … Fiji    DamC8    -<span style="color: #BB0000;">16.8</span>      179. patch     fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2022 DamaWISH endl… WCS … Fiji    DamE5    -<span style="color: #BB0000;">16.9</span>      179. patch     fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2022 DamaWISH endl… WCS … Fiji    DamC3    -<span style="color: #BB0000;">16.8</span>      179. patch     back reef</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 54 more variables: reef_exposure &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   visibility &lt;chr&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   management_est_year &lt;dbl&gt;, management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span></span>
@@ -444,16 +444,16 @@ this, we’re going to use the <code><a href="https://tidyr.tidyverse.org/refere
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 119 × 6</span></span></span>
 <span><span class="co">#&gt;    country site  year  month day   hard_coral</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Fiji    DamC1 2022  04    23          27.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Fiji    DamC3 2022  04    26          26.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Fiji    DamC4 2022  04    26          46  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Fiji    DamC5 2022  04    22          37.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Fiji    DamC8 2022  04    23          22  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Fiji    DamE1 2022  04    25          24  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Fiji    DamE2 2022  04    25          39  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Fiji    DamE4 2022  04    20          30.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Fiji    DamE5 2022  04    22          20  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Fiji    DamE6 2022  04    23          10.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Fiji    DamC4 2022  04    26          46  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Fiji    DamC5 2022  04    22          37.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Fiji    DamE7 2022  04    22          11.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Fiji    DamC8 2022  04    23          22  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Fiji    DamE5 2022  04    22          20  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Fiji    DamC3 2022  04    26          26.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Fiji    DamC1 2022  04    23          27.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Fiji    DamE6 2022  04    23          10.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Fiji    DamE2 2022  04    25          39  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Fiji    DamE1 2022  04    25          24  </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 109 more rows</span></span></span></code></pre></div>
 <p>Now we have all of the columns that we need, we can continue by
 calculating the average hard coral cover by year by country.</p>
@@ -532,16 +532,16 @@ time specifying the “fishbelt” method:</p>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleevents"</span>, token <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fishbelt_data</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 138</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 142</span></span></span>
 <span><span class="co">#&gt;   project             tags  country site  latitude longitude reef_type reef_zone</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Aceh East Coast 20… WCS … Indone… Anoi…     5.83      95.4 fringing  fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Aceh East Coast 20… WCS … Indone… Anoi…     5.84      95.4 fringing  fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Aceh East Coast 20… WCS … Indone… Bent…     5.85      95.4 fringing  fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Aceh East Coast 20… WCS … Indone… Beur…     5.78      95.3 fringing  fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Aceh East Coast 20… WCS … Indone… Ie M…     5.90      95.3 fringing  fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Aceh East Coast 20… WCS … Indone… Inti…     5.83      95.4 fringing  fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 130 more variables: reef_exposure &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Aceh East Coast 20… Vibr… Indone… Bent…     5.85      95.4 fringing  fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Aceh East Coast 20… Vibr… Indone… Ujun…     5.81      95.4 fringing  fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Aceh East Coast 20… Vibr… Indone… Anoi…     5.84      95.4 fringing  fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Aceh East Coast 20… Vibr… Indone… Beur…     5.78      95.3 fringing  fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Aceh East Coast 20… Vibr… Indone… Reut…     5.86      95.4 fringing  fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Aceh East Coast 20… Vibr… Indone… Ie M…     5.90      95.3 fringing  fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 134 more variables: reef_exposure &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   visibility &lt;chr&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   management_est_year &lt;dbl&gt;, management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span></span>
@@ -614,7 +614,7 @@ and present it in a bar plot.</p>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Fiji           27                 889.            555.           107. </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Indonesia      12                 512.            131.            37.7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Tanzania       36                 256.            238.            39.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Tanzania       36                 256.            238.            39.7</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">fish_biomass_by_country</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">country</span>, y <span class="op">=</span> <span class="va">fish_biomass_average</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
