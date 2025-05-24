@@ -173,7 +173,7 @@ get_and_parse <- function(path, ua, limit = NULL, token, simplify_df = TRUE) {
   # Parse CSV and JSON differently
   if (parse_csv) {
     res <- httr::content(resp, "raw", encoding = "UTF-8") %>%
-      readr::read_csv(show_col_types = FALSE, progress = FALSE, n_max = ifelse(is.null(limit), Inf, limit))
+      readr::read_csv(show_col_types = FALSE, progress = FALSE, n_max = ifelse(is.null(limit), Inf, limit), guess_max = ifelse(is.null(limit), Inf, limit))
   } else {
     res <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyDataFrame = simplify_df)
   }
