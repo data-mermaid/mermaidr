@@ -37,7 +37,7 @@ Before importing your CPCe data to MERMAID, you need to set up your project in [
 
 ### Prepare your CPCe raw data
 
-After you are done annotating your data with CPCe, export it. In the xls exported file, you will normally have a sheet that consist of four columns, i.e. Raw Data, Notes, Major Category, Frame limits (Figure 1). If you have more than one transect in an xls file, you will need to save each transect separately as a CSV file.
+After you are done annotating your data with CPCe, export it. In the xls exported file, you will normally have a sheet that consist of four columns, i.e. Raw Data, Notes, Major Category, Frame limits (the image below). If you have more than one transect in an xls file, you will need to save each transect separately as a CSV file.
 
 ![Example of a CPCe export data](CPCe_raw_data_example.png)
 

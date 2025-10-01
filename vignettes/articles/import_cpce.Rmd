@@ -37,7 +37,7 @@ Before importing your CPCe data to MERMAID, you need to set up your project in [
 
 ### Prepare your CPCe raw data
 
-After you are done annotating your data with CPCe, export it. In the xls exported file, you will normally have a sheet that consist of four columns, i.e. Raw Data, Notes, Major Category, Frame limits (Figure 1). If you have more than one transect in an xls file, you will need to save each transect separately as a CSV file.
+After you are done annotating your data with CPCe, export it. In the xls exported file, you will normally have a sheet that consist of four columns, i.e. Raw Data, Notes, Major Category, Frame limits (the image below). If you have more than one transect in an xls file, you will need to save each transect separately as a CSV file.
 
 ![Example of a CPCe export data](CPCe_raw_data_example.png)
 
@@ -90,6 +90,10 @@ pqt_template <- mermaid_import_get_template_and_options(
   "benthicpqt",
   "benthicpqt_mermaidsurvey_template.xlsx"
 )
+```
+
+```
+## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
 ```
 
 Before running the code above, make sure that you change the project name **MERMAID reef survey** in **2** to your actual project that you want to import your data into. Remember that **you need to be an admin** of the project to be able to access and import your data.
@@ -300,6 +304,10 @@ mermaid_import_check_options(pqt, pqt_template, "Site *")
 ```
 
 ```
+## ✔ All values of `Site *` match
+```
+
+```
 ## # A tibble: 1 × 3
 ##   data_value closest_choice match
 ##   <chr>      <chr>          <lgl>
@@ -311,6 +319,10 @@ mermaid_import_check_options(pqt, pqt_template, "Management *")
 ```
 
 ```
+## • Some errors in values of `Management *` - please check table below
+```
+
+```
 ## # A tibble: 1 × 3
 ##   data_value closest_choice match
 ##   <chr>      <chr>          <lgl>
@@ -319,15 +331,82 @@ mermaid_import_check_options(pqt, pqt_template, "Management *")
 
 ``` r
 mermaid_import_check_options(pqt, pqt_template, "Sample date: Year *")
+```
+
+```
+## ✔ Any value is allowed for `Sample date: Year *` - no checking to be done
+```
+
+``` r
 mermaid_import_check_options(pqt, pqt_template, "Sample date: Month *")
+```
+
+```
+## ✔ Any value is allowed for `Sample date: Month *` - no checking to be done
+```
+
+``` r
 mermaid_import_check_options(pqt, pqt_template, "Sample date: Day *")
+```
+
+```
+## ✔ Any value is allowed for `Sample date: Day *` - no checking to be done
+```
+
+``` r
 mermaid_import_check_options(pqt, pqt_template, "Depth *")
+```
+
+```
+## ✔ Any value is allowed for `Depth *` - no checking to be done
+```
+
+``` r
 mermaid_import_check_options(pqt, pqt_template, "Transect number *")
+```
+
+```
+## ✔ Any value is allowed for `Transect number *` - no checking to be done
+```
+
+``` r
 mermaid_import_check_options(pqt, pqt_template, "Transect length surveyed *")
+```
+
+```
+## ✔ Any value is allowed for `Transect length surveyed *` - no checking to be done
+```
+
+``` r
 mermaid_import_check_options(pqt, pqt_template, "Number of quadrats *")
+```
+
+```
+## ✔ Any value is allowed for `Number of quadrats *` - no checking to be done
+```
+
+``` r
 mermaid_import_check_options(pqt, pqt_template, "Quadrat size *")
+```
+
+```
+## ✔ Any value is allowed for `Quadrat size *` - no checking to be done
+```
+
+``` r
 mermaid_import_check_options(pqt, pqt_template, "Number of points per quadrat *")
+```
+
+```
+## ✔ Any value is allowed for `Number of points per quadrat *` - no checking to be done
+```
+
+``` r
 mermaid_import_check_options(pqt, pqt_template, "Observer emails *")
+```
+
+```
+## ✔ All values of `Observer emails *` match
 ```
 
 ```
@@ -339,7 +418,18 @@ mermaid_import_check_options(pqt, pqt_template, "Observer emails *")
 
 ``` r
 mermaid_import_check_options(pqt, pqt_template, "Quadrat *")
+```
+
+```
+## ✔ Any value is allowed for `Quadrat *` - no checking to be done
+```
+
+``` r
 mermaid_import_check_options(pqt, pqt_template, "Benthic attribute *")
+```
+
+```
+## ✔ All values of `Benthic attribute *` match
 ```
 
 ```
@@ -367,6 +457,10 @@ mermaid_import_check_options(pqt, pqt_template, "Growth form")
 ```
 
 ```
+## ✔ All values of `Growth form` match
+```
+
+```
 ## # A tibble: 7 × 3
 ##   data_value     closest_choice match
 ##   <chr>          <chr>          <lgl>
@@ -381,6 +475,10 @@ mermaid_import_check_options(pqt, pqt_template, "Growth form")
 
 ``` r
 mermaid_import_check_options(pqt, pqt_template, "Number of points *")
+```
+
+```
+## ✔ Any value is allowed for `Number of points *` - no checking to be done
 ```
 
 After addressing all the issues, you can save the clean data as a CSV file using the code below:
@@ -402,6 +500,10 @@ mermaid_import_project_data(
 )
 ```
 
+```
+## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
+```
+
 Once you get the message **Records successfully checked!**, change the dryrun option to FALSE to start importing your data to MERMAID.
 
 
@@ -412,6 +514,10 @@ mermaid_import_project_data(
   method = "benthicpqt",
   dryrun = FALSE
 )
+```
+
+```
+## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
 ```
 
 ## Step 7. Validate and submit your data in MERMAID Collect
