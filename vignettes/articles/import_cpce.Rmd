@@ -93,7 +93,7 @@ pqt_template <- mermaid_import_get_template_and_options(
 ```
 
 ```
-## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
+## ✔ Import template and field options written to benthicpqt_mermaidsurvey_template.xlsx
 ```
 
 Before running the code above, make sure that you change the project name **MERMAID reef survey** in **2** to your actual project that you want to import your data into. Remember that **you need to be an admin** of the project to be able to access and import your data.
@@ -101,6 +101,8 @@ Before running the code above, make sure that you change the project name **MERM
 ## Step 5. Prepare and reformat your data to match the MERMAID template
 
 After downloading the MERMAID PQT template, you can start preparing and reformatting your data to match the template. Matching means that your data has the same column name and options accepted by the MERMAID template. Start by loading your data and the benthic attribute converter file. In this example, we will be loading all three transects from one site, combining it, and then reformat it all together.
+
+
 
 
 ``` r
@@ -501,7 +503,7 @@ mermaid_import_project_data(
 ```
 
 ```
-## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
+## Records successfully checked! To import, please run the function again with `dryrun = FALSE`.
 ```
 
 Once you get the message **Records successfully checked!**, change the dryrun option to FALSE to start importing your data to MERMAID.
@@ -517,7 +519,7 @@ mermaid_import_project_data(
 ```
 
 ```
-## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
+## Records successfully imported! Please review in Collect.
 ```
 
 ## Step 7. Validate and submit your data in MERMAID Collect
