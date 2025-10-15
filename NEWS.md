@@ -1,3 +1,7 @@
+# mermaidr 1.2.6
+
+* Add vignette on importing CPCe data
+
 # mermaidr 1.2.5
 
 * Fix bug causing errors in reading large amounts of data via `mermaid_get_project_data()`
