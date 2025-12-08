@@ -172,8 +172,8 @@ common_benthic_cols <- list(
 
 common_bleaching_cols <- list(
   obs = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "observers"),
-  su = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "count_total", "count_genera", "percent_normal", "percent_pale", "percent_bleached", "quadrat_count", "percent_hard_avg", "percent_hard_sd", "percent_soft_avg", "percent_soft_sd", "percent_algae_avg", "percent_algae_sd"),
-  se = c(common_cols[["se"]], "quadrat_size_avg", "count_total_avg", "count_total_sd", "count_genera_avg", "count_genera_sd", "percent_normal_avg", "percent_normal_sd", "percent_pale_avg", "percent_pale_sd", "percent_bleached_avg", "percent_bleached_sd", "quadrat_count_avg", "percent_hard_avg_avg", "percent_hard_avg_sd", "percent_soft_avg_avg", "percent_soft_avg_sd", "percent_algae_avg_avg", "percent_algae_avg_sd")
+  su = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "count_total", "count_genera", "percent_normal", "percent_pale", "percent_20", "percent_50", "percent_80", "percent_100", "percent_dead", "percent_bleached", "quadrat_count", "percent_hard_avg", "percent_hard_sd", "percent_soft_avg", "percent_soft_sd", "percent_algae_avg", "percent_algae_sd"),
+  se = c(common_cols[["se"]], "quadrat_size_avg", "count_total_avg", "count_total_sd", "count_genera_avg", "count_genera_sd", "percent_normal_avg", "percent_normal_sd", "percent_pale_avg", "percent_pale_sd", "percent_20_avg", "percent_20_sd", "percent_50_avg", "percent_50_sd", "percent_80_avg", "percent_80_sd", "percent_100_avg", "percent_100_sd", "percent_dead_avg", "percent_dead_sd", "percent_bleached_avg", "percent_bleached_sd", "quadrat_count_avg", "percent_hard_avg_avg", "percent_hard_avg_sd", "percent_soft_avg_avg", "percent_soft_avg_sd", "percent_algae_avg_avg", "percent_algae_avg_sd")
 )
 
 # For select columns and setting order
