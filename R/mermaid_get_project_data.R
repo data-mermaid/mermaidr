@@ -148,41 +148,127 @@ construct_endpoint <- function(method, data, legacy) {
   method_data_list[unique(method_data[["method"]])]
 }
 
-covars_cols <- c("aca_geomorphic", "aca_benthic", "andrello_grav_nc", "andrello_sediment", "andrello_nutrient", "andrello_pop_count", "andrello_num_ports", "andrello_reef_value", "andrello_cumul_score", "beyer_score", "beyer_scorecn", "beyer_scorecy", "beyer_scorepfc", "beyer_scoreth", "beyer_scoretr")
+covars_cols <- c(
+  "aca_geomorphic", "aca_benthic", "andrello_grav_nc",
+  "andrello_sediment", "andrello_nutrient", "andrello_pop_count",
+  "andrello_num_ports", "andrello_reef_value", "andrello_cumul_score",
+  "beyer_score", "beyer_scorecn", "beyer_scorecy",
+  "beyer_scorepfc", "beyer_scoreth", "beyer_scoretr"
+)
 
 common_cols <- list(
-  "obs/su" = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide", "current", "visibility", "relative_depth", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "sample_time", "depth"),
-  se = c("project", "tags", "country", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility", "management", "management_secondary", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "depth_avg", "depth_sd"),
-  obs_closing = c("project_notes", "site_notes", "management_notes", "sample_unit_id", "sample_event_id", "project_admins", "contact_link"),
-  su_closing = c("project_notes", "site_notes", "management_notes", "sample_unit_notes", "sample_event_id", "sample_unit_ids", "project_admins", "contact_link"),
-  se_closing = c("observers", "project_notes", "site_notes", "management_notes", "id", "sample_unit_count", "project_admins", "contact_link", "sample_event_id"),
+  "obs/su" = c(
+    "project", "tags", "country", "site", "latitude", "longitude",
+    "reef_type", "reef_zone", "reef_exposure", "reef_slope", "tide",
+    "current", "visibility", "relative_depth", "management",
+    "management_secondary", "management_est_year", "management_size",
+    "management_parties", "management_compliance", "management_rules",
+    "sample_date", "sample_time", "depth"
+  ),
+  se = c(
+    "project", "tags", "country", "site", "latitude", "longitude",
+    "reef_type", "reef_zone", "reef_exposure", "tide", "current", "visibility",
+    "management", "management_secondary", "management_est_year", "management_size",
+    "management_parties", "management_compliance", "management_rules",
+    "sample_date", "depth_avg", "depth_sd"
+  ),
+  obs_closing = c(
+    "project_notes", "site_notes", "management_notes", "sample_unit_id",
+    "sample_event_id", "project_admins", "contact_link"
+  ),
+  su_closing = c(
+    "project_notes", "site_notes", "management_notes", "sample_unit_notes",
+    "sample_event_id", "sample_unit_ids", "project_admins", "contact_link"
+  ),
+  se_closing = c(
+    "observers", "project_notes", "site_notes", "management_notes", "id",
+    "sample_unit_count", "project_admins", "contact_link", "sample_event_id"
+  ),
   life_histories_obs = "life_histories",
-  life_histories_obs_csv = c("life_histories__competitive", "life_histories__generalist", "life_histories__stress-tolerant", "life_histories__weedy"),
+  life_histories_obs_csv = c(
+    "life_histories__competitive", "life_histories__generalist",
+    "life_histories__stress-tolerant", "life_histories__weedy"
+  ),
   life_histories_su = "percent_cover_life_histories",
-  life_histories_su_csv = c("percent_cover_life_histories_weedy", "percent_cover_life_histories_generalist", "percent_cover_life_histories_competitive", "percent_cover_life_histories_stress-tolerant"),
+  life_histories_su_csv = c(
+    "percent_cover_life_histories_weedy", "percent_cover_life_histories_generalist",
+    "percent_cover_life_histories_competitive", "percent_cover_life_histories_stress-tolerant"
+  ),
   life_histories_se = c("percent_cover_life_histories_avg", "percent_cover_life_histories_sd"),
-  life_histories_se_csv = c("percent_cover_life_histories_avg_weedy", "percent_cover_life_histories_avg_generalist", "percent_cover_life_histories_avg_competitive", "percent_cover_life_histories_avg_stress-tolerant", "percent_cover_life_histories_sd_weedy", "percent_cover_life_histories_sd_generalist", "percent_cover_life_histories_sd_competitive", "percent_cover_life_histories_sd_stress-tolerant")
+  life_histories_se_csv = c(
+    "percent_cover_life_histories_avg_weedy", "percent_cover_life_histories_avg_generalist",
+    "percent_cover_life_histories_avg_competitive", "percent_cover_life_histories_avg_stress-tolerant",
+    "percent_cover_life_histories_sd_weedy", "percent_cover_life_histories_sd_generalist",
+    "percent_cover_life_histories_sd_competitive", "percent_cover_life_histories_sd_stress-tolerant"
+  )
 )
 
 common_benthic_cols <- list(
-  obs = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "benthic_category", "benthic_attribute", "growth_form"),
-  su = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "percent_cover_benthic_category"),
-  se = c(common_cols[["se"]], "percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd")
+  obs = c(
+    common_cols[["obs/su"]], "transect_number", "transect_length",
+    "label", "observers", "benthic_category", "benthic_attribute", "growth_form"
+  ),
+  su = c(
+    common_cols[["obs/su"]], "transect_number", "transect_length", "label",
+    "observers", "percent_cover_benthic_category"
+  ),
+  se = c(
+    common_cols[["se"]], "percent_cover_benthic_category_avg",
+    "percent_cover_benthic_category_sd"
+  )
 )
 
 common_bleaching_cols <- list(
-  obs = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "observers"),
-  su = c(common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"], "quadrat_size", "label", "count_total", "count_genera", "percent_normal", "percent_pale", "percent_20", "percent_50", "percent_80", "percent_100", "percent_dead", "percent_bleached", "quadrat_count", "percent_hard_avg", "percent_hard_sd", "percent_soft_avg", "percent_soft_sd", "percent_algae_avg", "percent_algae_sd"),
-  se = c(common_cols[["se"]], "quadrat_size_avg", "count_total_avg", "count_total_sd", "count_genera_avg", "count_genera_sd", "percent_normal_avg", "percent_normal_sd", "percent_pale_avg", "percent_pale_sd", "percent_20_avg", "percent_20_sd", "percent_50_avg", "percent_50_sd", "percent_80_avg", "percent_80_sd", "percent_100_avg", "percent_100_sd", "percent_dead_avg", "percent_dead_sd", "percent_bleached_avg", "percent_bleached_sd", "quadrat_count_avg", "percent_hard_avg_avg", "percent_hard_avg_sd", "percent_soft_avg_avg", "percent_soft_avg_sd", "percent_algae_avg_avg", "percent_algae_avg_sd")
+  obs = c(
+    common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"],
+    "quadrat_size", "label", "observers"
+  ),
+  su = c(
+    common_cols[["obs/su"]][!common_cols[["obs/su"]] == "reef_slope"],
+    "quadrat_size", "label", "count_total", "count_genera", "percent_normal",
+    "percent_pale", "percent_20", "percent_50", "percent_80", "percent_100",
+    "percent_dead", "percent_bleached", "quadrat_count", "percent_hard_avg",
+    "percent_hard_sd", "percent_soft_avg", "percent_soft_sd", "percent_algae_avg",
+    "percent_algae_sd"
+  ),
+  se = c(
+    common_cols[["se"]], "quadrat_size_avg", "count_total_avg",
+    "count_total_sd", "count_genera_avg", "count_genera_sd", "percent_normal_avg",
+    "percent_normal_sd", "percent_pale_avg", "percent_pale_sd",
+    "percent_20_avg", "percent_20_sd", "percent_50_avg", "percent_50_sd",
+    "percent_80_avg", "percent_80_sd", "percent_100_avg", "percent_100_sd",
+    "percent_dead_avg", "percent_dead_sd", "percent_bleached_avg",
+    "percent_bleached_sd", "quadrat_count_avg", "percent_hard_avg_avg",
+    "percent_hard_avg_sd", "percent_soft_avg_avg", "percent_soft_avg_sd",
+    "percent_algae_avg_avg", "percent_algae_avg_sd"
+  )
 )
 
 # For select columns and setting order
 project_data_columns <- list(
-
   # Fishbelt
-  `beltfishes/obstransectbeltfishes` = c(common_cols[["obs/su"]], "transect_length", "transect_width", "assigned_transect_width_m", "size_bin", "observers", "transect_number", "label", "fish_family", "fish_genus", "fish_taxon", "size", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "count", "biomass_kgha", "trophic_level", "trophic_group", "functional_group", "vulnerability", "data_policy_beltfish", common_cols[["obs_closing"]]),
-  `beltfishes/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "label", "size_bin", "transect_length", "transect_width", "biomass_kgha", "total_abundance", "biomass_kgha_trophic_group", "biomass_kgha_fish_family", "data_policy_beltfish", common_cols[["su_closing"]]),
-  `beltfishes/sampleevents` = c(common_cols[["se"]], "biomass_kgha_avg", "biomass_kgha_sd", "biomass_kgha_trophic_group_avg", "biomass_kgha_trophic_group_sd", "biomass_kgha_fish_family_avg", "biomass_kgha_fish_family_sd", "data_policy_beltfish", common_cols[["se_closing"]]),
+  `beltfishes/obstransectbeltfishes` = c(
+    common_cols[["obs/su"]], "transect_length",
+    "transect_width", "assigned_transect_width_m",
+    "size_bin", "observers", "transect_number",
+    "label", "fish_family", "fish_genus", "fish_taxon",
+    "size", "biomass_constant_a", "biomass_constant_b",
+    "biomass_constant_c", "count", "biomass_kgha",
+    "trophic_level", "trophic_group", "functional_group", "vulnerability",
+    "data_policy_beltfish", common_cols[["obs_closing"]]
+  ),
+  `beltfishes/sampleunits` = c(
+    common_cols[["obs/su"]], "transect_number", "label",
+    "size_bin", "transect_length", "transect_width", "biomass_kgha",
+    "total_abundance", "biomass_kgha_trophic_group", "biomass_kgha_fish_family",
+    "data_policy_beltfish", common_cols[["su_closing"]]
+  ),
+  `beltfishes/sampleevents` = c(
+    common_cols[["se"]], "biomass_kgha_avg", "biomass_kgha_sd",
+    "biomass_kgha_trophic_group_avg", "biomass_kgha_trophic_group_sd",
+    "biomass_kgha_fish_family_avg", "biomass_kgha_fish_family_sd",
+    "data_policy_beltfish", common_cols[["se_closing"]]
+  ),
 
   # Benthic PIT
 
@@ -311,9 +397,22 @@ project_data_columns <- list(
 
   # Habitat complexity
 
-  `habitatcomplexities/obshabitatcomplexities` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "interval_size", "observers", "interval", "score", "score_name", "data_policy_habitatcomplexity", common_cols[["obs_closing"]]),
-  `habitatcomplexities/sampleunits` = c(common_cols[["obs/su"]], "transect_number", "transect_length", "label", "observers", "score_avg", "score_sd", "data_policy_habitatcomplexity", common_cols[["su_closing"]]),
-  `habitatcomplexities/sampleevents` = c(common_cols[["se"]], "score_avg_avg", "score_avg_sd", "data_policy_habitatcomplexity", common_cols[["se_closing"]]),
+  `habitatcomplexities/obshabitatcomplexities` = c(
+    common_cols[["obs/su"]], "transect_number",
+    "transect_length", "label", "interval_size",
+    "observers", "interval", "score", "score_name",
+    "data_policy_habitatcomplexity", common_cols[["obs_closing"]]
+  ),
+  `habitatcomplexities/sampleunits` = c(
+    common_cols[["obs/su"]], "transect_number",
+    "transect_length", "label", "observers", "score_avg",
+    "score_sd", "data_policy_habitatcomplexity",
+    common_cols[["su_closing"]]
+  ),
+  `habitatcomplexities/sampleevents` = c(
+    common_cols[["se"]], "score_avg_avg", "score_avg_sd",
+    "data_policy_habitatcomplexity", common_cols[["se_closing"]]
+  ),
 
   # Bleaching
 
@@ -411,7 +510,10 @@ project_data_columns <- append(project_data_columns[!names(project_data_columns)
 testing_cols <- list(
   benthic_obs = "life_histories",
   benthic_su = c("percent_cover_benthic_category", "percent_cover_life_histories"),
-  benthic_se = c("percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd", "percent_cover_life_histories_avg", "percent_cover_life_histories_sd"),
+  benthic_se = c(
+    "percent_cover_benthic_category_avg", "percent_cover_benthic_category_sd",
+    "percent_cover_life_histories_avg", "percent_cover_life_histories_sd"
+  ),
   bleaching_obs = "life_histories",
   bleaching_su = c("percent_cover_life_histories"),
   bleaching_se = c("percent_cover_life_histories_avg", "percent_cover_life_histories_sd")
@@ -419,7 +521,10 @@ testing_cols <- list(
 
 project_data_df_columns_list <- list(
   `beltfishes/sampleunits` = c("biomass_kgha_trophic_group", "biomass_kgha_fish_family"),
-  `beltfishes/sampleevents` = c("biomass_kgha_trophic_group_avg", "biomass_kgha_fish_family_avg", "biomass_kgha_trophic_group_sd", "biomass_kgha_fish_family_sd"),
+  `beltfishes/sampleevents` = c(
+    "biomass_kgha_trophic_group_avg", "biomass_kgha_fish_family_avg",
+    "biomass_kgha_trophic_group_sd", "biomass_kgha_fish_family_sd"
+  ),
   `benthicpits/obstransectbenthicpits` = testing_cols[["benthic_obs"]],
   `benthiclits/obstransectbenthiclits` = testing_cols[["benthic_obs"]],
   `benthicpqts/obstransectbenthicpqts` = testing_cols[["benthic_obs"]],
