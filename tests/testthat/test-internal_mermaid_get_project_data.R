@@ -233,13 +233,13 @@ test_that("habitatcomplexity - new method of using CSV endpoint produces same da
   expect_identical(
     old[["observations"]] %>%
       dplyr::mutate(dplyr::across(c(management_parties), ~ dplyr::coalesce(.x, ""))) %>%
-      dplyr::arrange(project, site, management_parties, management_rules, sample_date, sample_time, tide, current, visibility, relative_depth, depth, reef_slope, tags) %>%
+      dplyr::arrange(project, site, management_parties, management_rules, sample_date, sample_time, tide, current, visibility, relative_depth, depth, reef_slope, tags, interval) %>%
       dplyr::mutate_if(is.numeric, ~ round(.x, 3)) %>%
       dplyr::mutate_all(as.character),
     new[["observations"]] %>%
       dplyr::mutate(label = as.character(label)) %>%
       dplyr::mutate(dplyr::across(c(management_secondary, management_rules, management_parties, label, site_notes, management_notes, project_notes), ~ dplyr::coalesce(.x, ""))) %>%
-      dplyr::arrange(project, site, management_parties, management_rules, sample_date, sample_time, tide, current, visibility, relative_depth, depth, reef_slope, tags) %>%
+      dplyr::arrange(project, site, management_parties, management_rules, sample_date, sample_time, tide, current, visibility, relative_depth, depth, reef_slope, tags, interval) %>%
       dplyr::mutate_if(is.numeric, ~ round(.x, 3)) %>%
       dplyr::mutate_all(as.character)
   )

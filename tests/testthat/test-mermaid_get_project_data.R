@@ -1298,6 +1298,13 @@ test_that("new method of using CSV endpoint produces same data as old method (us
   old <- old %>% dplyr::mutate_all(as.character)
   new <- new %>% dplyr::mutate_all(as.character)
 
+  # Ensure data is ordered the same
+  old <- old %>%
+    dplyr::arrange(sample_unit_id, fish_family, fish_taxon, size, count)
+
+  new <- new %>%
+    dplyr::arrange(sample_unit_id, fish_family, fish_taxon, size, count)
+
   expect_identical(old, new)
 
   new <- internal_mermaid_get_project_data(p, method = "fishbelt", data = "sampleunits", legacy = FALSE)

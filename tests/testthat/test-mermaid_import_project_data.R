@@ -267,7 +267,7 @@ test_that("mermaid_import_project_data allows NA/NULL for bleaching percent cove
       `Sample date: Year *` = 2009,
       `Sample date: Month *` = 12,
       `Sample date: Day *` = 5,
-      `Sample time` = "1:00:00 PM",
+      `Sample time` = "1:00:00",
       `Depth *` = 29,
       `Quadrat size *` = 2,
       `Observer emails *` = "sharla.gelfand@gmail.com",

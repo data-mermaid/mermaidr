@@ -16,7 +16,7 @@ test_that("mermaid_get_gfcr_report returns a list with set sheets/columns", {
     res[["F1"]],
     c(
       "Project", "Title", "Reporting Date", "Data Type", "Sub-Indicator Name",
-      "Area (km2)", "Suggested Citation"
+      "Area (km2)", "Suggested Citation", "Notes"
     )
   )
 
@@ -24,7 +24,7 @@ test_that("mermaid_get_gfcr_report returns a list with set sheets/columns", {
     res[["F2"]],
     c(
       "Project", "Title", "Reporting Date", "Data Type", "Sub-Indicator Name",
-      "Area (km2)"
+      "Area (km2)", "Notes"
     )
   )
 
@@ -32,7 +32,7 @@ test_that("mermaid_get_gfcr_report returns a list with set sheets/columns", {
     res[["F3"]],
     c(
       "Project", "Title", "Reporting Date", "Data Type", "Sub-Indicator Name",
-      "Value"
+      "Value", "Notes"
     )
   )
 
@@ -40,7 +40,7 @@ test_that("mermaid_get_gfcr_report returns a list with set sheets/columns", {
     res[["F4"]],
     c(
       "Project", "Title", "Reporting Date", "Data Type", "Date Start",
-      "Date End", "Sub-Indicator Name", "Value"
+      "Date End", "Sub-Indicator Name", "Value", "Notes"
     )
   )
 
@@ -48,7 +48,7 @@ test_that("mermaid_get_gfcr_report returns a list with set sheets/columns", {
     res[["F5"]],
     c(
       "Project", "Title", "Reporting Date", "Data Type", "Sub-Indicator Name",
-      "Value"
+      "Value", "Notes"
     )
   )
 
@@ -56,7 +56,7 @@ test_that("mermaid_get_gfcr_report returns a list with set sheets/columns", {
     res[["F6"]],
     c(
       "Project", "Title", "Reporting Date", "Data Type", "Sub-Indicator Name",
-      "Value"
+      "Value", "Notes"
     )
   )
 
@@ -64,7 +64,7 @@ test_that("mermaid_get_gfcr_report returns a list with set sheets/columns", {
     res[["F7"]],
     c(
       "Project", "Title", "Reporting Date", "Data Type", "Sub-Indicator Name",
-      "Value"
+      "Value", "Notes"
     )
   )
 
@@ -73,7 +73,7 @@ test_that("mermaid_get_gfcr_report returns a list with set sheets/columns", {
     c(
       "Project", "Title", "Reporting Date", "Data Type", "Business / Finance Solution",
       "Sustainable Finance Mechanisms", "Sector", "Incubator Used",
-      "GFCR Funded-Incubation", "Local Enterprise", "Gender Smart Investment"
+      "GFCR Funded-Incubation", "Local Enterprise", "Gender Smart Investment", "Notes"
     )
   )
 
@@ -82,7 +82,7 @@ test_that("mermaid_get_gfcr_report returns a list with set sheets/columns", {
     c(
       "Project", "Title", "Reporting Date", "Data Type", "Business / Finance Solution",
       "Sustainable Finance Mechanisms", "Sector", "Investment Source",
-      "Investment Type", "Investment Amount"
+      "Investment Type", "Investment Amount", "Notes"
     )
   )
 
@@ -91,7 +91,7 @@ test_that("mermaid_get_gfcr_report returns a list with set sheets/columns", {
     c(
       "Project", "Title", "Reporting Date", "Data Type", "Business / Finance Solution",
       "Sustainable Finance Mechanisms", "Sector", "Revenue Type", "Sustainable Revenue Source",
-      "Revenue Amount"
+      "Revenue Amount", "Notes"
     )
   )
 

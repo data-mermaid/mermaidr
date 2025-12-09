@@ -10,10 +10,10 @@ test_that("mermaid_get_my_projects by default only returns non-test projects, te
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
-  output <- mermaid_get_my_projects(limit = 10)
+  output <- mermaid_get_my_projects()
   expect_true(all(output[["status"]] == "Open"))
 
-  output <- mermaid_get_my_projects(limit = 10, include_test_projects = TRUE)
+  output <- mermaid_get_my_projects(include_test_projects = TRUE)
   expect_false(all(output[["status"]] == "Open"))
 })
 
