@@ -7,11 +7,11 @@ format: html
 
 Photo quadrat transect (PQT) is one of the methods generally used to understand benthic community conditions. Before artificial intelligence emerged, scientists used Coral Point Count with Excel extensions (CPCe) to annotate their PQT. Once annotated, they continue with perform analysis to calculate the average cover of each benthic category. The first analysis steps is data cleaning. Data cleaning is one of the steps in analysis that takes most of the time. Data cleaning is a QA/QC process that is performed before analysing the data to ensure the results are scientifically reliable. MERMAID exist to help scientists and non-scientists cut the cleaning process and calculate the average benthic covers to quickly inform communities and governments.
 
-You can import your CPCe data to MERMAID using our MERMAID R package mermaidr following our example below. You can also use our example data or use your own data to follow the importing steps. More information on the workflow of importing historical data to MERMAID can be found in our [Importing Data into MERMAID](https://datamermaid.org/documentation/importing-data) documentation.
+You can import your CPCe data to MERMAID using our MERMAID R package mermaidr following our example below. You can also use our example data or use your own data to follow the importing steps. More information on the workflow of importing historical data to MERMAID can be found in our [Importing legacy data into MERMAID](https://datamermaid.org/documentation/mermaidr-data-import) documentation.
 
 ## Steps to import your CPCe data are:
 
-1.  [Prepare your project](https://datamermaid.org/documentation/setting-up-a-new-project) in [MERMAID Collect](https://app.datamermaid.org) and ensure that you are an [**admin**]{.underline} of the project
+1.  [Prepare your project](https://datamermaid.org/documentation/collect-project-set-up) in [MERMAID Collect](https://app.datamermaid.org) and ensure that you are an [**Admin**]{.underline} of the project
 
 2.  Prepare your CPCe raw data and a benthic attribute converter file in a CSV format
 
@@ -19,13 +19,15 @@ You can import your CPCe data to MERMAID using our MERMAID R package mermaidr fo
 
 4.  Download the MERMAID PQT template
 
-5.  Import your data to MERMAID
+5.  Prepare and reformat your data to match the MERMAID template
 
-6.  Validate and submit in MERMAIC Collect
+6.  Import your data to MERMAID Collect
+
+7.  Validate and submit your data in MERMAID Collect
 
 ## Step 1. Prepare your project in MERMAID Collect
 
-Before importing your CPCe data to MERMAID, you need to set up your project in [MERMAID Collect](https://app.datamermaid.org). If you are new to MERMAID, you need to create a MERMAID account before using it. You can use a new project or existing project in MERMAID Collect as long as you are an admin of the project. [Setting up a new project](https://datamermaid.org/documentation/setting-up-a-new-project) requires internet access. To create a new project, click on the "New Project" button and then:
+Before importing your CPCe data to MERMAID, you need to set up your project in [MERMAID Collect](https://app.datamermaid.org). If you are new to MERMAID, you need to create a MERMAID account before using it. You can use a new project or existing project in MERMAID Collect as long as you are an admin of the project. [Setting up a new project](https://datamermaid.org/documentation/collect-project-set-up) requires internet access. To create a new project, click on the "New Project" button and then:
 
 1.  add organization(s),
 2.  add users,
@@ -93,14 +95,16 @@ pqt_template <- mermaid_import_get_template_and_options(
 ```
 
 ```
-## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
+## ✔ Import template and field options written to benthicpqt_mermaidsurvey_template.xlsx
 ```
 
-Before running the code above, make sure that you change the project name **MERMAID reef survey** in **2** to your actual project that you want to import your data into. Remember that **you need to be an admin** of the project to be able to access and import your data.
+Before running the code above, make sure that you change the project name **MERMAID reef survey** in **2** to your actual project that you want to import your data into. Remember that **you need to be an Admin** of the project to be able to access and import your data.
 
 ## Step 5. Prepare and reformat your data to match the MERMAID template
 
 After downloading the MERMAID PQT template, you can start preparing and reformatting your data to match the template. Matching means that your data has the same column name and options accepted by the MERMAID template. Start by loading your data and the benthic attribute converter file. In this example, we will be loading all three transects from one site, combining it, and then reformat it all together.
+
+
 
 
 ``` r
@@ -114,9 +118,9 @@ If you are using a comma (",") to separate each data, use read_csv() instead of 
 
 After loading the data, continue with cleaning the data. In this example, the cleaning data steps are:
 
-1.  Remove blank rows,
+1.  Remove blank rows (if any),
 
-2.  Subset only the `Raw Data` column and rename it to `Benthic_attribute`,
+2.  Rename the "Raw Data" column to `Benthic_attribute`,
 
 3.  Add necessary columns for each transect, i.e., `Site *` and `Transect number *` (the column names match the MERMAID template), and
 
@@ -124,7 +128,7 @@ After loading the data, continue with cleaning the data. In this example, the cl
 
 
 ``` r
-# 1. Remove blank rows
+# 1. Remove blank rows (if any)
 pqt_t1 <- raw_t1 %>%
   filter(!is.na(`Raw Data`))
 
@@ -163,7 +167,7 @@ pqt_t3 <- pqt_t3 %>%
     .before = "Benthic_attribute"
   )
 
-# 5. Combine the three transects
+# 4. Combine the three transects
 pqt <- bind_rows(pqt_t1, pqt_t2, pqt_t3)
 
 pqt
@@ -188,9 +192,9 @@ pqt
 
 Now that you have all the three transects combined, you can continue adding the rest of the mandatory columns. Mandatory columns are marked with an asterisk (*) next to the column name. You've added two mandatory columns to your data in the previous steps, which are `Site *` and `Transect number *`.
 
-The next mandatory column that you are going to add is the quadrat numbers for each row based on the number of points you used per quadrat in your method. This example is using 10 points per quadrat. The quadrat numbers are assigned using the code below.
+The next mandatory column that you are going to add is the quadrat numbers (`Quadrat *`) for each row based on the number of points you used per quadrat in your method. This example is using 10 points per quadrat. The quadrat numbers are assigned using the code below.
 
-We add the quadrat number column by assigning the same number every 10 rows, where it increases every 10 rows and restart from 1 when a value in the column `Site *` and `Transect number *` changes. If you are using a different number of points per quadrat, simply replace "10" in the code with the actual number of points you are using in your method.
+You will be adding the quadrat number column (`Quadrat *`) by assigning the same number every 10 rows, where it increases every 10 rows and restart from 1 when a value in the column `Site *` and `Transect number *` changes. If you are using a different number of points per quadrat, simply replace "10" in the code with the actual number of points you are using in your method.
 
 
 ``` r
@@ -200,9 +204,10 @@ pqt <- pqt %>%
   ungroup()
 ```
 
-In the MERMAID PQT template, you will find "Number of points *" column. This column must be filled with the total number of points for the same benthic attribute per quadrat. CPCe provides data per point, meaning one point for one row, so you might have the same benthic attribute in multiple rows for one quadrat. This will be detected as a duplicate by MERMAID. Therefore, you need to combine the same benthic attribute for the same quadrat (see figure below).
+In the MERMAID PQT template, you will find `Number of points *` column. This column must be filled with the total number of points for the same benthic attribute per quadrat. CPCe provides data per point, meaning one point for one row, so you might have the same benthic attribute in multiple rows for one quadrat. This will be detected as a duplicate by MERMAID. Therefore, you need to combine the same benthic attribute for the same quadrat (see figure below).
 
 ![Calculating number of points and removing duplicates](data_transformation.png)
+
 
 Use the code below to calculate the number of points per benthic attribute for each quadrat:
 
@@ -216,7 +221,17 @@ pqt <- pqt %>%
   )
 ```
 
-Now you are ready to add the rest of the mandatory columns to your data. The remaining mandatory columns are **management regime** (`Management *`), **sampling date** (`Sample date: Year *`, `Sample date: Month *`, `Sample date: Day *`), **depth** (`Depth *`), **transect length** (`Transect length surveyed *`), **number of quadrats** (`Number of quadrats *`), **quadrat size** (`Quadrat size *`), **number of points per quadrat** (`Number of points per quadrat *`), **observer's email(s)** (`Observer emails *`), and **benthic attribute** (`Benthic attribute *`). You are going to also add one optional column, which is **growth form** (`Growth from`) as the data also recorded this information.
+Now you are ready to add the rest of the mandatory columns to your data. The remaining mandatory columns are 
+-  **management regime** (`Management *`), 
+-  **sampling date** (`Sample date: Year *`, `Sample date: Month *`, `Sample date: Day *`), 
+-  **depth** (`Depth *`), **transect length** (`Transect length surveyed *`), 
+-  **number of quadrats** (`Number of quadrats *`), 
+-  **quadrat size** (`Quadrat size *`), 
+-  **number of points per quadrat** (`Number of points per quadrat *`), 
+-  **observer's email(s)** (`Observer emails *`), and 
+-  **benthic attribute** (`Benthic attribute *`). 
+
+You are going to also add one optional column, which is **growth form** (`Growth from`) as the data also recorded in this example.
 
 You are going to use the **benthic converter attribute** file to add the **benthic attribute** and **growth form** column. The code will match the label you used in your data with the label in the benthic attribute converter file, then return with the benthic attribute and/or growth form that are accepted by MERMAID.
 
@@ -488,7 +503,7 @@ After addressing all the issues, you can save the clean data as a CSV file using
 write_csv(pqt, "pqt_mermaidreef.csv")
 ```
 
-After validating and addressing all the issues, you need to perform a dry run check one last time using the `mermaid_import_project_data()` function and set `dryrun = TRUE`.
+**After validating and addressing all the issues**, you need to **perform a dry run check** one last time using the `mermaid_import_project_data()` function and set `dryrun = TRUE`.
 
 
 ``` r
@@ -501,10 +516,10 @@ mermaid_import_project_data(
 ```
 
 ```
-## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
+## Records successfully checked! To import, please run the function again with `dryrun = FALSE`.
 ```
 
-Once you get the message **Records successfully checked!**, change the dryrun option to FALSE to start importing your data to MERMAID.
+Once you received the message **Records successfully checked!**, change the dryrun option to FALSE to start **importing your data to MERMAID Collect**.
 
 
 ``` r
@@ -517,11 +532,11 @@ mermaid_import_project_data(
 ```
 
 ```
-## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
+## Records successfully imported! Please review in Collect.
 ```
 
 ## Step 7. Validate and submit your data in MERMAID Collect
 
-After you get the message **Record successfully imported! Please review in Collect**, head to your Collecting Page in your project in the MERMAID Collect. Continue with validating and submitting each transect.
+After you received the message **Record successfully imported! Please review in Collect**, head to your Collecting Page in your project in the MERMAID Collect. Continue with validating and submitting each transect.
 
 **Congratulations! You have successfully imported your CPCe data to MERMAID!**

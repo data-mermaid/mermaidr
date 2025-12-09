@@ -94,7 +94,14 @@ Before running the code above, make sure that you change the project name **MERM
 
 After downloading the MERMAID PQT template, you can start preparing and reformatting your data to match the template. Matching means that your data has the same column name and options accepted by the MERMAID template. Start by loading your data and the benthic attribute converter file. In this example, we will be loading all three transects from one site, combining it, and then reformat it all together.
 
-```{r, message = FALSE}
+```{r, echo = FALSE, message = FALSE}
+raw_t1 <- read_csv2(here::here("inst", "extdata", "import-cpce-vignette", "Mermaidreef_T1.csv"))
+raw_t2 <- read_csv2(here::here("inst", "extdata", "import-cpce-vignette", "Mermaidreef_T2.csv"))
+raw_t3 <- read_csv2(here::here("inst", "extdata", "import-cpce-vignette", "Mermaidreef_T3.csv"))
+ba_conv <- read_csv2(here::here("inst", "extdata", "import-cpce-vignette", "BA_converter.csv"))
+```
+
+```{r, eval = FALSE}
 raw_t1 <- read_csv2("Mermaidreef_T1.csv")
 raw_t2 <- read_csv2("Mermaidreef_T2.csv")
 raw_t3 <- read_csv2("Mermaidreef_T3.csv")
