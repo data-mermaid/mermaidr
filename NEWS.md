@@ -1,3 +1,9 @@
+# mermaidr 1.2.7
+
+* Add columns to `"bleaching"` method in `mermaid_get_project_data()`
+    * `data = "sampleunits"` gains `percent_20`, `percent_50`, `percent_80`, `percent_100`, `percent_dead`
+    * `data = "sampleevents"` gains `percent_20_avg`, `percent_20_sd`, `percent_50_avg`, `percent_50_sd`, `percent_80_avg`, `percent_80_sd`, `percent_100_avg`, `percent_100_sd`, `percent_dead_avg`, `percent_dead_sd`
+
 # mermaidr 1.2.6
 
 * Add vignette on importing CPCe data

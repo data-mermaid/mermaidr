@@ -101,11 +101,18 @@ test_that("mermaid_import_get_template_and_options can take a project id or tibb
   skip_on_ci()
   skip_on_cran()
 
-  expect_silent(mermaid_get_my_projects() %>%
-    head(1) %>%
+  me <- mermaid_get_me()
+
+  projects <- me[["projects"]][[1]]
+
+  admin_project <- projects %>%
+    dplyr::filter(role == "Admin") %>%
+    head(1)
+
+  expect_silent(admin_project %>%
     mermaid_import_get_template_and_options("fishbelt"))
 
-  expect_silent(mermaid_import_get_template_and_options("02e6915c-1c64-4d2c-bac0-326b560415a2", "benthicpit"))
+  expect_silent(mermaid_import_get_template_and_options(admin_project[["id"]], "benthicpit"))
 })
 
 test_that("mermaid_import_get_template_and_options only takes one project", {
