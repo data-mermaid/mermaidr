@@ -41,7 +41,7 @@ After you are done annotating your data in CoralNet, export it. To export your d
 
 -   Include optional columns if you are using the auxiliary fields that CoralNet provide: *Image metadata - date and auxiliary fields*. Learn more about the auxiliary fields in the [Calcification Metrics in CoralNet](https://coralnet.ucsd.edu/pages/help/tutorials/calcification/) help page under the "Different table for different images" section.
 
-![CoralNet export data with auxiliary fields.](../../inst/extdata/import-coralnet-vignette/CoralNet_export.png){fig-alt="A screenshot of a spreadsheet file exported from CoralNet that includes the auxiliary fields."}
+![CoralNet export data with auxiliary fields.](images/import-coralnet/CoralNet_export.png){fig-alt="A screenshot of a spreadsheet file exported from CoralNet that includes the auxiliary fields."}
 
 #### Prepare the benthic attribute converter file
 
@@ -57,7 +57,7 @@ The file consists of four columns:
 
 -   **Growth form_MERMAID** (*what MERMAID growth form it corresponds to. This column can be left blank*).
 
-![Example of the benthic attribute converter file.](../../inst/extdata/import-coralnet-vignette/CoralNet_BA_converter_file.png){fig-alt="A screenshot of a spreadsheet CSV file that consist of four columns, which are Benthic_abb, Benthic category, Benthic attribute_MERMAID, and Growth form_MERMAID."}
+![Example of the benthic attribute converter file.](images/import-coralnet/CoralNet_BA_converter_file.png){fig-alt="A screenshot of a spreadsheet CSV file that consist of four columns, which are Benthic_abb, Benthic category, Benthic attribute_MERMAID, and Growth form_MERMAID."}
 
 ### Step 3. Install and activate mermaidr and other related packages
 
@@ -85,6 +85,22 @@ To download the MERMAID PQT template:
 project <- mermaid_get_my_projects(include_test_projects = TRUE)
 ```
 
+```
+## Auto-refreshing stale OAuth token.
+```
+
+```
+## Waiting for authentication in browser...
+```
+
+```
+## Press Esc/Ctrl + C to abort
+```
+
+```
+## Authentication complete.
+```
+
 2.  Filter to select just the project you are working on, and rename the object.
 
 
@@ -107,8 +123,7 @@ pqt_template <- mermaid_import_get_template_and_options(
 ```
 
 ```
-## ✔ Import template and field options written to
-## benthicpqt_mermaidsurvey_template.xlsx
+## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
 ```
 
 |                                                                                                                    |
@@ -462,7 +477,7 @@ mermaid_import_project_data(
 ```
 
 ```
-## Records successfully checked! To import, please run the function again with `dryrun = FALSE`.
+## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
 ```
 
 4.  Import your data to MERMAID
@@ -480,7 +495,7 @@ mermaid_import_project_data(
 ```
 
 ```
-## Records successfully imported! Please review in Collect.
+## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
 ```
 
 You can save your clean data as a CSV file using the code below:

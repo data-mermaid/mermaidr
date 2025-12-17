@@ -41,7 +41,7 @@ After you are done annotating your data in CoralNet, export it. To export your d
 
 -   Include optional columns if you are using the auxiliary fields that CoralNet provide: *Image metadata - date and auxiliary fields*. Learn more about the auxiliary fields in the [Calcification Metrics in CoralNet](https://coralnet.ucsd.edu/pages/help/tutorials/calcification/) help page under the "Different table for different images" section.
 
-![CoralNet export data with auxiliary fields.](../../inst/extdata/import-coralnet-vignette/CoralNet_export.png){fig-alt="A screenshot of a spreadsheet file exported from CoralNet that includes the auxiliary fields."}
+![CoralNet export data with auxiliary fields.](images/import-coralnet/CoralNet_export.png){fig-alt="A screenshot of a spreadsheet file exported from CoralNet that includes the auxiliary fields."}
 
 #### Prepare the benthic attribute converter file
 
@@ -57,7 +57,7 @@ The file consists of four columns:
 
 -   **Growth form_MERMAID** (*what MERMAID growth form it corresponds to. This column can be left blank*).
 
-![Example of the benthic attribute converter file.](../../inst/extdata/import-coralnet-vignette/CoralNet_BA_converter_file.png){fig-alt="A screenshot of a spreadsheet CSV file that consist of four columns, which are Benthic_abb, Benthic category, Benthic attribute_MERMAID, and Growth form_MERMAID."}
+![Example of the benthic attribute converter file.](images/import-coralnet/CoralNet_BA_converter_file.png){fig-alt="A screenshot of a spreadsheet CSV file that consist of four columns, which are Benthic_abb, Benthic category, Benthic attribute_MERMAID, and Growth form_MERMAID."}
 
 ### Step 3. Install and activate mermaidr and other related packages
 
