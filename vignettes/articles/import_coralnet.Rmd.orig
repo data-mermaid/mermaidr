@@ -41,7 +41,7 @@ After you are done annotating your data in CoralNet, export it. To export your d
 
 -   Include optional columns if you are using the auxiliary fields that CoralNet provide: *Image metadata - date and auxiliary fields*. Learn more about the auxiliary fields in the [Calcification Metrics in CoralNet](https://coralnet.ucsd.edu/pages/help/tutorials/calcification/) help page under the "Different table for different images" section.
 
-![CoralNet export data with auxiliary fields.](images/CoralNet%20export.png){fig-alt="A screenshot of a spreadsheet file exported from CoralNet that includes the auxiliary fields."}
+![CoralNet export data with auxiliary fields.](images/CoralNet_export.png){fig-alt="A screenshot of a spreadsheet file exported from CoralNet that includes the auxiliary fields."}
 
 #### Prepare the benthic attribute converter file
 
@@ -57,7 +57,7 @@ The file consists of four columns:
 
 -   **Growth form_MERMAID** (*what MERMAID growth form it corresponds to. This column can be left blank*).
 
-![Example of the benthic attribute converter file.](images/CoralNet_BA_converter%20file.png){fig-alt="A screenshot of a spreadsheet CSV file that consist of four columns, which are Benthic_abb, Benthic category, Benthic attribute_MERMAID, and Growth form_MERMAID."}
+![Example of the benthic attribute converter file.](images/CoralNet_BA_converter_file.png){fig-alt="A screenshot of a spreadsheet CSV file that consist of four columns, which are Benthic_abb, Benthic category, Benthic attribute_MERMAID, and Growth form_MERMAID."}
 
 ### Step 3. Install and activate mermaidr and other related packages
 
@@ -82,14 +82,14 @@ To download the MERMAID PQT template:
 
     ```{r}
 
-    project <- mermaid_get_my_projects(include_test_projects = TRUE) 
+    project <- mermaid_get_my_projects(include_test_projects = TRUE)
     ```
 
 2.  Filter to select just the project you are working on, and rename the object.
 
     ```{r}
 
-    myproject <- project %>% 
+    myproject <- project %>%
       filter(name == "MERMAID reef survey")
     ```
 
@@ -161,11 +161,11 @@ After loading the data, continue with cleaning the data. In this example, the cl
 
     In the MERMAID PQT template, you will find "Number of points \*" column. This column [**must**]{.underline} be filled with the **total number of points for the same benthic attribute per quadrat**. CoralNet provides data per point, meaning one point for one row, so you might have the same benthic attribute in multiple rows for one quadrat. This will be detected as a duplicate by MERMAID. Therefore, you need to combine the same benthic attribute for the same quadrat (see figure below).
 
-    ![Calculate number of points for each benthic attribute from the same quadrat.](images/CoralNet_Summarizing%20points.png)
+    ![Calculate number of points for each benthic attribute from the same quadrat.](images/CoralNet_Summarizing_points.png)
 
     ```{r}
 
-    pqt <- pqt %>% 
+    pqt <- pqt %>%
       group_by(`Project Name`, Station, `Transect number *`, `Quadrat *`, Label) %>%
       dplyr::summarise(
         `Number of points *` = n(),
@@ -197,11 +197,11 @@ After loading the data, continue with cleaning the data. In this example, the cl
 
     ```{r}
 
-    pqt <- left_join(pqt, metadata[,c("Site *", "Management *", "Sample date: Year *", 
+    pqt <- left_join(pqt, metadata[,c("Site *", "Management *", "Sample date: Year *",
                                       "Sample date: Month *", "Sample date: Day *", "Depth *",
                                       "Transect length surveyed *", "Number of quadrats *",
                                       "Quadrat size *", "Number of points per quadrat *",
-                                      "Observer emails *")], 
+                                      "Observer emails *")],
                      by = c("Station"="Site *"))
     ```
 
