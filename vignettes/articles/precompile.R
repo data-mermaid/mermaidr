@@ -6,4 +6,3 @@ knitr::knit("vignettes/articles/accessing_project_data.Rmd.orig", output = "vign
 # On prod, not dev
 knitr::knit("vignettes/articles/importing_fishbelt.Rmd.orig", output = "vignettes/articles/importing_fishbelt.Rmd")
 knitr::knit("vignettes/articles/import_cpce.Rmd.orig", output = "vignettes/articles/import_cpce.Rmd")
-knitr::knit("vignettes/articles/import_coralnet.Rmd.orig", output = "vignettes/articles/import_coralnet.Rmd")
