@@ -1,0 +1,801 @@
+Site *,Management *,Sample date: Year *,Sample date: Month *,Sample date: Day *,Depth *,Transect number *,Transect length surveyed *,Number of quadrats *,Quadrat size *,Number of points per quadrat *,Observer emails *,Quadrat *,Benthic attribute *,Growth form,Number of points *
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,1,Crustose coralline algae,NA,3
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,1,Soft coral,NA,3
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,1,Sand,NA,11
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,1,Acropora,NA,7
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,1,Porites,Branching,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,2,Macroalgae,NA,6
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,2,Other invertebrates,NA,6
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,2,Seagrass,NA,6
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,2,Porites,Branching,3
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,2,Porites,Massive,4
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,3,Crustose coralline algae,NA,9
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,3,Seagrass,NA,4
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,3,Sand,NA,4
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,3,Porites,Massive,8
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,4,Seagrass,NA,14
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,4,Sand,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,4,Sponge,NA,4
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,4,Zoanthid,NA,5
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,4,Porites,Massive,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,5,Seagrass,NA,25
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,6,Macroalgae,NA,3
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,6,Turf algae,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,6,Soft coral,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,6,Seagrass,NA,8
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,6,Sand,NA,4
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,6,Acropora,NA,4
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,6,Porites,Massive,4
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,7,Macroalgae,NA,12
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,7,Seagrass,NA,13
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,8,Other invertebrates,NA,11
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,8,Soft coral,NA,10
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,8,Seagrass,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,8,Stylocoeniella,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,8,Stereonephthya,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,9,Turf algae,NA,4
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,9,Dead coral,NA,5
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,9,Acropora,NA,8
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,9,Diploastrea,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,9,Stylocoeniella,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,9,Trachyphyllia,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,9,Tubastraea,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,9,Turbinaria-coral,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,10,Turf algae,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,10,Echinophyllia,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,10,Echinopora,NA,5
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,10,Lobophyllia,NA,6
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,10,Montipora,NA,6
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,10,Porites,Massive,4
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,11,Turf algae,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,11,Rubble,NA,5
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,11,Soft coral,NA,13
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,11,Acropora,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,11,Porites,Branching,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,11,Psammocora,NA,3
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,12,Macroalgae,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,12,Porites,Branching,23
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,12,Psammocora,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,13,Macroalgae,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,13,Turf algae,NA,8
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,13,Soft coral,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,13,Sand,NA,6
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,13,Sponge,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,13,Porites,Branching,6
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,13,Porites,Massive,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,14,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,14,Macroalgae,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,14,Anemone,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,14,Soft coral,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,14,Tape,NA,3
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,14,Galaxea,NA,4
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,14,Lobophyllia,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,14,Porites,Massive,13
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,15,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,15,Macroalgae,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,15,Turf algae,NA,3
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,15,Corallimorpharia,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,15,Other invertebrates,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,15,Rubble,NA,6
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,15,Silt,NA,3
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,15,Acropora,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,15,Echinophyllia,NA,3
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,15,Echinopora,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,15,Fungia,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,15,Merulina,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,16,Macroalgae,NA,6
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,16,Turf algae,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,16,Rubble,NA,5
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,16,Seagrass,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,16,Sand,NA,11
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,17,Macroalgae,NA,3
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,17,Lobophytum,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,17,Other invertebrates,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,17,Seagrass,NA,8
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,17,Sand,NA,5
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,17,Madracis,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,17,Merulina,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,17,Micromussa,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,17,Millepora,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,17,Montastraea,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,17,Montipora,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,17,Mycedium,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,18,Halimeda,NA,5
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,18,Macroalgae,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,18,Turf algae,NA,9
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,18,Seagrass,NA,7
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,18,Sand,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,18,Porites,Branching,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,19,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,19,Macroalgae,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,19,Turf algae,NA,4
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,19,Lobophytum,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,19,Other invertebrates,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,19,Sand,NA,8
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,19,Fungia,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,19,Madracis,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,19,Merulina,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,19,Micromussa,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,19,Millepora,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,19,Montastraea,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,19,Montipora,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,19,Mycedium,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,20,Turf algae,NA,5
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,20,Anemone,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,20,Ascidian,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,20,Bare substrate,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,20,Corallimorpharia,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,20,Sand,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,20,Sponge,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,20,Anomastraea,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,20,Astreopora,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,20,Blastomussa,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,20,Caulastraea,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,20,Cladiella,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,20,Coeloseris,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,20,Coscinaraea,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,20,Dipsastraea,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,20,Porites,Massive,5
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,21,Crustose coralline algae,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,21,Halimeda,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,21,Turf algae,NA,14
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,21,Obscured,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,21,Seagrass,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,21,Acropora,NA,3
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,21,Plesiastrea,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,21,Seriatopora,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,22,Seagrass,NA,25
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,23,Turf algae,NA,4
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,23,Seagrass,NA,15
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,23,Sand,NA,6
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,24,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,24,Turf algae,NA,3
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,24,Anemone,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,24,Ascidian,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,24,Bare substrate,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,24,Corallimorpharia,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,24,Seagrass,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,24,Sand,NA,3
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,24,Anomastraea,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,24,Astreopora,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,24,Blastomussa,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,24,Caulastraea,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,24,Cladiella,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,24,Coeloseris,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,24,Porites,Branching,4
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,24,Porites,Massive,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,25,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,25,Halimeda,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,25,Macroalgae,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,25,Turf algae,NA,3
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,25,Dead coral,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,25,Tape,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,25,Acropora,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,25,Coscinaraea,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,25,Echinopora,NA,2
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,25,Galaxea,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,25,Platygyra,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,25,Plerogyra,NA,1
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,25,Porites,Branching,3
+1208,Control,2022,12,13,6,1,50,25,1,25,amkieltiela@datamermaid.org,25,Porites,Massive,5
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,1,Macroalgae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,1,Anemone,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,1,Ascidian,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,1,Bare substrate,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,1,Seagrass,NA,12
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,1,Acanthastrea,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,1,Acropora,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,1,Agaricia,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,1,Alveopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,1,Anomastraea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,1,Astreopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Macroalgae,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Anemone,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Ascidian,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Bare substrate,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Corallimorpharia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Seagrass,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Alveopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Anomastraea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Astreopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Diploastrea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Dipsastraea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Echinophyllia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Echinopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Euphyllia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Favia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Favites,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Fungia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Galaxea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,2,Porites,Massive,5
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,3,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,3,Halimeda,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,3,Turf algae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,3,Bare substrate,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,3,Corallimorpharia,NA,14
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,3,Sponge,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,3,Diploastrea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,3,Dipsastraea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,3,Echinophyllia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,3,Echinopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,3,Euphyllia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,3,Favia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,4,Crustose coralline algae,NA,7
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,4,Halimeda,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,4,Turf algae,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,4,Bare substrate,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,4,Corallimorpharia,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,4,Obscured,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,4,Acropora,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,4,Favites,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,4,Fungia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,4,Galaxea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,4,Pavona,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,4,Porites,Branching,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,4,Porites,Massive,3
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,5,Turf algae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,5,Seagrass,NA,16
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,5,Tape,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,5,Unknown,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,5,Stylophora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,5,Symphyllia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,5,Trachyphyllia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,5,Tubastraea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,5,Tubipora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,5,Turbinaria-coral,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,6,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,6,Macroalgae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,6,Turf algae,NA,5
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,6,Corallimorpharia,NA,4
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,6,Seagrass,NA,12
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,6,Galaxea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,6,Pocillopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,7,Macroalgae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,7,Turf algae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,7,Obscured,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,7,Seagrass,NA,5
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,7,Tape,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,7,Unknown,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,7,Acropora,NA,3
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,7,Porites,Branching,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,7,Porites,Massive,4
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,7,Stylophora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,7,Symphyllia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,7,Trachyphyllia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,7,Tubastraea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,7,Tubipora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,7,Turbinaria-coral,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,8,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,8,Halimeda,NA,3
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,8,Turf algae,NA,3
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,8,Seagrass,NA,7
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,8,Sand,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,8,Lobophyllia,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,8,Porites,Massive,8
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,9,Hydroid,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,9,Seagrass,NA,5
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,9,Tape,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,9,Unknown,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,9,Zoanthid,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,9,Porites,Massive,12
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,9,Xenia,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,10,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,10,Macroalgae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,10,Turf algae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,10,Bare substrate,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,10,Corallimorpharia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,10,Seagrass,NA,13
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,10,Blastomussa,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,10,Caulastraea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,10,Cladiella,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,10,Coeloseris,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,10,Coscinaraea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,10,Ctenactis,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,10,Cynarina,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,11,Seagrass,NA,24
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,11,Tape,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,12,Macroalgae,NA,3
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,12,Turf algae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,12,Obscured,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,12,Sponge,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,12,Tape,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,12,Galaxea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,12,Lobophyllia,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,12,Platygyra,NA,5
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,12,Pocillopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,12,Porites,Branching,6
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,12,Porites,Massive,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,12,Seriatopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,13,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,13,Macroalgae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,13,Turf algae,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,13,Bare substrate,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,13,Corallimorpharia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,13,Obscured,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,13,Seagrass,NA,13
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,13,Blastomussa,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,13,Caulastraea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,13,Cladiella,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,13,Coeloseris,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,13,Coscinaraea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,14,Halimeda,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,14,Gorgonian,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,14,Seagrass,NA,14
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,14,Sand,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,14,Ctenactis,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,14,Cynarina,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,14,Fungia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,14,Galaxea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,14,Gardineroseris,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,14,Goniastrea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,14,Goniopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,14,Gyrosmilia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,15,Crustose coralline algae,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,15,Turf algae,NA,7
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,15,Hard coral,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,15,Obscured,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,15,Acropora,NA,4
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,15,Halomitra,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,15,Heliopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,15,Leptoseris,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,15,Porites,Branching,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,15,Porites,Massive,5
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,16,Hydroid,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,16,Seagrass,NA,11
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,16,Sand,NA,4
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,16,Herpolitha,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,16,Horastrea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,16,Hydnophora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,16,Isopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,16,Leptoria,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,16,Leptastrea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,16,Leptoseris,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,16,Lobophyllia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,16,Lobactis,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Halimeda,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Turf algae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Hard coral,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Hydroid,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Seagrass,NA,6
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Sand,NA,3
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Halomitra,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Heliopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Herpolitha,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Horastrea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Hydnophora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Isopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Leptoria,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Leptastrea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Leptoseris,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Lobophyllia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Lobactis,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,17,Porites,Massive,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,18,Turf algae,NA,5
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,18,Corallimorpharia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,18,Obscured,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,18,Porites,Branching,13
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,18,Porites,Massive,5
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,19,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,19,Macroalgae,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,19,Turf algae,NA,4
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,19,Other invertebrates,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,19,Other invertebrates,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,19,Obscured,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,19,Other,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,19,Acropora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,19,Halomitra,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,19,Montastraea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,19,Montipora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,19,Mycedium,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,19,Nepthea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,19,Oulastrea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,19,Porites,Branching,6
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,19,Porites,Massive,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,20,Crustose coralline algae,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,20,Macroalgae,NA,3
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,20,Turf algae,NA,5
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,20,Other invertebrates,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,20,Other invertebrates,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,20,Obscured,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,20,Other,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,20,Seagrass,NA,4
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,20,Sand,NA,3
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,20,Montastraea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,20,Montipora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,20,Mycedium,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,20,Nepthea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,21,Halimeda,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,21,Macroalgae,NA,3
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,21,Turf algae,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,21,Seagrass,NA,11
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,21,Sand,NA,3
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,21,Sponge,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,21,Oulastrea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,21,Physogyra,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,21,Porites,Massive,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Macroalgae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Sand,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Oulophyllia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Oxypora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Paragoniastrea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Pachyseris,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Paramontastraea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Pavona,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Pectinia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Physogyra,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Platygyra,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Plerogyra,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Plesiastrea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Pocillopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Podabacia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Polyphyllia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Porites,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Porites,Branching,5
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,22,Porites,Massive,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,23,Acropora,NA,2
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,23,Oulophyllia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,23,Oxypora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,23,Paragoniastrea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,23,Pachyseris,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,23,Paramontastraea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,23,Pavona,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,23,Pectinia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,23,Physogyra,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,23,Platygyra,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,23,Porites,Branching,14
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,24,Macroalgae,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,24,Turf algae,NA,7
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,24,Corallimorpharia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,24,Hydroid,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,24,Echinopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,24,Plerogyra,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,24,Plesiastrea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,24,Pocillopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,24,Podabacia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,24,Polyphyllia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,24,Porites,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,24,Porites,Branching,3
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,24,Porites,Massive,5
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Corallimorpharia,NA,4
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Oulophyllia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Oxypora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Paragoniastrea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Pachyseris,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Paramontastraea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Pavona,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Pectinia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Physogyra,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Platygyra,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Plerogyra,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Plesiastrea,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Pocillopora,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Podabacia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Polyphyllia,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Porites,NA,1
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Porites,Branching,5
+1208,Control,2022,12,13,6,2,50,25,1,25,amkieltiela@datamermaid.org,25,Porites,Massive,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,1,Halimeda,NA,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,1,Macroalgae,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,1,Corallimorpharia,NA,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,1,Rock,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,1,Rubble,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,1,Seagrass,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,1,Sand,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,1,Sarcophyton,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,1,Tape,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,1,Porites,Branching,4
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,1,Porites,Massive,6
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,1,Psammocora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,1,Pseudosiderastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,1,Sandalolitha,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,1,Scolymia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,2,Macroalgae,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,2,Turf algae,NA,4
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,2,Hydroid,NA,3
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,2,Soft coral,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,2,Silt,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,2,Sinularia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,2,Sponge,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,2,Porites,Massive,11
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,2,Seriatopora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,2,Siderastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Macroalgae,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Turf algae,NA,4
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Rock,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Rubble,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Soft coral,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Seagrass,NA,4
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Silt,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Sand,NA,3
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Sarcophyton,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Sinularia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Sponge,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Psammocora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Pseudosiderastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Sandalolitha,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Scolymia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Seriatopora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,3,Siderastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,4,Crustose coralline algae,NA,3
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,4,Macroalgae,NA,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,4,Turf algae,NA,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,4,Obscured,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,4,Porites,Branching,17
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,5,Crustose coralline algae,NA,3
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,5,Rock,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,5,Rubble,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,5,Seagrass,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,5,Sand,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,5,Sarcophyton,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,5,Sponge,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,5,Leptoseris,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,5,Porites,Branching,8
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,5,Porites,Massive,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,5,Psammocora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,5,Pseudosiderastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,5,Sandalolitha,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,5,Scolymia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,5,Seriatopora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,5,Siderastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Macroalgae,NA,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Turf algae,NA,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Rock,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Rubble,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Soft coral,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Silt,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Sand,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Sarcophyton,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Sinularia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Sponge,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Tape,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Acropora,NA,6
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Leptoseris,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Porites,Branching,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Psammocora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Pseudosiderastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Sandalolitha,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,6,Scolymia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Rock,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Rubble,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Soft coral,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Seagrass,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Silt,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Sand,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Sarcophyton,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Sinularia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Sponge,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Acropora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Pocillopora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Porites,Branching,4
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Porites,Massive,4
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Psammocora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Pseudosiderastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Sandalolitha,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Scolymia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Seriatopora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,7,Siderastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,8,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,8,Macroalgae,NA,11
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,8,Turf algae,NA,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,8,Soft coral,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,8,Seagrass,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,8,Silt,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,8,Sinularia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,8,Sponge,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,8,Tape,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,8,Echinopora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,8,Porites,Branching,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,8,Seriatopora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,8,Siderastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,9,Macroalgae,NA,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,9,Tape,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,9,Porites,Branching,19
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,9,Porites,Massive,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,9,Stylocoeniella,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,9,Stereonephthya,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,10,Macroalgae,NA,5
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,10,Turf algae,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,10,Obscured,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,10,Seagrass,NA,4
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,10,Tape,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,10,Unknown,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,10,Unknown,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,10,Zoanthid,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,10,Porites,Massive,3
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,10,Stylophora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,10,Symphyllia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,10,Trachyphyllia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,10,Tubastraea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,10,Tubipora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,10,Turbinaria-coral,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,10,Xenia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,11,Macroalgae,NA,4
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,11,Turf algae,NA,3
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,11,Seagrass,NA,11
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,11,Sand,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,11,Porites,Branching,3
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,11,Porites,Massive,3
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,12,Turf algae,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,12,Other,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,12,Seagrass,NA,4
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,12,Sand,NA,9
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,12,Tape,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,12,Porites,Massive,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,12,Stylocoeniella,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,12,Stereonephthya,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,12,Stylophora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,12,Symphyllia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,12,Trachyphyllia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,12,Tubastraea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,12,Tubipora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,13,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,13,Halimeda,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,13,Macroalgae,NA,3
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,13,Turf algae,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,13,Corallimorpharia,NA,5
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,13,Unknown,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,13,Unknown,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,13,Zoanthid,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,13,Porites,Branching,5
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,13,Porites,Massive,4
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,13,Turbinaria-coral,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,13,Xenia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,14,Macroalgae,NA,3
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,14,Turf algae,NA,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,14,Corallimorpharia,NA,4
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,14,Porites,Branching,10
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,14,Porites,Massive,6
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Macroalgae,NA,3
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Turf algae,NA,4
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Anemone,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Obscured,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Tape,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Unknown,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Unknown,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Zoanthid,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Pavona,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Porites,Massive,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Stylocoeniella,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Stereonephthya,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Stylophora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Symphyllia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Trachyphyllia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Tubastraea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Tubipora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Turbinaria-coral,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,15,Xenia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,16,Seagrass,NA,22
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,16,Sand,NA,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,16,Tape,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,17,Anemone,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,17,Ascidian,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,17,Bare substrate,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,17,Seagrass,NA,12
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,17,Acanthastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,17,Acropora,NA,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,17,Agaricia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,17,Alveopora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,17,Anomastraea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,17,Astreopora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,17,Blastomussa,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,17,Porites,Branching,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,18,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,18,Halimeda,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,18,Macroalgae,NA,3
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,18,Ascidian,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,18,Corallimorpharia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,18,Obscured,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,18,Seagrass,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,18,Caulastraea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,18,Cladiella,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,18,Coeloseris,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,18,Coscinaraea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,18,Montipora,NA,10
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,18,Porites,Branching,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,18,Porites,Massive,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,19,Macroalgae,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,19,Anemone,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,19,Acanthastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,19,Acropora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,19,Agaricia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,19,Alveopora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,19,Porites,Branching,10
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,19,Porites,Massive,9
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Crustose coralline algae,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Macroalgae,NA,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Ascidian,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Bare substrate,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Corallimorpharia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Dead coral,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Dead coral,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Seagrass,NA,2
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Anomastraea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Astreopora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Blastomussa,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Caulastraea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Cladiella,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Coeloseris,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Coscinaraea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Ctenactis,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Cynarina,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Cyphastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Dendronepthea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,20,Porites,Massive,4
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,21,Macroalgae,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,21,Seagrass,NA,10
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,21,Sand,NA,3
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,21,Diaseris,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,21,Diploastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,21,Dipsastraea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,21,Echinophyllia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,21,Echinopora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,21,Euphyllia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,21,Favia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,21,Favites,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,21,Fungia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,21,Galaxea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,21,Gardineroseris,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,22,Halimeda,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,22,Gorgonian,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,22,Hard coral,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,22,Hydroid,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,22,Seagrass,NA,11
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,22,Goniastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,22,Goniopora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,22,Gyrosmilia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,22,Halomitra,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,22,Heliopora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,22,Herpolitha,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,22,Horastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,22,Hydnophora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,22,Isopora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,22,Leptastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,23,Seagrass,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,23,Tape,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,23,Leptoria,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,23,Leptoseris,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,23,Porites,Branching,21
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Macroalgae,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Ascidian,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Other invertebrates,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Lobophytum,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Other invertebrates,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Obscured,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Other,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Seagrass,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Lobophyllia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Lobactis,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Madracis,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Merulina,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Micromussa,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Millepora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Montastraea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Montipora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Mycedium,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Nepthea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Oulophyllia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Oulastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Oxypora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Pachyseris,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,24,Porites,Massive,3
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Seagrass,NA,7
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Paragoniastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Paramontastraea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Pavona,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Pectinia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Physogyra,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Platygyra,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Plerogyra,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Plesiastrea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Pocillopora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Podabacia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Polyphyllia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Porites,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Porites,Branching,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Porites,Massive,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Trachyphyllia,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Tubastraea,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Tubipora,NA,1
+1208,Control,2022,12,13,6,3,50,25,1,25,amkieltiela@datamermaid.org,25,Turbinaria-coral,NA,1
