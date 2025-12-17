@@ -117,9 +117,9 @@ After downloading the MERMAID PQT template, you can start preparing and reformat
 -   Benthic attribute converter file.
 
 ```{r echo = FALSE, message = FALSE}
-raw <- read_csv2(here::here("inst", "extdata", "import-coralnet-vignette","CoralNet_export_data.csv"))
-metadata <- read_csv2(here::here("inst", "extdata", "import-coralnet-vignette","CoralNet_1208_site_metadata.csv"))
-ba_conv <- read_csv2(here::here("inst", "extdata", "import-coralnet-vignette","CoralNet_ba_converter.csv"))
+raw <- read_csv2(here::here("inst", "extdata", "import-coralnet-vignette", "CoralNet_export_data.csv"))
+metadata <- read_csv2(here::here("inst", "extdata", "import-coralnet-vignette", "CoralNet_1208_site_metadata.csv"))
+ba_conv <- read_csv2(here::here("inst", "extdata", "import-coralnet-vignette", "CoralNet_ba_converter.csv"))
 ```
 
 ```{r eval = FALSE}
@@ -136,7 +136,8 @@ After loading the data, continue with cleaning the data. In this example, the cl
 
 ```{r}
 pqt <- raw
-pqt$`Transect number *` <- str_sub(pqt$Transect, -1, -1)
+pqt <- pqt %>%
+  mutate(`Transect number *` = str_remove(Transect, "T"))
 ```
 
 2.  Add the `quadrat number` column to the data
@@ -144,8 +145,9 @@ pqt$`Transect number *` <- str_sub(pqt$Transect, -1, -1)
 The code below will add the `quadrat number` column by assigning the same number every 25 rows, where it increases every 25 rows and restart from 1 when a value in the `Station` and `Transect number *` columns change. If you are using a different number of points per quadrat, simply replace "25" in the code with the actual number of points you are using in your method.
 
 ```{r}
-pqt <- pqt %>% group_by(Station, `Transect number *`) %>%
-  dplyr::mutate(`Quadrat *` = rep(1:(ceiling(n()/25)), each = 25)[1:n()]) %>%
+pqt <- pqt %>%
+  group_by(Station, `Transect number *`) %>%
+  mutate(`Quadrat *` = rep(1:(ceiling(n() / 25)), each = 25)[1:n()]) %>%
   ungroup()
 ```
 
@@ -153,15 +155,15 @@ pqt <- pqt %>% group_by(Station, `Transect number *`) %>%
 
 In the MERMAID PQT template, you will find "Number of points \*" column. This column [**must**]{.underline} be filled with the **total number of points for the same benthic attribute per quadrat**. CoralNet provides data per point, meaning one point for one row, so you might have the same benthic attribute in multiple rows for one quadrat. This will be detected as a duplicate by MERMAID. Therefore, you need to combine the same benthic attribute for the same quadrat (see figure below).
 
-![Calculate number of points for each benthic attribute from the same quadrat.](../../inst/extdata/import-coralnet-vignette/CoralNet_Summarizing_points.png)
+![Calculate number of points for each benthic attribute from the same quadrat.](images/import-coralnet/CoralNet_Summarizing_points.png)
 
 ```{r}
 pqt <- pqt %>%
   group_by(`Project Name`, Station, `Transect number *`, `Quadrat *`, Label) %>%
-  dplyr::summarise(
+  summarise(
     `Number of points *` = n(),
     .groups = "drop"
-    )
+  )
 ```
 
 4.  Assign CoralNet labels to MERMAID benthic attributes and/or growth forms
@@ -186,12 +188,17 @@ pqt <- pqt %>%
 Next step is to add the metadata to the data from the `metadata` file based on the site name.
 
 ```{r}
-pqt <- left_join(pqt, metadata[,c("Site *", "Management *", "Sample date: Year *",
-                                  "Sample date: Month *", "Sample date: Day *", "Depth *",
-                                  "Transect length surveyed *", "Number of quadrats *",
-                                  "Quadrat size *", "Number of points per quadrat *",
-                                  "Observer emails *")],
-                 by = c("Station"="Site *"))
+pqt <- pqt %>%
+  left_join(
+    metadata %>% select(
+      `Site *`, `Management *`, `Sample date: Year *`,
+      `Sample date: Month *`, `Sample date: Day *`, `Depth *`,
+      `Transect length surveyed *`, `Number of quadrats *`,
+      `Quadrat size *`, `Number of points per quadrat *`,
+      `Observer emails *`
+    ),
+    by = c("Station" = "Site *")
+  )
 ```
 
 6.  Rename the columns to match the template
