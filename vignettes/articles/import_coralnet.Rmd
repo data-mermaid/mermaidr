@@ -110,9 +110,7 @@ pqt_template <- mermaid_import_get_template_and_options(
 ## ✔ Import template and field options written to benthicpqt_mermaidsurvey_template.xlsx
 ```
 
-|                                                                                                                    |
-|------------------------------------------------------------------------|
-| **Important:** Remember that **you need to be an admin** of the project to be able to access and import your data. |
+#### **Important:** Remember that **you need to be an admin** of the project to be able to access and import your data.
 
 ### Step 5. Prepare and reformat you data to match the MERMAID template
 
@@ -223,18 +221,14 @@ names(pqt_template[["Template"]])
 ```
 
 ```
-##  [1] "Site *"                         "Management *"                  
-##  [3] "Sample date: Year *"            "Sample date: Month *"          
-##  [5] "Sample date: Day *"             "Sample time"                   
-##  [7] "Depth *"                        "Transect number *"             
-##  [9] "Transect label"                 "Transect length surveyed *"    
-## [11] "Number of quadrats *"           "Quadrat size *"                
-## [13] "First quadrat number"           "Number of points per quadrat *"
-## [15] "Reef slope"                     "Visibility"                    
-## [17] "Current"                        "Relative depth"                
-## [19] "Tide"                           "Sample unit notes"             
-## [21] "Observer emails *"              "Quadrat *"                     
-## [23] "Benthic attribute *"            "Growth form"                   
+##  [1] "Site *"                         "Management *"                   "Sample date: Year *"           
+##  [4] "Sample date: Month *"           "Sample date: Day *"             "Sample time"                   
+##  [7] "Depth *"                        "Transect number *"              "Transect label"                
+## [10] "Transect length surveyed *"     "Number of quadrats *"           "Quadrat size *"                
+## [13] "First quadrat number"           "Number of points per quadrat *" "Reef slope"                    
+## [16] "Visibility"                     "Current"                        "Relative depth"                
+## [19] "Tide"                           "Sample unit notes"              "Observer emails *"             
+## [22] "Quadrat *"                      "Benthic attribute *"            "Growth form"                   
 ## [25] "Number of points *"
 ```
 

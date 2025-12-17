@@ -102,9 +102,7 @@ pqt_template <- mermaid_import_get_template_and_options(
 )
 ```
 
-|                                                                                                                    |
-|------------------------------------------------------------------------|
-| **Important:** Remember that **you need to be an admin** of the project to be able to access and import your data. |
+#### **Important:** Remember that **you need to be an admin** of the project to be able to access and import your data.
 
 ### Step 5. Prepare and reformat you data to match the MERMAID template
 
