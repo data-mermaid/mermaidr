@@ -85,22 +85,6 @@ To download the MERMAID PQT template:
 project <- mermaid_get_my_projects(include_test_projects = TRUE)
 ```
 
-```
-## Auto-refreshing stale OAuth token.
-```
-
-```
-## Waiting for authentication in browser...
-```
-
-```
-## Press Esc/Ctrl + C to abort
-```
-
-```
-## Authentication complete.
-```
-
 2.  Filter to select just the project you are working on, and rename the object.
 
 
@@ -123,7 +107,7 @@ pqt_template <- mermaid_import_get_template_and_options(
 ```
 
 ```
-## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
+## ✔ Import template and field options written to benthicpqt_mermaidsurvey_template.xlsx
 ```
 
 |                                                                                                                    |
@@ -380,8 +364,7 @@ mermaid_import_check_options(pqt, pqt_template, "Number of points per quadrat *"
 ```
 
 ```
-## ✔ Any value is allowed for `Number of points per quadrat *` - no checking to be
-## done
+## ✔ Any value is allowed for `Number of points per quadrat *` - no checking to be done
 ```
 
 ``` r
@@ -477,7 +460,7 @@ mermaid_import_project_data(
 ```
 
 ```
-## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
+## Records successfully checked! To import, please run the function again with `dryrun = FALSE`.
 ```
 
 4.  Import your data to MERMAID
@@ -495,7 +478,7 @@ mermaid_import_project_data(
 ```
 
 ```
-## Error: Please supply a project to get data from, either via the `project` argument or by using `mermaid_set_default_project()`.
+## Records successfully imported! Please review in Collect.
 ```
 
 You can save your clean data as a CSV file using the code below:
