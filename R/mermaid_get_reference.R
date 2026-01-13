@@ -200,3 +200,8 @@ invertattributes_columns <- c(
 invertspecies_columns <- c(
   "id", "name", "display", "status", "genus", "max_length", "max_length_type", "max_length_source", "max_length_url", "notes", "created_on", "updated_on"
 )
+benthicattributes_columns <- c("id", "name", "status", "parent", "regions",
+                               "life_histories", "growth_form_life_histories",
+                               "updated_on", "created_on")
+fishfamilies_columns_b <- c("updated_by", "created_by")
+benthicattributes_columns_b <- c("updated_by", "created_by", "top_level_category")

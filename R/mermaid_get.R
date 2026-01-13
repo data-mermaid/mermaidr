@@ -201,11 +201,18 @@ initial_cleanup <- function(results, endpoint) {
   path <- endpoint
   endpoint <- basename(path)
 
+  # Columns universally removed
+
+  results <- results %>%
+    dplyr::select(-dplyr::any_of(column_blacklist[["all"]]))
+
   if (stringr::str_detect(path, "ingest_schema")) {
+    browser()
     return(results)
   }
 
   if ((nrow(results) == 0 || ncol(results) == 0) & !stringr::str_detect(path, "ingest_schema_csv")) {
+    browser()
     return(
       tibble::tibble()
     )
@@ -213,8 +220,11 @@ initial_cleanup <- function(results, endpoint) {
 
   if ("validations" %in% names(results)) {
     if (endpoint != "collectrecords") {
+      # TODO -- not sure if I love this if() else() formation
       results <- results %>%
         dplyr::select(-tidyselect::all_of("validations"))
+    } else {
+      browser()
     }
   }
 
@@ -225,25 +235,31 @@ initial_cleanup <- function(results, endpoint) {
         latitude = 2,
         longitude = 1
       ) %>%
-      dplyr::select(-tidyselect::all_of("type"))
+      dplyr::select(-tidyselect::all_of(c("type", "coordinates")))
   }
 
   if ("covariates" %in% names(results)) {
+    browser()
     results <- results %>%
       extract_covariates()
   }
 
   if ("life_histories" %in% names(results)) {
+    browser()
     results <- results %>%
       extract_life_histories(endpoint)
   }
 
   if ("growth_form_life_histories" %in% names(results)) {
+    browser()
     results <- results %>%
       extract_growth_form_life_histories()
   }
 
-  if (!endpoint %in% c("choices", "me")) {
+  if (!endpoint %in% c("choices", "me",
+                       "sites") # TODO, this one is only for testing
+      ) {
+    browser()
     results <- collapse_id_name_lists(results)
 
     results <- results %>%
@@ -253,20 +269,24 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if (all(c("profile", "profile_name") %in% names(results))) {
+    browser()
     results <- dplyr::select(results, -tidyselect::all_of("profile")) %>%
       dplyr::rename(profile = "profile_name")
   }
 
   if (all(c("project", "project_name") %in% names(results))) {
+    browser()
     results <- dplyr::select(results, -tidyselect::all_of("project")) %>%
       dplyr::rename(project = "project_name")
   }
 
   if ("transect_len_surveyed" %in% names(results)) {
+    browser()
     results <- dplyr::rename(results, transect_length = "transect_len_surveyed")
   }
 
   if ("sample_date" %in% names(results)) {
+    browser()
     results <- dplyr::mutate(results, sample_date = as.Date(.data$sample_date))
   }
 
