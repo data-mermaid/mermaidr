@@ -155,7 +155,6 @@ test_that("invalid parties (single) errors", {
 })
 
 
-
 test_that("invalid parties (one of multiple) errors", {
   skip_if_offline()
   skip_on_ci()
@@ -172,7 +171,6 @@ test_that("invalid parties (one of multiple) errors", {
     mermaid_import_project_managements(data, "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"), "Not all values of `parties` are valid. Invalid values: 'gov'"
   )
 })
-
 
 
 test_that("invalid parties (all) errors", {
