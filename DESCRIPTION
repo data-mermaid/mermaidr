@@ -1,6 +1,6 @@
 Package: mermaidr
 Title: Interface to the 'MERMAID' API
-Version: 1.2.7
+Version: 1.2.8
 Authors@R: 
     c(person(given = "Sharla",
            family = "Gelfand",
@@ -38,7 +38,7 @@ Imports:
     methods,
     snakecase,
     readxl
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Suggests: 
     testthat (>= 2.1.0),
     knitr,

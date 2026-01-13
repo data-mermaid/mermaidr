@@ -1,3 +1,12 @@
+# mermaidr 1.2.8
+
+* Ensure column `observers` appears for all methods and data in `mermaid_get_project_data()`
+* Add columns `num_sample_units`, `num_active_sample_units`, `suggested_citation`, 
+and `bbox` to results returned from all project endpoint functions 
+(`mermaid_get_projects()`, `mermaid_get_my_projects()`, `mermaid_search_projects()`,
+`mermaid_search_my_projects()`)
+* Add vignette on importing CoralNet data to MERMAID
+
 # mermaidr 1.2.7
 
 * Add columns to `"bleaching"` method in `mermaid_get_project_data()`

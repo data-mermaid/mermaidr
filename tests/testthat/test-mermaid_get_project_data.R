@@ -1318,3 +1318,32 @@ test_that("new method of using CSV endpoint produces same data as old method (us
 
   expect_identical(old, new)
 })
+
+test_that("All methods and data contain 'observers' column", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  p <- c(
+    "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b",
+    "5679ef3d-bafc-453d-9e1a-a4b282a8a997",
+    "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a",
+    "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
+  )
+
+  output <- mermaid_get_project_data(p, method = "all", data = "all", limit = 1)
+
+  output %>%
+    purrr::map_depth(
+      \(x) {
+        if (is.data.frame(x)) {
+          expect_true("observers" %in% names(x))
+        } else {
+          purrr::map(x, \(x) {
+            expect_true("observers" %in% names(x))
+          })
+        }
+      },
+      .depth = 2
+    )
+})

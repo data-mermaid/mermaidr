@@ -23,4 +23,12 @@ mermaid_get_projects <- function(include_test_projects = FALSE, limit = NULL) {
   lookup_choices(res, endpoint = "projects")
 }
 
-projects_columns <- c("id", "name", "countries", "num_sites", "tags", "notes", "status", "data_policy_beltfish", "data_policy_benthiclit", "data_policy_benthicpit", "data_policy_benthicpqt", "data_policy_habitatcomplexity", "data_policy_bleachingqc", "created_on", "updated_on")
+projects_columns <- c(
+  "id", "name", "countries", "num_sites",
+  "num_active_sample_units", "num_sample_units",
+  "tags", "suggested_citation", "bbox", "notes", "status",
+  "data_policy_beltfish", "data_policy_benthiclit",
+  "data_policy_benthicpit", "data_policy_benthicpqt",
+  "data_policy_habitatcomplexity", "data_policy_bleachingqc",
+  "created_on", "updated_on"
+)
