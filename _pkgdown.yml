@@ -50,6 +50,7 @@ articles:
     - articles/vo_baseline_monitoring
     - articles/importing_fishbelt
     - articles/import_cpce
+    - articles/import_coralnet
   - title: Getting Started
     navbar: Getting Started
     contents:
