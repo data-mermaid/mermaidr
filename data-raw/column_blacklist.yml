@@ -1,0 +1,8 @@
+all:
+  - created_by
+  - updated_by
+sites:
+  - data
+choices:
+  - benthicattributes:
+    - top_level_category

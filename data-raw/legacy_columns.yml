@@ -1,0 +1,14 @@
+sites:
+  - id
+  - name
+  - notes
+  - project
+  - latitude
+  - longitude
+  - country
+  - reef_type
+  - reef_zone
+  - exposure
+  - predecessor
+  - created_on
+  - updated_on

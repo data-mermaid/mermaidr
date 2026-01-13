@@ -11,8 +11,13 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
 
   res_lookups <- purrr::map2(res, names(res), lookup_choices)
   res_strip_name_suffix <- purrr::imap(res_lookups, strip_name_suffix)
+  endpoint <- names(res_strip_name_suffix)
 
-  res_columns <- purrr::map2(res_strip_name_suffix, names(res_strip_name_suffix), construct_endpoint_columns)
+  if (!endpoint %in% c("sites")) { # WIP, for development
+    res_columns <- purrr::map2(res_strip_name_suffix, names(res_strip_name_suffix), construct_endpoint_columns)
+  } else {
+    res_columns <- purrr::map2(res_strip_name_suffix, names(res_strip_name_suffix), remove_blacklist_endpoint_columns)
+  }
 
   # Replace any "" or "NA" with NAs
   res_columns <- purrr::map(res_columns, function(x) x %>% dplyr::mutate(dplyr::across(dplyr::where(is.character), function(y) ifelse(y %in% c("NA", ""), NA_character_, y))))
@@ -53,7 +58,7 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
       lookup_variable(choices, "reef_type") %>%
       lookup_variable(choices, "reef_zone") %>%
       lookup_variable(choices, "exposure") %>%
-      dplyr::rename_at(c("country_name", "reef_type_name", "reef_zone_name", "exposure_name"), ~ gsub("_name", "", .x))
+      dplyr::rename_with(~ stringr::str_remove(.x, "_name"))
   } else if (endpoint == "managements") {
     choices <- mermaid_GET("choices")[["choices"]]
 
@@ -72,7 +77,7 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
       dplyr::mutate(status = dplyr::recode(.data$status, `10` = "Locked", `80` = "Test", `90` = "Open"))
   }
 
-  if (any(grepl("^data_policy_", mermaid_endpoint_columns[["projects"]]))) {
+  if (any(grepl("^data_policy_", mermaid_endpoint_columns[[endpoint]]))) {
     results <- results %>%
       dplyr::mutate_at(
         dplyr::vars(dplyr::starts_with("data_policy_")),
@@ -131,6 +136,14 @@ construct_endpoint_columns <- function(x, endpoint) {
   dplyr::select(x, mermaid_endpoint_columns[[endpoint]])
 }
 
+remove_blacklist_endpoint_columns <- function(res, endpoint) {
+  if (!endpoint %in% names(column_blacklist)) {
+    browser()
+  }
+  res %>%
+    dplyr::select(-dplyr::any_of(column_blacklist[[endpoint]]))
+}
+
 strip_name_suffix <- function(results, endpoint, covariates = FALSE) {
   res_names <- names(results)
   # Remove any _name suffixes, except score_name since we want to keep both score and score_name
@@ -153,7 +166,11 @@ allowed_ids <- function(endpoint, covariates = FALSE) {
   ids <- c("project_id", "sample_event_id", "sample_unit_id")
 
   if (endpoint %in% names(mermaid_endpoint_columns)) {
-    ids <- c(ids, mermaid_endpoint_columns[[endpoint]][grepl("_id$", mermaid_endpoint_columns[[endpoint]])])
+    # TODO -> this is explicit white listing, so will need to move away from this
+    if (any(stringr::str_ends(mermaid_endpoint_columns[[endpoint]], "_id"))) {
+      browser()
+      ids <- c(ids, mermaid_endpoint_columns[[endpoint]][grepl("_id$", mermaid_endpoint_columns[[endpoint]])])
+    }
   }
 
   if (covariates) {
@@ -174,7 +191,6 @@ mermaid_endpoint_columns <- list(
   managements = managements_columns,
   projects = projects_columns,
   projecttags = projecttags_columns,
-  sites = sites_columns,
   summarysampleevents = summary_sampleevents_columns,
   "classification/labelmappings" = classification_labelmappings_columns,
   invertattributes = invertattributes_columns,
