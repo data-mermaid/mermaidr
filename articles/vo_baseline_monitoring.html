@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.8</span>
       </span>
     </div>
 
@@ -59,6 +59,9 @@
     </li>
     <li>
       <a href="../articles/import_cpce.html">Import CPCe data into MERMAID</a>
+    </li>
+    <li>
+      <a href="../articles/import_coralnet.html">Import CoralNet data into MERMAID</a>
     </li>
     <li class="divider">
     </li>
@@ -108,7 +111,7 @@
 Monitoring</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/v1.2.7/vignettes/articles/vo_baseline_monitoring.Rmd" class="external-link"><code>vignettes/articles/vo_baseline_monitoring.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/master/vignettes/articles/vo_baseline_monitoring.Rmd" class="external-link"><code>vignettes/articles/vo_baseline_monitoring.Rmd</code></a></small>
       <div class="hidden name"><code>vo_baseline_monitoring.Rmd</code></div>
 
     </div>
@@ -131,29 +134,31 @@ with “Vibrant Oceans”:</p>
 <span><span class="va">vo_projects</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mermaid_search_projects.html">mermaid_search_projects</a></span><span class="op">(</span>tags <span class="op">=</span> <span class="st">"Vibrant Oceans"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">vo_projects</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 19 × 15</span></span></span>
-<span><span class="co">#&gt;    id          name  countries num_sites tags  notes status data_policy_beltfish</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 95e0ffc7-3… 2019… Fiji             44 WCS … <span style="color: #949494;">""</span>    Open   Private             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> b24c070f-d… 2022… Fiji             67 WCS … <span style="color: #949494;">"</span>Thi… Open   Public Summary      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2f6db63d-6… 2022… Fiji             11 WCS … <span style="color: #949494;">"</span>Thi… Open   Public Summary      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 1e982dc7-b… Aceh… Indonesia        12 WCS … <span style="color: #949494;">"</span>SAP… Open   Public Summary      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 60c77c7e-6… ACEH… Indonesia         9 WCS … <span style="color: #949494;">""</span>    Open   Public Summary      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> bb4899a8-5… ACEH… Indonesia         9 Vibr… <span style="color: #949494;">""</span>    Open   Public Summary      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 3a9ecb7c-f… Aceh… Indonesia        18 WCS … <span style="color: #949494;">""</span>    Open   Private             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> ea85fea0-c… Aceh… Indonesia        18 Vibr… <span style="color: #949494;">""</span>    Open   Public Summary      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 207ea040-7… Aceh… Indonesia        36 WCS … <span style="color: #949494;">"</span>SAP… Open   Private             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> e9649e0d-7… BAF … Kenya, T…        15 WCS … <span style="color: #949494;">""</span>    Open   Private             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> 507d1af9-e… Kari… Indonesia        43 WCS … <span style="color: #949494;">""</span>    Open   Private             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> b2d1d706-d… Pula… Indonesia        22 WCS … <span style="color: #949494;">"</span>TWA… Open   Private             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> 0a089cca-2… Pula… Indonesia        22 WCS … <span style="color: #949494;">"</span>TWA… Open   Private             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> 1277efc2-d… Taka… Indonesia        46 WCS … <span style="color: #949494;">""</span>    Open   Private             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> bcb1f115-8… Taka… Indonesia        39 WCS … <span style="color: #949494;">""</span>    Open   Private             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> c314adef-8… Taka… Indonesia        39 Vibr… <span style="color: #949494;">""</span>    Open   Private             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> ac586c72-a… Taka… Indonesia        39 WCS … <span style="color: #949494;">""</span>    Open   Private             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> a93b43f1-7… VOI … Tanzania         25 WCS … <span style="color: #949494;">""</span>    Open   Public Summary      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> a3521a0e-7… VOI … Tanzania         25 WCS … <span style="color: #949494;">""</span>    Open   Public Summary      </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 7 more variables: data_policy_benthiclit &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 19 × 19</span></span></span>
+<span><span class="co">#&gt;    id    name  countries num_sites num_active_sample_un…¹ num_sample_units tags </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 95e0… 2019… Fiji             44                      0              406 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> b24c… 2022… Fiji             67                      0              307 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2f6d… 2022… Fiji             11                      0              105 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 1e98… Aceh… Indonesia        12                   <span style="text-decoration: underline;">3</span>636              144 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 60c7… ACEH… Indonesia         9                      0              108 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> bb48… ACEH… Indonesia         9                     54                0 Vibr…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 3a9e… Aceh… Indonesia        18                      6              198 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> ea85… Aceh… Indonesia        18                     37                6 Vibr…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 207e… Aceh… Indonesia        36                      3              540 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> e964… BAF … Kenya, T…        15                      0               55 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> 507d… Kari… Indonesia        43                      8              842 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> b2d1… Pula… Indonesia        22                      1              252 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> 0a08… Pula… Indonesia        22                      1              279 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> 1277… Taka… Indonesia        46                      1              540 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> bcb1… Taka… Indonesia        39                      1              702 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> c314… Taka… Indonesia        39                      0              702 Vibr…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> ac58… Taka… Indonesia        39                      0              703 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> a93b… VOI … Tanzania         25                      0              164 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> a352… VOI … Tanzania         25                      2              118 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated name: ¹​num_active_sample_units</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 12 more variables: suggested_citation &lt;chr&gt;, bbox &lt;df[,4]&gt;, notes &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   status &lt;chr&gt;, data_policy_beltfish &lt;chr&gt;, data_policy_benthiclit &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   data_policy_benthicpit &lt;chr&gt;, data_policy_benthicpqt &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   data_policy_habitatcomplexity &lt;chr&gt;, data_policy_bleachingqc &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></span></code></pre></div>
@@ -540,12 +545,12 @@ time specifying the “fishbelt” method:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 142</span></span></span>
 <span><span class="co">#&gt;   project             tags  country site  latitude longitude reef_type reef_zone</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2022_BAF and WISH … Vibr… Fiji    WaiE4    -<span style="color: #BB0000;">17.8</span>      179. fringing  fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2022_BAF and WISH … Vibr… Fiji    NAOB…    -<span style="color: #BB0000;">17.6</span>      179. fringing  fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2022_BAF and WISH … Vibr… Fiji    BU03     -<span style="color: #BB0000;">17.7</span>      179. fringing  back reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2022_BAF and WISH … Vibr… Fiji    NAOB…    -<span style="color: #BB0000;">17.6</span>      179. fringing  fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2022_BAF and WISH … Vibr… Fiji    NAOB…    -<span style="color: #BB0000;">17.6</span>      179. fringing  fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2022_BAF and WISH … Vibr… Fiji    NAOB…    -<span style="color: #BB0000;">17.6</span>      179. fringing  back reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2022_BAF and WISH … WCS … Fiji    WaiE4    -<span style="color: #BB0000;">17.8</span>      179. fringing  fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2022_BAF and WISH … WCS … Fiji    NAOB…    -<span style="color: #BB0000;">17.6</span>      179. fringing  fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2022_BAF and WISH … WCS … Fiji    BU03     -<span style="color: #BB0000;">17.7</span>      179. fringing  back reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2022_BAF and WISH … WCS … Fiji    NAOB…    -<span style="color: #BB0000;">17.6</span>      179. fringing  fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2022_BAF and WISH … WCS … Fiji    NAOB…    -<span style="color: #BB0000;">17.6</span>      179. fringing  fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2022_BAF and WISH … WCS … Fiji    NAOB…    -<span style="color: #BB0000;">17.6</span>      179. fringing  back reef</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 134 more variables: reef_exposure &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   visibility &lt;chr&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   management_est_year &lt;dbl&gt;, management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span></span>

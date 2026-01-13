@@ -5,8 +5,9 @@ articles:
   articles/accessing_dev_collect_data: accessing_dev_collect_data.html
   articles/accessing_project_data: accessing_project_data.html
   articles/getting_help: getting_help.html
+  articles/import_coralnet: import_coralnet.html
   articles/import_cpce: import_cpce.html
   articles/importing_fishbelt: importing_fishbelt.html
   articles/new_to_r: new_to_r.html
   articles/vo_baseline_monitoring: vo_baseline_monitoring.html
-last_built: 2025-12-15T21:11Z
+last_built: 2026-01-13T19:56Z
