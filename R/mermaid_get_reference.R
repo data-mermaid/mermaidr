@@ -41,6 +41,7 @@ mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "f
   }
 }
 
+<<<<<<< HEAD
 references_list <- c(
   "fishfamilies", "fishgenera", "fishspecies", "benthicattributes", "invertattributes", "invertspecies"
 )
@@ -53,7 +54,8 @@ get_single_reference <- function(reference, limit = NULL, choices = mermaid_get_
     benthicattributes = get_reference_benthicattributes(limit = limit, choices = choices),
     invertattributes = get_reference_invertattributes(limit = limit, choices = choices),
     invertspecies = get_reference_invertspecies(limit = limit, choices = choices)
-  )
+  ) %>%
+    remove_blacklist_endpoint_columns(endpoint)
 }
 
 get_reference_fishgenera <- function(limit = NULL) {

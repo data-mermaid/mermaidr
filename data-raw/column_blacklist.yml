@@ -3,6 +3,11 @@ all:
   - updated_by
 sites:
   - data
-choices:
-  - benthicattributes:
-    - top_level_category
+benthicattributes:
+  - top_level_category
+projects:
+  - members
+  - project_admins
+  - data
+  - is_demo
+  - includes_gfcr
