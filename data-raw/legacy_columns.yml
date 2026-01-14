@@ -12,3 +12,33 @@ sites:
   - predecessor
   - created_on
   - updated_on
+benthic_attributes:
+  - id
+  - name
+  - status
+  - parent
+  - regions
+  - life_histories
+  - growth_form_life_histories
+  - updated_on
+  - created_on
+projects:
+  - id
+  - name
+  - countries
+  - num_sites
+  - num_active_sample_units
+  - num_sample_units
+  - tags
+  - suggested_citation
+  - bbox
+  - notes
+  - status
+  - data_policy_beltfish
+  - data_policy_benthiclit
+  - data_policy_benthicpit
+  - data_policy_benthicpqt
+  - data_policy_habitatcomplexity
+  - data_policy_bleachingqc
+  - created_on
+  - updated_on

@@ -10,22 +10,39 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
   res <- mermaid_GET(endpoint, limit = limit, filter = filter, ...)
 
   res_lookups <- purrr::map2(res, names(res), lookup_choices)
-  res_strip_name_suffix <- purrr::imap(res_lookups, strip_name_suffix)
-  endpoint <- names(res_strip_name_suffix)
+  res <- purrr::imap(res_lookups, strip_name_suffix)
+  endpoint <- names(res)
 
-  if (!endpoint %in% c("sites")) { # WIP, for development
-    res_columns <- purrr::map2(res_strip_name_suffix, names(res_strip_name_suffix), construct_endpoint_columns)
+  if (!endpoint %in% c("sites", "benthicattributes")) { # WIP, for development
+    res <- purrr::map2(
+      res,
+      names(res),
+      construct_endpoint_columns
+    )
   } else {
-    res_columns <- purrr::map2(res_strip_name_suffix, names(res_strip_name_suffix), remove_blacklist_endpoint_columns)
+    # res <- purrr::map2(
+    #   res,
+    #   names(res),
+    #   remove_blacklist_endpoint_columns
+    # )
   }
 
   # Replace any "" or "NA" with NAs
-  res_columns <- purrr::map(res_columns, function(x) x %>% dplyr::mutate(dplyr::across(dplyr::where(is.character), function(y) ifelse(y %in% c("NA", ""), NA_character_, y))))
+  # TODO -> this could happen more universally, in mermaid_GET
+  res <- purrr::map(res, \(x) x %>%
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::where(is.character),
+        \(y) ifelse(y %in% c("NA", ""),
+          NA_character_, y
+        )
+      )
+    ))
 
-  if (length(res_columns) > 1) {
-    res_columns
+  if (length(res) > 1) {
+    res
   } else {
-    res_columns[[endpoint]]
+    res[[endpoint]]
   }
 }
 
@@ -33,6 +50,7 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
   url <- base_url
 
   if (nrow(results) == 0) {
+    browser()
     if (endpoint_type == "main") {
       cols <- mermaid_endpoint_columns[[endpoint]]
     } else if (endpoint_type == "project") {
@@ -45,7 +63,9 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
     if (ncol(results) != 0) {
       cols <- unique(c(names(results), cols))
     }
-    results <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)), .name_repair = "minimal")
+    results <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)),
+      .name_repair = "minimal"
+    )
     names(results) <- cols
     return(results)
   }
@@ -70,19 +90,6 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
     if ("project_name" %in% names(results)) {
       results <- dplyr::rename(results, project = "project_name")
     }
-  }
-
-  if ("status" %in% mermaid_endpoint_columns[[endpoint]]) {
-    results <- results %>%
-      dplyr::mutate(status = dplyr::recode(.data$status, `10` = "Locked", `80` = "Test", `90` = "Open"))
-  }
-
-  if (any(grepl("^data_policy_", mermaid_endpoint_columns[[endpoint]]))) {
-    results <- results %>%
-      dplyr::mutate_at(
-        dplyr::vars(dplyr::starts_with("data_policy_")),
-        ~ dplyr::recode(.x, `10` = "Private", `50` = "Public Summary", `100` = "Public")
-      )
   }
 
   results
@@ -120,7 +127,15 @@ lookup_variable <- function(.data, choices, variable) {
     .data_to_name <- variable_names %>%
       dplyr::right_join(.data_sep, by = names(join_by)) %>%
       dplyr::group_by(.data$temp_row_for_rejoin) %>%
-      dplyr::summarise(dplyr::across(tidyselect::all_of(c(names(join_by), paste0(join_by, "_name"))), ~ stringr::str_c(.x, collapse = ", ")))
+      dplyr::summarise(
+        dplyr::across(
+          tidyselect::all_of(c(
+            names(join_by),
+            paste0(join_by, "_name")
+          )),
+          ~ stringr::str_c(.x, collapse = ", ")
+        )
+      )
 
     .data_temp %>%
       dplyr::left_join(.data_to_name, by = "temp_row_for_rejoin") %>%
@@ -137,11 +152,12 @@ construct_endpoint_columns <- function(x, endpoint) {
 }
 
 remove_blacklist_endpoint_columns <- function(res, endpoint) {
-  if (!endpoint %in% names(column_blacklist)) {
+  # browser()
+  if (!endpoint %in% names(blacklist_columns)) {
     browser()
   }
   res %>%
-    dplyr::select(-dplyr::any_of(column_blacklist[[endpoint]]))
+    dplyr::select(-dplyr::any_of(blacklist_columns[[endpoint]]))
 }
 
 strip_name_suffix <- function(results, endpoint, covariates = FALSE) {
@@ -158,8 +174,13 @@ strip_name_suffix <- function(results, endpoint, covariates = FALSE) {
 
   names(results) <- res_names
 
-  # Remove IDs, except project ID, sample event/unit ID, site ID (if covariates), or any other IDs included in the requested endpoint
-  results[, (!grepl("_id$", names(results))) | (names(results) %in% allowed_ids(endpoint, covariates = covariates))]
+  # Remove IDs, except project ID, sample event/unit ID, site ID (if covariates),
+  # or any other IDs included in the requested endpoint
+  results[, (!grepl(
+    "_id$",
+    names(results)
+  )) |
+    (names(results) %in% allowed_ids(endpoint, covariates = covariates))]
 }
 
 allowed_ids <- function(endpoint, covariates = FALSE) {
@@ -169,7 +190,13 @@ allowed_ids <- function(endpoint, covariates = FALSE) {
     # TODO -> this is explicit white listing, so will need to move away from this
     if (any(stringr::str_ends(mermaid_endpoint_columns[[endpoint]], "_id"))) {
       browser()
-      ids <- c(ids, mermaid_endpoint_columns[[endpoint]][grepl("_id$", mermaid_endpoint_columns[[endpoint]])])
+      ids <- c(
+        ids,
+        mermaid_endpoint_columns[[endpoint]][grepl(
+          "_id$",
+          mermaid_endpoint_columns[[endpoint]]
+        )]
+      )
     }
   }
 
@@ -182,7 +209,6 @@ allowed_ids <- function(endpoint, covariates = FALSE) {
 
 # Defined in respective function files
 mermaid_endpoint_columns <- list(
-  benthicattributes = benthicattributes_columns,
   choices = choices_columns,
   fishfamilies = fishfamilies_columns,
   fishgenera = fishgenera_columns,

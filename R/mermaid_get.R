@@ -202,9 +202,13 @@ initial_cleanup <- function(results, endpoint) {
   endpoint <- basename(path)
 
   # Columns universally removed
-
-  results <- results %>%
-    dplyr::select(-dplyr::any_of(column_blacklist[["all"]]))
+  if (TRUE) {
+    if (!endpoint %in% tested_endpoints) {
+      browser()
+    }
+    results <- results %>%
+      dplyr::select(-dplyr::any_of(blacklist_columns[["all"]]))
+  }
 
   if (stringr::str_detect(path, "ingest_schema")) {
     browser()
@@ -219,6 +223,9 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if ("validations" %in% names(results)) {
+    if (!endpoint %in% tested_endpoints) {
+      browser()
+    }
     if (endpoint != "collectrecords") {
       # TODO -- not sure if I love this if() else() formation
       results <- results %>%
@@ -228,16 +235,6 @@ initial_cleanup <- function(results, endpoint) {
     }
   }
 
-  if (endpoint == "sites") {
-    results <- results %>%
-      tidyr::unpack(cols = "location") %>%
-      tidyr::hoist(.data$coordinates,
-        latitude = 2,
-        longitude = 1
-      ) %>%
-      dplyr::select(-tidyselect::all_of(c("type", "coordinates")))
-  }
-
   if ("covariates" %in% names(results)) {
     browser()
     results <- results %>%
@@ -245,26 +242,32 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if ("life_histories" %in% names(results)) {
-    browser()
+    # browser() # TODO -> come back to these later
     results <- results %>%
       extract_life_histories(endpoint)
   }
 
   if ("growth_form_life_histories" %in% names(results)) {
-    browser()
+    # browser() # TODO -> come back to these later
     results <- results %>%
       extract_growth_form_life_histories()
   }
 
-  if (!endpoint %in% c("choices", "me",
-                       "sites") # TODO, this one is only for testing
-      ) {
-    browser()
+  if (!endpoint %in% c("choices", "me")) {
+    if (!endpoint %in% tested_endpoints) {
+      browser()
+    }
     results <- collapse_id_name_lists(results)
 
     results <- results %>%
       dplyr::rowwise() %>%
-      dplyr::mutate_if(is_list_col, ~ paste0(.x, collapse = ", ")) %>%
+      dplyr::mutate_if(is_list_col, \(x) {
+        if (length(x) == 0) {
+          NA_character_
+        } else {
+          paste0(x, collapse = ", ")
+        }
+      }) %>%
       dplyr::ungroup()
   }
 
@@ -289,6 +292,39 @@ initial_cleanup <- function(results, endpoint) {
     browser()
     results <- dplyr::mutate(results, sample_date = as.Date(.data$sample_date))
   }
+
+  if ("status" %in% names(results)) {
+
+    if (!endpoint %in% tested_endpoints) {
+      browser()
+    }
+
+    results <- results %>%
+      dplyr::mutate(status = dplyr::recode(.data$status,
+        `10` = "Locked",
+        `80` = "Test",
+        `90` = "Open"
+      ))
+  }
+
+  if (any(grepl("^data_policy_", names(results)))) {
+
+    if (!endpoint %in% tested_endpoints) {
+      browser()
+    }
+
+    results <- results %>%
+      dplyr::mutate_at(
+        dplyr::vars(dplyr::starts_with("data_policy_")),
+        ~ dplyr::recode(.x,
+          `10` = "Private",
+          `50` = "Public Summary",
+          `100` = "Public"
+        )
+      )
+  }
+
+
 
   results
 }

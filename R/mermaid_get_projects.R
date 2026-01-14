@@ -21,8 +21,7 @@ mermaid_get_projects <- function(include_test_projects = FALSE, limit = NULL) {
   }
 
   res <- res[["projects"]]
-  res <- res[, mermaid_endpoint_columns[["projects"]]]
-  lookup_choices(res, endpoint = "projects")
+  remove_blacklist_endpoint_columns(res, "projects")
 }
 
 projects_columns <- c(

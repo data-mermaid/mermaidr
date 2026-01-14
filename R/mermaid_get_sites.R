@@ -11,5 +11,15 @@
 #' mermaid_get_sites(limit = 10)
 #' }
 mermaid_get_sites <- function(limit = NULL, token = mermaid_token()) {
-  get_endpoint("sites", limit = limit, token = token)
+  res <- get_endpoint("sites", limit = limit, token = token)
+
+  res <- res %>%
+    tidyr::unpack(cols = "location") %>%
+    tidyr::hoist(.data$coordinates,
+      latitude = 2,
+      longitude = 1
+    ) %>%
+    dplyr::select(-tidyselect::all_of(c("type", "coordinates")))
+
+  remove_blacklist_endpoint_columns(res, "sites")
 }

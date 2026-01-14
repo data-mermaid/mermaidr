@@ -1,8 +1,8 @@
 library(yaml)
 
-column_blacklist <- read_yaml(here::here("data-raw", "column_blacklist.yml"))
+blacklist_columns <- read_yaml(here::here("data-raw", "column_blacklist.yml"))
 
-usethis::use_data(column_blacklist, overwrite = TRUE)
+usethis::use_data(blacklist_columns, overwrite = TRUE)
 
 legacy_columns <- read_yaml(here::here("data-raw", "legacy_columns.yml"))
 
