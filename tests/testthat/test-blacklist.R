@@ -12,4 +12,8 @@ test_that("blacklist method retains all columns from whitelist method,
   res <- mermaid_get_projects(limit = 10)
   expect_true(all(legacy_columns[["projects"]] %in% names(res)))
   expect_false(any(blacklist_columns[["projects"]] %in% names(res)))
+
+  res <- mermaid_get_managements(limit = 10)
+  expect_true(all(legacy_columns[["managements"]] %in% names(res)))
+  expect_false(any(blacklist_columns[["managements"]] %in% names(res)))
 })

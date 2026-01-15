@@ -13,7 +13,8 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
   res <- purrr::imap(res_lookups, strip_name_suffix)
   endpoint <- names(res)
 
-  if (!endpoint %in% c("sites", "benthicattributes")) { # WIP, for development
+  if (!endpoint %in% tested_endpoints) { # WIP, for development
+    browser()
     res <- purrr::map2(
       res,
       names(res),
@@ -70,6 +71,7 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
     return(results)
   }
 
+  # TODO -> these are pretty specific, should they move?
   if (endpoint == "sites") {
     choices <- mermaid_GET("choices")[["choices"]]
 
@@ -81,6 +83,7 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
       dplyr::rename_with(~ stringr::str_remove(.x, "_name"))
   } else if (endpoint == "managements") {
     choices <- mermaid_GET("choices")[["choices"]]
+    col_order <- names(results)
 
     results <- results %>%
       lookup_variable(choices, "parties") %>%
@@ -90,6 +93,12 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
     if ("project_name" %in% names(results)) {
       results <- dplyr::rename(results, project = "project_name")
     }
+
+    # Keep original order of columns
+    results <- results %>%
+      dplyr::select(dplyr::all_of(col_order))
+
+
   }
 
   results
@@ -214,7 +223,6 @@ mermaid_endpoint_columns <- list(
   fishgenera = fishgenera_columns,
   fishspecies = fishspecies_columns,
   fishsizes = fishsizes_columns,
-  managements = managements_columns,
   projects = projects_columns,
   projecttags = projecttags_columns,
   summarysampleevents = summary_sampleevents_columns,

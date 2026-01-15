@@ -208,6 +208,17 @@ initial_cleanup <- function(results, endpoint) {
     }
     results <- results %>%
       dplyr::select(-dplyr::any_of(blacklist_columns[["all"]]))
+
+    # TODO for all -- check this, but
+    results <- results %>%
+      # if it contains id/name, put them first
+      dplyr::relocate(dplyr::any_of(c("id", "name")),
+        .before = dplyr::everything()
+      ) %>%
+      # if it contains created_on/updated_on, put them last
+      dplyr::relocate(dplyr::any_of(c("created_on", "updated_on")),
+        .after = dplyr::everything()
+      )
   }
 
   if (stringr::str_detect(path, "ingest_schema")) {
@@ -272,13 +283,15 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if (all(c("profile", "profile_name") %in% names(results))) {
-    browser()
     results <- dplyr::select(results, -tidyselect::all_of("profile")) %>%
       dplyr::rename(profile = "profile_name")
   }
 
   if (all(c("project", "project_name") %in% names(results))) {
-    browser()
+    if (!endpoint %in% tested_endpoints) {
+      browser()
+      # TODO - this happens for managements. What else? Is it managements specific?
+    }
     results <- dplyr::select(results, -tidyselect::all_of("project")) %>%
       dplyr::rename(project = "project_name")
   }
@@ -294,7 +307,6 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if ("status" %in% names(results)) {
-
     if (!endpoint %in% tested_endpoints) {
       browser()
     }
@@ -308,7 +320,6 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if (any(grepl("^data_policy_", names(results)))) {
-
     if (!endpoint %in% tested_endpoints) {
       browser()
     }
@@ -323,7 +334,6 @@ initial_cleanup <- function(results, endpoint) {
         )
       )
   }
-
 
 
   results
