@@ -1,13 +1,18 @@
 all:
   - created_by
   - updated_by
-sites:
-  - data
-benthicattributes:
-  - top_level_category
 projects:
   - members
   - project_admins
   - data
   - is_demo
   - includes_gfcr
+sites:
+  - data
+managements:
+  - boundary
+  - project
+  - data
+  - predecessor
+benthicattributes:
+  - top_level_category

@@ -11,6 +11,7 @@ legacy_columns <- yaml::read_yaml(here::here("data-raw/legacy_columns.yml"))
 tested_endpoints <- c(
   "projects",
   "sites",
+  "managements",
   "choices",
   "benthicattributes"
 )

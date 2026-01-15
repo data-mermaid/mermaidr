@@ -1,27 +1,3 @@
-sites:
-  - id
-  - name
-  - notes
-  - project
-  - latitude
-  - longitude
-  - country
-  - reef_type
-  - reef_zone
-  - exposure
-  - predecessor
-  - created_on
-  - updated_on
-benthic_attributes:
-  - id
-  - name
-  - status
-  - parent
-  - regions
-  - life_histories
-  - growth_form_life_histories
-  - updated_on
-  - created_on
 projects:
   - id
   - name
@@ -42,3 +18,45 @@ projects:
   - data_policy_bleachingqc
   - created_on
   - updated_on
+sites:
+  - id
+  - name
+  - notes
+  - project
+  - latitude
+  - longitude
+  - country
+  - reef_type
+  - reef_zone
+  - exposure
+  - predecessor
+  - created_on
+  - updated_on
+managements:
+  - id
+  - name
+  - name_secondary
+  - est_year
+  - size
+  - parties
+  - compliance
+  - open_access
+  - no_take
+  - access_restriction
+  - periodic_closure
+  - size_limits
+  - gear_restriction
+  - species_restriction
+  - notes
+  - created_on
+  - updated_on
+benthic_attributes:
+  - id
+  - name
+  - status
+  - parent
+  - regions
+  - life_histories
+  - growth_form_life_histories
+  - updated_on
+  - created_on
