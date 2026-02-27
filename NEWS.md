@@ -1,3 +1,8 @@
+# mermaidr 1.2.9
+
+* Add `project_admins` to project endpoints (`mermaid_get_projects()`, `mermaid_get_my_projects()`,
+`mermaid_search_projects()`, `mermaid_search_my_projects()`)
+
 # mermaidr 1.2.8
 
 * Ensure column `observers` appears for all methods and data in `mermaid_get_project_data()`

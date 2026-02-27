@@ -1,6 +1,8 @@
 #' Get all MERMAID Projects
 #'
-#' Get all MERMAID projects. Returns metadata on projects, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
+#' Get all MERMAID projects. Returns metadata on projects, including ID, name,
+#'  countries, number of sites, tags, project admins, notes, status, data
+#'  sharing policies, and when the project was created and last updated.
 #'
 #' @inheritParams mermaid_GET
 #' @param include_test_projects Whether to include test projects. Defaults to FALSE.
@@ -26,7 +28,8 @@ mermaid_get_projects <- function(include_test_projects = FALSE, limit = NULL) {
 projects_columns <- c(
   "id", "name", "countries", "num_sites",
   "num_active_sample_units", "num_sample_units",
-  "tags", "suggested_citation", "bbox", "notes", "status",
+  "tags", "project_admins",
+  "suggested_citation", "bbox", "notes", "status",
   "data_policy_beltfish", "data_policy_benthiclit",
   "data_policy_benthicpit", "data_policy_benthicpqt",
   "data_policy_habitatcomplexity", "data_policy_bleachingqc",

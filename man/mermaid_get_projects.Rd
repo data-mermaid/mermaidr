@@ -12,7 +12,9 @@ mermaid_get_projects(include_test_projects = FALSE, limit = NULL)
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 }
 \description{
-Get all MERMAID projects. Returns metadata on projects, including ID, name, countries, number of sites, tags, notes, status, data sharing policies, and when the project was created and last updated.
+Get all MERMAID projects. Returns metadata on projects, including ID, name,
+ countries, number of sites, tags, project admins, notes, status, data
+ sharing policies, and when the project was created and last updated.
 }
 \examples{
 \dontrun{
