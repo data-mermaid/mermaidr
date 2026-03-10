@@ -3,7 +3,6 @@ title: "Import CoralNet data into MERMAID"
 format: html
 ---
 
-## Import your CoralNet data to MERMAID
 
 Do you have CoralNet data and want to import it to MERMAID?
 
@@ -489,7 +488,7 @@ You can save your clean data as a CSV file using the code below:
 write_csv(pqt, "pqt_mermaidreefsurvey.csv")
 ```
 
-### Step 7. Validate and submit you data in MERMAID Collect
+### Step 7. Validate and submit your data in MERMAID Collect
 
 After you get the message **Record successfully imported! Please review in Collect**, head to your Collecting Page in your project in the MERMAID Collect. Continue with validating and submitting each transect.
 
