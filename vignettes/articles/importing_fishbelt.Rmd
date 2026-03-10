@@ -13,46 +13,66 @@ We have also prepared <a href="https://www.youtube.com/watch?v=bgmz0vhg2QI" targ
 
 ## The steps for importing legacy fish belt data are:
 
-1. Prepare your project in MERMAID Collect
-2. Prepare your fish belt data in a CSV format
-3. Install and activate mermaidr and other related packages
-4. Download the fish belt MERMAID template
-5. Prepare and reformat your data to match the MERMAID template
-6. Import your data to MERMAID
-7. Validate and submit in MERMAID Collect
+* 1. Prepare your project in MERMAID Collect
+* 2. Prepare your fish belt data in a CSV format
+* 3. Install and activate mermaidr and other related packages
+* 4. Download the fish belt MERMAID template
+* 5. Prepare and reformat your data to match the MERMAID template
+* 6. Import your data to MERMAID
+* 7. Validate and submit in MERMAID Collect
 
 
 ## Step 1. Prepare your project in MERMAID Collect
 
+Before importing your fish belt data to MERMAID, you need to set up your project in [MERMAID Collect](https://app.datamermaid.org/). If you are new to MERMAID, you need to create a MERMAID account before using it. You can use a new project or existing project in MERMAID Collect as long as you are an admin of the project. [Setting up a new project](https://datamermaid.org/documentation/collect-project-set-up) requires internet access. To create a new project, click on the New Project button and then:
+
+* 1. add organization(s),
+* 2. add users,
+* 3. set data sharing permissions,
+* 4. add sites, and
+* 5. add management regimes.
+
+
 ## Step 2. Prepare your fish belt data in a CSV format
+
+If your data isn't in CSV format, you'll need to re-save it as CSV. This example uses a CSV file. However, if you prefer to use a different format, ensure that it can be read in R.
+
 
 ## Step 3. Install and activate mermaidr and other related packages
 
-## Step 4. Download the fish belt MERMAID template
+After setting up your project in MERMAID Collect and preparing the necessary files, you can now start importing your data in R or R Studio. The first step is to install and activate the mermaidr and other related packages. In this example, we are also going to use the tidyverse package.
 
-Before downloading the MERMAID template, make sure that you already have the mermaidr package installed. You can install the package from GitHub using the code below:
+```{r, eval = FALSE}
+#install.packages("tidyverse")
+#remotes::install_github("data-mermaid/mermaidr")
 
-
-```r
-remotes::install_github("data-mermaid/mermaidr")
+library(mermaidr)
+library(tidyverse)
 ```
 
-In this example, we are going to also use the tidyverse package. The first step is to load the packages and access your MERMAID projects by using  `mermaid_search_my_projects()` with the project name.
 
+## Step 4. Download the fish belt MERMAID template
 
+Next step is to download the MERMAID Fish belt template. Make sure to set up your working directory to point R to where your data is located and where you want to save your data from R, including the MERMAID Fish belt template.
+
+To download the MERMAID Fish belt template:
+
+* 1. Get your MERMAID project using the `mermaid_get_my_projects( )` function from the mermaidr package. Omit `inlcude_test_project = TRUE` if it is not a test project.
+
+```r
+reef_survey <- mermaid_search_my_projects("MERMAID reef survey", include_test_projects = TRUE)
+```
 
 At this point, a browser window will open for you to authenticate by logging into the MERMAID Collect. Once you've logged in, you can close the browser and come back to R. Your login credentials will last for a day and after it expires you will need to log in again.
 
+* 2. Filter to select just the project you are working on, and rename the object.
 
 ```r
-library(mermaidr)
-library(tidyverse)
-
 reef_survey <- mermaid_search_my_projects("MERMAID reef survey")
 ```
+Before running the code above, make sure that you change the project name **“MERMAID reef survey”** to **_your actual project_** that you want to import your data into.
 
-The next step is to get the fish belt MERMAID template and options using `mermaid_import_get_template_and_options()` and save it to a file called `fishbelt_mermaid_template.xlsx`.
-
+* 3. Get the import template and options using the `mermaid_import_get_template_and_options( )` function.
 
 ```r
 fish_template_and_options <- mermaid_import_get_template_and_options(
