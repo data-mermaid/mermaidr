@@ -360,36 +360,42 @@ project_data_columns <- list(
 
   `benthicpqts/obstransectbenthicpqts` = c(
     common_benthic_cols[["obs"]],
+    "num_points",
     common_cols[["life_histories_obs"]],
     "data_policy_benthicpqt",
     common_cols[["obs_closing"]]
   ),
   `benthicpqts/obstransectbenthicpqts/csv` = c(
     common_benthic_cols[["obs"]],
+    "num_points",
     common_cols[["life_histories_obs_csv"]],
     "data_policy_benthicpqt",
     common_cols[["obs_closing"]]
   ),
   `benthicpqts/sampleunits` = c(
     common_benthic_cols[["su"]],
+    "num_points_nonother",
     common_cols[["life_histories_su"]],
     "data_policy_benthicpqt",
     common_cols[["su_closing"]]
   ),
   `benthicpqts/sampleunits/csv` = c(
     common_benthic_cols[["su"]],
+    "num_points_nonother",
     common_cols[["life_histories_su_csv"]],
     "data_policy_benthicpqt",
     common_cols[["su_closing"]]
   ),
   `benthicpqts/sampleevents` = c(
     common_benthic_cols[["se"]],
+    "num_points_nonother",
     common_cols[["life_histories_se"]],
     "data_policy_benthicpqt",
     common_cols[["se_closing"]]
   ),
   `benthicpqts/sampleevents/csv` = c(
     common_benthic_cols[["se"]],
+    "num_points_nonother",
     common_cols[["life_histories_se_csv"]],
     "data_policy_benthicpqt",
     common_cols[["se_closing"]]
