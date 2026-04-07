@@ -1,3 +1,8 @@
+# mermaidr 1.2.10
+
+* Add `num_points` to `mermaid_get_project_data()` for Benthic PQT observations, 
+and `num_points_nonother` for sample units and sample events.
+
 # mermaidr 1.2.9
 
 * Add `project_admins` to project endpoints (`mermaid_get_projects()`, `mermaid_get_my_projects()`,
