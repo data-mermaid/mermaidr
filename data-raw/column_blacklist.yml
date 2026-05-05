@@ -20,3 +20,7 @@ me:
 fishfamilies:
 fishgenera:
 fishspecies:
+projecttags:
+fishsizes:
+  - fish_bin_size
+choices:

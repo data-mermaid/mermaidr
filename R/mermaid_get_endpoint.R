@@ -20,7 +20,3 @@ mermaid_get_endpoint <- function(endpoint = c("choices", "projecttags", "fishsiz
 
   get_endpoint(endpoint = endpoint, limit = limit)
 }
-
-choices_columns <- c("name", "data")
-projecttags_columns <- c("id", "name", "slug", "description", "created_on", "updated_on")
-fishsizes_columns <- c("id", "name", "val", "fish_bin_size", "created_on", "updated_on")

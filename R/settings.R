@@ -17,5 +17,7 @@ tested_endpoints <- c(
   "fishfamilies",
   "fishgenera",
   "fishspecies",
+  "fishsizes",
+  "projecttags",
   "me"
 )
