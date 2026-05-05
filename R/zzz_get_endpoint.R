@@ -170,10 +170,16 @@ remove_blacklist_endpoint_columns <- function(res, endpoint) {
 }
 
 strip_name_suffix <- function(results, endpoint, covariates = FALSE) {
+  if (!endpoint %in% tested_endpoints) {
+    browser()
+  }
   res_names <- names(results)
   # Remove any _name suffixes, except score_name since we want to keep both score and score_name
   # Convert score_name to score_NAME first (so _name isn't removed from it)
   res_names[which(res_names == "score_name")] <- "score_NAME"
+
+  # do the same with display_name
+  res_names[which(res_names == "display_name")] <- "display_NAME"
 
   # Then remove _name from any of the names
   res_names <- gsub("_name", "", res_names)
@@ -219,9 +225,6 @@ allowed_ids <- function(endpoint, covariates = FALSE) {
 # Defined in respective function files
 mermaid_endpoint_columns <- list(
   choices = choices_columns,
-  fishfamilies = fishfamilies_columns,
-  fishgenera = fishgenera_columns,
-  fishspecies = fishspecies_columns,
   fishsizes = fishsizes_columns,
   projects = projects_columns,
   projecttags = projecttags_columns,
