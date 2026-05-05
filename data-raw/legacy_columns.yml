@@ -105,8 +105,27 @@ fishspecies:
   - created_on
   - updated_on
 me:
- - id
- - first_name
- - last_name
- - email
- - projects
+  - id
+  - first_name
+  - last_name
+  - email
+  - projects
+projecttags:
+  - id
+  - name
+  - slug
+  - status
+  - description
+  - created_on
+  - updated_on
+fishsizes:
+  - id
+  - name
+  - val
+  - min_val
+  - max_val
+  - created_on
+  - updated_on
+choices:
+  - name
+  - data

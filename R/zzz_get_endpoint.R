@@ -21,11 +21,11 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
       construct_endpoint_columns
     )
   } else {
-    # res <- purrr::map2(
-    #   res,
-    #   names(res),
-    #   remove_blacklist_endpoint_columns
-    # )
+    res <- purrr::map2(
+      res,
+      names(res),
+      remove_blacklist_endpoint_columns
+    )
   }
 
   # Replace any "" or "NA" with NAs
@@ -224,10 +224,7 @@ allowed_ids <- function(endpoint, covariates = FALSE) {
 
 # Defined in respective function files
 mermaid_endpoint_columns <- list(
-  choices = choices_columns,
-  fishsizes = fishsizes_columns,
   projects = projects_columns,
-  projecttags = projecttags_columns,
   summarysampleevents = summary_sampleevents_columns,
   "classification/labelmappings" = classification_labelmappings_columns,
   invertattributes = invertattributes_columns,
