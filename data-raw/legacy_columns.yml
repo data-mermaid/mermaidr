@@ -16,6 +16,7 @@ projects:
   - data_policy_benthicpqt
   - data_policy_habitatcomplexity
   - data_policy_bleachingqc
+  - data_policy_macroinvertebrate
   - created_on
   - updated_on
 sites:
@@ -35,6 +36,7 @@ sites:
 managements:
   - id
   - name
+  - rules
   - name_secondary
   - est_year
   - size
@@ -50,7 +52,7 @@ managements:
   - notes
   - created_on
   - updated_on
-benthic_attributes:
+benthicattributes:
   - id
   - name
   - status
@@ -60,3 +62,51 @@ benthic_attributes:
   - growth_form_life_histories
   - updated_on
   - created_on
+fishfamilies:
+  - id
+  - name
+  - status
+  - biomass_constant_a
+  - biomass_constant_b
+  - biomass_constant_c
+  - regions
+  - created_on
+  - updated_on
+fishgenera:
+  - id
+  - name
+  - status
+  - biomass_constant_a
+  - biomass_constant_b
+  - biomass_constant_c
+  - regions
+  - family
+  - created_on
+  - updated_on
+fishspecies:
+  - id
+  - name
+  - display_name
+  - notes
+  - status
+  - biomass_constant_a
+  - biomass_constant_b
+  - biomass_constant_c
+  - climate_score
+  - vulnerability
+  - max_length
+  - trophic_level
+  - max_length_type
+  - genus
+  - group_size
+  - trophic_group
+  - functional_group
+  - regions
+  - created_on
+  - updated_on
+me:
+ - id
+ - first_name
+ - last_name
+ - email
+ - projects

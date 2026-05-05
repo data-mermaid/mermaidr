@@ -41,7 +41,6 @@ mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "f
   }
 }
 
-<<<<<<< HEAD
 references_list <- c(
   "fishfamilies", "fishgenera", "fishspecies", "benthicattributes", "invertattributes", "invertspecies"
 )

@@ -212,7 +212,7 @@ initial_cleanup <- function(results, endpoint) {
     # TODO for all -- check this, but
     results <- results %>%
       # if it contains id/name, put them first
-      dplyr::relocate(dplyr::any_of(c("id", "name")),
+      dplyr::relocate(dplyr::any_of(c("id", "name", "display_name")),
         .before = dplyr::everything()
       ) %>%
       # if it contains created_on/updated_on, put them last

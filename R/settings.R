@@ -13,5 +13,9 @@ tested_endpoints <- c(
   "sites",
   "managements",
   "choices",
-  "benthicattributes"
+  "benthicattributes",
+  "fishfamilies",
+  "fishgenera",
+  "fishspecies",
+  "me"
 )
