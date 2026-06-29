@@ -13,8 +13,8 @@
 #' mermaid_get_reference(c("fishfamilies", "fishgenera"))
 #' }
 mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "fishspecies", "benthicattributes"), limit = NULL) {
-  if (!all(reference %in% c("fishfamilies", "fishgenera", "fishspecies", "benthicattributes"))) {
-    stop('`reference` must be one of: "fishfamilies", "fishgenera", "fishspecies", "benthicattributes"', call. = FALSE)
+  if (!all(reference %in% references_list)) {
+    stop(paste("`reference` must be one of:", references_list_str), call. = FALSE)
   }
 
   reference <- match.arg(reference, several.ok = TRUE)
@@ -31,12 +31,20 @@ mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "f
   }
 }
 
+references_list <- c(
+  "fishfamilies", "fishgenera", "fishspecies", "benthicattributes", "invertattributes", "invertspecies", "fishgroupings"
+)
+references_list_str <- paste0('"', paste(references_list, collapse = '", "'), '"')
+
 get_single_reference <- function(reference, limit = NULL, choices = mermaid_get_endpoint("choices")) {
   switch(reference,
     fishfamilies = get_endpoint("fishfamilies", limit = limit),
     fishgenera = get_reference_fishgenera(limit = limit),
     fishspecies = get_reference_fishspecies(limit = limit, choices = choices),
-    benthicattributes = get_reference_benthicattributes(limit = limit, choices = choices)
+    benthicattributes = get_reference_benthicattributes(limit = limit, choices = choices),
+    # invertattributes = get_reference_invertattributes(limit = limit),
+    # invertspecies = get_reference_invertspecies(limit = limit),
+    # fishgroupings = get_reference_fishgroupings(limit = limit)
   )
 }
 

@@ -33,5 +33,6 @@ projects_columns <- c(
   "data_policy_beltfish", "data_policy_benthiclit",
   "data_policy_benthicpit", "data_policy_benthicpqt",
   "data_policy_habitatcomplexity", "data_policy_bleachingqc",
+  "data_policy_macroinvertebrate",
   "created_on", "updated_on"
 )
