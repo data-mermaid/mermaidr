@@ -55,8 +55,8 @@ import_project_data_internal <- function(data, project, method = c("fishbelt", "
   # Check project ID
 
   # Check method
-  if (!method %in% c("fishbelt", "benthicpit", "benthiclit", "benthicpqt", "habitatcomplexity", "bleaching")) {
-    stop('`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"', call. = FALSE)
+  if (!method %in% methods) {
+    stop(methods_err, call. = FALSE)
   }
 
   # Construct ingestion URL

@@ -46,7 +46,7 @@ internal_mermaid_get_project_data <- function(project = mermaid_get_default_proj
   check_project_data_inputs(method, data)
 
   if (any(method == "all")) {
-    method <- c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity")
+    method <- methods
   }
   if (any(data == "all")) {
     data <- c("observations", "sampleunits", "sampleevents")
@@ -104,7 +104,7 @@ mermaid_get_project_data_legacy <- function(project = mermaid_get_default_projec
 
 check_project_data_inputs <- function(method, data) {
   if (!all(method %in% c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching", "all"))) {
-    stop('`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"', call. = FALSE)
+    stop(methods_plus_all_err, call. = FALSE)
   }
   if (!all(data %in% c("observations", "sampleunits", "sampleevents", "all"))) {
     stop('`data` must be one of: "observations", "sampleunits", "sampleevents", "all"', call. = FALSE)
