@@ -12,13 +12,12 @@ import_bulk_action <- function(project, action, method = NULL, bulkeditforce = F
 
   # Check method when action is "edit"
   if (action == "edit") {
-    stop_msg <- '`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"'
     if (is.null(method)) {
-      stop(stop_msg, call. = FALSE)
+      stop(method_errs, call. = FALSE)
     } else if (length(method) > 1) {
-      stop(stop_msg, call. = FALSE)
-    } else if (!method %in% c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching")) {
-      stop(stop_msg, call. = FALSE)
+      stop(method_errs, call. = FALSE)
+    } else if (!method %in% methods) {
+      stop(method_errs, call. = FALSE)
     }
   }
 

@@ -1,6 +1,6 @@
 #' Get template and field options for MERMAID import
 #'
-#' @param method Method to get import template and field options for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", or "habitatcomplexity".
+#' @param method Method to get import template and field options for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", or "macroinvertebrate".
 #' @param save Excel file to save template and field options to - .xlsx or xls file. Optional.
 #' @inheritParams get_project_endpoint
 #'
@@ -10,7 +10,7 @@
 #' \dontrun{
 #' template_and_options <- mermaid_get_my_projects() %>%
 #'   head(1) %>%
-#'   mermaid_import_get_template_and_options("fishbelt", "fishbelt_template.xlsx")
+#'   mermaid_import_get_template_and_options("macroinvertebrate", "fishbelt_template.xlsx")
 #' # ✔ Import template and field options written to fishbelt_template.xlsx
 #'
 #' names(template_and_options)
@@ -138,8 +138,8 @@ mermaid_import_get_template_and_options <- function(project, method, save, token
 }
 
 check_import_inputs <- function(method, data) {
-  if (!all(method %in% c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching")) | length(method) > 1) {
-    stop('`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"', call. = FALSE)
+  if (!all(method %in% methods) | length(method) > 1) {
+    stop('`method` must be one of: ', methods_string, call. = FALSE)
   }
 }
 

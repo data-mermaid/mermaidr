@@ -57,7 +57,7 @@ test_that("mermaid_get_project_data setting 'all' works", {
   skip_on_cran()
   p <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
   output <- mermaid_get_project_data(p, method = "all", data = "all", limit = 1)
-  expect_named(output, c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"))
+  expect_named(output, methods)
   purrr::walk(output, expect_named, c("observations", "sampleunits", "sampleevents"))
 })
 
