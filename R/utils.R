@@ -131,7 +131,15 @@ combine_coltypes_and_bind_rows <- function(data, .id = NULL) {
 }
 
 methods <- c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching", "macroinvertebrate")
-methods_string <- glue::glue('"{methods}"',
-                             methods = paste0(methods, collapse = '", "'))
+
+comma_sep <- function(x) {
+  glue::glue('"{x}"',
+    x = paste0(x, collapse = '", "')
+  )
+}
+
+methods_string <- comma_sep(methods)
+
 methods_err <- glue::glue("`method` must be one of: {methods_string}")
+
 methods_plus_all_err <- glue::glue('{methods_err}, "all"')
