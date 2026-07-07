@@ -38,7 +38,6 @@ Imports:
     methods,
     snakecase,
     readxl
-RoxygenNote: 7.3.3
 Suggests: 
     testthat (>= 2.1.0),
     knitr,
@@ -46,3 +45,4 @@ Suggests:
     ggplot2,
     tidyverse
 VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0

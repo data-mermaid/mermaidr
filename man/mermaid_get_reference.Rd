@@ -5,12 +5,13 @@
 \title{Get MERMAID reference}
 \usage{
 mermaid_get_reference(
-  reference = c("fishfamilies", "fishgenera", "fishspecies", "benthicattributes"),
+  reference = c("fishfamilies", "fishgenera", "fishspecies", "benthicattributes",
+    "invertattributes", "invertspecies"),
   limit = NULL
 )
 }
 \arguments{
-\item{reference}{MERMAID reference. One of "fishfamilies", "fishgenera", "fishspecies", "benthicattributes".}
+\item{reference}{MERMAID reference. One of "fishfamilies", "fishgenera", "fishspecies", "benthicattributes", "invertattributes", "invertspecies".}
 
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 }
