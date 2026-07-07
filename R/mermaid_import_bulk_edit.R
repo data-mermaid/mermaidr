@@ -4,7 +4,7 @@
 #'
 #' @inheritParams get_project_endpoint
 #' @inheritParams mermaid_GET
-#' @param method Method to return submitted data back into "editing" state for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", or "habitatcomplexity".
+#' @param method Method to return submitted data back into "editing" state for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", "habitatcomplexity", "macroinvertebrate".
 #'
 #' @export
 #'
@@ -72,18 +72,6 @@ methods_endpoint_names <- list(
   benthicpit = "benthicpittransectmethods",
   benthicpqt = "benthicphotoquadrattransectmethods",
   bleaching = "bleachingquadratcollectionmethods",
-  habitatcomplexity = "habitatcomplexitytransectmethods"
-)
-
-protocol_to_endpoint_names <- function(method) {
-  protocol_methods_endpoint_names[[method]]
-}
-
-protocol_methods_endpoint_names <- list(
-  beltfishes = "beltfishtransectmethods",
-  benthiclits = "benthiclittransectmethods",
-  benthicpits = "benthicpittransectmethods",
-  benthicpqts = "benthicphotoquadrattransectmethods",
-  bleachingqcs = "bleachingquadratcollectionmethods",
-  habitatcomplexities = "habitatcomplexitytransectmethods"
+  habitatcomplexity = "habitatcomplexitytransectmethods",
+  macroinvertebrate = "beltinverttransectmethods"
 )
