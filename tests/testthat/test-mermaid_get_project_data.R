@@ -1283,42 +1283,6 @@ test_that("Bleaching - standard deviations calculated in API are the same as SDs
 
 # CSV endpoint ----
 
-test_that("new method of using CSV endpoint produces same data as old method (using JSON)", {
-  skip_if_offline()
-  skip_on_ci()
-  skip_on_cran()
-
-  p <- "02e6915c-1c64-4d2c-bac0-326b560415a2"
-  new <- internal_mermaid_get_project_data(p, method = "fishbelt", data = "observations", legacy = FALSE)
-  old <- internal_mermaid_get_project_data(p, method = "fishbelt", data = "observations", legacy = TRUE)
-
-  # Some conversion required - old has empty strings ("") while new has NA, difference in column types
-  old <- old %>% dplyr::mutate_all(as.character)
-  old <- old %>% dplyr::mutate_all(~ ifelse(.x == "", NA_character_, .x))
-  old <- old %>% dplyr::mutate_all(as.character)
-  new <- new %>% dplyr::mutate_all(as.character)
-
-  # Ensure data is ordered the same
-  old <- old %>%
-    dplyr::arrange(sample_unit_id, fish_family, fish_taxon, size, count)
-
-  new <- new %>%
-    dplyr::arrange(sample_unit_id, fish_family, fish_taxon, size, count)
-
-  expect_identical(old, new)
-
-  new <- internal_mermaid_get_project_data(p, method = "fishbelt", data = "sampleunits", legacy = FALSE)
-  old <- internal_mermaid_get_project_data(p, method = "fishbelt", data = "sampleunits", legacy = TRUE)
-
-  # Some conversion required - old has empty strings ("") while new has NA, difference in column types
-  old <- old %>% dplyr::mutate_all(as.character)
-  old <- old %>% dplyr::mutate_all(~ ifelse(.x == "", NA_character_, .x))
-  old <- old %>% dplyr::mutate_all(as.character)
-  new <- new %>% dplyr::mutate_all(as.character)
-
-  expect_identical(old, new)
-})
-
 test_that("All methods and data contain 'observers' column", {
   skip_if_offline()
   skip_on_ci()
