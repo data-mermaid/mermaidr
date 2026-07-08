@@ -21,9 +21,15 @@ mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "f
 
   choices <- mermaid_get_endpoint("choices")
   res <- purrr::map(reference, get_single_reference, limit, choices)
-  if (reference %in% c("fishfamilies", "fishgenera", "fishspecies", "benthicattributes")) {
-    res <- purrr::map(res, lookup_regions, choices)
-  }
+  names(res) <- reference
+  res <- purrr::imap(
+    res,
+    \(res, name) {
+      if (name %in% c("fishfamilies", "fishgenera", "fishspecies", "benthicattributes")) {
+        lookup_regions(res, choices)
+      }
+    }
+  )
 
   if (length(reference) > 1) {
     names(res) <- reference
@@ -179,21 +185,6 @@ lookup_benthiclifehistories <- function(results, choices = mermaid_get_endpoint(
     dplyr::left_join(row_lifehistories, by = "row", suffix = c("_id", "")) %>%
     dplyr::select(-tidyselect::all_of(c("row", "life_histories_id"))) %>%
     dplyr::select(names(results))
-}
-
-match_lifehistories <- function(x, column, life_histories) {
-  x <- x %>%
-    dplyr::select(tidyselect::all_of(c("row", id = "life_histories"))) %>%
-    tidyr::separate_rows("id", sep = ", ") %>%
-    dplyr::filter(!is.na(.data$id)) %>%
-    dplyr::left_join(life_histories, by = "id", suffix = c("_id", "")) %>%
-    dplyr::group_by(.data$row) %>%
-    dplyr::arrange(.data$id) %>%
-    dplyr::summarise(id = paste(.data$name, collapse = ", "))
-
-  names(x) <- c("id", "life_histories")
-
-  x
 }
 
 fishfamilies_columns <- c("id", "name", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "regions", "created_on", "updated_on")
