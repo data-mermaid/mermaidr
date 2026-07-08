@@ -140,11 +140,11 @@ test_that("Entire validate/submit/edit flow works", {
   # Ensure there are VALID records to submit - create and validate them
   df <- tibble::tribble(
     ~`Site *`, ~`Management *`, ~`Sample date: Year *`, ~`Sample date: Month *`, ~`Sample date: Day *`, ~`Sample time`, ~`Depth *`, ~`Transect number *`, ~`Transect label`, ~`Transect length surveyed *`, ~`Width *`, ~`Fish size bin *`, ~`Reef slope`, ~`Visibility`, ~`Current`, ~`Relative depth`, ~`Tide`, ~`Notes`, ~`Observer emails *`, ~`Fish name *`, ~`Size *`, ~`Count *`,
-    "bulk submit test site", "bulk submit test mr", 2017, 5, 15, "10:01", 8, 1, NA, 50, "5m", 5, NA, NA, NA, "Deep", "falling", NA, "sharla.gelfand@gmail.com", "chaetodon auriga", 7.5, 24,
-    "bulk submit test site", "bulk submit test mr", 2017, 5, 15, "10:01", 8, 1, NA, 50, "5m", 5, NA, NA, NA, "Deep", "falling", NA, "sharla.gelfand@gmail.com", "Fibramia", 7.5, 46,
-    "bulk submit test site", "bulk submit test mr", 2017, 5, 15, "10:01", 8, 1, NA, 50, "5m", 5, NA, NA, NA, "Deep", "falling", NA, "sharla.gelfand@gmail.com", "Jaydia", 7.5, 54,
-    "bulk submit test site", "bulk submit test mr", 2017, 5, 15, "10:01", 8, 1, NA, 50, "5m", 5, NA, NA, NA, "Deep", "falling", NA, "sharla.gelfand@gmail.com", "Acanthurus fowleri", 7.5, 100,
-    "bulk submit test site", "bulk submit test mr", 2017, 5, 15, "10:01", 8, 1, NA, 50, "5m", 5, NA, NA, NA, "Deep", "falling", NA, "sharla.gelfand@gmail.com", "Chrysiptera brownriggii", 7.5, 40,
+    "bulk submit test site", "bulk submit test mr", 2017, 5, 15, "10:01", 8, 1, NA, 50, "5 m", 5, NA, NA, NA, "Deep", "falling", NA, "sharla.gelfand@gmail.com", "chaetodon auriga", 7.5, 24,
+    "bulk submit test site", "bulk submit test mr", 2017, 5, 15, "10:01", 8, 1, NA, 50, "5 m", 5, NA, NA, NA, "Deep", "falling", NA, "sharla.gelfand@gmail.com", "Fibramia", 7.5, 46,
+    "bulk submit test site", "bulk submit test mr", 2017, 5, 15, "10:01", 8, 1, NA, 50, "5 m", 5, NA, NA, NA, "Deep", "falling", NA, "sharla.gelfand@gmail.com", "Jaydia", 7.5, 54,
+    "bulk submit test site", "bulk submit test mr", 2017, 5, 15, "10:01", 8, 1, NA, 50, "5 m", 5, NA, NA, NA, "Deep", "falling", NA, "sharla.gelfand@gmail.com", "Acanthurus fowleri", 7.5, 100,
+    "bulk submit test site", "bulk submit test mr", 2017, 5, 15, "10:01", 8, 1, NA, 50, "5 m", 5, NA, NA, NA, "Deep", "falling", NA, "sharla.gelfand@gmail.com", "Chrysiptera brownriggii", 7.5, 40,
   )
 
   import_project_data_internal(df, p, "fishbelt", dryrun = FALSE, clearexisting = TRUE, clearexistingforce = TRUE)

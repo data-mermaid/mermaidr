@@ -14,7 +14,7 @@
 #' }
 mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "fishspecies", "benthicattributes", "invertattributes", "invertspecies"), limit = NULL) {
   if (!all(reference %in% references_list)) {
-    stop(paste("`reference` must be one of:", comma_sep(references_list_str)), call. = FALSE)
+    stop(paste("`reference` must be one of:", comma_sep(references_list)), call. = FALSE)
   }
 
   reference <- match.arg(reference, several.ok = TRUE)

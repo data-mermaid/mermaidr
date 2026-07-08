@@ -13,11 +13,11 @@ import_bulk_action <- function(project, action, method = NULL, bulkeditforce = F
   # Check method when action is "edit"
   if (action == "edit") {
     if (is.null(method)) {
-      stop(method_errs, call. = FALSE)
+      stop(methods_err, call. = FALSE)
     } else if (length(method) > 1) {
-      stop(method_errs, call. = FALSE)
+      stop(methods_err, call. = FALSE)
     } else if (!method %in% methods) {
-      stop(method_errs, call. = FALSE)
+      stop(methods_err, call. = FALSE)
     }
   }
 
