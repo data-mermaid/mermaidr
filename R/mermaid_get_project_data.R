@@ -42,14 +42,14 @@ mermaid_get_project_data <- function(project = mermaid_get_default_project(), me
   internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates)
 }
 
-internal_mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c(methods, "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, covariates = FALSE, token = mermaid_token()) {
+internal_mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = methods_all, data = data_types_all, limit = NULL, covariates = FALSE, token = mermaid_token()) {
   check_project_data_inputs(method, data)
 
   if (any(method == "all")) {
     method <- methods
   }
   if (any(data == "all")) {
-    data <- c("observations", "sampleunits", "sampleevents")
+    data <- data_types
   }
 
   endpoint <- construct_endpoint(method, data)
@@ -99,11 +99,11 @@ internal_mermaid_get_project_data <- function(project = mermaid_get_default_proj
 }
 
 check_project_data_inputs <- function(method, data) {
-  if (!all(method %in% c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching", "all"))) {
+  if (!all(method %in% methods_all)) {
     stop(methods_plus_all_err, call. = FALSE)
   }
-  if (!all(data %in% c("observations", "sampleunits", "sampleevents", "all"))) {
-    stop('`data` must be one of: "observations", "sampleunits", "sampleevents", "all"', call. = FALSE)
+  if (!all(data %in% data_types_all)) {
+    stop("`data` must be one of: ", comma_sep(data_types_all), call. = FALSE)
   }
 }
 
@@ -118,15 +118,12 @@ construct_endpoint <- function(method, data) {
         .data$method == "benthiclit" ~ "benthiclits",
         .data$method == "benthicpqt" ~ "benthicpqts",
         .data$method == "habitatcomplexity" ~ "habitatcomplexities",
-        .data$method == "bleaching" ~ "bleachingqcs"
+        .data$method == "bleaching" ~ "bleachingqcs",
+        .data$method == "macroinvertebrate" ~ "beltinverts"
       ),
       data = dplyr::case_when(
-        .data$data == "observations" & .data$method == "beltfishes" ~ "obstransectbeltfishes",
-        .data$data == "observations" & .data$method == "benthicpits" ~ "obstransectbenthicpits",
-        .data$data == "observations" & .data$method == "benthicpqts" ~ "obstransectbenthicpqts",
-        .data$data == "observations" & .data$method == "benthiclits" ~ "obstransectbenthiclits",
-        .data$data == "observations" & .data$method == "habitatcomplexities" ~ "obshabitatcomplexities",
         .data$data == "observations" & .data$method == "bleachingqcs" ~ "obscoloniesbleacheds,obsquadratbenthicpercents",
+        .data$data == "observations" ~ glue::glue("obstransect{.data$method}"),
         TRUE ~ data
       )
     ) %>%
@@ -495,6 +492,51 @@ project_data_columns <- list(
     "data_policy_bleachingqc",
     common_cols[["life_histories_se_csv"]],
     common_cols[["se_closing"]]
+  ),
+
+  # Inverts
+  `beltinverts/obstransectbeltinverts` = c(
+    common_cols[["obs/su"]], "transect_length",
+    "transect_width", "observers", "transect_number", "label",
+    "size_bin",
+    "invert_class", "invert_order", "invert_family",
+    "invert_genus", "invert_taxon", "invert_group_of_interest",
+    "size", "count", "density_indha",
+    "observation_notes",
+    "data_policy_macroinvertebrate", common_cols[["obs_closing"]]
+  ),
+  `beltinverts/sampleunits` = c(
+    common_cols[["obs/su"]], "transect_number", "label",
+    "size_bin", "transect_length", "transect_width",
+    "total_abundance", "density_indha",
+    "density_indha_group_interest_Conchs", "density_indha_group_interest_Octopus",
+    "density_indha_group_interest_Lobsters", "density_indha_group_interest_Giant clams",
+    "density_indha_group_interest_Sea urchins", "density_indha_group_interest_Pearl oysters",
+    "density_indha_group_interest_Sea cucumbers", "density_indha_group_interest_Trochus shells",
+    "density_indha_group_interest_Crabs / shrimps", "density_indha_group_interest_Polychaete worms",
+    "density_indha_group_interest_Triton's trumpets", "density_indha_group_interest_Other invertebrates",
+    "density_indha_group_interest_Corallivorous snails", "density_indha_group_interest_Crown-of-thorns starfish (COTS)",
+    "data_policy_macroinvertebrate",
+    common_cols[["su_closing"]]
+  ),
+  `beltinverts/sampleevents` = c(
+    common_cols[["se"]],
+    "count_total_avg", "count_total_sd", "density_indha_avg", "density_indha_sd",
+    "density_indha_group_interest_avg_Conchs", "density_indha_group_interest_avg_Octopus",
+    "density_indha_group_interest_avg_Lobsters", "density_indha_group_interest_avg_Giant clams",
+    "density_indha_group_interest_avg_Sea urchins", "density_indha_group_interest_avg_Pearl oysters",
+    "density_indha_group_interest_avg_Sea cucumbers", "density_indha_group_interest_avg_Trochus shells",
+    "density_indha_group_interest_avg_Crabs / shrimps", "density_indha_group_interest_avg_Polychaete worms",
+    "density_indha_group_interest_avg_Triton's trumpets", "density_indha_group_interest_avg_Other invertebrates",
+    "density_indha_group_interest_avg_Corallivorous snails", "density_indha_group_interest_avg_Crown-of-thorns starfish (COTS)",
+    "density_indha_group_interest_sd_Conchs", "density_indha_group_interest_sd_Octopus",
+    "density_indha_group_interest_sd_Lobsters", "density_indha_group_interest_sd_Giant clams",
+    "density_indha_group_interest_sd_Sea urchins", "density_indha_group_interest_sd_Pearl oysters",
+    "density_indha_group_interest_sd_Sea cucumbers", "density_indha_group_interest_sd_Trochus shells",
+    "density_indha_group_interest_sd_Crabs / shrimps", "density_indha_group_interest_sd_Polychaete worms",
+    "density_indha_group_interest_sd_Triton's trumpets", "density_indha_group_interest_sd_Other invertebrates",
+    "density_indha_group_interest_sd_Corallivorous snails", "density_indha_group_interest_sd_Crown-of-thorns starfish (COTS)",
+    "data_policy_macroinvertebrate", common_cols[["se_closing"]]
   )
 )
 

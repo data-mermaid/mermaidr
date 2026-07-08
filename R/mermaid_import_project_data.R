@@ -14,7 +14,7 @@ mermaid_import_project_data <- function(data, project, method = c("fishbelt", "b
 }
 
 # Internal version of function so that clearexisting can be forced, for testing
-import_project_data_internal <- function(data, project, method = c("fishbelt", "benthicpit", "benthiclit", "benthicpqt", "habitatcomplexity", "bleaching"), dryrun = TRUE, clearexisting = FALSE, clearexistingforce = FALSE, token = mermaid_token()) {
+import_project_data_internal <- function(data, project, method = methods, dryrun = TRUE, clearexisting = FALSE, clearexistingforce = FALSE, token = mermaid_token()) {
   check_internet()
 
   project <- as_id(project)

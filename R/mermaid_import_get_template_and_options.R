@@ -143,7 +143,7 @@ check_import_inputs <- function(method, data) {
   }
 }
 
-mermaid_import_get_template <- function(method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleachingqc", "habitatcomplexity")) {
+mermaid_import_get_template <- function(method = methods) {
   endpoint <- glue::glue("ingest_schema_csv/{method}")
 
   res <- purrr::map(endpoint, mermaid_GET)
@@ -151,7 +151,7 @@ mermaid_import_get_template <- function(method = c("fishbelt", "benthiclit", "be
   res[[1]][[1]]
 }
 
-mermaid_import_get_options <- function(project, method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleachingqc", "habitatcomplexity"), token = mermaid_token()) {
+mermaid_import_get_options <- function(project, method = methods, token = mermaid_token()) {
   endpoint <- glue::glue("collectrecords/ingest_schema/{method}")
 
   res <- purrr::map(endpoint, ~ get_project_endpoint(project, .x, limit = NULL, token = token))

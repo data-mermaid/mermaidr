@@ -130,8 +130,10 @@ combine_coltypes_and_bind_rows <- function(data, .id = NULL) {
   res
 }
 
-methods <- c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching")
-             # , "macroinvertebrate")
+methods <- c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching", "macroinvertebrate")
+methods_all <- c(methods, "all")
+data_types <- c("observations", "sampleunits", "sampleevents")
+data_types_all <- c(data_types, "all")
 
 comma_sep <- function(x) {
   glue::glue('"{x}"',

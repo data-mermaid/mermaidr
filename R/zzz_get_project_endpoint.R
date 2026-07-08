@@ -79,6 +79,7 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
 
   res_lookups <- lookup_choices(res, endpoint, endpoint_type = "project")
   res_strip_suffix <- strip_name_suffix(res_lookups, endpoint, covariates)
+
   res <- construct_project_endpoint_columns(res_strip_suffix, endpoint, multiple_projects = length(initial_res) > 1, covariates = covariates)
 
   # Combine sample date year, month, day, into single field, place after management_rules
@@ -146,6 +147,8 @@ construct_project_endpoint_columns <- function(res, endpoint, multiple_projects 
       res <- dplyr::select(res, dplyr::any_of(endpoint_cols))
     }
 
+    # Remove any ' in names, so they do not get given a _ in snake case
+    names(res) <- stringr::str_remove_all(names(res), "'")
     names(res) <- snakecase::to_snake_case(names(res))
 
     res
