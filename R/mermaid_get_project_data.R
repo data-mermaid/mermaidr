@@ -16,7 +16,7 @@
 #'
 #' The included covariates are: geomorphic zonation and benthic habitat from the \href{https://allencoralatlas.org}{Allen Coral Atlas}; market gravity, water pollution (sediments and nitrogen), coastal population, industrial development (number of ports), tourism (reef value), and a cumulative pressure index from \href{https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12858}{\emph{A global map of human pressures on tropical coral reefs}} by Andrello et al., 2022; scores from \href{https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12587}{\emph{Risk-sensitive planning for conserving coral reefs under rapid climate change}} by Beyer et al., 2018.
 #'
-#' @param method Method to get data for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", "habitatcomplexity", or "all" (to get data for all methods).
+#' @param method Method to get data for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", "habitatcomplexity", "macroinvertebrate", or "all" (to get data for all methods).
 #' @param data Data to return. One of "observations", "sampleunits", "sampleevents", or "all" (to get all three kinds of data). See details for more.
 #' @inheritParams get_project_endpoint
 #' @inheritParams mermaid_GET
@@ -38,11 +38,11 @@
 #' names(bleaching_obs)
 #' # [1] "colonies_bleached" "percent_cover"
 #' }
-mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE) {
-  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates, legacy = FALSE, token)
+mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "macroinvertebrate", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE) {
+  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates)
 }
 
-internal_mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, covariates = FALSE, legacy = legacy, token = mermaid_token()) {
+internal_mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c(methods, "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, covariates = FALSE, token = mermaid_token()) {
   check_project_data_inputs(method, data)
 
   if (any(method == "all")) {
@@ -52,7 +52,7 @@ internal_mermaid_get_project_data <- function(project = mermaid_get_default_proj
     data <- c("observations", "sampleunits", "sampleevents")
   }
 
-  endpoint <- construct_endpoint(method, data, legacy)
+  endpoint <- construct_endpoint(method, data)
 
   res <- purrr::map(endpoint, function(x) get_project_endpoint(project, x, limit, token, covariates = covariates))
 
@@ -98,10 +98,6 @@ internal_mermaid_get_project_data <- function(project = mermaid_get_default_proj
   }
 }
 
-mermaid_get_project_data_legacy <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE) {
-  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates, legacy = TRUE, token)
-}
-
 check_project_data_inputs <- function(method, data) {
   if (!all(method %in% c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching", "all"))) {
     stop(methods_plus_all_err, call. = FALSE)
@@ -111,7 +107,7 @@ check_project_data_inputs <- function(method, data) {
   }
 }
 
-construct_endpoint <- function(method, data, legacy) {
+construct_endpoint <- function(method, data) {
   method_data <- tidyr::expand_grid(method = method, data = data)
 
   method_data <- method_data %>%
@@ -136,7 +132,7 @@ construct_endpoint <- function(method, data, legacy) {
     ) %>%
     tidyr::separate_rows(method, data, sep = ",")
 
-  csv_endpoint <- ifelse(legacy, "", "/csv")
+  csv_endpoint <- "/csv"
 
   method_data <- method_data %>%
     dplyr::mutate(endpoint = paste0(.data$method, "/", .data$data, csv_endpoint))
