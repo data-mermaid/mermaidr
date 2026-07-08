@@ -123,6 +123,7 @@ construct_endpoint <- function(method, data) {
       ),
       data = dplyr::case_when(
         .data$data == "observations" & .data$method == "bleachingqcs" ~ "obscoloniesbleacheds,obsquadratbenthicpercents",
+        .data$data == "observations" & .data$method == "habitatcomplexities" ~ "obshabitatcomplexities",
         .data$data == "observations" ~ glue::glue("obstransect{.data$method}"),
         TRUE ~ data
       )
