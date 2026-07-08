@@ -8,7 +8,7 @@ test_that("mermaid_get_gfcr_report returns a list with set sheets/columns", {
   res <- mermaid_get_gfcr_report(p)
 
   expect_named(res, c(
-    "F1", "F2", "F3", "F4", "F5", "F6", "F7", "BusinessesFinanceSolutions",
+    "F1", "F2", "F3", "F4", "F5", "F6", "F7", "FacilitiesSolutions",
     "Investments", "Revenues", "ColumnDescriptions"
   ))
 
@@ -69,28 +69,35 @@ test_that("mermaid_get_gfcr_report returns a list with set sheets/columns", {
   )
 
   expect_named(
-    res[["BusinessesFinanceSolutions"]],
+    res[["FacilitiesSolutions"]],
     c(
-      "Project", "Title", "Reporting Date", "Data Type", "Business / Finance Solution",
-      "Sustainable Finance Mechanisms", "Sector", "Incubator Used",
-      "GFCR Funded-Incubation", "Local Enterprise", "Gender Smart Investment", "Notes"
+      "Project", "Title", "Reporting Date", "Data Type", "Type",
+      "Business / Finance Solution", "Sustainable Finance Mechanisms",
+      "Sector", "Geographical Coverage", "Name of TAF (incubator)",
+      "Number of solutions supported by", "Used a TAF (incubator)?",
+      "GFCR-funded TAF (incubator)?", "Local Enterprise", "Gender Smart Investment",
+      "Notes"
     )
   )
 
   expect_named(
     res[["Investments"]],
     c(
-      "Project", "Title", "Reporting Date", "Data Type", "Business / Finance Solution",
-      "Sustainable Finance Mechanisms", "Sector", "Investment Source",
-      "Investment Type", "Investment Amount", "Notes"
+      "Project", "Title", "Reporting Date", "Data Type", "Type",
+      "Business / Finance Solution", "Sustainable Finance Mechanisms",
+      "Sector", "Geographical Coverage", "Name of TAF (incubator)",
+      "Number of solutions supported by", "Investment Source", "Investment Type",
+      "Investment Amount", "Notes"
     )
   )
 
   expect_named(
     res[["Revenues"]],
     c(
-      "Project", "Title", "Reporting Date", "Data Type", "Business / Finance Solution",
-      "Sustainable Finance Mechanisms", "Sector", "Revenue Type", "Sustainable Revenue Source",
+      "Project", "Title", "Reporting Date", "Data Type", "Type",
+      "Business / Finance Solution", "Sustainable Finance Mechanisms",
+      "Sector", "Geographical Coverage", "Name of TAF (incubator)",
+      "Number of solutions supported by", "Revenue Type", "Sustainable Revenue Source",
       "Revenue Amount", "Notes"
     )
   )
