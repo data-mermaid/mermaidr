@@ -901,6 +901,114 @@ test_that("Bleaching sample event aggregation is the same as manually aggregatin
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
 
+## Inverts ----
+test_that("Inverts sample unit aggregation is the same as manually aggregating observations", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  p <- "bacd3529-e0f4-40f4-a089-992c5bd5cc02"
+  obs <- mermaid_get_project_data(p, "macroinvertebrate", "observations")
+  su <- mermaid_get_project_data(p, "macroinvertebrate", "sampleunits")
+
+  obs_to_su <- obs %>%
+    dplyr::select(
+      site, transect_number, sample_date, invert_class, invert_order, invert_family,
+      invert_genus, invert_taxon, invert_group_of_interest,
+      size, count, density_indha
+    ) %>%
+    dplyr::mutate(
+      id = dplyr::row_number(),
+      multiple_goi = stringr::str_detect(invert_group_of_interest, ",")
+    ) %>%
+    tidyr::separate_rows(invert_group_of_interest, sep = ", ") %>%
+    dplyr::group_by(id) %>%
+    dplyr::mutate(
+      n_goi = dplyr::n_distinct(invert_group_of_interest),
+      density_ind_ha_by_goi = density_indha / n_goi
+    ) %>%
+    dplyr::group_by(site, sample_date, transect_number, invert_group_of_interest) %>%
+    dplyr::summarise(dplyr::across(density_ind_ha_by_goi, sum),
+      .groups = "drop"
+    ) %>%
+    tidyr::pivot_wider(
+      names_from = invert_group_of_interest, values_from = density_ind_ha_by_goi,
+      names_prefix = "density_indha_group_interest_"
+    ) %>%
+    dplyr::arrange(site, sample_date, transect_number) %>%
+    dplyr::mutate(dplyr::across(dplyr::starts_with("density_indha_group_interest"), round))
+
+  names(obs_to_su) <- names(obs_to_su) %>%
+    stringr::str_remove_all("'") %>%
+    snakecase::to_snake_case()
+
+  su_relevant <- su %>%
+    dplyr::select(dplyr::any_of(names(obs_to_su))) %>%
+    dplyr::arrange(site, sample_date, transect_number) %>%
+    dplyr::mutate(dplyr::across(dplyr::starts_with("density_indha_group_interest"), round))
+
+  expect_identical(obs_to_su, su_relevant)
+})
+
+test_that("Inverts sample event aggregation is the same as manually aggregating sample units", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  p <- "bacd3529-e0f4-40f4-a089-992c5bd5cc02"
+  su <- mermaid_get_project_data(p, "macroinvertebrate", "sampleunits")
+  se <- mermaid_get_project_data(p, "macroinvertebrate", "sampleevents")
+
+  su_to_se_by_goi <- su %>%
+    dplyr::select(site, sample_date, transect_number, dplyr::starts_with("density_indha_group")) %>%
+    tidyr::pivot_longer(cols = dplyr::starts_with("density_indha")) %>%
+    dplyr::mutate(value = dplyr::coalesce(value, 0)) %>%
+    dplyr::group_by(site, sample_date, name) %>%
+    dplyr::summarise(
+      avg = mean(value, na.rm = TRUE),
+      sd = sd(value, na.rm = TRUE),
+      sd = dplyr::coalesce(sd, 0),
+      .groups = "drop"
+    ) %>%
+    tidyr::pivot_longer(c(avg, sd), names_to = "stat") %>%
+    dplyr::mutate(
+      name = stringr::str_remove(name, "density_indha_group_interest_"),
+      name = paste0("density_indha_group_interest_", stat, "_", name),
+      value = round(value)
+    ) %>%
+    dplyr::select(-stat) %>%
+    dplyr::arrange(site, sample_date, name)
+
+  se_goi <- se %>%
+    dplyr::select(site, sample_date, contains("group_interest")) %>%
+    tidyr::pivot_longer(dplyr::contains("group_interest")) %>%
+    dplyr::mutate(
+      value = round(value),
+      value = dplyr::coalesce(value, 0)
+    ) %>%
+    dplyr::arrange(site, sample_date, name)
+
+  expect_identical(su_to_se_by_goi, se_goi)
+
+  su_to_se_overall_summary <- su %>%
+    dplyr::select(site, sample_date, density_indha) %>%
+    dplyr::group_by(site, sample_date) %>%
+    dplyr::summarise(
+      density_indha_avg = mean(density_indha),
+      density_indha_sd = sd(density_indha),
+      .groups = "drop"
+    ) %>%
+    dplyr::mutate(dplyr::across(c(density_indha_avg, density_indha_sd), round)) %>%
+    dplyr::arrange(site, sample_date)
+
+  se_overall_summary <- se %>%
+    dplyr::select(dplyr::all_of(names(su_to_se_overall_summary))) %>%
+    dplyr::mutate(dplyr::across(c(density_indha_avg, density_indha_sd), round)) %>%
+    dplyr::arrange(site, sample_date)
+
+  expect_identical(su_to_se_overall_summary, se_overall_summary)
+})
+
 # Benthic PQT ----
 
 test_that("mermaid_get_project_data for benthicpqt returns a data frame with the correct names", {
