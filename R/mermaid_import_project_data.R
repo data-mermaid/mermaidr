@@ -9,7 +9,7 @@
 #' @inheritParams get_project_endpoint
 #'
 #' @export
-mermaid_import_project_data <- function(data, project, method = c("fishbelt", "benthicpit", "benthiclit", "benthicpqt", "habitatcomplexity", "bleaching"), dryrun = TRUE, clearexisting = FALSE, token = mermaid_token()) {
+mermaid_import_project_data <- function(data, project, method = c("fishbelt", "benthicpit", "benthiclit", "benthicpqt", "habitatcomplexity", "bleaching", "macroinvertebrate"), dryrun = TRUE, clearexisting = FALSE, token = mermaid_token()) {
   import_project_data_internal(data = data, project = project, method = method, dryrun = dryrun, clearexisting = clearexisting, clearexistingforce = FALSE, token = token)
 }
 
