@@ -328,3 +328,49 @@ test_that("mermaid_import_project_data with NA in CSVs converts NAs to '' and su
   expect_true(all(is.na(collect_records[["relative_depth"]])))
   expect_true(all(collect_records[["notes"]] == ""))
 })
+
+test_that("mermaid_import_project_data fails if site or management are not valid", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  project_id <- "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
+
+  df <- structure(list(
+    `Site *` = "invalid", `Management *` = "Fake Management Organization",
+    `Sample date: Year *` = 2022, `Sample date: Month *` = 6,
+    `Sample date: Day *` = 15, `Sample time` = "10:01", `Depth *` = 8, `Transect number *` = 1,
+    `Transect label` = NA, `Transect length surveyed *` = 50,
+    `Width *` = "5 m", `Fish size bin *` = 5, `Reef slope` = NA,
+    Visibility = NA, Current = NA, `Relative depth` = NA,
+    Tide = "falling", Notes = NA, `Observer emails *` = "sharla.gelfand@gmail.com",
+    `Fish name *` = "chaetodon auriga", `Size *` = 7.5, `Count *` = 4
+  ), row.names = c(
+    NA,
+    -1L
+  ), class = c("tbl_df", "tbl", "data.frame"))
+
+  expect_warning(
+    mermaid_import_project_data(df, project_id, "fishbelt", dryrun = TRUE),
+    "Failed to import"
+  )
+
+  df <- structure(list(
+    `Site *` = "1201", `Management *` = "invalid",
+    `Sample date: Year *` = 2022, `Sample date: Month *` = 6,
+    `Sample date: Day *` = 15, `Sample time` = "10:01", `Depth *` = 8, `Transect number *` = 1,
+    `Transect label` = NA, `Transect length surveyed *` = 50,
+    `Width *` = "5 m", `Fish size bin *` = 5, `Reef slope` = NA,
+    Visibility = NA, Current = NA, `Relative depth` = NA,
+    Tide = "falling", Notes = NA, `Observer emails *` = "sharla.gelfand@gmail.com",
+    `Fish name *` = "chaetodon auriga", `Size *` = 7.5, `Count *` = 4
+  ), row.names = c(
+    NA,
+    -1L
+  ), class = c("tbl_df", "tbl", "data.frame"))
+
+  expect_warning(
+    mermaid_import_project_data(df, project_id, "fishbelt", dryrun = TRUE),
+    "Failed to import"
+  )
+})
