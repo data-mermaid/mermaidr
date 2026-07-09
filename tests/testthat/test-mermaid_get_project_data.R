@@ -1048,7 +1048,7 @@ test_that("Inverts cols match those from CSV export", {
     dplyr::select(-day, -month, -year, -start_time, -dplyr::ends_with("_id"), -dplyr::ends_with("notes"))
 
   obs <- obs_raw %>%
-    dplyr::select(-sample_date, -sample_time, -dplyr::ends_with("_id"),  -dplyr::ends_with("notes"))
+    dplyr::select(-sample_date, -sample_time, -dplyr::ends_with("_id"), -dplyr::ends_with("notes"))
 
   expect_equal(names(obs) %>% sort(), names(obs_csv) %>% sort())
 
@@ -1063,7 +1063,8 @@ test_that("Inverts cols match those from CSV export", {
       \(x) stringr::str_remove(x, "_name")
     ) %>%
     dplyr::rename_with(
-      \(x) x %>% stringr::str_replace("by_group_of_interest", "group_interest") %>%
+      \(x) x %>%
+        stringr::str_replace("by_group_of_interest", "group_interest") %>%
         stringr::str_replace("ind_ha", "indha")
     ) %>%
     dplyr::rename(
@@ -1096,7 +1097,8 @@ test_that("Inverts cols match those from CSV export", {
       \(x) stringr::str_remove(x, "_name")
     ) %>%
     dplyr::rename_with(
-      \(x) x %>% stringr::str_replace("by_group_of_interest", "group_interest") %>%
+      \(x) x %>%
+        stringr::str_replace("by_group_of_interest", "group_interest") %>%
         stringr::str_replace("ind_ha", "indha")
     ) %>%
     dplyr::rename(
@@ -1110,7 +1112,9 @@ test_that("Inverts cols match those from CSV export", {
       count_total_avg = total_count_average,
       count_total_sd = total_count_standard_deviation
     ) %>%
-    dplyr::rename_with(\(x) x %>% stringr::str_replace("average", "avg") %>% stringr::str_replace("standard_deviation", "sd")) %>%
+    dplyr::rename_with(\(x) x %>%
+      stringr::str_replace("average", "avg") %>%
+      stringr::str_replace("standard_deviation", "sd")) %>%
     dplyr::select(-day, -month, -year, -dplyr::ends_with("_id"), -dplyr::ends_with("notes"))
 
   se <- se_raw %>%
