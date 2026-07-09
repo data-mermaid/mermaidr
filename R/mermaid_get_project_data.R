@@ -168,15 +168,15 @@ common_cols <- list(
   ),
   obs_closing = c(
     "observers", "project_notes", "site_notes", "management_notes", "sample_unit_id",
-    "sample_event_id", "project_admins", "contact_link"
+    "sample_event_id", "project_admins", "suggested_citation", "project_includes_gfcr", "contact_link"
   ),
   su_closing = c(
     "observers", "project_notes", "site_notes", "management_notes", "sample_unit_notes",
-    "sample_event_id", "sample_unit_ids", "project_admins", "contact_link"
+    "sample_event_id", "sample_unit_ids", "project_admins", "suggested_citation", "project_includes_gfcr", "contact_link"
   ),
   se_closing = c(
     "observers", "project_notes", "site_notes", "management_notes", "id",
-    "sample_unit_count", "project_admins", "contact_link", "sample_event_id"
+    "sample_unit_count", "project_admins", "suggested_citation", "project_includes_gfcr", "contact_link", "sample_event_id"
   ),
   life_histories_obs = "life_histories",
   life_histories_obs_csv = c(

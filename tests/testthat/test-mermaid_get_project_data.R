@@ -901,7 +901,8 @@ test_that("Bleaching sample event aggregation is the same as manually aggregatin
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
 
-## Inverts ----
+# Inverts ----
+
 test_that("Inverts sample unit aggregation is the same as manually aggregating observations", {
   skip_if_offline()
   skip_on_ci()
@@ -1007,6 +1008,115 @@ test_that("Inverts sample event aggregation is the same as manually aggregating 
     dplyr::arrange(site, sample_date)
 
   expect_identical(su_to_se_overall_summary, se_overall_summary)
+})
+test_that("Inverts cols match those from CSV export", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  p <- "bacd3529-e0f4-40f4-a089-992c5bd5cc02"
+  data <- mermaid_get_project_data(p, "macroinvertebrate", "all")
+
+  obs_raw <- data[["observations"]]
+
+  obs_csv_raw <- readr::read_csv(testthat::test_path("testdata/inverts_obs.csv"), show_col_types = FALSE)
+  names(obs_csv_raw) <- snakecase::to_snake_case(names(obs_csv_raw))
+
+  obs_csv <- obs_csv_raw %>%
+    dplyr::rename(project = project_name) %>%
+    dplyr::rename_with(
+      .cols = dplyr::ends_with("_name"),
+      \(x) stringr::str_remove(x, "_name")
+    ) %>%
+    dplyr::rename_with(
+      .cols = dplyr::starts_with("macroinvertebrate_"),
+      \(x) stringr::str_replace(x, "macroinvertebrate_", "invert_")
+    ) %>%
+    dplyr::rename(
+      contact_link = project_contact_link,
+      density_indha = density_ind_ha,
+      management_compliance = estimated_compliance,
+      invert_group_of_interest = group_of_interest,
+      label = transect_label,
+      data_policy_macroinvertebrate = invert_data_policy,
+      reef_exposure = exposure,
+      management_est_year = management_year_established,
+      transect_length = transect_length_surveyed,
+      management_parties = governance,
+      tags = project_organizations
+    ) %>%
+    dplyr::select(-day, -month, -year, -start_time, -dplyr::ends_with("_id"), -dplyr::ends_with("notes"))
+
+  obs <- obs_raw %>%
+    dplyr::select(-sample_date, -sample_time, -dplyr::ends_with("_id"),  -dplyr::ends_with("notes"))
+
+  expect_equal(names(obs) %>% sort(), names(obs_csv) %>% sort())
+
+  su_raw <- data[["sampleunits"]]
+  su_csv_raw <- readr::read_csv(testthat::test_path("testdata/inverts_su.csv"), show_col_types = FALSE)
+  names(su_csv_raw) <- snakecase::to_snake_case(names(su_csv_raw))
+
+  su_csv <- su_csv_raw %>%
+    dplyr::rename(project = project_name) %>%
+    dplyr::rename_with(
+      .cols = dplyr::ends_with("_name"),
+      \(x) stringr::str_remove(x, "_name")
+    ) %>%
+    dplyr::rename_with(
+      \(x) x %>% stringr::str_replace("by_group_of_interest", "group_interest") %>%
+        stringr::str_replace("ind_ha", "indha")
+    ) %>%
+    dplyr::rename(
+      contact_link = project_contact_link,
+      management_compliance = estimated_compliance,
+      label = transect_label,
+      data_policy_macroinvertebrate = macroinvertebrate_data_policy,
+      reef_exposure = exposure,
+      management_est_year = management_year_established,
+      transect_length = transect_length_surveyed,
+      management_parties = governance,
+      tags = project_organizations,
+      total_abundance = total_count_ind
+    ) %>%
+    dplyr::select(-day, -month, -year, -start_time, -dplyr::ends_with("_id"), -dplyr::ends_with("notes"))
+
+  su <- su_raw %>%
+    dplyr::select(-sample_date, -sample_time, -dplyr::ends_with("_id"), -dplyr::ends_with("notes"), -sample_unit_ids)
+
+  expect_true(all(names(su_csv) %in% names(su)))
+
+  se_raw <- data[["sampleevents"]]
+  se_csv_raw <- readr::read_csv(testthat::test_path("testdata/inverts_se.csv"), show_col_types = FALSE)
+  names(se_csv_raw) <- snakecase::to_snake_case(names(se_csv_raw))
+
+  se_csv <- se_csv_raw %>%
+    dplyr::rename(project = project_name) %>%
+    dplyr::rename_with(
+      .cols = dplyr::ends_with("_name"),
+      \(x) stringr::str_remove(x, "_name")
+    ) %>%
+    dplyr::rename_with(
+      \(x) x %>% stringr::str_replace("by_group_of_interest", "group_interest") %>%
+        stringr::str_replace("ind_ha", "indha")
+    ) %>%
+    dplyr::rename(
+      contact_link = project_contact_link,
+      management_compliance = estimated_compliance,
+      data_policy_macroinvertebrate = macroinvertebrate_data_policy,
+      reef_exposure = exposure,
+      management_est_year = management_year_established,
+      management_parties = governance,
+      tags = project_organizations,
+      count_total_avg = total_count_average,
+      count_total_sd = total_count_standard_deviation
+    ) %>%
+    dplyr::rename_with(\(x) x %>% stringr::str_replace("average", "avg") %>% stringr::str_replace("standard_deviation", "sd")) %>%
+    dplyr::select(-day, -month, -year, -dplyr::ends_with("_id"), -dplyr::ends_with("notes"))
+
+  se <- se_raw %>%
+    dplyr::select(-sample_date, -dplyr::ends_with("_id"), -dplyr::ends_with("notes"), -id)
+
+  expect_true(all(names(se_csv) %in% names(se)))
 })
 
 # Benthic PQT ----
