@@ -8,7 +8,7 @@ mermaid_import_project_data(
   data,
   project,
   method = c("fishbelt", "benthicpit", "benthiclit", "benthicpqt", "habitatcomplexity",
-    "bleaching"),
+    "bleaching", "macroinvertebrate"),
   dryrun = TRUE,
   clearexisting = FALSE,
   token = mermaid_token()
