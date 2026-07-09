@@ -7,7 +7,7 @@
 mermaid_get_project_data(
   project = mermaid_get_default_project(),
   method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching",
-    "habitatcomplexity", "all"),
+    "habitatcomplexity", "macroinvertebrate", "all"),
   data = c("observations", "sampleunits", "sampleevents", "all"),
   limit = NULL,
   token = mermaid_token(),
@@ -17,7 +17,7 @@ mermaid_get_project_data(
 \arguments{
 \item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_my_projects}} or \code{\link{mermaid_search_my_projects}}. Defaults to the projects listed via \code{mermaid_get_default_project}, if available.}
 
-\item{method}{Method to get data for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", "habitatcomplexity", or "all" (to get data for all methods).}
+\item{method}{Method to get data for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", "habitatcomplexity", "macroinvertebrate", or "all" (to get data for all methods).}
 
 \item{data}{Data to return. One of "observations", "sampleunits", "sampleevents", or "all" (to get all three kinds of data). See details for more.}
 
