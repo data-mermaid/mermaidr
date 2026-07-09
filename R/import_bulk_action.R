@@ -102,7 +102,7 @@ import_bulk_action <- function(project, action, method = NULL, bulkeditforce = F
   action_res <- purrr::map(
     relevant_records_split,
     .progress = progress_bar,
-    \(x) {
+    function(x) {
       if (action %in% c("validate", "submit")) {
         validate_or_submit_collect_records(x, project_id, action, token = token)
       } else if (action == "edit") {
@@ -185,7 +185,7 @@ validate_or_submit_collect_records <- function(x, project_id, action, token = me
       jsonlite::fromJSON(simplifyVector = FALSE) %>%
       purrr::map_dfr(
         .id = "id",
-        \(x) {
+        function(x) {
           status <- x[["status"]]
           # Just differentiate between ok/not_ok for submit
           if (action == "submit") {
@@ -208,7 +208,7 @@ summarise_all_statuses <- function(df, statuses, action = c("validate", "submit"
     split(.$status)
 
   status_summary %>%
-    purrr::walk(\(x) summarise_single_status(x, action, drop = action_drop_statuses))
+    purrr::walk(function(x) summarise_single_status(x, action, drop = action_drop_statuses))
 }
 
 summarise_single_status <- function(df, action, drop) {

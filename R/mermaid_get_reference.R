@@ -24,7 +24,7 @@ mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "f
   names(res) <- reference
   res <- purrr::imap(
     res,
-    \(res, name) {
+    function(res, name) {
       if (name %in% c("fishfamilies", "fishgenera", "fishspecies", "benthicattributes")) {
         lookup_regions(res, choices)
       }
@@ -84,8 +84,8 @@ get_reference_fishspecies <- function(limit = NULL, choices = mermaid_get_endpoi
     dplyr::select(tidyselect::all_of(c("id", genus = "name")))
 
   fishspecies %>%
-    dplyr::select(-name) %>%
-    dplyr::rename(name = display) %>%
+    dplyr::select(-.data$name) %>%
+    dplyr::rename(name = .data$display) %>%
     dplyr::left_join(genus, by = c("genus" = "id"), suffix = c("_id", "")) %>%
     dplyr::left_join(fishgroupsizes, by = c("group_size" = "id"), suffix = c("_id", "")) %>%
     dplyr::left_join(fishgrouptrophics, by = c("trophic_group" = "id"), suffix = c("_id", "")) %>%
@@ -128,12 +128,12 @@ get_reference_invertspecies <- function(limit = NULL, choices = mermaid_get_endp
   invertattributes <- get_reference_invertattributes(choices = choices)
 
   invertgenus <- invertattributes %>%
-    dplyr::filter(taxonomic_rank == "genus") %>%
+    dplyr::filter(.data$taxonomic_rank == "genus") %>%
     dplyr::select(tidyselect::all_of(c("id", genus = "name")))
 
   invertspecies %>%
-    dplyr::select(-name) %>%
-    dplyr::rename(name = display) %>%
+    dplyr::select(-.data$name) %>%
+    dplyr::rename(name = .data$display) %>%
     dplyr::left_join(invertgenus, by = c("genus" = "id"), suffix = c("_id", ""))
 }
 

@@ -53,7 +53,7 @@ edit_records <- function(x, project_id, methods_endpoint, token = mermaid_token(
       purrr::map_dfr(
         .id = "id",
         # What returns is the new collect record ID, no status etc
-        \(x) {
+        function(x) {
           # Query the collect records and check that the new ID is one of them
           collect_records <- get_collecting_records(project_id, token = token)
           dplyr::tibble(status = ifelse(x %in% collect_records[["id"]], "ok", "not_ok"))
