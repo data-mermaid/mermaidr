@@ -374,3 +374,51 @@ test_that("mermaid_import_project_data fails if site or management are not valid
     "Failed to import"
   )
 })
+
+test_that("mermaid_import_project_data works for inverts", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  p <- "bacd3529-e0f4-40f4-a089-992c5bd5cc02"
+
+  template <- mermaid_import_get_template_and_options(p, "macroinvertebrate")
+
+  ingest_test <- purrr::map_dfr(
+    names(template$Template),
+    \(field) {
+      choices <- template[[field]][["choices"]]
+
+      if (!is.null(choices)) {
+        dplyr::tibble(
+          value = choices[[1]][[1]],
+          name = field
+        )
+      }
+    }
+  ) %>%
+    tidyr::pivot_wider(names_from = name, values_from = value) %>%
+    dplyr::mutate(
+      `Sample date: Year *` = 2026,
+      `Sample date: Month *` = 01,
+      `Sample date: Day *` = 01,
+      `Sample time` = "02:02",
+      `Depth *` = 3,
+      `Transect number *` = 1,
+      `Transect label` = "testing",
+      `Transect length surveyed *` = 50,
+      `Sample unit notes` = "testing ingest via mermaidr",
+      `Count *` = 2,
+      `Size` = 5,
+      `Observation notes` = "testing",
+      `Observer emails *` = "sharla.gelfand@gmail.com"
+    ) %>%
+    dplyr::select(names(template[["Template"]]))
+
+  expect_message(mermaid_import_project_data(ingest_test, p, method = "macroinvertebrate", dryrun = TRUE), "successfully checked")
+
+  expect_message(
+    mermaid_import_project_data(ingest_test, p, method = "macroinvertebrate", dryrun = FALSE),
+    "successfully imported"
+  )
+})
