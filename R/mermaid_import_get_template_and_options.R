@@ -139,7 +139,7 @@ mermaid_import_get_template_and_options <- function(project, method, save, token
 
 check_import_inputs <- function(method, data) {
   if (!all(method %in% methods) | length(method) > 1) {
-    stop('`method` must be one of: ', methods_string, call. = FALSE)
+    stop("`method` must be one of: ", methods_string, call. = FALSE)
   }
 }
 
