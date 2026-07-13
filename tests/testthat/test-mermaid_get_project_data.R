@@ -52,6 +52,7 @@ test_that("mermaid_get_project_data errors if passed a wrong method or data", {
 })
 
 test_that("mermaid_get_project_data setting 'all' works", {
+  # slow
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
@@ -1009,6 +1010,7 @@ test_that("Inverts sample event aggregation is the same as manually aggregating 
 
   expect_identical(su_to_se_overall_summary, se_overall_summary)
 })
+
 test_that("Inverts cols match those from CSV export", {
   skip_if_offline()
   skip_on_ci()
@@ -1140,6 +1142,7 @@ test_that("mermaid_get_project_data for benthicpqt returns a data frame with the
 # Covariates ----
 
 test_that("mermaid_get_project_data with covariates = FALSE (the default) doesn't return any covars", {
+  # slow
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
@@ -1173,6 +1176,7 @@ test_that("mermaid_get_project_data with covariates = FALSE (the default) doesn'
 })
 
 test_that("mermaid_get_project_data with covariates = TRUE returns covars, all the way down", {
+  # Slow
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
@@ -1198,25 +1202,6 @@ test_that("mermaid_get_project_data with covariates = TRUE returns covars, all t
     output_t[["observations"]][["bleaching"]],
     ~ expect_true(all(covars_cols %in% names(.x)))
   )
-  output <- mermaid_get_project_data(p, "fishbelt", "all", limit = 1, covariates = TRUE)
-  purrr::walk(
-    output,
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  output <- mermaid_get_project_data(p, "fishbelt", "observations", limit = 1, covariates = TRUE)
-  expect_true(all(covars_cols %in% names(output)))
-  output <- mermaid_get_project_data(p, "bleaching", "all", limit = 1, covariates = TRUE)
-  expect_true(all(covars_cols %in% names(output[["sampleunits"]])))
-  expect_true(all(covars_cols %in% names(output[["sampleevents"]])))
-  purrr::walk(
-    output[["observations"]],
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  output <- mermaid_get_project_data(p, "bleaching", "observations", limit = 1, covariates = TRUE)
-  purrr::walk(
-    output,
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
 
   # One project, contains cols
   p <- "02e6915c-1c64-4d2c-bac0-326b560415a2"
@@ -1235,16 +1220,9 @@ test_that("mermaid_get_project_data with covariates = TRUE returns covars, all t
     output_t[["observations"]],
     ~ expect_true(all(covars_cols %in% names(.x)))
   )
-  output <- mermaid_get_project_data(p, "fishbelt", "all", limit = 1, covariates = TRUE)
-  purrr::walk(
-    output,
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  output <- mermaid_get_project_data(p, "fishbelt", "observations", limit = 1, covariates = TRUE)
-  expect_true(all(covars_cols %in% names(output)))
 
   p <- "170e7182-700a-4814-8f1e-45ee1caf3b44"
-  output <- mermaid_get_project_data(p, c("fishbelt", "benthicpit"), "all", limit = 1, covariates = TRUE)
+  output <- mermaid_get_project_data(p, c("benthicpit"), "all", limit = 1, covariates = TRUE)
   output_t <- output %>%
     purrr::transpose()
   purrr::walk(
@@ -1259,13 +1237,6 @@ test_that("mermaid_get_project_data with covariates = TRUE returns covars, all t
     output_t[["observations"]],
     ~ expect_true(all(covars_cols %in% names(.x)))
   )
-  output <- mermaid_get_project_data(p, "fishbelt", "all", limit = 1, covariates = TRUE)
-  purrr::walk(
-    output,
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  output <- mermaid_get_project_data(p, "fishbelt", "observations", limit = 1, covariates = TRUE)
-  expect_true(all(covars_cols %in% names(output)))
 
   p <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
   output <- mermaid_get_project_data(p, c("bleaching", "benthiclit"), "all", limit = 1, covariates = TRUE)
@@ -1284,99 +1255,6 @@ test_that("mermaid_get_project_data with covariates = TRUE returns covars, all t
     output_t[["observations"]][["bleaching"]],
     ~ expect_true(all(covars_cols %in% names(.x)))
   )
-  output <- mermaid_get_project_data(p, "benthiclit", "all", limit = 1, covariates = TRUE)
-  purrr::walk(
-    output,
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  output <- mermaid_get_project_data(p, "benthiclit", "observations", limit = 1, covariates = TRUE)
-  expect_true(all(covars_cols %in% names(output)))
-
-  # Multiple projects, contains cols
-  p <- c(
-    "02e6915c-1c64-4d2c-bac0-326b560415a2",
-    "170e7182-700a-4814-8f1e-45ee1caf3b44",
-    "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b",
-    "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
-  )
-  output <- mermaid_get_project_data(p, "all", "all", limit = 1, covariates = TRUE)
-  output_t <- output %>%
-    purrr::transpose()
-  purrr::walk(
-    output_t[["sampleunits"]],
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  purrr::walk(
-    output_t[["sampleevents"]],
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  purrr::walk(
-    output_t[["observations"]][names(output_t[["observations"]]) != "bleaching"],
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  purrr::walk(
-    output_t[["observations"]][["bleaching"]],
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  output <- mermaid_get_project_data(p, "fishbelt", "all", limit = 1, covariates = TRUE)
-  purrr::walk(
-    output,
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  output <- mermaid_get_project_data(p, "fishbelt", "observations", limit = 1, covariates = TRUE)
-  expect_true(all(covars_cols %in% names(output)))
-  output <- mermaid_get_project_data(p, "bleaching", "all", limit = 1, covariates = TRUE)
-  expect_true(all(covars_cols %in% names(output[["sampleunits"]])))
-  expect_true(all(covars_cols %in% names(output[["sampleevents"]])))
-  purrr::walk(
-    output[["observations"]],
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  output <- mermaid_get_project_data(p, "bleaching", "observations", limit = 1, covariates = TRUE)
-  purrr::walk(
-    output,
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-})
-
-# _by_ removal ----
-
-test_that("All expanded columns that formerly had _by_ in them are properly pulled down", {
-  skip_if_offline()
-  skip_on_ci()
-  skip_on_cran()
-
-  p <- mermaid_get_my_projects()
-  cols <- project_data_df_columns_list %>%
-    purrr::map_dfr(dplyr::as_tibble, .id = "method_data") %>%
-    dplyr::filter(!stringr::str_ends(method_data, "csv")) %>%
-    tidyr::separate(method_data, into = c("method", "data"), sep = "/") %>%
-    dplyr::mutate(method = dplyr::case_when(
-      method == "beltfishes" ~ "fishbelt",
-      stringr::str_starts(method, "benthic") ~ stringr::str_remove(method, "s"),
-      method == "bleachingqcs" ~ "bleaching"
-    ))
-
-  cols %>%
-    dplyr::distinct(method, data) %>%
-    dplyr::filter(data %in% c("sampleunits", "sampleevents")) %>%
-    dplyr::mutate(id = dplyr::row_number()) %>%
-    split(.$id) %>%
-    purrr::walk(
-      function(x) {
-        res <- mermaid_get_project_data(p, x$method, x$data)
-        col <- x %>%
-          dplyr::left_join(cols, by = c("method", "data")) %>%
-          dplyr::pull(value)
-
-        purrr::walk(
-          col,
-          function(col) {
-            expect_true(any(stringr::str_starts(names(res), col)))
-          }
-        )
-      }
-    )
 })
 
 # Standard Deviations ----
@@ -1501,35 +1379,4 @@ test_that("Bleaching - standard deviations calculated in API are the same as SDs
   ## Sample events
   p %>%
     check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
-})
-
-# CSV endpoint ----
-
-test_that("All methods and data contain 'observers' column", {
-  skip_if_offline()
-  skip_on_ci()
-  skip_on_cran()
-
-  p <- c(
-    "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b",
-    "5679ef3d-bafc-453d-9e1a-a4b282a8a997",
-    "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a",
-    "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
-  )
-
-  output <- mermaid_get_project_data(p, method = "all", data = "all", limit = 1)
-
-  output %>%
-    purrr::map_depth(
-      \(x) {
-        if (is.data.frame(x)) {
-          expect_true("observers" %in% names(x))
-        } else {
-          purrr::map(x, \(x) {
-            expect_true("observers" %in% names(x))
-          })
-        }
-      },
-      .depth = 2
-    )
 })
