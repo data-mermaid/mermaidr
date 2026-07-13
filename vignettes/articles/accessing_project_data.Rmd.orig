@@ -116,16 +116,23 @@ mozambique %>%
 
 You can access sample units and sample events the same way.
 
-For Benthic LIT, sample units contain percent cover per sample unit, by benthic category. Sample *events* contain *mean* percent cover per sample event, by benthic category, and standard deviations for these values:
+For Benthic LIT, sample units contain percent cover per sample unit, by benthic category.
 
 ```{r}
 mozambique %>%
   mermaid_get_project_data(method = "benthiclit", data = "sampleunits")
 ```
 
+Sample *events* contain *mean* percent cover per sample event, by benthic category, and standard deviations for these values:
+
+```{r}
+mozambique %>%
+  mermaid_get_project_data(method = "benthiclit", data = "sampleevents")
+```
+
 ## Benthic PIT data
 
-To access Benthic LIT data, change `method` to "benthicpit":
+To access Benthic PIT data, change `method` to "benthicpit":
 
 ```{r}
 xpdc %>%
@@ -142,6 +149,52 @@ xpdc_sample_units_events <- xpdc %>%
 
 names(xpdc_sample_units_events)
 xpdc_sample_units_events[["sampleunits"]]
+```
+
+## Benthic PQT data
+
+To access Benthic PQT data, change `method` to "benthicpqt":
+
+```{r}
+glovers_atoll <- my_projects %>%
+  filter(name == "Belize Glover's Atoll 2020")
+
+glovers_atoll %>%
+  mermaid_get_project_data(method = "benthicpqt", data = "observations")
+```
+
+You can access sample units and sample events the same way.
+
+Sample units contains percent cover per sample unit, by benthic category and by life histories.
+
+```{r}
+glovers_atoll %>%
+  mermaid_get_project_data(method = "benthicpqt", data = "sampleunits")
+```
+
+Sample events contains *mean* percent cover per sample event, by benthic category and by life histories, and standard deviations for these values:
+
+```{r}
+glovers_atoll %>%
+  mermaid_get_project_data(method = "benthicpqt", data = "sampleevents")
+```
+
+## Macroinvertebrate
+
+To access Macroinvertebrate data, set `method` to "macroinvertebrate".
+
+Observations data includes size, count, and density, with a full breakdown of macroinvertebrate class, order, family, genus, and group of interest, along with the size, count, and density.
+
+```{r}
+glovers_atoll %>%
+  mermaid_get_project_data(method = "macroinvertebrate", data = "observations")
+```
+
+Sample units data returns total abundance and density, as well as density by group of interest, and sample events contain \emph{mean} density per sample event, by group of interest, and standard deviations of these values.
+
+```{r}
+glovers_atoll %>%
+  mermaid_get_project_data(method = "macroinvertebrate", data = "sampleunits")
 ```
 
 ## Bleaching
@@ -203,7 +256,7 @@ names(all_project_data[["benthicpit"]])
 
 ## Multiple projects
 
-Pulling data for multiple projects is the exact same, except there will be an additional "project" column at the beginning to distinguish which projects the data comes from. Recall that `my_projects` contains six projects:
+Pulling data for multiple projects is the exact same, except there will be an additional "project" column at the beginning to distinguish which projects the data comes from.
 
 ```{r}
 my_projects
@@ -211,6 +264,7 @@ my_projects
 
 ```{r}
 my_projects %>%
+  head(5) %>%
   mermaid_get_project_data("fishbelt", "sampleevents", limit = 1)
 ```
 

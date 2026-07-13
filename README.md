@@ -58,26 +58,32 @@ countries, the number of sites, tags, data policies, and more:
 
 ``` r
 projects
-#> # A tibble: 22 × 20
+#> # A tibble: 16 × 21
 #>    id    name  countries num_sites num_active_sample_un…¹ num_sample_units tags 
 #>    <chr> <chr> <chr>         <int>                  <int>            <dbl> <chr>
-#>  1 e1ef… 2016… Fiji              9                     10               80 WCS …
-#>  2 170e… 2018… Fiji             10                      5              121 WCS …
-#>  3 d065… 2019… Fiji             31                      3               32 WCS …
-#>  4 1fbd… a2    Canada, …         9                      9                0 WWF-…
-#>  5 3a9e… Aceh… Indonesia        18                     55              198 WCS …
-#>  6 bacd… Beli… Belize, …        37                    109              248 WCS …
-#>  7 173c… Copy… Fiji              8                      0                0 WCS …
-#>  8 7a6b… Copy… Belize           31                      3                0 WCS …
-#>  9 5f13… Copy… Indonesia        43                      0                0 WCS …
-#> 10 a1b7… Grea… Fiji             76                      8              648 Fiji…
-#> # ℹ 12 more rows
+#>  1 e1ef… 2016… Fiji              9                     10               80 "WCS…
+#>  2 170e… 2018… Fiji             10                      5              121 "WCS…
+#>  3 d065… 2019… Fiji             31                      3               32 "WCS…
+#>  4 1fbd… a2    Canada, …         9                      9                0 "WWF…
+#>  5 3a9e… Aceh… Indonesia        18                     55              198 "WCS…
+#>  6 bacd… Beli… Belize, …        39                    112              258 "WCS…
+#>  7 a1b7… Grea… Fiji             76                      8              648 "Fij…
+#>  8 507d… Kari… Indonesia        43                     18              842 "WCS…
+#>  9 75ef… Kubu… Fiji             78                      1             1145 "WCS…
+#> 10 5679… Mada… Madagasc…        33                      0               49 "WCS…
+#> 11 4080… Mada… Madagasc…        74                      4               84 "WCS…
+#> 12 4d79… MERM… Indonesi…        13                     72               32 "tes…
+#> 13 2c0c… Shar… Canada, …        28                      5                6 ""   
+#> 14 02e6… TWP … Indonesia        14                     10                2 "WCS…
+#> 15 2d6c… WCS … Mozambiq…        74                      6              247 "WCS…
+#> 16 9de8… XPDC… Indonesia        37                     71              450 ""   
 #> # ℹ abbreviated name: ¹​num_active_sample_units
-#> # ℹ 13 more variables: project_admins <chr>, suggested_citation <chr>,
+#> # ℹ 14 more variables: project_admins <chr>, suggested_citation <chr>,
 #> #   bbox <df[,4]>, notes <chr>, status <chr>, data_policy_beltfish <chr>,
 #> #   data_policy_benthiclit <chr>, data_policy_benthicpit <chr>,
 #> #   data_policy_benthicpqt <chr>, data_policy_habitatcomplexity <chr>,
-#> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
+#> #   data_policy_bleachingqc <chr>, data_policy_macroinvertebrate <chr>,
+#> #   created_on <chr>, updated_on <chr>
 ```
 
 To focus on just one or a few projects, you can filter by fields like
@@ -109,21 +115,21 @@ site/date, and broken down by trophic group and fish family.
 
 ``` r
 wcs_mozambique_fishbelt_samples
-#> # A tibble: 79 × 92
+#> # A tibble: 79 × 94
 #>    project            tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>              <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#>  1 WCS Mozambique Co… WCS … Mozamb… Bunt…    -12.6      40.6 fringing  fore reef
-#>  2 WCS Mozambique Co… WCS … Mozamb… Chec…    -26.8      32.9 patch     fore reef
-#>  3 WCS Mozambique Co… WCS … Mozamb… Mate…    -12.2      40.6 fringing  fore reef
-#>  4 WCS Mozambique Co… WCS … Mozamb… Jagg…    -26.8      32.9 patch     fore reef
-#>  5 WCS Mozambique Co… WCS … Mozamb… Ligh…    -12.3      40.6 fringing  fore reef
-#>  6 WCS Mozambique Co… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef
+#>  1 WCS Mozambique Co… WCS … Mozamb… Para…    -14.4      40.7 fringing  fore reef
+#>  2 WCS Mozambique Co… WCS … Mozamb… Bunt…    -12.6      40.6 fringing  fore reef
+#>  3 WCS Mozambique Co… WCS … Mozamb… Chec…    -26.8      32.9 patch     fore reef
+#>  4 WCS Mozambique Co… WCS … Mozamb… Mate…    -12.2      40.6 fringing  fore reef
+#>  5 WCS Mozambique Co… WCS … Mozamb… Jagg…    -26.8      32.9 patch     fore reef
+#>  6 WCS Mozambique Co… WCS … Mozamb… Ligh…    -12.3      40.6 fringing  fore reef
 #>  7 WCS Mozambique Co… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef
 #>  8 WCS Mozambique Co… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef
-#>  9 WCS Mozambique Co… WCS … Mozamb… Two …    -21.8      35.5 barrier   fore reef
-#> 10 WCS Mozambique Co… WCS … Mozamb… Luta…    -12.3      40.6 fringing  fore reef
+#>  9 WCS Mozambique Co… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef
+#> 10 WCS Mozambique Co… WCS … Mozamb… Two …    -21.8      35.5 barrier   fore reef
 #> # ℹ 69 more rows
-#> # ℹ 84 more variables: reef_exposure <chr>, tide <lgl>, current <lgl>,
+#> # ℹ 86 more variables: reef_exposure <chr>, tide <lgl>, current <lgl>,
 #> #   visibility <lgl>, management <chr>, management_secondary <lgl>,
 #> #   management_est_year <dbl>, management_size <dbl>, management_parties <chr>,
 #> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
@@ -138,21 +144,21 @@ transects or quadrats), it’s just a matter of changing `data` to
 ``` r
 wcs_mozambique %>%
   mermaid_get_project_data(method = "fishbelt", data = "sampleunits")
-#> # A tibble: 108 × 71
+#> # A tibble: 108 × 73
 #>    project            tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>              <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#>  1 WCS Mozambique Co… WCS … Mozamb… Metu…    -11.1      40.7 fringing  fore reef
-#>  2 WCS Mozambique Co… WCS … Mozamb… Lond…    -12.9      40.5 fringing  fore reef
-#>  3 WCS Mozambique Co… WCS … Mozamb… Pemb…    -13.0      40.6 fringing  fore reef
-#>  4 WCS Mozambique Co… WCS … Mozamb… Pang…    -11.0      40.6 lagoon    back reef
-#>  5 WCS Mozambique Co… WCS … Mozamb… Bunt…    -12.6      40.6 fringing  fore reef
-#>  6 WCS Mozambique Co… WCS … Mozamb… Para…    -14.5      40.7 fringing  fore reef
-#>  7 WCS Mozambique Co… WCS … Mozamb… Libe…    -14.5      40.7 fringing  back reef
-#>  8 WCS Mozambique Co… WCS … Mozamb… Patc…    -12.3      40.6 fringing  fore reef
-#>  9 WCS Mozambique Co… WCS … Mozamb… Pemb…    -13.0      40.6 fringing  fore reef
+#>  1 WCS Mozambique Co… WCS … Mozamb… Zala…    -12.0      40.6 lagoon    back reef
+#>  2 WCS Mozambique Co… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef
+#>  3 WCS Mozambique Co… WCS … Mozamb… Baby…    -11.0      40.7 fringing  fore reef
+#>  4 WCS Mozambique Co… WCS … Mozamb… Rola…    -12.2      40.6 fringing  fore reef
+#>  5 WCS Mozambique Co… WCS … Mozamb… Chec…    -26.8      32.9 patch     fore reef
+#>  6 WCS Mozambique Co… WCS … Mozamb… Metu…    -11.1      40.7 fringing  fore reef
+#>  7 WCS Mozambique Co… WCS … Mozamb… Teko…    -10.8      40.7 fringing  fore reef
+#>  8 WCS Mozambique Co… WCS … Mozamb… Quil…    -12.5      40.6 fringing  back reef
+#>  9 WCS Mozambique Co… WCS … Mozamb… Pang…    -11.0      40.6 lagoon    back reef
 #> 10 WCS Mozambique Co… WCS … Mozamb… Pang…    -11.0      40.6 lagoon    back reef
 #> # ℹ 98 more rows
-#> # ℹ 63 more variables: reef_exposure <chr>, reef_slope <lgl>, tide <lgl>,
+#> # ℹ 65 more variables: reef_exposure <chr>, reef_slope <lgl>, tide <lgl>,
 #> #   current <lgl>, visibility <lgl>, relative_depth <lgl>, management <chr>,
 #> #   management_secondary <lgl>, management_est_year <dbl>,
 #> #   management_size <dbl>, management_parties <chr>,
@@ -165,21 +171,21 @@ And raw observations are available by changing it to “observations”:
 ``` r
 wcs_mozambique %>%
   mermaid_get_project_data(method = "fishbelt", data = "observations")
-#> # A tibble: 2,637 × 52
+#> # A tibble: 2,637 × 54
 #>    project            tags  country site  latitude longitude reef_type reef_zone
 #>    <chr>              <chr> <chr>   <chr>    <dbl>     <dbl> <chr>     <chr>    
-#>  1 WCS Mozambique Co… WCS … Mozamb… Moti…    -14.4      40.7 fringing  back reef
-#>  2 WCS Mozambique Co… WCS … Mozamb… Moti…    -14.4      40.7 fringing  back reef
-#>  3 WCS Mozambique Co… WCS … Mozamb… Moti…    -14.4      40.7 fringing  back reef
-#>  4 WCS Mozambique Co… WCS … Mozamb… Moti…    -14.4      40.7 fringing  back reef
-#>  5 WCS Mozambique Co… WCS … Mozamb… Moti…    -14.4      40.7 fringing  back reef
-#>  6 WCS Mozambique Co… WCS … Mozamb… Moti…    -14.4      40.7 fringing  back reef
-#>  7 WCS Mozambique Co… WCS … Mozamb… Moti…    -14.4      40.7 fringing  back reef
-#>  8 WCS Mozambique Co… WCS … Mozamb… Moti…    -14.4      40.7 fringing  back reef
-#>  9 WCS Mozambique Co… WCS … Mozamb… Moti…    -14.4      40.7 fringing  back reef
-#> 10 WCS Mozambique Co… WCS … Mozamb… Moti…    -14.4      40.7 fringing  back reef
+#>  1 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef
+#>  2 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef
+#>  3 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef
+#>  4 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef
+#>  5 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef
+#>  6 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef
+#>  7 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef
+#>  8 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef
+#>  9 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef
+#> 10 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef
 #> # ℹ 2,627 more rows
-#> # ℹ 44 more variables: reef_exposure <chr>, reef_slope <lgl>, tide <lgl>,
+#> # ℹ 46 more variables: reef_exposure <chr>, reef_slope <lgl>, tide <lgl>,
 #> #   current <lgl>, visibility <lgl>, relative_depth <lgl>, management <chr>,
 #> #   management_secondary <lgl>, management_est_year <dbl>,
 #> #   management_size <dbl>, management_parties <chr>,
@@ -226,46 +232,46 @@ You can also get a list of *all* projects (not just your own):
 
 ``` r
 mermaid_get_projects()
-#> # A tibble: 197 × 20
+#> # A tibble: 113 × 21
 #>    id    name  countries num_sites num_active_sample_un…¹ num_sample_units tags 
 #>    <chr> <chr> <chr>         <int>                  <int>            <dbl> <chr>
-#>  1 fe3f… 1000… ""                0                      0                0 ""   
-#>  2 60dd… 2013… "Fiji"           17                      3              130 "WCS…
-#>  3 7376… 2014… "Fiji"           24                      2              345 "WCS…
-#>  4 ac93… 2016… "Fiji"           24                      2              146 "WCS…
-#>  5 e1ef… 2016… "Fiji"            9                     10               80 "WCS…
-#>  6 d549… 2017… "Fiji"           31                      0              279 "WCS…
-#>  7 c0ba… 2018… "Fiji"           22                      0              130 "WCS…
-#>  8 170e… 2018… "Fiji"           10                      5              121 "WCS…
-#>  9 95e0… 2019… "Fiji"           44                      0              406 "WCS…
-#> 10 d065… 2019… "Fiji"           31                      3               32 "WCS…
-#> # ℹ 187 more rows
+#>  1 13a2… 0909… ""                0                      0                0 ""   
+#>  2 f9c5… 1313… ""                0                      1                0 ""   
+#>  3 60dd… 2013… "Fiji"           17                      3              130 "WCS…
+#>  4 7376… 2014… "Fiji"           24                      2              345 "WCS…
+#>  5 ac93… 2016… "Fiji"           24                      2              146 "WCS…
+#>  6 e1ef… 2016… "Fiji"            9                     10               80 "WCS…
+#>  7 d549… 2017… "Fiji"           31                      0              279 "WCS…
+#>  8 c0ba… 2018… "Fiji"           22                      0              130 "WCS…
+#>  9 170e… 2018… "Fiji"           10                      5              121 "WCS…
+#> 10 95e0… 2019… "Fiji"           44                      0              406 "WCS…
+#> # ℹ 103 more rows
 #> # ℹ abbreviated name: ¹​num_active_sample_units
-#> # ℹ 13 more variables: project_admins <chr>, suggested_citation <chr>,
+#> # ℹ 14 more variables: project_admins <chr>, suggested_citation <chr>,
 #> #   bbox <df[,4]>, notes <chr>, status <chr>, data_policy_beltfish <chr>,
 #> #   data_policy_benthiclit <chr>, data_policy_benthicpit <chr>,
 #> #   data_policy_benthicpqt <chr>, data_policy_habitatcomplexity <chr>,
-#> #   data_policy_bleachingqc <chr>, created_on <chr>, updated_on <chr>
+#> #   data_policy_bleachingqc <chr>, data_policy_macroinvertebrate <chr>, …
 ```
 
 As well as all sites:
 
 ``` r
 mermaid_get_sites()
-#> # A tibble: 2,783 × 13
+#> # A tibble: 2,152 × 13
 #>    id         name  notes project latitude longitude country reef_type reef_zone
 #>    <chr>      <chr> <chr> <chr>      <dbl>     <dbl> <chr>   <chr>     <chr>    
 #>  1 0415d9e5-… mysi… <NA>  2c56b9…     -1        -1   Bangla… atoll     back reef
 #>  2 547dae1b-… bulk… <NA>  2c0c98…     47.5     -81.8 Canada  atoll     back reef
-#>  3 42d67bb1-… dupe… <NA>  c08ff9…      1         1   Canada  atoll     back reef
-#>  4 874c5a80-… dupe… <NA>  c08ff9…      1         1   Canada  atoll     back reef
-#>  5 706df098-… meli… <NA>  6cb15b…     49      -110   Canada  atoll     back reef
-#>  6 a022b5c5-… meli… <NA>  6cb15b…     49      -110   Canada  atoll     back reef
-#>  7 85942572-… meli… <NA>  9c04dd…     49      -110   Canada  atoll     back reef
-#>  8 afe4dac0-… meli… <NA>  ea4751…     49      -110   Canada  atoll     back reef
-#>  9 f53b19b2-… meli… <NA>  9c04dd…     49      -110   Canada  atoll     back reef
-#> 10 6cd334f9-… meli… <NA>  ea4751…     49      -110   Canada  atoll     back reef
-#> # ℹ 2,773 more rows
+#>  3 874c5a80-… dupe… <NA>  c08ff9…      1         1   Canada  atoll     back reef
+#>  4 42d67bb1-… dupe… <NA>  c08ff9…      1         1   Canada  atoll     back reef
+#>  5 afe4dac0-… meli… <NA>  ea4751…     49      -110   Canada  atoll     back reef
+#>  6 6cd334f9-… meli… <NA>  ea4751…     49      -110   Canada  atoll     back reef
+#>  7 9c2f0080-… BA02  Sour… a1b7ff…    -17.4     178.  Fiji    atoll     back reef
+#>  8 af55820b-… BA02  Sour… 89f2d4…    -17.4     178.  Fiji    atoll     back reef
+#>  9 c8bde957-… BA03  <NA>  a1b7ff…    -17.4     178.  Fiji    atoll     back reef
+#> 10 03e5576e-… BA03  <NA>  89f2d4…    -17.4     178.  Fiji    atoll     back reef
+#> # ℹ 2,142 more rows
 #> # ℹ 4 more variables: exposure <chr>, predecessor <chr>, created_on <chr>,
 #> #   updated_on <chr>
 ```
@@ -274,20 +280,20 @@ And all managements:
 
 ``` r
 mermaid_get_managements()
-#> # A tibble: 1,744 × 17
+#> # A tibble: 1,584 × 17
 #>    id         name  name_secondary est_year  size parties compliance open_access
 #>    <chr>      <chr> <chr>             <int> <dbl> <chr>   <chr>      <lgl>      
-#>  1 248e26fe-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
-#>  2 c0956a14-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
-#>  3 ea40bbe3-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
-#>  4 0e9aa677-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
-#>  5 264344e1-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
-#>  6 227a82a5-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
+#>  1 a10d4cfc-… 123   Secondary nam…     1979   123 <NA>    full       FALSE      
+#>  2 d70de8ff-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
+#>  3 9b1df02a-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
+#>  4 248e26fe-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
+#>  5 9c204b0d-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
+#>  6 0e9aa677-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
 #>  7 9168b477-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
-#>  8 9b1df02a-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
-#>  9 2cd81d70-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
-#> 10 d70de8ff-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
-#> # ℹ 1,734 more rows
+#>  8 9788b7f9-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
+#>  9 0c8f7d2c-… A'a … Special Manag…     2017   398 <NA>    full       FALSE      
+#> 10 91bf6350-… A'a … Special Manag…     2017   398 commun… full       FALSE      
+#> # ℹ 1,574 more rows
 #> # ℹ 9 more variables: no_take <lgl>, access_restriction <lgl>,
 #> #   periodic_closure <lgl>, size_limits <lgl>, gear_restriction <lgl>,
 #> #   species_restriction <lgl>, notes <chr>, created_on <chr>, updated_on <chr>

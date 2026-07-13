@@ -84,8 +84,8 @@ get_reference_fishspecies <- function(limit = NULL, choices = mermaid_get_endpoi
     dplyr::select(tidyselect::all_of(c("id", genus = "name")))
 
   fishspecies %>%
-    dplyr::select(-.data$name) %>%
-    dplyr::rename(name = .data$display) %>%
+    dplyr::select(-name) %>%
+    dplyr::rename(name = display) %>%
     dplyr::left_join(genus, by = c("genus" = "id"), suffix = c("_id", "")) %>%
     dplyr::left_join(fishgroupsizes, by = c("group_size" = "id"), suffix = c("_id", "")) %>%
     dplyr::left_join(fishgrouptrophics, by = c("trophic_group" = "id"), suffix = c("_id", "")) %>%
