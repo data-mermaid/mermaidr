@@ -52,7 +52,6 @@ test_that("mermaid_get_project_data errors if passed a wrong method or data", {
 })
 
 test_that("mermaid_get_project_data setting 'all' works", {
-  # slow
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
@@ -1142,7 +1141,6 @@ test_that("mermaid_get_project_data for benthicpqt returns a data frame with the
 # Covariates ----
 
 test_that("mermaid_get_project_data with covariates = FALSE (the default) doesn't return any covars", {
-  # slow
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
@@ -1176,7 +1174,6 @@ test_that("mermaid_get_project_data with covariates = FALSE (the default) doesn'
 })
 
 test_that("mermaid_get_project_data with covariates = TRUE returns covars, all the way down", {
-  # Slow
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
