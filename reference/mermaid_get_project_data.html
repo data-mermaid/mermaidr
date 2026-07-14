@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
       </span>
     </div>
 
@@ -37,7 +37,7 @@
       <a href="../articles/vo_baseline_monitoring.html">WCS Vibrant Oceans Baseline Coral Reef Monitoring</a>
     </li>
     <li>
-      <a href="../articles/importing_fishbelt.html">Ingesting legacy data into MERMAID</a>
+      <a href="../articles/importing_fishbelt.html">Importing legacy data into MERMAID</a>
     </li>
     <li>
       <a href="../articles/import_cpce.html">Import CPCe data into MERMAID</a>
@@ -93,7 +93,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mermaid_get_project_data</span><span class="op">(</span></span>
 <span>  project <span class="op">=</span> <span class="fu"><a href="mermaid_default_project.html">mermaid_get_default_project</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"benthiclit"</span>, <span class="st">"benthicpit"</span>, <span class="st">"benthicpqt"</span>, <span class="st">"bleaching"</span>,</span>
-<span>    <span class="st">"habitatcomplexity"</span>, <span class="st">"all"</span><span class="op">)</span>,</span>
+<span>    <span class="st">"habitatcomplexity"</span>, <span class="st">"macroinvertebrate"</span>, <span class="st">"all"</span><span class="op">)</span>,</span>
 <span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"observations"</span>, <span class="st">"sampleunits"</span>, <span class="st">"sampleevents"</span>, <span class="st">"all"</span><span class="op">)</span>,</span>
 <span>  limit <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  token <span class="op">=</span> <span class="fu"><a href="mermaid_token.html">mermaid_token</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -110,7 +110,7 @@
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
-<dd><p>Method to get data for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", "habitatcomplexity", or "all" (to get data for all methods).</p></dd>
+<dd><p>Method to get data for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", "habitatcomplexity", "macroinvertebrate", or "all" (to get data for all methods).</p></dd>
 
 
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
@@ -137,6 +137,7 @@
 <p>Benthic Photo Quadrat method data is available by setting <code>method</code> to "benthicpqt". Benthic PQT observations contain individual observations, sample units data returns percent cover per sample unit, by benthic category, and sample events contain <em>mean</em> percent cover per sample event, by benthic category, and standard deviations of these values.</p>
 <p>Bleaching method data is available by setting <code>method</code> to "bleaching". When Bleaching observations are requested, two types of observations are returned: Colonies Bleached and Percent Cover. Sample units data contains both Colonies Bleached data (number of coral genera and total number of colonies, and percent normal, pale, and bleached colonies) and Percent Cover data (Number of quadrats, and average percent cover for hard coral, soft coral, and macroalgae), all per sample unit. Sample events data contains <em>mean</em> values of all the data in sample units, for both Colonies Bleached (average quadrat size, average number of coral genera and average total colonies, average percent normal, pale, and bleached colonies) and Percent Cover (average number of quadrats, and average of average hard coral, soft coral, and macroalgae cover). Mean percent cover values also come with standard deviations.</p>
 <p>Habitat Complexity data is available by setting <code>method</code> to "habitatcomplexity". Observations contain individual observations, with the habitat complexity score at each interval. Sample units data contains the average habitat complexity score for the sample unit, and sample events data contains the average of those averages habitat complexity scores, along with standard deviations.</p>
+<p>Macroinvertebrate data is available by setting <code>method</code> to "macroinvertebrate". Observations contain individual observations, with a full breakdown of macroinvertebrate class, order, family, genus, and group of interest, along with the size, count, and density. Sample units data returns total abundance and density, as well as density by group of interest, and sample events contain <em>mean</em> density per sample event, by group of interest, and standard deviations of these values.</p>
 <p>The included covariates are: geomorphic zonation and benthic habitat from the <a href="https://allencoralatlas.org" class="external-link">Allen Coral Atlas</a>; market gravity, water pollution (sediments and nitrogen), coastal population, industrial development (number of ports), tourism (reef value), and a cumulative pressure index from <a href="https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12858" class="external-link"><em>A global map of human pressures on tropical coral reefs</em></a> by Andrello et al., 2022; scores from <a href="https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12587" class="external-link"><em>Risk-sensitive planning for conserving coral reefs under rapid climate change</em></a> by Beyer et al., 2018.</p>
     </div>
 
@@ -169,7 +170,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>

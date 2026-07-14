@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
       </span>
     </div>
 
@@ -55,7 +55,7 @@
       <a href="../articles/vo_baseline_monitoring.html">WCS Vibrant Oceans Baseline Coral Reef Monitoring</a>
     </li>
     <li>
-      <a href="../articles/importing_fishbelt.html">Ingesting legacy data into MERMAID</a>
+      <a href="../articles/importing_fishbelt.html">Importing legacy data into MERMAID</a>
     </li>
     <li>
       <a href="../articles/import_cpce.html">Import CPCe data into MERMAID</a>
@@ -134,7 +134,7 @@ with “Vibrant Oceans”:</p>
 <span><span class="va">vo_projects</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mermaid_search_projects.html">mermaid_search_projects</a></span><span class="op">(</span>tags <span class="op">=</span> <span class="st">"Vibrant Oceans"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">vo_projects</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 19 × 20</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 18 × 21</span></span></span>
 <span><span class="co">#&gt;    id    name  countries num_sites num_active_sample_un…¹ num_sample_units tags </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 95e0… 2019… Fiji             44                      0              406 WCS …</span></span>
@@ -142,26 +142,26 @@ with “Vibrant Oceans”:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2f6d… 2022… Fiji             11                      0              105 WCS …</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 1e98… Aceh… Indonesia        12                   <span style="text-decoration: underline;">3</span>636              144 WCS …</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 60c7… ACEH… Indonesia         9                      0              108 WCS …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> bb48… ACEH… Indonesia         9                     54                0 Vibr…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 3a9e… Aceh… Indonesia        18                      6              198 WCS …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> ea85… Aceh… Indonesia        18                     37                6 Vibr…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 207e… Aceh… Indonesia        36                      3              540 WCS …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> e964… BAF … Kenya, T…        15                      0               55 WCS …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> 507d… Kari… Indonesia        43                      8              842 WCS …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> b2d1… Pula… Indonesia        22                      1              252 WCS …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> 0a08… Pula… Indonesia        22                      1              279 WCS …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> 1277… Taka… Indonesia        46                      1              540 WCS …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> bcb1… Taka… Indonesia        39                      1              702 WCS …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> c314… Taka… Indonesia        39                      0              702 Vibr…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> ac58… Taka… Indonesia        39                      0              703 WCS …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> a93b… VOI … Tanzania         25                      0              164 WCS …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> a352… VOI … Tanzania         25                      2              118 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 3a9e… Aceh… Indonesia        18                      6              198 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> ea85… Aceh… Indonesia        18                     37                6 Vibr…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 207e… Aceh… Indonesia        36                      3              540 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> e964… BAF … Kenya, T…        15                      0               55 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 507d… Kari… Indonesia        43                      8              842 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> b2d1… Pula… Indonesia        22                      1              252 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> 0a08… Pula… Indonesia        22                      2              278 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> 1277… Taka… Indonesia        46                      1              540 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> bcb1… Taka… Indonesia        39                      1              702 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> c314… Taka… Indonesia        39                      0              702 Vibr…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> ac58… Taka… Indonesia        39                      0              703 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> a93b… VOI … Tanzania         25                      0              164 WCS …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> a352… VOI … Tanzania         25                      2              118 WCS …</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated name: ¹​num_active_sample_units</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 13 more variables: project_admins &lt;chr&gt;, suggested_citation &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 14 more variables: project_admins &lt;chr&gt;, suggested_citation &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   bbox &lt;df[,4]&gt;, notes &lt;chr&gt;, status &lt;chr&gt;, data_policy_beltfish &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   data_policy_benthiclit &lt;chr&gt;, data_policy_benthicpit &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   data_policy_benthicpqt &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   data_policy_bleachingqc &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   data_policy_bleachingqc &lt;chr&gt;, data_policy_macroinvertebrate &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></span></code></pre></div>
 <p>For this analysis, WCS field teams accessed ecological condition
 using underwater surveys to assess two key indicators of coral reef
 health: live hard coral cover and reef fish biomass. This data is
@@ -180,7 +180,7 @@ benthic PIT.</p>
 <span></span>
 <span><span class="va">vo_projects</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">data_policy_beltfish</span>, <span class="va">data_policy_benthicpit</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 19 × 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 18 × 3</span></span></span>
 <span><span class="co">#&gt;    name                              data_policy_beltfish data_policy_benthicpit</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2019_Dama Bureta Waibula and Daw… Private              Public Summary        </span></span>
@@ -188,20 +188,19 @@ benthic PIT.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2022 DamaWISH endline survey      Public Summary       Public Summary        </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Aceh East Coast 2019              Public Summary       Public Summary        </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> ACEH_EAST COAST_2022              Public Summary       Public Summary        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> ACEH_EAST COAST_2022-Delete       Public Summary       Public Summary        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Aceh Jaya MPA 2020                Private              Private               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Aceh Jaya MPA 2022                Public Summary       Private               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Aceh (Weh &amp; Aceh Besar) 2019      Private              Private               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> BAF 1 - 2020                      Private              Public Summary        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> Karimunjawa NP 2019               Private              Private               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Pulau Weh 2022                    Public Summary       Public Summary        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> Pulau Weh 2025                    Private              Private               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> Taka Bonerate 2015                Private              Private               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> Taka Bonerate NP-2019             Private              Private               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> Taka Bonerate NP-2021             Private              Private               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> Taka Bonerate NP-2024             Public Summary       Public Summary        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> VOI - 2019                        Public Summary       Public Summary        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> VOI - 20/22                       Public Summary       Public Summary</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Aceh Jaya MPA 2020                Private              Private               </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Aceh Jaya MPA 2022                Public Summary       Private               </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Aceh (Weh &amp; Aceh Besar) 2019      Private              Private               </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> BAF 1 - 2020                      Private              Public Summary        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Karimunjawa NP 2019               Private              Private               </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> Pulau Weh 2022                    Public Summary       Public Summary        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Pulau Weh 2025                    Private              Private               </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> Taka Bonerate 2015                Private              Private               </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> Taka Bonerate NP-2019             Private              Private               </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> Taka Bonerate NP-2021             Private              Private               </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> Taka Bonerate NP-2024             Public Summary       Public Summary        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> VOI - 2019                        Public Summary       Public Summary        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> VOI - 20/22                       Public Summary       Public Summary</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="live-hard-coral-cover">Live hard coral cover<a class="anchor" aria-label="anchor" href="#live-hard-coral-cover"></a>
 </h2>
@@ -215,7 +214,7 @@ Dawasamu projects):</p>
 <span></span>
 <span><span class="va">projects_public_benthic</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 1</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 1</span></span></span>
 <span><span class="co">#&gt;    name                                                        </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                       </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2019_Dama Bureta Waibula and Dawasamu-WISH ecological survey</span></span>
@@ -223,12 +222,11 @@ Dawasamu projects):</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2022 DamaWISH endline survey                                </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Aceh East Coast 2019                                        </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> ACEH_EAST COAST_2022                                        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> ACEH_EAST COAST_2022-Delete                                 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> BAF 1 - 2020                                                </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Pulau Weh 2022                                              </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Taka Bonerate NP-2024                                       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> VOI - 2019                                                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> VOI - 20/22</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> BAF 1 - 2020                                                </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Pulau Weh 2022                                              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Taka Bonerate NP-2024                                       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> VOI - 2019                                                  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> VOI - 20/22</span></span></code></pre></div>
 <p>And then by querying for public summary data, using
 <code><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code>, specifying the “benthicpit”
 method with “sampleevents” data. The key to accessing public summary
@@ -240,16 +238,16 @@ returns the data <em>if</em> the data policy allows it.</p>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"benthicpit"</span>, <span class="st">"sampleevents"</span>, token <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">benthic_data</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 62</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 64</span></span></span>
 <span><span class="co">#&gt;   project             tags  country site  latitude longitude reef_type reef_zone</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2019_Dama Bureta W… WCS … Fiji    Dawa…    -<span style="color: #BB0000;">17.6</span>      178. fringing  fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2019_Dama Bureta W… WCS … Fiji    BuC5     -<span style="color: #BB0000;">17.6</span>      179. fringing  fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2019_Dama Bureta W… WCS … Fiji    BuE2     -<span style="color: #BB0000;">17.7</span>      179. fringing  fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2019_Dama Bureta W… WCS … Fiji    DamE7    -<span style="color: #BB0000;">16.9</span>      179. patch     fore reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2019_Dama Bureta W… WCS … Fiji    DamC3    -<span style="color: #BB0000;">16.8</span>      179. patch     back reef</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2019_Dama Bureta W… WCS … Fiji    DamE1    -<span style="color: #BB0000;">16.9</span>      179. patch     back reef</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 54 more variables: reef_exposure &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2019_Dama Bureta W… WCS … Fiji    Dawa…    -<span style="color: #BB0000;">17.6</span>      179. fringing  fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2019_Dama Bureta W… WCS … Fiji    Dawa…    -<span style="color: #BB0000;">17.5</span>      178. patch     fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2019_Dama Bureta W… WCS … Fiji    BuC3     -<span style="color: #BB0000;">17.6</span>      179. fringing  fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2019_Dama Bureta W… WCS … Fiji    DamE6    -<span style="color: #BB0000;">16.9</span>      179. patch     fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2019_Dama Bureta W… WCS … Fiji    Dawa…    -<span style="color: #BB0000;">17.7</span>      179. patch     fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2019_Dama Bureta W… WCS … Fiji    BuE6     -<span style="color: #BB0000;">17.7</span>      179. fringing  fore reef</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 56 more variables: reef_exposure &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   visibility &lt;chr&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   management_est_year &lt;dbl&gt;, management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span></span>
@@ -447,16 +445,16 @@ this, we’re going to use the <code><a href="https://tidyr.tidyverse.org/refere
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 173 × 6</span></span></span>
 <span><span class="co">#&gt;    country site   year  month day   hard_coral</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Fiji    DawaE2 2019  10    18         17.3 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Fiji    BuC5   2019  10    08         19   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Fiji    BuE2   2019  10    08         21   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Fiji    DamE7  2019  11    14          9.67</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Fiji    DamC3  2019  09    25         24.3 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Fiji    DamE1  2019  11    12         25.7 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Fiji    DamE5  2019  11    13         53   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Fiji    BuC2   2019  10    11         13.7 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Fiji    BuE4   2019  10    10         10.7 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Fiji    BuE5   2019  10    09         17.7 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Fiji    DawaC1 2019  10    17         15.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Fiji    DawaE5 2019  10    15         12   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Fiji    BuC3   2019  10    08         17   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Fiji    DamE6  2019  11    12          5.67</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Fiji    DawaC5 2019  10    16          7.33</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Fiji    BuE6   2019  10    09         33.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Fiji    BuE1   2019  10    09         15.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Fiji    BuC1   2019  10    11         18.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Fiji    WaiE5  2019  10    14         10   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Fiji    DawaC2 2019  10    14          0.67</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 163 more rows</span></span></span></code></pre></div>
 <p>Now we have all of the columns that we need, we can continue by
 calculating the average hard coral cover by year by country.</p>
@@ -517,19 +515,18 @@ available summary data for it.</p>
 <span></span>
 <span><span class="va">projects_public_fishbelt</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 1</span></span></span>
-<span><span class="co">#&gt;    name                                                  </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2022_BAF and WISH coral reef surveys in Tailevu_Ovalau</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2022 DamaWISH endline survey                          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Aceh East Coast 2019                                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> ACEH_EAST COAST_2022                                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> ACEH_EAST COAST_2022-Delete                           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Aceh Jaya MPA 2022                                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Pulau Weh 2022                                        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Taka Bonerate NP-2024                                 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> VOI - 2019                                            </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> VOI - 20/22</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 1</span></span></span>
+<span><span class="co">#&gt;   name                                                  </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2022_BAF and WISH coral reef surveys in Tailevu_Ovalau</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2022 DamaWISH endline survey                          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Aceh East Coast 2019                                  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ACEH_EAST COAST_2022                                  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Aceh Jaya MPA 2022                                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Pulau Weh 2022                                        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> Taka Bonerate NP-2024                                 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> VOI - 2019                                            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">9</span> VOI - 20/22</span></span></code></pre></div>
 <p>Next, we query for public summary data, again using
 <code>mermaid_get_project_data</code> to get “sampleevents” data, this
 time specifying the “fishbelt” method:</p>
@@ -538,7 +535,7 @@ time specifying the “fishbelt” method:</p>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleevents"</span>, token <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fishbelt_data</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 148</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 150</span></span></span>
 <span><span class="co">#&gt;   project             tags  country site  latitude longitude reef_type reef_zone</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2022_BAF and WISH … WCS … Fiji    WaiE4    -<span style="color: #BB0000;">17.8</span>      179. fringing  fore reef</span></span>
@@ -547,7 +544,7 @@ time specifying the “fishbelt” method:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2022_BAF and WISH … WCS … Fiji    NAOB…    -<span style="color: #BB0000;">17.6</span>      179. fringing  fore reef</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2022_BAF and WISH … WCS … Fiji    NAOB…    -<span style="color: #BB0000;">17.6</span>      179. fringing  fore reef</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2022_BAF and WISH … WCS … Fiji    NAOB…    -<span style="color: #BB0000;">17.6</span>      179. fringing  back reef</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 140 more variables: reef_exposure &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 142 more variables: reef_exposure &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   visibility &lt;chr&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   management_est_year &lt;dbl&gt;, management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span></span>
@@ -618,9 +615,9 @@ and present it in a bar plot.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
 <span><span class="co">#&gt;   country   n_sites fish_biomass_average fish_biomass_sd fish_biomass_se</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Fiji           27                 889.            555.           107. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Indonesia      56                 436.            192.            25.7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Tanzania       36                 257.            239.            39.8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Fiji           27                 842.            500.            96.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Indonesia      56                 421.            190.            25.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Tanzania       36                 238.            212.            35.4</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">fish_biomass_by_country</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">country</span>, y <span class="op">=</span> <span class="va">fish_biomass_average</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -664,13 +661,13 @@ the sample date.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 3</span></span></span>
 <span><span class="co">#&gt;   country   year  fish_biomass_average</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Fiji      2022                 889. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Indonesia 2019                 805. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Indonesia 2022                 529. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Indonesia 2024                 377. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Tanzania  2019                 358. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Tanzania  2022                 370. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> Tanzania  2023                  75.1</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Fiji      2022                 842. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Indonesia 2019                 785. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Indonesia 2022                 514. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Indonesia 2024                 363. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Tanzania  2019                 330. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Tanzania  2022                 348. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> Tanzania  2023                  70.6</span></span></code></pre></div>
 <p>Looking at the <code>fishbelt_biomass_by_country_by_year</code> data
 frame, we can see that there are only two countries that have more than
 one year of fish data, which are Indonesia and Tanzania. So, we are
@@ -716,7 +713,7 @@ then visualize it in a line plot.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer>

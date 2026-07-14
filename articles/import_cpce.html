@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
       </span>
     </div>
 
@@ -55,7 +55,7 @@
       <a href="../articles/vo_baseline_monitoring.html">WCS Vibrant Oceans Baseline Coral Reef Monitoring</a>
     </li>
     <li>
-      <a href="../articles/importing_fishbelt.html">Ingesting legacy data into MERMAID</a>
+      <a href="../articles/importing_fishbelt.html">Importing legacy data into MERMAID</a>
     </li>
     <li>
       <a href="../articles/import_cpce.html">Import CPCe data into MERMAID</a>
@@ -117,9 +117,6 @@
 
     
     
-<div class="section level2">
-<h2 id="import-your-cpce-data-to-mermaid">Import your CPCe data to MERMAID<a class="anchor" aria-label="anchor" href="#import-your-cpce-data-to-mermaid"></a>
-</h2>
 <p>Photo quadrat transect (PQT) is one of the methods generally used to
 understand benthic community conditions. Before artificial intelligence
 emerged, scientists used Coral Point Count with Excel extensions (CPCe)
@@ -137,9 +134,9 @@ or use your own data to follow the importing steps. More information on
 the workflow of importing historical data to MERMAID can be found in our
 <a href="https://datamermaid.org/documentation/mermaidr-data-import" class="external-link">Importing
 legacy data into MERMAID</a> documentation.</p>
-<div class="section level3">
-<h3 id="steps-to-import-your-cpce-data-are">Steps to import your CPCe data are:<a class="anchor" aria-label="anchor" href="#steps-to-import-your-cpce-data-are"></a>
-</h3>
+<div class="section level2">
+<h2 id="steps-to-import-your-cpce-data-are">Steps to import your CPCe data are:<a class="anchor" aria-label="anchor" href="#steps-to-import-your-cpce-data-are"></a>
+</h2>
 <ol style="list-style-type: decimal">
 <li><p><a href="https://datamermaid.org/documentation/collect-project-set-up" class="external-link">Prepare
 your project</a> in <a href="https://app.datamermaid.org" class="external-link">MERMAID
@@ -155,9 +152,9 @@ template</p></li>
 <li><p>Validate and submit your data in MERMAID Collect</p></li>
 </ol>
 </div>
-<div class="section level3">
-<h3 id="step-1--prepare-your-project-in-mermaid-collect">Step 1. Prepare your project in MERMAID Collect<a class="anchor" aria-label="anchor" href="#step-1--prepare-your-project-in-mermaid-collect"></a>
-</h3>
+<div class="section level2">
+<h2 id="step-1--prepare-your-project-in-mermaid-collect">Step 1. Prepare your project in MERMAID Collect<a class="anchor" aria-label="anchor" href="#step-1--prepare-your-project-in-mermaid-collect"></a>
+</h2>
 <p>Before importing your CPCe data to MERMAID, you need to set up your
 project in <a href="https://app.datamermaid.org" class="external-link">MERMAID Collect</a>. If
 you are new to MERMAID, you need to create a MERMAID account before
@@ -173,13 +170,13 @@ click on the “New Project” button and then:</p>
 <li>add management regimes.</li>
 </ol>
 </div>
-<div class="section level3">
-<h3 id="step-2--prepare-your-cpce-raw-data-and-benthic-attribute-converter-file-in-a-csv-format">Step 2. Prepare your CPCe raw data and benthic attribute converter
+<div class="section level2">
+<h2 id="step-2--prepare-your-cpce-raw-data-and-benthic-attribute-converter-file-in-a-csv-format">Step 2. Prepare your CPCe raw data and benthic attribute converter
 file in a CSV format<a class="anchor" aria-label="anchor" href="#step-2--prepare-your-cpce-raw-data-and-benthic-attribute-converter-file-in-a-csv-format"></a>
+</h2>
+<div class="section level3">
+<h3 id="prepare-your-cpce-raw-data">Prepare your CPCe raw data<a class="anchor" aria-label="anchor" href="#prepare-your-cpce-raw-data"></a>
 </h3>
-<div class="section level4">
-<h4 id="prepare-your-cpce-raw-data">Prepare your CPCe raw data<a class="anchor" aria-label="anchor" href="#prepare-your-cpce-raw-data"></a>
-</h4>
 <p>After you are done annotating your data with CPCe, export it. In the
 xls exported file, you will normally have a sheet that consist of four
 columns, i.e. Raw Data, Notes, Major Category, Frame limits (the image
@@ -189,9 +186,9 @@ to save each transect separately as a CSV file.</p>
 <img src="CPCe_raw_data_example.png" alt="Example of a CPCe export data"><div class="figcaption">Example of a CPCe export data</div>
 </div>
 </div>
-<div class="section level4">
-<h4 id="prepare-the-benthic-attribute-converter-file">Prepare the benthic attribute converter file<a class="anchor" aria-label="anchor" href="#prepare-the-benthic-attribute-converter-file"></a>
-</h4>
+<div class="section level3">
+<h3 id="prepare-the-benthic-attribute-converter-file">Prepare the benthic attribute converter file<a class="anchor" aria-label="anchor" href="#prepare-the-benthic-attribute-converter-file"></a>
+</h3>
 <p>The benthic attribute converter file is a CSV file that contains your
 benthic labels and assign them to the correct MERMAID benthic attribute
 and/or growth forms. This file will be used to convert your labels to
@@ -210,10 +207,10 @@ file</div>
 </div>
 </div>
 </div>
-<div class="section level3">
-<h3 id="step-3--install-and-activate-mermaidr-and-other-related-packages">Step 3. Install and activate mermaidr and other related
+<div class="section level2">
+<h2 id="step-3--install-and-activate-mermaidr-and-other-related-packages">Step 3. Install and activate mermaidr and other related
 packages<a class="anchor" aria-label="anchor" href="#step-3--install-and-activate-mermaidr-and-other-related-packages"></a>
-</h3>
+</h2>
 <p>After setting up your project in MERMAID Collect and preparing the
 necessary files, you can now start importing your data in R or R Studio.
 The first step is to install and activate the mermaidr and other related
@@ -227,9 +224,9 @@ and then load them in.</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://data-mermaid.github.io/mermaidr" class="external-link">mermaidr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="step-4--download-the-mermaid-pqt-template">Step 4. Download the MERMAID PQT template<a class="anchor" aria-label="anchor" href="#step-4--download-the-mermaid-pqt-template"></a>
-</h3>
+<div class="section level2">
+<h2 id="step-4--download-the-mermaid-pqt-template">Step 4. Download the MERMAID PQT template<a class="anchor" aria-label="anchor" href="#step-4--download-the-mermaid-pqt-template"></a>
+</h2>
 <p>Next step is to download the MERMAID Photo Quadrat Transect (PQT)
 template. We recommend using <a href="https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects" class="external-link">RStudio
 projects</a> to keep track of where your code, existing data, and any
@@ -266,10 +263,10 @@ actual project that you want to import your data into. Remember that
 <strong>you need to be an Admin</strong> of the project to be able to
 access and import your data.</p>
 </div>
-<div class="section level3">
-<h3 id="step-5--prepare-and-reformat-your-data-to-match-the-mermaid-template">Step 5. Prepare and reformat your data to match the MERMAID
+<div class="section level2">
+<h2 id="step-5--prepare-and-reformat-your-data-to-match-the-mermaid-template">Step 5. Prepare and reformat your data to match the MERMAID
 template<a class="anchor" aria-label="anchor" href="#step-5--prepare-and-reformat-your-data-to-match-the-mermaid-template"></a>
-</h3>
+</h2>
 <p>After downloading the MERMAID PQT template, you can start preparing
 and reformatting your data to match the template. Matching means that
 your data has the same column name and options accepted by the MERMAID
@@ -474,9 +471,9 @@ your labels from the data frame using the code below:</p>
 <code class="sourceCode R"><span><span class="va">pqt</span> <span class="op">&lt;-</span> <span class="va">pqt</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">Benthic_attribute</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="step-6--import-your-data-to-mermaid">Step 6. Import your data to MERMAID<a class="anchor" aria-label="anchor" href="#step-6--import-your-data-to-mermaid"></a>
-</h3>
+<div class="section level2">
+<h2 id="step-6--import-your-data-to-mermaid">Step 6. Import your data to MERMAID<a class="anchor" aria-label="anchor" href="#step-6--import-your-data-to-mermaid"></a>
+</h2>
 <p>Your data now matches the MERMAID template and is ready to be
 imported to your project in MERMAID Collect. The steps to import your
 data are:</p>
@@ -618,16 +615,15 @@ checked!</strong>, change the dryrun option to FALSE to start
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Records successfully imported! Please review in Collect.</span></span></code></pre>
 </div>
-<div class="section level3">
-<h3 id="step-7--validate-and-submit-your-data-in-mermaid-collect">Step 7. Validate and submit your data in MERMAID Collect<a class="anchor" aria-label="anchor" href="#step-7--validate-and-submit-your-data-in-mermaid-collect"></a>
-</h3>
+<div class="section level2">
+<h2 id="step-7--validate-and-submit-your-data-in-mermaid-collect">Step 7. Validate and submit your data in MERMAID Collect<a class="anchor" aria-label="anchor" href="#step-7--validate-and-submit-your-data-in-mermaid-collect"></a>
+</h2>
 <p>After you received the message <strong>Record successfully imported!
 Please review in Collect</strong>, head to your Collecting Page in your
 project in the MERMAID Collect. Continue with validating and submitting
 each transect.</p>
 <p><strong>Congratulations! You have successfully imported your CPCe
 data to MERMAID!</strong></p>
-</div>
 </div>
   </div>
 
@@ -646,7 +642,7 @@ data to MERMAID!</strong></p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer>
