@@ -64,7 +64,7 @@ wcs_mozambique <- projects %>%
   filter(name == "WCS Mozambique Coral Reef Monitoring")
 ```
 
-You can access data collected on fishbelt, benthic LIT, benthic PIT, bleaching, or habitat complexity - the main function to pull data related to your project is `mermaid_get_project_data()`:
+You can access data collected on fishbelt, benthic LIT, benthic PIT, macroinvertebrates, bleaching, or habitat complexity - the main function to pull data related to your project is `mermaid_get_project_data()`:
 
 ```{r}
 wcs_mozambique_fishbelt_samples <- wcs_mozambique %>%

@@ -66,7 +66,7 @@ projects
 #>  3 d065… 2019… Fiji             31                      3               32 "WCS…
 #>  4 1fbd… a2    Canada, …         9                      9                0 "WWF…
 #>  5 3a9e… Aceh… Indonesia        18                     55              198 "WCS…
-#>  6 bacd… Beli… Belize, …        39                    112              258 "WCS…
+#>  6 bacd… Beli… Belize, …        39                    113              258 "WCS…
 #>  7 a1b7… Grea… Fiji             76                      8              648 "Fij…
 #>  8 507d… Kari… Indonesia        43                     18              842 "WCS…
 #>  9 75ef… Kubu… Fiji             78                      1             1145 "WCS…
@@ -99,8 +99,8 @@ wcs_mozambique <- projects %>%
 ```
 
 You can access data collected on fishbelt, benthic LIT, benthic PIT,
-bleaching, or habitat complexity - the main function to pull data
-related to your project is `mermaid_get_project_data()`:
+macroinvertebrates, bleaching, or habitat complexity - the main function
+to pull data related to your project is `mermaid_get_project_data()`:
 
 ``` r
 wcs_mozambique_fishbelt_samples <- wcs_mozambique %>%
@@ -280,20 +280,20 @@ And all managements:
 
 ``` r
 mermaid_get_managements()
-#> # A tibble: 1,584 × 17
+#> # A tibble: 1,596 × 17
 #>    id         name  name_secondary est_year  size parties compliance open_access
 #>    <chr>      <chr> <chr>             <int> <dbl> <chr>   <chr>      <lgl>      
 #>  1 a10d4cfc-… 123   Secondary nam…     1979   123 <NA>    full       FALSE      
-#>  2 d70de8ff-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
-#>  3 9b1df02a-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
-#>  4 248e26fe-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
+#>  2 9788b7f9-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
+#>  3 248e26fe-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
+#>  4 0e9aa677-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
 #>  5 9c204b0d-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
-#>  6 0e9aa677-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
-#>  7 9168b477-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
-#>  8 9788b7f9-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
+#>  6 d70de8ff-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
+#>  7 9b1df02a-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
+#>  8 9168b477-… 678j… <NA>                 NA     7 <NA>    full       FALSE      
 #>  9 0c8f7d2c-… A'a … Special Manag…     2017   398 <NA>    full       FALSE      
-#> 10 91bf6350-… A'a … Special Manag…     2017   398 commun… full       FALSE      
-#> # ℹ 1,574 more rows
+#> 10 8e8a4e44-… A'a … Special Manag…     2017   398 commun… full       FALSE      
+#> # ℹ 1,586 more rows
 #> # ℹ 9 more variables: no_take <lgl>, access_restriction <lgl>,
 #> #   periodic_closure <lgl>, size_limits <lgl>, gear_restriction <lgl>,
 #> #   species_restriction <lgl>, notes <chr>, created_on <chr>, updated_on <chr>

@@ -1,6 +1,6 @@
 #' Get MERMAID project data
 #'
-#' Get Fish Belt, Benthic LIT, Benthic PIT, Bleaching, or Habitat Complexity data for your MERMAID projects. Data is available at the observation, sample unit, and sample event level. Optionally get covariates at the site level. See Details section for more. Requires authorization.
+#' Get Fish Belt, Benthic LIT, Benthic PIT, Macroinvertebrate, Bleaching, or Habitat Complexity data for your MERMAID projects. Data is available at the observation, sample unit, and sample event level. Optionally get covariates at the site level. See Details section for more. Requires authorization.
 #'
 #' Fish Belt method data is available by setting \code{method} to "fishbelt". Fish Belt observations data contains individual observations recorded in MERMAID, while sample units contains total biomass in kg/ha per sample unit, by trophic group and by fish family. Sample events data contains \emph{mean} total biomass in kg/ha per sample event, and by trophic group and by fish family, as well as the  \emph{standard deviation} of the total biomass as well as per trophic group and fish family.
 #'

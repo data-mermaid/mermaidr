@@ -27,7 +27,7 @@ Get template and field options for MERMAID import
 \dontrun{
 template_and_options <- mermaid_get_my_projects() \%>\%
   head(1) \%>\%
-  mermaid_import_get_template_and_options("macroinvertebrate", "fishbelt_template.xlsx")
+  mermaid_import_get_template_and_options("fishbelt", "fishbelt_template.xlsx")
 # ✔ Import template and field options written to fishbelt_template.xlsx
 
 names(template_and_options)

@@ -2,7 +2,7 @@
 #'
 #' Get aggregated metrics from all surveys associated with each site, by date.
 #' Includes data from all methods -- Fish Belt, Benthic LIT, Benthic PIT,
-#' Benthic Photo Quadrat, Bleaching, and Habitat Complexity -- if the data sharing
+#' Benthic Photo Quadrat, Macroinvertebrate, Bleaching, and Habitat Complexity -- if the data sharing
 #' policy for that method is public summary or public (and just includes the sample
 #'  unit count otherwise). Does not require authorization.
 #'
