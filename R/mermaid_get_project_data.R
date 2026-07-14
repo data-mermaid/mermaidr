@@ -41,7 +41,7 @@
 #' # [1] "colonies_bleached" "percent_cover"
 #' }
 mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "macroinvertebrate", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE) {
-  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates)
+  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates, token)
 }
 
 internal_mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = methods_all, data = data_types_all, limit = NULL, covariates = FALSE, token = mermaid_token()) {
