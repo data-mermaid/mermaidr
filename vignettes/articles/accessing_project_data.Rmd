@@ -153,7 +153,7 @@ indonesia_projects %>%
 
 # Method data
 
-You can also access data on your projects' Fish Belt, Benthic LIT, Benthic PIT, Bleaching, and Habitat Complexity methods. The details are in the following sections.
+You can also access data on your projects' Fish Belt, Benthic LIT, Benthic PIT, Macroinvertebrate, Bleaching, and Habitat Complexity methods. The details are in the following sections.
 
 ## Fish Belt data
 
