@@ -3,7 +3,6 @@ title: "Import CPCe data into MERMAID"
 format: html
 ---
 
-# Import your CPCe data to MERMAID
 
 Photo quadrat transect (PQT) is one of the methods generally used to understand benthic community conditions. Before artificial intelligence emerged, scientists used Coral Point Count with Excel extensions (CPCe) to annotate their PQT. Once annotated, they continue with perform analysis to calculate the average cover of each benthic category. The first analysis steps is data cleaning. Data cleaning is one of the steps in analysis that takes most of the time. Data cleaning is a QA/QC process that is performed before analysing the data to ensure the results are scientifically reliable. MERMAID exist to help scientists and non-scientists cut the cleaning process and calculate the average benthic covers to quickly inform communities and governments.
 

@@ -2,7 +2,7 @@
 #'
 #' @inheritParams mermaid_GET
 #' @noRd
-get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites", "summarysampleevents", "classification/labelmappings"), limit = NULL, filter = NULL, ...) {
+get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamilies", "fishgenera", "fishspecies", "fishsizes", "managements", "projects", "projecttags", "sites", "summarysampleevents", "classification/labelmappings", "invertattributes", "invertspecies"), limit = NULL, filter = NULL, ...) {
   url <- base_url
 
   endpoint <- match.arg(endpoint, several.ok = TRUE)
@@ -15,7 +15,7 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
   res_columns <- purrr::map2(res_strip_name_suffix, names(res_strip_name_suffix), construct_endpoint_columns)
 
   # Replace any "" or "NA" with NAs
-  res_columns <- purrr::map(res_columns, \(x) x %>% dplyr::mutate(dplyr::across(dplyr::where(is.character), \(y) ifelse(y %in% c("NA", ""), NA_character_, y))))
+  res_columns <- purrr::map(res_columns, function(x) x %>% dplyr::mutate(dplyr::across(dplyr::where(is.character), function(y) ifelse(y %in% c("NA", ""), NA_character_, y))))
 
   if (length(res_columns) > 1) {
     res_columns
@@ -176,5 +176,7 @@ mermaid_endpoint_columns <- list(
   projecttags = projecttags_columns,
   sites = sites_columns,
   summarysampleevents = summary_sampleevents_columns,
-  "classification/labelmappings" = classification_labelmappings_columns
+  "classification/labelmappings" = classification_labelmappings_columns,
+  invertattributes = invertattributes_columns,
+  invertspecies = invertspecies_columns
 )

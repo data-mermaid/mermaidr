@@ -7,7 +7,7 @@
 mermaid_get_project_data(
   project = mermaid_get_default_project(),
   method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching",
-    "habitatcomplexity", "all"),
+    "habitatcomplexity", "macroinvertebrate", "all"),
   data = c("observations", "sampleunits", "sampleevents", "all"),
   limit = NULL,
   token = mermaid_token(),
@@ -17,7 +17,7 @@ mermaid_get_project_data(
 \arguments{
 \item{project}{A way to identify the project(s). Can be project IDs (passed as a character vector directly) or projects resulting from \code{\link{mermaid_get_my_projects}} or \code{\link{mermaid_search_my_projects}}. Defaults to the projects listed via \code{mermaid_get_default_project}, if available.}
 
-\item{method}{Method to get data for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", "habitatcomplexity", or "all" (to get data for all methods).}
+\item{method}{Method to get data for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", "habitatcomplexity", "macroinvertebrate", or "all" (to get data for all methods).}
 
 \item{data}{Data to return. One of "observations", "sampleunits", "sampleevents", or "all" (to get all three kinds of data). See details for more.}
 
@@ -42,6 +42,8 @@ Benthic Photo Quadrat method data is available by setting \code{method} to "bent
 Bleaching method data is available by setting \code{method} to "bleaching". When Bleaching observations are requested, two types of observations are returned: Colonies Bleached and Percent Cover. Sample units data contains both Colonies Bleached data (number of coral genera and total number of colonies, and percent normal, pale, and bleached colonies) and Percent Cover data (Number of quadrats, and average percent cover for hard coral, soft coral, and macroalgae), all per sample unit. Sample events data contains \emph{mean} values of all the data in sample units, for both Colonies Bleached (average quadrat size, average number of coral genera and average total colonies, average percent normal, pale, and bleached colonies) and Percent Cover (average number of quadrats, and average of average hard coral, soft coral, and macroalgae cover). Mean percent cover values also come with standard deviations.
 
 Habitat Complexity data is available by setting \code{method} to "habitatcomplexity". Observations contain individual observations, with the habitat complexity score at each interval. Sample units data contains the average habitat complexity score for the sample unit, and sample events data contains the average of those averages habitat complexity scores, along with standard deviations.
+
+Macroinvertebrate data is available by setting \code{method} to "macroinvertebrate". Observations contain individual observations, with a full breakdown of macroinvertebrate class, order, family, genus, and group of interest, along with the size, count, and density. Sample units data returns total abundance and density, as well as density by group of interest, and sample events contain \emph{mean} density per sample event, by group of interest, and standard deviations of these values.
 
 The included covariates are: geomorphic zonation and benthic habitat from the \href{https://allencoralatlas.org}{Allen Coral Atlas}; market gravity, water pollution (sediments and nitrogen), coastal population, industrial development (number of ports), tourism (reef value), and a cumulative pressure index from \href{https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12858}{\emph{A global map of human pressures on tropical coral reefs}} by Andrello et al., 2022; scores from \href{https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12587}{\emph{Risk-sensitive planning for conserving coral reefs under rapid climate change}} by Beyer et al., 2018.
 }

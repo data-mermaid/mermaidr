@@ -16,7 +16,7 @@ test_that("mermaid_import_get_template_and_options returns a list with Template,
 
   project <- "02e6915c-1c64-4d2c-bac0-326b560415a2"
 
-  purrr::walk(c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"), function(method) {
+  purrr::walk(methods, function(method) {
     options_and_template <- mermaid_import_get_template_and_options(project, method)
     template <- options_and_template[["Template"]]
     options <- options_and_template[!names(options_and_template) == "Template"]

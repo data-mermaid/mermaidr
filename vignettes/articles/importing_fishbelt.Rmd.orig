@@ -1,5 +1,5 @@
 ---
-title: Ingesting legacy data into MERMAID
+title: Importing legacy data into MERMAID
 output: html_document
 ---
 
@@ -7,46 +7,67 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 ```
 
-Do you have a lot of existing data and are just starting to use MERMAID? You might be wondering on how to import those data into MERMAID. You can import (ingest) your legacy data into MERMAID by using the mermaidr package. More info on the ingestion workflow with mermaidr can be seen on the [ingestion documentation](https://datamermaid.org/documentation/ingesting-legacy-data-using-r-studio).
+Do you have a lot of existing data and are just starting to use MERMAID? You might be wondering on how to import those data into MERMAID. You can import your legacy data into MERMAID by using the mermaidr package. More info on the importing workflow with mermaidr can be seen on the [importing legacy data into MERMAID documentation](https://datamermaid.org/documentation/mermaidr-data-import).
 
-Here we provide an example on how to import your fish data that uses the **fish belt method** into MERMAID using mermaidr. Please note that you need to **prepare your project in the app first** before starting this process. Detail on how to set a new project can be seen [here](https://datamermaid.org/documentation/setting-up-a-new-project). For this example, we have already prepared a project in the MERMAID app named **MERMAID reef survey**.
+Here we provide an example on how to import your fish data that uses the **fish belt method** into MERMAID using mermaidr. Please note that you need to **prepare your project in the MERMAID Collect first** before starting this process. Detail on how to set a new project can be seen in the [Setting up a project documentation](https://datamermaid.org/documentation/collect-project-set-up). For this example, we have already prepared a project in the MERMAID Collect named **MERMAID reef survey**.
 
-We have also prepared <a href="https://www.youtube.com/watch?v=bgmz0vhg2QI" target="_blank">a video</a> to walk you through the ingestion process. You can download the [fishbelt](https://github.com/data-mermaid/mermaidr/tree/master/examples/import_historical_fishbelt/fishbelt.csv) and [sites](https://github.com/data-mermaid/mermaidr/tree/master/examples/import_historical_fishbelt/sites.csv) data for that example to follow along.
+We have also prepared <a href="https://www.youtube.com/watch?v=bgmz0vhg2QI" target="_blank">a video</a> to walk you through the importing process. You can download the [fishbelt](https://github.com/data-mermaid/mermaidr/tree/master/examples/import_historical_fishbelt/fishbelt.csv) and [sites](https://github.com/data-mermaid/mermaidr/tree/master/examples/import_historical_fishbelt/sites.csv) data for that example to follow along.
 
-The steps for importing legacy fish belt data are:
+## The steps for importing legacy fish belt data are:
 
-1. Download the fish belt MERMAID template
-2. Reformat your data to match the template
-3. Address errors and warnings
-4. Import (ingest) data to MERMAID
+* 1. Prepare your project in MERMAID Collect* 2. Prepare your fish belt data in a CSV format* 3. Install and activate mermaidr and other related packages* 4. Download the fish belt MERMAID template* 5. Prepare and reformat your data to match the MERMAID template* 6. Import your data to MERMAID* 7. Validate and submit in MERMAID Collect
 
-# 1. Download the fish belt MERMAID template
 
-Before downloading the MERMAID template, make sure that you already have the mermaidr package installed. You can install the package from GitHub using the code below:
+## Step 1. Prepare your project in MERMAID Collect
+
+Before importing your fish belt data to MERMAID, you need to set up your project in [MERMAID Collect](https://app.datamermaid.org/). If you are new to MERMAID, you need to create a MERMAID account before using it. You can use a new project or existing project in MERMAID Collect as long as you are an admin of the project. [Setting up a new project](https://datamermaid.org/documentation/collect-project-set-up) requires internet access. To create a new project, click on the New Project button and then:
+
+* 1. add organization(s),
+* 2. add users,
+* 3. set data sharing permissions,
+* 4. add sites, and
+* 5. add management regimes.
+
+
+## Step 2. Prepare your fish belt data in a CSV format
+
+If your data isn't in CSV format, you'll need to re-save it as CSV. This example uses a CSV file. However, if you prefer to use a different format, ensure that it can be read in R.
+
+
+## Step 3. Install and activate mermaidr and other related packages
+
+After setting up your project in MERMAID Collect and preparing the necessary files, you can now start importing your data in R or R Studio. The first step is to install and activate the mermaidr and other related packages. In this example, we are also going to use the tidyverse package.
 
 ```{r, eval = FALSE}
-remotes::install_github("data-mermaid/mermaidr")
+#install.packages("tidyverse")
+#remotes::install_github("data-mermaid/mermaidr")
+
+library(mermaidr)
+library(tidyverse)
 ```
 
-In this example, we are going to also use the tidyverse package. The first step is to load the packages and access your MERMAID projects by using  `mermaid_search_my_projects()` with the project name.
+## Step 4. Download the fish belt MERMAID template
 
-```{r search-run, include = FALSE}
-devtools::load_all()
-library(tidyverse)
+Next step is to download the MERMAID Fish belt template. Make sure to set up your working directory to point R to where your data is located and where you want to save your data from R, including the MERMAID Fish belt template.
 
+To download the MERMAID Fish belt template:
+
+* 1. Get your MERMAID project using the `mermaid_get_my_projects( )` function from the mermaidr package. Omit `inlcude_test_project = TRUE` if it is not a test project.
+
+```r
 reef_survey <- mermaid_search_my_projects("MERMAID reef survey", include_test_projects = TRUE)
 ```
 
-At this point, a browser window will open for you to authenticate by logging into the MERMAID app. Once you've logged in, you can close the browser and come back to R. Your login credentials will last for a day and after it expires you will need to log in again.
+At this point, a browser window will open for you to authenticate by logging into the MERMAID Collect. Once you've logged in, you can close the browser and come back to R. Your login credentials will last for a day and after it expires you will need to log in again.
+
+* 2. Filter to select just the project you are working on, and rename the object.
 
 ```{r search-show, eval = FALSE}
-library(mermaidr)
-library(tidyverse)
-
 reef_survey <- mermaid_search_my_projects("MERMAID reef survey")
 ```
+Before running the code above, make sure that you change the project name **“MERMAID reef survey”** to **_your actual project_** that you want to import your data into.
 
-The next step is to get the fish belt MERMAID template and options using `mermaid_import_get_template_and_options()` and save it to a file called `fishbelt_mermaid_template.xlsx`.
+* 3. Get the import template and options using the `mermaid_import_get_template_and_options( )` function.
 
 ```{r template}
 fish_template_and_options <- mermaid_import_get_template_and_options(
@@ -58,7 +79,7 @@ fish_template_and_options <- mermaid_import_get_template_and_options(
 
 <img src = "fishbelt_template.png" width = "75%" title = "Fish belt MERMAID template">
 
-The XLSX file consists of the fish belt MERMAID template and the options that are tailored based on your project. For example, the site options that are accepted are all the sites that you have added in the project through the MERMAID app.
+The XLSX file consists of the fish belt MERMAID template and the options that are tailored based on your project. For example, the site options that are accepted are all the sites that you have added in the project through the MERMAID Collect.
 
 
 <img src = "fishbelt_template_sites.png" width = "50%" title = "Site options">
@@ -88,7 +109,7 @@ Investigate all the available options for each column before adjusting the forma
 fish_template_and_options[["Site *"]]
 ```
 
-# 2. Reformat your data to match the template
+## Step 5. Prepare and reformat your data to match the MERMAID template
 
 After downloading the fish belt MERMAID template, you're ready to start reformatting your data. In this example, we are using a fish belt width of 5 m for fish size 10-34 cm, and 20 m for fish size bigger than 34 cm. We also identify the fish size up to the closest cm.
 
@@ -106,7 +127,7 @@ fishbelt_data <- read_csv("fishbelt.csv")
 sites_data <- read_csv("sites.csv")
 ```
 
-The MERMAID ingestion template requires the sample event data and the observation data to be combined. Therefore, we need to add the `sites` data set to fish observation data. Look at the available columns in the `site` and `fishbelt` data sets:
+The MERMAID importing template requires the sample event data and the observation data to be combined. Therefore, we need to add the `sites` data set to fish observation data. Look at the available columns in the `site` and `fishbelt` data sets:
 
 ```{r}
 sites_data
@@ -200,7 +221,7 @@ fishbelt_data <- fishbelt_data %>%
 fishbelt_data
 ```
 
-# 3. Address errors and warnings
+### Address errors and warnings
 
 After reformatting our data, we're going to clean our data using `mermaid_import_check_options()` We need to check the columns one by one to ensure the data are accepted by the MERMAID template. The code below is to check our data that we've reformatted against the fish belt template we've downloaded. If the data matches, then a check mark will appear:
 
@@ -222,7 +243,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Observer
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Fish name *")
 ```
 
-There are issues in the Fish name that need to be fixed, marked by the `FALSE` note under the match column. MERMAID also provides the closest choice to help us with data cleaning. We need to fix theses issues to be able to ingest our data:
+There are issues in the Fish name that need to be fixed, marked by the `FALSE` note under the match column. MERMAID also provides the closest choice to help us with data cleaning. We need to fix these issues to be able to import our data:
 
 ```{r}
 fishbelt_data <- fishbelt_data %>%
@@ -247,7 +268,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Size *")
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Count *")
 ```
 
-Once we got the check marks, we have the cleaned version of our data that is ready to be ingested. Let's save the cleaned fishbelt data:
+Once we got the check marks, we have the cleaned version of our data that is ready to be imported. Let's save the cleaned fishbelt data:
 
 ```{r save-run, echo = FALSE}
 write_delim(fishbelt_data, here::here("inst", "extdata", "import-fishbelt-vignette", "fishbelt_clean.csv"), delim = ";")
@@ -263,7 +284,7 @@ fishbelt_data <- fishbelt_data %>%
   mutate(`Observer emails *` = "sharla.gelfand@gmail.com")
 ```
 
-# 4. Import (ingest) data to MERMAID
+## Step 6. Import your data to MERMAID
 
 Once we have our cleaned MERMAID formatted data, the next step is ingesting the data. We do one "dry run" before actually ingesting to check the data once more:
 
@@ -276,7 +297,7 @@ mermaid_import_project_data(
 )
 ```
 
-Once we got the message **Records successfully checked!**, change the `dryrun` option to `FALSE` to start ingesting your data into MERMAID. Once you got the message **Records successfully imported! Please review in Collect.**, you can head to the `Collecting Page` in your project in the MERMAID app and start validating and submitting each transect.
+Once we got the message **Records successfully checked!**, change the `dryrun` option to `FALSE` to start importing your data into MERMAID.
 
 ```{r}
 mermaid_import_project_data(
@@ -286,3 +307,9 @@ mermaid_import_project_data(
   dryrun = FALSE
 )
 ```
+
+## Step 7. Validate and submit in MERMAID Collect
+
+After you get the message **Record successfully imported! Please review in Collect**, head to your Collecting Page in your project in the MERMAID Collect. Continue with validating and submitting each transect.
+
+**Congratulations! You have successfully imported your fish belt data to MERMAID!**

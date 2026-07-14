@@ -327,7 +327,7 @@ extract_life_histories <- function(results, endpoint) {
 
   # In both cases, clean up names and relocate
   res <- res %>%
-    dplyr::rename_with(.cols = dplyr::all_of(additional_cols), \(x) glue::glue("life_histories__{x}") %>% snakecase::to_snake_case())
+    dplyr::rename_with(.cols = dplyr::all_of(additional_cols), function(x) glue::glue("life_histories__{x}") %>% snakecase::to_snake_case())
 
   new_names <- names(res)
   additional_cols <- setdiff(new_names, old_names)

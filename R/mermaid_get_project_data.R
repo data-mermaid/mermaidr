@@ -8,7 +8,9 @@
 #'
 #' Benthic PIT method data is available by setting \code{method} to "benthicpit". Similarly to Benthic LIT, Benthic PIT observations contain individual observations, sample units data returns percent cover per sample unit, by benthic category, and sample events contain \emph{mean} percent cover per sample event, by benthic category, and standard deviations of these values.
 #'
-#' Benthic Photo Quadrat method data is available by setting \code{method} to "benthicpqt". Benthic PQT observations contain individual observations, sample units data returns percent cover per sample unit, by benthic category, and sample events contain \emph{mean} percent cover per sample event, by benthic category, and standard deviations of these values.
+#' Benthic Photo Quadrat method data is available by setting \code{method} to "benthicpqt". Benthic PQT observations contain individual observations, sample units data returns percent cover per sample unit, by benthic category and by life histories, and sample events contain \emph{mean} percent cover per sample event, by benthic category and by life histories, and standard deviations of these values.
+#'
+#' Macroinvertebrate data is available by setting \code{method} to "macroinvertebrate". Observations contain individual observations, with a full breakdown of macroinvertebrate class, order, family, genus, and group of interest, along with the size, count, and density. Sample units data returns total abundance and density, as well as density by group of interest, and sample events contain \emph{mean} density per sample event, by group of interest, and standard deviations of these values.
 #'
 #' Bleaching method data is available by setting \code{method} to "bleaching". When Bleaching observations are requested, two types of observations are returned: Colonies Bleached and Percent Cover. Sample units data contains both Colonies Bleached data (number of coral genera and total number of colonies, and percent normal, pale, and bleached colonies) and Percent Cover data (Number of quadrats, and average percent cover for hard coral, soft coral, and macroalgae), all per sample unit. Sample events data contains \emph{mean} values of all the data in sample units, for both Colonies Bleached (average quadrat size, average number of coral genera and average total colonies, average percent normal, pale, and bleached colonies) and Percent Cover (average number of quadrats, and average of average hard coral, soft coral, and macroalgae cover). Mean percent cover values also come with standard deviations.
 #'
@@ -16,7 +18,7 @@
 #'
 #' The included covariates are: geomorphic zonation and benthic habitat from the \href{https://allencoralatlas.org}{Allen Coral Atlas}; market gravity, water pollution (sediments and nitrogen), coastal population, industrial development (number of ports), tourism (reef value), and a cumulative pressure index from \href{https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12858}{\emph{A global map of human pressures on tropical coral reefs}} by Andrello et al., 2022; scores from \href{https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12587}{\emph{Risk-sensitive planning for conserving coral reefs under rapid climate change}} by Beyer et al., 2018.
 #'
-#' @param method Method to get data for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", "habitatcomplexity", or "all" (to get data for all methods).
+#' @param method Method to get data for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", "habitatcomplexity", "macroinvertebrate", or "all" (to get data for all methods).
 #' @param data Data to return. One of "observations", "sampleunits", "sampleevents", or "all" (to get all three kinds of data). See details for more.
 #' @inheritParams get_project_endpoint
 #' @inheritParams mermaid_GET
@@ -38,21 +40,21 @@
 #' names(bleaching_obs)
 #' # [1] "colonies_bleached" "percent_cover"
 #' }
-mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE) {
-  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates, legacy = FALSE, token)
+mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "macroinvertebrate", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE) {
+  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates, token)
 }
 
-internal_mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, covariates = FALSE, legacy = legacy, token = mermaid_token()) {
+internal_mermaid_get_project_data <- function(project = mermaid_get_default_project(), method = methods_all, data = data_types_all, limit = NULL, covariates = FALSE, token = mermaid_token()) {
   check_project_data_inputs(method, data)
 
   if (any(method == "all")) {
-    method <- c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity")
+    method <- methods
   }
   if (any(data == "all")) {
-    data <- c("observations", "sampleunits", "sampleevents")
+    data <- data_types
   }
 
-  endpoint <- construct_endpoint(method, data, legacy)
+  endpoint <- construct_endpoint(method, data)
 
   res <- purrr::map(endpoint, function(x) get_project_endpoint(project, x, limit, token, covariates = covariates))
 
@@ -98,20 +100,16 @@ internal_mermaid_get_project_data <- function(project = mermaid_get_default_proj
   }
 }
 
-mermaid_get_project_data_legacy <- function(project = mermaid_get_default_project(), method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"), data = c("observations", "sampleunits", "sampleevents", "all"), limit = NULL, token = mermaid_token(), covariates = FALSE) {
-  internal_mermaid_get_project_data(project, method, data, limit, covariates = covariates, legacy = TRUE, token)
-}
-
 check_project_data_inputs <- function(method, data) {
-  if (!all(method %in% c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching", "all"))) {
-    stop('`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", "all"', call. = FALSE)
+  if (!all(method %in% methods_all)) {
+    stop(methods_plus_all_err, call. = FALSE)
   }
-  if (!all(data %in% c("observations", "sampleunits", "sampleevents", "all"))) {
-    stop('`data` must be one of: "observations", "sampleunits", "sampleevents", "all"', call. = FALSE)
+  if (!all(data %in% data_types_all)) {
+    stop("`data` must be one of: ", comma_sep(data_types_all), call. = FALSE)
   }
 }
 
-construct_endpoint <- function(method, data, legacy) {
+construct_endpoint <- function(method, data) {
   method_data <- tidyr::expand_grid(method = method, data = data)
 
   method_data <- method_data %>%
@@ -122,21 +120,19 @@ construct_endpoint <- function(method, data, legacy) {
         .data$method == "benthiclit" ~ "benthiclits",
         .data$method == "benthicpqt" ~ "benthicpqts",
         .data$method == "habitatcomplexity" ~ "habitatcomplexities",
-        .data$method == "bleaching" ~ "bleachingqcs"
+        .data$method == "bleaching" ~ "bleachingqcs",
+        .data$method == "macroinvertebrate" ~ "beltinverts"
       ),
       data = dplyr::case_when(
-        .data$data == "observations" & .data$method == "beltfishes" ~ "obstransectbeltfishes",
-        .data$data == "observations" & .data$method == "benthicpits" ~ "obstransectbenthicpits",
-        .data$data == "observations" & .data$method == "benthicpqts" ~ "obstransectbenthicpqts",
-        .data$data == "observations" & .data$method == "benthiclits" ~ "obstransectbenthiclits",
-        .data$data == "observations" & .data$method == "habitatcomplexities" ~ "obshabitatcomplexities",
         .data$data == "observations" & .data$method == "bleachingqcs" ~ "obscoloniesbleacheds,obsquadratbenthicpercents",
+        .data$data == "observations" & .data$method == "habitatcomplexities" ~ "obshabitatcomplexities",
+        .data$data == "observations" ~ glue::glue("obstransect{.data$method}"),
         TRUE ~ data
       )
     ) %>%
     tidyr::separate_rows(method, data, sep = ",")
 
-  csv_endpoint <- ifelse(legacy, "", "/csv")
+  csv_endpoint <- "/csv"
 
   method_data <- method_data %>%
     dplyr::mutate(endpoint = paste0(.data$method, "/", .data$data, csv_endpoint))
@@ -174,15 +170,15 @@ common_cols <- list(
   ),
   obs_closing = c(
     "observers", "project_notes", "site_notes", "management_notes", "sample_unit_id",
-    "sample_event_id", "project_admins", "contact_link"
+    "sample_event_id", "project_admins", "suggested_citation", "project_includes_gfcr", "contact_link"
   ),
   su_closing = c(
     "observers", "project_notes", "site_notes", "management_notes", "sample_unit_notes",
-    "sample_event_id", "sample_unit_ids", "project_admins", "contact_link"
+    "sample_event_id", "sample_unit_ids", "project_admins", "suggested_citation", "project_includes_gfcr", "contact_link"
   ),
   se_closing = c(
     "observers", "project_notes", "site_notes", "management_notes", "id",
-    "sample_unit_count", "project_admins", "contact_link", "sample_event_id"
+    "sample_unit_count", "project_admins", "suggested_citation", "project_includes_gfcr", "contact_link", "sample_event_id"
   ),
   life_histories_obs = "life_histories",
   life_histories_obs_csv = c(
@@ -499,6 +495,51 @@ project_data_columns <- list(
     "data_policy_bleachingqc",
     common_cols[["life_histories_se_csv"]],
     common_cols[["se_closing"]]
+  ),
+
+  # Inverts
+  `beltinverts/obstransectbeltinverts` = c(
+    common_cols[["obs/su"]], "transect_length",
+    "transect_width", "observers", "transect_number", "label",
+    "size_bin",
+    "invert_class", "invert_order", "invert_family",
+    "invert_genus", "invert_taxon", "invert_group_of_interest",
+    "size", "count", "density_indha",
+    "observation_notes",
+    "data_policy_macroinvertebrate", common_cols[["obs_closing"]]
+  ),
+  `beltinverts/sampleunits` = c(
+    common_cols[["obs/su"]], "transect_number", "label",
+    "size_bin", "transect_length", "transect_width",
+    "total_abundance", "density_indha",
+    "density_indha_group_interest_Conchs", "density_indha_group_interest_Octopus",
+    "density_indha_group_interest_Lobsters", "density_indha_group_interest_Giant clams",
+    "density_indha_group_interest_Sea urchins", "density_indha_group_interest_Pearl oysters",
+    "density_indha_group_interest_Sea cucumbers", "density_indha_group_interest_Trochus shells",
+    "density_indha_group_interest_Crabs / shrimps", "density_indha_group_interest_Polychaete worms",
+    "density_indha_group_interest_Triton's trumpets", "density_indha_group_interest_Other invertebrates",
+    "density_indha_group_interest_Corallivorous snails", "density_indha_group_interest_Crown-of-thorns starfish (COTS)",
+    "data_policy_macroinvertebrate",
+    common_cols[["su_closing"]]
+  ),
+  `beltinverts/sampleevents` = c(
+    common_cols[["se"]],
+    "count_total_avg", "count_total_sd", "density_indha_avg", "density_indha_sd",
+    "density_indha_group_interest_avg_Conchs", "density_indha_group_interest_avg_Octopus",
+    "density_indha_group_interest_avg_Lobsters", "density_indha_group_interest_avg_Giant clams",
+    "density_indha_group_interest_avg_Sea urchins", "density_indha_group_interest_avg_Pearl oysters",
+    "density_indha_group_interest_avg_Sea cucumbers", "density_indha_group_interest_avg_Trochus shells",
+    "density_indha_group_interest_avg_Crabs / shrimps", "density_indha_group_interest_avg_Polychaete worms",
+    "density_indha_group_interest_avg_Triton's trumpets", "density_indha_group_interest_avg_Other invertebrates",
+    "density_indha_group_interest_avg_Corallivorous snails", "density_indha_group_interest_avg_Crown-of-thorns starfish (COTS)",
+    "density_indha_group_interest_sd_Conchs", "density_indha_group_interest_sd_Octopus",
+    "density_indha_group_interest_sd_Lobsters", "density_indha_group_interest_sd_Giant clams",
+    "density_indha_group_interest_sd_Sea urchins", "density_indha_group_interest_sd_Pearl oysters",
+    "density_indha_group_interest_sd_Sea cucumbers", "density_indha_group_interest_sd_Trochus shells",
+    "density_indha_group_interest_sd_Crabs / shrimps", "density_indha_group_interest_sd_Polychaete worms",
+    "density_indha_group_interest_sd_Triton's trumpets", "density_indha_group_interest_sd_Other invertebrates",
+    "density_indha_group_interest_sd_Corallivorous snails", "density_indha_group_interest_sd_Crown-of-thorns starfish (COTS)",
+    "data_policy_macroinvertebrate", common_cols[["se_closing"]]
   )
 )
 

@@ -57,7 +57,7 @@ test_that("mermaid_get_project_data setting 'all' works", {
   skip_on_cran()
   p <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
   output <- mermaid_get_project_data(p, method = "all", data = "all", limit = 1)
-  expect_named(output, c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"))
+  expect_named(output, methods)
   purrr::walk(output, expect_named, c("observations", "sampleunits", "sampleevents"))
 })
 
@@ -901,6 +901,229 @@ test_that("Bleaching sample event aggregation is the same as manually aggregatin
   test_sus_vs_ses_agg(sus_agg_for_se_comparison, ses_for_se_comparison)
 })
 
+# Inverts ----
+
+test_that("Inverts sample unit aggregation is the same as manually aggregating observations", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  p <- "bacd3529-e0f4-40f4-a089-992c5bd5cc02"
+  obs <- mermaid_get_project_data(p, "macroinvertebrate", "observations")
+  su <- mermaid_get_project_data(p, "macroinvertebrate", "sampleunits")
+
+  obs_to_su <- obs %>%
+    dplyr::select(
+      site, transect_number, sample_date, invert_class, invert_order, invert_family,
+      invert_genus, invert_taxon, invert_group_of_interest,
+      size, count, density_indha
+    ) %>%
+    dplyr::mutate(
+      id = dplyr::row_number(),
+      multiple_goi = stringr::str_detect(invert_group_of_interest, ",")
+    ) %>%
+    tidyr::separate_rows(invert_group_of_interest, sep = ", ") %>%
+    dplyr::group_by(id) %>%
+    dplyr::mutate(
+      n_goi = dplyr::n_distinct(invert_group_of_interest),
+      density_ind_ha_by_goi = density_indha / n_goi
+    ) %>%
+    dplyr::group_by(site, sample_date, transect_number, invert_group_of_interest) %>%
+    dplyr::summarise(dplyr::across(density_ind_ha_by_goi, sum),
+      .groups = "drop"
+    ) %>%
+    tidyr::pivot_wider(
+      names_from = invert_group_of_interest, values_from = density_ind_ha_by_goi,
+      names_prefix = "density_indha_group_interest_"
+    ) %>%
+    dplyr::arrange(site, sample_date, transect_number) %>%
+    dplyr::mutate(dplyr::across(dplyr::starts_with("density_indha_group_interest"), round))
+
+  names(obs_to_su) <- names(obs_to_su) %>%
+    stringr::str_remove_all("'") %>%
+    snakecase::to_snake_case()
+
+  su_relevant <- su %>%
+    dplyr::select(dplyr::any_of(names(obs_to_su))) %>%
+    dplyr::arrange(site, sample_date, transect_number) %>%
+    dplyr::mutate(dplyr::across(dplyr::starts_with("density_indha_group_interest"), round))
+
+  expect_identical(obs_to_su, su_relevant)
+})
+
+test_that("Inverts sample event aggregation is the same as manually aggregating sample units", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  p <- "bacd3529-e0f4-40f4-a089-992c5bd5cc02"
+  su <- mermaid_get_project_data(p, "macroinvertebrate", "sampleunits")
+  se <- mermaid_get_project_data(p, "macroinvertebrate", "sampleevents")
+
+  su_to_se_by_goi <- su %>%
+    dplyr::select(site, sample_date, transect_number, dplyr::starts_with("density_indha_group")) %>%
+    tidyr::pivot_longer(cols = dplyr::starts_with("density_indha")) %>%
+    dplyr::mutate(value = dplyr::coalesce(value, 0)) %>%
+    dplyr::group_by(site, sample_date, name) %>%
+    dplyr::summarise(
+      avg = mean(value, na.rm = TRUE),
+      sd = sd(value, na.rm = TRUE),
+      sd = dplyr::coalesce(sd, 0),
+      .groups = "drop"
+    ) %>%
+    tidyr::pivot_longer(c(avg, sd), names_to = "stat") %>%
+    dplyr::mutate(
+      name = stringr::str_remove(name, "density_indha_group_interest_"),
+      name = paste0("density_indha_group_interest_", stat, "_", name),
+      value = round(value)
+    ) %>%
+    dplyr::select(-stat) %>%
+    dplyr::arrange(site, sample_date, name)
+
+  se_goi <- se %>%
+    dplyr::select(site, sample_date, contains("group_interest")) %>%
+    tidyr::pivot_longer(dplyr::contains("group_interest")) %>%
+    dplyr::mutate(
+      value = round(value),
+      value = dplyr::coalesce(value, 0)
+    ) %>%
+    dplyr::arrange(site, sample_date, name)
+
+  expect_identical(su_to_se_by_goi, se_goi)
+
+  su_to_se_overall_summary <- su %>%
+    dplyr::select(site, sample_date, density_indha) %>%
+    dplyr::group_by(site, sample_date) %>%
+    dplyr::summarise(
+      density_indha_avg = mean(density_indha),
+      density_indha_sd = sd(density_indha),
+      .groups = "drop"
+    ) %>%
+    dplyr::mutate(dplyr::across(c(density_indha_avg, density_indha_sd), round)) %>%
+    dplyr::arrange(site, sample_date)
+
+  se_overall_summary <- se %>%
+    dplyr::select(dplyr::all_of(names(su_to_se_overall_summary))) %>%
+    dplyr::mutate(dplyr::across(c(density_indha_avg, density_indha_sd), round)) %>%
+    dplyr::arrange(site, sample_date)
+
+  expect_identical(su_to_se_overall_summary, se_overall_summary)
+})
+
+test_that("Inverts cols match those from CSV export", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  p <- "bacd3529-e0f4-40f4-a089-992c5bd5cc02"
+  data <- mermaid_get_project_data(p, "macroinvertebrate", "all")
+
+  obs_raw <- data[["observations"]]
+
+  obs_csv_raw <- readr::read_csv(testthat::test_path("testdata/inverts_obs.csv"), show_col_types = FALSE)
+  names(obs_csv_raw) <- snakecase::to_snake_case(names(obs_csv_raw))
+
+  obs_csv <- obs_csv_raw %>%
+    dplyr::rename(project = project_name) %>%
+    dplyr::rename_with(
+      .cols = dplyr::ends_with("_name"),
+      \(x) stringr::str_remove(x, "_name")
+    ) %>%
+    dplyr::rename_with(
+      .cols = dplyr::starts_with("macroinvertebrate_"),
+      \(x) stringr::str_replace(x, "macroinvertebrate_", "invert_")
+    ) %>%
+    dplyr::rename(
+      contact_link = project_contact_link,
+      density_indha = density_ind_ha,
+      management_compliance = estimated_compliance,
+      invert_group_of_interest = group_of_interest,
+      label = transect_label,
+      data_policy_macroinvertebrate = invert_data_policy,
+      reef_exposure = exposure,
+      management_est_year = management_year_established,
+      transect_length = transect_length_surveyed,
+      management_parties = governance,
+      tags = project_organizations
+    ) %>%
+    dplyr::select(-day, -month, -year, -start_time, -dplyr::ends_with("_id"), -dplyr::ends_with("notes"))
+
+  obs <- obs_raw %>%
+    dplyr::select(-sample_date, -sample_time, -dplyr::ends_with("_id"), -dplyr::ends_with("notes"))
+
+  expect_equal(names(obs) %>% sort(), names(obs_csv) %>% sort())
+
+  su_raw <- data[["sampleunits"]]
+  su_csv_raw <- readr::read_csv(testthat::test_path("testdata/inverts_su.csv"), show_col_types = FALSE)
+  names(su_csv_raw) <- snakecase::to_snake_case(names(su_csv_raw))
+
+  su_csv <- su_csv_raw %>%
+    dplyr::rename(project = project_name) %>%
+    dplyr::rename_with(
+      .cols = dplyr::ends_with("_name"),
+      \(x) stringr::str_remove(x, "_name")
+    ) %>%
+    dplyr::rename_with(
+      \(x) x %>%
+        stringr::str_replace("by_group_of_interest", "group_interest") %>%
+        stringr::str_replace("ind_ha", "indha")
+    ) %>%
+    dplyr::rename(
+      contact_link = project_contact_link,
+      management_compliance = estimated_compliance,
+      label = transect_label,
+      data_policy_macroinvertebrate = macroinvertebrate_data_policy,
+      reef_exposure = exposure,
+      management_est_year = management_year_established,
+      transect_length = transect_length_surveyed,
+      management_parties = governance,
+      tags = project_organizations,
+      total_abundance = total_count_ind
+    ) %>%
+    dplyr::select(-day, -month, -year, -start_time, -dplyr::ends_with("_id"), -dplyr::ends_with("notes"))
+
+  su <- su_raw %>%
+    dplyr::select(-sample_date, -sample_time, -dplyr::ends_with("_id"), -dplyr::ends_with("notes"), -sample_unit_ids)
+
+  expect_true(all(names(su_csv) %in% names(su)))
+
+  se_raw <- data[["sampleevents"]]
+  se_csv_raw <- readr::read_csv(testthat::test_path("testdata/inverts_se.csv"), show_col_types = FALSE)
+  names(se_csv_raw) <- snakecase::to_snake_case(names(se_csv_raw))
+
+  se_csv <- se_csv_raw %>%
+    dplyr::rename(project = project_name) %>%
+    dplyr::rename_with(
+      .cols = dplyr::ends_with("_name"),
+      \(x) stringr::str_remove(x, "_name")
+    ) %>%
+    dplyr::rename_with(
+      \(x) x %>%
+        stringr::str_replace("by_group_of_interest", "group_interest") %>%
+        stringr::str_replace("ind_ha", "indha")
+    ) %>%
+    dplyr::rename(
+      contact_link = project_contact_link,
+      management_compliance = estimated_compliance,
+      data_policy_macroinvertebrate = macroinvertebrate_data_policy,
+      reef_exposure = exposure,
+      management_est_year = management_year_established,
+      management_parties = governance,
+      tags = project_organizations,
+      count_total_avg = total_count_average,
+      count_total_sd = total_count_standard_deviation
+    ) %>%
+    dplyr::rename_with(\(x) x %>%
+      stringr::str_replace("average", "avg") %>%
+      stringr::str_replace("standard_deviation", "sd")) %>%
+    dplyr::select(-day, -month, -year, -dplyr::ends_with("_id"), -dplyr::ends_with("notes"))
+
+  se <- se_raw %>%
+    dplyr::select(-sample_date, -dplyr::ends_with("_id"), -dplyr::ends_with("notes"), -id)
+
+  expect_true(all(names(se_csv) %in% names(se)))
+})
+
 # Benthic PQT ----
 
 test_that("mermaid_get_project_data for benthicpqt returns a data frame with the correct names", {
@@ -976,25 +1199,6 @@ test_that("mermaid_get_project_data with covariates = TRUE returns covars, all t
     output_t[["observations"]][["bleaching"]],
     ~ expect_true(all(covars_cols %in% names(.x)))
   )
-  output <- mermaid_get_project_data(p, "fishbelt", "all", limit = 1, covariates = TRUE)
-  purrr::walk(
-    output,
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  output <- mermaid_get_project_data(p, "fishbelt", "observations", limit = 1, covariates = TRUE)
-  expect_true(all(covars_cols %in% names(output)))
-  output <- mermaid_get_project_data(p, "bleaching", "all", limit = 1, covariates = TRUE)
-  expect_true(all(covars_cols %in% names(output[["sampleunits"]])))
-  expect_true(all(covars_cols %in% names(output[["sampleevents"]])))
-  purrr::walk(
-    output[["observations"]],
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  output <- mermaid_get_project_data(p, "bleaching", "observations", limit = 1, covariates = TRUE)
-  purrr::walk(
-    output,
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
 
   # One project, contains cols
   p <- "02e6915c-1c64-4d2c-bac0-326b560415a2"
@@ -1013,16 +1217,9 @@ test_that("mermaid_get_project_data with covariates = TRUE returns covars, all t
     output_t[["observations"]],
     ~ expect_true(all(covars_cols %in% names(.x)))
   )
-  output <- mermaid_get_project_data(p, "fishbelt", "all", limit = 1, covariates = TRUE)
-  purrr::walk(
-    output,
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  output <- mermaid_get_project_data(p, "fishbelt", "observations", limit = 1, covariates = TRUE)
-  expect_true(all(covars_cols %in% names(output)))
 
   p <- "170e7182-700a-4814-8f1e-45ee1caf3b44"
-  output <- mermaid_get_project_data(p, c("fishbelt", "benthicpit"), "all", limit = 1, covariates = TRUE)
+  output <- mermaid_get_project_data(p, c("benthicpit"), "all", limit = 1, covariates = TRUE)
   output_t <- output %>%
     purrr::transpose()
   purrr::walk(
@@ -1037,13 +1234,6 @@ test_that("mermaid_get_project_data with covariates = TRUE returns covars, all t
     output_t[["observations"]],
     ~ expect_true(all(covars_cols %in% names(.x)))
   )
-  output <- mermaid_get_project_data(p, "fishbelt", "all", limit = 1, covariates = TRUE)
-  purrr::walk(
-    output,
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  output <- mermaid_get_project_data(p, "fishbelt", "observations", limit = 1, covariates = TRUE)
-  expect_true(all(covars_cols %in% names(output)))
 
   p <- "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b"
   output <- mermaid_get_project_data(p, c("bleaching", "benthiclit"), "all", limit = 1, covariates = TRUE)
@@ -1062,99 +1252,6 @@ test_that("mermaid_get_project_data with covariates = TRUE returns covars, all t
     output_t[["observations"]][["bleaching"]],
     ~ expect_true(all(covars_cols %in% names(.x)))
   )
-  output <- mermaid_get_project_data(p, "benthiclit", "all", limit = 1, covariates = TRUE)
-  purrr::walk(
-    output,
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  output <- mermaid_get_project_data(p, "benthiclit", "observations", limit = 1, covariates = TRUE)
-  expect_true(all(covars_cols %in% names(output)))
-
-  # Multiple projects, contains cols
-  p <- c(
-    "02e6915c-1c64-4d2c-bac0-326b560415a2",
-    "170e7182-700a-4814-8f1e-45ee1caf3b44",
-    "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b",
-    "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
-  )
-  output <- mermaid_get_project_data(p, "all", "all", limit = 1, covariates = TRUE)
-  output_t <- output %>%
-    purrr::transpose()
-  purrr::walk(
-    output_t[["sampleunits"]],
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  purrr::walk(
-    output_t[["sampleevents"]],
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  purrr::walk(
-    output_t[["observations"]][names(output_t[["observations"]]) != "bleaching"],
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  purrr::walk(
-    output_t[["observations"]][["bleaching"]],
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  output <- mermaid_get_project_data(p, "fishbelt", "all", limit = 1, covariates = TRUE)
-  purrr::walk(
-    output,
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  output <- mermaid_get_project_data(p, "fishbelt", "observations", limit = 1, covariates = TRUE)
-  expect_true(all(covars_cols %in% names(output)))
-  output <- mermaid_get_project_data(p, "bleaching", "all", limit = 1, covariates = TRUE)
-  expect_true(all(covars_cols %in% names(output[["sampleunits"]])))
-  expect_true(all(covars_cols %in% names(output[["sampleevents"]])))
-  purrr::walk(
-    output[["observations"]],
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-  output <- mermaid_get_project_data(p, "bleaching", "observations", limit = 1, covariates = TRUE)
-  purrr::walk(
-    output,
-    ~ expect_true(all(covars_cols %in% names(.x)))
-  )
-})
-
-# _by_ removal ----
-
-test_that("All expanded columns that formerly had _by_ in them are properly pulled down", {
-  skip_if_offline()
-  skip_on_ci()
-  skip_on_cran()
-
-  p <- mermaid_get_my_projects()
-  cols <- project_data_df_columns_list %>%
-    purrr::map_dfr(dplyr::as_tibble, .id = "method_data") %>%
-    dplyr::filter(!stringr::str_ends(method_data, "csv")) %>%
-    tidyr::separate(method_data, into = c("method", "data"), sep = "/") %>%
-    dplyr::mutate(method = dplyr::case_when(
-      method == "beltfishes" ~ "fishbelt",
-      stringr::str_starts(method, "benthic") ~ stringr::str_remove(method, "s"),
-      method == "bleachingqcs" ~ "bleaching"
-    ))
-
-  cols %>%
-    dplyr::distinct(method, data) %>%
-    dplyr::filter(data %in% c("sampleunits", "sampleevents")) %>%
-    dplyr::mutate(id = dplyr::row_number()) %>%
-    split(.$id) %>%
-    purrr::walk(
-      function(x) {
-        res <- mermaid_get_project_data(p, x$method, x$data)
-        col <- x %>%
-          dplyr::left_join(cols, by = c("method", "data")) %>%
-          dplyr::pull(value)
-
-        purrr::walk(
-          col,
-          function(col) {
-            expect_true(any(stringr::str_starts(names(res), col)))
-          }
-        )
-      }
-    )
 })
 
 # Standard Deviations ----
@@ -1279,71 +1376,4 @@ test_that("Bleaching - standard deviations calculated in API are the same as SDs
   ## Sample events
   p %>%
     check_agg_sd_vs_agg_from_raw(sd_cols, method, "sampleevents")
-})
-
-# CSV endpoint ----
-
-test_that("new method of using CSV endpoint produces same data as old method (using JSON)", {
-  skip_if_offline()
-  skip_on_ci()
-  skip_on_cran()
-
-  p <- "02e6915c-1c64-4d2c-bac0-326b560415a2"
-  new <- internal_mermaid_get_project_data(p, method = "fishbelt", data = "observations", legacy = FALSE)
-  old <- internal_mermaid_get_project_data(p, method = "fishbelt", data = "observations", legacy = TRUE)
-
-  # Some conversion required - old has empty strings ("") while new has NA, difference in column types
-  old <- old %>% dplyr::mutate_all(as.character)
-  old <- old %>% dplyr::mutate_all(~ ifelse(.x == "", NA_character_, .x))
-  old <- old %>% dplyr::mutate_all(as.character)
-  new <- new %>% dplyr::mutate_all(as.character)
-
-  # Ensure data is ordered the same
-  old <- old %>%
-    dplyr::arrange(sample_unit_id, fish_family, fish_taxon, size, count)
-
-  new <- new %>%
-    dplyr::arrange(sample_unit_id, fish_family, fish_taxon, size, count)
-
-  expect_identical(old, new)
-
-  new <- internal_mermaid_get_project_data(p, method = "fishbelt", data = "sampleunits", legacy = FALSE)
-  old <- internal_mermaid_get_project_data(p, method = "fishbelt", data = "sampleunits", legacy = TRUE)
-
-  # Some conversion required - old has empty strings ("") while new has NA, difference in column types
-  old <- old %>% dplyr::mutate_all(as.character)
-  old <- old %>% dplyr::mutate_all(~ ifelse(.x == "", NA_character_, .x))
-  old <- old %>% dplyr::mutate_all(as.character)
-  new <- new %>% dplyr::mutate_all(as.character)
-
-  expect_identical(old, new)
-})
-
-test_that("All methods and data contain 'observers' column", {
-  skip_if_offline()
-  skip_on_ci()
-  skip_on_cran()
-
-  p <- c(
-    "2d6cee25-c0ff-4f6f-a8cd-667d3f2b914b",
-    "5679ef3d-bafc-453d-9e1a-a4b282a8a997",
-    "3a9ecb7c-f908-4262-8769-1b4dbb0cf61a",
-    "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
-  )
-
-  output <- mermaid_get_project_data(p, method = "all", data = "all", limit = 1)
-
-  output %>%
-    purrr::map_depth(
-      \(x) {
-        if (is.data.frame(x)) {
-          expect_true("observers" %in% names(x))
-        } else {
-          purrr::map(x, \(x) {
-            expect_true("observers" %in% names(x))
-          })
-        }
-      },
-      .depth = 2
-    )
 })

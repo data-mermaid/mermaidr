@@ -69,11 +69,12 @@ mermaid_get_gfcr_report <- function(project, save = NULL, token = mermaid_token(
   gfcr_report_sheets <- readxl::excel_sheets(gfcr_report_file)
 
   gfcr_report_sheets_res <- gfcr_report_sheets %>%
-    purrr::map(\(x)
-    readxl::read_xlsx(gfcr_report_file,
-      sheet = x
-    ) %>%
-      dplyr::as_tibble())
+    purrr::map(function(x) {
+      readxl::read_xlsx(gfcr_report_file,
+        sheet = x
+      ) %>%
+        dplyr::as_tibble()
+    })
 
   names(gfcr_report_sheets_res) <- gfcr_report_sheets
 

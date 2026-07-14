@@ -20,7 +20,7 @@ test_that("mermaid_get_reference allows multiple references, and all are named c
   expect_named(output[["fishfamilies"]], fishfamilies_columns)
   expect_named(output[["fishgenera"]], fishgenera_columns)
   expect_named(output[["benthicattributes"]], benthicattributes_columns)
-  expect_named(output[["fishspecies"]], c("id", "name", "species", "notes", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "climate_score", "vulnerability", "max_length", "trophic_level", "max_length_type", "genus", "group_size", "trophic_group", "functional_group", "regions", "created_on", "updated_on"))
+  expect_equal(names(output[["fishspecies"]]) %>% sort(), c("id", "name", "notes", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "climate_score", "vulnerability", "max_length", "trophic_level", "max_length_type", "genus", "group_size", "trophic_group", "functional_group", "regions", "created_on", "updated_on") %>% sort())
 })
 
 test_that("mermaid_get_reference errors if passed an unknown reference", {

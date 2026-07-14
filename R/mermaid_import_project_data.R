@@ -9,12 +9,12 @@
 #' @inheritParams get_project_endpoint
 #'
 #' @export
-mermaid_import_project_data <- function(data, project, method = c("fishbelt", "benthicpit", "benthiclit", "benthicpqt", "habitatcomplexity", "bleaching"), dryrun = TRUE, clearexisting = FALSE, token = mermaid_token()) {
+mermaid_import_project_data <- function(data, project, method = c("fishbelt", "benthicpit", "benthiclit", "benthicpqt", "habitatcomplexity", "bleaching", "macroinvertebrate"), dryrun = TRUE, clearexisting = FALSE, token = mermaid_token()) {
   import_project_data_internal(data = data, project = project, method = method, dryrun = dryrun, clearexisting = clearexisting, clearexistingforce = FALSE, token = token)
 }
 
 # Internal version of function so that clearexisting can be forced, for testing
-import_project_data_internal <- function(data, project, method = c("fishbelt", "benthicpit", "benthiclit", "benthicpqt", "habitatcomplexity", "bleaching"), dryrun = TRUE, clearexisting = FALSE, clearexistingforce = FALSE, token = mermaid_token()) {
+import_project_data_internal <- function(data, project, method = methods, dryrun = TRUE, clearexisting = FALSE, clearexistingforce = FALSE, token = mermaid_token()) {
   check_internet()
 
   project <- as_id(project)
@@ -55,8 +55,8 @@ import_project_data_internal <- function(data, project, method = c("fishbelt", "
   # Check project ID
 
   # Check method
-  if (!method %in% c("fishbelt", "benthicpit", "benthiclit", "benthicpqt", "habitatcomplexity", "bleaching")) {
-    stop('`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"', call. = FALSE)
+  if (!method %in% methods) {
+    stop(methods_err, call. = FALSE)
   }
 
   # Construct ingestion URL

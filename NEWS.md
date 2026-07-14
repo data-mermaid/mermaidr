@@ -1,3 +1,9 @@
+# mermaidr 1.3.0
+
+* Add Macroinvertebrate method to project data functions (in `mermaid_get_project_data()` as well as import related functions like `mermaid_import_project_data()` and `mermaid_import_get_template_and_options()`)
+* Add `suggested_citation` and `project_includes_gfcr` columns to project data output
+* Add "invertattributes" and "invertspecies" options in `mermaid_get_reference()`
+
 # mermaidr 1.2.10
 
 * Add `num_points` to `mermaid_get_project_data()` for Benthic PQT observations, 

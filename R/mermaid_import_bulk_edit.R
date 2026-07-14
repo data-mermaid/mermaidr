@@ -4,7 +4,7 @@
 #'
 #' @inheritParams get_project_endpoint
 #' @inheritParams mermaid_GET
-#' @param method Method to return submitted data back into "editing" state for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", or "habitatcomplexity".
+#' @param method Method to return submitted data back into "editing" state for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", bleaching", "habitatcomplexity", "macroinvertebrate".
 #'
 #' @export
 #'
@@ -53,7 +53,7 @@ edit_records <- function(x, project_id, methods_endpoint, token = mermaid_token(
       purrr::map_dfr(
         .id = "id",
         # What returns is the new collect record ID, no status etc
-        \(x) {
+        function(x) {
           # Query the collect records and check that the new ID is one of them
           collect_records <- get_collecting_records(project_id, token = token)
           dplyr::tibble(status = ifelse(x %in% collect_records[["id"]], "ok", "not_ok"))
@@ -72,18 +72,6 @@ methods_endpoint_names <- list(
   benthicpit = "benthicpittransectmethods",
   benthicpqt = "benthicphotoquadrattransectmethods",
   bleaching = "bleachingquadratcollectionmethods",
-  habitatcomplexity = "habitatcomplexitytransectmethods"
-)
-
-protocol_to_endpoint_names <- function(method) {
-  protocol_methods_endpoint_names[[method]]
-}
-
-protocol_methods_endpoint_names <- list(
-  beltfishes = "beltfishtransectmethods",
-  benthiclits = "benthiclittransectmethods",
-  benthicpits = "benthicpittransectmethods",
-  benthicpqts = "benthicphotoquadrattransectmethods",
-  bleachingqcs = "bleachingquadratcollectionmethods",
-  habitatcomplexities = "habitatcomplexitytransectmethods"
+  habitatcomplexity = "habitatcomplexitytransectmethods",
+  macroinvertebrate = "beltinverttransectmethods"
 )

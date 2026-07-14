@@ -163,7 +163,7 @@ test_that("mermaid_import_project_data with no validation errors and dryrun = TR
     `Sample date: Year *` = 2017, `Sample date: Month *` = 5,
     `Sample date: Day *` = 15, `Sample time` = "10:01", `Depth *` = 8, `Transect number *` = 1,
     `Transect label` = NA, `Transect length surveyed *` = 50,
-    `Width *` = "5m", `Fish size bin *` = 5, `Reef slope` = NA,
+    `Width *` = "5 m", `Fish size bin *` = 5, `Reef slope` = NA,
     Visibility = NA, Current = NA, `Relative depth` = "Deep",
     Tide = "falling", Notes = NA, `Observer emails *` = "sharla.gelfand@gmail.com",
     `Fish name *` = "chaetodon auriga", `Size *` = 7.5, `Count *` = 4
@@ -189,7 +189,7 @@ test_that("mermaid_import_project_data with no validation errors and dryrun = FA
     `Sample date: Year *` = 2017, `Sample date: Month *` = 5,
     `Sample date: Day *` = 15, `Sample time` = "10:01", `Depth *` = 8, `Transect number *` = 1,
     `Transect label` = NA, `Transect length surveyed *` = 50,
-    `Width *` = "5m", `Fish size bin *` = 5, `Reef slope` = NA,
+    `Width *` = "5 m", `Fish size bin *` = 5, `Reef slope` = NA,
     Visibility = NA, Current = NA, `Relative depth` = "Deep",
     Tide = "falling", Notes = NA, `Observer emails *` = "sharla.gelfand@gmail.com",
     `Fish name *` = "chaetodon auriga", `Size *` = 7.5, `Count *` = 4
@@ -298,7 +298,7 @@ test_that("mermaid_import_project_data with NA in CSVs converts NAs to '' and su
     `Sample date: Year *` = 2022, `Sample date: Month *` = 6,
     `Sample date: Day *` = 15, `Sample time` = "10:01", `Depth *` = 8, `Transect number *` = 1,
     `Transect label` = NA, `Transect length surveyed *` = 50,
-    `Width *` = "5m", `Fish size bin *` = 5, `Reef slope` = NA,
+    `Width *` = "5 m", `Fish size bin *` = 5, `Reef slope` = NA,
     Visibility = NA, Current = NA, `Relative depth` = NA,
     Tide = "falling", Notes = NA, `Observer emails *` = "sharla.gelfand@gmail.com",
     `Fish name *` = "chaetodon auriga", `Size *` = 7.5, `Count *` = 4
@@ -329,48 +329,96 @@ test_that("mermaid_import_project_data with NA in CSVs converts NAs to '' and su
   expect_true(all(collect_records[["notes"]] == ""))
 })
 
-test_that("mermaid_import_project_data fails gracefully on 504", {
-  # Test no longer done because timeout increased to 300s -- test would take too long, we know the messaging works
+test_that("mermaid_import_project_data fails if site or management are not valid", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
 
-  # skip_if_offline()
-  # skip_on_ci()
-  # skip_on_cran()
-  #
-  # df <- structure(list(`Site *` = c("Ada01", "Ada01"), `Management *` = c(
-  #   "Adavaci_open",
-  #   "Adavaci_open"
-  # ), `Sample date: Year *` = c(2017, 2017), `Sample date: Month *` = c(
-  #   5,
-  #   5
-  # ), `Sample date: Day *` = c(15, 15), `Sample time` = structure(c(
-  #   43200,
-  #   43200
-  # ), class = c("hms", "difftime"), units = "secs"), `Depth *` = c(
-  #   8,
-  #   8
-  # ), `Transect number *` = c(1, 1), `Transect label` = c(NA, NA), `Transect length surveyed *` = c(50, 50), `Width *` = c(
-  #   5,
-  #   5
-  # ), `Fish size bin *` = c(5, 5), `Reef slope` = c(NA, NA), Visibility = c(
-  #   NA,
-  #   NA
-  # ), Current = c(NA, NA), `Relative depth` = c("Deep", "Deep"), Tide = c("falling", "falling"), Notes = c(NA, NA), `Observer emails *` = c(
-  #   "wnaisilisili@wcs.org",
-  #   "wnaisilisili@wcs.org"
-  # ), `Fish name *` = c(
-  #   "chaetodon auriga",
-  #   "heniochus varius"
-  # ), `Size *` = c(7.5, 7.5), `Count *` = c(
-  #   4,
-  #   2
-  # )), row.names = c(NA, -2L), class = c("tbl_df", "tbl", "data.frame"))
-  #
-  # for (i in 1:12) {
-  #   df <- dplyr::bind_rows(df, df)
-  # }
-  #
-  # expect_error(
-  #   mermaid_import_project_data(df, "2c0c9857-b11c-4b82-b7ef-e9b383d1233c", "fishbelt", dryrun = TRUE),
-  #   "timed out due to the size of the data"
-  # )
+  project_id <- "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
+
+  df <- structure(list(
+    `Site *` = "invalid", `Management *` = "Fake Management Organization",
+    `Sample date: Year *` = 2022, `Sample date: Month *` = 6,
+    `Sample date: Day *` = 15, `Sample time` = "10:01", `Depth *` = 8, `Transect number *` = 1,
+    `Transect label` = NA, `Transect length surveyed *` = 50,
+    `Width *` = "5 m", `Fish size bin *` = 5, `Reef slope` = NA,
+    Visibility = NA, Current = NA, `Relative depth` = NA,
+    Tide = "falling", Notes = NA, `Observer emails *` = "sharla.gelfand@gmail.com",
+    `Fish name *` = "chaetodon auriga", `Size *` = 7.5, `Count *` = 4
+  ), row.names = c(
+    NA,
+    -1L
+  ), class = c("tbl_df", "tbl", "data.frame"))
+
+  expect_warning(
+    mermaid_import_project_data(df, project_id, "fishbelt", dryrun = TRUE),
+    "Failed to import"
+  )
+
+  df <- structure(list(
+    `Site *` = "1201", `Management *` = "invalid",
+    `Sample date: Year *` = 2022, `Sample date: Month *` = 6,
+    `Sample date: Day *` = 15, `Sample time` = "10:01", `Depth *` = 8, `Transect number *` = 1,
+    `Transect label` = NA, `Transect length surveyed *` = 50,
+    `Width *` = "5 m", `Fish size bin *` = 5, `Reef slope` = NA,
+    Visibility = NA, Current = NA, `Relative depth` = NA,
+    Tide = "falling", Notes = NA, `Observer emails *` = "sharla.gelfand@gmail.com",
+    `Fish name *` = "chaetodon auriga", `Size *` = 7.5, `Count *` = 4
+  ), row.names = c(
+    NA,
+    -1L
+  ), class = c("tbl_df", "tbl", "data.frame"))
+
+  expect_warning(
+    mermaid_import_project_data(df, project_id, "fishbelt", dryrun = TRUE),
+    "Failed to import"
+  )
+})
+
+test_that("mermaid_import_project_data works for inverts", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  p <- "bacd3529-e0f4-40f4-a089-992c5bd5cc02"
+
+  template <- mermaid_import_get_template_and_options(p, "macroinvertebrate")
+
+  ingest_test <- purrr::map_dfr(
+    names(template$Template),
+    \(field) {
+      choices <- template[[field]][["choices"]]
+
+      if (!is.null(choices)) {
+        dplyr::tibble(
+          value = choices[[1]][[1]],
+          name = field
+        )
+      }
+    }
+  ) %>%
+    tidyr::pivot_wider(names_from = name, values_from = value) %>%
+    dplyr::mutate(
+      `Sample date: Year *` = 2026,
+      `Sample date: Month *` = 01,
+      `Sample date: Day *` = 01,
+      `Sample time` = "02:02",
+      `Depth *` = 3,
+      `Transect number *` = 1,
+      `Transect label` = "testing",
+      `Transect length surveyed *` = 50,
+      `Sample unit notes` = "testing ingest via mermaidr",
+      `Count *` = 2,
+      `Size` = 5,
+      `Observation notes` = "testing",
+      `Observer emails *` = "sharla.gelfand@gmail.com"
+    ) %>%
+    dplyr::select(names(template[["Template"]]))
+
+  expect_message(mermaid_import_project_data(ingest_test, p, method = "macroinvertebrate", dryrun = TRUE), "successfully checked")
+
+  expect_message(
+    mermaid_import_project_data(ingest_test, p, method = "macroinvertebrate", dryrun = FALSE),
+    "successfully imported"
+  )
 })

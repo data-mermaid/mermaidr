@@ -1,6 +1,6 @@
 #' Get template and field options for MERMAID import
 #'
-#' @param method Method to get import template and field options for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", or "habitatcomplexity".
+#' @param method Method to get import template and field options for. One of "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity", or "macroinvertebrate".
 #' @param save Excel file to save template and field options to - .xlsx or xls file. Optional.
 #' @inheritParams get_project_endpoint
 #'
@@ -138,12 +138,12 @@ mermaid_import_get_template_and_options <- function(project, method, save, token
 }
 
 check_import_inputs <- function(method, data) {
-  if (!all(method %in% c("fishbelt", "benthicpit", "benthicpqt", "benthiclit", "habitatcomplexity", "bleaching")) | length(method) > 1) {
-    stop('`method` must be one of: "fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleaching", "habitatcomplexity"', call. = FALSE)
+  if (!all(method %in% methods) | length(method) > 1) {
+    stop("`method` must be one of: ", methods_string, call. = FALSE)
   }
 }
 
-mermaid_import_get_template <- function(method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleachingqc", "habitatcomplexity")) {
+mermaid_import_get_template <- function(method = methods) {
   endpoint <- glue::glue("ingest_schema_csv/{method}")
 
   res <- purrr::map(endpoint, mermaid_GET)
@@ -151,7 +151,7 @@ mermaid_import_get_template <- function(method = c("fishbelt", "benthiclit", "be
   res[[1]][[1]]
 }
 
-mermaid_import_get_options <- function(project, method = c("fishbelt", "benthiclit", "benthicpit", "benthicpqt", "bleachingqc", "habitatcomplexity"), token = mermaid_token()) {
+mermaid_import_get_options <- function(project, method = methods, token = mermaid_token()) {
   endpoint <- glue::glue("collectrecords/ingest_schema/{method}")
 
   res <- purrr::map(endpoint, ~ get_project_endpoint(project, .x, limit = NULL, token = token))
