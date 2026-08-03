@@ -1,30 +1,11 @@
 test_that("blacklist method retains all columns from whitelist method,
           none from blacklist", {
+  # Top level functions ----
 
   res <- mermaid_get_sites(limit = 10)
   expect_true(all(legacy_columns[["sites"]] %in% names(res)))
   expect_true(all(names(res) %in% legacy_columns[["sites"]]))
   expect_false(any(blacklist_columns[["site"]] %in% names(res)))
-
-  res <- mermaid_get_reference("benthicattributes")
-  expect_true(all(legacy_columns[["benthicattributes"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["benthicattributes"]]))
-  expect_false(any(blacklist_columns[["benthicattributes"]] %in% names(res)))
-
-  res <- mermaid_get_reference("fishfamilies")
-  expect_true(all(legacy_columns[["fishfamilies"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["fishfamilies"]]))
-  expect_false(any(blacklist_columns[["fishfamilies"]] %in% names(res)))
-
-  res <- mermaid_get_reference("fishgenera")
-  expect_true(all(legacy_columns[["fishgenera"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["fishgenera"]]))
-  expect_false(any(blacklist_columns[["fishgenera"]] %in% names(res)))
-
-  res <- mermaid_get_reference("fishspecies")
-  expect_true(all(legacy_columns[["fishspecies"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["fishspecies"]]))
-  expect_false(any(blacklist_columns[["fishspecies"]] %in% names(res)))
 
   res <- mermaid_get_projects(limit = 10)
   expect_true(all(legacy_columns[["projects"]] %in% names(res)))
@@ -41,18 +22,42 @@ test_that("blacklist method retains all columns from whitelist method,
   expect_true(all(names(res) %in% legacy_columns[["me"]]))
   expect_false(any(blacklist_columns[["me"]] %in% names(res)))
 
+  # mermaid_get_reference() ----
+
+  res <- mermaid_get_reference("benthicattributes")
+  expect_true(all(legacy_columns[["reference"]][["benthicattributes"]] %in% names(res)))
+  expect_true(all(names(res) %in% legacy_columns[["reference"]][["benthicattributes"]]))
+  expect_false(any(blacklist_columns[["reference"]][["benthicattributes"]] %in% names(res)))
+
+  res <- mermaid_get_reference("fishfamilies")
+  expect_true(all(legacy_columns[["reference"]][["fishfamilies"]] %in% names(res)))
+  expect_true(all(names(res) %in% legacy_columns[["reference"]][["fishfamilies"]]))
+  expect_false(any(blacklist_columns[["reference"]][["fishfamilies"]] %in% names(res)))
+
+  res <- mermaid_get_reference("fishgenera")
+  expect_true(all(legacy_columns[["reference"]][["fishgenera"]] %in% names(res)))
+  expect_true(all(names(res) %in% legacy_columns[["reference"]][["fishgenera"]]))
+  expect_false(any(blacklist_columns[["reference"]][["fishgenera"]] %in% names(res)))
+
+  res <- mermaid_get_reference("fishspecies")
+  expect_true(all(legacy_columns[["reference"]][["fishspecies"]] %in% names(res)))
+  expect_true(all(names(res) %in% legacy_columns[["reference"]][["fishspecies"]]))
+  expect_false(any(blacklist_columns[["reference"]][["fishspecies"]] %in% names(res)))
+
+  # mermaid_get_endpoint() ----
+
   res <- mermaid_get_endpoint("choices")
-  expect_true(all(legacy_columns[["choices"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["choices"]]))
-  expect_false(any(blacklist_columns[["choices"]] %in% names(res)))
+  expect_true(all(legacy_columns[["endpoint"]][["choices"]] %in% names(res)))
+  expect_true(all(names(res) %in% legacy_columns[["endpoint"]][["choices"]]))
+  expect_false(any(blacklist_columns[["endpoint"]][["choices"]] %in% names(res)))
 
   res <- mermaid_get_endpoint("projecttags")
-  expect_true(all(legacy_columns[["projecttags"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["projecttags"]]))
-  expect_false(any(blacklist_columns[["projecttags"]] %in% names(res)))
+  expect_true(all(legacy_columns[["endpoint"]][["projecttags"]] %in% names(res)))
+  expect_true(all(names(res) %in% legacy_columns[["endpoint"]][["projecttags"]]))
+  expect_false(any(blacklist_columns[["endpoint"]][["projecttags"]] %in% names(res)))
 
   res <- mermaid_get_endpoint("fishsizes")
-  expect_true(all(legacy_columns[["fishsizes"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["fishsizes"]]))
-  expect_false(any(blacklist_columns[["fishsizes"]] %in% names(res)))
+  expect_true(all(legacy_columns[["endpoint"]][["fishsizes"]] %in% names(res)))
+  expect_true(all(names(res) %in% legacy_columns[["endpoint"]][["fishsizes"]]))
+  expect_false(any(blacklist_columns[["endpoint"]][["fishsizes"]] %in% names(res)))
 })

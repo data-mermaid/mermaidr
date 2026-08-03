@@ -14,13 +14,15 @@ managements:
   - project
   - data
   - predecessor
-benthicattributes:
-  - top_level_category
+reference:
+  benthicattributes:
+    - top_level_category
+  fishfamilies:
+  fishgenera:
+  fishspecies:
 me:
-fishfamilies:
-fishgenera:
-fishspecies:
-projecttags:
-fishsizes:
-  - fish_bin_size
-choices:
+endpoint:
+  projecttags:
+  fishsizes:
+    - fish_bin_size
+  choices:

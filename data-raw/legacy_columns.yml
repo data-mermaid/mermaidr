@@ -52,80 +52,83 @@ managements:
   - notes
   - created_on
   - updated_on
-benthicattributes:
-  - id
-  - name
-  - status
-  - parent
-  - regions
-  - life_histories
-  - growth_form_life_histories
-  - updated_on
-  - created_on
-fishfamilies:
-  - id
-  - name
-  - status
-  - biomass_constant_a
-  - biomass_constant_b
-  - biomass_constant_c
-  - regions
-  - created_on
-  - updated_on
-fishgenera:
-  - id
-  - name
-  - status
-  - biomass_constant_a
-  - biomass_constant_b
-  - biomass_constant_c
-  - regions
-  - family
-  - created_on
-  - updated_on
-fishspecies:
-  - id
-  - name
-  - display_name
-  - notes
-  - status
-  - biomass_constant_a
-  - biomass_constant_b
-  - biomass_constant_c
-  - climate_score
-  - vulnerability
-  - max_length
-  - trophic_level
-  - max_length_type
-  - genus
-  - group_size
-  - trophic_group
-  - functional_group
-  - regions
-  - created_on
-  - updated_on
+reference:
+  benthicattributes:
+    - id
+    - name
+    - status
+    - notes
+    - parent
+    - regions
+    - life_histories
+    - growth_form_life_histories
+    - updated_on
+    - created_on
+  fishfamilies:
+    - id
+    - name
+    - status
+    - biomass_constant_a
+    - biomass_constant_b
+    - biomass_constant_c
+    - regions
+    - created_on
+    - updated_on
+  fishgenera:
+    - id
+    - name
+    - status
+    - biomass_constant_a
+    - biomass_constant_b
+    - biomass_constant_c
+    - regions
+    - family
+    - created_on
+    - updated_on
+  fishspecies:
+    - id
+    - name
+    - display_name
+    - notes
+    - status
+    - biomass_constant_a
+    - biomass_constant_b
+    - biomass_constant_c
+    - climate_score
+    - vulnerability
+    - max_length
+    - trophic_level
+    - max_length_type
+    - genus
+    - group_size
+    - trophic_group
+    - functional_group
+    - regions
+    - created_on
+    - updated_on
 me:
   - id
   - first_name
   - last_name
   - email
   - projects
-projecttags:
-  - id
-  - name
-  - slug
-  - status
-  - description
-  - created_on
-  - updated_on
-fishsizes:
-  - id
-  - name
-  - val
-  - min_val
-  - max_val
-  - created_on
-  - updated_on
-choices:
-  - name
-  - data
+endpoint:
+  projecttags:
+    - id
+    - name
+    - slug
+    - status
+    - description
+    - created_on
+    - updated_on
+  fishsizes:
+    - id
+    - name
+    - val
+    - min_val
+    - max_val
+    - created_on
+    - updated_on
+  choices:
+    - name
+    - data
