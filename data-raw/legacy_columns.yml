@@ -106,6 +106,33 @@ reference:
     - regions
     - created_on
     - updated_on
+  invertattributes:
+    - id
+    - status
+    - taxonomic_rank
+    - name
+    - max_length
+    - parent
+    - group_of_interest
+    - max_length_type
+    - max_length_source
+    - max_length_url
+    - notes
+    - created_on
+    - updated_on
+  invertspecies:
+    - id
+    - status
+    - display_name
+    - max_length
+    - created_on
+    - updated_on
+    - name
+    - max_length_type
+    - max_length_source
+    - max_length_url
+    - notes
+    - genus
 me:
   - id
   - first_name

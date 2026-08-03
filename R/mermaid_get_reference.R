@@ -133,8 +133,6 @@ get_reference_invertspecies <- function(limit = NULL, choices = mermaid_get_endp
     dplyr::select(tidyselect::all_of(c("id", genus = "name")))
 
   invertspecies %>%
-    dplyr::select(-.data$name) %>%
-    dplyr::rename(name = .data$display) %>%
     dplyr::left_join(invertgenus, by = c("genus" = "id"), suffix = c("_id", ""))
 }
 
