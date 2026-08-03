@@ -54,7 +54,7 @@ get_single_reference <- function(reference, limit = NULL, choices = mermaid_get_
     invertattributes = get_reference_invertattributes(limit = limit, choices = choices),
     invertspecies = get_reference_invertspecies(limit = limit, choices = choices)
   ) %>%
-    remove_blacklist_endpoint_columns(endpoint)
+    remove_blacklist_endpoint_columns(reference, nested = "reference")
 }
 
 get_reference_fishgenera <- function(limit = NULL) {
@@ -87,8 +87,6 @@ get_reference_fishspecies <- function(limit = NULL, choices = mermaid_get_endpoi
     dplyr::select(tidyselect::all_of(c("id", genus = "name")))
 
   fishspecies %>%
-    dplyr::select(-name) %>%
-    dplyr::rename(name = display) %>%
     dplyr::left_join(genus, by = c("genus" = "id"), suffix = c("_id", "")) %>%
     dplyr::left_join(fishgroupsizes, by = c("group_size" = "id"), suffix = c("_id", "")) %>%
     dplyr::left_join(fishgrouptrophics, by = c("trophic_group" = "id"), suffix = c("_id", "")) %>%
@@ -201,8 +199,10 @@ invertattributes_columns <- c(
 invertspecies_columns <- c(
   "id", "name", "display", "status", "genus", "max_length", "max_length_type", "max_length_source", "max_length_url", "notes", "created_on", "updated_on"
 )
-benthicattributes_columns <- c("id", "name", "status", "parent", "regions",
-                               "life_histories", "growth_form_life_histories",
-                               "updated_on", "created_on")
+benthicattributes_columns <- c(
+  "id", "name", "status", "parent", "regions",
+  "life_histories", "growth_form_life_histories",
+  "updated_on", "created_on"
+)
 fishfamilies_columns_b <- c("updated_by", "created_by")
 benthicattributes_columns_b <- c("updated_by", "created_by", "top_level_category")

@@ -24,7 +24,12 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
     res <- purrr::map2(
       res,
       names(res),
-      remove_blacklist_endpoint_columns
+      \(x, y) remove_blacklist_endpoint_columns(x, y,
+        nested = dplyr::case_when(y %in% c("choices", "projecttags", "fishsizes") ~ "endpoint",
+          y %in% c("sites", "managements", "projects") ~ NA_character_,
+          .default = "reference"
+        )
+      )
     )
   }
 
@@ -97,8 +102,6 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
     # Keep original order of columns
     results <- results %>%
       dplyr::select(dplyr::all_of(col_order))
-
-
   }
 
   results
@@ -160,11 +163,15 @@ construct_endpoint_columns <- function(x, endpoint) {
   dplyr::select(x, mermaid_endpoint_columns[[endpoint]])
 }
 
-remove_blacklist_endpoint_columns <- function(res, endpoint) {
-  # browser()
+remove_blacklist_endpoint_columns <- function(res, endpoint, nested = NA_character_) {
+  if (!is.na(nested)) {
+    blacklist_columns <- blacklist_columns[[nested]]
+  }
+
   if (!endpoint %in% names(blacklist_columns)) {
     browser()
   }
+
   res %>%
     dplyr::select(-dplyr::any_of(blacklist_columns[[endpoint]]))
 }
