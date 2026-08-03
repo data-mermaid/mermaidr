@@ -27,6 +27,8 @@ mermaid_get_reference <- function(reference = c("fishfamilies", "fishgenera", "f
     function(res, name) {
       if (name %in% c("fishfamilies", "fishgenera", "fishspecies", "benthicattributes")) {
         lookup_regions(res, choices)
+      } else {
+        res
       }
     }
   )
