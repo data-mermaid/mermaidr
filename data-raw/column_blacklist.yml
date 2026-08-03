@@ -20,6 +20,8 @@ reference:
   fishfamilies:
   fishgenera:
   fishspecies:
+  invertattributes:
+  invertspecies:
 me:
 endpoint:
   projecttags:

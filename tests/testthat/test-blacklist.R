@@ -44,6 +44,16 @@ test_that("blacklist method retains all columns from whitelist method,
   expect_true(all(names(res) %in% legacy_columns[["reference"]][["fishspecies"]]))
   expect_false(any(blacklist_columns[["reference"]][["fishspecies"]] %in% names(res)))
 
+  res <- mermaid_get_reference("invertattributes")
+  expect_true(all(legacy_columns[["reference"]][["invertattributes"]] %in% names(res)))
+  expect_true(all(names(res) %in% legacy_columns[["reference"]][["invertattributes"]]))
+  expect_false(any(blacklist_columns[["reference"]][["invertattributes"]] %in% names(res)))
+
+  res <- mermaid_get_reference("invertspecies")
+  expect_true(all(legacy_columns[["reference"]][["invertspecies"]] %in% names(res)))
+  expect_true(all(names(res) %in% legacy_columns[["reference"]][["invertspecies"]]))
+  expect_false(any(blacklist_columns[["reference"]][["invertspecies"]] %in% names(res)))
+
   # mermaid_get_endpoint() ----
 
   res <- mermaid_get_endpoint("choices")
