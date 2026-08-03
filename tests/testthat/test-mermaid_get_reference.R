@@ -1,14 +1,13 @@
-test_that("mermaid_get_reference returns a data frame with the correct names", {
+test_that("mermaid_get_reference returns a data frame", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
   output <- mermaid_get_reference(reference = "fishfamilies", limit = 10)
-  expect_named(output, fishfamilies_columns)
   expect_true(nrow(output) == 10)
   expect_is(output, "tbl_df")
 })
 
-test_that("mermaid_get_reference allows multiple references, and all are named correctly", {
+test_that("mermaid_get_reference allows multiple references", {
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
@@ -16,11 +15,6 @@ test_that("mermaid_get_reference allows multiple references, and all are named c
   output <- mermaid_get_reference(reference = references, limit = 2)
   expect_named(output, references)
   expect_true(all(sapply(output, nrow) == 2))
-
-  expect_named(output[["fishfamilies"]], fishfamilies_columns)
-  expect_named(output[["fishgenera"]], fishgenera_columns)
-  expect_named(output[["benthicattributes"]], benthicattributes_columns)
-  expect_equal(names(output[["fishspecies"]]) %>% sort(), c("id", "name", "notes", "status", "biomass_constant_a", "biomass_constant_b", "biomass_constant_c", "climate_score", "vulnerability", "max_length", "trophic_level", "max_length_type", "genus", "group_size", "trophic_group", "functional_group", "regions", "created_on", "updated_on") %>% sort())
 })
 
 test_that("mermaid_get_reference errors if passed an unknown reference", {

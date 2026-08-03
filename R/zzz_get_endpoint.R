@@ -233,7 +233,5 @@ allowed_ids <- function(endpoint, covariates = FALSE) {
 mermaid_endpoint_columns <- list(
   projects = projects_columns,
   summarysampleevents = summary_sampleevents_columns,
-  "classification/labelmappings" = classification_labelmappings_columns,
-  invertattributes = invertattributes_columns,
-  invertspecies = invertspecies_columns
+  "classification/labelmappings" = classification_labelmappings_columns
 )
