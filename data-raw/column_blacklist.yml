@@ -16,7 +16,6 @@ managements:
   - predecessor
 reference:
   benthicattributes:
-    - top_level_category
   fishfamilies:
   fishgenera:
   fishspecies:

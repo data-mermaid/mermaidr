@@ -61,6 +61,7 @@ reference:
     - parent
     - regions
     - life_histories
+    - top_level_category
     - growth_form_life_histories
     - updated_on
     - created_on

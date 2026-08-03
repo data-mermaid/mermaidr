@@ -102,7 +102,9 @@ get_reference_benthicattributes <- function(limit = NULL, choices = mermaid_get_
 
   benthicattributes %>%
     dplyr::left_join(benthicattributes %>%
-      dplyr::select(tidyselect::all_of(c(parent_id = "id", parent = "name"))), by = c("parent" = "parent_id"), suffix = c("_id", ""))
+      dplyr::select(tidyselect::all_of(c(parent_id = "id", parent = "name"))), by = c("parent" = "parent_id"), suffix = c("_id", "")) %>%
+    dplyr::left_join(benthicattributes %>%
+      dplyr::select(tidyselect::all_of(c(top_level_id = "id", top_level_category = "name"))), by = c("top_level_category" = "top_level_id"), suffix = c("_id", ""))
 }
 
 get_reference_invertattributes <- function(limit = NULL, choices = mermaid_get_endpoint("choices")) {
