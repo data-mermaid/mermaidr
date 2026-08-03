@@ -302,7 +302,9 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if ("sample_date" %in% names(results)) {
-    browser()
+    if (!endpoint %in% tested_endpoints) {
+      browser()
+    }
     results <- dplyr::mutate(results, sample_date = as.Date(.data$sample_date))
   }
 

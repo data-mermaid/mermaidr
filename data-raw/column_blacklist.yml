@@ -14,6 +14,8 @@ managements:
   - project
   - data
   - predecessor
+summarysampleevents:
+  - project_includes_gfcr
 reference:
   benthicattributes:
   fishfamilies:
@@ -35,3 +37,4 @@ project_data:
   sites:
    - data
    - predecessor
+classification/labelmappings:

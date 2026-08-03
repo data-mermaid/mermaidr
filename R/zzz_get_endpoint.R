@@ -15,19 +15,21 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
 
   if (!endpoint %in% tested_endpoints) { # WIP, for development
     browser()
-    res <- purrr::map2(
-      res,
-      names(res),
-      construct_endpoint_columns
-    )
+    res <- res
+    # res <- purrr::map2(
+    #   res,
+    #   names(res),
+    #   construct_endpoint_columns
+    # )
   } else {
     res <- purrr::map2(
       res,
       names(res),
       \(x, y) remove_blacklist_endpoint_columns(x, y,
         nested = dplyr::case_when(y %in% c("choices", "projecttags", "fishsizes") ~ "endpoint",
-          y %in% c("sites", "managements", "projects") ~ NA_character_,
-          .default = "reference"
+          y %in% c("benthicattributes", "fishfamilies", "fishgenea", "fishspecies", "invertattributes", "invertspecies") ~ "reference",
+          y %in% c("sites", "managements", "projects", "summarysampleevents", "classification/labelmappings") ~ NA_character_,
+          .default = "CHECK"
         )
       )
     )
@@ -207,7 +209,7 @@ strip_name_suffix <- function(results, endpoint, covariates = FALSE) {
 }
 
 allowed_ids <- function(endpoint, covariates = FALSE) {
-  ids <- c("project_id", "sample_event_id", "sample_unit_id")
+  ids <- c("project_id", "sample_event_id", "sample_unit_id", "provider_id")
 
   if (endpoint %in% names(mermaid_endpoint_columns)) {
     # TODO -> this is explicit white listing, so will need to move away from this
@@ -232,7 +234,5 @@ allowed_ids <- function(endpoint, covariates = FALSE) {
 
 # Defined in respective function files
 mermaid_endpoint_columns <- list(
-  projects = projects_columns,
-  summarysampleevents = summary_sampleevents_columns,
-  "classification/labelmappings" = classification_labelmappings_columns
+  projects = projects_columns
 )

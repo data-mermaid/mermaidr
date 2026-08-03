@@ -24,8 +24,6 @@ mermaid_get_project_data(
 \item{limit}{Number of records to get. Use NULL (the default) to get all records.}
 
 \item{token}{API token. Authenticate manually via \code{\link{mermaid_auth}}, or automatically when running any project- or user-specific functions (like this one).}
-
-\item{covariates}{Whether to include covariates. Defaults to FALSE.}
 }
 \description{
 Get Fish Belt, Benthic LIT, Benthic PIT, Macroinvertebrate, Bleaching, or Habitat Complexity data for your MERMAID projects. Data is available at the observation, sample unit, and sample event level. Optionally get covariates at the site level. See Details section for more. Requires authorization.
