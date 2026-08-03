@@ -193,3 +193,43 @@ project_data:
     - exposure
     - created_on
     - updated_on
+summarysampleevents:
+  - project_id
+  - project
+  - tags
+  - country
+  - site
+  - latitude
+  - longitude
+  - reef_type
+  - reef_zone
+  - reef_exposure
+  - management
+  - management_est_year
+  - management_size
+  - management_parties
+  - management_compliance
+  - management_rules
+  - sample_date
+  - data_policy_beltfish
+  - data_policy_benthiclit
+  - data_policy_benthicpit
+  - data_policy_benthicpqt
+  - data_policy_habitatcomplexity
+  - data_policy_bleachingqc
+  - data_policy_macroinvertebrate
+  - project_notes
+  - site_notes
+  - management_notes
+  - observers
+  - contact_link
+  - suggested_citation
+  - project_admins
+  - sample_event_id
+classification/labelmappings:
+  - id
+  - benthic_attribute
+  - growth_form
+  - provider_id
+  - provider_label
+  - provider

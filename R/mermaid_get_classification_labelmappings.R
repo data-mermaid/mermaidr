@@ -26,6 +26,4 @@ mermaid_get_classification_labelmappings <- function(provider = NULL, limit = NU
   }
 }
 
-classification_labelmappings_columns <- c("id", "benthic_attribute", "growth_form", "provider_id", "provider_label", "provider")
-
 allowed_providers <- c("CoralNet", "ReefCloud")

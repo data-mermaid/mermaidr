@@ -22,6 +22,17 @@ test_that("blacklist method retains all columns from whitelist method,
   expect_true(all(names(res) %in% legacy_columns[["me"]]))
   expect_false(any(blacklist_columns[["me"]] %in% names(res)))
 
+  res <- mermaid_get_summary_sampleevents(limit = 5)
+  expect_true(all(legacy_columns[["summarysampleevents"]] %in% names(res)))
+  expect_false(any(blacklist_columns[["summarysampleevents"]] %in% names(res)))
+  # Since we do not know the protocols expanded cols in advance, do not check this:
+  # expect_true(all(names(res) %in% legacy_columns[["summarysampleevents"]]))
+
+  res <- mermaid_get_classification_labelmappings()
+  expect_true(all(legacy_columns[["classification/labelmappings"]] %in% names(res)))
+  expect_true(all(names(res) %in% legacy_columns[["classification/labelmappings"]]))
+  expect_false(any(blacklist_columns[["classification/labelmappings"]] %in% names(res)))
+
   ## project data top level functions ----
 
   # Testing that project identifier gets added when one project or multiple projects

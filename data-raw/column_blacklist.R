@@ -23,7 +23,10 @@ tested_endpoints <- c(
   "invertattributes",
   "invertspecies",
   "projectsmanagements",
-  "projectssites"
+  "projectssites",
+  "summarysampleevents",
+  "labelmappings",
+  "classification/labelmappings"
 )
 
 usethis::use_data(tested_endpoints, overwrite = TRUE)

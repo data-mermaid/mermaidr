@@ -15,15 +15,11 @@
 #' mermaid_get_summary_sampleevents()
 #' }
 mermaid_get_summary_sampleevents <- function(limit = NULL) {
-  res <- get_endpoint("summarysampleevents", limit = limit)
-
+  get_endpoint("summarysampleevents", limit = limit) %>%
   # Unpack all df-cols (protocols, then everything within it)
-  unpack_protocols(res)
-}
+    unpack_protocols()
 
-summary_sampleevents_columns <- c(
-  "project_id", "project", "tags", "country", "site_id", "site", "latitude", "longitude", "reef_type", "reef_zone", "reef_exposure", "management_id", "management", "management_est_year", "management_size", "management_parties", "management_compliance", "management_rules", "sample_date", "data_policy_beltfish", "data_policy_benthiclit", "data_policy_benthicpit", "data_policy_benthicpqt", "data_policy_habitatcomplexity", "data_policy_bleachingqc", "data_policy_macroinvertebrate", "project_notes", "site_notes", "management_notes", "observers", "contact_link", "protocols"
-)
+}
 
 unpack_protocols <- function(x) {
   protocols_cols <- names(x[["protocols"]])
