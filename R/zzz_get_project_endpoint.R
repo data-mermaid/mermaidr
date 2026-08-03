@@ -74,7 +74,7 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
     res <- add_project_identifiers(res, project)
   } else {
     res <- initial_res[[full_endpoint]]
-    res <- dplyr::select(res, -tidyselect::any_of("project"))
+    res <- add_project_identifiers(res, project)
   }
 
   res_lookups <- lookup_choices(res, endpoint, endpoint_type = "project")
@@ -141,11 +141,10 @@ construct_project_endpoint_columns <- function(res, endpoint, multiple_projects 
       }
     }
 
-    if (multiple_projects) {
-      res <- dplyr::select(res, tidyselect::any_of(c("project_id", "project")), tidyselect::any_of(endpoint_cols))
-    } else {
-      res <- dplyr::select(res, dplyr::any_of(endpoint_cols))
-    }
+    res <- dplyr::select(
+      res, tidyselect::any_of(c("project_id", "project")),
+      dplyr::everything()
+    )
 
     # Remove any ' in names, so they do not get given a _ in snake case
     names(res) <- stringr::str_remove_all(names(res), "'")
@@ -153,6 +152,21 @@ construct_project_endpoint_columns <- function(res, endpoint, multiple_projects 
 
     res
   }
+
+  endpoint_temp <- paste0("projects", endpoint)
+
+  if (!endpoint_temp %in% tested_endpoints) { # WIP, for development
+    browser()
+    res <- purrr::map2(
+      res,
+      names(res),
+      construct_endpoint_columns
+    )
+  } else {
+    res <- remove_blacklist_endpoint_columns(res, endpoint, nested = "project_data")
+  }
+
+  res
 }
 
 rbind_project_endpoints <- function(x, endpoint) {
@@ -262,10 +276,17 @@ add_project_identifiers <- function(res, project) {
 
   if ("project_name" %in% names(res)) {
     res <- dplyr::select(res, tidyselect::all_of(c(project = "project_name")), dplyr::everything())
-  } else if ("name" %in% names(project)) {
+  } else {
+    if (!"name" %in% names(project)) {
+      if (is.character(project)) {
+        projects <- mermaid_get_my_projects(include_test_projects = TRUE) # In case it was a test one
+        project <- projects %>%
+          dplyr::filter(id %in% !!project)
+      }
+    }
+
     res <- res %>%
-      dplyr::select(-tidyselect::any_of("project")) %>%
-      dplyr::left_join(dplyr::select(project, tidyselect::all_of(c("id", project = "name"))), by = c("project_id" = "id")) %>%
+      dplyr::left_join(dplyr::select(project, tidyselect::all_of(c("id", project = "name"))), by = c("project" = "id"), suffix = c(".x", "")) %>%
       dplyr::select(project, dplyr::everything())
   }
 
@@ -291,12 +312,7 @@ clean_df_cols <- function(.data) {
       stringr::str_to_lower())
 }
 
-mermaid_project_endpoint_columns <- list(
-  managements = project_managements_columns,
-  sites = project_sites_columns
-)
-
-mermaid_project_endpoint_columns <- append(mermaid_project_endpoint_columns, project_other_endpoint_columns)
+mermaid_project_endpoint_columns <- project_other_endpoint_columns
 
 mermaid_project_endpoint_columns <- append(mermaid_project_endpoint_columns, project_data_columns)
 

@@ -56,6 +56,7 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
   url <- base_url
 
   if (nrow(results) == 0) {
+    # TODO -- will have to remove this -- it will now just be an empty tibble
     browser()
     if (endpoint_type == "main") {
       cols <- mermaid_endpoint_columns[[endpoint]]

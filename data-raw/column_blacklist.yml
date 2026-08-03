@@ -27,3 +27,11 @@ endpoint:
   fishsizes:
     - fish_bin_size
   choices:
+project_data:
+  managements:
+   - boundary
+   - data
+   - predecessor
+  sites:
+   - data
+   - predecessor

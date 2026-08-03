@@ -21,7 +21,9 @@ tested_endpoints <- c(
   "projecttags",
   "me",
   "invertattributes",
-  "invertspecies"
+  "invertspecies",
+  "projectsmanagements",
+  "projectssites"
 )
 
 usethis::use_data(tested_endpoints, overwrite = TRUE)
