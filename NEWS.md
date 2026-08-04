@@ -1,3 +1,7 @@
+# blacklist/whitelist changes
+
+* transect_len_surveyed -> transect_length
+
 # mermaidr 1.3.0
 
 * Add Macroinvertebrate method to project data functions (in `mermaid_get_project_data()` as well as import related functions like `mermaid_import_project_data()` and `mermaid_import_get_template_and_options()`)

@@ -242,46 +242,7 @@ common_bleaching_cols <- list(
 
 # For select columns and setting order
 project_data_columns <- list(
-  # Fishbelt
-  `beltfishes/obstransectbeltfishes` = c(
-    common_cols[["obs/su"]], "transect_length",
-    "transect_width", "assigned_transect_width_m",
-    "size_bin", "observers", "transect_number",
-    "label", "fish_family", "fish_genus", "fish_taxon",
-    "size", "biomass_constant_a", "biomass_constant_b",
-    "biomass_constant_c", "count", "biomass_kgha",
-    "trophic_level", "trophic_group", "functional_group", "vulnerability",
-    "data_policy_beltfish", common_cols[["obs_closing"]]
-  ),
-  `beltfishes/sampleunits` = c(
-    common_cols[["obs/su"]], "transect_number", "label",
-    "size_bin", "transect_length", "transect_width", "biomass_kgha",
-    "total_abundance", "biomass_kgha_trophic_group", "biomass_kgha_fish_family",
-    "data_policy_beltfish", common_cols[["su_closing"]]
-  ),
-  `beltfishes/sampleevents` = c(
-    common_cols[["se"]], "biomass_kgha_avg", "biomass_kgha_sd",
-    "biomass_kgha_trophic_group_avg", "biomass_kgha_trophic_group_sd",
-    "biomass_kgha_fish_family_avg", "biomass_kgha_fish_family_sd",
-    "data_policy_beltfish", common_cols[["se_closing"]]
-  ),
-
   # Benthic PIT
-
-  `benthicpits/obstransectbenthicpits` = c(
-    common_benthic_cols[["obs"]],
-    "interval", "interval_start", "interval_size",
-    common_cols[["life_histories_obs"]],
-    "data_policy_benthicpit",
-    common_cols[["obs_closing"]]
-  ),
-  `benthicpits/obstransectbenthicpits/csv` = c(
-    common_benthic_cols[["obs"]],
-    "interval", "interval_start", "interval_size",
-    common_cols[["life_histories_obs_csv"]],
-    "data_policy_benthicpit",
-    common_cols[["obs_closing"]]
-  ),
   `benthicpits/sampleunits` = c(
     common_benthic_cols[["su"]],
     "interval_start", "interval_size",
