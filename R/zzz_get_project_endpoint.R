@@ -157,11 +157,12 @@ construct_project_endpoint_columns <- function(res, endpoint, multiple_projects 
 
   if (!endpoint_temp %in% tested_endpoints) { # WIP, for development
     browser()
-    res <- purrr::map2(
-      res,
-      names(res),
-      construct_endpoint_columns
-    )
+    res <- res
+    # res <- purrr::map2(
+    #   res,
+    #   names(res),
+    #   construct_endpoint_columns
+    # )
   } else {
     res <- remove_blacklist_endpoint_columns(res, endpoint, nested = "project_data")
   }

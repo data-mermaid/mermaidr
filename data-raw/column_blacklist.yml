@@ -29,12 +29,20 @@ endpoint:
   fishsizes:
     - fish_bin_size
   choices:
+classification/labelmappings:
 project_data:
   managements:
-   - boundary
-   - data
-   - predecessor
+    - boundary
+    - data
+    - predecessor
   sites:
-   - data
-   - predecessor
-classification/labelmappings:
+    - data
+    - predecessor
+  beltfishes/obstransectbeltfishes:
+    - id
+  beltfishes/sampleunits:
+  beltfishes/sampleevents:
+  benthicpits/obstransectbenthicpits:
+    - id
+  benthiclits/obstransectbenthiclits:
+    - id

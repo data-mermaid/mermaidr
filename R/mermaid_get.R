@@ -199,6 +199,7 @@ suppress_utf8_filename_warning <- function(expr, warning_function = "strsplit", 
 
 initial_cleanup <- function(results, endpoint) {
   path <- endpoint
+  path <- stringr::str_remove(path, "csv") # it ending in csv is not relevant -- want the basename before
   endpoint <- basename(path)
 
   # Columns universally removed
@@ -253,6 +254,7 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if ("life_histories" %in% names(results)) {
+    browser()
     # browser() # TODO -> come back to these later
     results <- results %>%
       extract_life_histories(endpoint)
@@ -294,11 +296,6 @@ initial_cleanup <- function(results, endpoint) {
     }
     results <- dplyr::select(results, -tidyselect::all_of("project")) %>%
       dplyr::rename(project = "project_name")
-  }
-
-  if ("transect_len_surveyed" %in% names(results)) {
-    browser()
-    results <- dplyr::rename(results, transect_length = "transect_len_surveyed")
   }
 
   if ("sample_date" %in% names(results)) {

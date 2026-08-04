@@ -1,5 +1,29 @@
 # Testing utility functions
 
+# Checking columns in whitelist vs blacklist method ----
+
+  check_columns <- function(res, endpoint, nested = NA_character_, all_cols_known = TRUE) {
+    if (!is.na(nested)) {
+      legacy <- legacy_columns[[nested]]
+      blacklist <- blacklist_columns[[nested]]
+    } else {
+      legacy <- legacy_columns
+      blacklist <- blacklist_columns
+    }
+
+    legacy_cols <- legacy[[endpoint]]
+    blacklist_cols <- blacklist[[endpoint]]
+    cols <- names(res)
+
+    expect_true(!is.null(legacy_cols)) # Index exists
+
+    expect_true(all(legacy_cols %in% cols))
+    expect_false(any(blacklist_cols %in% cols))
+    # In case we do not know all cols in advance, e.g. with summarysampleevents the protocols cols depend on what sample events are fetched
+    if (all_cols_known) expect_true(all(cols %in% legacy_cols))
+  }
+
+
 # General ----
 
 cols_without_covars <- function(x, covars_cols) {

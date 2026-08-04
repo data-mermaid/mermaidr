@@ -26,7 +26,17 @@ tested_endpoints <- c(
   "projectssites",
   "summarysampleevents",
   "labelmappings",
-  "classification/labelmappings"
+  "classification/labelmappings",
+  "obstransectbeltfishes",
+  "projectsbeltfishes/obstransectbeltfishes",
+  "beltfishes/obstransectbeltfishes",
+  "sampleunits", # TODO
+  "sampleevents", # TODO
+  "projectsbeltfishes/sampleunits",
+  "projectsbeltfishes/sampleevents",
+  "obstransectbenthicpits",
+  "projectsbenthicpits/obstransectbenthicpits",
+  "benthicpits/obstransectbenthicpits"
 )
 
 usethis::use_data(tested_endpoints, overwrite = TRUE)

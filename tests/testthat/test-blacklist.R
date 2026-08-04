@@ -2,106 +2,86 @@ test_that("blacklist method retains all columns from whitelist method,
           none from blacklist", {
   # Top level functions ----
 
-  res <- mermaid_get_sites(limit = 5)
-  expect_true(all(legacy_columns[["sites"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["sites"]]))
-  expect_false(any(blacklist_columns[["site"]] %in% names(res)))
+  mermaid_get_sites(limit = 5) %>%
+    check_columns("sites")
 
-  res <- mermaid_get_projects(limit = 5)
-  expect_true(all(legacy_columns[["projects"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["projects"]]))
-  expect_false(any(blacklist_columns[["projects"]] %in% names(res)))
+  mermaid_get_projects(limit = 5) %>%
+    check_columns("projects")
 
-  res <- mermaid_get_managements(limit = 5)
-  expect_true(all(legacy_columns[["managements"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["managements"]]))
-  expect_false(any(blacklist_columns[["managements"]] %in% names(res)))
+  mermaid_get_my_projects(limit = 5) %>%
+    check_columns("projects")
 
-  res <- mermaid_get_me()
-  expect_true(all(legacy_columns[["me"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["me"]]))
-  expect_false(any(blacklist_columns[["me"]] %in% names(res)))
+  mermaid_get_managements(limit = 5) %>%
+    check_columns("managements")
 
-  res <- mermaid_get_summary_sampleevents(limit = 5)
-  expect_true(all(legacy_columns[["summarysampleevents"]] %in% names(res)))
-  expect_false(any(blacklist_columns[["summarysampleevents"]] %in% names(res)))
-  # Since we do not know the protocols expanded cols in advance, do not check this:
-  # expect_true(all(names(res) %in% legacy_columns[["summarysampleevents"]]))
+  mermaid_get_me() %>%
+    check_columns("me")
 
-  res <- mermaid_get_classification_labelmappings()
-  expect_true(all(legacy_columns[["classification/labelmappings"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["classification/labelmappings"]]))
-  expect_false(any(blacklist_columns[["classification/labelmappings"]] %in% names(res)))
+  mermaid_get_summary_sampleevents(limit = 5) %>%
+    check_columns("summarysampleevents", all_cols_known = FALSE)
+
+  mermaid_get_classification_labelmappings() %>%
+    check_columns("classification/labelmappings")
 
   ## project data top level functions ----
 
   # Testing that project identifier gets added when one project or multiple projects
-  res <- mermaid_get_project_managements(c("e1efb1e0-0af8-495a-9c69-fddcdba11c14"), limit = 5)
-  expect_true(all(legacy_columns[["project_data"]][["managements"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["project_data"]][["managements"]]))
-  expect_false(any(blacklist_columns[["project_data"]][["managements"]] %in% names(res)))
+  mermaid_get_project_managements(c("e1efb1e0-0af8-495a-9c69-fddcdba11c14"), limit = 5) %>%
+    check_columns("managements", nested = "project_data")
 
-  res <- mermaid_get_project_managements(c("e1efb1e0-0af8-495a-9c69-fddcdba11c14", "170e7182-700a-4814-8f1e-45ee1caf3b44"), limit = 5)
-  expect_true(all(legacy_columns[["project_data"]][["managements"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["project_data"]][["managements"]]))
-  expect_false(any(blacklist_columns[["project_data"]][["managements"]] %in% names(res)))
+  mermaid_get_project_managements(c("e1efb1e0-0af8-495a-9c69-fddcdba11c14", "170e7182-700a-4814-8f1e-45ee1caf3b44"), limit = 5) %>%
+    check_columns("managements", nested = "project_data")
 
-  res <- mermaid_get_project_sites(c("e1efb1e0-0af8-495a-9c69-fddcdba11c14"), limit = 5)
-  expect_true(all(legacy_columns[["project_data"]][["sites"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["project_data"]][["sites"]]))
-  expect_false(any(blacklist_columns[["project_data"]][["sites"]] %in% names(res)))
+  mermaid_get_project_sites(c("e1efb1e0-0af8-495a-9c69-fddcdba11c14"), limit = 5) %>%
+    check_columns("sites", nested = "project_data")
 
-  res <- mermaid_get_project_sites(c("e1efb1e0-0af8-495a-9c69-fddcdba11c14", "170e7182-700a-4814-8f1e-45ee1caf3b44"), limit = 5)
-  expect_true(all(legacy_columns[["project_data"]][["sites"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["project_data"]][["sites"]]))
-  expect_false(any(blacklist_columns[["project_data"]][["sites"]] %in% names(res)))
+  mermaid_get_project_sites(c("e1efb1e0-0af8-495a-9c69-fddcdba11c14", "170e7182-700a-4814-8f1e-45ee1caf3b44"), limit = 5) %>%
+    check_columns("sites", nested = "project_data")
 
   # mermaid_get_reference() ----
 
-  res <- mermaid_get_reference("benthicattributes")
-  expect_true(all(legacy_columns[["reference"]][["benthicattributes"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["reference"]][["benthicattributes"]]))
-  expect_false(any(blacklist_columns[["reference"]][["benthicattributes"]] %in% names(res)))
+  mermaid_get_reference("benthicattributes") %>%
+    check_columns("benthicattributes", nested = "reference")
 
-  res <- mermaid_get_reference("fishfamilies")
-  expect_true(all(legacy_columns[["reference"]][["fishfamilies"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["reference"]][["fishfamilies"]]))
-  expect_false(any(blacklist_columns[["reference"]][["fishfamilies"]] %in% names(res)))
+  mermaid_get_reference("fishfamilies") %>%
+    check_columns("fishfamilies", nested = "reference")
 
-  res <- mermaid_get_reference("fishgenera")
-  expect_true(all(legacy_columns[["reference"]][["fishgenera"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["reference"]][["fishgenera"]]))
-  expect_false(any(blacklist_columns[["reference"]][["fishgenera"]] %in% names(res)))
+  mermaid_get_reference("fishgenera") %>%
+    check_columns("fishgenera", nested = "reference")
 
-  res <- mermaid_get_reference("fishspecies")
-  expect_true(all(legacy_columns[["reference"]][["fishspecies"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["reference"]][["fishspecies"]]))
-  expect_false(any(blacklist_columns[["reference"]][["fishspecies"]] %in% names(res)))
+  mermaid_get_reference("fishspecies") %>%
+    check_columns("fishspecies", nested = "reference")
 
-  res <- mermaid_get_reference("invertattributes")
-  expect_true(all(legacy_columns[["reference"]][["invertattributes"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["reference"]][["invertattributes"]]))
-  expect_false(any(blacklist_columns[["reference"]][["invertattributes"]] %in% names(res)))
+  mermaid_get_reference("invertattributes") %>%
+    check_columns("invertattributes", nested = "reference")
 
-  res <- mermaid_get_reference("invertspecies")
-  expect_true(all(legacy_columns[["reference"]][["invertspecies"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["reference"]][["invertspecies"]]))
-  expect_false(any(blacklist_columns[["reference"]][["invertspecies"]] %in% names(res)))
+  mermaid_get_reference("invertspecies") %>%
+    check_columns("invertspecies", nested = "reference")
 
   # mermaid_get_endpoint() ----
 
-  res <- mermaid_get_endpoint("choices")
-  expect_true(all(legacy_columns[["endpoint"]][["choices"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["endpoint"]][["choices"]]))
-  expect_false(any(blacklist_columns[["endpoint"]][["choices"]] %in% names(res)))
+  mermaid_get_endpoint("choices") %>%
+    check_columns("choices", nested = "endpoint")
 
-  res <- mermaid_get_endpoint("projecttags")
-  expect_true(all(legacy_columns[["endpoint"]][["projecttags"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["endpoint"]][["projecttags"]]))
-  expect_false(any(blacklist_columns[["endpoint"]][["projecttags"]] %in% names(res)))
+  mermaid_get_endpoint("projecttags") %>%
+    check_columns("projecttags", nested = "endpoint")
 
-  res <- mermaid_get_endpoint("fishsizes")
-  expect_true(all(legacy_columns[["endpoint"]][["fishsizes"]] %in% names(res)))
-  expect_true(all(names(res) %in% legacy_columns[["endpoint"]][["fishsizes"]]))
-  expect_false(any(blacklist_columns[["endpoint"]][["fishsizes"]] %in% names(res)))
+  mermaid_get_endpoint("fishsizes") %>%
+    check_columns("fishsizes", nested = "endpoint")
+
+  # Project data functions ---
+
+  ## Fishbelt ----
+  mermaid_get_project_data("e1efb1e0-0af8-495a-9c69-fddcdba11c14", "fishbelt", "observations") %>%
+    check_columns("beltfishes/obstransectbeltfishes", nested = "project_data")
+
+  mermaid_get_project_data("e1efb1e0-0af8-495a-9c69-fddcdba11c14", "fishbelt", "sampleunits") %>%
+    check_columns("beltfishes/sampleunits", nested = "project_data")
+
+  mermaid_get_project_data("e1efb1e0-0af8-495a-9c69-fddcdba11c14", "fishbelt", "sampleevents") %>%
+    check_columns("beltfishes/sampleevents", nested = "project_data")
+
+  ## Benthic PIT ----
+  mermaid_get_project_data("e1efb1e0-0af8-495a-9c69-fddcdba11c14", "benthicpit", "observations") %>%
+    check_columns("benthicpits/obstransectbenthicpits", nested = "project_data")
 })

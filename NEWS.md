@@ -1,3 +1,7 @@
+# blacklist/whitelist changes
+
+* transect_len_surveyed -> transect_length
+
 # mermaidr 1.3.1
 
 * Add `"depth_avg"` and `"depth_sd"` to `mermaid_get_summary_sampleevents()`
