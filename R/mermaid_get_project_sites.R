@@ -15,5 +15,5 @@
 #' }
 mermaid_get_project_sites <- function(project = mermaid_get_default_project(), limit = NULL, token = mermaid_token()) {
   get_project_endpoint(project = project, endpoint = "sites", limit = limit, token = token) %>%
-      unpack_coordinates()
+    unpack_coordinates()
 }

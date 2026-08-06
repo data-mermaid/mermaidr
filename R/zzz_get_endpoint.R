@@ -12,17 +12,17 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
   res_lookups <- purrr::map2(res, names(res), lookup_choices)
   res <- purrr::imap(res_lookups, strip_name_suffix)
   endpoint <- names(res)
-    res <- purrr::map2(
-      res,
-      names(res),
-      \(x, y) remove_blacklist_endpoint_columns(x, y,
-        nested = dplyr::case_when(y %in% c("choices", "projecttags", "fishsizes") ~ "endpoint",
-          y %in% c("benthicattributes", "fishfamilies", "fishgenera", "fishspecies", "invertattributes", "invertspecies") ~ "reference",
-          y %in% c("sites", "managements", "projects", "summarysampleevents", "classification/labelmappings") ~ NA_character_,
-          .default = "CHECK"
-        )
+  res <- purrr::map2(
+    res,
+    names(res),
+    \(x, y) remove_blacklist_endpoint_columns(x, y,
+      nested = dplyr::case_when(y %in% c("choices", "projecttags", "fishsizes") ~ "endpoint",
+        y %in% c("benthicattributes", "fishfamilies", "fishgenera", "fishspecies", "invertattributes", "invertspecies") ~ "reference",
+        y %in% c("sites", "managements", "projects", "summarysampleevents", "classification/labelmappings") ~ NA_character_,
+        .default = "CHECK"
       )
     )
+  )
 
   # Replace any "" or "NA" with NAs
   # TODO -> this could happen more universally, in mermaid_GET
@@ -44,7 +44,6 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
 }
 
 lookup_choices <- function(results, endpoint, endpoint_type = "main") {
-
   endpoint <- stringr::str_remove(endpoint, "csv") %>%
     basename()
 
@@ -205,26 +204,26 @@ strip_name_suffix <- function(results, endpoint, covariates = FALSE) {
 
 allowed_ids <- function(endpoint, covariates = FALSE) {
   ids <- c("project_id", "sample_event_id", "sample_unit_id", "provider_id")
-#
-#   browser()
-#
-#   if (endpoint %in% names(mermaid_endpoint_columns)) {
-#     # TODO -> this is explicit white listing, so will need to move away from this
-#     if (any(stringr::str_ends(mermaid_endpoint_columns[[endpoint]], "_id"))) {
-#       browser()
-#       ids <- c(
-#         ids,
-#         mermaid_endpoint_columns[[endpoint]][grepl(
-#           "_id$",
-#           mermaid_endpoint_columns[[endpoint]]
-#         )]
-#       )
-#     }
-#   }
-#
-#   if (covariates) {
-#     ids <- c(ids, "site_id")
-#   }
+  #
+  #   browser()
+  #
+  #   if (endpoint %in% names(mermaid_endpoint_columns)) {
+  #     # TODO -> this is explicit white listing, so will need to move away from this
+  #     if (any(stringr::str_ends(mermaid_endpoint_columns[[endpoint]], "_id"))) {
+  #       browser()
+  #       ids <- c(
+  #         ids,
+  #         mermaid_endpoint_columns[[endpoint]][grepl(
+  #           "_id$",
+  #           mermaid_endpoint_columns[[endpoint]]
+  #         )]
+  #       )
+  #     }
+  #   }
+  #
+  #   if (covariates) {
+  #     ids <- c(ids, "site_id")
+  #   }
 
   unique(ids)
 }

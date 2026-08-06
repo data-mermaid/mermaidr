@@ -203,19 +203,19 @@ initial_cleanup <- function(results, endpoint) {
   endpoint <- basename(path)
 
   # Columns universally removed
-    results <- results %>%
-      dplyr::select(-dplyr::any_of(blacklist_columns[["all"]]))
+  results <- results %>%
+    dplyr::select(-dplyr::any_of(blacklist_columns[["all"]]))
 
-    # TODO for all -- check this, but
-    results <- results %>%
-      # if it contains id/name, put them first
-      dplyr::relocate(dplyr::any_of(c("id", "name", "display_name")),
-        .before = dplyr::everything()
-      ) %>%
-      # if it contains created_on/updated_on, put them last
-      dplyr::relocate(dplyr::any_of(c("created_on", "updated_on")),
-        .after = dplyr::everything()
-      )
+  # TODO for all -- check this, but
+  results <- results %>%
+    # if it contains id/name, put them first
+    dplyr::relocate(dplyr::any_of(c("id", "name", "display_name")),
+      .before = dplyr::everything()
+    ) %>%
+    # if it contains created_on/updated_on, put them last
+    dplyr::relocate(dplyr::any_of(c("created_on", "updated_on")),
+      .after = dplyr::everything()
+    )
 
   if (stringr::str_detect(path, "ingest_schema")) {
     browser()
@@ -276,7 +276,7 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if (all(c("project", "project_name") %in% names(results))) {
-      browser()
+    browser()
     results <- dplyr::select(results, -tidyselect::all_of("project")) %>%
       dplyr::rename(project = "project_name")
   }
