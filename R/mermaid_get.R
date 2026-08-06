@@ -203,10 +203,6 @@ initial_cleanup <- function(results, endpoint) {
   endpoint <- basename(path)
 
   # Columns universally removed
-  if (TRUE) {
-    # if (!endpoint %in% tested_endpoints) {
-    #   browser()
-    # }
     results <- results %>%
       dplyr::select(-dplyr::any_of(blacklist_columns[["all"]]))
 
@@ -220,7 +216,6 @@ initial_cleanup <- function(results, endpoint) {
       dplyr::relocate(dplyr::any_of(c("created_on", "updated_on")),
         .after = dplyr::everything()
       )
-  }
 
   if (stringr::str_detect(path, "ingest_schema")) {
     browser()
@@ -235,9 +230,6 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if ("validations" %in% names(results)) {
-    if (!endpoint %in% tested_endpoints) {
-      browser()
-    }
     if (endpoint != "collectrecords") {
       # TODO -- not sure if I love this if() else() formation
       results <- results %>%
@@ -254,27 +246,16 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if ("life_histories" %in% names(results)) {
-    if (!endpoint %in% tested_endpoints) {
-      browser()
-    }
-    # browser() # TODO -> come back to these later
     results <- results %>%
       extract_life_histories(endpoint)
   }
 
   if ("growth_form_life_histories" %in% names(results)) {
-    if (!endpoint %in% tested_endpoints) {
-      browser()
-    }
-    # browser() # TODO -> come back to these later
     results <- results %>%
       extract_growth_form_life_histories()
   }
 
   if (!endpoint %in% c("choices", "me")) {
-    # if (!endpoint %in% tested_endpoints) {
-    #   browser()
-    # }
     results <- collapse_id_name_lists(results)
 
     results <- results %>%
@@ -295,26 +276,16 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if (all(c("project", "project_name") %in% names(results))) {
-    if (!endpoint %in% tested_endpoints) {
       browser()
-      # TODO - this happens for managements. What else? Is it managements specific?
-    }
     results <- dplyr::select(results, -tidyselect::all_of("project")) %>%
       dplyr::rename(project = "project_name")
   }
 
   if ("sample_date" %in% names(results)) {
-    if (!endpoint %in% tested_endpoints) {
-      browser()
-    }
     results <- dplyr::mutate(results, sample_date = as.Date(.data$sample_date))
   }
 
   if ("status" %in% names(results)) {
-    if (!endpoint %in% tested_endpoints) {
-      browser()
-    }
-
     results <- results %>%
       dplyr::mutate(status = dplyr::recode(.data$status,
         `10` = "Locked",
@@ -324,10 +295,6 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if (any(grepl("^data_policy_", names(results)))) {
-    # if (!endpoint %in% tested_endpoints) {
-    #   browser()
-    # }
-
     results <- results %>%
       dplyr::mutate_at(
         dplyr::vars(dplyr::starts_with("data_policy_")),

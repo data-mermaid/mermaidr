@@ -7,4 +7,3 @@ ua <- httr::user_agent("https://github.com/data-mermaid/mermaidr")
 
 blacklist_columns <- yaml::read_yaml(here::here("data-raw/column_blacklist.yml"))
 legacy_columns <- yaml::read_yaml(here::here("data-raw/legacy_columns.yml"))
-tested_endpoints <- yaml::read_yaml(here::here("data-raw/tested_endpoints.yml"))
