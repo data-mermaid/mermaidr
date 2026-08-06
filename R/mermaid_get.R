@@ -198,6 +198,12 @@ suppress_utf8_filename_warning <- function(expr, warning_function = "strsplit", 
 }
 
 initial_cleanup <- function(results, endpoint) {
+  # If the results are NOT a data frame (i.e. in the case of mermaid_import_get_options()),
+  # just return
+  if (!is.data.frame(results)) {
+    return(results)
+  }
+
   path <- endpoint
   path <- stringr::str_remove(path, "csv") # it ending in csv is not relevant -- want the basename before
   endpoint <- basename(path)
@@ -218,12 +224,10 @@ initial_cleanup <- function(results, endpoint) {
     )
 
   if (stringr::str_detect(path, "ingest_schema")) {
-    browser()
     return(results)
   }
 
   if ((nrow(results) == 0 || ncol(results) == 0) & !stringr::str_detect(path, "ingest_schema_csv")) {
-    browser()
     return(
       tibble::tibble()
     )
@@ -276,7 +280,6 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if (all(c("project", "project_name") %in% names(results))) {
-    browser()
     results <- dplyr::select(results, -tidyselect::all_of("project")) %>%
       dplyr::rename(project = "project_name")
   }

@@ -32,7 +32,6 @@ test_that("mermaid_get_reference returns the regions with lookup values", {
   expect_true(any(stringr::str_detect(fishfamilies[["regions"]], "Eastern Indo-Pacific")))
 })
 
-
 test_that("mermaid_get_reference returns growth_form_life_histories as a list of DFs", {
   skip_if_offline()
   skip_on_ci()

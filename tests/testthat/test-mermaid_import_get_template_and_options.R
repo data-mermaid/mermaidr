@@ -125,3 +125,4 @@ test_that("mermaid_import_get_template_and_options only takes one project", {
     "only one project"
   )
 })
+
