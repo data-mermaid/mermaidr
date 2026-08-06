@@ -12,17 +12,6 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
   res_lookups <- purrr::map2(res, names(res), lookup_choices)
   res <- purrr::imap(res_lookups, strip_name_suffix)
   endpoint <- names(res)
-
-  if (!endpoint %in% tested_endpoints) { # WIP, for development
-    browser()
-    res <- res
-    # res <- purrr::map2(
-    #   res,
-    #   names(res),
-    #   construct_endpoint_columns
-    # )
-  } else {
-    browser()
     res <- purrr::map2(
       res,
       names(res),
@@ -34,7 +23,6 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
         )
       )
     )
-  }
 
   # Replace any "" or "NA" with NAs
   # TODO -> this could happen more universally, in mermaid_GET
@@ -59,9 +47,6 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
 
   endpoint <- stringr::str_remove(endpoint, "csv") %>%
     basename()
-  # if (!endpoint %in% tested_endpoints) {
-  #   browser()
-  # }
 
   url <- base_url
 
@@ -192,9 +177,7 @@ remove_blacklist_endpoint_columns <- function(res, endpoint, nested = NA_charact
 strip_name_suffix <- function(results, endpoint, covariates = FALSE) {
   endpoint <- stringr::str_remove(endpoint, "csv") %>%
     basename()
-  # if (!endpoint %in% tested_endpoints) {
-  #   browser()
-  # }
+
   res_names <- names(results)
   # Remove any _name suffixes, except score_name since we want to keep both score and score_name
   # Convert score_name to score_NAME first (so _name isn't removed from it)
