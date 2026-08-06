@@ -50,25 +50,9 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
   url <- base_url
 
   if (nrow(results) == 0) {
-    # TODO -- will have to remove this -- it will now just be an empty tibble
-    browser()
-    if (endpoint_type == "main") {
-      cols <- mermaid_endpoint_columns[[endpoint]]
-    } else if (endpoint_type == "project") {
-      cols <- mermaid_project_endpoint_columns[[endpoint]]
-      remove_cols <- project_data_df_columns_list[[stringr::str_remove(endpoint, "/csv")]]
-      if (!is.null(remove_cols)) {
-        cols <- cols[!cols %in% remove_cols]
-      }
-    }
-    if (ncol(results) != 0) {
-      cols <- unique(c(names(results), cols))
-    }
-    results <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)),
-      .name_repair = "minimal"
+    return(
+      dplyr::tibble()
     )
-    names(results) <- cols
-    return(results)
   }
 
   # TODO -> these are pretty specific, should they move?
@@ -152,11 +136,6 @@ lookup_variable <- function(.data, choices, variable) {
     variable_names %>%
       dplyr::right_join(.data, by = join_by)
   }
-}
-
-construct_endpoint_columns <- function(x, endpoint) {
-  browser()
-  dplyr::select(x, mermaid_endpoint_columns[[endpoint]])
 }
 
 remove_blacklist_endpoint_columns <- function(res, endpoint, nested = NA_character_) {
