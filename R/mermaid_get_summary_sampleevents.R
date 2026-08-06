@@ -16,9 +16,8 @@
 #' }
 mermaid_get_summary_sampleevents <- function(limit = NULL) {
   get_endpoint("summarysampleevents", limit = limit) %>%
-  # Unpack all df-cols (protocols, then everything within it)
+    # Unpack all df-cols (protocols, then everything within it)
     unpack_protocols()
-
 }
 
 unpack_protocols <- function(x) {
