@@ -9,6 +9,7 @@ projects:
   - includes_gfcr
 sites:
   - data
+  - predecessor
 managements:
   - boundary
   - project

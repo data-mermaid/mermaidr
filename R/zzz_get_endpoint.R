@@ -183,26 +183,6 @@ strip_name_suffix <- function(results, endpoint, covariates = FALSE) {
 
 allowed_ids <- function(endpoint, covariates = FALSE) {
   ids <- c("project_id", "sample_event_id", "sample_unit_id", "provider_id")
-  #
-  #   browser()
-  #
-  #   if (endpoint %in% names(mermaid_endpoint_columns)) {
-  #     # TODO -> this is explicit white listing, so will need to move away from this
-  #     if (any(stringr::str_ends(mermaid_endpoint_columns[[endpoint]], "_id"))) {
-  #       browser()
-  #       ids <- c(
-  #         ids,
-  #         mermaid_endpoint_columns[[endpoint]][grepl(
-  #           "_id$",
-  #           mermaid_endpoint_columns[[endpoint]]
-  #         )]
-  #       )
-  #     }
-  #   }
-  #
-  #   if (covariates) {
-  #     ids <- c(ids, "site_id")
-  #   }
 
   unique(ids)
 }
