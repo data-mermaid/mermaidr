@@ -22,12 +22,13 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
     #   construct_endpoint_columns
     # )
   } else {
+    browser()
     res <- purrr::map2(
       res,
       names(res),
       \(x, y) remove_blacklist_endpoint_columns(x, y,
         nested = dplyr::case_when(y %in% c("choices", "projecttags", "fishsizes") ~ "endpoint",
-          y %in% c("benthicattributes", "fishfamilies", "fishgenea", "fishspecies", "invertattributes", "invertspecies") ~ "reference",
+          y %in% c("benthicattributes", "fishfamilies", "fishgenera", "fishspecies", "invertattributes", "invertspecies") ~ "reference",
           y %in% c("sites", "managements", "projects", "summarysampleevents", "classification/labelmappings") ~ NA_character_,
           .default = "CHECK"
         )
@@ -58,9 +59,9 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
 
   endpoint <- stringr::str_remove(endpoint, "csv") %>%
     basename()
-  if (!endpoint %in% tested_endpoints) {
-    browser()
-  }
+  # if (!endpoint %in% tested_endpoints) {
+  #   browser()
+  # }
 
   url <- base_url
 
@@ -175,6 +176,7 @@ construct_endpoint_columns <- function(x, endpoint) {
 }
 
 remove_blacklist_endpoint_columns <- function(res, endpoint, nested = NA_character_) {
+  endpoint <- stringr::str_remove(endpoint, "/csv")
   if (!is.na(nested)) {
     blacklist_columns <- blacklist_columns[[nested]]
   }
@@ -190,9 +192,9 @@ remove_blacklist_endpoint_columns <- function(res, endpoint, nested = NA_charact
 strip_name_suffix <- function(results, endpoint, covariates = FALSE) {
   endpoint <- stringr::str_remove(endpoint, "csv") %>%
     basename()
-  if (!endpoint %in% tested_endpoints) {
-    browser()
-  }
+  # if (!endpoint %in% tested_endpoints) {
+  #   browser()
+  # }
   res_names <- names(results)
   # Remove any _name suffixes, except score_name since we want to keep both score and score_name
   # Convert score_name to score_NAME first (so _name isn't removed from it)

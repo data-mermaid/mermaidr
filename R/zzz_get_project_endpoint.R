@@ -80,7 +80,7 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
   res_lookups <- lookup_choices(res, endpoint, endpoint_type = "project")
   res_strip_suffix <- strip_name_suffix(res_lookups, endpoint, covariates)
 
-  res <- construct_project_endpoint_columns(res_strip_suffix, endpoint, multiple_projects = length(initial_res) > 1, covariates = covariates)
+  res <- tidy_project_endpoint_columns(res_strip_suffix, endpoint)
 
   # Combine sample date year, month, day, into single field, place after management_rules
   if (all(c("sample_date_year", "sample_date_month", "sample_date_day") %in% names(res))) {
@@ -109,63 +109,14 @@ check_single_project <- function(project) {
   }
 }
 
-construct_project_endpoint_columns <- function(res, endpoint, multiple_projects = FALSE, covariates = FALSE) {
-  # If covariates = TRUE, add site_id to columns selected (just for now!)
-  endpoint_cols <- mermaid_project_endpoint_columns[[endpoint]]
+tidy_project_endpoint_columns <- function(res, endpoint) {
+  # Remove any ' in names, so they do not get given a _ in snake case
+  names(res) <- stringr::str_remove_all(names(res), "'")
+  names(res) <- snakecase::to_snake_case(names(res))
 
-  if (covariates) {
-    endpoint_cols <- c("site_id", endpoint_cols)
-  }
 
-  # Some are df-cols which are pre-expanded, so remove from from `endpoint_cols` and get cols that _start_ with those separately, but place in the right space
   endpoint <- stringr::str_remove(endpoint, "/csv")
-  df_cols <- project_data_df_columns_list[[endpoint]]
-
-  endpoint_cols_without_expand <- endpoint_cols[which(!endpoint_cols %in% df_cols)]
-
-  if (nrow(res) == 0 && ncol(res) == 0) {
-    res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(endpoint_cols_without_expand)), .name_repair = "minimal")
-    names(res) <- endpoint_cols_without_expand
-    res
-  } else {
-    # This ensures the correct ordering
-    for (col in df_cols) {
-      df_col_names <- res %>%
-        dplyr::select(dplyr::starts_with(col)) %>%
-        names()
-
-      df_col_placement <- which(endpoint_cols == col)
-
-      if (length(df_col_placement) == 1) {
-        endpoint_cols <- c(endpoint_cols[1:(df_col_placement - 1)], df_col_names, endpoint_cols[(df_col_placement + 1):length(endpoint_cols)])
-      }
-    }
-
-    res <- dplyr::select(
-      res, tidyselect::any_of(c("project_id", "project")),
-      dplyr::everything()
-    )
-
-    # Remove any ' in names, so they do not get given a _ in snake case
-    names(res) <- stringr::str_remove_all(names(res), "'")
-    names(res) <- snakecase::to_snake_case(names(res))
-
-    res
-  }
-
-  endpoint_temp <- paste0("projects", endpoint)
-
-  if (!endpoint_temp %in% tested_endpoints) { # WIP, for development
-    browser()
-    res <- res
-    # res <- purrr::map2(
-    #   res,
-    #   names(res),
-    #   construct_endpoint_columns
-    # )
-  } else {
-    res <- remove_blacklist_endpoint_columns(res, endpoint, nested = "project_data")
-  }
+  res <- remove_blacklist_endpoint_columns(res, endpoint, nested = "project_data")
 
   res
 }
@@ -312,9 +263,3 @@ clean_df_cols <- function(.data) {
       stringr::str_replace_all(" |-", "_") %>%
       stringr::str_to_lower())
 }
-
-mermaid_project_endpoint_columns <- project_other_endpoint_columns
-
-mermaid_project_endpoint_columns <- append(mermaid_project_endpoint_columns, project_data_columns)
-
-mermaid_project_endpoint_columns_test <- purrr::map(mermaid_project_endpoint_columns, snakecase::to_snake_case)

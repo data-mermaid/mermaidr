@@ -204,9 +204,9 @@ initial_cleanup <- function(results, endpoint) {
 
   # Columns universally removed
   if (TRUE) {
-    if (!endpoint %in% tested_endpoints) {
-      browser()
-    }
+    # if (!endpoint %in% tested_endpoints) {
+    #   browser()
+    # }
     results <- results %>%
       dplyr::select(-dplyr::any_of(blacklist_columns[["all"]]))
 
@@ -254,22 +254,27 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if ("life_histories" %in% names(results)) {
-    browser()
+    if (!endpoint %in% tested_endpoints) {
+      browser()
+    }
     # browser() # TODO -> come back to these later
     results <- results %>%
       extract_life_histories(endpoint)
   }
 
   if ("growth_form_life_histories" %in% names(results)) {
+    if (!endpoint %in% tested_endpoints) {
+      browser()
+    }
     # browser() # TODO -> come back to these later
     results <- results %>%
       extract_growth_form_life_histories()
   }
 
   if (!endpoint %in% c("choices", "me")) {
-    if (!endpoint %in% tested_endpoints) {
-      browser()
-    }
+    # if (!endpoint %in% tested_endpoints) {
+    #   browser()
+    # }
     results <- collapse_id_name_lists(results)
 
     results <- results %>%
@@ -319,9 +324,9 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if (any(grepl("^data_policy_", names(results)))) {
-    if (!endpoint %in% tested_endpoints) {
-      browser()
-    }
+    # if (!endpoint %in% tested_endpoints) {
+    #   browser()
+    # }
 
     results <- results %>%
       dplyr::mutate_at(
@@ -334,6 +339,9 @@ initial_cleanup <- function(results, endpoint) {
       )
   }
 
+  # Remove any 's in names (so they do not become spaces in snake case), and convert to snake case
+  names(results) <- stringr::str_remove_all(names(results), "'")
+  names(results) <- snakecase::to_snake_case(names(results))
 
   results
 }

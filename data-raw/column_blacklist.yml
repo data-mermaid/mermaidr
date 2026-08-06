@@ -44,5 +44,27 @@ project_data:
   beltfishes/sampleevents:
   benthicpits/obstransectbenthicpits:
     - id
+  benthicpits/sampleunits:
+  benthicpits/sampleevents:
   benthiclits/obstransectbenthiclits:
     - id
+  benthiclits/sampleunits:
+  benthiclits/sampleevents:
+  benthicpqts/obstransectbenthicpqts:
+    - id
+  benthicpqts/sampleunits:
+  benthicpqts/sampleevents:
+  habitatcomplexities/obshabitatcomplexities:
+    - id
+  habitatcomplexities/sampleunits:
+  habitatcomplexities/sampleevents:
+  bleachingqcs/obscoloniesbleacheds:
+    - id
+  bleachingqcs/obsquadratbenthicpercents:
+    - id
+  bleachingqcs/sampleunits:
+  bleachingqcs/sampleevents:
+  beltinverts/obstransectbeltinverts:
+    - id
+  beltinverts/sampleunits:
+  beltinverts/sampleevents:

@@ -72,16 +72,82 @@ test_that("blacklist method retains all columns from whitelist method,
   # Project data functions ---
 
   ## Fishbelt ----
-  mermaid_get_project_data("e1efb1e0-0af8-495a-9c69-fddcdba11c14", "fishbelt", "observations") %>%
+  p <- "e1efb1e0-0af8-495a-9c69-fddcdba11c14"
+  mermaid_get_project_data(p, "fishbelt", "observations") %>%
     check_columns("beltfishes/obstransectbeltfishes", nested = "project_data")
 
-  mermaid_get_project_data("e1efb1e0-0af8-495a-9c69-fddcdba11c14", "fishbelt", "sampleunits") %>%
+  mermaid_get_project_data(p, "fishbelt", "sampleunits") %>%
     check_columns("beltfishes/sampleunits", nested = "project_data")
 
-  mermaid_get_project_data("e1efb1e0-0af8-495a-9c69-fddcdba11c14", "fishbelt", "sampleevents") %>%
+  mermaid_get_project_data(p, "fishbelt", "sampleevents") %>%
     check_columns("beltfishes/sampleevents", nested = "project_data")
 
   ## Benthic PIT ----
-  mermaid_get_project_data("e1efb1e0-0af8-495a-9c69-fddcdba11c14", "benthicpit", "observations") %>%
+  mermaid_get_project_data(p, "benthicpit", "observations") %>%
     check_columns("benthicpits/obstransectbenthicpits", nested = "project_data")
+
+  mermaid_get_project_data(p, "benthicpit", "sampleunits") %>%
+    check_columns("benthicpits/sampleunits", nested = "project_data")
+
+  mermaid_get_project_data(p, "benthicpit", "sampleevents") %>%
+    check_columns("benthicpits/sampleevents", nested = "project_data")
+
+  ## Benthic LIT ----
+  mermaid_get_project_data(p, "benthiclit", "observations") %>%
+    check_columns("benthiclits/obstransectbenthiclits", nested = "project_data")
+
+  mermaid_get_project_data(p, "benthiclit", "sampleunits") %>%
+    check_columns("benthiclits/sampleunits", nested = "project_data")
+
+  mermaid_get_project_data(p, "benthiclit", "sampleevents") %>%
+    check_columns("benthiclits/sampleevents", nested = "project_data")
+
+  ## Benthic PQT ----
+  p <- "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
+
+  mermaid_get_project_data(p, "benthicpqt", "observations") %>%
+    check_columns("benthicpqts/obstransectbenthicpqts", nested = "project_data")
+
+  mermaid_get_project_data(p, "benthicpqt", "sampleunits") %>%
+    check_columns("benthicpqts/sampleunits", nested = "project_data")
+
+  mermaid_get_project_data(p, "benthicpqt", "sampleevents") %>%
+    check_columns("benthicpqts/sampleevents", nested = "project_data")
+
+  # Habitat Complexity ----
+  mermaid_get_project_data(p, "habitatcomplexity", "observations") %>%
+    check_columns("habitatcomplexities/obshabitatcomplexities", nested = "project_data")
+
+  mermaid_get_project_data(p, "habitatcomplexity", "sampleunits") %>%
+    check_columns("habitatcomplexities/sampleunits", nested = "project_data")
+
+  mermaid_get_project_data(p, "habitatcomplexity", "sampleevents") %>%
+    check_columns("habitatcomplexities/sampleevents", nested = "project_data")
+
+  # Bleaching ----
+  obs <- mermaid_get_project_data(p, "bleaching", "observations")
+
+  obs[["colonies_bleached"]] %>%
+    check_columns("bleachingqcs/obscoloniesbleacheds", nested = "project_data")
+
+  obs[["percent_cover"]] %>%
+    check_columns("bleachingqcs/obsquadratbenthicpercents", nested = "project_data")
+
+  mermaid_get_project_data(p, "bleaching", "sampleunits") %>%
+    check_columns("bleachingqcs/sampleunits", nested = "project_data")
+
+  mermaid_get_project_data(p, "bleaching", "sampleevents") %>%
+    check_columns("bleachingqcs/sampleevents", nested = "project_data")
+
+  # Inverts ----
+  p <- "bacd3529-e0f4-40f4-a089-992c5bd5cc02"
+
+  mermaid_get_project_data(p, "macroinvertebrate", "observations") %>%
+    check_columns("beltinverts/obstransectbeltinverts", nested = "project_data")
+
+  mermaid_get_project_data(p, "macroinvertebrate", "sampleunits") %>%
+    check_columns("beltinverts/sampleunits", nested = "project_data")
+
+  mermaid_get_project_data(p, "macroinvertebrate", "sampleevents") %>%
+    check_columns("beltinverts/sampleevents", nested = "project_data")
 })
