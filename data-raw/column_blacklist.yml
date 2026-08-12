@@ -6,7 +6,6 @@ projects:
   - project_admins
   - data
   - is_demo
-  - includes_gfcr
 sites:
   - data
   - predecessor
@@ -16,7 +15,6 @@ managements:
   - data
   - predecessor
 summarysampleevents:
-  - project_includes_gfcr
 reference:
   benthicattributes:
   fishfamilies:
@@ -70,3 +68,18 @@ project_data:
   beltinverts/sampleunits:
   beltinverts/sampleevents:
   collectrecords:
+  beltfishtransectmethods:
+    - id
+  benthiclittransectmethods:
+    - id
+  benthicpittransectmethods:
+    - id
+  benthictransects:
+    - id
+  fishbelttransects:
+    - id
+  observers:
+  project_profiles:
+    - id
+  sampleevents:
+

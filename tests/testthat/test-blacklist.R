@@ -114,7 +114,7 @@ test_that("blacklist method retains all columns from whitelist method,
   mermaid_get_project_data(p, "benthicpqt", "sampleevents") %>%
     check_columns("benthicpqts/sampleevents", nested = "project_data")
 
-  # Habitat Complexity ----
+  ## Habitat Complexity ----
   mermaid_get_project_data(p, "habitatcomplexity", "observations") %>%
     check_columns("habitatcomplexities/obshabitatcomplexities", nested = "project_data")
 
@@ -124,7 +124,7 @@ test_that("blacklist method retains all columns from whitelist method,
   mermaid_get_project_data(p, "habitatcomplexity", "sampleevents") %>%
     check_columns("habitatcomplexities/sampleevents", nested = "project_data")
 
-  # Bleaching ----
+  ## Bleaching ----
   obs <- mermaid_get_project_data(p, "bleaching", "observations")
 
   obs[["colonies_bleached"]] %>%
@@ -139,7 +139,7 @@ test_that("blacklist method retains all columns from whitelist method,
   mermaid_get_project_data(p, "bleaching", "sampleevents") %>%
     check_columns("bleachingqcs/sampleevents", nested = "project_data")
 
-  # Inverts ----
+  ## Inverts ----
   p <- "bacd3529-e0f4-40f4-a089-992c5bd5cc02"
 
   mermaid_get_project_data(p, "macroinvertebrate", "observations") %>%
@@ -150,4 +150,34 @@ test_that("blacklist method retains all columns from whitelist method,
 
   mermaid_get_project_data(p, "macroinvertebrate", "sampleevents") %>%
     check_columns("beltinverts/sampleevents", nested = "project_data")
+
+  ## Other project endpoints -----
+
+  mermaid_get_project_endpoint(p, "beltfishtransectmethods") %>%
+    check_columns("beltfishtransectmethods", nested = "project_data")
+
+  # Checking 1 and multiple projects
+  mermaid_get_project_endpoint(c(p, "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"), "beltfishtransectmethods") %>%
+    check_columns("beltfishtransectmethods", nested = "project_data")
+
+  mermaid_get_project_endpoint(p, "benthiclittransectmethods") %>%
+    check_columns("benthiclittransectmethods", nested = "project_data")
+
+  mermaid_get_project_endpoint(p, "benthicpittransectmethods") %>%
+    check_columns("benthicpittransectmethods", nested = "project_data")
+
+  mermaid_get_project_endpoint(p, "collectrecords") %>%
+    check_columns("collectrecords", nested = "project_data")
+
+  mermaid_get_project_endpoint(p, "fishbelttransects") %>%
+    check_columns("fishbelttransects", nested = "project_data")
+
+  mermaid_get_project_endpoint(p, "observers") %>%
+    check_columns("observers", nested = "project_data")
+
+  mermaid_get_project_endpoint(p, "project_profiles") %>%
+    check_columns("project_profiles", nested = "project_data")
+
+  mermaid_get_project_endpoint(p, "sampleevents") %>%
+    check_columns("sampleevents", nested = "project_data")
 })

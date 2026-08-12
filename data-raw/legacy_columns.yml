@@ -9,6 +9,7 @@ projects:
   - suggested_citation
   - bbox
   - notes
+  - includes_gfcr
   - status
   - data_policy_beltfish
   - data_policy_benthiclit
@@ -1337,6 +1338,7 @@ project_data:
     - reef_type
     - reef_zone
     - reef_exposure
+    - reef_slope
     - tide
     - current
     - visibility
@@ -1389,6 +1391,7 @@ project_data:
     - reef_type
     - reef_zone
     - reef_exposure
+    - reef_slope
     - tide
     - current
     - visibility
@@ -1503,3 +1506,105 @@ project_data:
     - project_includes_gfcr
     - contact_link
     - sample_event_id
+  beltfishtransectmethods:
+    - project
+    - sample_event
+    - fishbelt_transect
+    - observers
+    - obs_belt_fishes
+    - transect
+    - created_on
+    - updated_on
+  benthiclittransectmethods:
+    - project
+    - sample_event
+    - benthic_transect
+    - observers
+    - obs_benthic_lits
+    - transect
+    - created_on
+    - updated_on
+  benthicpittransectmethods:
+    - project
+    - interval_size
+    - interval_start
+    - sample_event
+    - benthic_transect
+    - observers
+    - obs_benthic_pits
+    - transect
+    - created_on
+    - updated_on
+  benthictransects:
+    - project
+    - depth
+    - notes
+    - sample_time
+    - len_surveyed
+    - number
+    - label
+    - sample_event
+    - visibility
+    - current
+    - relative_depth
+    - tide
+    - reef_slope
+    - created_on
+    - updated_on
+  fishbelttransects:
+    - project
+    - depth
+    - notes
+    - sample_time
+    - len_surveyed
+    - number
+    - label
+    - sample_event
+    - visibility
+    - current
+    - relative_depth
+    - tide
+    - reef_slope
+    - width
+    - size_bin
+    - created_on
+    - updated_on
+  observers:
+    - project
+    - id
+    - profile
+    - rank
+    - transectmethod
+    - created_on
+    - updated_on
+  sampleevents:
+    - id
+    - project
+    - data
+    - sample_date
+    - notes
+    - site
+    - management
+    - created_on
+    - updated_on
+  project_profiles:
+    - profile
+    - is_collector
+    - is_admin
+    - email
+    - num_active_sample_units
+    - picture
+    - num_account_connections
+    - role
+    - created_on
+    - updated_on
+    - project
+  collectrecords:
+    - id
+    - data
+    - validations
+    - stage
+    - profile
+    - created_on
+    - updated_on
+    - project

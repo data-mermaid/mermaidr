@@ -239,7 +239,6 @@ initial_cleanup <- function(results, endpoint) {
       results <- results %>%
         dplyr::select(-tidyselect::all_of("validations"))
     } else {
-      browser()
     }
   }
 

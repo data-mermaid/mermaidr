@@ -218,6 +218,13 @@ repack_df_cols <- function(x) {
 }
 
 add_project_identifiers <- function(res, project) {
+
+  if (is.character(project)) {
+    projects <- mermaid_get_my_projects(include_test_projects = TRUE) # In case it was a test one
+    project <- projects %>%
+      dplyr::filter(id %in% !!project)
+  }
+
   if (is.null(res)) {
     return(tibble::tibble())
   }
@@ -226,31 +233,45 @@ add_project_identifiers <- function(res, project) {
     return(res)
   }
 
+  # The goal is to convert any project id into project_id, then use it to join to `project`, and only keep `project`, which is the NAME
+
   if ("project_name" %in% names(res)) {
-    res <- dplyr::select(res, tidyselect::all_of(c(project = "project_name")), dplyr::everything())
-  } else {
-    if (!"name" %in% names(project)) {
-      if (is.character(project)) {
-        projects <- mermaid_get_my_projects(include_test_projects = TRUE) # In case it was a test one
-        project <- projects %>%
-          dplyr::filter(id %in% !!project)
-      }
-    }
-
     res <- res %>%
-      dplyr::left_join(dplyr::select(project, tidyselect::all_of(c("id", project = "name"))), by = c("project" = "id"), suffix = c(".x", "")) %>%
-      dplyr::select(project, dplyr::everything())
-  }
+      dplyr::select(-project_id) %>%
+      dplyr::rename(project = project_name)
 
-  if (all(c("project", "project_id") %in% names(res))) {
+    return(res)
+  } else if (all(c("project", "project_id") %in% names(res))) {
     if (all(res[["project"]] == res[["project_id"]])) {
       res <- dplyr::select(res, -tidyselect::all_of("project"))
     } else {
+      browser()
       res <- dplyr::select(res, -tidyselect::all_of("project_id"))
+    }
+  } else if ("project_id" %in% names(res)) {
+    # Good, keep as is
+  } else if ("project" %in% names(res)) {
+    res <- res %>%
+      dplyr::rename(project_id = project)
+  } else {
+    if (nrow(project) == 1) {
+      res <- res %>%
+        dplyr::bind_cols(
+          project %>% dplyr::select(project = name)
+        )
+
+      return(res)
     }
   }
 
-  res
+  res %>%
+    dplyr::left_join(
+      project %>%
+        dplyr::select(tidyselect::all_of(c("id", project = "name"))),
+      by = c("project_id" = "id"),
+      suffix = c(".x", "")
+    ) %>%
+    dplyr::select(-project_id)
 }
 
 clean_df_cols <- function(.data) {
