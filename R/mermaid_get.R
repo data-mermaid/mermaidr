@@ -243,12 +243,6 @@ initial_cleanup <- function(results, endpoint) {
     }
   }
 
-  if ("covariates" %in% names(results)) {
-    browser()
-    results <- results %>%
-      extract_covariates()
-  }
-
   if ("life_histories" %in% names(results)) {
     results <- results %>%
       extract_life_histories(endpoint)
@@ -437,52 +431,4 @@ collapse_id_name_lists <- function(results) {
   }
 
   results
-}
-
-extract_covariates <- function(results) {
-  if (length(results[["covariates"]]) != 0) {
-    covariates_expanded <- results[["covariates"]] %>%
-      purrr::compact() %>%
-      purrr::map(function(x) {
-        x %>%
-          dplyr::mutate(value = purrr::map(
-            .data$value,
-            function(y) {
-              if (is.null(y)) NA else y
-            }
-          ))
-      }) %>%
-      dplyr::bind_rows(.id = "row") %>%
-      dplyr::select(tidyselect::all_of(c("row", "name", "value"))) %>%
-      split(.$name) %>%
-      purrr::map(~ .x %>% dplyr::mutate(value = purrr::map_chr(.data$value, get_covariate_value))) %>%
-      dplyr::bind_rows() %>%
-      tidyr::pivot_wider(id_cols = row, names_from = "name", values_from = "value") %>%
-      dplyr::mutate(dplyr::across(-dplyr::starts_with("aca_"), as.numeric))
-
-    results %>%
-      dplyr::mutate(row = dplyr::row_number()) %>%
-      dplyr::left_join(covariates_expanded, by = "row") %>%
-      dplyr::select(-tidyselect::all_of(c("row", "covariates")))
-  } else {
-    covars <- tibble::as_tibble(matrix(nrow = , ncol = length(covars_cols)), .name_repair = "minimal")
-    names(covars) <- covars_cols
-    results %>%
-      dplyr::select(-tidyselect::all_of("covariates")) %>%
-      dplyr::bind_cols(covars)
-  }
-}
-
-get_covariate_value <- function(x) {
-  if (length(x) == 0) { # If there is no value, return NA
-    return(NA_character_)
-  } else if (length(x) == 1) { # If it's a single value, just return the value
-    return(as.character(x))
-  }
-
-  # Otherwise, get the value for the max area
-  x %>%
-    dplyr::filter(.data$area == max(.data$area)) %>%
-    dplyr::pull(.data$name) %>%
-    as.character()
 }
