@@ -142,6 +142,13 @@ get_collecting_records <- function(project, token = mermaid_token()) {
   res <- mermaid_get_project_endpoint(project, "collectrecords")
 
   # Expand validations, just return the ID, status, and protocol
+  if (nrow(res) == 0) {
+    # Still return a tibble with id, validations_status, and data_protocl -- just 0 rows
+    # Need this for filtering on validations_status later on
+    res <- dplyr::as_tibble(matrix(nrow = 0, ncol = 3), .name_repair = "minimal")
+    names(res) <- c("id", "validations_status", "data_protocol")
+    return(res)
+  }
   res <- res %>%
     tidyr::unpack("validations", names_sep = "_") %>%
     tidyr::unpack("data", names_sep = "_") %>%
