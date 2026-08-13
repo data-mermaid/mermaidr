@@ -11,5 +11,5 @@ test_that("mermaid_get_summary_sampleevents returns a tibble of all columns, plu
   summary_sampleevents_protocols <- summary_sampleevents %>%
     dplyr::select(-tidyselect::all_of(non_protocol_cols))
 
-  expect_true(all(stringr::str_starts(names(summary_sampleevents_protocols), "beltfish|benthiclit|benthicpit|benthicpqt|habitatcomplexity|colonies_bleached|quadrat_benthic|macroinvertebrate")))
+  expect_true(all(stringr::str_starts(names(summary_sampleevents_protocols), "beltfish|benthiclit|benthicpit|benthicpqt|habitatcomplexity|colonies_bleached|quadrat_benthic|macroinvertebrate|project_includes_gfcr|depth_avg|depth_sd")))
 })
