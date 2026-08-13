@@ -153,6 +153,35 @@ test_that("mermaid_import_project_data renames $row_number to row_number and sta
   expect_identical(df[[1]], c(1, 2))
 })
 
+test_that("mermaid_import_project_data warns if month/day are mixed up", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  df <- structure(list(
+    `Site *` = "1201", `Management *` = "Fake Management Organization",
+    `Sample date: Year *` = 2017, `Sample date: Month *` = 15,
+    `Sample date: Day *` = 5, `Sample time` = "10:01", `Depth *` = 8, `Transect number *` = 1,
+    `Transect label` = NA, `Transect length surveyed *` = 50,
+    `Width *` = "5 m", `Fish size bin *` = 5, `Reef slope` = NA,
+    Visibility = NA, Current = NA, `Relative depth` = "Deep",
+    Tide = "falling", Notes = NA, `Observer emails *` = "sharla.gelfand@gmail.com",
+    `Fish name *` = "chaetodon auriga", `Size *` = 7.5, `Count *` = 4
+  ), row.names = c(
+    NA,
+    -1L
+  ), class = c("tbl_df", "tbl", "data.frame"))
+
+  project_id <- "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"
+  res <- suppressWarnings(mermaid_import_project_data(df, project_id, "fishbelt"))
+  expect_true(
+    any(stringr::str_detect(
+      res[["data__sample_event__sample_date"]],
+      "Are you sure month and day numbers are in the right columns?"
+    ))
+  )
+})
+
 test_that("mermaid_import_project_data with no validation errors and dryrun = TRUE does not actually write to Collect", {
   skip_if_offline()
   skip_on_ci()
