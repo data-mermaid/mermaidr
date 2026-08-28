@@ -43,8 +43,8 @@ If your data isn't in CSV format, you'll need to re-save it as CSV. This example
 After setting up your project in MERMAID Collect and preparing the necessary files, you can now start importing your data in R or R Studio. The first step is to install and activate the mermaidr and other related packages. In this example, we are also going to use the tidyverse package.
 
 ```{r, eval = FALSE}
-#install.packages("tidyverse")
-#remotes::install_github("data-mermaid/mermaidr")
+# install.packages("tidyverse")
+# remotes::install_github("data-mermaid/mermaidr")
 
 library(mermaidr)
 library(tidyverse)

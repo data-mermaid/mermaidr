@@ -238,8 +238,7 @@ initial_cleanup <- function(results, endpoint) {
       # TODO -- not sure if I love this if() else() formation
       results <- results %>%
         dplyr::select(-tidyselect::all_of("validations"))
-    } else {
-    }
+    } else {}
   }
 
   if ("life_histories" %in% names(results)) {
