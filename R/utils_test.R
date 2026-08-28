@@ -3,6 +3,8 @@
 # Checking columns in whitelist vs blacklist method ----
 
 check_columns <- function(res, endpoint, nested = NA_character_, all_cols_known = TRUE) {
+
+  legacy_columns <- yaml::read_yaml(here::here("data-raw/legacy_columns.yml"))
   if (!is.na(nested)) {
     legacy <- legacy_columns[[nested]]
     blacklist <- blacklist_columns[[nested]]
@@ -25,10 +27,6 @@ check_columns <- function(res, endpoint, nested = NA_character_, all_cols_known 
 
 
 # General ----
-
-cols_without_covars <- function(x, covars_cols) {
-  x[!x %in% covars_cols]
-}
 
 # Construct a fake sample unit, which combines site, sample date, management, depth, transect number, and transect length to make an ID
 construct_fake_sample_unit_id <- function(data) {
@@ -389,24 +387,6 @@ unpack_sus_bleaching_avg_long <- function(ses, sus_agg) {
 }
 
 # Standard deviations -----
-
-get_sd_cols <- function(method) {
-  project_data_columns %>%
-    purrr::map_df(dplyr::as_tibble, .id = "endpoint") %>%
-    dplyr::filter(!stringr::str_ends(.data$endpoint, "csv")) %>%
-    dplyr::filter(stringr::str_ends(.data$value, "sd")) %>%
-    tidyr::separate(dplyr::all_of("endpoint"), into = c("method", "data"), sep = "/") %>%
-    dplyr::mutate(
-      method = dplyr::case_when(
-        stringr::str_starts(.data$method, "benthic") ~ stringr::str_remove(.data$method, "s"),
-        method == "beltfishes" ~ "fishbelt",
-        method == "bleachingqcs" ~ "bleaching",
-        method == "habitatcomplexities" ~ "habitatcomplexity"
-      ),
-      coalesce = .data$value %in% c("biomass_kgha_trophic_group_sd", "biomass_kgha_fish_family_sd")
-    ) %>%
-    dplyr::filter(method == !!method)
-}
 
 check_agg_sd_vs_agg_from_raw <- function(p, sd_cols, method, data) {
   raw_cols <- sd_cols %>%

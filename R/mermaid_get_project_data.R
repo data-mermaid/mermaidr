@@ -75,23 +75,6 @@ internal_mermaid_get_project_data <- function(project = mermaid_get_default_proj
     }
   }
 
-  # If covariates = TRUE, get sites for each project
-  if (covariates) {
-    project_sites_covariates <- project %>%
-      mermaid_get_project_sites(covariates = TRUE) %>%
-      dplyr::select(
-        tidyselect::any_of("project"),
-        tidyselect::all_of(c(
-          site_id = "id",
-          covars_cols
-        ))
-      )
-
-    # Join covariates to any DFs in res
-    res <- res %>%
-      add_covariates_to_data(project_sites_covariates)
-  }
-
   if (length(endpoint) == 1) {
     res[[1]]
   } else {
