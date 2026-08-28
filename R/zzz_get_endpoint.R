@@ -144,10 +144,6 @@ remove_blacklist_endpoint_columns <- function(res, endpoint, nested = NA_charact
     blacklist_columns <- blacklist_columns[[nested]]
   }
 
-  if (!endpoint %in% names(blacklist_columns)) {
-    browser()
-  }
-
   res %>%
     dplyr::select(-dplyr::any_of(blacklist_columns[[endpoint]]))
 }

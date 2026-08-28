@@ -4,6 +4,7 @@ test_that("mermaid_get_summary_sampleevents returns a tibble of all columns, plu
   skip_on_cran()
 
   summary_sampleevents <- mermaid_get_summary_sampleevents()
+  legacy_columns <- yaml::read_yaml(here::here("data-raw/legacy_columns.yml"))
   non_protocol_cols <- legacy_columns[["summarysampleevents"]]
 
   expect_true(all(non_protocol_cols %in% names(summary_sampleevents)))

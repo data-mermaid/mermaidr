@@ -1,5 +1,10 @@
 test_that("blacklist method retains all columns from whitelist method,
           none from blacklist", {
+
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
   # Top level functions ----
 
   mermaid_get_sites(limit = 5) %>%

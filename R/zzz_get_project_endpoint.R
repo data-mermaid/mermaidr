@@ -70,7 +70,7 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
   # If 0 rows, just return
   if (all(purrr::map_dbl(initial_res, nrow) == 0)) {
     if (length(initial_res) > 1) {
-      return(initil_res)
+      return(initial_res)
     } else {
       return(initial_res[[full_endpoint]])
     }
@@ -253,7 +253,6 @@ add_project_identifiers <- function(res, project) {
     if (all(res[["project"]] == res[["project_id"]])) {
       res <- dplyr::select(res, -tidyselect::all_of("project"))
     } else {
-      browser()
       res <- dplyr::select(res, -tidyselect::all_of("project_id"))
     }
   } else if ("project_id" %in% names(res)) {
