@@ -30,7 +30,7 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
 
   # Get endpoint results
   endpoints_res <- withCallingHandlers(
-    purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, filter = filter, token = token, project_id = project_id, project = project, covariates = covariates),
+    purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, filter = filter, token = token, project_id = project_id, project = project),
     purrr_error_indexed = function(err) {
       rlang::cnd_signal(err$parent)
     }
@@ -64,7 +64,7 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   }
 }
 
-get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, token = mermaid_token(), filter = NULL, project_id, project, covariates = FALSE) {
+get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, token = mermaid_token(), filter = NULL, project_id, project) {
   initial_res <- mermaid_GET(full_endpoint, limit = limit, filter = filter, token = token)
 
   # Return ingest schema for tidying separately
@@ -92,7 +92,7 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
   }
 
   res_lookups <- lookup_choices(res, endpoint, endpoint_type = "project")
-  res_strip_suffix <- strip_name_suffix(res_lookups, endpoint, covariates)
+  res_strip_suffix <- strip_name_suffix(res_lookups, endpoint)
 
   res <- tidy_project_endpoint_columns(res_strip_suffix, endpoint)
 
