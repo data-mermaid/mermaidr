@@ -148,7 +148,7 @@ remove_blacklist_endpoint_columns <- function(res, endpoint, nested = NA_charact
     dplyr::select(-dplyr::any_of(blacklist_columns[[endpoint]]))
 }
 
-strip_name_suffix <- function(results, endpoint, covariates = FALSE) {
+strip_name_suffix <- function(results, endpoint) {
   endpoint <- stringr::str_remove(endpoint, "csv") %>%
     basename()
 
@@ -168,16 +168,16 @@ strip_name_suffix <- function(results, endpoint, covariates = FALSE) {
 
   names(results) <- res_names
 
-  # Remove IDs, except project ID, sample event/unit ID, site ID (if covariates),
+  # Remove IDs, except project ID, sample event/unit ID
   # or any other IDs included in the requested endpoint
   results[, (!grepl(
     "_id$",
     names(results)
   )) |
-    (names(results) %in% allowed_ids(endpoint, covariates = covariates))]
+    (names(results) %in% allowed_ids(endpoint))]
 }
 
-allowed_ids <- function(endpoint, covariates = FALSE) {
+allowed_ids <- function(endpoint) {
   ids <- c("project_id", "sample_event_id", "sample_unit_id", "provider_id")
 
   unique(ids)
