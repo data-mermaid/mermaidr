@@ -1,3 +1,13 @@
+test_that("covariates produces a warning", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+  expect_message(
+    mermaid_get_project_data("170e7182-700a-4814-8f1e-45ee1caf3b44", method = "benthicpit", data = "sampleunits", limit = 1, covariates = TRUE),
+    "deprecated"
+  )
+})
+
 test_that("mermaid_get_project_data returns a data frame", {
   skip_if_offline()
   skip_on_ci()

@@ -8,6 +8,7 @@ NULL
 #'
 #' @inheritParams mermaid_GET
 #' @inheritParams get_project_endpoint
+#' @param covariates Deprecated as of version \code{2.0.0}. Please use `mermaidrcovariates` package to access covariates.
 #'
 #' @noRd
 #'
@@ -19,6 +20,10 @@ NULL
 get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint, limit = NULL, token = mermaid_token(), filter = NULL, covariates = FALSE) {
   project_id <- as_id(project)
   check_project(project_id)
+
+  if (covariates) {
+    usethis::ui_info("`covariates` argument is deprecated as of mermaidr version 2.0.0. Please use the `mermaidrcovariates` package to access covariates. Your results will be returned without any covariates.")
+  }
 
   # Construct full endpoints (with project id)
   full_endpoints <- purrr::map(endpoint, ~ paste0("projects/", project_id, "/", .x))

@@ -10,3 +10,13 @@ test_that("mermaid project sites returns the same cols as mermaid sites", {
     names(sites) %>% sort()
   )
 })
+
+test_that("covariates produces a warning", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+  expect_message(
+    mermaid_get_project_sites("170e7182-700a-4814-8f1e-45ee1caf3b44", covariates = TRUE),
+    "deprecated"
+  )
+})
