@@ -43,13 +43,13 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   if (all(stringr::str_detect(endpoint, "/")) & !any(stringr::str_detect(endpoint, "ingest_schema"))) {
     if (length(endpoint) == 1) {
       if (nrow(res) == 0) {
-        dplyr::select(res, tidyselect::any_of(project_data_test_columns[[endpoint]]))
+        res
       } else {
         clean_df_cols(res)
       }
     } else {
       if (all(purrr::map_dbl(res, nrow) == 0)) {
-        purrr::imap(res, ~ dplyr::select(.x, tidyselect::any_of(project_data_test_columns[[.y]])))
+        res
       } else {
         purrr::map(res, clean_df_cols)
       }
@@ -65,6 +65,15 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
   # Return ingest schema for tidying separately
   if (stringr::str_detect(endpoint, "ingest_schema")) {
     return(initial_res)
+  }
+
+  # If 0 rows, just return
+  if (all(purrr::map_dbl(initial_res, nrow) == 0)) {
+    if (length(initial_res) > 1) {
+      return(initil_res)
+    } else {
+      return(initial_res[[full_endpoint]])
+    }
   }
 
   # Combine multiple projects
@@ -218,7 +227,6 @@ repack_df_cols <- function(x) {
 }
 
 add_project_identifiers <- function(res, project) {
-
   if (is.character(project)) {
     projects <- mermaid_get_my_projects(include_test_projects = TRUE) # In case it was a test one
     project <- projects %>%

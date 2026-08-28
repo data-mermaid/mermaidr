@@ -33,7 +33,7 @@ cols_without_covars <- function(x, covars_cols) {
 # Construct a fake sample unit, which combines site, sample date, management, depth, transect number, and transect length to make an ID
 construct_fake_sample_unit_id <- function(data) {
   data %>%
-    dplyr::mutate(fake_sample_unit_id = glue::glue("{site}_{sample_date}_{management}_{depth}_{transect_number}_{transect_length}"))
+    dplyr::mutate(fake_sample_unit_id = glue::glue("{site}_{sample_date}_{management}_{depth}_{transect_number}_{transect_len_surveyed}"))
 }
 
 # Construct a fake sample unit, which combines site, date, and management to make an ID
@@ -258,13 +258,13 @@ aggregate_ses_percent_cover_avg_long <- function(ses, sus_agg) {
 
 calculate_pit_obs_percent_cover_long <- function(obs) {
   obs %>%
-    dplyr::group_by(.data$fake_sample_unit_id, .data$benthic_category, .data$transect_length) %>%
+    dplyr::group_by(.data$fake_sample_unit_id, .data$benthic_category, .data$transect_len_surveyed) %>%
     dplyr::summarise(
       interval_size_sum = sum(.data$interval_size, na.rm = TRUE),
       .groups = "drop"
     ) %>%
-    dplyr::mutate(percent_cover_benthic_category = round(.data$interval_size_sum * 100 / .data$transect_length, 2)) %>%
-    dplyr::select(-tidyselect::all_of(c("interval_size_sum", "transect_length"))) %>%
+    dplyr::mutate(percent_cover_benthic_category = round(.data$interval_size_sum * 100 / .data$transect_len_surveyed, 2)) %>%
+    dplyr::select(-tidyselect::all_of(c("interval_size_sum", "transect_len_surveyed"))) %>%
     tidyr::pivot_wider(names_from = "benthic_category", values_from = "percent_cover_benthic_category") %>%
     tidyr::pivot_longer(-"fake_sample_unit_id", values_to = "obs") %>%
     dplyr::mutate(
