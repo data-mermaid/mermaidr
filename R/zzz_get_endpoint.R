@@ -74,10 +74,6 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
       lookup_variable(choices, "compliance") %>%
       dplyr::rename_at(c("compliance_name", "parties_name"), ~ gsub("_name", "", .x))
 
-    if ("project_name" %in% names(results)) {
-      results <- dplyr::rename(results, project = "project_name")
-    }
-
     # Keep original order of columns
     results <- results %>%
       dplyr::select(dplyr::all_of(col_order))
