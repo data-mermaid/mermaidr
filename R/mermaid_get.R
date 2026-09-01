@@ -212,7 +212,6 @@ initial_cleanup <- function(results, endpoint) {
   results <- results %>%
     dplyr::select(-dplyr::any_of(blacklist_columns[["all"]]))
 
-  # TODO for all -- check this, but
   results <- results %>%
     # if it contains id/name, put them first
     dplyr::relocate(dplyr::any_of(c("id", "name", "display_name")),
@@ -235,10 +234,9 @@ initial_cleanup <- function(results, endpoint) {
 
   if ("validations" %in% names(results)) {
     if (endpoint != "collectrecords") {
-      # TODO -- not sure if I love this if() else() formation
       results <- results %>%
         dplyr::select(-tidyselect::all_of("validations"))
-    } else {}
+    }
   }
 
   if ("life_histories" %in% names(results)) {
@@ -300,6 +298,16 @@ initial_cleanup <- function(results, endpoint) {
         )
       )
   }
+
+    # Replace any "" or "NA" with NAs
+  results <- results %>%
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::where(is.character),
+        \(y) ifelse(y %in% c("NA", ""),
+          NA_character_, y
+        )
+      ))
 
   # Remove any 's in names (so they do not become spaces in snake case), and convert to snake case
   names(results) <- stringr::str_remove_all(names(results), "'")

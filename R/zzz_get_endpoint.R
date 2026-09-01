@@ -24,18 +24,6 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
     )
   )
 
-  # Replace any "" or "NA" with NAs
-  # TODO -> this could happen more universally, in mermaid_GET
-  res <- purrr::map(res, \(x) x %>%
-    dplyr::mutate(
-      dplyr::across(
-        dplyr::where(is.character),
-        \(y) ifelse(y %in% c("NA", ""),
-          NA_character_, y
-        )
-      )
-    ))
-
   if (length(res) > 1) {
     res
   } else {
