@@ -24,7 +24,7 @@ unpack_protocols <- function(x) {
   protocols_cols <- names(x[["protocols"]])
 
   x <- x %>%
-    tidyr::unpack(tidyselect::all_of("protocols"))
+    tidyr::unpack(dplyr::all_of("protocols"))
 
   unpack_all_df_cols(x)
 }

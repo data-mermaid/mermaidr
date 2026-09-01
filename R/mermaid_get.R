@@ -235,7 +235,7 @@ initial_cleanup <- function(results, endpoint) {
   if ("validations" %in% names(results)) {
     if (endpoint != "collectrecords") {
       results <- results %>%
-        dplyr::select(-tidyselect::all_of("validations"))
+        dplyr::select(-dplyr::all_of("validations"))
     }
   }
 
@@ -265,12 +265,12 @@ initial_cleanup <- function(results, endpoint) {
   }
 
   if (all(c("profile", "profile_name") %in% names(results))) {
-    results <- dplyr::select(results, -tidyselect::all_of("profile")) %>%
+    results <- dplyr::select(results, -dplyr::all_of("profile")) %>%
       dplyr::rename(profile = "profile_name")
   }
 
   if (all(c("project", "project_name") %in% names(results))) {
-    results <- dplyr::select(results, -tidyselect::all_of("project")) %>%
+    results <- dplyr::select(results, -dplyr::all_of("project")) %>%
       dplyr::rename(project = "project_name")
   }
 

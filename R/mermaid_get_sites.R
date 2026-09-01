@@ -26,5 +26,5 @@ unpack_coordinates <- function(x) {
       latitude = 2,
       longitude = 1
     ) %>%
-    dplyr::select(-tidyselect::all_of(c("type", "coordinates")))
+    dplyr::select(-dplyr::all_of(c("type", "coordinates")))
 }

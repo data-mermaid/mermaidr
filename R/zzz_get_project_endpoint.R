@@ -201,12 +201,12 @@ unpack_df_cols <- function(x, df_cols = NULL) {
   if (all(sapply(x[df_cols], inherits, "data.frame"))) {
     x_unpack <- x %>%
       tidyr::unpack(
-        cols = tidyselect::all_of(df_cols),
+        cols = dplyr::all_of(df_cols),
         names_sep = "_"
       )
   } else {
     x_unpack <- x %>%
-      dplyr::select(-tidyselect::any_of(df_cols))
+      dplyr::select(-dplyr::any_of(df_cols))
   }
 
   attr(x_unpack, "df_cols") <- df_cols
@@ -227,7 +227,7 @@ repack_df_cols <- function(x) {
       dplyr::rename_all(~ gsub(paste0("^", df_cols[[i]], "_"), "", .x))
   }
 
-  dplyr::select(x, tidyselect::all_of(col_order))
+  dplyr::select(x, dplyr::all_of(col_order))
 }
 
 add_project_identifiers <- function(res, project) {
@@ -255,9 +255,9 @@ add_project_identifiers <- function(res, project) {
     return(res)
   } else if (all(c("project", "project_id") %in% names(res))) {
     if (all(res[["project"]] == res[["project_id"]])) {
-      res <- dplyr::select(res, -tidyselect::all_of("project"))
+      res <- dplyr::select(res, -dplyr::all_of("project"))
     } else {
-      res <- dplyr::select(res, -tidyselect::all_of("project_id"))
+      res <- dplyr::select(res, -dplyr::all_of("project_id"))
     }
   } else if ("project_id" %in% names(res)) {
     # Good, keep as is
@@ -278,12 +278,12 @@ add_project_identifiers <- function(res, project) {
   res %>%
     dplyr::left_join(
       project %>%
-        dplyr::select(tidyselect::all_of(c("id", project = "name"))),
+        dplyr::select(dplyr::all_of(c("id", project = "name"))),
       by = c("project_id" = "id"),
       suffix = c(".x", "")
     ) %>%
     dplyr::select(-project_id) %>%
-    dplyr::select(tidyselect::any_of("project"), dplyr::everything()) # Ensure "project" is the first column
+    dplyr::select(dplyr::any_of("project"), dplyr::everything()) # Ensure "project" is the first column
 }
 
 clean_df_cols <- function(.data) {

@@ -24,7 +24,6 @@ Imports:
     curl,
     tidyr,
     dplyr,
-    tidyselect,
     purrr,
     rlang,
     httpuv,
