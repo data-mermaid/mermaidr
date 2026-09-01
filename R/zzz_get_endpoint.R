@@ -84,7 +84,7 @@ lookup_variable <- function(.data, choices, variable) {
     dplyr::filter(name == !!name) %>%
     dplyr::select(-"name") %>%
     tidyr::unnest(data) %>%
-    dplyr::select(tidyselect::all_of(c("id", "name"))) %>%
+    dplyr::select(dplyr::all_of(c("id", "name"))) %>%
     dplyr::rename_all(~ paste0(variable, "_", .x))
 
   join_by <- variable
@@ -96,15 +96,15 @@ lookup_variable <- function(.data, choices, variable) {
       dplyr::mutate(temp_row_for_rejoin = dplyr::row_number())
 
     .data_sep <- .data_temp %>%
-      dplyr::select(tidyselect::all_of(c("temp_row_for_rejoin", join_by))) %>%
-      tidyr::separate_rows(tidyselect::all_of(names(join_by)), sep = ", ")
+      dplyr::select(dplyr::all_of(c("temp_row_for_rejoin", join_by))) %>%
+      tidyr::separate_rows(dplyr::all_of(names(join_by)), sep = ", ")
 
     .data_to_name <- variable_names %>%
       dplyr::right_join(.data_sep, by = names(join_by)) %>%
       dplyr::group_by(.data$temp_row_for_rejoin) %>%
       dplyr::summarise(
         dplyr::across(
-          tidyselect::all_of(c(
+          dplyr::all_of(c(
             names(join_by),
             paste0(join_by, "_name")
           )),
@@ -114,7 +114,7 @@ lookup_variable <- function(.data, choices, variable) {
 
     .data_temp %>%
       dplyr::left_join(.data_to_name, by = "temp_row_for_rejoin") %>%
-      dplyr::select(-tidyselect::all_of(c("temp_row_for_rejoin", join_by)))
+      dplyr::select(-dplyr::all_of(c("temp_row_for_rejoin", join_by)))
   } else {
     # Otherwise, just join by ID
     variable_names %>%

@@ -124,7 +124,7 @@ calculate_obs_biomass_long <- function(obs, aggregate_cols = c("trophic_group", 
 aggregate_sus_biomass_long <- function(sus, aggregate_cols = c("trophic_group", "fish_family")) {
   aggregate_by_col <- function(col) {
     sus %>%
-      dplyr::select(tidyselect::all_of(c("fake_sample_unit_id", "biomass_kgha")), dplyr::contains(col)) %>%
+      dplyr::select(dplyr::all_of(c("fake_sample_unit_id", "biomass_kgha")), dplyr::contains(col)) %>%
       tidyr::pivot_longer(-"fake_sample_unit_id", values_to = "su", names_prefix = paste0("biomass_kgha_", col, "_")) %>%
       dplyr::mutate(
         name = dplyr::case_when(
@@ -147,7 +147,7 @@ aggregate_sus_biomass_long <- function(sus, aggregate_cols = c("trophic_group", 
 calculate_sus_biomass_avg_long <- function(sus, aggregate_cols = c("trophic_group", "fish_family")) {
   avg_by_col <- function(col) {
     sus %>%
-      dplyr::select(tidyselect::all_of("sample_event_id"), dplyr::starts_with(col), tidyselect::all_of(c(biomass_kgha_avg = "biomass_kgha", depth_avg = "depth"))) %>%
+      dplyr::select(dplyr::all_of("sample_event_id"), dplyr::starts_with(col), dplyr::all_of(c(biomass_kgha_avg = "biomass_kgha", depth_avg = "depth"))) %>%
       tidyr::pivot_longer(-"sample_event_id", values_to = "su") %>%
       dplyr::filter(!is.na(.data$su)) %>%
       dplyr::group_by(.data$sample_event_id, .data$name) %>%
@@ -173,9 +173,9 @@ calculate_sus_biomass_avg_long <- function(sus, aggregate_cols = c("trophic_grou
 aggregate_ses_biomass_avg_long <- function(ses, aggregate_cols = c("trophic_group", "fish_family")) {
   aggregate_by_col <- function(col) {
     ses %>%
-      dplyr::select(-tidyselect::all_of("sample_event_id")) %>%
+      dplyr::select(-dplyr::all_of("sample_event_id")) %>%
       dplyr::rename(sample_event_id = "id") %>%
-      dplyr::select(tidyselect::all_of("sample_event_id"), dplyr::starts_with(col), tidyselect::all_of(c("depth_avg", "biomass_kgha_avg"))) %>%
+      dplyr::select(dplyr::all_of("sample_event_id"), dplyr::starts_with(col), dplyr::all_of(c("depth_avg", "biomass_kgha_avg"))) %>%
       tidyr::pivot_longer(-"sample_event_id", values_to = "se") %>%
       dplyr::filter(!is.na(.data$se)) %>%
       dplyr::mutate(
@@ -203,7 +203,7 @@ calculate_lit_obs_percent_cover_long <- function(obs) {
     dplyr::group_by(.data$fake_sample_unit_id, .data$benthic_category, .data$total_length) %>%
     dplyr::summarise(length_sum = sum(.data$length, na.rm = TRUE), .groups = "drop") %>%
     dplyr::mutate(percent_cover_benthic_category = round(.data$length_sum * 100 / .data$total_length, 2)) %>%
-    dplyr::select(-tidyselect::all_of(c("total_length", "length_sum"))) %>%
+    dplyr::select(-dplyr::all_of(c("total_length", "length_sum"))) %>%
     tidyr::pivot_wider(
       names_from = "benthic_category",
       values_from = "percent_cover_benthic_category"
@@ -221,7 +221,7 @@ calculate_lit_obs_percent_cover_long <- function(obs) {
 aggregate_sus_percent_cover_long <- function(sus) {
   sus %>%
     construct_fake_sample_unit_id() %>%
-    dplyr::select(tidyselect::all_of("fake_sample_unit_id"), dplyr::starts_with("percent_cover_benthic_category")) %>%
+    dplyr::select(dplyr::all_of("fake_sample_unit_id"), dplyr::starts_with("percent_cover_benthic_category")) %>%
     tidyr::pivot_longer(-"fake_sample_unit_id",
       values_to = "su",
       names_prefix = "percent_cover_benthic_category_"
@@ -233,7 +233,7 @@ aggregate_sus_percent_cover_long <- function(sus) {
 
 calculate_sus_percent_cover_avg_long <- function(sus) {
   sus_agg_for_se_comparison <- sus %>%
-    dplyr::select(tidyselect::all_of("sample_event_id"), dplyr::starts_with("percent_cover_benthic_category"), tidyselect::all_of(c(depth_avg = "depth"))) %>%
+    dplyr::select(dplyr::all_of("sample_event_id"), dplyr::starts_with("percent_cover_benthic_category"), dplyr::all_of(c(depth_avg = "depth"))) %>%
     tidyr::pivot_longer(-"sample_event_id", values_to = "su", names_prefix = "percent_cover_benthic_category_") %>%
     dplyr::filter(!is.na(.data$su)) %>%
     dplyr::group_by(.data$sample_event_id, .data$name) %>%
@@ -245,7 +245,7 @@ calculate_sus_percent_cover_avg_long <- function(sus) {
 
 aggregate_ses_percent_cover_avg_long <- function(ses, sus_agg) {
   ses %>%
-    dplyr::select(tidyselect::all_of(c(sample_event_id = "id")), dplyr::starts_with("percent_cover_benthic_category_avg"), tidyselect::all_of("depth_avg")) %>%
+    dplyr::select(dplyr::all_of(c(sample_event_id = "id")), dplyr::starts_with("percent_cover_benthic_category_avg"), dplyr::all_of("depth_avg")) %>%
     tidyr::pivot_longer(-"sample_event_id", values_to = "se", names_prefix = "percent_cover_benthic_category_avg_") %>%
     dplyr::filter(!is.na(.data$se))
 }
@@ -260,7 +260,7 @@ calculate_pit_obs_percent_cover_long <- function(obs) {
       .groups = "drop"
     ) %>%
     dplyr::mutate(percent_cover_benthic_category = round(.data$interval_size_sum * 100 / .data$transect_len_surveyed, 2)) %>%
-    dplyr::select(-tidyselect::all_of(c("interval_size_sum", "transect_len_surveyed"))) %>%
+    dplyr::select(-dplyr::all_of(c("interval_size_sum", "transect_len_surveyed"))) %>%
     tidyr::pivot_wider(names_from = "benthic_category", values_from = "percent_cover_benthic_category") %>%
     tidyr::pivot_longer(-"fake_sample_unit_id", values_to = "obs") %>%
     dplyr::mutate(
@@ -291,7 +291,7 @@ unpack_sus_score_long <- function(sus, obs_agg) {
 
 calculate_sus_score_avg_long <- function(sus) {
   sus %>%
-    dplyr::select(tidyselect::all_of(c("sample_event_id", score_avg_avg = "score_avg", depth_avg = "depth"))) %>%
+    dplyr::select(dplyr::all_of(c("sample_event_id", score_avg_avg = "score_avg", depth_avg = "depth"))) %>%
     tidyr::pivot_longer(-"sample_event_id", values_to = "su") %>%
     dplyr::filter(!is.na(.data$su)) %>%
     dplyr::group_by(.data$sample_event_id, .data$name) %>%
@@ -303,7 +303,7 @@ calculate_sus_score_avg_long <- function(sus) {
 
 unpack_ses_score_avg_long <- function(ses, sus_agg) {
   ses %>%
-    dplyr::select(-tidyselect::all_of("sample_event_id")) %>%
+    dplyr::select(-dplyr::all_of("sample_event_id")) %>%
     dplyr::rename(sample_event_id = "id") %>%
     dplyr::select(dplyr::all_of(c("sample_event_id", sus_agg[["name"]]))) %>%
     tidyr::pivot_longer(-"sample_event_id", values_to = "se") %>%
@@ -333,7 +333,7 @@ calculate_obs_colonies_long <- function(obs_colonies_bleached) {
       percent_bleached = round(sum(.data$count_bleached) / .data$count_total, 3) * 100,
       .groups = "drop"
     ) %>%
-    dplyr::select(-tidyselect::all_of("count_bleached")) %>%
+    dplyr::select(-dplyr::all_of("count_bleached")) %>%
     dplyr::mutate_if(is.numeric, round) %>%
     tidyr::pivot_longer(-"fake_sample_unit_id", values_to = "obs")
 }
@@ -363,7 +363,7 @@ unpack_sus_bleaching_long <- function(sus, obs_agg) {
 
 calculate_sus_bleaching_long <- function(sus) {
   sus %>%
-    dplyr::select(tidyselect::all_of(c("sample_event_id", "depth", "quadrat_size", "count_total", "count_genera", "percent_normal", "percent_pale", "percent_bleached", "quadrat_count", "percent_hard_avg", "percent_soft_avg", "percent_algae_avg"))) %>%
+    dplyr::select(dplyr::all_of(c("sample_event_id", "depth", "quadrat_size", "count_total", "count_genera", "percent_normal", "percent_pale", "percent_bleached", "quadrat_count", "percent_hard_avg", "percent_soft_avg", "percent_algae_avg"))) %>%
     tidyr::pivot_longer(-"sample_event_id", values_to = "su") %>%
     dplyr::filter(!is.na(.data$su)) %>%
     dplyr::group_by(.data$sample_event_id, .data$name) %>%

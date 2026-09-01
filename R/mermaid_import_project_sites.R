@@ -108,7 +108,7 @@ mermaid_import_project_sites <- function(data, project, token = mermaid_token())
         post_row <- data[["row"]]
         # Convert each row to a list
         data <- data %>%
-          dplyr::select(-tidyselect::all_of("row")) %>%
+          dplyr::select(-dplyr::all_of("row")) %>%
           as.list()
         # Convert lat/long to a single location col, with format list(type = "Point", coordinates = c(lat, long))
 
