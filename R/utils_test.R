@@ -15,14 +15,13 @@ check_columns <- function(res, endpoint, nested = NA_character_, all_cols_known 
   blacklist_cols <- blacklist[[endpoint]]
   cols <- names(res)
 
-  expect_true(!is.null(legacy_cols)) # Index exists
+  testthat::expect_true(!is.null(legacy_cols)) # Index exists
 
-  expect_true(all(legacy_cols %in% cols))
-  expect_false(any(blacklist_cols %in% cols))
+  testthat::expect_true(all(legacy_cols %in% cols))
+  testthat::expect_false(any(blacklist_cols %in% cols))
   # In case we do not know all cols in advance, e.g. with summarysampleevents the protocols cols depend on what sample events are fetched
-  if (all_cols_known) expect_true(all(cols %in% legacy_cols))
+  if (all_cols_known) testthat::expect_true(all(cols %in% legacy_cols))
 }
-
 
 # General ----
 
