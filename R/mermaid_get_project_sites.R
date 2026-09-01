@@ -4,6 +4,7 @@
 #'
 #' @inheritParams get_project_endpoint
 #' @inheritParams mermaid_GET
+#' @param covariates Deprecated as of version \code{2.0.0}. Please use `mermaidrcovariates` package to access covariates.
 #'
 #' @export
 #'
