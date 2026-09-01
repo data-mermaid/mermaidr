@@ -37,7 +37,8 @@ Imports:
     vctrs,
     methods,
     snakecase,
-    readxl
+    readxl,
+    remotes
 Suggests: 
     testthat (>= 2.1.0),
     knitr,
