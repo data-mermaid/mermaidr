@@ -8,7 +8,6 @@ NULL
 #'
 #' @inheritParams mermaid_GET
 #' @inheritParams get_project_endpoint
-#' @param covariates Deprecated as of version \code{2.0.0}. Please use `mermaidrcovariates` package to access covariates.
 #'
 #' @noRd
 #'
