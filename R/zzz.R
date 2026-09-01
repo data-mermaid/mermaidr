@@ -6,7 +6,9 @@
   toset <- !(names(op.mermaidr) %in% names(op))
   if (any(toset)) options(op.mermaidr[toset])
 
-  if (curl::has_internet()) {
+  if (curl::has_internet() &
+      !file.exists("DESCRIPTION") # TODO, just for development -- remove to merge
+      ) {
     mermaidr_update_needed()
   }
 

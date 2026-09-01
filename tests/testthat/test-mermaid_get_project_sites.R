@@ -20,3 +20,13 @@ test_that("covariates produces a warning", {
     "deprecated"
   )
 })
+
+test_that("`project` is the first column", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  p <- mermaid_get_my_projects(limit = 1)
+  project_sites <- mermaid_get_project_sites(p, limit = 1)
+  expect_named(project_sites[,1], "project")
+})

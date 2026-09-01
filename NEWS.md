@@ -3,6 +3,7 @@
 * transect_len_surveyed -> transect_length
 * some endpoints now return a 0 row, 0 COLUMN tibble if no results, instead of a named one
 * which ones? - projects
+* "" -> NA
 
 # mermaidr 1.3.0
 
