@@ -234,7 +234,7 @@ add_project_identifiers <- function(res, project) {
   if (is.character(project)) {
     projects <- mermaid_get_my_projects(include_test_projects = TRUE) # In case it was a test one
     project <- projects %>%
-      dplyr::filter(.$id %in% !!project)
+      dplyr::filter(.data$id %in% !!project)
   }
 
   if (is.null(res)) {
@@ -249,8 +249,8 @@ add_project_identifiers <- function(res, project) {
 
   if ("project_name" %in% names(res)) {
     res <- res %>%
-      dplyr::select(-.$project_id) %>%
-      dplyr::rename(project = .$project_name)
+      dplyr::select(-dplyr::all_of("project_id")) %>%
+      dplyr::rename(project = "project_name")
 
     return(res)
   } else if (all(c("project", "project_id") %in% names(res))) {
@@ -263,12 +263,12 @@ add_project_identifiers <- function(res, project) {
     # Good, keep as is
   } else if ("project" %in% names(res)) {
     res <- res %>%
-      dplyr::rename(project_id = .$project)
+      dplyr::rename(project_id = "project")
   } else {
     if (nrow(project) == 1) {
       res <- res %>%
         dplyr::bind_cols(
-          project %>% dplyr::select(project = .$name)
+          project %>% dplyr::select(project = "name")
         )
 
       return(res)
