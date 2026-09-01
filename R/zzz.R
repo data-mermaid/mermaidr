@@ -6,7 +6,9 @@
   toset <- !(names(op.mermaidr) %in% names(op))
   if (any(toset)) options(op.mermaidr[toset])
 
-  mermaidr_update_needed()
+  if (curl::has_internet()) {
+    mermaidr_update_needed()
+  }
 
   invisible()
 }
