@@ -11,3 +11,13 @@ test_that("mermaid project managements returns the same cols as mermaid manageme
     names(managements %>% dplyr::select(-rules)) %>% sort()
   )
 })
+
+test_that("`project` is the first column", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  p <- mermaid_get_my_projects(limit = 1)
+  project_managements <- mermaid_get_project_managements(p, limit = 1)
+  expect_named(project_managements[,1], "project")
+})

@@ -282,7 +282,8 @@ add_project_identifiers <- function(res, project) {
       by = c("project_id" = "id"),
       suffix = c(".x", "")
     ) %>%
-    dplyr::select(-project_id)
+    dplyr::select(-project_id) %>%
+    dplyr::select(tidyselect::any_of("project"), dplyr::everything()) # Ensure "project" is the first column
 }
 
 clean_df_cols <- function(.data) {
