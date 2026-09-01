@@ -362,7 +362,7 @@ test_that("Big/small fish fishbelt sample unit aggregation is the same as manual
   sus_for_su_comparison <- aggregate_sus_biomass_long(sus_minus_zeros) %>%
     dplyr::mutate_if(is.numeric, round) %>%
     dplyr::bind_rows(sus_minus_zeros %>%
-      dplyr::select(fake_sample_unit_id, tidyselect::starts_with("biomass_kgha")) %>%
+      dplyr::select(fake_sample_unit_id, dplyr::starts_with("biomass_kgha")) %>%
       tidyr::pivot_longer(-fake_sample_unit_id, values_to = "su") %>%
       dplyr::mutate(name = stringr::str_remove(name, "biomass_kgha_")))
 

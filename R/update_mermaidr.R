@@ -26,7 +26,7 @@ check_mermaidr_update <- function(main = TRUE) {
   ref <- ifelse(main, "HEAD", "dev")
   remote <- remotes::github_remote(repo, ref)
   local_sha <- remotes:::local_sha(package)
-  remote_sha <- remotes:::remote_sha(remote, package)
+  remote_sha <- remotes::remote_sha(remote, package)
 
   !identical(local_sha, remote_sha)
 }
