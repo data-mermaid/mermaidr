@@ -6,11 +6,11 @@ format: html
 
 Photo quadrat transect (PQT) is one of the methods generally used to understand benthic community conditions. Before artificial intelligence emerged, scientists used Coral Point Count with Excel extensions (CPCe) to annotate their PQT. Once annotated, they continue with perform analysis to calculate the average cover of each benthic category. The first analysis steps is data cleaning. Data cleaning is one of the steps in analysis that takes most of the time. Data cleaning is a QA/QC process that is performed before analysing the data to ensure the results are scientifically reliable. MERMAID exist to help scientists and non-scientists cut the cleaning process and calculate the average benthic covers to quickly inform communities and governments.
 
-You can import your CPCe data to MERMAID using our MERMAID R package mermaidr following our example below. You can also use our example data or use your own data to follow the importing steps. More information on the workflow of importing historical data to MERMAID can be found in our [Importing legacy data into MERMAID](https://datamermaid.org/documentation/mermaidr-data-import) documentation.
+You can import your CPCe data to MERMAID using our MERMAID R package mermaidr following our example below. You can also use our example data or use your own data to follow the importing steps. More information on the workflow of importing historical data to MERMAID can be found in our [Importing Data into MERMAID](https://datamermaid.org/documentation/importing-data) documentation.
 
 ## Steps to import your CPCe data are:
 
-1.  [Prepare your project](https://datamermaid.org/documentation/collect-project-set-up) in [MERMAID Collect](https://app.datamermaid.org) and ensure that you are an [**Admin**]{.underline} of the project
+1.  [Prepare your project](https://datamermaid.org/documentation/setting-up-a-new-project) in [MERMAID Collect](https://app.datamermaid.org) and ensure that you are an [**admin**]{.underline} of the project
 
 2.  Prepare your CPCe raw data and a benthic attribute converter file in a CSV format
 
@@ -18,15 +18,13 @@ You can import your CPCe data to MERMAID using our MERMAID R package mermaidr fo
 
 4.  Download the MERMAID PQT template
 
-5.  Prepare and reformat your data to match the MERMAID template
+5.  Import your data to MERMAID
 
-6.  Import your data to MERMAID Collect
-
-7.  Validate and submit your data in MERMAID Collect
+6.  Validate and submit in MERMAID Collect
 
 ## Step 1. Prepare your project in MERMAID Collect
 
-Before importing your CPCe data to MERMAID, you need to set up your project in [MERMAID Collect](https://app.datamermaid.org). If you are new to MERMAID, you need to create a MERMAID account before using it. You can use a new project or existing project in MERMAID Collect as long as you are an admin of the project. [Setting up a new project](https://datamermaid.org/documentation/collect-project-set-up) requires internet access. To create a new project, click on the "New Project" button and then:
+Before importing your CPCe data to MERMAID, you need to set up your project in [MERMAID Collect](https://app.datamermaid.org). If you are new to MERMAID, you need to create a MERMAID account before using it. You can use a new project or existing project in MERMAID Collect as long as you are an admin of the project. [Setting up a new project](https://datamermaid.org/documentation/setting-up-a-new-project) requires internet access. To create a new project, click on the "New Project" button and then:
 
 1.  add organization(s),
 2.  add users,
@@ -67,19 +65,21 @@ Next step is to download the MERMAID Photo Quadrat Transect (PQT) template. We r
 
 To download the MERMAID PQT template, you will need to select your prepared project from the list of projects that `mermaidr` gathered by filtering using the `mermaid_get_my_projects( )` function from `mermaidr`. If you're using a test project, make sure to specify it by adding `include_test_project = TRUE`. Then download the template using the `mermaid_import_get_template_and_options( )` function.
 
-1: Get your MERMAID project. Omit `include_test_projects = TRUE` if it is not a test project.
+1: Get your MERMAID project.
+
+
 
 
 ``` r
-project <- mermaid_get_my_projects(include_test_projects = TRUE)
+projects <- mermaid_get_my_projects()
 ```
 
-2: Filter to select just the project you are working on, and rename the object
+2: Filter to select just the project you are working on
 
 
 ``` r
-myproject <- project %>%
-  filter(name == "MERMAID reef survey")
+myproject <- projects %>%
+  filter(name == "MERMAID Reef Surveys (training only)")
 ```
 
 3: Get the import template and options
@@ -94,10 +94,11 @@ pqt_template <- mermaid_import_get_template_and_options(
 ```
 
 ```
-## ✔ Import template and field options written to benthicpqt_mermaidsurvey_template.xlsx
+## ✔ Import template and field options written to
+## benthicpqt_mermaidsurvey_template.xlsx
 ```
 
-Before running the code above, make sure that you change the project name **MERMAID reef survey** in **2** to your actual project that you want to import your data into. Remember that **you need to be an Admin** of the project to be able to access and import your data.
+Before running the code above, make sure that you change the project name **MERMAID Reef Surveys (training only)** in **2** to your actual project that you want to import your data into. Remember that **you need to be an admin** of the project to be able to access and import your data.
 
 ## Step 5. Prepare and reformat your data to match the MERMAID template
 
@@ -117,17 +118,17 @@ If you are using a comma (",") to separate each data, use read_csv() instead of 
 
 After loading the data, continue with cleaning the data. In this example, the cleaning data steps are:
 
-1.  Remove blank rows (if any),
+1. Remove blank rows,
 
-2.  Rename the "Raw Data" column to `Benthic_attribute`,
+2 Subset only the `Raw Data` column and rename it to `Benthic_attribute`,
 
-3.  Add necessary columns for each transect, i.e., `Site *` and `Transect number *` (the column names match the MERMAID template), and
+3. Add necessary columns for each transect, i.e., `Site *` and `Transect number *` (the column names match the MERMAID template), and
 
-4.  Combine the three transects.
+4. Combine the three transects.
 
 
 ``` r
-# 1. Remove blank rows (if any)
+# 1. Remove blank rows
 pqt_t1 <- raw_t1 %>%
   filter(!is.na(`Raw Data`))
 
@@ -166,7 +167,7 @@ pqt_t3 <- pqt_t3 %>%
     .before = "Benthic_attribute"
   )
 
-# 4. Combine the three transects
+# 5. Combine the three transects
 pqt <- bind_rows(pqt_t1, pqt_t2, pqt_t3)
 
 pqt
@@ -174,26 +175,27 @@ pqt
 
 ```
 ## # A tibble: 90 × 6
-##    `Site *` `Transect number *` Benthic_attribute Notes `Major Category` `Frame limits`
-##    <chr>                  <dbl> <chr>             <lgl> <chr>            <chr>         
-##  1 1206                       1 DC                NA    Substrate        *             
-##  2 1206                       1 DC                NA    Substrate        <NA>          
-##  3 1206                       1 DC                NA    Substrate        <NA>          
-##  4 1206                       1 S                 NA    Substrate        <NA>          
-##  5 1206                       1 S                 NA    Substrate        <NA>          
-##  6 1206                       1 S                 NA    Substrate        <NA>          
-##  7 1206                       1 DC                NA    Substrate        <NA>          
-##  8 1206                       1 CCA               NA    CCA              <NA>          
-##  9 1206                       1 CCA               NA    CCA              <NA>          
-## 10 1206                       1 S                 NA    Substrate        **            
+##    `Site *` `Transect number *` Benthic_attribute Notes `Major Category`
+##    <chr>                  <dbl> <chr>             <lgl> <chr>           
+##  1 1206                       1 DC                NA    Substrate       
+##  2 1206                       1 DC                NA    Substrate       
+##  3 1206                       1 DC                NA    Substrate       
+##  4 1206                       1 S                 NA    Substrate       
+##  5 1206                       1 S                 NA    Substrate       
+##  6 1206                       1 S                 NA    Substrate       
+##  7 1206                       1 DC                NA    Substrate       
+##  8 1206                       1 CCA               NA    CCA             
+##  9 1206                       1 CCA               NA    CCA             
+## 10 1206                       1 S                 NA    Substrate       
 ## # ℹ 80 more rows
+## # ℹ 1 more variable: `Frame limits` <chr>
 ```
 
 Now that you have all the three transects combined, you can continue adding the rest of the mandatory columns. Mandatory columns are marked with an asterisk (*) next to the column name. You've added two mandatory columns to your data in the previous steps, which are `Site *` and `Transect number *`.
 
-The next mandatory column that you are going to add is the quadrat numbers (`Quadrat *`) for each row based on the number of points you used per quadrat in your method. This example is using 10 points per quadrat. The quadrat numbers are assigned using the code below.
+The next mandatory column that you are going to add is the quadrat numbers for each row based on the number of points you used per quadrat in your method. This example is using 10 points per quadrat. The quadrat numbers are assigned using the code below.
 
-You will be adding the quadrat number column (`Quadrat *`) by assigning the same number every 10 rows, where it increases every 10 rows and restart from 1 when a value in the column `Site *` and `Transect number *` changes. If you are using a different number of points per quadrat, simply replace "10" in the code with the actual number of points you are using in your method.
+We add the quadrat number column by assigning the same number every 10 rows, where it increases every 10 rows and restart from 1 when a value in the column `Site *` and `Transect number *` changes. If you are using a different number of points per quadrat, simply replace "10" in the code with the actual number of points you are using in your method.
 
 
 ``` r
@@ -203,10 +205,9 @@ pqt <- pqt %>%
   ungroup()
 ```
 
-In the MERMAID PQT template, you will find `Number of points *` column. This column must be filled with the total number of points for the same benthic attribute per quadrat. CPCe provides data per point, meaning one point for one row, so you might have the same benthic attribute in multiple rows for one quadrat. This will be detected as a duplicate by MERMAID. Therefore, you need to combine the same benthic attribute for the same quadrat (see figure below).
+In the MERMAID PQT template, you will find "Number of points *" column. This column must be filled with the total number of points for the same benthic attribute per quadrat. CPCe provides data per point, meaning one point for one row, so you might have the same benthic attribute in multiple rows for one quadrat. This will be detected as a duplicate by MERMAID. Therefore, you need to combine the same benthic attribute for the same quadrat (see figure below).
 
 ![Calculating number of points and removing duplicates](data_transformation.png)
-
 
 Use the code below to calculate the number of points per benthic attribute for each quadrat:
 
@@ -220,17 +221,7 @@ pqt <- pqt %>%
   )
 ```
 
-Now you are ready to add the rest of the mandatory columns to your data. The remaining mandatory columns are 
--  **management regime** (`Management *`), 
--  **sampling date** (`Sample date: Year *`, `Sample date: Month *`, `Sample date: Day *`), 
--  **depth** (`Depth *`), **transect length** (`Transect length surveyed *`), 
--  **number of quadrats** (`Number of quadrats *`), 
--  **quadrat size** (`Quadrat size *`), 
--  **number of points per quadrat** (`Number of points per quadrat *`), 
--  **observer's email(s)** (`Observer emails *`), and 
--  **benthic attribute** (`Benthic attribute *`). 
-
-You are going to also add one optional column, which is **growth form** (`Growth from`) as the data also recorded in this example.
+Now you are ready to add the rest of the mandatory columns to your data. The remaining mandatory columns are **management regime** (`Management *`), **sampling date** (`Sample date: Year *`, `Sample date: Month *`, `Sample date: Day *`), **depth** (`Depth *`), **transect length** (`Transect length surveyed *`), **number of quadrats** (`Number of quadrats *`), **quadrat size** (`Quadrat size *`), **number of points per quadrat** (`Number of points per quadrat *`), **observer's email(s)** (`Observer emails *`), and **benthic attribute** (`Benthic attribute *`). You are going to also add one optional column, which is **growth form** (`Growth from`) as the data also recorded this information.
 
 You are going to use the **benthic converter attribute** file to add the **benthic attribute** and **growth form** column. The code will match the label you used in your data with the label in the benthic attribute converter file, then return with the benthic attribute and/or growth form that are accepted by MERMAID.
 
@@ -238,7 +229,7 @@ You are going to use the **benthic converter attribute** file to add the **benth
 ``` r
 pqt <- pqt %>%
   mutate(
-    `Management *` = "NTZ",
+    `Management *` = "Core Zone",
     `Sample date: Year *` = 2020,
     `Sample date: Month *` = 10,
     `Sample date: Day *` = 21,
@@ -270,24 +261,25 @@ pqt
 
 ```
 ## # A tibble: 41 × 17
-##    `Site *` `Management *` `Sample date: Year *` `Sample date: Month *` `Sample date: Day *`
-##    <chr>    <chr>                          <dbl>                  <dbl>                <dbl>
-##  1 1206     NTZ                             2020                     10                   21
-##  2 1206     NTZ                             2020                     10                   21
-##  3 1206     NTZ                             2020                     10                   21
-##  4 1206     NTZ                             2020                     10                   21
-##  5 1206     NTZ                             2020                     10                   21
-##  6 1206     NTZ                             2020                     10                   21
-##  7 1206     NTZ                             2020                     10                   21
-##  8 1206     NTZ                             2020                     10                   21
-##  9 1206     NTZ                             2020                     10                   21
-## 10 1206     NTZ                             2020                     10                   21
+##    `Site *` `Management *` `Sample date: Year *` `Sample date: Month *`
+##    <chr>    <chr>                          <dbl>                  <dbl>
+##  1 1206     Core Zone                       2020                     10
+##  2 1206     Core Zone                       2020                     10
+##  3 1206     Core Zone                       2020                     10
+##  4 1206     Core Zone                       2020                     10
+##  5 1206     Core Zone                       2020                     10
+##  6 1206     Core Zone                       2020                     10
+##  7 1206     Core Zone                       2020                     10
+##  8 1206     Core Zone                       2020                     10
+##  9 1206     Core Zone                       2020                     10
+## 10 1206     Core Zone                       2020                     10
 ## # ℹ 31 more rows
-## # ℹ 12 more variables: `Depth *` <dbl>, `Transect number *` <dbl>,
-## #   `Transect length surveyed *` <dbl>, `Number of quadrats *` <dbl>, `Quadrat size *` <dbl>,
-## #   `Number of points per quadrat *` <dbl>, `Observer emails *` <chr>, `Quadrat *` <int>,
-## #   `Benthic attribute *` <chr>, `Growth form` <chr>, Benthic_attribute <chr>,
-## #   `Number of points *` <int>
+## # ℹ 13 more variables: `Sample date: Day *` <dbl>, `Depth *` <dbl>,
+## #   `Transect number *` <dbl>, `Transect length surveyed *` <dbl>,
+## #   `Number of quadrats *` <dbl>, `Quadrat size *` <dbl>,
+## #   `Number of points per quadrat *` <dbl>, `Observer emails *` <chr>,
+## #   `Quadrat *` <int>, `Benthic attribute *` <chr>, `Growth form` <chr>,
+## #   Benthic_attribute <chr>, `Number of points *` <int>
 ```
 
 After assigning each label to the accepted benthic attributes and/or growth forms, you can now remove the benthic attribute column that has your labels from the data frame using the code below:
@@ -302,13 +294,13 @@ pqt <- pqt %>%
 
 Your data now matches the MERMAID template and is ready to be imported to your project in MERMAID Collect. The steps to import your data are:
 
-1.  Validate your data to what you've set up in your project and options that MERMAID accepts. This is reflected in the MERMAID PQT template that you've downloaded
+1. Validate your data to what you've set up in your project and options that MERMAID accepts. This is reflected in the MERMAID PQT template that you've downloaded
 
-2.  Address issues, if any
+2. Address issues, if any
 
-3.  Recheck the data one more time by doing a dry run
+3. Recheck the data one more time by doing a dry run
 
-4.  Import your data to MERMAID
+4. Import your data to MERMAID
 
 **Validate your data** using the `mermaid_import_check_options()` function for each column. This function will compare your data with the MERMAID PQT template you've downloaded, which is based on what you have set up in the project. If the data matches, a check mark will appear. If there's an issue, MERMAID will mark the issue with a **FALSE** note under the "match" column and provide the closest choice to help us address the issue(s). Issues must be addressed to be able to upload the data, except for non-mandatory fields. **Non-mandatory fields can be left blank or removed entirely from the data frame**. For example, in this example, you will find blank growth form(s), because not all benthic attributes have growth forms. Although you received a red dot and a message saying, "some errors in values of 'Growth form' - please check table below," it is okay to leave it as is. You can still import your data to MERMAID.
 
@@ -333,14 +325,14 @@ mermaid_import_check_options(pqt, pqt_template, "Management *")
 ```
 
 ```
-## • Some errors in values of `Management *` - please check table below
+## ✔ All values of `Management *` match
 ```
 
 ```
 ## # A tibble: 1 × 3
 ##   data_value closest_choice match
 ##   <chr>      <chr>          <lgl>
-## 1 NTZ        Use            FALSE
+## 1 Core Zone  core zone      TRUE
 ```
 
 ``` r
@@ -450,20 +442,20 @@ mermaid_import_check_options(pqt, pqt_template, "Benthic attribute *")
 ## # A tibble: 14 × 3
 ##    data_value               closest_choice           match
 ##    <chr>                    <chr>                    <lgl>
-##  1 Crustose coralline algae Crustose coralline algae TRUE 
-##  2 Dead coral               Dead coral               TRUE 
-##  3 Sand                     Sand                     TRUE 
-##  4 Acropora                 Acropora                 TRUE 
-##  5 Hard coral               Hard coral               TRUE 
-##  6 Rock                     Rock                     TRUE 
-##  7 Macroalgae               Macroalgae               TRUE 
-##  8 Rubble                   Rubble                   TRUE 
-##  9 Soft coral               Soft coral               TRUE 
-## 10 Millepora                Millepora                TRUE 
-## 11 Other invertebrates      Other invertebrates      TRUE 
-## 12 Sponge                   Sponge                   TRUE 
-## 13 Turf algae               Turf algae               TRUE 
-## 14 Heliopora                Heliopora                TRUE
+##  1 Crustose coralline algae crustose coralline algae TRUE 
+##  2 Dead coral               dead coral               TRUE 
+##  3 Sand                     sand                     TRUE 
+##  4 Acropora                 acropora                 TRUE 
+##  5 Hard coral               hard coral               TRUE 
+##  6 Rock                     rock                     TRUE 
+##  7 Macroalgae               macroalgae               TRUE 
+##  8 Rubble                   rubble                   TRUE 
+##  9 Soft coral               soft coral               TRUE 
+## 10 Millepora                millepora                TRUE 
+## 11 Other invertebrates      other invertebrates      TRUE 
+## 12 Sponge                   sponge                   TRUE 
+## 13 Turf algae               turf algae               TRUE 
+## 14 Heliopora                heliopora                TRUE
 ```
 
 ``` r
@@ -478,13 +470,13 @@ mermaid_import_check_options(pqt, pqt_template, "Growth form")
 ## # A tibble: 7 × 3
 ##   data_value     closest_choice match
 ##   <chr>          <chr>          <lgl>
-## 1 Branching      Branching      TRUE 
-## 2 Encrusting     Encrusting     TRUE 
-## 3 Foliose        Foliose        TRUE 
-## 4 Massive        Massive        TRUE 
-## 5 Digitate       Digitate       TRUE 
-## 6 Mushroom coral Mushroom coral TRUE 
-## 7 Submassive     Submassive     TRUE
+## 1 Branching      branching      TRUE 
+## 2 Encrusting     encrusting     TRUE 
+## 3 Foliose        foliose        TRUE 
+## 4 Massive        massive        TRUE 
+## 5 Digitate       digitate       TRUE 
+## 6 Mushroom coral mushroom coral TRUE 
+## 7 Submassive     submassive     TRUE
 ```
 
 ``` r
@@ -502,7 +494,7 @@ After addressing all the issues, you can save the clean data as a CSV file using
 write_csv(pqt, "pqt_mermaidreef.csv")
 ```
 
-**After validating and addressing all the issues**, you need to **perform a dry run check** one last time using the `mermaid_import_project_data()` function and set `dryrun = TRUE`.
+After validating and addressing all the issues, you need to perform a dry run check one last time using the `mermaid_import_project_data()` function and set `dryrun = TRUE`.
 
 
 ``` r
@@ -518,7 +510,7 @@ mermaid_import_project_data(
 ## Records successfully checked! To import, please run the function again with `dryrun = FALSE`.
 ```
 
-Once you received the message **Records successfully checked!**, change the dryrun option to FALSE to start **importing your data to MERMAID Collect**.
+Once you get the message **Records successfully checked!**, change the dryrun option to FALSE to start importing your data to MERMAID.
 
 
 ``` r
@@ -536,6 +528,6 @@ mermaid_import_project_data(
 
 ## Step 7. Validate and submit your data in MERMAID Collect
 
-After you received the message **Record successfully imported! Please review in Collect**, head to your Collecting Page in your project in the MERMAID Collect. Continue with validating and submitting each transect.
+After you get the message **Record successfully imported! Please review in Collect**, head to your Collecting Page in your project in the MERMAID Collect. Continue with validating and submitting each transect.
 
 **Congratulations! You have successfully imported your CPCe data to MERMAID!**

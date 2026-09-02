@@ -24,11 +24,11 @@ Not familiar with R? use [MERMAID Easy PQT](https://datamermaid.org/documentatio
 
 Before importing your CoralNet data to MERMAID, you need to set up your project in [MERMAID Collect](https://app.datamermaid.org). If you are new to MERMAID, you need to create a MERMAID account before using it. You can use a new project or existing project in MERMAID Collect as long as you are an admin of the project. [Setting up a new project](https://datamermaid.org/documentation/collect-project-set-up "Setting up a project in MERMAID Collect") requires internet access. To create a new project, click on the **New Project** button and then:
 
-1.  add organization(s),
-2.  add users,
-3.  set data sharing permissions,
-4.  add sites, and
-5.  add management regimes.
+1. Add organization(s),
+2. Add users,
+3. Set data sharing permissions,
+4. Add sites, and
+5. Add management regimes.
 
 ### Step 2. Prepare your CoralNet data and benthic attribute converter file in a CSV format
 
@@ -36,9 +36,9 @@ Before importing your CoralNet data to MERMAID, you need to set up your project 
 
 After you are done annotating your data in CoralNet, export it. To export your data from CoralNet:
 
--   Navigate to your CoralNet project \> *Images \> Image Actions \> Export Annotations, CSV*
+- Navigate to your CoralNet project \> *Images \> Image Actions \> Export Annotations, CSV*
 
--   Include optional columns if you are using the auxiliary fields that CoralNet provide: *Image metadata - date and auxiliary fields*. Learn more about the auxiliary fields in the [Calcification Metrics in CoralNet](https://coralnet.ucsd.edu/pages/help/tutorials/calcification/) help page under the "Different table for different images" section.
+- Include optional columns if you are using the auxiliary fields that CoralNet provide: *Image metadata - date and auxiliary fields*. Learn more about the auxiliary fields in the [Calcification Metrics in CoralNet](https://coralnet.ucsd.edu/pages/help/tutorials/calcification/) help page under the "Different table for different images" section.
 
 ![CoralNet export data with auxiliary fields.](images/import-coralnet/CoralNet_export.png){fig-alt="A screenshot of a spreadsheet file exported from CoralNet that includes the auxiliary fields."}
 
@@ -48,13 +48,13 @@ The benthic attribute converter file is a CSV file that contains your benthic la
 
 The file consists of four columns:
 
--   **Benthic_abb** (*your benthic labels*)
+- **Benthic_abb** (*your benthic labels*)
 
--   Benthic category (*what your benthic labels stand for*)
+- Benthic category (*what your benthic labels stand for*)
 
--   **Benthic attribute_MERMAID** (*what MERMAID benthic attribute it corresponds to*), and
+- **Benthic attribute_MERMAID** (*what MERMAID benthic attribute it corresponds to*), and
 
--   **Growth form_MERMAID** (*what MERMAID growth form it corresponds to. This column can be left blank*).
+- **Growth form_MERMAID** (*what MERMAID growth form it corresponds to. This column can be left blank*).
 
 ![Example of the benthic attribute converter file.](images/import-coralnet/CoralNet_BA_converter_file.png){fig-alt="A screenshot of a spreadsheet CSV file that consist of four columns, which are Benthic_abb, Benthic category, Benthic attribute_MERMAID, and Growth form_MERMAID."}
 
@@ -62,7 +62,7 @@ The file consists of four columns:
 
 After setting up your project in MERMAID Collect and preparing the necessary files, you can now start importing your data in R or R Studio. The first step is to install and activate the mermaidr and other related packages. In this example, we will be using `tidyverse`.
 
-```{r message = FALSE}
+```{r, message = FALSE}
 # install.packages("tidyverse")
 # remotes::install_github("data-mermaid/mermaidr")
 
@@ -76,20 +76,24 @@ Next step is to download the MERMAID Photo Quadrat Transect (PQT) template. Make
 
 To download the MERMAID PQT template:
 
-1.  Get your MERMAID project using the `mermaid_get_my_projects()` function from the mermaidr package. Omit `inlcude_test_project = TRUE` if it is not a test project.
+1.  Get your MERMAID project using the `mermaid_get_my_projects()` function.
 
-```{r}
+```{r, echo = FALSE}
 project <- mermaid_get_my_projects(include_test_projects = TRUE)
 ```
 
-2.  Filter to select just the project you are working on, and rename the object.
+```{r, eval = FALSE}
+project <- mermaid_get_my_projects()
+```
+
+2.  Filter to select just the project you are working on.
 
 ```{r}
 myproject <- project %>%
-  filter(name == "MERMAID reef survey")
+  filter(name == "MERMAID Reef Surveys (training only)")
 ```
 
-Before running the code above, make sure that you change the project name "**MERMAID reef survey"** to [**your actual project**]{.underline} that you want to import your data into.
+Before running the code above, make sure that you change the project name "**MERMAID Reef Surveys (training only)"** to [**your actual project**]{.underline} that you want to import your data into.
 
 3.  Get the import template and options using the `mermaid_import_get_template_and_options( )` function.
 

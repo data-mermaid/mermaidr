@@ -20,7 +20,7 @@ You can import your CPCe data to MERMAID using our MERMAID R package mermaidr fo
 
 5.  Import your data to MERMAID
 
-6.  Validate and submit in MERMAIC Collect
+6.  Validate and submit in MERMAID Collect
 
 ## Step 1. Prepare your project in MERMAID Collect
 
@@ -64,17 +64,21 @@ Next step is to download the MERMAID Photo Quadrat Transect (PQT) template. We r
 
 To download the MERMAID PQT template, you will need to select your prepared project from the list of projects that `mermaidr` gathered by filtering using the `mermaid_get_my_projects( )` function from `mermaidr`. If you're using a test project, make sure to specify it by adding `include_test_project = TRUE`. Then download the template using the `mermaid_import_get_template_and_options( )` function.
 
-1: Get your MERMAID project. Omit `include_test_projects = TRUE` if it is not a test project.
+1: Get your MERMAID project.
 
-```{r}
-project <- mermaid_get_my_projects(include_test_projects = TRUE)
+```{r, echo = FALSE}
+projects <- mermaid_get_my_projects(include_test_projects = TRUE)
 ```
 
-2: Filter to select just the project you are working on, and rename the object
+```{r, eval = FALSE}
+projects <- mermaid_get_my_projects()
+```
+
+2: Filter to select just the project you are working on
 
 ```{r}
-myproject <- project %>%
-  filter(name == "MERMAID reef survey")
+myproject <- projects %>%
+  filter(name == "MERMAID Reef Surveys (training only)")
 ```
 
 3: Get the import template and options
@@ -87,7 +91,7 @@ pqt_template <- mermaid_import_get_template_and_options(
 )
 ```
 
-Before running the code above, make sure that you change the project name **MERMAID reef survey** in **2** to your actual project that you want to import your data into. Remember that **you need to be an admin** of the project to be able to access and import your data.
+Before running the code above, make sure that you change the project name **MERMAID Reef Surveys (training only)** in **2** to your actual project that you want to import your data into. Remember that **you need to be an admin** of the project to be able to access and import your data.
 
 ## Step 5. Prepare and reformat your data to match the MERMAID template
 
@@ -111,13 +115,13 @@ If you are using a comma (",") to separate each data, use read_csv() instead of 
 
 After loading the data, continue with cleaning the data. In this example, the cleaning data steps are:
 
-1.  Remove blank rows,
+1. Remove blank rows,
 
-2.  Subset only the `Raw Data` column and rename it to `Benthic_attribute`,
+2 Subset only the `Raw Data` column and rename it to `Benthic_attribute`,
 
-3.  Add necessary columns for each transect, i.e., `Site *` and `Transect number *` (the column names match the MERMAID template), and
+3. Add necessary columns for each transect, i.e., `Site *` and `Transect number *` (the column names match the MERMAID template), and
 
-4.  Combine the three transects.
+4. Combine the three transects.
 
 ```{r}
 # 1. Remove blank rows
@@ -200,7 +204,7 @@ You are going to use the **benthic converter attribute** file to add the **benth
 ```{r}
 pqt <- pqt %>%
   mutate(
-    `Management *` = "NTZ",
+    `Management *` = "Core Zone",
     `Sample date: Year *` = 2020,
     `Sample date: Month *` = 10,
     `Sample date: Day *` = 21,
@@ -241,13 +245,13 @@ pqt <- pqt %>%
 
 Your data now matches the MERMAID template and is ready to be imported to your project in MERMAID Collect. The steps to import your data are:
 
-1.  Validate your data to what you've set up in your project and options that MERMAID accepts. This is reflected in the MERMAID PQT template that you've downloaded
+1. Validate your data to what you've set up in your project and options that MERMAID accepts. This is reflected in the MERMAID PQT template that you've downloaded
 
-2.  Address issues, if any
+2. Address issues, if any
 
-3.  Recheck the data one more time by doing a dry run
+3. Recheck the data one more time by doing a dry run
 
-4.  Import your data to MERMAID
+4. Import your data to MERMAID
 
 **Validate your data** using the `mermaid_import_check_options()` function for each column. This function will compare your data with the MERMAID PQT template you've downloaded, which is based on what you have set up in the project. If the data matches, a check mark will appear. If there's an issue, MERMAID will mark the issue with a **FALSE** note under the "match" column and provide the closest choice to help us address the issue(s). Issues must be addressed to be able to upload the data, except for non-mandatory fields. **Non-mandatory fields can be left blank or removed entirely from the data frame**. For example, in this example, you will find blank growth form(s), because not all benthic attributes have growth forms. Although you received a red dot and a message saying, "some errors in values of 'Growth form' - please check table below," it is okay to leave it as is. You can still import your data to MERMAID.
 

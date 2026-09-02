@@ -3,8 +3,6 @@ title: Importing legacy data into MERMAID
 output: html_document
 ---
 
-
-
 Do you have a lot of existing data and are just starting to use MERMAID? You might be wondering on how to import those data into MERMAID. You can import your legacy data into MERMAID by using the mermaidr package. More info on the importing workflow with mermaidr can be seen on the [importing legacy data into MERMAID documentation](https://datamermaid.org/documentation/mermaidr-data-import).
 
 Here we provide an example on how to import your fish data that uses the **fish belt method** into MERMAID using mermaidr. Please note that you need to **prepare your project in the MERMAID Collect first** before starting this process. Detail on how to set a new project can be seen in the [Setting up a project documentation](https://datamermaid.org/documentation/collect-project-set-up). For this example, we have already prepared a project in the MERMAID Collect named **MERMAID reef survey**.
@@ -13,25 +11,24 @@ We have also prepared <a href="https://www.youtube.com/watch?v=bgmz0vhg2QI" targ
 
 ## The steps for importing legacy fish belt data are:
 
-* 1. Prepare your project in MERMAID Collect
-* 2. Prepare your fish belt data in a CSV format
-* 3. Install and activate mermaidr and other related packages
-* 4. Download the fish belt MERMAID template
-* 5. Prepare and reformat your data to match the MERMAID template
-* 6. Import your data to MERMAID
-* 7. Validate and submit in MERMAID Collect
+1. Prepare your project in MERMAID Collect
+2. Prepare your fish belt data in a CSV format
+3. Install and activate mermaidr and other related packages
+4. Download the fish belt MERMAID template
+5. Prepare and reformat your data to match the MERMAID template
+6. Import your data to MERMAID
+7. Validate and submit in MERMAID Collect
 
 
 ## Step 1. Prepare your project in MERMAID Collect
 
 Before importing your fish belt data to MERMAID, you need to set up your project in [MERMAID Collect](https://app.datamermaid.org/). If you are new to MERMAID, you need to create a MERMAID account before using it. You can use a new project or existing project in MERMAID Collect as long as you are an admin of the project. [Setting up a new project](https://datamermaid.org/documentation/collect-project-set-up) requires internet access. To create a new project, click on the New Project button and then:
 
-* 1. add organization(s),
-* 2. add users,
-* 3. set data sharing permissions,
-* 4. add sites, and
-* 5. add management regimes.
-
+1. Add organization(s),
+2. Add users,
+3. Set data sharing permissions,
+4. Add sites, and
+5. Add management regimes.
 
 ## Step 2. Prepare your fish belt data in a CSV format
 
@@ -42,14 +39,14 @@ If your data isn't in CSV format, you'll need to re-save it as CSV. This example
 
 After setting up your project in MERMAID Collect and preparing the necessary files, you can now start importing your data in R or R Studio. The first step is to install and activate the mermaidr and other related packages. In this example, we are also going to use the tidyverse package.
 
-```{r, eval = FALSE}
-# install.packages("tidyverse")
-# remotes::install_github("data-mermaid/mermaidr")
+
+``` r
+#install.packages("tidyverse")
+#remotes::install_github("data-mermaid/mermaidr")
 
 library(mermaidr)
 library(tidyverse)
 ```
-
 
 ## Step 4. Download the fish belt MERMAID template
 
@@ -57,24 +54,32 @@ Next step is to download the MERMAID Fish belt template. Make sure to set up you
 
 To download the MERMAID Fish belt template:
 
-* 1. Get your MERMAID project using the `mermaid_get_my_projects( )` function from the mermaidr package. Omit `inlcude_test_project = TRUE` if it is not a test project.
+* 1. Get your MERMAID project using the `mermaid_get_my_projects( )` function.
 
-```r
-reef_survey <- mermaid_search_my_projects("MERMAID reef survey", include_test_projects = TRUE)
+
+
+
+``` r
+surveys <- mermaid_get_my_projects()
 ```
 
 At this point, a browser window will open for you to authenticate by logging into the MERMAID Collect. Once you've logged in, you can close the browser and come back to R. Your login credentials will last for a day and after it expires you will need to log in again.
 
 * 2. Filter to select just the project you are working on, and rename the object.
 
-```r
-reef_survey <- mermaid_search_my_projects("MERMAID reef survey")
+
+``` r
+reef_survey <- surveys %>%
+  filter(name == "MERMAID Reef Surveys (training only)")
 ```
-Before running the code above, make sure that you change the project name **“MERMAID reef survey”** to **_your actual project_** that you want to import your data into.
+
+Before running the code above, make sure that you change the project name **"MERMAID Reef Survey
+"** to **_your actual project_** that you want to import your data into.
 
 * 3. Get the import template and options using the `mermaid_import_get_template_and_options( )` function.
 
-```r
+
+``` r
 fish_template_and_options <- mermaid_import_get_template_and_options(
   reef_survey,
   "fishbelt",
@@ -98,25 +103,25 @@ The XLSX file consists of the fish belt MERMAID template and the options that ar
 You can also preview the template in R:
 
 
-```r
+``` r
 fish_template_and_options[["Template"]]
 ```
 
 ```
 ## # A tibble: 0 × 22
-## # ℹ 22 variables: Site * <chr>, Management * <chr>,
-## #   Sample date: Year * <chr>, Sample date: Month * <chr>,
-## #   Sample date: Day * <chr>, Sample time <chr>, Depth * <chr>,
-## #   Transect number * <chr>, Transect label <chr>,
+## # ℹ 22 variables: Site * <chr>, Management * <chr>, Sample date: Year * <chr>,
+## #   Sample date: Month * <chr>, Sample date: Day * <chr>, Sample time <chr>,
+## #   Depth * <chr>, Transect number * <chr>, Transect label <chr>,
 ## #   Transect length surveyed * <chr>, Width * <chr>, Fish size bin * <chr>,
 ## #   Reef slope <chr>, Visibility <chr>, Current <chr>, Relative depth <chr>,
-## #   Tide <chr>, Sample unit notes <chr>, Observer emails * <chr>, …
+## #   Tide <chr>, Sample unit notes <chr>, Observer emails * <chr>, Fish name * <chr>,
+## #   Size * <chr>, Count * <chr>
 ```
 
 Or if you want to investigate the column names in R, you can use the code below:
 
 
-```r
+``` r
 names(fish_template_and_options)
 ```
 
@@ -140,7 +145,7 @@ All column names with asterisk shows that it is mandatory. You can leave the col
 Investigate all the available options for each column before adjusting the format. For example, to look at the options for site in R:
 
 
-```r
+``` r
 fish_template_and_options[["Site *"]]
 ```
 
@@ -149,20 +154,18 @@ fish_template_and_options[["Site *"]]
 ## [1] TRUE
 ## 
 ## $help_text
-## [1] "A unique name of a site where data was collected. Every site must be defined before importing and set up in the project in the MERMAID Collect."
+## [1] "A unique name of a site where data was collected. Every site must be defined before ingestion and set up in the project in the web app."
 ## 
 ## $choices
-## # A tibble: 6 × 1
-##   value    
-##   <chr>    
-## 1 1206     
-## 2 1208     
-## 3 1209     
-## 4 1210     
-## 5 1211     
-## 6 SAV Point
+## # A tibble: 5 × 1
+##   value
+##   <chr>
+## 1 1206 
+## 2 1208 
+## 3 1209 
+## 4 1210 
+## 5 1211
 ```
-
 
 ## Step 5. Prepare and reformat your data to match the MERMAID template
 
@@ -175,7 +178,7 @@ We read our fish belt data (stored in `fishbelt.csv` file) and our sampling even
 
 
 
-```r
+``` r
 fishbelt_data <- read_csv("fishbelt.csv")
 sites_data <- read_csv("sites.csv")
 ```
@@ -183,7 +186,7 @@ sites_data <- read_csv("sites.csv")
 The MERMAID importing template requires the sample event data and the observation data to be combined. Therefore, we need to add the `sites` data set to fish observation data. Look at the available columns in the `site` and `fishbelt` data sets:
 
 
-```r
+``` r
 sites_data
 ```
 
@@ -195,31 +198,31 @@ sites_data
 ## 2   1206 Control  2021     3    15 slope              15 low/none
 ```
 
-```r
+``` r
 fishbelt_data
 ```
 
 ```
 ## # A tibble: 10 × 8
-##    SiteID Depth Transect_length Width Transect_number `Fish species`   Size_cm
-##     <dbl> <dbl>           <dbl> <dbl>           <dbl> <chr>              <dbl>
-##  1   1208     5               5     5               1 Parupeneus mult…      15
-##  2   1208     5               5    20               1 Acanthurus bari…      37
-##  3   1208     5               5    20               1 Platax teira          37
-##  4   1208     5               5    20               1 Bolbometopon mu…     120
-##  5   1208     5               5    20               1 Parupeneus indi…      36
-##  6   1208     5               5     5               1 Acanthurus aura…      17
-##  7   1208     5               5    20               1 Plectorhinchus …      36
-##  8   1208     5               5     5               1 Zanclus cornutus      10
-##  9   1208     5               5    20               1 Variola albimar…      36
-## 10   1208     5               5    20               1 Lutjanus sp.          36
+##    SiteID Depth Transect_length Width Transect_number `Fish species`          Size_cm
+##     <dbl> <dbl>           <dbl> <dbl>           <dbl> <chr>                     <dbl>
+##  1   1208     5               5     5               1 Parupeneus multifaskia…      15
+##  2   1208     5               5    20               1 Acanthurus bariene           37
+##  3   1208     5               5    20               1 Platax teira                 37
+##  4   1208     5               5    20               1 Bolbometopon muricatum      120
+##  5   1208     5               5    20               1 Parupeneus indikus           36
+##  6   1208     5               5     5               1 Acanthurus auranticavus      17
+##  7   1208     5               5    20               1 Plectorhinchus chaetod…      36
+##  8   1208     5               5     5               1 Zanclus cornutus             10
+##  9   1208     5               5    20               1 Variola albimarginata        36
+## 10   1208     5               5    20               1 Lutjanus sp.                 36
 ## # ℹ 1 more variable: Abundance <dbl>
 ```
 
 Then combine the `site` data to `fishbelt` data, joining on the `SiteID` identifier.
 
 
-```r
+``` r
 fishbelt_data <- fishbelt_data %>%
   left_join(sites_data, by = "SiteID")
 ```
@@ -227,7 +230,7 @@ fishbelt_data <- fishbelt_data %>%
 Looking at the available data, there are still two mandatory fields that are not yet added (Fish size bin and Observer emails) and one mandatory field that need to be adjusted ( Fishbelt Width). We need to look at the options allowed for these columns:
 
 
-```r
+``` r
 fish_template_and_options[["Width *"]]
 ```
 
@@ -236,24 +239,25 @@ fish_template_and_options[["Width *"]]
 ## [1] TRUE
 ## 
 ## $help_text
-## [1] "Width of fish belt transect, in meters. See relevant tab on importing template for choices."
+## [1] "Width of fish belt transect, in meters. See relevant tab on ingestion template for choices."
 ## 
 ## $choices
-## # A tibble: 9 × 1
-##   value                                        
-##   <chr>                                        
-## 1 10m                                          
-## 2 1m                                           
-## 3 20m                                          
-## 4 2m                                           
-## 5 5m                                           
-## 6 Mixed: < 10cm @ 2m, >= 10cm @ 5m             
-## 7 Mixed: >=10 cm & <35 cm @ 5 m, >=35 cm @ 20 m
-## 8 Mixed: < 20cm @ 2m, >= 20cm @ 4m             
-## 9 Mixed: < 20cm @ 4m, >= 20cm @ 8m
+## # A tibble: 10 × 1
+##    value                                        
+##    <chr>                                        
+##  1 10m                                          
+##  2 1m                                           
+##  3 20m                                          
+##  4 2m                                           
+##  5 4m                                           
+##  6 5m                                           
+##  7 mixed: < 10cm @ 2m, >= 10cm @ 5m             
+##  8 mixed: >=10 cm & <35 cm @ 5 m, >=35 cm @ 20 m
+##  9 mixed: < 20cm @ 2m, >= 20cm @ 4m             
+## 10 mixed: < 20cm @ 4m, >= 20cm @ 8m
 ```
 
-```r
+``` r
 fish_template_and_options[["Fish size bin *"]]
 ```
 
@@ -262,7 +266,7 @@ fish_template_and_options[["Fish size bin *"]]
 ## [1] TRUE
 ## 
 ## $help_text
-## [1] "Name of bin scheme used to estimate fish size for the transect. See relevant tab on importing template for choices. Choose 1 cm if the fish size recorded does not use bins."
+## [1] "Name of bin scheme used to estimate fish size for the transect. See relevant tab on ingestion template for choices. Choose 1 cm if the fish size recorded does not use bins."
 ## 
 ## $choices
 ## # A tibble: 5 × 1
@@ -271,11 +275,11 @@ fish_template_and_options[["Fish size bin *"]]
 ## 1 1        
 ## 2 10       
 ## 3 5        
-## 4 AGRRA    
-## 5 WCS India
+## 4 agrra    
+## 5 wcs india
 ```
 
-```r
+``` r
 fish_template_and_options[["Observer emails *"]]
 ```
 
@@ -296,7 +300,7 @@ fish_template_and_options[["Observer emails *"]]
 Now that we know the available options, we are going to add them manually using the code below:
 
 
-```r
+``` r
 fishbelt_data <- fishbelt_data %>%
   mutate(
     `Width *` = "Mixed: >=10 cm & <35 cm @ 5 m, >=35 cm @ 20 m",
@@ -308,7 +312,7 @@ fishbelt_data <- fishbelt_data %>%
 The visibility data are not the same as the options accepted by MERMAID:
 
 
-```r
+``` r
 fishbelt_data %>%
   distinct(visibility)
 ```
@@ -323,7 +327,7 @@ fishbelt_data %>%
 Let's check how it is formatted in template and implement the option into our data:
 
 
-```r
+``` r
 fish_template_and_options[["Visibility"]][["choices"]]
 ```
 
@@ -337,7 +341,7 @@ fish_template_and_options[["Visibility"]][["choices"]]
 ## 4 >10m - excellent
 ```
 
-```r
+``` r
 fishbelt_data <- fishbelt_data %>%
   mutate(visibility = case_when(
     visibility == 1 ~ "<1m - bad",
@@ -350,7 +354,7 @@ fishbelt_data <- fishbelt_data %>%
 You might already noticed that the column names in our dataset are not the same with the template, and you might be wondering if it should be the same. The answer is **yes, they must have exactly the same name** but not necessarily the same order. Lets rename and reorder the columns. First check the names in the template and in our data:
 
 
-```r
+``` r
 names(fish_template_and_options[["Template"]])
 ```
 
@@ -369,25 +373,24 @@ names(fish_template_and_options[["Template"]])
 ```
 
 
-```r
+``` r
 names(fishbelt_data)
 ```
 
 ```
-##  [1] "SiteID"            "Depth"             "Transect_length"  
-##  [4] "Width"             "Transect_number"   "Fish species"     
-##  [7] "Size_cm"           "Abundance"         "Zone"             
-## [10] "Year"              "Month"             "Day"              
-## [13] "Reef_slope"        "visibility"        "current"          
-## [16] "Width *"           "Fish size bin *"   "Observer emails *"
+##  [1] "SiteID"            "Depth"             "Transect_length"   "Width"            
+##  [5] "Transect_number"   "Fish species"      "Size_cm"           "Abundance"        
+##  [9] "Zone"              "Year"              "Month"             "Day"              
+## [13] "Reef_slope"        "visibility"        "current"           "Width *"          
+## [17] "Fish size bin *"   "Observer emails *"
 ```
 
-Don't worry if you don't have any of `Sample time`, `Transect label`, `Relative depth`, `Tide`, `Sample unit notes` information, because none of them are required. It will not prevent you from importing your data into MERMAID. However, if you have those data, it is strongly recommended to add them as well.
+Don't worry if you don't have any of `Sample time`, `Transect label`, `Relative depth`, `Tide`, `Sample unit notes` information, because none of them are required. It will not prevent you from importing (ingesting) your data into MERMAID. However, if you have those data, it is strongly recommended to add them as well.
 
 Next step is to rename and reorder the columns in one step:
 
 
-```r
+``` r
 fishbelt_data <- fishbelt_data %>%
   select(
     `Site *` = SiteID,
@@ -427,10 +430,9 @@ fishbelt_data
 ##  9     1208 Control                         2021                      3
 ## 10     1208 Control                         2021                      3
 ## # ℹ 13 more variables: `Sample date: Day *` <dbl>, `Depth *` <dbl>,
-## #   `Transect number *` <dbl>, `Transect length surveyed *` <dbl>,
-## #   `Width *` <chr>, `Fish size bin *` <dbl>, `Reef slope` <chr>,
-## #   Visibility <chr>, Current <chr>, `Observer emails *` <chr>,
-## #   `Fish name *` <chr>, `Size *` <dbl>, `Count *` <dbl>
+## #   `Transect number *` <dbl>, `Transect length surveyed *` <dbl>, `Width *` <chr>,
+## #   `Fish size bin *` <dbl>, `Reef slope` <chr>, Visibility <chr>, Current <chr>,
+## #   `Observer emails *` <chr>, `Fish name *` <chr>, `Size *` <dbl>, `Count *` <dbl>
 ```
 
 ### Address errors and warnings
@@ -438,7 +440,7 @@ fishbelt_data
 After reformatting our data, we're going to clean our data using `mermaid_import_check_options()` We need to check the columns one by one to ensure the data are accepted by the MERMAID template. The code below is to check our data that we've reformatted against the fish belt template we've downloaded. If the data matches, then a check mark will appear:
 
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Site *")
 ```
 
@@ -453,7 +455,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Site *")
 ## 1 1208       1208           TRUE
 ```
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Management *")
 ```
 
@@ -465,10 +467,10 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Manageme
 ## # A tibble: 1 × 3
 ##   data_value closest_choice match
 ##   <chr>      <chr>          <lgl>
-## 1 Control    Control        TRUE
+## 1 Control    control        TRUE
 ```
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Sample date: Year *")
 ```
 
@@ -476,7 +478,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Sample d
 ## ✔ Any value is allowed for `Sample date: Year *` - no checking to be done
 ```
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Sample date: Month *")
 ```
 
@@ -484,7 +486,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Sample d
 ## ✔ Any value is allowed for `Sample date: Month *` - no checking to be done
 ```
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Sample date: Day *")
 ```
 
@@ -492,7 +494,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Sample d
 ## ✔ Any value is allowed for `Sample date: Day *` - no checking to be done
 ```
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Depth *")
 ```
 
@@ -500,7 +502,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Depth *"
 ## ✔ Any value is allowed for `Depth *` - no checking to be done
 ```
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Transect number *")
 ```
 
@@ -508,16 +510,15 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Transect
 ## ✔ Any value is allowed for `Transect number *` - no checking to be done
 ```
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Transect length surveyed *")
 ```
 
 ```
-## ✔ Any value is allowed for `Transect length surveyed *` - no checking to be
-## done
+## ✔ Any value is allowed for `Transect length surveyed *` - no checking to be done
 ```
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Width *")
 ```
 
@@ -527,12 +528,12 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Width *"
 
 ```
 ## # A tibble: 1 × 3
-##   data_value                                    closest_choice           match
-##   <chr>                                         <chr>                    <lgl>
-## 1 Mixed: >=10 cm & <35 cm @ 5 m, >=35 cm @ 20 m Mixed: >=10 cm & <35 cm… TRUE
+##   data_value                                    closest_choice                  match
+##   <chr>                                         <chr>                           <lgl>
+## 1 Mixed: >=10 cm & <35 cm @ 5 m, >=35 cm @ 20 m mixed: >=10 cm & <35 cm @ 5 m,… TRUE
 ```
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Fish size bin *")
 ```
 
@@ -547,7 +548,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Fish siz
 ## 1 1          1              TRUE
 ```
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Reef slope")
 ```
 
@@ -562,7 +563,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Reef slo
 ## 1 slope      slope          TRUE
 ```
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Visibility")
 ```
 
@@ -577,7 +578,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Visibili
 ## 1 >10m - excellent >10m - excellent TRUE
 ```
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Current")
 ```
 
@@ -592,7 +593,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Current"
 ## 1 low/none   low/none       TRUE
 ```
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Observer emails *")
 ```
 
@@ -607,7 +608,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Observer
 ## 1 email@mermaid.org email@mermaid.org TRUE
 ```
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Fish name *")
 ```
 
@@ -619,22 +620,22 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Fish nam
 ## # A tibble: 10 × 3
 ##    data_value                    closest_choice                match
 ##    <chr>                         <chr>                         <lgl>
-##  1 Parupeneus multifaskiatus     Parupeneus multifasciatus     FALSE
-##  2 Parupeneus indikus            Parupeneus indicus            FALSE
-##  3 Lutjanus sp.                  Lutjanus                      FALSE
-##  4 Acanthurus bariene            Acanthurus bariene            TRUE 
-##  5 Platax teira                  Platax teira                  TRUE 
-##  6 Bolbometopon muricatum        Bolbometopon muricatum        TRUE 
-##  7 Acanthurus auranticavus       Acanthurus auranticavus       TRUE 
-##  8 Plectorhinchus chaetodonoides Plectorhinchus chaetodonoides TRUE 
-##  9 Zanclus cornutus              Zanclus cornutus              TRUE 
-## 10 Variola albimarginata         Variola albimarginata         TRUE
+##  1 Parupeneus multifaskiatus     parupeneus multifasciatus     FALSE
+##  2 Parupeneus indikus            parupeneus indicus            FALSE
+##  3 Lutjanus sp.                  lutjanus                      FALSE
+##  4 Acanthurus bariene            acanthurus bariene            TRUE 
+##  5 Platax teira                  platax teira                  TRUE 
+##  6 Bolbometopon muricatum        bolbometopon muricatum        TRUE 
+##  7 Acanthurus auranticavus       acanthurus auranticavus       TRUE 
+##  8 Plectorhinchus chaetodonoides plectorhinchus chaetodonoides TRUE 
+##  9 Zanclus cornutus              zanclus cornutus              TRUE 
+## 10 Variola albimarginata         variola albimarginata         TRUE
 ```
 
-There are issues in the Fish name that need to be fixed, marked by the `FALSE` note under the match column. MERMAID also provides the closest choice to help us with data cleaning. We need to fix theses issues to be able to import our data:
+There are issues in the Fish name that need to be fixed, marked by the `FALSE` note under the match column. MERMAID also provides the closest choice to help us with data cleaning. We need to fix these issues to be able to import our data:
 
 
-```r
+``` r
 fishbelt_data <- fishbelt_data %>%
   mutate(`Fish name *` = case_when(
     `Fish name *` == "Parupeneus multifaskiatus" ~ "Parupeneus multifasciatus",
@@ -647,7 +648,7 @@ fishbelt_data <- fishbelt_data %>%
 After fixing the issues, lets check again the values to makes sure we receive a check mark to move forward with the process.
 
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Fish name *")
 ```
 
@@ -659,22 +660,22 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Fish nam
 ## # A tibble: 10 × 3
 ##    data_value                    closest_choice                match
 ##    <chr>                         <chr>                         <lgl>
-##  1 Parupeneus multifasciatus     Parupeneus multifasciatus     TRUE 
-##  2 Acanthurus bariene            Acanthurus bariene            TRUE 
-##  3 Platax teira                  Platax teira                  TRUE 
-##  4 Bolbometopon muricatum        Bolbometopon muricatum        TRUE 
-##  5 Parupeneus indicus            Parupeneus indicus            TRUE 
-##  6 Acanthurus auranticavus       Acanthurus auranticavus       TRUE 
-##  7 Plectorhinchus chaetodonoides Plectorhinchus chaetodonoides TRUE 
-##  8 Zanclus cornutus              Zanclus cornutus              TRUE 
-##  9 Variola albimarginata         Variola albimarginata         TRUE 
-## 10 Lutjanus                      Lutjanus                      TRUE
+##  1 Parupeneus multifasciatus     parupeneus multifasciatus     TRUE 
+##  2 Acanthurus bariene            acanthurus bariene            TRUE 
+##  3 Platax teira                  platax teira                  TRUE 
+##  4 Bolbometopon muricatum        bolbometopon muricatum        TRUE 
+##  5 Parupeneus indicus            parupeneus indicus            TRUE 
+##  6 Acanthurus auranticavus       acanthurus auranticavus       TRUE 
+##  7 Plectorhinchus chaetodonoides plectorhinchus chaetodonoides TRUE 
+##  8 Zanclus cornutus              zanclus cornutus              TRUE 
+##  9 Variola albimarginata         variola albimarginata         TRUE 
+## 10 Lutjanus                      lutjanus                      TRUE
 ```
 
 And finish checking the columns.
 
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Size *")
 ```
 
@@ -682,7 +683,7 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Size *")
 ## ✔ Any value is allowed for `Size *` - no checking to be done
 ```
 
-```r
+``` r
 mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Count *")
 ```
 
@@ -695,17 +696,18 @@ Once we got the check marks, we have the cleaned version of our data that is rea
 
 
 
-```r
+``` r
 write_csv(fishbelt_data, "fishbelt_clean.csv")
 ```
 
 
+
 ## Step 6. Import your data to MERMAID
 
-Once we have our cleaned MERMAID formatted data, the next step is importing the data. We do one "dry run" before actually importing to check the data once more:
+Once we have our cleaned MERMAID formatted data, the next step is ingesting the data. We do one "dry run" before actually ingesting to check the data once more:
 
 
-```r
+``` r
 mermaid_import_project_data(
   fishbelt_data,
   reef_survey,
@@ -721,7 +723,7 @@ mermaid_import_project_data(
 Once we got the message **Records successfully checked!**, change the `dryrun` option to `FALSE` to start importing your data into MERMAID.
 
 
-```r
+``` r
 mermaid_import_project_data(
   fishbelt_data,
   reef_survey,
@@ -739,4 +741,3 @@ mermaid_import_project_data(
 After you get the message **Record successfully imported! Please review in Collect**, head to your Collecting Page in your project in the MERMAID Collect. Continue with validating and submitting each transect.
 
 **Congratulations! You have successfully imported your fish belt data to MERMAID!**
-
