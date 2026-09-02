@@ -26,11 +26,11 @@ You can import your CPCe data to MERMAID using our MERMAID R package mermaidr fo
 
 Before importing your CPCe data to MERMAID, you need to set up your project in [MERMAID Collect](https://app.datamermaid.org). If you are new to MERMAID, you need to create a MERMAID account before using it. You can use a new project or existing project in MERMAID Collect as long as you are an admin of the project. [Setting up a new project](https://datamermaid.org/documentation/setting-up-a-new-project) requires internet access. To create a new project, click on the "New Project" button and then:
 
-1.  add organization(s),
-2.  add users,
-3.  set data sharing permissions,
-4.  add sites, and
-5.  add management regimes.
+1. Add organization(s),
+2. Add users,
+3. Set data sharing permissions,
+4. Add sites, and
+5. Add management regimes.
 
 ## Step 2. Prepare your CPCe raw data and benthic attribute converter file in a CSV format
 
@@ -120,7 +120,7 @@ After loading the data, continue with cleaning the data. In this example, the cl
 
 1. Remove blank rows,
 
-2 Subset only the `Raw Data` column and rename it to `Benthic_attribute`,
+2. Subset only the `Raw Data` column and rename it to `Benthic_attribute`,
 
 3. Add necessary columns for each transect, i.e., `Site *` and `Transect number *` (the column names match the MERMAID template), and
 

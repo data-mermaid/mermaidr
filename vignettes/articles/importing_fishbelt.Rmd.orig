@@ -53,7 +53,7 @@ Next step is to download the MERMAID Fish belt template. Make sure to set up you
 
 To download the MERMAID Fish belt template:
 
-* 1. Get your MERMAID project using the `mermaid_get_my_projects( )` function.
+1. Get your MERMAID project using the `mermaid_get_my_projects( )` function.
 
 ```{r, echo = FALSE}
 surveys <- mermaid_get_my_projects(include_test_projects = TRUE)
@@ -65,7 +65,7 @@ surveys <- mermaid_get_my_projects()
 
 At this point, a browser window will open for you to authenticate by logging into the MERMAID Collect. Once you've logged in, you can close the browser and come back to R. Your login credentials will last for a day and after it expires you will need to log in again.
 
-* 2. Filter to select just the project you are working on, and rename the object.
+2. Filter to select just the project you are working on, and rename the object.
 
 ```{r search-show}
 reef_survey <- surveys %>%
@@ -75,7 +75,7 @@ reef_survey <- surveys %>%
 Before running the code above, make sure that you change the project name **"MERMAID Reef Survey
 "** to **_your actual project_** that you want to import your data into.
 
-* 3. Get the import template and options using the `mermaid_import_get_template_and_options( )` function.
+3. Get the import template and options using the `mermaid_import_get_template_and_options( )` function.
 
 ```{r template}
 fish_template_and_options <- mermaid_import_get_template_and_options(

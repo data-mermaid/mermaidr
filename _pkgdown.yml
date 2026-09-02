@@ -43,6 +43,10 @@ reference:
     - mermaid_import_bulk_submit
     - mermaid_import_bulk_edit
 
+  - title: Miscellaneous
+    contents:
+    - update_mermaidr
+
 articles:
   - title: Case Studies
     navbar: Case Studies
