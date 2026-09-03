@@ -66,14 +66,14 @@ projects
 #>  3 d065… 2019… Fiji             31                      3               32 WCS …
 #>  4 1fbd… a2    Canada, …         9                      9                0 WWF-…
 #>  5 3a9e… Aceh… Indonesia        18                     55              198 WCS …
-#>  6 bacd… Beli… Belize, …        39                    120              259 WCS …
+#>  6 bacd… Beli… Belize, …        39                    125              260 WCS …
 #>  7 a1b7… Grea… Fiji             76                      8              648 Fiji…
 #>  8 507d… Kari… Indonesia        43                     18              842 WCS …
 #>  9 75ef… Kubu… Fiji             78                      1             1145 WCS …
 #> 10 5679… Mada… Madagasc…        33                      0               49 WCS …
 #> 11 4080… Mada… Madagasc…        74                      4               84 WCS …
 #> 12 4d79… MERM… Indonesi…        13                     73               31 test…
-#> 13 2c0c… Shar… Canada, …        28                     10                7 <NA> 
+#> 13 2c0c… Shar… Canada, …        28                     31                7 <NA> 
 #> 14 02e6… TWP … Indonesia        14                     10                2 WCS …
 #> 15 2d6c… WCS … Mozambiq…        74                      6              247 WCS …
 #> 16 9de8… XPDC… Indonesia        37                     71              450 <NA> 
@@ -259,40 +259,40 @@ As well as all sites:
 ``` r
 mermaid_get_sites()
 #> # A tibble: 2,153 × 12
-#>    exposure     reef_zone reef_type country id    name  latitude longitude notes
-#>    <chr>        <chr>     <chr>     <chr>   <chr> <chr>    <dbl>     <dbl> <chr>
-#>  1 very shelte… back reef atoll     Bangla… 0415… mysi…     -1        -1   <NA> 
-#>  2 very shelte… back reef atoll     Canada  547d… bulk…     47.5     -81.8 <NA> 
-#>  3 very shelte… back reef atoll     Canada  874c… dupe…      1         1   <NA> 
-#>  4 very shelte… back reef atoll     Canada  42d6… dupe…      1         1   <NA> 
-#>  5 very shelte… back reef atoll     Canada  6cd3… meli…     49      -110   <NA> 
-#>  6 very shelte… back reef atoll     Canada  afe4… meli…     49      -110   <NA> 
-#>  7 very shelte… back reef atoll     Fiji    af55… BA02     -17.4     178.  Sour…
-#>  8 very shelte… back reef atoll     Fiji    9c2f… BA02     -17.4     178.  Sour…
-#>  9 very shelte… back reef atoll     Fiji    03e5… BA03     -17.4     178.  <NA> 
-#> 10 very shelte… back reef atoll     Fiji    a9c8… BA03     -17.4     178.  <NA> 
+#>    id         name  latitude longitude notes project country reef_type reef_zone
+#>    <chr>      <chr>    <dbl>     <dbl> <chr> <chr>   <chr>   <chr>     <chr>    
+#>  1 0415d9e5-… mysi…     -1        -1   <NA>  2c56b9… Bangla… atoll     back reef
+#>  2 547dae1b-… bulk…     47.5     -81.8 <NA>  2c0c98… Canada  atoll     back reef
+#>  3 874c5a80-… dupe…      1         1   <NA>  c08ff9… Canada  atoll     back reef
+#>  4 42d67bb1-… dupe…      1         1   <NA>  c08ff9… Canada  atoll     back reef
+#>  5 6cd334f9-… meli…     49      -110   <NA>  ea4751… Canada  atoll     back reef
+#>  6 afe4dac0-… meli…     49      -110   <NA>  ea4751… Canada  atoll     back reef
+#>  7 af55820b-… BA02     -17.4     178.  Sour… 89f2d4… Fiji    atoll     back reef
+#>  8 9c2f0080-… BA02     -17.4     178.  Sour… a1b7ff… Fiji    atoll     back reef
+#>  9 03e5576e-… BA03     -17.4     178.  <NA>  89f2d4… Fiji    atoll     back reef
+#> 10 a9c8b3e0-… BA03     -17.4     178.  <NA>  eae004… Fiji    atoll     back reef
 #> # ℹ 2,143 more rows
-#> # ℹ 3 more variables: project <chr>, created_on <chr>, updated_on <chr>
+#> # ℹ 3 more variables: exposure <chr>, created_on <chr>, updated_on <chr>
 ```
 
 And all managements:
 
 ``` r
 mermaid_get_managements()
-#> # A tibble: 1,682 × 18
+#> # A tibble: 1,766 × 18
 #>    id                    name  rules  size name_secondary est_year notes no_take
 #>    <chr>                 <chr> <chr> <dbl> <chr>             <int> <chr> <lgl>  
 #>  1 a10d4cfc-dac4-4fde-b… 123   Peri…   123 <NA>               1979 <NA>  FALSE  
-#>  2 9168b477-3515-4627-b… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
+#>  2 0e9aa677-7105-420f-b… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
 #>  3 d70de8ff-079a-4962-8… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
-#>  4 79fb2463-7a02-47c7-a… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
-#>  5 9788b7f9-d28d-4d65-9… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
-#>  6 9b1df02a-fd47-440e-9… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
-#>  7 3ad9eb1e-9727-4f82-8… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
-#>  8 0e9aa677-7105-420f-b… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
-#>  9 9f54940e-37aa-4548-8… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
-#> 10 9c204b0d-ae85-4bf7-b… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
-#> # ℹ 1,672 more rows
+#>  4 9c204b0d-ae85-4bf7-b… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
+#>  5 9f54940e-37aa-4548-8… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
+#>  6 9168b477-3515-4627-b… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
+#>  7 79fb2463-7a02-47c7-a… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
+#>  8 9b1df02a-fd47-440e-9… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
+#>  9 3ad9eb1e-9727-4f82-8… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
+#> 10 9788b7f9-d28d-4d65-9… 678j… No T…     7 <NA>                 NA <NA>  TRUE   
+#> # ℹ 1,756 more rows
 #> # ℹ 10 more variables: periodic_closure <lgl>, open_access <lgl>,
 #> #   size_limits <lgl>, gear_restriction <lgl>, species_restriction <lgl>,
 #> #   access_restriction <lgl>, compliance <chr>, parties <chr>,
