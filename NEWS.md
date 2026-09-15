@@ -4,6 +4,8 @@
 * some endpoints now return a 0 row, 0 COLUMN tibble if no results, instead of a named one
 * which ones? - projects
 * "" -> NA
+# TODO -> for mermaid_get_sites(), make `project` the actual project name
+# check this for managements, etc, too
 
 # mermaidr 1.3.1
 

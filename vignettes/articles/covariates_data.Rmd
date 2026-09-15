@@ -1,0 +1,172 @@
+---
+title: "Adding Covariates to MERMAID data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Accessing Project Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+TODO: this must be run on prod, due to sites used
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dpi = 300,
+  message = FALSE,
+  warning = FALSE,
+  cache = FALSE
+)
+
+options(tibble.max_extra_cols = 20)
+```
+
+Prior to version 2.0.0, there were covariates on mermaidr data
+
+Now if you try to access them, you get the message:
+
+(run code with covariates = TRUE to see)
+
+and the results are returned without covariates.
+
+Need to use the `mermaidrcovariates` package.
+
+Link to prescient, link to mermaidrcovariates package
+https://mermaid.prescient.earth/
+
+
+Previously included covariates:
+
+# geomorphic zonation and benthic habitat from the \href{https://allencoralatlas.org}{Allen Coral Atlas}
+# market gravity, water pollution (sediments and nitrogen), coastal population, industrial development (number of ports), tourism (reef value), and a cumulative pressure index from \href{https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12858}{\emph{A global map of human pressures on tropical coral reefs}} by Andrello et al., 2022; 
+# scores from \href{https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12587}{\emph{Risk-sensitive planning for conserving coral reefs under rapid climate change}} by Beyer et al., 2018.
+
+Still available:
+# aca extent benthic habitat from allen coral atlas
+# from andrello: market gravity, coastal population, number of ports, tourism, 
+# from beyer: none
+
+```{r}
+library(mermaidr)
+library(mermaidrcovariates)
+library(tidyverse)
+
+sites <- mermaid_get_sites(limit = 2000) %>%
+  # TODO, update to project name once this is fixed
+  filter(project == "d0ad9903-ad9d-4add-8ec3-22abeb8bb435")
+  
+sites %>%
+  distinct(name)
+```
+
+```{r}
+selected_covariates <- c("aca_benthic", "aca_extent", "human_pop_5km", "market_gravity", "num_ports_5km", "tourism_index")
+
+# check which are raster and which are vector
+purrr::map(selected_covariates, get_covariate_type)
+
+# aca_benthic and aca_extent are raster, the rest are vector
+raster_covariates <- c("aca_benthic", "aca_extent")
+vector_covariates <- c("human_pop_5km", "market_gravity", "num_ports_5km", "tourism_index")
+```
+
+```{r}
+# get raster covariates
+raster_covariates_res_raw <- map(
+  raster_covariates,
+  \(covariate) get_zonal_statistics(sites, covariate, spatial_stats = "mean", radius = 100)
+)
+
+names(raster_covariates_res_raw) <- raster_covariates
+
+raster_covariates_res_raw$aca_benthic %>%
+  select(id, name, zonal_statistics)
+
+raster_covariates_res_raw$aca_benthic %>%
+  select(name, zonal_statistics) %>%
+  unnest(zonal_statistics)
+
+# do this in the map, just keep the value, and name it according to the index (covariate)
+
+raster_covariates_res <- imap(
+  raster_covariates_res_raw,
+  \(res, covariate_name) {
+    sites_with_covariate <- res %>%
+      unnest(zonal_statistics) %>%
+      select(names(sites), value)
+
+    sites_with_covariate %>%
+      pivot_longer(
+        cols = value,
+        names_to = "covariate",
+        values_to = "value"
+      ) %>%
+      mutate(covariate = covariate_name)
+  }
+) %>%
+  bind_rows()
+
+# to make things easier, just keep ID and covariate/value, then join back on to sites
+
+raster_covariates_res <- raster_covariates_res %>%
+  select(name, covariate, value) %>%
+  pivot_wider(names_from = covariate, values_from = value)
+
+raster_covariates_res
+```
+
+```{r}
+# do the same for vectors
+
+# get vector covariates
+vector_covariates_res_raw <- map(
+  vector_covariates,
+  \(covariate) attach_covariate_data(sites, covariate)
+)
+
+names(vector_covariates_res_raw) <- vector_covariates
+
+vector_covariates_res_raw$human_pop_5km %>%
+  select(name, pop_count, pop_count_raw)
+
+vector_covariates_res <- imap(
+  vector_covariates_res_raw,
+  \(res, covariate_name) {
+    covariate_cols <- res %>%
+      select(-names(sites)) %>%
+      names()
+
+    res %>%
+      pivot_longer(
+        cols = all_of(covariate_cols),
+        names_to = "covariate",
+        values_to = "value"
+      )
+  }
+) %>%
+  bind_rows()
+
+vector_covariates_res %>%
+  select(name, covariate, value)
+
+vector_covariates_res <- vector_covariates_res %>%
+  select(name, covariate, value) %>%
+  pivot_wider(names_from = covariate, values_from = value)
+
+vector_covariates_res
+```
+
+Look at the two sets of covariates
+```{r}
+raster_covariates_res
+vector_covariates_res
+```
+
+Join them back onto sites
+```{r}
+sites %>%
+  left_join(raster_covariates_res, by = "name") %>%
+  left_join(vector_covariates_res, by = "name")
+```
+
