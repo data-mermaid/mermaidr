@@ -7,8 +7,7 @@ test_that("mermaid project managements returns the same cols as mermaid manageme
   managements <- mermaid_get_managements(limit = 5)
   expect_equal(
     names(project_managements %>% dplyr::select(-project)) %>% sort(),
-    # TODO --> project_managements should also have rules, remove this once fixed
-    names(managements %>% dplyr::select(-rules)) %>% sort()
+    names(managements) %>% sort()
   )
 })
 
