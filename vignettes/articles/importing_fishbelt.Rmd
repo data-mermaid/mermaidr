@@ -41,9 +41,6 @@ After setting up your project in MERMAID Collect and preparing the necessary fil
 
 
 ``` r
-#install.packages("tidyverse")
-#remotes::install_github("data-mermaid/mermaidr")
-
 library(mermaidr)
 library(tidyverse)
 ```
@@ -115,7 +112,7 @@ fish_template_and_options[["Template"]]
 ## #   Transect length surveyed * <chr>, Width * <chr>, Fish size bin * <chr>,
 ## #   Reef slope <chr>, Visibility <chr>, Current <chr>, Relative depth <chr>,
 ## #   Tide <chr>, Sample unit notes <chr>, Observer emails * <chr>, Fish name * <chr>,
-## #   Size * <chr>, Count * <chr>
+## #   …
 ```
 
 Or if you want to investigate the column names in R, you can use the code below:
@@ -204,19 +201,18 @@ fishbelt_data
 
 ```
 ## # A tibble: 10 × 8
-##    SiteID Depth Transect_length Width Transect_number `Fish species`          Size_cm
-##     <dbl> <dbl>           <dbl> <dbl>           <dbl> <chr>                     <dbl>
-##  1   1208     5               5     5               1 Parupeneus multifaskia…      15
-##  2   1208     5               5    20               1 Acanthurus bariene           37
-##  3   1208     5               5    20               1 Platax teira                 37
-##  4   1208     5               5    20               1 Bolbometopon muricatum      120
-##  5   1208     5               5    20               1 Parupeneus indikus           36
-##  6   1208     5               5     5               1 Acanthurus auranticavus      17
-##  7   1208     5               5    20               1 Plectorhinchus chaetod…      36
-##  8   1208     5               5     5               1 Zanclus cornutus             10
-##  9   1208     5               5    20               1 Variola albimarginata        36
-## 10   1208     5               5    20               1 Lutjanus sp.                 36
-## # ℹ 1 more variable: Abundance <dbl>
+##    SiteID Depth Transect_length Width Transect_number `Fish species` Size_cm Abundance
+##     <dbl> <dbl>           <dbl> <dbl>           <dbl> <chr>            <dbl>     <dbl>
+##  1   1208     5               5     5               1 Parupeneus mu…      15         5
+##  2   1208     5               5    20               1 Acanthurus ba…      37         1
+##  3   1208     5               5    20               1 Platax teira        37         1
+##  4   1208     5               5    20               1 Bolbometopon …     120         1
+##  5   1208     5               5    20               1 Parupeneus in…      36         1
+##  6   1208     5               5     5               1 Acanthurus au…      17         4
+##  7   1208     5               5    20               1 Plectorhinchu…      36         4
+##  8   1208     5               5     5               1 Zanclus cornu…      10         2
+##  9   1208     5               5    20               1 Variola albim…      36         1
+## 10   1208     5               5    20               1 Lutjanus sp.        36         3
 ```
 
 Then combine the `site` data to `fishbelt` data, joining on the `SiteID` identifier.
@@ -528,9 +524,9 @@ mermaid_import_check_options(fishbelt_data, fish_template_and_options, "Width *"
 
 ```
 ## # A tibble: 1 × 3
-##   data_value                                    closest_choice                  match
-##   <chr>                                         <chr>                           <lgl>
-## 1 Mixed: >=10 cm & <35 cm @ 5 m, >=35 cm @ 20 m mixed: >=10 cm & <35 cm @ 5 m,… TRUE
+##   data_value                                    closest_choice                   match
+##   <chr>                                         <chr>                            <lgl>
+## 1 Mixed: >=10 cm & <35 cm @ 5 m, >=35 cm @ 20 m mixed: >=10 cm & <35 cm @ 5 m, … TRUE
 ```
 
 ``` r

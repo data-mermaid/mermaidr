@@ -108,8 +108,7 @@ pqt_template <- mermaid_import_get_template_and_options(
 ```
 
 ```
-## ✔ Import template and field options written to
-## benthicpqt_mermaidsurvey_template.xlsx
+## ✔ Import template and field options written to benthicpqt_mermaidsurvey_template.xlsx
 ```
 
 #### **Important:** Remember that **you need to be an admin** of the project to be able to access and import your data.

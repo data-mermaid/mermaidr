@@ -117,7 +117,7 @@ After loading the data, continue with cleaning the data. In this example, the cl
 
 1. Remove blank rows,
 
-2 Subset only the `Raw Data` column and rename it to `Benthic_attribute`,
+2. Subset only the `Raw Data` column and rename it to `Benthic_attribute`,
 
 3. Add necessary columns for each transect, i.e., `Site *` and `Transect number *` (the column names match the MERMAID template), and
 
