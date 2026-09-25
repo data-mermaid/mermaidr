@@ -269,20 +269,3 @@ my_projects %>%
 ```
 
 Note the `limit` argument here, which just limits the data pulled to one record (per project, method, and data combination). This is useful if you want to get a preview of what your data will look like without having to pull it all in.
-
-# Accessing covariates
-
-Prior to `mermaidr 0.7.0`, covariates were automatically included in all `mermaid_get_project_data()` function calls. Now, to access covariates, include `covariates = TRUE` in the function call:
-
-```{r}
-my_projects %>%
-  head(1) %>%
-  mermaid_get_project_data("fishbelt", "sampleevents", limit = 1, covariates = TRUE)
-```
-
-You can also access covariates at the site level, using `mermaid_get_project_sites()` with `covariates = TRUE`:
-
-```{r}
-my_projects %>%
-  mermaid_get_project_sites(covariates = TRUE)
-```

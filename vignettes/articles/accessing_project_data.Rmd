@@ -24,24 +24,24 @@ my_projects <- mermaid_get_my_projects()
 
 my_projects
 #> # A tibble: 16 × 21
-#>    id         name  countries num_sites num_active_sample_un…¹ num_sample_units tags 
-#>    <chr>      <chr> <chr>         <int>                  <int>            <dbl> <chr>
-#>  1 e1efb1e0-… 2016… Fiji              9                     10               80 WCS …
-#>  2 170e7182-… 2018… Fiji             10                      5              121 WCS …
-#>  3 d065cba4-… 2019… Fiji             31                      3               32 WCS …
-#>  4 1fbdb9ea-… a2    Canada, …         9                      9                0 WWF-…
-#>  5 3a9ecb7c-… Aceh… Indonesia        18                     55              198 WCS …
-#>  6 bacd3529-… Beli… Belize, …        39                    125              260 WCS …
-#>  7 a1b7ff1f-… Grea… Fiji             76                      8              648 Fiji…
-#>  8 507d1af9-… Kari… Indonesia        43                     18              842 WCS …
-#>  9 75ef7a5a-… Kubu… Fiji             78                      1             1145 WCS …
-#> 10 5679ef3d-… Mada… Madagasc…        33                      0               49 WCS …
-#> 11 4080679f-… Mada… Madagasc…        74                      4               84 WCS …
-#> 12 4d79339f-… MERM… Indonesi…        13                     73               31 test…
-#> 13 2c0c9857-… Shar… Canada, …        28                     31                7 <NA> 
-#> 14 02e6915c-… TWP … Indonesia        14                     10                2 WCS …
-#> 15 2d6cee25-… WCS … Mozambiq…        74                      6              247 WCS …
-#> 16 9de82789-… XPDC… Indonesia        37                     71              450 <NA> 
+#>    id          name  countries num_sites num_active_sample_un…¹ num_sample_units tags 
+#>    <chr>       <chr> <chr>         <int>                  <int>            <dbl> <chr>
+#>  1 e1efb1e0-0… 2016… Fiji              9                     10               80 WCS …
+#>  2 170e7182-7… 2018… Fiji             10                      5              121 WCS …
+#>  3 d065cba4-e… 2019… Fiji             31                      3               32 WCS …
+#>  4 1fbdb9ea-9… a2    Canada, …         9                      9                0 WWF-…
+#>  5 3a9ecb7c-f… Aceh… Indonesia        18                     55              198 WCS …
+#>  6 bacd3529-e… Beli… Belize, …        39                    128              260 WCS …
+#>  7 a1b7ff1f-8… Grea… Fiji             76                      8              648 Fiji…
+#>  8 507d1af9-e… Kari… Indonesia        43                     18              842 WCS …
+#>  9 75ef7a5a-c… Kubu… Fiji             78                      1             1145 WCS …
+#> 10 5679ef3d-b… Mada… Madagasc…        33                      0               49 WCS …
+#> 11 4080679f-1… Mada… Madagasc…        74                      4               84 WCS …
+#> 12 4d79339f-2… MERM… Indonesi…        13                     73               31 test…
+#> 13 2c0c9857-b… Shar… Canada, …        28                     40                7 <NA> 
+#> 14 02e6915c-1… TWP … Indonesia        14                     10                2 WCS …
+#> 15 2d6cee25-c… WCS … Mozambiq…        74                      6              247 WCS …
+#> 16 9de82789-c… XPDC… Indonesia        37                     71              450 <NA> 
 #> # ℹ abbreviated name: ¹​num_active_sample_units
 #> # ℹ 14 more variables: suggested_citation <chr>, bbox <df[,4]>, notes <chr>,
 #> #   status <chr>, data_policy_beltfish <chr>, data_policy_benthiclit <chr>,
@@ -64,12 +64,12 @@ indonesia_projects <- my_projects %>%
 
 indonesia_projects
 #> # A tibble: 4 × 21
-#>   id          name  countries num_sites num_active_sample_un…¹ num_sample_units tags 
-#>   <chr>       <chr> <chr>         <int>                  <int>            <dbl> <chr>
-#> 1 3a9ecb7c-f… Aceh… Indonesia        18                     55              198 WCS …
-#> 2 507d1af9-e… Kari… Indonesia        43                     18              842 WCS …
-#> 3 02e6915c-1… TWP … Indonesia        14                     10                2 WCS …
-#> 4 9de82789-c… XPDC… Indonesia        37                     71              450 <NA> 
+#>   id           name  countries num_sites num_active_sample_un…¹ num_sample_units tags 
+#>   <chr>        <chr> <chr>         <int>                  <int>            <dbl> <chr>
+#> 1 3a9ecb7c-f9… Aceh… Indonesia        18                     55              198 WCS …
+#> 2 507d1af9-ed… Kari… Indonesia        43                     18              842 WCS …
+#> 3 02e6915c-1c… TWP … Indonesia        14                     10                2 WCS …
+#> 4 9de82789-c3… XPDC… Indonesia        37                     71              450 <NA> 
 #> # ℹ abbreviated name: ¹​num_active_sample_units
 #> # ℹ 14 more variables: suggested_citation <chr>, bbox <df[,4]>, notes <chr>,
 #> #   status <chr>, data_policy_beltfish <chr>, data_policy_benthiclit <chr>,
@@ -85,15 +85,15 @@ Alternatively, you can search your projects using `mermaid_search_my_projects()`
 ``` r
 mermaid_search_my_projects(countries = "Indonesia")
 #> # A tibble: 7 × 21
-#>   id          name  countries num_sites num_active_sample_un…¹ num_sample_units tags 
-#>   <chr>       <chr> <chr>         <int>                  <int>            <dbl> <chr>
-#> 1 3a9ecb7c-f… Aceh… Indonesia        18                     55              198 WCS …
-#> 2 bacd3529-e… Beli… Belize, …        39                    125              260 WCS …
-#> 3 507d1af9-e… Kari… Indonesia        43                     18              842 WCS …
-#> 4 4d79339f-2… MERM… Indonesi…        13                     73               31 test…
-#> 5 2c0c9857-b… Shar… Canada, …        28                     31                7 <NA> 
-#> 6 02e6915c-1… TWP … Indonesia        14                     10                2 WCS …
-#> 7 9de82789-c… XPDC… Indonesia        37                     71              450 <NA> 
+#>   id           name  countries num_sites num_active_sample_un…¹ num_sample_units tags 
+#>   <chr>        <chr> <chr>         <int>                  <int>            <dbl> <chr>
+#> 1 3a9ecb7c-f9… Aceh… Indonesia        18                     55              198 WCS …
+#> 2 bacd3529-e0… Beli… Belize, …        39                    128              260 WCS …
+#> 3 507d1af9-ed… Kari… Indonesia        43                     18              842 WCS …
+#> 4 4d79339f-29… MERM… Indonesi…        13                     73               31 test…
+#> 5 2c0c9857-b1… Shar… Canada, …        28                     40                7 <NA> 
+#> 6 02e6915c-1c… TWP … Indonesia        14                     10                2 WCS …
+#> 7 9de82789-c3… XPDC… Indonesia        37                     71              450 <NA> 
 #> # ℹ abbreviated name: ¹​num_active_sample_units
 #> # ℹ 14 more variables: suggested_citation <chr>, bbox <df[,4]>, notes <chr>,
 #> #   status <chr>, data_policy_beltfish <chr>, data_policy_benthiclit <chr>,
@@ -110,18 +110,18 @@ Then, you can start to access data about your projects, like project sites via `
 indonesia_projects %>%
   mermaid_get_project_sites()
 #> # A tibble: 112 × 12
-#>    project  id    name  latitude longitude notes country reef_type reef_zone exposure
-#>    <chr>    <chr> <chr>    <dbl>     <dbl> <chr> <chr>   <chr>     <chr>     <chr>   
-#>  1 Karimun… a763… Gent…    -5.86     111.  <NA>  Indone… fringing  back reef shelter…
-#>  2 Aceh Ja… b7d5… Reha…     4.84      95.4 <NA>  Indone… fringing  fore reef shelter…
-#>  3 Aceh Ja… 5436… Wisa…     5.04      95.4 <NA>  Indone… fringing  fore reef shelter…
-#>  4 Karimun… 0368… Meny…    -5.80     110.  <NA>  Indone… fringing  fore reef shelter…
-#>  5 Aceh Ja… 38f7… Pula…     5.08      95.3 <NA>  Indone… fringing  back reef semi-ex…
-#>  6 Karimun… 21ae… Batu…    -5.81     110.  <NA>  Indone… fringing  back reef semi-ex…
-#>  7 Karimun… f30c… Cema…    -5.81     110.  <NA>  Indone… fringing  back reef semi-ex…
-#>  8 Karimun… 9ec6… Cema…    -5.80     110.  <NA>  Indone… fringing  back reef semi-ex…
-#>  9 Karimun… 43d3… Lego…    -5.87     110.  <NA>  Indone… fringing  back reef semi-ex…
-#> 10 Karimun… f096… Lego…    -5.86     110.  <NA>  Indone… fringing  back reef semi-ex…
+#>    project   id    name  latitude longitude notes country reef_type reef_zone exposure
+#>    <chr>     <chr> <chr>    <dbl>     <dbl> <chr> <chr>   <chr>     <chr>     <chr>   
+#>  1 Karimunj… a763… Gent…    -5.86     111.  <NA>  Indone… fringing  back reef shelter…
+#>  2 Aceh Jay… b7d5… Reha…     4.84      95.4 <NA>  Indone… fringing  fore reef shelter…
+#>  3 Aceh Jay… 5436… Wisa…     5.04      95.4 <NA>  Indone… fringing  fore reef shelter…
+#>  4 Karimunj… 0368… Meny…    -5.80     110.  <NA>  Indone… fringing  fore reef shelter…
+#>  5 Aceh Jay… 38f7… Pula…     5.08      95.3 <NA>  Indone… fringing  back reef semi-ex…
+#>  6 Karimunj… 21ae… Batu…    -5.81     110.  <NA>  Indone… fringing  back reef semi-ex…
+#>  7 Karimunj… f30c… Cema…    -5.81     110.  <NA>  Indone… fringing  back reef semi-ex…
+#>  8 Karimunj… 9ec6… Cema…    -5.80     110.  <NA>  Indone… fringing  back reef semi-ex…
+#>  9 Karimunj… 43d3… Lego…    -5.87     110.  <NA>  Indone… fringing  back reef semi-ex…
+#> 10 Karimunj… f096… Lego…    -5.86     110.  <NA>  Indone… fringing  back reef semi-ex…
 #> # ℹ 102 more rows
 #> # ℹ 2 more variables: created_on <chr>, updated_on <chr>
 ```
@@ -132,23 +132,23 @@ Or the managements for your projects via `mermaid_get_project_managements()`:
 ``` r
 indonesia_projects %>%
   mermaid_get_project_managements()
-#> # A tibble: 24 × 18
-#>    project   id    name   size name_secondary est_year notes no_take periodic_closure
-#>    <chr>     <chr> <chr> <dbl> <chr>             <int> <chr> <lgl>   <lgl>           
-#>  1 Aceh Jay… cc92… Core…    NA <NA>               2019 <NA>  TRUE    FALSE           
-#>  2 TWP Gili… 0975… Zona…    NA Core Zone          2013 <NA>  TRUE    FALSE           
-#>  3 Aceh Jay… a579… Aqua…    NA <NA>               2019 <NA>  FALSE   FALSE           
-#>  4 Aceh Jay… 646c… Fish…    NA <NA>               2019 <NA>  FALSE   FALSE           
-#>  5 Aceh Jay… dce8… Reha…    NA <NA>               2019 <NA>  TRUE    FALSE           
-#>  6 Aceh Jay… 1498… Tour…    NA <NA>               2019 <NA>  TRUE    FALSE           
-#>  7 Karimunj… 8b90… Fish…     0 <NA>               2005 <NA>  FALSE   FALSE           
-#>  8 Karimunj… bd73… Reha…    NA <NA>               2005 <NA>  TRUE    FALSE           
-#>  9 Karimunj… a7e2… Tour…    NA <NA>               2005 <NA>  TRUE    FALSE           
-#> 10 Aceh Jay… 0f0f… Open     NA <NA>               2019 <NA>  FALSE   FALSE           
+#> # A tibble: 24 × 19
+#>    project    id    name   size name_secondary est_year notes no_take periodic_closure
+#>    <chr>      <chr> <chr> <dbl> <chr>             <int> <chr> <lgl>   <lgl>           
+#>  1 Aceh Jaya… cc92… Core…    NA <NA>               2019 <NA>  TRUE    FALSE           
+#>  2 TWP Gili … 0975… Zona…    NA Core Zone          2013 <NA>  TRUE    FALSE           
+#>  3 Aceh Jaya… a579… Aqua…    NA <NA>               2019 <NA>  FALSE   FALSE           
+#>  4 Aceh Jaya… 646c… Fish…    NA <NA>               2019 <NA>  FALSE   FALSE           
+#>  5 Aceh Jaya… dce8… Reha…    NA <NA>               2019 <NA>  TRUE    FALSE           
+#>  6 Aceh Jaya… 1498… Tour…    NA <NA>               2019 <NA>  TRUE    FALSE           
+#>  7 Karimunja… 8b90… Fish…     0 <NA>               2005 <NA>  FALSE   FALSE           
+#>  8 Karimunja… bd73… Reha…    NA <NA>               2005 <NA>  TRUE    FALSE           
+#>  9 Karimunja… a7e2… Tour…    NA <NA>               2005 <NA>  TRUE    FALSE           
+#> 10 Aceh Jaya… 0f0f… Open     NA <NA>               2019 <NA>  FALSE   FALSE           
 #> # ℹ 14 more rows
-#> # ℹ 9 more variables: open_access <lgl>, size_limits <lgl>, gear_restriction <lgl>,
+#> # ℹ 10 more variables: open_access <lgl>, size_limits <lgl>, gear_restriction <lgl>,
 #> #   species_restriction <lgl>, access_restriction <lgl>, compliance <chr>,
-#> #   parties <chr>, created_on <chr>, updated_on <chr>
+#> #   parties <chr>, rules <chr>, created_on <chr>, updated_on <chr>
 ```
 
 # Method data
@@ -169,25 +169,25 @@ xpdc <- my_projects %>%
 xpdc %>%
   mermaid_get_project_data(method = "fishbelt", data = "observations")
 #> # A tibble: 3,069 × 55
-#>    project         project_admins country contact_link tags  site  latitude longitude
-#>    <chr>           <chr>          <chr>   <chr>        <lgl> <chr>    <dbl>     <dbl>
-#>  1 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  2 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  3 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  4 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  5 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  6 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  7 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  8 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  9 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#> 10 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>    project          project_admins country contact_link tags  site  latitude longitude
+#>    <chr>            <chr>          <chr>   <chr>        <lgl> <chr>    <dbl>     <dbl>
+#>  1 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  2 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  3 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  4 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  5 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  6 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  7 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  8 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  9 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#> 10 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
 #> # ℹ 3,059 more rows
 #> # ℹ 47 more variables: reef_exposure <chr>, reef_slope <chr>, reef_type <chr>,
-#> #   reef_zone <chr>, sample_time <time>, tide <chr>, visibility <chr>,
-#> #   current <chr>, depth <dbl>, relative_depth <chr>, management <chr>,
-#> #   management_secondary <chr>, management_est_year <lgl>, management_size <lgl>,
-#> #   management_parties <lgl>, management_compliance <chr>, management_rules <chr>,
-#> #   sample_date <date>, transect_number <dbl>, label <lgl>, …
+#> #   reef_zone <chr>, sample_time <time>, tide <chr>, visibility <chr>, current <chr>,
+#> #   depth <dbl>, relative_depth <chr>, management <chr>, management_secondary <chr>,
+#> #   management_est_year <lgl>, management_size <lgl>, management_parties <lgl>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   transect_number <dbl>, label <lgl>, …
 ```
 
 You can access sample units data, which are observations aggregated to the sample units level. Fish belt sample units contain total biomass in kg/ha per sample unit, by trophic group and by fish family:
@@ -197,18 +197,18 @@ You can access sample units data, which are observations aggregated to the sampl
 xpdc %>%
   mermaid_get_project_data("fishbelt", "sampleunits")
 #> # A tibble: 246 × 67
-#>    project         project_admins country contact_link tags  site  latitude longitude
-#>    <chr>           <chr>          <chr>   <chr>        <lgl> <chr>    <dbl>     <dbl>
-#>  1 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE18     -5.70      133.
-#>  2 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE24     -5.93      133.
-#>  3 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE36     -5.88      133.
-#>  4 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE03     -5.61      132.
-#>  5 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE15     -5.62      133.
-#>  6 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE36     -5.88      133.
-#>  7 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE35     -5.83      133.
-#>  8 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE06     -5.52      132.
-#>  9 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE31     -5.78      133.
-#> 10 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE33     -5.82      133.
+#>    project          project_admins country contact_link tags  site  latitude longitude
+#>    <chr>            <chr>          <chr>   <chr>        <lgl> <chr>    <dbl>     <dbl>
+#>  1 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE18     -5.70      133.
+#>  2 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE24     -5.93      133.
+#>  3 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE36     -5.88      133.
+#>  4 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE03     -5.61      132.
+#>  5 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE15     -5.62      133.
+#>  6 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE36     -5.88      133.
+#>  7 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE35     -5.83      133.
+#>  8 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE06     -5.52      132.
+#>  9 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE31     -5.78      133.
+#> 10 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE33     -5.82      133.
 #> # ℹ 236 more rows
 #> # ℹ 59 more variables: reef_exposure <chr>, reef_slope <chr>, reef_type <chr>,
 #> #   reef_zone <chr>, sample_time <chr>, tide <chr>, visibility <chr>, current <chr>,
@@ -227,18 +227,18 @@ xpdc_sample_events <- xpdc %>%
 
 xpdc_sample_events
 #> # A tibble: 46 × 82
-#>    id      project project_admins country contact_link tags  site  latitude longitude
-#>    <chr>   <chr>   <chr>          <chr>   <chr>        <lgl> <chr>    <dbl>     <dbl>
-#>  1 15ed4d… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE02     -5.44      133.
-#>  2 eda605… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE36     -5.88      133.
-#>  3 52ae59… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE36     -5.88      133.
-#>  4 210144… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE06     -5.52      132.
-#>  5 3cc8e1… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE23     -5.80      133.
-#>  6 a009b4… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE18     -5.70      133.
-#>  7 05a34e… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  8 b88113… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  9 40afd0… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE19     -5.73      133.
-#> 10 06ae70… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE31     -5.78      133.
+#>    id       project project_admins country contact_link tags  site  latitude longitude
+#>    <chr>    <chr>   <chr>          <chr>   <chr>        <lgl> <chr>    <dbl>     <dbl>
+#>  1 15ed4d9… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE02     -5.44      133.
+#>  2 eda6050… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE36     -5.88      133.
+#>  3 52ae59b… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE36     -5.88      133.
+#>  4 2101441… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE06     -5.52      132.
+#>  5 3cc8e12… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE23     -5.80      133.
+#>  6 a009b48… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE18     -5.70      133.
+#>  7 05a34e5… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  8 b88113f… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  9 40afd09… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE19     -5.73      133.
+#> 10 06ae700… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE31     -5.78      133.
 #> # ℹ 36 more rows
 #> # ℹ 73 more variables: reef_exposure <chr>, reef_type <chr>, reef_zone <chr>,
 #> #   tide <chr>, visibility <chr>, current <chr>, depth_avg <dbl>, depth_sd <dbl>,
@@ -260,25 +260,25 @@ mozambique <- my_projects %>%
 mozambique %>%
   mermaid_get_project_data(method = "benthiclit", data = "observations")
 #> # A tibble: 1,574 × 48
-#>    project         project_admins country contact_link tags  site  latitude longitude
-#>    <chr>           <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
-#>  1 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
-#>  2 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
-#>  3 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
-#>  4 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
-#>  5 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
-#>  6 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
-#>  7 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
-#>  8 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
-#>  9 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
-#> 10 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
+#>    project          project_admins country contact_link tags  site  latitude longitude
+#>    <chr>            <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
+#>  1 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
+#>  2 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
+#>  3 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
+#>  4 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
+#>  5 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
+#>  6 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
+#>  7 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
+#>  8 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
+#>  9 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
+#> 10 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
 #> # ℹ 1,564 more rows
 #> # ℹ 40 more variables: reef_exposure <chr>, reef_slope <lgl>, reef_type <chr>,
-#> #   reef_zone <chr>, sample_time <time>, tide <chr>, visibility <lgl>,
-#> #   current <lgl>, depth <dbl>, relative_depth <lgl>, management <chr>,
-#> #   management_secondary <lgl>, management_est_year <dbl>, management_size <lgl>,
-#> #   management_parties <chr>, management_compliance <chr>, management_rules <chr>,
-#> #   sample_date <date>, transect_number <dbl>, label <lgl>, …
+#> #   reef_zone <chr>, sample_time <time>, tide <chr>, visibility <lgl>, current <lgl>,
+#> #   depth <dbl>, relative_depth <lgl>, management <chr>, management_secondary <lgl>,
+#> #   management_est_year <dbl>, management_size <lgl>, management_parties <chr>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   transect_number <dbl>, label <lgl>, …
 ```
 
 You can access sample units and sample events the same way.
@@ -290,25 +290,25 @@ For Benthic LIT, sample units contain percent cover per sample unit, by benthic 
 mozambique %>%
   mermaid_get_project_data(method = "benthiclit", data = "sampleunits")
 #> # A tibble: 64 × 56
-#>    project         project_admins country contact_link tags  site  latitude longitude
-#>    <chr>           <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
-#>  1 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Pont…    -26.1      33.0
-#>  2 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5
-#>  3 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Ligh…    -11.0      40.7
-#>  4 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6
-#>  5 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Pont…    -26.1      33.0
-#>  6 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Pont…    -26.1      33.0
-#>  7 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.1      32.9
-#>  8 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5
-#>  9 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5
-#> 10 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6
+#>    project          project_admins country contact_link tags  site  latitude longitude
+#>    <chr>            <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
+#>  1 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Pont…    -26.1      33.0
+#>  2 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5
+#>  3 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Ligh…    -11.0      40.7
+#>  4 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6
+#>  5 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Pont…    -26.1      33.0
+#>  6 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Pont…    -26.1      33.0
+#>  7 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.1      32.9
+#>  8 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5
+#>  9 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5
+#> 10 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6
 #> # ℹ 54 more rows
 #> # ℹ 48 more variables: reef_exposure <chr>, reef_slope <lgl>, reef_type <chr>,
-#> #   reef_zone <chr>, sample_time <time>, tide <chr>, visibility <lgl>,
-#> #   current <lgl>, depth <dbl>, relative_depth <lgl>, management <chr>,
-#> #   management_secondary <lgl>, management_est_year <dbl>, management_size <lgl>,
-#> #   management_parties <chr>, management_compliance <chr>, management_rules <chr>,
-#> #   sample_date <date>, transect_number <dbl>, label <lgl>, …
+#> #   reef_zone <chr>, sample_time <time>, tide <chr>, visibility <lgl>, current <lgl>,
+#> #   depth <dbl>, relative_depth <lgl>, management <chr>, management_secondary <lgl>,
+#> #   management_est_year <dbl>, management_size <lgl>, management_parties <chr>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   transect_number <dbl>, label <lgl>, …
 ```
 
 Sample *events* contain *mean* percent cover per sample event, by benthic category, and standard deviations for these values:
@@ -318,20 +318,20 @@ Sample *events* contain *mean* percent cover per sample event, by benthic catego
 mozambique %>%
   mermaid_get_project_data(method = "benthiclit", data = "sampleevents")
 #> # A tibble: 12 × 66
-#>    id      project project_admins country contact_link tags  site  latitude longitude
-#>    <chr>   <chr>   <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
-#>  1 de6b40… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Kisi…    -11.0      40.7
-#>  2 3e664a… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6
-#>  3 157e2a… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
-#>  4 b95a34… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pemb…    -13.0      40.6
-#>  5 ef54b9… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Ligh…    -11.0      40.7
-#>  6 18f8d0… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5
-#>  7 643eb4… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pont…    -26.1      33.0
-#>  8 84e364… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5
-#>  9 62e25c… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5
-#> 10 9f0527… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6
-#> 11 bc3de1… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.1      32.9
-#> 12 2574c2… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Bunt…    -12.6      40.6
+#>    id       project project_admins country contact_link tags  site  latitude longitude
+#>    <chr>    <chr>   <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
+#>  1 de6b403… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Kisi…    -11.0      40.7
+#>  2 3e664aa… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6
+#>  3 157e2a8… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9
+#>  4 b95a345… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pemb…    -13.0      40.6
+#>  5 ef54b9b… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Ligh…    -11.0      40.7
+#>  6 18f8d0c… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5
+#>  7 643eb41… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pont…    -26.1      33.0
+#>  8 84e364a… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5
+#>  9 62e25cb… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5
+#> 10 9f0527a… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6
+#> 11 bc3de1f… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.1      32.9
+#> 12 2574c2c… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Bunt…    -12.6      40.6
 #> # ℹ 57 more variables: reef_exposure <chr>, reef_type <chr>, reef_zone <chr>,
 #> #   tide <chr>, visibility <lgl>, current <lgl>, depth_avg <dbl>, depth_sd <dbl>,
 #> #   management <chr>, management_secondary <lgl>, management_est_year <dbl>,
@@ -349,25 +349,25 @@ To access Benthic PIT data, change `method` to "benthicpit":
 xpdc %>%
   mermaid_get_project_data(method = "benthicpit", data = "observations")
 #> # A tibble: 11,100 × 49
-#>    project         project_admins country contact_link tags  site  latitude longitude
-#>    <chr>           <chr>          <chr>   <chr>        <lgl> <chr>    <dbl>     <dbl>
-#>  1 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE26     -5.70      133.
-#>  2 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  3 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  4 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  5 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  6 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  7 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  8 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  9 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#> 10 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>    project          project_admins country contact_link tags  site  latitude longitude
+#>    <chr>            <chr>          <chr>   <chr>        <lgl> <chr>    <dbl>     <dbl>
+#>  1 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE26     -5.70      133.
+#>  2 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  3 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  4 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  5 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  6 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  7 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  8 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  9 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#> 10 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
 #> # ℹ 11,090 more rows
 #> # ℹ 41 more variables: reef_exposure <chr>, reef_slope <chr>, reef_type <chr>,
-#> #   reef_zone <chr>, sample_time <time>, tide <chr>, visibility <chr>,
-#> #   current <chr>, depth <dbl>, relative_depth <chr>, management <chr>,
-#> #   management_secondary <chr>, management_est_year <lgl>, management_size <lgl>,
-#> #   management_parties <lgl>, management_compliance <chr>, management_rules <chr>,
-#> #   sample_date <date>, transect_number <dbl>, label <lgl>, …
+#> #   reef_zone <chr>, sample_time <time>, tide <chr>, visibility <chr>, current <chr>,
+#> #   depth <dbl>, relative_depth <chr>, management <chr>, management_secondary <chr>,
+#> #   management_est_year <lgl>, management_size <lgl>, management_parties <lgl>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   transect_number <dbl>, label <lgl>, …
 ```
 
 You can access sample units and sample events the same way, and the data format is the same as Benthic LIT.
@@ -383,25 +383,25 @@ names(xpdc_sample_units_events)
 #> [1] "sampleunits"  "sampleevents"
 xpdc_sample_units_events[["sampleunits"]]
 #> # A tibble: 111 × 57
-#>    project         project_admins country contact_link tags  site  latitude longitude
-#>    <chr>           <chr>          <chr>   <chr>        <lgl> <chr>    <dbl>     <dbl>
-#>  1 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE09     -5.60      133.
-#>  2 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE28     -5.75      133.
-#>  3 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE34     -5.85      133.
-#>  4 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE39     -5.99      132.
-#>  5 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE05     -5.47      133.
-#>  6 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE09     -5.60      133.
-#>  7 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE21     -5.74      133.
-#>  8 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE19     -5.73      133.
-#>  9 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#> 10 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE31     -5.78      133.
+#>    project          project_admins country contact_link tags  site  latitude longitude
+#>    <chr>            <chr>          <chr>   <chr>        <lgl> <chr>    <dbl>     <dbl>
+#>  1 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE09     -5.60      133.
+#>  2 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE28     -5.75      133.
+#>  3 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE34     -5.85      133.
+#>  4 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE39     -5.99      132.
+#>  5 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE05     -5.47      133.
+#>  6 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE09     -5.60      133.
+#>  7 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE21     -5.74      133.
+#>  8 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE19     -5.73      133.
+#>  9 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#> 10 XPDC Kei Kecil … Amkieltiela A… Indone… https://dat… NA    KE31     -5.78      133.
 #> # ℹ 101 more rows
 #> # ℹ 49 more variables: reef_exposure <chr>, reef_slope <chr>, reef_type <chr>,
-#> #   reef_zone <chr>, sample_time <time>, tide <chr>, visibility <chr>,
-#> #   current <chr>, depth <dbl>, relative_depth <chr>, management <chr>,
-#> #   management_secondary <chr>, management_est_year <lgl>, management_size <lgl>,
-#> #   management_parties <lgl>, management_compliance <chr>, management_rules <chr>,
-#> #   sample_date <date>, transect_number <dbl>, label <lgl>, …
+#> #   reef_zone <chr>, sample_time <time>, tide <chr>, visibility <chr>, current <chr>,
+#> #   depth <dbl>, relative_depth <chr>, management <chr>, management_secondary <chr>,
+#> #   management_est_year <lgl>, management_size <lgl>, management_parties <lgl>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   transect_number <dbl>, label <lgl>, …
 ```
 
 ## Benthic PQT data
@@ -416,18 +416,18 @@ glovers_atoll <- my_projects %>%
 glovers_atoll %>%
   mermaid_get_project_data(method = "benthicpqt", data = "observations")
 #> # A tibble: 102 × 51
-#>    project         project_admins country contact_link tags  site  latitude longitude
-#>    <chr>           <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
-#>  1 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
-#>  2 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
-#>  3 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
-#>  4 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
-#>  5 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
-#>  6 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
-#>  7 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
-#>  8 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
-#>  9 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
-#> 10 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
+#>    project          project_admins country contact_link tags  site  latitude longitude
+#>    <chr>            <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
+#>  1 Belize Glover's… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
+#>  2 Belize Glover's… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
+#>  3 Belize Glover's… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
+#>  4 Belize Glover's… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
+#>  5 Belize Glover's… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
+#>  6 Belize Glover's… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
+#>  7 Belize Glover's… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
+#>  8 Belize Glover's… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
+#>  9 Belize Glover's… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
+#> 10 Belize Glover's… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
 #> # ℹ 92 more rows
 #> # ℹ 43 more variables: reef_exposure <chr>, reef_slope <chr>, reef_type <chr>,
 #> #   reef_zone <chr>, sample_time <lgl>, tide <chr>, visibility <chr>, current <chr>,
@@ -446,11 +446,11 @@ Sample units contains percent cover per sample unit, by benthic category and by 
 glovers_atoll %>%
   mermaid_get_project_data(method = "benthicpqt", data = "sampleunits")
 #> # A tibble: 3 × 56
-#>   project          project_admins country contact_link tags  site  latitude longitude
-#>   <chr>            <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
-#> 1 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS … 1201       2        44  
-#> 2 Belize Glover's… Sharla Gelfan… Belize  https://dat… WCS … CZFR1     16.7     -87.8
-#> 3 Belize Glover's… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
+#>   project           project_admins country contact_link tags  site  latitude longitude
+#>   <chr>             <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
+#> 1 Belize Glover's … Sharla Gelfan… Indone… https://dat… WCS … 1201       2        44  
+#> 2 Belize Glover's … Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
+#> 3 Belize Glover's … Sharla Gelfan… Belize  https://dat… WCS … CZFR1     16.7     -87.8
 #> # ℹ 48 more variables: reef_exposure <chr>, reef_slope <chr>, reef_type <chr>,
 #> #   reef_zone <chr>, sample_time <lgl>, tide <chr>, visibility <chr>, current <chr>,
 #> #   depth <dbl>, relative_depth <chr>, management <chr>, management_secondary <lgl>,
@@ -466,11 +466,11 @@ Sample events contains *mean* percent cover per sample event, by benthic categor
 glovers_atoll %>%
   mermaid_get_project_data(method = "benthicpqt", data = "sampleevents")
 #> # A tibble: 3 × 67
-#>   id       project project_admins country contact_link tags  site  latitude longitude
-#>   <chr>    <chr>   <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
-#> 1 876652a… Belize… Sharla Gelfan… Indone… https://dat… WCS … 1201       2        44  
-#> 2 b857fb3… Belize… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
-#> 3 b09ee87… Belize… Sharla Gelfan… Belize  https://dat… WCS … CZFR1     16.7     -87.8
+#>   id        project project_admins country contact_link tags  site  latitude longitude
+#>   <chr>     <chr>   <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
+#> 1 876652ae… Belize… Sharla Gelfan… Indone… https://dat… WCS … 1201       2        44  
+#> 2 b857fb37… Belize… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8
+#> 3 b09ee87f… Belize… Sharla Gelfan… Belize  https://dat… WCS … CZFR1     16.7     -87.8
 #> # ℹ 58 more variables: reef_exposure <chr>, reef_type <chr>, reef_zone <chr>,
 #> #   tide <chr>, visibility <chr>, current <chr>, depth_avg <dbl>, depth_sd <lgl>,
 #> #   management <chr>, management_secondary <lgl>, management_est_year <lgl>,
@@ -490,25 +490,25 @@ Observations data includes size, count, and density, with a full breakdown of ma
 glovers_atoll %>%
   mermaid_get_project_data(method = "macroinvertebrate", data = "observations")
 #> # A tibble: 56 × 51
-#>    project         project_admins country contact_link tags   site latitude longitude
-#>    <chr>           <chr>          <chr>   <chr>        <chr> <dbl>    <dbl>     <dbl>
-#>  1 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1207    -3.16      135.
-#>  2 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1207    -3.16      135.
-#>  3 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
-#>  4 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
-#>  5 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
-#>  6 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
-#>  7 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
-#>  8 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
-#>  9 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
-#> 10 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
+#>    project          project_admins country contact_link tags   site latitude longitude
+#>    <chr>            <chr>          <chr>   <chr>        <chr> <dbl>    <dbl>     <dbl>
+#>  1 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1201        2        44
+#>  2 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1201        2        44
+#>  3 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1201        2        44
+#>  4 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1201        2        44
+#>  5 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1201        2        44
+#>  6 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1201        2        44
+#>  7 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1201        2        44
+#>  8 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1201        2        44
+#>  9 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1201        2        44
+#> 10 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1201        2        44
 #> # ℹ 46 more rows
 #> # ℹ 43 more variables: reef_exposure <chr>, reef_slope <chr>, reef_type <chr>,
-#> #   reef_zone <chr>, sample_time <time>, tide <chr>, visibility <chr>,
-#> #   current <chr>, depth <dbl>, relative_depth <chr>, management <chr>,
-#> #   management_secondary <lgl>, management_est_year <dbl>, management_size <dbl>,
-#> #   management_parties <chr>, management_compliance <chr>, management_rules <chr>,
-#> #   sample_date <date>, transect_number <dbl>, label <chr>, …
+#> #   reef_zone <chr>, sample_time <time>, tide <chr>, visibility <chr>, current <chr>,
+#> #   depth <dbl>, relative_depth <chr>, management <chr>, management_secondary <lgl>,
+#> #   management_est_year <dbl>, management_size <dbl>, management_parties <chr>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   transect_number <dbl>, label <chr>, …
 ```
 
 Sample units data returns total abundance and density, as well as density by group of interest, and sample events contain \emph{mean} density per sample event, by group of interest, and standard deviations of these values.
@@ -518,25 +518,25 @@ Sample units data returns total abundance and density, as well as density by gro
 glovers_atoll %>%
   mermaid_get_project_data(method = "macroinvertebrate", data = "sampleunits")
 #> # A tibble: 11 × 57
-#>    project         project_admins country contact_link tags   site latitude longitude
-#>    <chr>           <chr>          <chr>   <chr>        <chr> <dbl>    <dbl>     <dbl>
-#>  1 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1207    -3.16      135.
-#>  2 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1207    -3.16      135.
-#>  3 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1207    -3.16      135.
-#>  4 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
-#>  5 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
-#>  6 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
-#>  7 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
-#>  8 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1207    -3.16      135.
-#>  9 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
-#> 10 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1207    -3.16      135.
-#> 11 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
+#>    project          project_admins country contact_link tags   site latitude longitude
+#>    <chr>            <chr>          <chr>   <chr>        <chr> <dbl>    <dbl>     <dbl>
+#>  1 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1207    -3.16      135.
+#>  2 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1207    -3.16      135.
+#>  3 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
+#>  4 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1207    -3.16      135.
+#>  5 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
+#>  6 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
+#>  7 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1207    -3.16      135.
+#>  8 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
+#>  9 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1207    -3.16      135.
+#> 10 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
+#> 11 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS …  1201     2          44 
 #> # ℹ 49 more variables: reef_exposure <chr>, reef_slope <chr>, reef_type <chr>,
-#> #   reef_zone <chr>, sample_time <time>, tide <chr>, visibility <chr>,
-#> #   current <chr>, depth <dbl>, relative_depth <chr>, management <chr>,
-#> #   management_secondary <lgl>, management_est_year <dbl>, management_size <dbl>,
-#> #   management_parties <chr>, management_compliance <chr>, management_rules <chr>,
-#> #   sample_date <date>, transect_number <dbl>, label <chr>, …
+#> #   reef_zone <chr>, sample_time <time>, tide <chr>, visibility <chr>, current <chr>,
+#> #   depth <dbl>, relative_depth <chr>, management <chr>, management_secondary <lgl>,
+#> #   management_est_year <dbl>, management_size <dbl>, management_parties <chr>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   transect_number <dbl>, label <chr>, …
 ```
 
 ## Bleaching
@@ -553,25 +553,25 @@ names(bleaching_obs)
 
 bleaching_obs[["colonies_bleached"]]
 #> # A tibble: 1,814 × 51
-#>    project         project_admins country contact_link tags  site  latitude longitude
-#>    <chr>           <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
-#>  1 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7
-#>  2 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6
-#>  3 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6
-#>  4 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7
-#>  5 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7
-#>  6 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7
-#>  7 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7
-#>  8 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7
-#>  9 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7
-#> 10 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Pemb…    -13.0      40.6
+#>    project          project_admins country contact_link tags  site  latitude longitude
+#>    <chr>            <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
+#>  1 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7
+#>  2 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6
+#>  3 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6
+#>  4 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7
+#>  5 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7
+#>  6 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7
+#>  7 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7
+#>  8 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7
+#>  9 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7
+#> 10 WCS Mozambique … Emily Darling… Mozamb… https://dat… WCS … Pemb…    -13.0      40.6
 #> # ℹ 1,804 more rows
 #> # ℹ 43 more variables: reef_exposure <chr>, quadrat_size <dbl>, reef_type <chr>,
-#> #   reef_zone <chr>, sample_time <time>, tide <lgl>, visibility <lgl>,
-#> #   current <lgl>, depth <dbl>, relative_depth <lgl>, management <chr>,
-#> #   management_secondary <lgl>, management_est_year <dbl>, management_size <lgl>,
-#> #   management_parties <chr>, management_compliance <chr>, management_rules <chr>,
-#> #   sample_date <date>, observers <chr>, label <chr>, …
+#> #   reef_zone <chr>, sample_time <time>, tide <lgl>, visibility <lgl>, current <lgl>,
+#> #   depth <dbl>, relative_depth <lgl>, management <chr>, management_secondary <lgl>,
+#> #   management_est_year <dbl>, management_size <lgl>, management_parties <chr>,
+#> #   management_compliance <chr>, management_rules <chr>, sample_date <date>,
+#> #   observers <chr>, label <chr>, …
 ```
 
 The sample units and sample events data contain summaries of both Colonies Bleached and Percent Cover:
@@ -581,18 +581,18 @@ The sample units and sample events data contain summaries of both Colonies Bleac
 mozambique %>%
   mermaid_get_project_data("bleaching", "sampleevents")
 #> # A tibble: 62 × 70
-#>    id      project project_admins country contact_link tags  site  latitude longitude
-#>    <chr>   <chr>   <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
-#>  1 1c2d7c… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Kisi…    -11.0      40.7
-#>  2 cff142… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Kisi…    -11.0      40.7
-#>  3 de6b40… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Kisi…    -11.0      40.7
-#>  4 038fe4… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6
-#>  5 fcff6a… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Two …    -21.8      35.5
-#>  6 f33ff1… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Luta…    -12.3      40.6
-#>  7 0cce99… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6
-#>  8 16a690… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Baby…    -11.0      40.7
-#>  9 1e04f6… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Zala…    -12.0      40.6
-#> 10 12a569… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pemb…    -13.0      40.6
+#>    id       project project_admins country contact_link tags  site  latitude longitude
+#>    <chr>    <chr>   <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
+#>  1 1c2d7c1… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Kisi…    -11.0      40.7
+#>  2 cff1428… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Kisi…    -11.0      40.7
+#>  3 de6b403… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Kisi…    -11.0      40.7
+#>  4 038fe42… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6
+#>  5 fcff6a0… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Two …    -21.8      35.5
+#>  6 f33ff1b… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Luta…    -12.3      40.6
+#>  7 0cce994… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6
+#>  8 16a6906… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Baby…    -11.0      40.7
+#>  9 1e04f62… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Zala…    -12.0      40.6
+#> 10 12a5697… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pemb…    -13.0      40.6
 #> # ℹ 52 more rows
 #> # ℹ 61 more variables: reef_exposure <chr>, quadrat_size_avg <dbl>, reef_type <chr>,
 #> #   reef_zone <chr>, tide <lgl>, visibility <lgl>, current <lgl>, depth_avg <dbl>,
@@ -611,10 +611,10 @@ Finally, to access Habitat Complexity data, set `method` to "habitatcomplexity".
 xpdc %>%
   mermaid_get_project_data("habitatcomplexity", "sampleevents")
 #> # A tibble: 2 × 36
-#>   id       project project_admins country contact_link tags  site  latitude longitude
-#>   <chr>    <chr>   <chr>          <chr>   <chr>        <lgl> <chr>    <dbl>     <dbl>
-#> 1 dcd4b4b… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE22     -5.85      133.
-#> 2 db26481… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE24     -5.93      133.
+#>   id        project project_admins country contact_link tags  site  latitude longitude
+#>   <chr>     <chr>   <chr>          <chr>   <chr>        <lgl> <chr>    <dbl>     <dbl>
+#> 1 dcd4b4b3… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE22     -5.85      133.
+#> 2 db264814… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE24     -5.93      133.
 #> # ℹ 27 more variables: reef_exposure <chr>, reef_type <chr>, reef_zone <chr>,
 #> #   tide <chr>, visibility <chr>, current <chr>, depth_avg <dbl>, depth_sd <dbl>,
 #> #   management <chr>, management_secondary <chr>, management_est_year <lgl>,
@@ -642,18 +642,18 @@ names(xpdc_sample_events)
 
 xpdc_sample_events[["benthicpit"]]
 #> # A tibble: 38 × 66
-#>    id      project project_admins country contact_link tags  site  latitude longitude
-#>    <chr>   <chr>   <chr>          <chr>   <chr>        <lgl> <chr>    <dbl>     <dbl>
-#>  1 15ed4d… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE02     -5.44      133.
-#>  2 eda605… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE36     -5.88      133.
-#>  3 210144… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE06     -5.52      132.
-#>  4 3cc8e1… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE23     -5.80      133.
-#>  5 a009b4… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE18     -5.70      133.
-#>  6 05a34e… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
-#>  7 40afd0… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE19     -5.73      133.
-#>  8 06ae70… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE31     -5.78      133.
-#>  9 1f7061… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE20     -5.67      133.
-#> 10 531f64… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE40     -6.00      132.
+#>    id       project project_admins country contact_link tags  site  latitude longitude
+#>    <chr>    <chr>   <chr>          <chr>   <chr>        <lgl> <chr>    <dbl>     <dbl>
+#>  1 15ed4d9… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE02     -5.44      133.
+#>  2 eda6050… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE36     -5.88      133.
+#>  3 2101441… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE06     -5.52      132.
+#>  4 3cc8e12… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE23     -5.80      133.
+#>  5 a009b48… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE18     -5.70      133.
+#>  6 05a34e5… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.
+#>  7 40afd09… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE19     -5.73      133.
+#>  8 06ae700… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE31     -5.78      133.
+#>  9 1f70610… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE20     -5.67      133.
+#> 10 531f643… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE40     -6.00      132.
 #> # ℹ 28 more rows
 #> # ℹ 57 more variables: reef_exposure <chr>, reef_type <chr>, reef_zone <chr>,
 #> #   tide <chr>, visibility <chr>, current <chr>, depth_avg <dbl>, depth_sd <dbl>,
@@ -686,24 +686,24 @@ Pulling data for multiple projects is the exact same, except there will be an ad
 ``` r
 my_projects
 #> # A tibble: 16 × 21
-#>    id         name  countries num_sites num_active_sample_un…¹ num_sample_units tags 
-#>    <chr>      <chr> <chr>         <int>                  <int>            <dbl> <chr>
-#>  1 e1efb1e0-… 2016… Fiji              9                     10               80 WCS …
-#>  2 170e7182-… 2018… Fiji             10                      5              121 WCS …
-#>  3 d065cba4-… 2019… Fiji             31                      3               32 WCS …
-#>  4 1fbdb9ea-… a2    Canada, …         9                      9                0 WWF-…
-#>  5 3a9ecb7c-… Aceh… Indonesia        18                     55              198 WCS …
-#>  6 bacd3529-… Beli… Belize, …        39                    125              260 WCS …
-#>  7 a1b7ff1f-… Grea… Fiji             76                      8              648 Fiji…
-#>  8 507d1af9-… Kari… Indonesia        43                     18              842 WCS …
-#>  9 75ef7a5a-… Kubu… Fiji             78                      1             1145 WCS …
-#> 10 5679ef3d-… Mada… Madagasc…        33                      0               49 WCS …
-#> 11 4080679f-… Mada… Madagasc…        74                      4               84 WCS …
-#> 12 4d79339f-… MERM… Indonesi…        13                     73               31 test…
-#> 13 2c0c9857-… Shar… Canada, …        28                     31                7 <NA> 
-#> 14 02e6915c-… TWP … Indonesia        14                     10                2 WCS …
-#> 15 2d6cee25-… WCS … Mozambiq…        74                      6              247 WCS …
-#> 16 9de82789-… XPDC… Indonesia        37                     71              450 <NA> 
+#>    id          name  countries num_sites num_active_sample_un…¹ num_sample_units tags 
+#>    <chr>       <chr> <chr>         <int>                  <int>            <dbl> <chr>
+#>  1 e1efb1e0-0… 2016… Fiji              9                     10               80 WCS …
+#>  2 170e7182-7… 2018… Fiji             10                      5              121 WCS …
+#>  3 d065cba4-e… 2019… Fiji             31                      3               32 WCS …
+#>  4 1fbdb9ea-9… a2    Canada, …         9                      9                0 WWF-…
+#>  5 3a9ecb7c-f… Aceh… Indonesia        18                     55              198 WCS …
+#>  6 bacd3529-e… Beli… Belize, …        39                    128              260 WCS …
+#>  7 a1b7ff1f-8… Grea… Fiji             76                      8              648 Fiji…
+#>  8 507d1af9-e… Kari… Indonesia        43                     18              842 WCS …
+#>  9 75ef7a5a-c… Kubu… Fiji             78                      1             1145 WCS …
+#> 10 5679ef3d-b… Mada… Madagasc…        33                      0               49 WCS …
+#> 11 4080679f-1… Mada… Madagasc…        74                      4               84 WCS …
+#> 12 4d79339f-2… MERM… Indonesi…        13                     73               31 test…
+#> 13 2c0c9857-b… Shar… Canada, …        28                     40                7 <NA> 
+#> 14 02e6915c-1… TWP … Indonesia        14                     10                2 WCS …
+#> 15 2d6cee25-c… WCS … Mozambiq…        74                      6              247 WCS …
+#> 16 9de82789-c… XPDC… Indonesia        37                     71              450 <NA> 
 #> # ℹ abbreviated name: ¹​num_active_sample_units
 #> # ℹ 14 more variables: suggested_citation <chr>, bbox <df[,4]>, notes <chr>,
 #> #   status <chr>, data_policy_beltfish <chr>, data_policy_benthiclit <chr>,
@@ -719,11 +719,11 @@ my_projects %>%
   head(5) %>%
   mermaid_get_project_data("fishbelt", "sampleevents", limit = 1)
 #> # A tibble: 3 × 138
-#>   id       project project_admins country contact_link tags  site  latitude longitude
-#>   <chr>    <chr>   <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
-#> 1 8ad2272… 2016_N… Yashika Nand,… Fiji    https://dat… WCS … C3      -17.1      179. 
-#> 2 4cb7f01… 2018_V… ICRS 2022 Tes… Fiji    https://dat… WCS … VIR1    -17.3      178. 
-#> 3 accd066… Aceh J… Muhidin 10051… Indone… https://dat… WCS … Pula…     4.78      95.4
+#>   id        project project_admins country contact_link tags  site  latitude longitude
+#>   <chr>     <chr>   <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
+#> 1 8ad22721… 2016_N… Yashika Nand,… Fiji    https://dat… WCS … C3      -17.1      179. 
+#> 2 4cb7f014… 2018_V… ICRS 2022 Tes… Fiji    https://dat… WCS … VIR1    -17.3      178. 
+#> 3 accd0664… Aceh J… Muhidin 10051… Indone… https://dat… WCS … Pula…     4.78      95.4
 #> # ℹ 129 more variables: reef_exposure <chr>, reef_type <chr>, reef_zone <chr>,
 #> #   tide <chr>, visibility <chr>, current <chr>, depth_avg <dbl>, depth_sd <dbl>,
 #> #   management <chr>, management_secondary <lgl>, management_est_year <dbl>,
@@ -733,47 +733,3 @@ my_projects %>%
 ```
 
 Note the `limit` argument here, which just limits the data pulled to one record (per project, method, and data combination). This is useful if you want to get a preview of what your data will look like without having to pull it all in.
-
-# Accessing covariates
-
-Prior to `mermaidr 0.7.0`, covariates were automatically included in all `mermaid_get_project_data()` function calls. Now, to access covariates, include `covariates = TRUE` in the function call:
-
-
-``` r
-my_projects %>%
-  head(1) %>%
-  mermaid_get_project_data("fishbelt", "sampleevents", limit = 1, covariates = TRUE)
-#> # A tibble: 1 × 86
-#>   id       project project_admins country contact_link tags  site  latitude longitude
-#>   <chr>    <chr>   <chr>          <chr>   <chr>        <chr> <chr>    <dbl>     <dbl>
-#> 1 8ad2272… 2016_N… Yashika Nand,… Fiji    https://dat… WCS … C3       -17.1      179.
-#> # ℹ 77 more variables: reef_exposure <chr>, reef_type <chr>, reef_zone <chr>,
-#> #   tide <lgl>, visibility <lgl>, current <lgl>, depth_avg <dbl>, depth_sd <dbl>,
-#> #   management <chr>, management_secondary <lgl>, management_est_year <lgl>,
-#> #   management_size <lgl>, management_parties <lgl>, management_compliance <lgl>,
-#> #   management_rules <chr>, sample_date <date>, observers <chr>,
-#> #   sample_unit_count <dbl>, biomass_kgha_avg <dbl>, biomass_kgha_sd <dbl>, …
-```
-
-You can also access covariates at the site level, using `mermaid_get_project_sites()` with `covariates = TRUE`:
-
-
-``` r
-my_projects %>%
-  mermaid_get_project_sites(covariates = TRUE)
-#> # A tibble: 586 × 12
-#>    project  id    name  latitude longitude notes country reef_type reef_zone exposure
-#>    <chr>    <chr> <chr>    <dbl>     <dbl> <chr> <chr>   <chr>     <chr>     <chr>   
-#>  1 Sharla … 547d… bulk…     47.5     -81.8 <NA>  Canada  atoll     back reef very sh…
-#>  2 Great S… 9c2f… BA02     -17.4     178.  Sour… Fiji    atoll     back reef very sh…
-#>  3 Great S… c8bd… BA03     -17.4     178.  <NA>  Fiji    atoll     back reef very sh…
-#>  4 Great S… aa47… BA04     -17.4     178.  <NA>  Fiji    atoll     back reef very sh…
-#>  5 Great S… 87ab… BA05     -17.4     178.  <NA>  Fiji    atoll     back reef very sh…
-#>  6 Great S… dbd9… BA06     -17.4     178.  <NA>  Fiji    atoll     back reef very sh…
-#>  7 Great S… a684… BA07     -17.5     178.  <NA>  Fiji    atoll     back reef very sh…
-#>  8 Great S… 5cc3… BA08     -17.4     178.  <NA>  Fiji    atoll     back reef very sh…
-#>  9 Great S… 0235… BA09     -17.4     178.  <NA>  Fiji    atoll     back reef very sh…
-#> 10 Great S… 2f08… BA10     -17.3     178.  <NA>  Fiji    atoll     back reef very sh…
-#> # ℹ 576 more rows
-#> # ℹ 2 more variables: created_on <chr>, updated_on <chr>
-```
