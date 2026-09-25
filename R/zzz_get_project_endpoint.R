@@ -20,6 +20,7 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   project_id <- as_id(project)
   check_project(project_id)
 
+  # TODO -- link vignette
   if (covariates) {
     usethis::ui_info("`covariates` argument is deprecated as of mermaidr version 2.0.0. Please use the `mermaidrcovariates` package to access covariates. Your results will be returned without any covariates.")
   }
