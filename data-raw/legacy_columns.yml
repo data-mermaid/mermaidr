@@ -205,6 +205,7 @@ project_data:
     - project
     - id
     - name
+    - rules
     - name_secondary
     - est_year
     - size

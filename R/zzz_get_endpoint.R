@@ -32,40 +32,39 @@ get_endpoint <- function(endpoint = c("benthicattributes", "choices", "fishfamil
 }
 
 lookup_choices <- function(results, endpoint, endpoint_type = "main") {
+  original_endpoint <- endpoint
   endpoint <- stringr::str_remove(endpoint, "csv") %>%
     basename()
 
-  url <- base_url
+  if (endpoint %in% c("sites", "managements")) {
+    if (!original_endpoint %in% c("sites", "managements")) {
+      cat(original_endpoint, "\n")
+    }
 
-  if (nrow(results) == 0) {
-    return(
-      dplyr::tibble()
-    )
-  }
-  col_order <- names(results)
+    col_order <- names(results)
 
-  # TODO -> these are pretty specific, should they move?
-  if (endpoint == "sites") {
-    choices <- mermaid_GET("choices")[["choices"]]
+    if (endpoint == "sites") {
+      choices <- mermaid_GET("choices")[["choices"]]
 
+      results <- results %>%
+        lookup_variable(choices, "country") %>%
+        lookup_variable(choices, "reef_type") %>%
+        lookup_variable(choices, "reef_zone") %>%
+        lookup_variable(choices, "exposure") %>%
+        dplyr::rename_with(~ stringr::str_remove(.x, "_name"))
+    } else if (endpoint == "managements") {
+      choices <- mermaid_GET("choices")[["choices"]]
+
+      results <- results %>%
+        lookup_variable(choices, "parties") %>%
+        lookup_variable(choices, "compliance") %>%
+        dplyr::rename_at(c("compliance_name", "parties_name"), ~ gsub("_name", "", .x))
+    }
+
+    # Keep original order of columns
     results <- results %>%
-      lookup_variable(choices, "country") %>%
-      lookup_variable(choices, "reef_type") %>%
-      lookup_variable(choices, "reef_zone") %>%
-      lookup_variable(choices, "exposure") %>%
-      dplyr::rename_with(~ stringr::str_remove(.x, "_name"))
-  } else if (endpoint == "managements") {
-    choices <- mermaid_GET("choices")[["choices"]]
-
-    results <- results %>%
-      lookup_variable(choices, "parties") %>%
-      lookup_variable(choices, "compliance") %>%
-      dplyr::rename_at(c("compliance_name", "parties_name"), ~ gsub("_name", "", .x))
+      dplyr::select(dplyr::all_of(col_order))
   }
-
-  # Keep original order of columns
-  results <- results %>%
-    dplyr::select(dplyr::all_of(col_order))
 
   results
 }

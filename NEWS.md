@@ -1,11 +1,10 @@
-# blacklist/whitelist changes
+# mermaidr 2.0.0
 
-* transect_len_surveyed -> transect_length
-* some endpoints now return a 0 row, 0 COLUMN tibble if no results, instead of a named one
-* which ones? - projects
-* "" -> NA
-# TODO -> for mermaid_get_sites(), make `project` the actual project name
-# check this for managements, etc, too
+* mermaidr internals majorly rewritten, now returns *all* columns from API (save for some that are "blacklisted"), instead of the prior approach where specific columns were "whitelisted" and had to be consistently updated
+    * As part of this, API column names are used -- in project data endpoints, `transect_length` is now `transect_len_surveyed`
+    * When there is no data for certain endpoints (WHICH? TODO), the returned data is now a 0 *column* tibble instead of a named tibble
+    * Empty strings for country, tags, etc are now `NA_character_` instead of `""`
+* Ability to access covariates in `mermaid_get_project_data()` and `mermaid_get_project_sites()` has been removed. Setting `covariate = TRUE` will give a message that users need to use the `mermaidrcovariates` package, with the relevant vignette linked.
 
 # mermaidr 1.3.1
 
