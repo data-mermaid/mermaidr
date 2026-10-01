@@ -16,17 +16,6 @@ test_that("mermaid_search_my_projects returns a zero row tibble if the project i
   expect_is(output, "tbl_df")
 })
 
-test_that("mermaid_search_my_projects returns a zero row tibble if a project is not found, and it has the same names as if a project was found", {
-  skip_if_offline()
-  skip_on_ci()
-  skip_on_cran()
-  set.seed(1234)
-  id <- paste0(sample(1:1000, 3), collapse = "")
-  output <- mermaid_search_my_projects(name = id)
-  output_exists <- mermaid_search_my_projects("test")
-  expect_equal(names(output), names(output_exists))
-})
-
 test_that("check_single_project_returned returns a warning if more than one result is returned", {
   x <- data.frame(a = 1:2)
   expect_message(check_single_project_returned(x, "test"))
@@ -80,13 +69,4 @@ test_that("mermaid_search_my_projects respects limit", {
   skip_on_cran()
   output <- mermaid_search_my_projects(countries = "Fiji", limit = 1)
   expect_true(nrow(output) == 1)
-})
-
-test_that("mermaid_search_my_projects returns same columns", {
-  skip_if_offline()
-  skip_on_ci()
-  skip_on_cran()
-  expect_named(mermaid_search_my_projects("Test", include_test_projects = TRUE), mermaid_endpoint_columns[["projects"]])
-  expect_named(mermaid_search_my_projects(countries = "Fiji"), mermaid_endpoint_columns[["projects"]])
-  expect_named(mermaid_search_my_projects(tags = "WCS Fiji"), mermaid_endpoint_columns[["projects"]])
 })

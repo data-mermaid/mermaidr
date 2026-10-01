@@ -93,7 +93,7 @@ mermaid_import_project_managements <- function(data, project, token = mermaid_to
           dplyr::mutate(temp_row_for_rejoin = dplyr::row_number())
 
         .data_sep <- .data_temp %>%
-          dplyr::select(tidyselect::all_of(c("temp_row_for_rejoin", "parties"))) %>%
+          dplyr::select(dplyr::all_of(c("temp_row_for_rejoin", "parties"))) %>%
           tidyr::separate_rows("parties", sep = ";") %>%
           dplyr::mutate(
             parties = stringr::str_trim(.data$parties),
@@ -119,12 +119,12 @@ mermaid_import_project_managements <- function(data, project, token = mermaid_to
           dplyr::group_nest(.data$temp_row_for_rejoin, .key = "parties")
 
         data <- .data_temp %>%
-          dplyr::select(-tidyselect::all_of("parties")) %>%
+          dplyr::select(-dplyr::all_of("parties")) %>%
           dplyr::left_join(.data_to_id, by = "temp_row_for_rejoin") %>%
-          dplyr::select(-tidyselect::all_of(c("temp_row_for_rejoin")))
+          dplyr::select(-dplyr::all_of(c("temp_row_for_rejoin")))
       } else if (col == "compliance") {
         data <- data %>%
-          dplyr::mutate(dplyr::across(tidyselect::all_of(col), tolower)) %>%
+          dplyr::mutate(dplyr::across(dplyr::all_of(col), tolower)) %>%
           dplyr::left_join(col_choices, by = col)
 
         invalid_values <- data %>%
@@ -158,8 +158,8 @@ mermaid_import_project_managements <- function(data, project, token = mermaid_to
   if (!missing_rules_cols) {
     all_false <- data %>%
       dplyr::mutate(.temp_row = dplyr::row_number()) %>%
-      dplyr::select(tidyselect::all_of(".temp_row"), tidyselect::any_of(rules_cols)) %>%
-      tidyr::pivot_longer(tidyselect::any_of(rules_cols)) %>%
+      dplyr::select(dplyr::all_of(".temp_row"), dplyr::any_of(rules_cols)) %>%
+      tidyr::pivot_longer(dplyr::any_of(rules_cols)) %>%
       dplyr::group_by(.data$.temp_row) %>%
       dplyr::summarise(all_false = all(!.data$value)) %>%
       dplyr::filter(.data$all_false) %>%
@@ -189,8 +189,8 @@ mermaid_import_project_managements <- function(data, project, token = mermaid_to
   if ("open_access" %in% names(data) & any(partial_restrictions_cols %in% names(data))) {
     open_and_partial <- data %>%
       dplyr::mutate(.temp_row = dplyr::row_number()) %>%
-      dplyr::select(tidyselect::all_of(c(".temp_row", "open_access")), tidyselect::any_of(partial_restrictions_cols)) %>%
-      tidyr::pivot_longer(tidyselect::any_of(partial_restrictions_cols)) %>%
+      dplyr::select(dplyr::all_of(c(".temp_row", "open_access")), dplyr::any_of(partial_restrictions_cols)) %>%
+      tidyr::pivot_longer(dplyr::any_of(partial_restrictions_cols)) %>%
       dplyr::group_by(.data$.temp_row, .data$open_access) %>%
       dplyr::summarise(any_partial_rules = any(.data$value)) %>%
       dplyr::ungroup() %>%
@@ -206,8 +206,8 @@ mermaid_import_project_managements <- function(data, project, token = mermaid_to
   if ("no_take" %in% names(data) & any(partial_restrictions_cols %in% names(data))) {
     open_and_partial <- data %>%
       dplyr::mutate(.temp_row = dplyr::row_number()) %>%
-      dplyr::select(tidyselect::all_of(c(".temp_row", "no_take")), tidyselect::any_of(partial_restrictions_cols)) %>%
-      tidyr::pivot_longer(tidyselect::any_of(partial_restrictions_cols)) %>%
+      dplyr::select(dplyr::all_of(c(".temp_row", "no_take")), dplyr::any_of(partial_restrictions_cols)) %>%
+      tidyr::pivot_longer(dplyr::any_of(partial_restrictions_cols)) %>%
       dplyr::group_by(.data$.temp_row, .data$no_take) %>%
       dplyr::summarise(any_partial_rules = any(.data$value)) %>%
       dplyr::ungroup() %>%
@@ -230,7 +230,7 @@ mermaid_import_project_managements <- function(data, project, token = mermaid_to
         post_row <- data[["row"]]
         # Convert each row to a list
         data <- data %>%
-          dplyr::select(-tidyselect::all_of("row")) %>%
+          dplyr::select(-dplyr::all_of("row")) %>%
           as.list()
 
         # Convert parties to a list if there is 1, keep as vector if > 1

@@ -297,8 +297,6 @@ test_that("excluding rules is fine, gets treated as FALSE", {
   # Anything missing gets treated as FALSE
 
   expect_message(mermaid_import_project_managements(data, "2c0c9857-b11c-4b82-b7ef-e9b383d1233c"), "All managements imported")
-
-  # TODO: read back in and confirm it's FALSE
 })
 
 test_that("missing all rules errors", {

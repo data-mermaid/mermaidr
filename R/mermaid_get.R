@@ -198,8 +198,29 @@ suppress_utf8_filename_warning <- function(expr, warning_function = "strsplit", 
 }
 
 initial_cleanup <- function(results, endpoint) {
+  # If the results are NOT a data frame (i.e. in the case of mermaid_import_get_options()),
+  # just return
+  if (!is.data.frame(results)) {
+    return(results)
+  }
+
   path <- endpoint
+  path <- stringr::str_remove(path, "csv") # it ending in csv is not relevant -- want the basename before
   endpoint <- basename(path)
+
+  # Columns universally removed
+  results <- results %>%
+    dplyr::select(-dplyr::any_of(blacklist_columns[["all"]]))
+
+  results <- results %>%
+    # if it contains id/name, put them first
+    dplyr::relocate(dplyr::any_of(c("id", "name", "display_name")),
+      .before = dplyr::everything()
+    ) %>%
+    # if it contains created_on/updated_on, put them last
+    dplyr::relocate(dplyr::any_of(c("created_on", "updated_on")),
+      .after = dplyr::everything()
+    )
 
   if (stringr::str_detect(path, "ingest_schema")) {
     return(results)
@@ -214,23 +235,8 @@ initial_cleanup <- function(results, endpoint) {
   if ("validations" %in% names(results)) {
     if (endpoint != "collectrecords") {
       results <- results %>%
-        dplyr::select(-tidyselect::all_of("validations"))
+        dplyr::select(-dplyr::all_of("validations"))
     }
-  }
-
-  if (endpoint == "sites") {
-    results <- results %>%
-      tidyr::unpack(cols = "location") %>%
-      tidyr::hoist(.data$coordinates,
-        latitude = 2,
-        longitude = 1
-      ) %>%
-      dplyr::select(-tidyselect::all_of("type"))
-  }
-
-  if ("covariates" %in% names(results)) {
-    results <- results %>%
-      extract_covariates()
   }
 
   if ("life_histories" %in% names(results)) {
@@ -248,27 +254,64 @@ initial_cleanup <- function(results, endpoint) {
 
     results <- results %>%
       dplyr::rowwise() %>%
-      dplyr::mutate_if(is_list_col, ~ paste0(.x, collapse = ", ")) %>%
+      dplyr::mutate_if(is_list_col, \(x) {
+        if (length(x) == 0) {
+          NA_character_
+        } else {
+          paste0(x, collapse = ", ")
+        }
+      }) %>%
       dplyr::ungroup()
   }
 
   if (all(c("profile", "profile_name") %in% names(results))) {
-    results <- dplyr::select(results, -tidyselect::all_of("profile")) %>%
+    results <- dplyr::select(results, -dplyr::all_of("profile")) %>%
       dplyr::rename(profile = "profile_name")
   }
 
   if (all(c("project", "project_name") %in% names(results))) {
-    results <- dplyr::select(results, -tidyselect::all_of("project")) %>%
+    results <- dplyr::select(results, -dplyr::all_of("project")) %>%
       dplyr::rename(project = "project_name")
-  }
-
-  if ("transect_len_surveyed" %in% names(results)) {
-    results <- dplyr::rename(results, transect_length = "transect_len_surveyed")
   }
 
   if ("sample_date" %in% names(results)) {
     results <- dplyr::mutate(results, sample_date = as.Date(.data$sample_date))
   }
+
+  if ("status" %in% names(results)) {
+    results <- results %>%
+      dplyr::mutate(status = dplyr::recode(.data$status,
+        `10` = "Locked",
+        `80` = "Test",
+        `90` = "Open"
+      ))
+  }
+
+  if (any(grepl("^data_policy_", names(results)))) {
+    results <- results %>%
+      dplyr::mutate_at(
+        dplyr::vars(dplyr::starts_with("data_policy_")),
+        ~ dplyr::recode(.x,
+          `10` = "Private",
+          `50` = "Public Summary",
+          `100` = "Public"
+        )
+      )
+  }
+
+    # Replace any "" or "NA" with NAs
+  results <- results %>%
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::where(is.character),
+        \(y) ifelse(y %in% c("NA", ""),
+          NA_character_, y
+        )
+      ))
+
+  # Remove any 's in names (so they do not become spaces in snake case), and convert to snake case
+  names(results) <- stringr::str_remove_all(names(results), "'")
+  names(results) <- snakecase::to_snake_case(names(results))
 
   results
 }
@@ -297,20 +340,6 @@ extract_life_histories <- function(results, endpoint) {
     if (is.na(endpoint_type)) {
       # Only do all of the following flow for obs/su/se, otherwise just return the data
       return(results)
-    } else {
-      additional_cols <- common_cols[[glue::glue("life_histories_{endpoint_type}_csv")]]
-
-      # Append a tibble of the new columns to the original data
-      new_cols_data <- dplyr::as_tibble(
-        matrix(
-          nrow = nrow(results),
-          ncol = length(additional_cols)
-        ),
-        .name_repair = ~additional_cols
-      )
-      res <- results %>%
-        dplyr::select(-dplyr::all_of("life_histories")) %>%
-        dplyr::bind_cols(new_cols_data)
     }
   } else {
     res <- results %>%
@@ -394,52 +423,4 @@ collapse_id_name_lists <- function(results) {
   }
 
   results
-}
-
-extract_covariates <- function(results) {
-  if (length(results[["covariates"]]) != 0) {
-    covariates_expanded <- results[["covariates"]] %>%
-      purrr::compact() %>%
-      purrr::map(function(x) {
-        x %>%
-          dplyr::mutate(value = purrr::map(
-            .data$value,
-            function(y) {
-              if (is.null(y)) NA else y
-            }
-          ))
-      }) %>%
-      dplyr::bind_rows(.id = "row") %>%
-      dplyr::select(tidyselect::all_of(c("row", "name", "value"))) %>%
-      split(.$name) %>%
-      purrr::map(~ .x %>% dplyr::mutate(value = purrr::map_chr(.data$value, get_covariate_value))) %>%
-      dplyr::bind_rows() %>%
-      tidyr::pivot_wider(id_cols = row, names_from = "name", values_from = "value") %>%
-      dplyr::mutate(dplyr::across(-dplyr::starts_with("aca_"), as.numeric))
-
-    results %>%
-      dplyr::mutate(row = dplyr::row_number()) %>%
-      dplyr::left_join(covariates_expanded, by = "row") %>%
-      dplyr::select(-tidyselect::all_of(c("row", "covariates")))
-  } else {
-    covars <- tibble::as_tibble(matrix(nrow = , ncol = length(covars_cols)), .name_repair = "minimal")
-    names(covars) <- covars_cols
-    results %>%
-      dplyr::select(-tidyselect::all_of("covariates")) %>%
-      dplyr::bind_cols(covars)
-  }
-}
-
-get_covariate_value <- function(x) {
-  if (length(x) == 0) { # If there is no value, return NA
-    return(NA_character_)
-  } else if (length(x) == 1) { # If it's a single value, just return the value
-    return(as.character(x))
-  }
-
-  # Otherwise, get the value for the max area
-  x %>%
-    dplyr::filter(.data$area == max(.data$area)) %>%
-    dplyr::pull(.data$name) %>%
-    as.character()
 }

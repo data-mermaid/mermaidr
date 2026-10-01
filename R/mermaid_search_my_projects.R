@@ -54,10 +54,8 @@ mermaid_search_my_projects <- function(name = NULL, countries = NULL, tags = NUL
   }
 
   if (is.null(limit)) {
-    lookup_choices(projects, endpoint = "projects")
+    projects
   } else {
-    head(
-      lookup_choices(projects, endpoint = "projects"), limit
-    )
+    head(projects, limit)
   }
 }
