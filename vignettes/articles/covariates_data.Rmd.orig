@@ -1,0 +1,249 @@
+---
+title: "Adding Environmental Covariates to MERMAID Data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Adding Environmental Covariates to MERMAID Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dpi = 300,
+  message = FALSE,
+  warning = FALSE,
+  cache = TRUE
+)
+
+options(dplyr.width = Inf)
+```
+
+Prior to `mermaidr` version 2.0.0, you had the option to access environmental covariates along with data from MERMAID Collect directly in `mermaidr`. These covariates have been centralized into the *MERMAID covariates* platform, and the ability to access them has been moved to a dedicated package, `mermaidrcovariates`, and removed from `mermaidr`.
+
+The newly released *MERMAID covariates* platform is a centralized, regularly updated catalogue of remote-sensing datasets — climate, environmental, and social — which are normalized so they can be paired directly with MERMAID survey locations. You can browse the full catalogue at [mermaid.prescient.earth](https://mermaid.prescient.earth/), and access the data programmatically through `mermaidrcovariates`, a companion to `mermaidr`, used throughout this vignette.
+
+For full usage details of `mermaidrcovariates`, please visit its [website](https://data-mermaid.github.io/mermaidr-covariates/).
+
+This vignette will specifically walk through accessing the environmental covariates that were previously included alongside data accessed from `mermaidr`. Note that not all datasets were migrated:
+
+<table>
+  <thead>
+    <tr>
+      <th>source</th>
+      <th>Data</th>
+      <th><code>mermaidr</code> column(s)</th>
+      <th>Prescient source</th>
+      <th>Prescient dataset ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="vertical-align:middle;" rowspan="2" colspan="1">
+      <span><div><a href="https://allencoralatlas.org">Allen Coral Atlas</a></div></span></td>
+      <td>Geomorphic zonation</td>
+      <td><code>aca_geomorphic</code></td>
+      <td><a href="https://mermaid.prescient.earth/map?collectionId=aca_extent">ACA Reef Extent</a></td>
+      <td><code>aca_extent</code></td>
+    </tr>
+    <tr>
+      <td>Benthic habitat</td>
+      <td><code>aca_benthic</code></td>
+      <td><a href="https://mermaid.prescient.earth/map?collectionId=aca_benthic">ACA Benthic Habitat</a></td>
+      <td><code>aca_benthic</code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align:middle;" rowspan="6" colspan="1">
+      <span><div><a href="https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12858"><i>A global map of human pressures on tropical coral reefs</i></a> by Andrello et al., 2022</div></span></td>
+      <td>Market gravity</td>
+      <td><code>andrello_grav_nc</code></td>
+      <td><a href="https://mermaid.prescient.earth/map?collectionId=market_gravity">Market gravity (fishing pressure)</a></td>
+      <td><code>market_gravity</code></td>
+    </tr>
+    <tr>
+      <td>Water pollution (sediments and nitrogen)</td>
+      <td><code>andrello_sediment</code>,  <code>andrello_nutrient</code></td>
+      <td>---</td>
+      <td>---</td>
+    </tr>
+    <tr>
+      <td>Coastal population</td>
+      <td><code>andrello_pop_count</code></td>
+      <td><a href="https://mermaid.prescient.earth/map?collectionId=human_pop_5km">Human population within 5km (coastal population)</a></td>
+      <td><code>human_pop_5km</code></td>
+    </tr>
+    <tr>
+      <td>Industrial development (number of ports)</td>
+      <td><code>andrello_num_ports</code></td>
+      <td><a href="https://mermaid.prescient.earth/map?collectionId=num_ports_5km">Number of ports within 5m (industrial development)</a></td>
+      <td><code>num_ports_5km</code></td>
+    </tr>
+    <tr>
+      <td>Tourism (reef value)</td>
+      <td><code>andrello_reef_value</code></td>
+      <td><a href="https://mermaid.prescient.earth/map?collectionId=tourism_index">Tourism index</a></td>
+      <td><code>tourism_index</code></td>
+    </tr>
+    <tr>
+      <td>Cumulative pressure index</td>
+      <td><code>andrello_cumul_score</code></td>
+      <td>---</td>
+      <td>---</td>
+    </tr>
+    <tr>
+      <td><a href="https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12587"><i>Risk-sensitive planning for conserving coral reefs under rapid climate change</i></a> by Beyer et al., 2018.</td>
+      <td>Scores</td>
+      <td><code>beyer_score</code>, <code>beyer_scorecn</code>, <code>beyer_scorecy</code>, <code>beyer_scorepfc</code>, <code>beyer_scoreth</code>, <code>beyer_scoretr</code></td>
+      <td>---</td>
+      <td>---</td>
+    </tr>
+  </tbody>
+</table>
+
+We first need to access ecological data from MERMAID to link our environmental covariates to. We can link them directly to survey sites, using their latitude and longitude:
+
+```{r setup, cache = FALSE}
+library(mermaidr)
+library(tidyverse)
+library(mermaidrcovariates)
+```
+
+```{r sites-show, eval = FALSE}
+library(mermaidr)
+library(tidyverse)
+
+sites <- mermaid_get_sites(limit = 2000) %>%
+  filter(country == "Belize") %>%
+  distinct(name, latitude, longitude)
+
+sites
+```
+
+```{r sites, echo = FALSE}
+# Need to manually remove one site that is clearly not in Belize
+sites <- mermaid_get_sites(limit = 2000) %>%
+  filter(country == "Belize") %>%
+  distinct(name, latitude, longitude)
+
+sites <- sites %>%
+  filter(name != "Bronx Zoo")
+
+sites
+```
+
+The Allen Coral Atlas covariates (Reef Extent and Benthic Habitat) are in a raster format, while the Andrello et al. covariates contain vector data. We use different functions to access each.
+
+Again, the [`mermaidrcovariates` package website](https://data-mermaid.github.io/mermaidr-covariates/) contains more information on the differences between these types, and how to determine if you are accessing raster or vector data.
+
+## Raster data
+
+To access raster covariates, we use `get_zonal_statistics()`. We will request all data within 100 metres of each site, and then *spatially* aggregate that data using the mean.
+
+Using Reef Extent as an example, the function returns the sites along with a column, `zonal_statistics`, that we can unnest to look at the data within:
+
+```{r raster-covariates-eg}
+library(mermaidrcovariates)
+
+reef_extent <- get_zonal_statistics(sites, "aca_extent", spatial_stats = "mean", radius = 100)
+
+reef_extent
+
+reef_extent <- reef_extent %>%
+  unnest(zonal_statistics)
+
+reef_extent
+```
+
+In order to combine this with all of the other environmental covariates, we plan to keep the site information along with the covariate ID and value, converting it into a *wide* format so that, eventually, there is a column for each covariate.
+
+```{r raster-covariates-pivot}
+reef_extent %>%
+  mutate(covariate_id = "aca_extent") %>%
+  select(name, latitude, longitude, covariate_id, value) %>%
+  pivot_wider(names_from = covariate_id, values_from = value)
+```
+
+In order to not repeat the same code for each covariate, we write a helper function that gets the zonal statistics for each of the Allen Coral Atlas covariates, keeps the relevant columns, combines them, then converts into a wide format:
+
+```{r raster-covariates}
+attach_all_raster_covariates <- function(sites, covariate_ids) {
+  covariate_res <- map(
+    covariate_ids,
+    function(covariate_id) {
+      get_zonal_statistics(sites, covariate_id, spatial_stats = "mean", radius = 100) %>%
+        unnest(zonal_statistics) %>%
+        mutate(covariate_id = covariate_id) %>%
+        select(name, latitude, longitude, covariate_id, value)
+    }
+  )
+
+  covariate_res %>%
+    bind_rows() %>%
+    pivot_wider(names_from = covariate_id, values_from = value)
+}
+
+raster_covariates <- sites %>%
+  attach_all_raster_covariates(c("aca_extent", "aca_benthic"))
+
+raster_covariates
+```
+
+## Vector data
+
+Next, we repeat a similar process for the vector covariates. This time, we use the `mermaidrcovariates` function `attach_covariate_data()`, using Human population within 5km (coastal population) as an example. We do not need to specify a radius or spatial aggregation method for vector data.
+
+```{r vector-covariates-eg}
+human_pop_5km <- attach_covariate_data(sites, "human_pop_5km")
+
+human_pop_5km
+```
+
+This data is already unnested and is in a wide format; but in order to easily combine it with the other covariates, we will convert it into a *long* format, combine, and then re-widen. Again, creating a helper function for this:
+
+```{r vector-covariates}
+attach_all_vector_covariates <- function(sites, covariate_ids) {
+  covariate_res <- map(
+    covariate_ids,
+    function(covariate_id) {
+      attach_covariate_data(sites, covariate_id) %>%
+        pivot_longer(
+          cols = -names(sites),
+          names_to = "covariate_id",
+          values_to = "value"
+        )
+    }
+  )
+
+  covariate_res %>%
+    bind_rows() %>%
+    pivot_wider(names_from = covariate_id, values_from = value)
+}
+
+
+vector_covariates <- sites %>%
+  attach_all_vector_covariates(c("human_pop_5km", "market_gravity", "num_ports_5km", "tourism_index"))
+
+vector_covariates
+```
+
+## Combining covariates
+
+Now that we have the two sets of covariates, `raster_covariates` and `vector_covariates`, we can easily combine them by joining them back onto the sites!
+
+```{r combine}
+sites %>%
+  left_join(raster_covariates, by = c("name", "latitude", "longitude")) %>%
+  left_join(vector_covariates, by = c("name", "latitude", "longitude"))
+```
+
+## Deprecation behaviour in `mermaidr`
+
+The `covariates` argument in `mermaid_get_project_sites()` and `mermaid_get_project_data()` in `mermaidr` will now produce a message if you set it to `TRUE`, and returns the data without the covariates.
+
+```{r mermaidr-behaviour, message = TRUE}
+options(dplyr.width = 80)
+
+p <- mermaid_get_my_projects(limit = 1)
+mermaid_get_project_sites(p, covariates = TRUE)
+```

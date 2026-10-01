@@ -1,7 +1,6 @@
-test_that("mermaid_get_endpoint returns a data frame with the correct names", {
+test_that("mermaid_get_endpoint returns a data frame", {
   skip_if_offline()
   output <- mermaid_get_endpoint(endpoint = "choices", limit = 10)
-  expect_named(output, choices_columns)
   expect_true(nrow(output) == 10)
   expect_is(output, "tbl_df")
 })

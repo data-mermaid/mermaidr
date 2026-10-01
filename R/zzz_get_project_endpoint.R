@@ -20,12 +20,16 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   project_id <- as_id(project)
   check_project(project_id)
 
+  if (covariates) {
+    usethis::ui_info("`covariates` argument is deprecated as of mermaidr version 2.0.0. Please use the `mermaidrcovariates` package to access covariates. See the vignette: https://data-mermaid.github.io/mermaidr/articles/covariates_data.html\nYour results will be returned without any covariates.")
+  }
+
   # Construct full endpoints (with project id)
   full_endpoints <- purrr::map(endpoint, ~ paste0("projects/", project_id, "/", .x))
 
   # Get endpoint results
   endpoints_res <- withCallingHandlers(
-    purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, filter = filter, token = token, project_id = project_id, project = project, covariates = covariates),
+    purrr::map2(endpoint, full_endpoints, get_project_single_endpoint, limit = limit, filter = filter, token = token, project_id = project_id, project = project),
     purrr_error_indexed = function(err) {
       rlang::cnd_signal(err$parent)
     }
@@ -43,13 +47,13 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   if (all(stringr::str_detect(endpoint, "/")) & !any(stringr::str_detect(endpoint, "ingest_schema"))) {
     if (length(endpoint) == 1) {
       if (nrow(res) == 0) {
-        dplyr::select(res, tidyselect::any_of(project_data_test_columns[[endpoint]]))
+        res
       } else {
         clean_df_cols(res)
       }
     } else {
       if (all(purrr::map_dbl(res, nrow) == 0)) {
-        purrr::imap(res, ~ dplyr::select(.x, tidyselect::any_of(project_data_test_columns[[.y]])))
+        res
       } else {
         purrr::map(res, clean_df_cols)
       }
@@ -59,12 +63,21 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
   }
 }
 
-get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, token = mermaid_token(), filter = NULL, project_id, project, covariates = FALSE) {
+get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, token = mermaid_token(), filter = NULL, project_id, project) {
   initial_res <- mermaid_GET(full_endpoint, limit = limit, filter = filter, token = token)
 
   # Return ingest schema for tidying separately
   if (stringr::str_detect(endpoint, "ingest_schema")) {
     return(initial_res)
+  }
+
+  # If 0 rows, just return
+  if (all(purrr::map_dbl(initial_res, nrow) == 0)) {
+    if (length(initial_res) > 1) {
+      return(initial_res)
+    } else {
+      return(initial_res[[full_endpoint]])
+    }
   }
 
   # Combine multiple projects
@@ -74,13 +87,13 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
     res <- add_project_identifiers(res, project)
   } else {
     res <- initial_res[[full_endpoint]]
-    res <- dplyr::select(res, -tidyselect::any_of("project"))
+    res <- add_project_identifiers(res, project)
   }
 
   res_lookups <- lookup_choices(res, endpoint, endpoint_type = "project")
-  res_strip_suffix <- strip_name_suffix(res_lookups, endpoint, covariates)
+  res_strip_suffix <- strip_name_suffix(res_lookups, endpoint)
 
-  res <- construct_project_endpoint_columns(res_strip_suffix, endpoint, multiple_projects = length(initial_res) > 1, covariates = covariates)
+  res <- tidy_project_endpoint_columns(res_strip_suffix, endpoint)
 
   # Combine sample date year, month, day, into single field, place after management_rules
   if (all(c("sample_date_year", "sample_date_month", "sample_date_day") %in% names(res))) {
@@ -109,50 +122,16 @@ check_single_project <- function(project) {
   }
 }
 
-construct_project_endpoint_columns <- function(res, endpoint, multiple_projects = FALSE, covariates = FALSE) {
-  # If covariates = TRUE, add site_id to columns selected (just for now!)
-  endpoint_cols <- mermaid_project_endpoint_columns[[endpoint]]
+tidy_project_endpoint_columns <- function(res, endpoint) {
+  # Remove any ' in names, so they do not get given a _ in snake case
+  names(res) <- stringr::str_remove_all(names(res), "'")
+  names(res) <- snakecase::to_snake_case(names(res))
 
-  if (covariates) {
-    endpoint_cols <- c("site_id", endpoint_cols)
-  }
 
-  # Some are df-cols which are pre-expanded, so remove from from `endpoint_cols` and get cols that _start_ with those separately, but place in the right space
   endpoint <- stringr::str_remove(endpoint, "/csv")
-  df_cols <- project_data_df_columns_list[[endpoint]]
+  res <- remove_blacklist_endpoint_columns(res, endpoint, nested = "project_data")
 
-  endpoint_cols_without_expand <- endpoint_cols[which(!endpoint_cols %in% df_cols)]
-
-  if (nrow(res) == 0 && ncol(res) == 0) {
-    res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(endpoint_cols_without_expand)), .name_repair = "minimal")
-    names(res) <- endpoint_cols_without_expand
-    res
-  } else {
-    # This ensures the correct ordering
-    for (col in df_cols) {
-      df_col_names <- res %>%
-        dplyr::select(dplyr::starts_with(col)) %>%
-        names()
-
-      df_col_placement <- which(endpoint_cols == col)
-
-      if (length(df_col_placement) == 1) {
-        endpoint_cols <- c(endpoint_cols[1:(df_col_placement - 1)], df_col_names, endpoint_cols[(df_col_placement + 1):length(endpoint_cols)])
-      }
-    }
-
-    if (multiple_projects) {
-      res <- dplyr::select(res, tidyselect::any_of(c("project_id", "project")), tidyselect::any_of(endpoint_cols))
-    } else {
-      res <- dplyr::select(res, dplyr::any_of(endpoint_cols))
-    }
-
-    # Remove any ' in names, so they do not get given a _ in snake case
-    names(res) <- stringr::str_remove_all(names(res), "'")
-    names(res) <- snakecase::to_snake_case(names(res))
-
-    res
-  }
+  res
 }
 
 rbind_project_endpoints <- function(x, endpoint) {
@@ -222,12 +201,12 @@ unpack_df_cols <- function(x, df_cols = NULL) {
   if (all(sapply(x[df_cols], inherits, "data.frame"))) {
     x_unpack <- x %>%
       tidyr::unpack(
-        cols = tidyselect::all_of(df_cols),
+        cols = dplyr::all_of(df_cols),
         names_sep = "_"
       )
   } else {
     x_unpack <- x %>%
-      dplyr::select(-tidyselect::any_of(df_cols))
+      dplyr::select(-dplyr::any_of(df_cols))
   }
 
   attr(x_unpack, "df_cols") <- df_cols
@@ -248,10 +227,16 @@ repack_df_cols <- function(x) {
       dplyr::rename_all(~ gsub(paste0("^", df_cols[[i]], "_"), "", .x))
   }
 
-  dplyr::select(x, tidyselect::all_of(col_order))
+  dplyr::select(x, dplyr::all_of(col_order))
 }
 
 add_project_identifiers <- function(res, project) {
+  if (is.character(project)) {
+    projects <- mermaid_get_my_projects(include_test_projects = TRUE) # In case it was a test one
+    project <- projects %>%
+      dplyr::filter(.data$id %in% !!project)
+  }
+
   if (is.null(res)) {
     return(tibble::tibble())
   }
@@ -260,24 +245,45 @@ add_project_identifiers <- function(res, project) {
     return(res)
   }
 
-  if ("project_name" %in% names(res)) {
-    res <- dplyr::select(res, tidyselect::all_of(c(project = "project_name")), dplyr::everything())
-  } else if ("name" %in% names(project)) {
-    res <- res %>%
-      dplyr::select(-tidyselect::any_of("project")) %>%
-      dplyr::left_join(dplyr::select(project, tidyselect::all_of(c("id", project = "name"))), by = c("project_id" = "id")) %>%
-      dplyr::select(project, dplyr::everything())
-  }
+  # The goal is to convert any project id into project_id, then use it to join to `project`, and only keep `project`, which is the NAME
 
-  if (all(c("project", "project_id") %in% names(res))) {
+  if ("project_name" %in% names(res)) {
+    res <- res %>%
+      dplyr::select(-dplyr::all_of("project_id")) %>%
+      dplyr::rename(project = "project_name")
+
+    return(res)
+  } else if (all(c("project", "project_id") %in% names(res))) {
     if (all(res[["project"]] == res[["project_id"]])) {
-      res <- dplyr::select(res, -tidyselect::all_of("project"))
+      res <- dplyr::select(res, -dplyr::all_of("project"))
     } else {
-      res <- dplyr::select(res, -tidyselect::all_of("project_id"))
+      res <- dplyr::select(res, -dplyr::all_of("project_id"))
+    }
+  } else if ("project_id" %in% names(res)) {
+    # Good, keep as is
+  } else if ("project" %in% names(res)) {
+    res <- res %>%
+      dplyr::rename(project_id = "project")
+  } else {
+    if (nrow(project) == 1) {
+      res <- res %>%
+        dplyr::bind_cols(
+          project %>% dplyr::select(project = "name")
+        )
+
+      return(res)
     }
   }
 
-  res
+  res %>%
+    dplyr::left_join(
+      project %>%
+        dplyr::select(dplyr::all_of(c("id", project = "name"))),
+      by = c("project_id" = "id"),
+      suffix = c(".x", "")
+    ) %>%
+    dplyr::select(-dplyr::any_of("project_id")) %>%
+    dplyr::select(dplyr::any_of("project"), dplyr::everything()) # Ensure "project" is the first column
 }
 
 clean_df_cols <- function(.data) {
@@ -290,14 +296,3 @@ clean_df_cols <- function(.data) {
       stringr::str_replace_all(" |-", "_") %>%
       stringr::str_to_lower())
 }
-
-mermaid_project_endpoint_columns <- list(
-  managements = project_managements_columns,
-  sites = project_sites_columns
-)
-
-mermaid_project_endpoint_columns <- append(mermaid_project_endpoint_columns, project_other_endpoint_columns)
-
-mermaid_project_endpoint_columns <- append(mermaid_project_endpoint_columns, project_data_columns)
-
-mermaid_project_endpoint_columns_test <- purrr::map(mermaid_project_endpoint_columns, snakecase::to_snake_case)

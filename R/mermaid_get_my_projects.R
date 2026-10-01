@@ -23,12 +23,8 @@ mermaid_get_my_projects <- function(include_test_projects = FALSE, limit = NULL,
   res <- res[["projects"]]
 
   if (nrow(res) == 0) {
-    cols <- mermaid_endpoint_columns[["projects"]]
-    res <- tibble::as_tibble(matrix(nrow = 0, ncol = length(cols)), .name_repair = "minimal")
-    names(res) <- cols
-    res
+    dplyr::tibble()
   } else {
-    res <- res[, mermaid_endpoint_columns[["projects"]]]
-    lookup_choices(res, endpoint = "projects")
+    remove_blacklist_endpoint_columns(res, "projects")
   }
 }

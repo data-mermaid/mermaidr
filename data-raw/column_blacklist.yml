@@ -1,0 +1,85 @@
+all:
+  - created_by
+  - updated_by
+projects:
+  - members
+  - project_admins
+  - data
+  - is_demo
+sites:
+  - data
+  - predecessor
+managements:
+  - boundary
+  - project
+  - data
+  - predecessor
+summarysampleevents:
+reference:
+  benthicattributes:
+  fishfamilies:
+  fishgenera:
+  fishspecies:
+  invertattributes:
+  invertspecies:
+me:
+endpoint:
+  projecttags:
+  fishsizes:
+    - fish_bin_size
+  choices:
+classification/labelmappings:
+project_data:
+  managements:
+    - boundary
+    - data
+    - predecessor
+  sites:
+    - data
+    - predecessor
+  beltfishes/obstransectbeltfishes:
+    - id
+  beltfishes/sampleunits:
+  beltfishes/sampleevents:
+  benthicpits/obstransectbenthicpits:
+    - id
+  benthicpits/sampleunits:
+  benthicpits/sampleevents:
+  benthiclits/obstransectbenthiclits:
+    - id
+  benthiclits/sampleunits:
+  benthiclits/sampleevents:
+  benthicpqts/obstransectbenthicpqts:
+    - id
+  benthicpqts/sampleunits:
+  benthicpqts/sampleevents:
+  habitatcomplexities/obshabitatcomplexities:
+    - id
+  habitatcomplexities/sampleunits:
+  habitatcomplexities/sampleevents:
+  bleachingqcs/obscoloniesbleacheds:
+    - id
+  bleachingqcs/obsquadratbenthicpercents:
+    - id
+  bleachingqcs/sampleunits:
+  bleachingqcs/sampleevents:
+  beltinverts/obstransectbeltinverts:
+    - id
+  beltinverts/sampleunits:
+  beltinverts/sampleevents:
+  collectrecords:
+  beltfishtransectmethods:
+    - id
+  benthiclittransectmethods:
+    - id
+  benthicpittransectmethods:
+    - id
+  benthictransects:
+    - id
+  fishbelttransects:
+    - id
+  observers:
+  project_profiles:
+    - id
+  sampleevents:
+
