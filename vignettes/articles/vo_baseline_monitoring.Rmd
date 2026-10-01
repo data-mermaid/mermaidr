@@ -337,7 +337,7 @@ ggplot(fishbelt_data_latest) +
   theme(
     axis.text.y = element_blank(),
     panel.grid.minor = element_blank(),
-    panel.grid.major.y = element_blank()
+    panel.grid.major.y = element_blank(),
     plot.title = element_text(face = "bold")
   )
 ```
