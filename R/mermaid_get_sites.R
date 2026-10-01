@@ -20,11 +20,15 @@ mermaid_get_sites <- function(limit = NULL, token = mermaid_token()) {
 }
 
 unpack_coordinates <- function(x) {
-  x %>%
-    tidyr::unpack(cols = "location") %>%
-    tidyr::hoist(.data$coordinates,
-      latitude = 2,
-      longitude = 1
-    ) %>%
-    dplyr::select(-dplyr::all_of(c("type", "coordinates")))
+  if (nrow(x) > 0) {
+    x %>%
+      tidyr::unpack(cols = "location") %>%
+      tidyr::hoist(.data$coordinates,
+        latitude = 2,
+        longitude = 1
+      ) %>%
+      dplyr::select(-dplyr::all_of(c("type", "coordinates")))
+  } else {
+    x
+  }
 }
