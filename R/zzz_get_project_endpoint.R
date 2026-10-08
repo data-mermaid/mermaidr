@@ -55,7 +55,7 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
       }
     }
   } else {
-    res
+    dplyr::bind_rows(res)
   }
 }
 

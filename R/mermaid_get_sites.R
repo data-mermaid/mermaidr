@@ -11,9 +11,7 @@
 #' mermaid_get_sites(limit = 10)
 #' }
 mermaid_get_sites <- function(limit = NULL, token = mermaid_token()) {
-  res <- get_endpoint("sites", limit = limit, token = token)
-
-  res %>%
+  get_endpoint("sites", limit = limit, token = token) %>%
     unpack_coordinates()
 }
 
