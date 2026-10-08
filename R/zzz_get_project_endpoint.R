@@ -16,13 +16,9 @@ NULL
 #' test_project <- mermaid_search_projects("Sharla test", include_test_projects = TRUE)
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
-get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint, limit = NULL, token = mermaid_token(), filter = NULL, covariates = FALSE) {
+get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint, limit = NULL, token = mermaid_token(), filter = NULL) {
   project_id <- as_id(project)
   check_project(project_id)
-
-  if (covariates) {
-    usethis::ui_info("`covariates` argument is deprecated as of mermaidr version 2.0.0. Please use the `mermaidrcovariates` package to access covariates. See the vignette: https://data-mermaid.github.io/mermaidr/articles/covariates_data.html\nYour results will be returned without any covariates.")
-  }
 
   # Construct full endpoints (with project id)
   full_endpoints <- purrr::map(endpoint, ~ paste0("projects/", project_id, "/", .x))
