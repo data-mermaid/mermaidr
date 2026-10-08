@@ -2,10 +2,10 @@
 % Please edit documentation in R/update_mermaidr.R
 \name{update_mermaidr}
 \alias{update_mermaidr}
-\title{Update `mermaidr`}
+\title{Update \code{mermaidr}}
 \usage{
 update_mermaidr()
 }
 \description{
-Update `mermaidr` if you do not have the latest version. Once the update is done, you must restart R.
+Update \code{mermaidr} if you do not have the latest version. Once the update is done, you must restart R.
 }

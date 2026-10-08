@@ -1,6 +1,7 @@
-#' Update `mermaidr`
+#' Update \code{mermaidr}
 #'
-#' Update `mermaidr` if you do not have the latest version. Once the update is done, you must restart R.
+#' Update \code{mermaidr} if you do not have the latest version. Once the update is done, you must restart R.
+#' @export
 update_mermaidr <- function() {
   update_mermaidr_internal(main = TRUE)
 }
