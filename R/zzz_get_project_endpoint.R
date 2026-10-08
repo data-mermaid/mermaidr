@@ -271,6 +271,10 @@ add_project_identifiers <- function(res, project) {
           )
 
         return(res)
+      } else {
+        browser()
+        # TODO, check here
+        # review msg: If res has no project/project_id column and the filter returns 0 rows, the bind_cols branch is skipped and left_join(by = c('project_id' = 'id')) fails with "Join columns in x must be present".
       }
     }
   }
