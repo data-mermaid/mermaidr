@@ -159,6 +159,9 @@ strip_name_suffix <- function(results, endpoint) {
 
 allowed_ids <- function(endpoint) {
   ids <- c("project_id", "sample_event_id", "sample_unit_id", "provider_id")
+  # if (endpoint == "summarysampleevents") { # TODO -- maybe put this if () in
+    ids <- c("site_id", "management_id")
+  # }
 
   unique(ids)
 }
