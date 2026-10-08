@@ -68,3 +68,17 @@ test_that("sample_date is converted to a date", {
   output <- get_project_endpoint("5679ef3d-bafc-453d-9e1a-a4b282a8a997", "beltfishes/obstransectbeltfishes", limit = 1)
   expect_true(inherits(output[["sample_date"]], "Date"))
 })
+
+test_that("lookup_project works regardless of if a project is test project or not", {
+  skip_if_offline()
+  skip_on_ci()
+  skip_on_cran()
+
+  p <- mermaid_get_projects(include_test_projects = FALSE, limit = 1)
+  lookup_p <- lookup_project(p[["id"]])
+  expect_identical(p, lookup_p)
+
+  p <- mermaid_get_projects(include_test_projects = TRUE, limit = 1)
+  lookup_p <- lookup_project(p[["id"]])
+  expect_identical(p, lookup_p)
+})

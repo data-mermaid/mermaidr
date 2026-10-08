@@ -231,12 +231,6 @@ repack_df_cols <- function(x) {
 }
 
 add_project_identifiers <- function(res, project) {
-  if (is.character(project)) {
-    projects <- mermaid_get_my_projects(include_test_projects = TRUE) # In case it was a test one
-    project <- projects %>%
-      dplyr::filter(.data$id %in% !!project)
-  }
-
   if (is.null(res)) {
     return(tibble::tibble())
   }
@@ -249,29 +243,35 @@ add_project_identifiers <- function(res, project) {
 
   if ("project_name" %in% names(res)) {
     res <- res %>%
-      dplyr::select(-dplyr::all_of("project_id")) %>%
+      dplyr::select(-dplyr::any_of("project_id")) %>%
       dplyr::rename(project = "project_name")
 
     return(res)
-  } else if (all(c("project", "project_id") %in% names(res))) {
-    if (all(res[["project"]] == res[["project_id"]])) {
-      res <- dplyr::select(res, -dplyr::all_of("project"))
-    } else {
-      res <- dplyr::select(res, -dplyr::all_of("project_id"))
-    }
-  } else if ("project_id" %in% names(res)) {
-    # Good, keep as is
-  } else if ("project" %in% names(res)) {
-    res <- res %>%
-      dplyr::rename(project_id = "project")
   } else {
-    if (nrow(project) == 1) {
-      res <- res %>%
-        dplyr::bind_cols(
-          project %>% dplyr::select(project = "name")
-        )
+    if (is.character(project)) {
+      project <- lookup_project(project)
+    }
 
-      return(res)
+    if (all(c("project", "project_id") %in% names(res))) {
+      if (all(res[["project"]] == res[["project_id"]])) {
+        res <- dplyr::select(res, -dplyr::all_of("project"))
+      } else {
+        res <- dplyr::select(res, -dplyr::all_of("project_id"))
+      }
+    } else if ("project_id" %in% names(res)) {
+      # Good, keep as is
+    } else if ("project" %in% names(res)) {
+      res <- res %>%
+        dplyr::rename(project_id = "project")
+    } else {
+      if (nrow(project) == 1) {
+        res <- res %>%
+          dplyr::bind_cols(
+            project %>% dplyr::select(project = "name")
+          )
+
+        return(res)
+      }
     }
   }
 
@@ -284,6 +284,10 @@ add_project_identifiers <- function(res, project) {
     ) %>%
     dplyr::select(-dplyr::any_of("project_id")) %>%
     dplyr::select(dplyr::any_of("project"), dplyr::everything()) # Ensure "project" is the first column
+}
+
+lookup_project <- function(id) {
+  get_endpoint("projects", filter = list(id = id))
 }
 
 clean_df_cols <- function(.data) {
