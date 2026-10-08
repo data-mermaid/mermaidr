@@ -47,7 +47,12 @@ internal_mermaid_get_project_data <- function(project = mermaid_get_default_proj
 
   # Print covariates depracation message here, not in get_project_endpoint -- otherwise it prints once per method/data requested
   if (covariates) {
-    usethis::ui_info("`covariates` argument is deprecated as of mermaidr version 2.0.0. Please use the `mermaidrcovariates` package to access covariates. See the vignette: https://data-mermaid.github.io/mermaidr/articles/covariates_data.html\nYour results will be returned without any covariates.")
+    cli::cli_alert_info(
+      "`covariates` argument is deprecated as of mermaidr version 2.0.0. \\
+   Please use the `mermaidrcovariates` package to access covariates. \\
+   See the vignette: {.url https://data-mermaid.github.io/mermaidr/articles/covariates_data.html}. \\
+   Your results will be returned without any covariates."
+    )
   }
 
   if (any(method == "all")) {

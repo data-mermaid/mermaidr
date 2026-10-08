@@ -72,12 +72,12 @@ mermaid_import_check_options <- function(data, options, field) {
   # Return message if there are NAs which are not allowed
   if (options_field_required) {
     if (any(is.na(data_field))) {
-      usethis::ui_oops("`{field}` is required, but data contains NA values. All values must be non-NA")
+      cli::cli_alert_danger("`{field}` is required, but data contains NA values. All values must be non-NA")
       return(invisible())
     }
   } else {
     if (all(is.na(data_field))) {
-      usethis::ui_done("All values of `{field}` are NA, no checking to be done")
+      cli::cli_alert_success("All values of `{field}` are NA, no checking to be done")
       return(invisible())
     }
   }
@@ -87,7 +87,7 @@ mermaid_import_check_options <- function(data, options, field) {
 
   # If choices is NULL, any value is allowed - return message
   if (is.null(options_field)) {
-    usethis::ui_done("Any value is allowed for `{field}` - no checking to be done")
+    cli::cli_alert_success("Any value is allowed for `{field}` - no checking to be done")
     return(invisible())
   }
 
@@ -98,9 +98,9 @@ mermaid_import_check_options <- function(data, options, field) {
 
   # Return message about whether fields match or do not
   if (all(matches[["match"]])) {
-    usethis::ui_done("All values of `{field}` match")
+    cli::cli_alert_success("All values of `{field}` match")
   } else {
-    usethis::ui_todo("Some errors in values of `{field}` - please check table below")
+    cli::cli_alert_warning("Some errors in values of `{field}` - please check table below")
   }
 
   # Return tibble of data vs options and if they are a match

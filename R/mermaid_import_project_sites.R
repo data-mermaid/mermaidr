@@ -140,9 +140,9 @@ mermaid_import_project_sites <- function(data, project, token = mermaid_token())
       dplyr::filter(.data$status_code != 201) %>%
       dplyr::pull(.data$row)
 
-    usethis::ui_todo("Not all sites imported successfully. The following rows did not import: {paste(failed_post, collapse = ',')}")
+    cli::cli_alert_warning("Not all sites imported successfully. The following rows did not import: {paste(failed_post, collapse = ',')}")
   } else {
-    usethis::ui_done("All sites imported!")
+    cli::cli_alert_success("All sites imported!")
   }
 }
 

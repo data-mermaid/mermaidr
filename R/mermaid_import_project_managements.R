@@ -273,8 +273,8 @@ mermaid_import_project_managements <- function(data, project, token = mermaid_to
       dplyr::filter(.data$status_code != 201) %>%
       dplyr::pull(.data$row)
 
-    usethis::ui_todo("Not all managements imported successfully. The following rows did not import: {paste(failed_post, collapse = ', ')}")
+    cli::cli_alert_warning("Not all managements imported successfully. The following rows did not import: {paste(failed_post, collapse = ', ')}")
   } else {
-    usethis::ui_done("All managements imported!")
+    cli::cli_alert_success("All managements imported!")
   }
 }

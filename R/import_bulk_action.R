@@ -52,7 +52,7 @@ import_bulk_action <- function(project, action, method = NULL, bulkeditforce = F
       )
     }
 
-    usethis::ui_field(no_records_message) %>%
+    cli::cli_alert_info(no_records_message) %>%
       print()
 
     return(invisible(NULL))
@@ -75,7 +75,7 @@ import_bulk_action <- function(project, action, method = NULL, bulkeditforce = F
     n_relevant_records <- nrow(relevant_records)
     n_relevant_records_plural <- plural(n_relevant_records)
 
-    usethis::ui_field(
+    cli::cli_alert_info(
       glue::glue("{n_relevant_records} record{n_relevant_records_plural} being {action_verb(action)}...")
     )
   }
@@ -243,10 +243,10 @@ summarise_single_status <- function(df, action, drop) {
   }
 
   switch(status,
-    "ok" = usethis::ui_done(message),
-    "not_ok" = usethis::ui_todo(message),
-    "error" = usethis::ui_oops(message),
-    "warning" = usethis::ui_todo(message),
+    "ok" = cli::cli_alert_success(message),
+    "not_ok" = cli::cli_alert_warning(message),
+    "error" = cli::cli_alert_danger(message),
+    "warning" = cli::cli_alert_warning(message),
   )
 }
 

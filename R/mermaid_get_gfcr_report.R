@@ -62,7 +62,7 @@ mermaid_get_gfcr_report <- function(project, save = NULL, token = mermaid_token(
 
     file.copy(gfcr_report_file, save, overwrite = TRUE)
 
-    usethis::ui_done("GFCR report written to {save}")
+    cli::cli_alert_success("GFCR report written to {save}")
   }
 
   # Read all tabs in

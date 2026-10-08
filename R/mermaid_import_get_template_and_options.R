@@ -130,7 +130,7 @@ mermaid_import_get_template_and_options <- function(project, method, save, token
     # Write workbook
     openxlsx::saveWorkbook(wb, save, overwrite = TRUE)
 
-    usethis::ui_done("Import template and field options written to {save}")
+    cli::cli_alert_success("Import template and field options written to {save}")
   }
 
   # Return template and options
