@@ -56,7 +56,6 @@ reference:
   benthicattributes:
     - id
     - name
-    - status
     - notes
     - parent
     - regions
@@ -68,7 +67,6 @@ reference:
   fishfamilies:
     - id
     - name
-    - status
     - biomass_constant_a
     - biomass_constant_b
     - biomass_constant_c
@@ -78,7 +76,6 @@ reference:
   fishgenera:
     - id
     - name
-    - status
     - biomass_constant_a
     - biomass_constant_b
     - biomass_constant_c
@@ -91,7 +88,6 @@ reference:
     - name
     - display_name
     - notes
-    - status
     - biomass_constant_a
     - biomass_constant_b
     - biomass_constant_c
@@ -109,7 +105,6 @@ reference:
     - updated_on
   invertattributes:
     - id
-    - status
     - taxonomic_rank
     - name
     - max_length
@@ -123,7 +118,6 @@ reference:
     - updated_on
   invertspecies:
     - id
-    - status
     - display_name
     - max_length
     - created_on
@@ -145,7 +139,6 @@ endpoint:
     - id
     - name
     - slug
-    - status
     - description
     - created_on
     - updated_on

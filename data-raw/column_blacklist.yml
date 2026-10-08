@@ -17,14 +17,21 @@ managements:
 summarysampleevents:
 reference:
   benthicattributes:
+    - status
   fishfamilies:
+    - status
   fishgenera:
+    - status
   fishspecies:
+    - status
   invertattributes:
+    - status
   invertspecies:
+    - status
 me:
 endpoint:
   projecttags:
+    - status
   fishsizes:
     - fish_bin_size
   choices:

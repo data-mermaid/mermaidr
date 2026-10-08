@@ -278,7 +278,7 @@ initial_cleanup <- function(results, endpoint) {
     results <- dplyr::mutate(results, sample_date = as.Date(.data$sample_date))
   }
 
-  if ("status" %in% names(results)) {
+  if ("status" %in% names(results) & endpoint == "projects") {
     results <- results %>%
       dplyr::mutate(status = dplyr::recode(.data$status,
         `10` = "Locked",
