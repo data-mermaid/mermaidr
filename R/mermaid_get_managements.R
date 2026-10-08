@@ -13,6 +13,5 @@
 #' mermaid_get_managements(limit = 10)
 #' }
 mermaid_get_managements <- function(limit = NULL, token = mermaid_token()) {
-  get_endpoint("managements", limit = limit, token = token) %>%
-    remove_blacklist_endpoint_columns("managements")
+  get_endpoint("managements", limit = limit, token = token)
 }

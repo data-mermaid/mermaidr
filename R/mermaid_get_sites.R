@@ -13,10 +13,8 @@
 mermaid_get_sites <- function(limit = NULL, token = mermaid_token()) {
   res <- get_endpoint("sites", limit = limit, token = token)
 
-  res <- res %>%
+  res %>%
     unpack_coordinates()
-
-  remove_blacklist_endpoint_columns(res, "sites")
 }
 
 unpack_coordinates <- function(x) {
