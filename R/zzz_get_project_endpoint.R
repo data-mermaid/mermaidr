@@ -250,6 +250,10 @@ add_project_identifiers <- function(res, project) {
       project <- purrr::map_dfr(project, lookup_project)
     }
 
+    if (!"name" %in% names(project)) {
+      project <- purrr::map_dfr(project[["id"]], lookup_project)
+    }
+
     if (all(c("project", "project_id") %in% names(res))) {
       if (all(res[["project"]] == res[["project_id"]])) {
         res <- dplyr::select(res, -dplyr::all_of("project"))
@@ -269,10 +273,6 @@ add_project_identifiers <- function(res, project) {
           )
 
         return(res)
-      } else {
-        browser()
-        # TODO, check here
-        # review msg: If res has no project/project_id column and the filter returns 0 rows, the bind_cols branch is skipped and left_join(by = c('project_id' = 'id')) fails with "Join columns in x must be present".
       }
     }
   }

@@ -53,4 +53,9 @@ test_that("multiple projects, results are combined", {
   p <- mermaid_get_my_projects(limit = 2)
   res <- mermaid_get_project_sites(p)
   expect_true(length(unique(res[["project"]])) == 2)
+
+  p <- mermaid_get_my_projects(limit = 2)
+  p <- p["id"]
+  res <- mermaid_get_project_sites(p)
+  expect_true(length(unique(res[["project"]])) == 2)
 })

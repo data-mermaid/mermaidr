@@ -37,7 +37,7 @@ check_mermaidr_update <- function(main = TRUE, user_prompted = FALSE) {
     silent = TRUE
   )
 
-  if (class(update_needed) == "try-error") {
+  if (inherits(update_needed, "try-error")) {
     if (user_prompted) { # Even if it errors, return TRUE because the user wants to update -- so try again to do that
       return(TRUE)
     }
