@@ -55,19 +55,7 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
       }
     }
   } else {
-    if (length(endpoint) == 1) {
-      if (!is.data.frame(res)) {
-        if (all(purrr::map_lgl(res, is.data.frame))) {
-          dplyr::bind_rows(res)
-        } else {
-          res
-        }
-      } else {
-        res
-      }
-    } else {
-      res
-    }
+    res
   }
 }
 
@@ -82,7 +70,9 @@ get_project_single_endpoint <- function(endpoint, full_endpoint, limit = NULL, t
   # If 0 rows, just return
   if (all(purrr::map_dbl(initial_res, nrow) == 0)) {
     if (length(initial_res) > 1) {
-      return(initial_res)
+      return(
+        dplyr::bind_rows(initial_res)
+      )
     } else {
       return(initial_res[[full_endpoint]])
     }
