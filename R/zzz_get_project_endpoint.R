@@ -17,7 +17,6 @@ NULL
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
 get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint, limit = NULL, token = mermaid_token(), filter = NULL) {
-
   project_id <- as_id(project)
   check_project(project_id)
 

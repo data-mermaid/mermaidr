@@ -18,7 +18,7 @@ test_that("`project` is the first column", {
 
   p <- mermaid_get_my_projects(limit = 1)
   project_managements <- mermaid_get_project_managements(p, limit = 1)
-  expect_named(project_managements[,1], "project")
+  expect_named(project_managements[, 1], "project")
 })
 
 test_that("no mgmts = empty tibble", {

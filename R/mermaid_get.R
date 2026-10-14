@@ -299,7 +299,7 @@ initial_cleanup <- function(results, endpoint) {
       )
   }
 
-    # Replace any "" or "NA" with NAs
+  # Replace any "" or "NA" with NAs
   results <- results %>%
     dplyr::mutate(
       dplyr::across(
@@ -307,7 +307,8 @@ initial_cleanup <- function(results, endpoint) {
         \(y) ifelse(y %in% c("NA", ""),
           NA_character_, y
         )
-      ))
+      )
+    )
 
   # Remove any 's in names (so they do not become spaces in snake case), and convert to snake case
   names(results) <- stringr::str_remove_all(names(results), "'")

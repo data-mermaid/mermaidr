@@ -37,7 +37,6 @@ lookup_choices <- function(results, endpoint, endpoint_type = "main") {
     basename()
 
   if (endpoint %in% c("sites", "managements")) {
-
     col_order <- names(results)
 
     if (endpoint == "sites") {

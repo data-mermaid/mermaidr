@@ -33,7 +33,8 @@ check_mermaidr_update <- function(main = TRUE, user_prompted = FALSE) {
       remote_sha <- remotes::remote_sha(remote, package)
 
       !identical(local_sha, remote_sha)
-    }, silent = TRUE
+    },
+    silent = TRUE
   )
 
   if (class(update_needed) == "try-error") {

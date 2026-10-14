@@ -85,7 +85,6 @@ mermaid_import_project_sites <- function(data, project, token = mermaid_token())
       dplyr::pull({{ col }})
 
     if (length(invalid_values) > 0) {
-
       message("Not all values of `", col, "` are valid. Invalid values: ", paste0(invalid_values, collapse = ", "), ". Valid values below:")
       return(col_choices %>%
         dplyr::select({{ col }}))
