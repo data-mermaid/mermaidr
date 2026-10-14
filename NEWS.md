@@ -5,6 +5,7 @@
     * For `mermaid_get_reference("fishspecies")` and `mermaid_get_reference("invertspecies")`, the original, short name used in the API is returned as `"name"` and the full species name is now in `"display_name"` (it was previously `"name"`).
     * When there is no data for the endpoints (`mermaid_get_my_projects()`, `mermaid_get_project_data()`, `mermaid_get_project_managements()`, `mermaid_get_project_sites()`), the returned data is now a 0 row, 0 *column* tibble instead of a 0 row, named tibble
     * Empty strings for country, tags, etc are now `NA_character_` instead of `""`
+* Previously comma-separated values (e.g. countries, tags, regions) are now semicolon separated
 * Ability to access covariates in `mermaid_get_project_data()` and `mermaid_get_project_sites()` has been removed. Setting `covariate = TRUE` will give a message that users need to use the `mermaidrcovariates` package, with the relevant vignette linked.
 * Upon package load, user is now informed whether a new version is available, and if so, instructed to install it using the new function `update_mermaidr()`.
 
