@@ -258,7 +258,7 @@ initial_cleanup <- function(results, endpoint) {
         if (length(x) == 0) {
           NA_character_
         } else {
-          paste0(x, collapse = ", ")
+          paste0(x, collapse = "; ")
         }
       }) %>%
       dplyr::ungroup()

@@ -17,6 +17,7 @@ NULL
 #' mermaid_get_project_endpoint(test_project, "sites")
 #' }
 get_project_endpoint <- function(project = mermaid_get_default_project(), endpoint, limit = NULL, token = mermaid_token(), filter = NULL) {
+
   project_id <- as_id(project)
   check_project(project_id)
 
@@ -55,7 +56,19 @@ get_project_endpoint <- function(project = mermaid_get_default_project(), endpoi
       }
     }
   } else {
-    dplyr::bind_rows(res)
+    if (length(endpoint) == 1) {
+      if (!is.data.frame(res)) {
+        if (all(purrr::map_lgl(res, is.data.frame))) {
+          dplyr::bind_rows(res)
+        } else {
+          res
+        }
+      } else {
+        res
+      }
+    } else {
+      res
+    }
   }
 }
 
@@ -245,7 +258,7 @@ add_project_identifiers <- function(res, project) {
     return(res)
   } else {
     if (is.character(project)) {
-      project <- lookup_project(project)
+      project <- purrr::map_dfr(project, lookup_project)
     }
 
     if (all(c("project", "project_id") %in% names(res))) {

@@ -52,8 +52,7 @@ import_bulk_action <- function(project, action, method = NULL, bulkeditforce = F
       )
     }
 
-    cli::cli_alert_info(no_records_message) %>%
-      print()
+    cli::cli_alert_info(no_records_message)
 
     return(invisible(NULL))
   }

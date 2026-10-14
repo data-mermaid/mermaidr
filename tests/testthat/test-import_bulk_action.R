@@ -3,7 +3,7 @@ test_that("mermaid_import_bulk_validate gives a message when there are no record
   skip_on_ci()
   skip_on_cran()
 
-  expect_output(
+  expect_message(
     mermaid_search_my_projects("empty project test",
       include_test_projects = TRUE
     ) %>%
@@ -17,7 +17,7 @@ test_that("mermaid_import_bulk_submit gives a message when there are no records 
   skip_on_ci()
   skip_on_cran()
 
-  expect_output(
+  expect_message(
     mermaid_search_my_projects("empty project test",
       include_test_projects = TRUE
     ) %>%
@@ -68,7 +68,7 @@ test_that("mermaid_import_bulk_edit gives a message when there are no records to
   skip_on_ci()
   skip_on_cran()
 
-  expect_output(
+  expect_message(
     mermaid_search_my_projects("empty project test",
       include_test_projects = TRUE
     ) %>%

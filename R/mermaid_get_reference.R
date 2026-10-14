@@ -148,12 +148,12 @@ lookup_regions <- function(results, choices = mermaid_get_endpoint("choices")) {
 
   row_regions <- results_row %>%
     dplyr::select(dplyr::all_of(c("row", "regions"))) %>%
-    tidyr::separate_rows("regions", sep = ", ") %>%
+    tidyr::separate_rows("regions", sep = "; |, ") %>%
     dplyr::filter(!is.na(.data$regions)) %>%
     dplyr::left_join(regions, by = c("regions" = "id"), suffix = c("_id", "")) %>%
     dplyr::group_by(.data$row) %>%
     dplyr::arrange(.data$regions) %>%
-    dplyr::summarise(regions = paste(.data$regions, collapse = ", "))
+    dplyr::summarise(regions = paste(.data$regions, collapse = "; "))
 
   results_row %>%
     dplyr::left_join(row_regions, by = "row", suffix = c("_id", "")) %>%
@@ -177,7 +177,7 @@ lookup_benthiclifehistories <- function(results, choices = mermaid_get_endpoint(
     dplyr::left_join(life_histories, by = "id", suffix = c("_id", "")) %>%
     dplyr::group_by(.data$row) %>%
     dplyr::arrange(.data$id) %>%
-    dplyr::summarise(id = paste(.data$name, collapse = ", "))
+    dplyr::summarise(id = paste(.data$name, collapse = "; "))
 
   names(row_lifehistories) <- c("row", "life_histories")
 

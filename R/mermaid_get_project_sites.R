@@ -15,6 +15,15 @@
 #'   mermaid_get_project_sites()
 #' }
 mermaid_get_project_sites <- function(project = mermaid_get_default_project(), limit = NULL, token = mermaid_token(), covariates = FALSE) {
+  if (covariates) {
+    cli::cli_alert_info(
+      "`covariates` argument is deprecated as of mermaidr version 2.0.0. \\
+   Please use the `mermaidrcovariates` package to access covariates. \\
+   See the vignette: {.url https://data-mermaid.github.io/mermaidr/articles/covariates_data.html}. \\
+   Your results will be returned without any covariates."
+    )
+  }
+
   get_project_endpoint(project = project, endpoint = "sites", limit = limit, token = token) %>%
     unpack_coordinates()
 }

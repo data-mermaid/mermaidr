@@ -186,6 +186,8 @@ summarysampleevents:
   - suggested_citation
   - project_admins
   - sample_event_id
+  - site_id
+  - management_id
 classification/labelmappings:
   - id
   - benthic_attribute

@@ -93,7 +93,7 @@ lookup_variable <- function(.data, choices, variable) {
 
     .data_sep <- .data_temp %>%
       dplyr::select(dplyr::all_of(c("temp_row_for_rejoin", join_by))) %>%
-      tidyr::separate_rows(dplyr::all_of(names(join_by)), sep = ", ")
+      tidyr::separate_rows(dplyr::all_of(names(join_by)), sep = ";|,") # TODO -- it should be fine to use , here, since these are ONLY IDs
 
     .data_to_name <- variable_names %>%
       dplyr::right_join(.data_sep, by = names(join_by)) %>%
@@ -104,7 +104,7 @@ lookup_variable <- function(.data, choices, variable) {
             names(join_by),
             paste0(join_by, "_name")
           )),
-          ~ stringr::str_c(.x, collapse = ", ")
+          ~ stringr::str_c(.x, collapse = "; ")
         )
       )
 
@@ -159,9 +159,9 @@ strip_name_suffix <- function(results, endpoint) {
 
 allowed_ids <- function(endpoint) {
   ids <- c("project_id", "sample_event_id", "sample_unit_id", "provider_id")
-  # if (endpoint == "summarysampleevents") { # TODO -- maybe put this if () in
-    ids <- c("site_id", "management_id")
-  # }
+  if (endpoint == "summarysampleevents") {
+    ids <- c(ids, c("site_id", "management_id"))
+  }
 
   unique(ids)
 }
