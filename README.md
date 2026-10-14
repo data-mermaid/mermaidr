@@ -64,16 +64,16 @@ projects
 #>  1 e1ef… 2016… Fiji              9                     10               80 WCS …
 #>  2 170e… 2018… Fiji             10                      5              121 WCS …
 #>  3 d065… 2019… Fiji             31                      3               32 WCS …
-#>  4 1fbd… a2    Canada, …         9                      9                0 WWF-…
-#>  5 3a9e… Aceh… Indonesia        18                     55              198 WCS …
-#>  6 bacd… Beli… Belize, …        39                    128              260 WCS …
+#>  4 1fbd… a2    Canada; …         9                      9                0 WWF-…
+#>  5 3a9e… Aceh… Indonesia        18                     54              199 WCS …
+#>  6 bacd… Beli… Belize; …        39                    136              260 WCS …
 #>  7 a1b7… Grea… Fiji             76                      8              648 Fiji…
 #>  8 507d… Kari… Indonesia        43                     18              842 WCS …
 #>  9 75ef… Kubu… Fiji             78                      1             1145 WCS …
 #> 10 5679… Mada… Madagasc…        33                      0               49 WCS …
 #> 11 4080… Mada… Madagasc…        74                      4               84 WCS …
 #> 12 4d79… MERM… Indonesi…        13                     73               31 test…
-#> 13 2c0c… Shar… Canada, …        28                     40                7 <NA> 
+#> 13 2c0c… Shar… Canada; …        28                     61                7 <NA> 
 #> 14 02e6… TWP … Indonesia        14                     10                2 WCS …
 #> 15 2d6c… WCS … Mozambiq…        74                      6              247 WCS …
 #> 16 9de8… XPDC… Indonesia        37                     71              450 <NA> 
@@ -207,21 +207,21 @@ the fish and benthic attributes you can choose in MERMAID), using
 
 ``` r
 mermaid_get_reference(reference = "fishfamilies")
-#> # A tibble: 161 × 9
-#>    id      name  status biomass_constant_a biomass_constant_b biomass_constant_c
-#>    <chr>   <chr> <chr>               <dbl>              <dbl>              <dbl>
-#>  1 3f7bf3… Acan… Open              0.0256                2.97              0.990
-#>  2 455a7b… Achi… Open              0.0164                3.11              1    
-#>  3 78d71a… Acip… Open              0.00497               3.25              1    
-#>  4 0d9904… Albu… Open              0.0105                2.99              1    
-#>  5 530c63… Amba… Open              0.0130                2.96              1    
-#>  6 e8dfe9… Angu… Open              0.0006                3.35              1    
-#>  7 cf2b18… Anom… Open              0.0112                3.04              1    
-#>  8 9ef4d9… Ante… Open              0.0200                3.01              1    
-#>  9 7a9316… Aplo… Open              0.00487               3.16              1    
-#> 10 26fff3… Apog… Open              0.0142                3.15              0.993
+#> # A tibble: 161 × 8
+#>    id     name  biomass_constant_a biomass_constant_b biomass_constant_c regions
+#>    <chr>  <chr>              <dbl>              <dbl>              <dbl> <chr>  
+#>  1 3f7bf… Acan…            0.0256                2.97              0.990 Centra…
+#>  2 455a7… Achi…            0.0164                3.11              1     Tropic…
+#>  3 78d71… Acip…            0.00497               3.25              1     Tropic…
+#>  4 0d990… Albu…            0.0105                2.99              1     Tropic…
+#>  5 530c6… Amba…            0.0130                2.96              1     Centra…
+#>  6 e8dfe… Angu…            0.0006                3.35              1     Tropic…
+#>  7 cf2b1… Anom…            0.0112                3.04              1     Tropic…
+#>  8 9ef4d… Ante…            0.0200                3.01              1     Centra…
+#>  9 7a931… Aplo…            0.00487               3.16              1     Centra…
+#> 10 26fff… Apog…            0.0142                3.15              0.993 Centra…
 #> # ℹ 151 more rows
-#> # ℹ 3 more variables: regions <chr>, created_on <chr>, updated_on <chr>
+#> # ℹ 2 more variables: created_on <chr>, updated_on <chr>
 ```
 
 Using this function, you can access the fish family, fish genera, fish
@@ -232,7 +232,7 @@ You can also get a list of *all* projects (not just your own):
 
 ``` r
 mermaid_get_projects()
-#> # A tibble: 112 × 21
+#> # A tibble: 113 × 21
 #>    id    name  countries num_sites num_active_sample_un…¹ num_sample_units tags 
 #>    <chr> <chr> <chr>         <int>                  <int>            <dbl> <chr>
 #>  1 13a2… 0909… <NA>              0                      0                0 <NA> 
@@ -245,7 +245,7 @@ mermaid_get_projects()
 #>  8 c0ba… 2018… Fiji             22                      0              130 WCS …
 #>  9 170e… 2018… Fiji             10                      5              121 WCS …
 #> 10 95e0… 2019… Fiji             44                      0              406 WCS …
-#> # ℹ 102 more rows
+#> # ℹ 103 more rows
 #> # ℹ abbreviated name: ¹​num_active_sample_units
 #> # ℹ 14 more variables: suggested_citation <chr>, bbox <df[,4]>, notes <chr>,
 #> #   status <chr>, data_policy_beltfish <chr>, data_policy_benthiclit <chr>,
@@ -258,20 +258,20 @@ As well as all sites:
 
 ``` r
 mermaid_get_sites()
-#> # A tibble: 2,154 × 12
+#> # A tibble: 2,156 × 12
 #>    id         name  latitude longitude notes project country reef_type reef_zone
 #>    <chr>      <chr>    <dbl>     <dbl> <chr> <chr>   <chr>   <chr>     <chr>    
 #>  1 0415d9e5-… mysi…     -1        -1   <NA>  2c56b9… Bangla… atoll     back reef
 #>  2 547dae1b-… bulk…     47.5     -81.8 <NA>  2c0c98… Canada  atoll     back reef
 #>  3 874c5a80-… dupe…      1         1   <NA>  c08ff9… Canada  atoll     back reef
 #>  4 42d67bb1-… dupe…      1         1   <NA>  c08ff9… Canada  atoll     back reef
-#>  5 6cd334f9-… meli…     49      -110   <NA>  ea4751… Canada  atoll     back reef
-#>  6 afe4dac0-… meli…     49      -110   <NA>  ea4751… Canada  atoll     back reef
-#>  7 9c2f0080-… BA02     -17.4     178.  Sour… a1b7ff… Fiji    atoll     back reef
-#>  8 af55820b-… BA02     -17.4     178.  Sour… 89f2d4… Fiji    atoll     back reef
-#>  9 a9c8b3e0-… BA03     -17.4     178.  <NA>  eae004… Fiji    atoll     back reef
-#> 10 03e5576e-… BA03     -17.4     178.  <NA>  89f2d4… Fiji    atoll     back reef
-#> # ℹ 2,144 more rows
+#>  5 afe4dac0-… meli…     49      -110   <NA>  ea4751… Canada  atoll     back reef
+#>  6 6cd334f9-… meli…     49      -110   <NA>  ea4751… Canada  atoll     back reef
+#>  7 af55820b-… BA02     -17.4     178.  Sour… 89f2d4… Fiji    atoll     back reef
+#>  8 9c2f0080-… BA02     -17.4     178.  Sour… a1b7ff… Fiji    atoll     back reef
+#>  9 03e5576e-… BA03     -17.4     178.  <NA>  89f2d4… Fiji    atoll     back reef
+#> 10 a9c8b3e0-… BA03     -17.4     178.  <NA>  eae004… Fiji    atoll     back reef
+#> # ℹ 2,146 more rows
 #> # ℹ 3 more variables: exposure <chr>, created_on <chr>, updated_on <chr>
 ```
 
@@ -279,20 +279,20 @@ And all managements:
 
 ``` r
 mermaid_get_managements()
-#> # A tibble: 1,802 × 18
+#> # A tibble: 1,886 × 18
 #>    id         name   size name_secondary est_year notes no_take periodic_closure
 #>    <chr>      <chr> <dbl> <chr>             <int> <chr> <lgl>   <lgl>           
 #>  1 a10d4cfc-… 123     123 <NA>               1979 <NA>  FALSE   TRUE            
-#>  2 3ad9eb1e-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
-#>  3 9168b477-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
-#>  4 9788b7f9-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
-#>  5 248e26fe-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
+#>  2 0e9aa677-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
+#>  3 248e26fe-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
+#>  4 9f54940e-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
+#>  5 9788b7f9-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
 #>  6 d70de8ff-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
-#>  7 9b1df02a-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
-#>  8 0e9aa677-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
-#>  9 9f54940e-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
-#> 10 79fb2463-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
-#> # ℹ 1,792 more rows
+#>  7 9c204b0d-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
+#>  8 3ad9eb1e-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
+#>  9 9168b477-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
+#> 10 9b1df02a-… 678j…     7 <NA>                 NA <NA>  TRUE    FALSE           
+#> # ℹ 1,876 more rows
 #> # ℹ 10 more variables: open_access <lgl>, size_limits <lgl>,
 #> #   gear_restriction <lgl>, species_restriction <lgl>,
 #> #   access_restriction <lgl>, compliance <chr>, parties <chr>, rules <chr>,
