@@ -50,6 +50,15 @@
   <ul class="dropdown-menu" role="menu">
 <li class="divider">
     </li>
+<li class="dropdown-header">Getting Started</li>
+    <li>
+      <a href="../articles/new_to_r.html">Getting started with R</a>
+    </li>
+    <li>
+      <a href="../articles/getting_help.html">Getting help with mermaidr</a>
+    </li>
+    <li class="divider">
+    </li>
 <li class="dropdown-header">Case Studies</li>
     <li>
       <a href="../articles/vo_baseline_monitoring.html">WCS Vibrant Oceans Baseline Coral Reef Monitoring</a>
@@ -62,15 +71,6 @@
     </li>
     <li>
       <a href="../articles/import_coralnet.html">Import CoralNet data into MERMAID</a>
-    </li>
-    <li class="divider">
-    </li>
-<li class="dropdown-header">Getting Started</li>
-    <li>
-      <a href="../articles/new_to_r.html">Getting started with R</a>
-    </li>
-    <li>
-      <a href="../articles/getting_help.html">Getting help with mermaidr</a>
     </li>
     <li class="divider">
     </li>
@@ -114,7 +114,7 @@
 Data</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/v2.0.0/vignettes/articles/covariates_data.Rmd" class="external-link"><code>vignettes/articles/covariates_data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/data-mermaid/mermaidr/blob/master/vignettes/articles/covariates_data.Rmd" class="external-link"><code>vignettes/articles/covariates_data.Rmd</code></a></small>
       <div class="hidden name"><code>covariates_data.Rmd</code></div>
 
     </div>
@@ -142,10 +142,10 @@ visit its <a href="https://data-mermaid.github.io/mermaidr-covariates/" class="e
 environmental covariates that were previously included alongside data
 accessed from <code>mermaidr</code>. Note that not all datasets were
 migrated:</p>
-<table class="table">
+<table style="border-collapse:collapse;" class="table">
 <thead><tr>
 <th>
-source
+Source
 </th>
 <th>
 Data
@@ -162,24 +162,24 @@ Prescient dataset ID
 </tr></thead>
 <tbody>
 <tr>
-<td style="vertical-align:middle;" rowspan="2" colspan="1">
+<td style="vertical-align:middle;border-top:1px solid #bbb;" rowspan="2" colspan="1">
 <span>
 <div>
 <a href="https://allencoralatlas.org" class="external-link">Allen Coral Atlas</a>
 </div>
 </span>
 </td>
-<td>
+<td style="border-top:1px solid #bbb;">
 Geomorphic zonation
 </td>
-<td>
+<td style="border-top:1px solid #bbb;">
 <code>aca_geomorphic</code>
 </td>
-<td>
+<td style="border-top:1px solid #bbb;">
 <a href="https://mermaid.prescient.earth/map?collectionId=aca_extent" class="external-link">ACA
 Reef Extent</a>
 </td>
-<td>
+<td style="border-top:1px solid #bbb;">
 <code>aca_extent</code>
 </td>
 </tr>
@@ -199,7 +199,7 @@ Benthic Habitat</a>
 </td>
 </tr>
 <tr>
-<td style="vertical-align:middle;" rowspan="6" colspan="1">
+<td style="vertical-align:middle;border-top:1px solid #bbb;" rowspan="6" colspan="1">
 <span>
 <div>
 <a href="https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12858" class="external-link"><i>A
@@ -208,17 +208,17 @@ Andrello et al., 2022
 </div>
 </span>
 </td>
-<td>
+<td style="border-top:1px solid #bbb;">
 Market gravity
 </td>
-<td>
+<td style="border-top:1px solid #bbb;">
 <code>andrello_grav_nc</code>
 </td>
-<td>
+<td style="border-top:1px solid #bbb;">
 <a href="https://mermaid.prescient.earth/map?collectionId=market_gravity" class="external-link">Market
 gravity (fishing pressure)</a>
 </td>
-<td>
+<td style="border-top:1px solid #bbb;">
 <code>market_gravity</code>
 </td>
 </tr>
@@ -296,23 +296,23 @@ Cumulative pressure index
 </td>
 </tr>
 <tr>
-<td>
+<td style="border-top:1px solid #bbb;border-bottom:1px solid #bbb;">
 <a href="https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12587" class="external-link"><i>Risk-sensitive
 planning for conserving coral reefs under rapid climate change</i></a>
 by Beyer et al., 2018.
 </td>
-<td>
+<td style="border-top:1px solid #bbb;border-bottom:1px solid #bbb;">
 Scores
 </td>
-<td>
+<td style="border-top:1px solid #bbb;border-bottom:1px solid #bbb;">
 <code>beyer_score</code>, <code>beyer_scorecn</code>,
 <code>beyer_scorecy</code>, <code>beyer_scorepfc</code>,
 <code>beyer_scoreth</code>, <code>beyer_scoretr</code>
 </td>
-<td>
+<td style="border-top:1px solid #bbb;border-bottom:1px solid #bbb;">
 —
 </td>
-<td>
+<td style="border-top:1px solid #bbb;border-bottom:1px solid #bbb;">
 —
 </td>
 </tr>
@@ -620,9 +620,7 @@ can easily combine them by joining them back onto the sites!</p>
 now produce a message if you set it to <code>TRUE</code>, and returns
 the data without the covariates.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>dplyr.width <span class="op">=</span> <span class="fl">80</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mermaid_get_my_projects.html">mermaid_get_my_projects</a></span><span class="op">(</span>limit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mermaid_get_my_projects.html">mermaid_get_my_projects</a></span><span class="op">(</span>limit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/mermaid_get_project_sites.html">mermaid_get_project_sites</a></span><span class="op">(</span><span class="va">p</span>, covariates <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ `covariates` argument is deprecated as of mermaidr version 2.0.0. Please use the `mermaidrcovariates` package to access covariates. See the vignette: &lt;https://data-mermaid.github.io/mermaidr/articles/covariates_data.html&gt;. Your results will be returned without any covariates.</span></span>
 <span><span class="co">#&gt; # A tibble: 77 × 12</span></span>
