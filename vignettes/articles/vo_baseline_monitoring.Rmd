@@ -169,7 +169,7 @@ hard_coral_plot <- hard_coral_plot +
   scale_x_continuous(name = "Hard coral cover, %", breaks = seq(0, 80, 10)) +
   scale_y_discrete(name = NULL) +
   scale_fill_manual(name = "Threshold", values = c("#7F7F7F", "#F1A83B", "#E73F25"), drop = FALSE) +
-  labs(title = "A sample of WCS Vibrant Oceans survey sites, ordered by hard coral cover") +
+  labs(title = "A sample of WCS Vibrant Oceans survey sites,\nordered by hard coral cover") +
   theme_minimal() +
   theme(
     axis.text.y = element_blank(),
@@ -332,7 +332,7 @@ ggplot(fishbelt_data_latest) +
   scale_x_continuous(name = "Total reef fish biomass, kg/ha") +
   scale_y_discrete(name = NULL) +
   scale_fill_manual(name = "Threshold", values = c("#7F7F7F", "#E73F25")) +
-  labs(title = "A sample of WCS Vibrant Oceans survey sites, ordered by reef fish biomass") +
+  labs(title = "A sample of WCS Vibrant Oceans survey sites,\nordered by reef fish biomass") +
   theme_minimal() +
   theme(
     axis.text.y = element_blank(),

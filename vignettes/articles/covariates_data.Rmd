@@ -17,10 +17,10 @@ For full usage details of `mermaidrcovariates`, please visit its [website](https
 
 This vignette will specifically walk through accessing the environmental covariates that were previously included alongside data accessed from `mermaidr`. Note that not all datasets were migrated:
 
-<table>
+<table style="border-collapse:collapse;">
   <thead>
     <tr>
-      <th>source</th>
+      <th>Source</th>
       <th>Data</th>
       <th><code>mermaidr</code> column(s)</th>
       <th>Prescient source</th>
@@ -29,12 +29,12 @@ This vignette will specifically walk through accessing the environmental covaria
   </thead>
   <tbody>
     <tr>
-      <td style="vertical-align:middle;" rowspan="2" colspan="1">
+      <td style="vertical-align:middle;border-top:1px solid #bbb;" rowspan="2" colspan="1">
       <span><div><a href="https://allencoralatlas.org">Allen Coral Atlas</a></div></span></td>
-      <td>Geomorphic zonation</td>
-      <td><code>aca_geomorphic</code></td>
-      <td><a href="https://mermaid.prescient.earth/map?collectionId=aca_extent">ACA Reef Extent</a></td>
-      <td><code>aca_extent</code></td>
+      <td style="border-top:1px solid #bbb;">Geomorphic zonation</td>
+      <td style="border-top:1px solid #bbb;"><code>aca_geomorphic</code></td>
+      <td style="border-top:1px solid #bbb;"><a href="https://mermaid.prescient.earth/map?collectionId=aca_extent">ACA Reef Extent</a></td>
+      <td style="border-top:1px solid #bbb;"><code>aca_extent</code></td>
     </tr>
     <tr>
       <td>Benthic habitat</td>
@@ -43,12 +43,12 @@ This vignette will specifically walk through accessing the environmental covaria
       <td><code>aca_benthic</code></td>
     </tr>
     <tr>
-      <td style="vertical-align:middle;" rowspan="6" colspan="1">
+      <td style="vertical-align:middle;border-top:1px solid #bbb;" rowspan="6" colspan="1">
       <span><div><a href="https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12858"><i>A global map of human pressures on tropical coral reefs</i></a> by Andrello et al., 2022</div></span></td>
-      <td>Market gravity</td>
-      <td><code>andrello_grav_nc</code></td>
-      <td><a href="https://mermaid.prescient.earth/map?collectionId=market_gravity">Market gravity (fishing pressure)</a></td>
-      <td><code>market_gravity</code></td>
+      <td style="border-top:1px solid #bbb;">Market gravity</td>
+      <td style="border-top:1px solid #bbb;"><code>andrello_grav_nc</code></td>
+      <td style="border-top:1px solid #bbb;"><a href="https://mermaid.prescient.earth/map?collectionId=market_gravity">Market gravity (fishing pressure)</a></td>
+      <td style="border-top:1px solid #bbb;"><code>market_gravity</code></td>
     </tr>
     <tr>
       <td>Water pollution (sediments and nitrogen)</td>
@@ -81,11 +81,11 @@ This vignette will specifically walk through accessing the environmental covaria
       <td>---</td>
     </tr>
     <tr>
-      <td><a href="https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12587"><i>Risk-sensitive planning for conserving coral reefs under rapid climate change</i></a> by Beyer et al., 2018.</td>
-      <td>Scores</td>
-      <td><code>beyer_score</code>, <code>beyer_scorecn</code>, <code>beyer_scorecy</code>, <code>beyer_scorepfc</code>, <code>beyer_scoreth</code>, <code>beyer_scoretr</code></td>
-      <td>---</td>
-      <td>---</td>
+      <td style="border-top:1px solid #bbb;border-bottom:1px solid #bbb;"><a href="https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12587"><i>Risk-sensitive planning for conserving coral reefs under rapid climate change</i></a> by Beyer et al., 2018.</td>
+      <td style="border-top:1px solid #bbb;border-bottom:1px solid #bbb;">Scores</td>
+      <td style="border-top:1px solid #bbb;border-bottom:1px solid #bbb;"><code>beyer_score</code>, <code>beyer_scorecn</code>, <code>beyer_scorecy</code>, <code>beyer_scorepfc</code>, <code>beyer_scoreth</code>, <code>beyer_scoretr</code></td>
+      <td style="border-top:1px solid #bbb;border-bottom:1px solid #bbb;">---</td>
+      <td style="border-top:1px solid #bbb;border-bottom:1px solid #bbb;">---</td>
     </tr>
   </tbody>
 </table>
@@ -394,8 +394,6 @@ The `covariates` argument in `mermaid_get_project_sites()` and `mermaid_get_proj
 
 
 ``` r
-options(dplyr.width = 80)
-
 p <- mermaid_get_my_projects(limit = 1)
 mermaid_get_project_sites(p, covariates = TRUE)
 #> ℹ `covariates` argument is deprecated as of mermaidr version 2.0.0. Please use the `mermaidrcovariates` package to access covariates. See the vignette: <https://data-mermaid.github.io/mermaidr/articles/covariates_data.html>. Your results will be returned without any covariates.
