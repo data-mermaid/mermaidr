@@ -2,8 +2,9 @@ test_that("mermaid_get_my_projects returns a list of projects that the authentic
   skip_if_offline()
   skip_on_ci()
   skip_on_cran()
-  output <- mermaid_get_my_projects(limit = 1)
-  expect_equal(names(output), mermaid_endpoint_columns[["projects"]])
+  my_projects <- mermaid_get_my_projects(limit = 1)
+  projects <- mermaid_get_projects(limit = 1)
+  expect_named(my_projects, names(projects))
 })
 
 test_that("mermaid_get_my_projects by default only returns non-test projects, test projects too if flagged", {

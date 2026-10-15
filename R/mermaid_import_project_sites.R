@@ -85,8 +85,6 @@ mermaid_import_project_sites <- function(data, project, token = mermaid_token())
       dplyr::pull({{ col }})
 
     if (length(invalid_values) > 0) {
-      # TODO: if country, tell them to use mermaid_countries() instead to see valid choices
-
       message("Not all values of `", col, "` are valid. Invalid values: ", paste0(invalid_values, collapse = ", "), ". Valid values below:")
       return(col_choices %>%
         dplyr::select({{ col }}))
@@ -109,7 +107,7 @@ mermaid_import_project_sites <- function(data, project, token = mermaid_token())
         post_row <- data[["row"]]
         # Convert each row to a list
         data <- data %>%
-          dplyr::select(-tidyselect::all_of("row")) %>%
+          dplyr::select(-dplyr::all_of("row")) %>%
           as.list()
         # Convert lat/long to a single location col, with format list(type = "Point", coordinates = c(lat, long))
 
@@ -141,9 +139,9 @@ mermaid_import_project_sites <- function(data, project, token = mermaid_token())
       dplyr::filter(.data$status_code != 201) %>%
       dplyr::pull(.data$row)
 
-    usethis::ui_todo("Not all sites imported successfully. The following rows did not import: {paste(failed_post, collapse = ',')}")
+    cli::cli_alert_warning("Not all sites imported successfully. The following rows did not import: {paste(failed_post, collapse = ',')}")
   } else {
-    usethis::ui_done("All sites imported!")
+    cli::cli_alert_success("All sites imported!")
   }
 }
 

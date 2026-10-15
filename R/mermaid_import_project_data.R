@@ -136,7 +136,7 @@ import_project_data_internal <- function(data, project, method = methods, dryrun
         tidyr::unnest(cols = names(.)) %>%
         # Rename row number, move to the front
         dplyr::rename(row_number = "$row_number") %>%
-        dplyr::select(tidyselect::all_of("row_number"), dplyr::everything()) %>%
+        dplyr::select(dplyr::all_of("row_number"), dplyr::everything()) %>%
         # Subtract 1, since API version counts the header as row 1, which is unusual when working within R!
         dplyr::mutate(row_number = .data$row_number - 1)
 

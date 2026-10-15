@@ -21,18 +21,5 @@ mermaid_get_projects <- function(include_test_projects = FALSE, limit = NULL) {
   }
 
   res <- res[["projects"]]
-  res <- res[, mermaid_endpoint_columns[["projects"]]]
-  lookup_choices(res, endpoint = "projects")
+  remove_blacklist_endpoint_columns(res, "projects")
 }
-
-projects_columns <- c(
-  "id", "name", "countries", "num_sites",
-  "num_active_sample_units", "num_sample_units",
-  "tags", "project_admins",
-  "suggested_citation", "bbox", "notes", "status",
-  "data_policy_beltfish", "data_policy_benthiclit",
-  "data_policy_benthicpit", "data_policy_benthicpqt",
-  "data_policy_habitatcomplexity", "data_policy_bleachingqc",
-  "data_policy_macroinvertebrate",
-  "created_on", "updated_on"
-)

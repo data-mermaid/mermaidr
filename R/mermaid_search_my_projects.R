@@ -34,6 +34,9 @@ mermaid_search_my_projects <- function(name = NULL, countries = NULL, tags = NUL
       projects <- get_endpoint("projects", limit = limit, token = token, filter = list(name = name, status = 90))
     }
     # API now returns project if name contains, not exactly equal to - so filter further
+    if (nrow(projects) == 0) {
+      return(dplyr::tibble())
+    }
     projects <- projects %>%
       dplyr::filter(name == !!name)
 
@@ -54,10 +57,8 @@ mermaid_search_my_projects <- function(name = NULL, countries = NULL, tags = NUL
   }
 
   if (is.null(limit)) {
-    lookup_choices(projects, endpoint = "projects")
+    projects
   } else {
-    head(
-      lookup_choices(projects, endpoint = "projects"), limit
-    )
+    head(projects, limit)
   }
 }

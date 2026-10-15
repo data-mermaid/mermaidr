@@ -15,90 +15,85 @@ test_that("mermaid_get_gfcr_report returns a list with set sheets/columns", {
   expect_named(
     res[["F1"]],
     c(
-      "Project", "Title", "Reporting Date", "Data Type", "Sub-Indicator Name",
-      "Area (km2)", "Suggested Citation", "Notes"
+      "Project", "Title", "Data type", "Reporting date", "Sub-indicator name",
+      "Value", "Notes", "Suggested citation"
     )
   )
 
   expect_named(
     res[["F2"]],
     c(
-      "Project", "Title", "Reporting Date", "Data Type", "Sub-Indicator Name",
-      "Area (km2)", "Notes"
+      "Project", "Title", "Data type", "Reporting date", "Sub-indicator name",
+      "Value", "Notes", "Suggested citation"
     )
   )
 
   expect_named(
     res[["F3"]],
     c(
-      "Project", "Title", "Reporting Date", "Data Type", "Sub-Indicator Name",
-      "Value", "Notes"
+      "Project", "Title", "Data type", "Reporting date", "Sub-indicator name",
+      "Value", "Notes", "Suggested citation"
     )
   )
 
   expect_named(
     res[["F4"]],
     c(
-      "Project", "Title", "Reporting Date", "Data Type", "Date Start",
-      "Date End", "Sub-Indicator Name", "Value", "Notes"
+      "Project", "Title", "Data type", "Reporting date", "Start date",
+      "End date", "Sub-indicator name", "Value", "Notes", "Suggested citation"
     )
   )
 
   expect_named(
     res[["F5"]],
     c(
-      "Project", "Title", "Reporting Date", "Data Type", "Sub-Indicator Name",
-      "Value", "Notes"
+      "Project", "Title", "Data type", "Reporting date", "Sub-indicator name",
+      "Value", "Notes", "Suggested citation"
     )
   )
 
   expect_named(
     res[["F6"]],
     c(
-      "Project", "Title", "Reporting Date", "Data Type", "Sub-Indicator Name",
-      "Value", "Notes"
+      "Project", "Title", "Data type", "Reporting date", "Sub-indicator name",
+      "Value", "Notes", "Suggested citation"
     )
   )
 
   expect_named(
     res[["F7"]],
     c(
-      "Project", "Title", "Reporting Date", "Data Type", "Sub-Indicator Name",
-      "Value", "Notes"
+      "Project", "Title", "Data type", "Reporting date", "Sub-indicator name",
+      "Value", "Notes", "Suggested citation"
     )
   )
 
   expect_named(
     res[["FacilitiesSolutions"]],
     c(
-      "Project", "Title", "Reporting Date", "Data Type", "Type",
-      "Business / Finance Solution", "Sustainable Finance Mechanisms",
-      "Sector", "Geographical Coverage", "Name of TAF (incubator)",
-      "Number of solutions supported by", "Used a TAF (incubator)?",
-      "GFCR-funded TAF (incubator)?", "Local Enterprise", "Gender Smart Investment",
-      "Notes"
+      "Project", "Title", "Data type", "Reporting date", "Facility/solution type",
+      "Facility/solution name", "Sector", "Geographical coverage",
+      "Used a TAF (incubator)?", "GFCR-funded TAF (incubator)?", "Name of TAF (incubator)",
+      "Number of solutions supported by", "Local enterprise", "Gender 2X criteria",
+      "Sustainable financial mechanisms", "Notes", "Suggested citation"
     )
   )
 
   expect_named(
     res[["Investments"]],
     c(
-      "Project", "Title", "Reporting Date", "Data Type", "Type",
-      "Business / Finance Solution", "Sustainable Finance Mechanisms",
-      "Sector", "Geographical Coverage", "Name of TAF (incubator)",
-      "Number of solutions supported by", "Investment Source", "Investment Type",
-      "Investment Amount", "Notes"
+      "Project", "Title", "Data type", "Reporting date", "Facility/solution type",
+      "Facility/solution name", "Investment source", "Investment type",
+      "Investment amount", "Notes", "Suggested citation"
     )
   )
 
   expect_named(
     res[["Revenues"]],
     c(
-      "Project", "Title", "Reporting Date", "Data Type", "Type",
-      "Business / Finance Solution", "Sustainable Finance Mechanisms",
-      "Sector", "Geographical Coverage", "Name of TAF (incubator)",
-      "Number of solutions supported by", "Revenue Type", "Sustainable Revenue Source",
-      "Revenue Amount", "Notes"
+      "Project", "Title", "Data type", "Reporting date", "Facility/solution type",
+      "Facility/solution name", "Revenue type", "Sustainable revenue stream",
+      "Revenue amount", "Notes", "Suggested citation"
     )
   )
 
