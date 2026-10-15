@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -77,6 +77,9 @@
 <li class="dropdown-header">Detailed Usage</li>
     <li>
       <a href="../articles/accessing_project_data.html">Accessing Project Data</a>
+    </li>
+    <li>
+      <a href="../articles/covariates_data.html">Adding Environmental Covariates to MERMAID Data</a>
     </li>
     <li>
       <a href="../articles/accessing_dev_collect_data.html">Accessing data from the development version of MERMAID</a>
@@ -140,29 +143,15 @@ data for that example to follow along.</p>
 <div class="section level2">
 <h2 id="the-steps-for-importing-legacy-fish-belt-data-are">The steps for importing legacy fish belt data are:<a class="anchor" aria-label="anchor" href="#the-steps-for-importing-legacy-fish-belt-data-are"></a>
 </h2>
-<ul>
-<li><ol style="list-style-type: decimal">
+<ol style="list-style-type: decimal">
 <li>Prepare your project in MERMAID Collect</li>
-</ol></li>
-<li><ol start="2" style="list-style-type: decimal">
 <li>Prepare your fish belt data in a CSV format</li>
-</ol></li>
-<li><ol start="3" style="list-style-type: decimal">
 <li>Install and activate mermaidr and other related packages</li>
-</ol></li>
-<li><ol start="4" style="list-style-type: decimal">
 <li>Download the fish belt MERMAID template</li>
-</ol></li>
-<li><ol start="5" style="list-style-type: decimal">
 <li>Prepare and reformat your data to match the MERMAID template</li>
-</ol></li>
-<li><ol start="6" style="list-style-type: decimal">
 <li>Import your data to MERMAID</li>
-</ol></li>
-<li><ol start="7" style="list-style-type: decimal">
 <li>Validate and submit in MERMAID Collect</li>
-</ol></li>
-</ul>
+</ol>
 </div>
 <div class="section level2">
 <h2 id="step-1--prepare-your-project-in-mermaid-collect">Step 1. Prepare your project in MERMAID Collect<a class="anchor" aria-label="anchor" href="#step-1--prepare-your-project-in-mermaid-collect"></a>
@@ -174,23 +163,13 @@ account before using it. You can use a new project or existing project
 in MERMAID Collect as long as you are an admin of the project. <a href="https://datamermaid.org/documentation/collect-project-set-up" class="external-link">Setting
 up a new project</a> requires internet access. To create a new project,
 click on the New Project button and then:</p>
-<ul>
-<li><ol style="list-style-type: decimal">
-<li>add organization(s),</li>
-</ol></li>
-<li><ol start="2" style="list-style-type: decimal">
-<li>add users,</li>
-</ol></li>
-<li><ol start="3" style="list-style-type: decimal">
-<li>set data sharing permissions,</li>
-</ol></li>
-<li><ol start="4" style="list-style-type: decimal">
-<li>add sites, and</li>
-</ol></li>
-<li><ol start="5" style="list-style-type: decimal">
-<li>add management regimes.</li>
-</ol></li>
-</ul>
+<ol style="list-style-type: decimal">
+<li>Add organization(s),</li>
+<li>Add users,</li>
+<li>Set data sharing permissions,</li>
+<li>Add sites, and</li>
+<li>Add management regimes.</li>
+</ol>
 </div>
 <div class="section level2">
 <h2 id="step-2--prepare-your-fish-belt-data-in-a-csv-format">Step 2. Prepare your fish belt data in a CSV format<a class="anchor" aria-label="anchor" href="#step-2--prepare-your-fish-belt-data-in-a-csv-format"></a>
@@ -209,10 +188,7 @@ The first step is to install and activate the mermaidr and other related
 packages. In this example, we are also going to use the tidyverse
 package.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#install.packages("tidyverse")</span></span>
-<span><span class="co">#remotes::install_github("data-mermaid/mermaidr")</span></span>
-<span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://data-mermaid.github.io/mermaidr" class="external-link">mermaidr</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://data-mermaid.github.io/mermaidr" class="external-link">mermaidr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -223,37 +199,30 @@ set up your working directory to point R to where your data is located
 and where you want to save your data from R, including the MERMAID Fish
 belt template.</p>
 <p>To download the MERMAID Fish belt template:</p>
-<ul>
-<li><ol style="list-style-type: decimal">
+<ol style="list-style-type: decimal">
 <li>Get your MERMAID project using the
-<code><a href="../reference/mermaid_get_my_projects.html">mermaid_get_my_projects( )</a></code> function from the mermaidr
-package. Omit <code>inlcude_test_project = TRUE</code> if it is not a
-test project.</li>
-</ol></li>
-</ul>
+<code><a href="../reference/mermaid_get_my_projects.html">mermaid_get_my_projects( )</a></code> function.</li>
+</ol>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">reef_survey</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mermaid_search_my_projects.html">mermaid_search_my_projects</a></span><span class="op">(</span><span class="st">"MERMAID reef survey"</span>, include_test_projects <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">surveys</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mermaid_get_my_projects.html">mermaid_get_my_projects</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>At this point, a browser window will open for you to authenticate by
 logging into the MERMAID Collect. Once you’ve logged in, you can close
 the browser and come back to R. Your login credentials will last for a
 day and after it expires you will need to log in again.</p>
-<ul>
-<li><ol start="2" style="list-style-type: decimal">
+<ol start="2" style="list-style-type: decimal">
 <li>Filter to select just the project you are working on, and rename the
 object.</li>
-</ol></li>
-</ul>
+</ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">reef_survey</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mermaid_search_my_projects.html">mermaid_search_my_projects</a></span><span class="op">(</span><span class="st">"MERMAID reef survey"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">reef_survey</span> <span class="op">&lt;-</span> <span class="va">surveys</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="st">"MERMAID Reef Surveys (training only)"</span><span class="op">)</span></span></code></pre></div>
 <p>Before running the code above, make sure that you change the project
-name <strong>“MERMAID reef survey”</strong> to <strong><em>your actual
+name <strong>“MERMAID Reef Survey”</strong> to <strong><em>your actual
 project</em></strong> that you want to import your data into.</p>
-<ul>
-<li><ol start="3" style="list-style-type: decimal">
+<ol start="3" style="list-style-type: decimal">
 <li>Get the import template and options using the
 <code><a href="../reference/mermaid_import_get_template_and_options.html">mermaid_import_get_template_and_options( )</a></code> function.</li>
-</ol></li>
-</ul>
+</ol>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fish_template_and_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mermaid_import_get_template_and_options.html">mermaid_import_get_template_and_options</a></span><span class="op">(</span></span>
 <span>  <span class="va">reef_survey</span>,</span>
@@ -271,13 +240,13 @@ project through the MERMAID Collect.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fish_template_and_options</span><span class="op">[[</span><span class="st">"Template"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">## # A tibble: 0 × 22</span></span>
-<span><span class="co">## # ℹ 22 variables: Site * &lt;chr&gt;, Management * &lt;chr&gt;,</span></span>
-<span><span class="co">## #   Sample date: Year * &lt;chr&gt;, Sample date: Month * &lt;chr&gt;,</span></span>
-<span><span class="co">## #   Sample date: Day * &lt;chr&gt;, Sample time &lt;chr&gt;, Depth * &lt;chr&gt;,</span></span>
-<span><span class="co">## #   Transect number * &lt;chr&gt;, Transect label &lt;chr&gt;,</span></span>
+<span><span class="co">## # ℹ 22 variables: Site * &lt;chr&gt;, Management * &lt;chr&gt;, Sample date: Year * &lt;chr&gt;,</span></span>
+<span><span class="co">## #   Sample date: Month * &lt;chr&gt;, Sample date: Day * &lt;chr&gt;, Sample time &lt;chr&gt;,</span></span>
+<span><span class="co">## #   Depth * &lt;chr&gt;, Transect number * &lt;chr&gt;, Transect label &lt;chr&gt;,</span></span>
 <span><span class="co">## #   Transect length surveyed * &lt;chr&gt;, Width * &lt;chr&gt;, Fish size bin * &lt;chr&gt;,</span></span>
 <span><span class="co">## #   Reef slope &lt;chr&gt;, Visibility &lt;chr&gt;, Current &lt;chr&gt;, Relative depth &lt;chr&gt;,</span></span>
-<span><span class="co">## #   Tide &lt;chr&gt;, Sample unit notes &lt;chr&gt;, Observer emails * &lt;chr&gt;, …</span></span></code></pre>
+<span><span class="co">## #   Tide &lt;chr&gt;, Sample unit notes &lt;chr&gt;, Observer emails * &lt;chr&gt;, Fish name * &lt;chr&gt;,</span></span>
+<span><span class="co">## #   …</span></span></code></pre>
 <p>Or if you want to investigate the column names in R, you can use the
 code below:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -306,18 +275,17 @@ R:</p>
 <span><span class="co">## [1] TRUE</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $help_text</span></span>
-<span><span class="co">## [1] "A unique name of a site where data was collected. Every site must be defined before importing and set up in the project in the MERMAID Collect."</span></span>
+<span><span class="co">## [1] "A unique name of a site where data was collected. Every site must be defined before ingestion and set up in the project in the web app."</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $choices</span></span>
-<span><span class="co">## # A tibble: 6 × 1</span></span>
-<span><span class="co">##   value    </span></span>
-<span><span class="co">##   &lt;chr&gt;    </span></span>
-<span><span class="co">## 1 1206     </span></span>
-<span><span class="co">## 2 1208     </span></span>
-<span><span class="co">## 3 1209     </span></span>
-<span><span class="co">## 4 1210     </span></span>
-<span><span class="co">## 5 1211     </span></span>
-<span><span class="co">## 6 SAV Point</span></span></code></pre>
+<span><span class="co">## # A tibble: 5 × 1</span></span>
+<span><span class="co">##   value</span></span>
+<span><span class="co">##   &lt;chr&gt;</span></span>
+<span><span class="co">## 1 1206 </span></span>
+<span><span class="co">## 2 1208 </span></span>
+<span><span class="co">## 3 1209 </span></span>
+<span><span class="co">## 4 1210 </span></span>
+<span><span class="co">## 5 1211</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="step-5--prepare-and-reformat-your-data-to-match-the-mermaid-template">Step 5. Prepare and reformat your data to match the MERMAID
@@ -350,18 +318,18 @@ data sets:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fishbelt_data</span></span></code></pre></div>
 <pre><code><span><span class="co">## # A tibble: 10 × 8</span></span>
-<span><span class="co">##    SiteID Depth Transect_length Width Transect_number `Fish species`   Size_cm</span></span>
-<span><span class="co">##     &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt;</span></span>
-<span><span class="co">##  1   1208     5               5     5               1 Parupeneus mult…      15</span></span>
-<span><span class="co">##  2   1208     5               5    20               1 Acanthurus bari…      37</span></span>
-<span><span class="co">##  3   1208     5               5    20               1 Platax teira          37</span></span>
-<span><span class="co">##  4   1208     5               5    20               1 Bolbometopon mu…     120</span></span>
-<span><span class="co">##  5   1208     5               5    20               1 Parupeneus indi…      36</span></span>
-<span><span class="co">##  6   1208     5               5     5               1 Acanthurus aura…      17</span></span>
-<span><span class="co">##  7   1208     5               5    20               1 Plectorhinchus …      36</span></span>
-<span><span class="co">##  8   1208     5               5     5               1 Zanclus cornutus      10</span></span>
-<span><span class="co">##  9   1208     5               5    20               1 Variola albimar…      36</span></span>
-<span><span class="co">## 10   1208     5               5    20               1 Lutjanus sp.          36</span></span>
+<span><span class="co">##    SiteID Depth Transect_length Width Transect_number `Fish species`          Size_cm</span></span>
+<span><span class="co">##     &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt; &lt;chr&gt;                     &lt;dbl&gt;</span></span>
+<span><span class="co">##  1   1208     5               5     5               1 Parupeneus multifaskia…      15</span></span>
+<span><span class="co">##  2   1208     5               5    20               1 Acanthurus bariene           37</span></span>
+<span><span class="co">##  3   1208     5               5    20               1 Platax teira                 37</span></span>
+<span><span class="co">##  4   1208     5               5    20               1 Bolbometopon muricatum      120</span></span>
+<span><span class="co">##  5   1208     5               5    20               1 Parupeneus indikus           36</span></span>
+<span><span class="co">##  6   1208     5               5     5               1 Acanthurus auranticavus      17</span></span>
+<span><span class="co">##  7   1208     5               5    20               1 Plectorhinchus chaetod…      36</span></span>
+<span><span class="co">##  8   1208     5               5     5               1 Zanclus cornutus             10</span></span>
+<span><span class="co">##  9   1208     5               5    20               1 Variola albimarginata        36</span></span>
+<span><span class="co">## 10   1208     5               5    20               1 Lutjanus sp.                 36</span></span>
 <span><span class="co">## # ℹ 1 more variable: Abundance &lt;dbl&gt;</span></span></code></pre>
 <p>Then combine the <code>site</code> data to <code>fishbelt</code>
 data, joining on the <code>SiteID</code> identifier.</p>
@@ -378,28 +346,29 @@ look at the options allowed for these columns:</p>
 <span><span class="co">## [1] TRUE</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $help_text</span></span>
-<span><span class="co">## [1] "Width of fish belt transect, in meters. See relevant tab on importing template for choices."</span></span>
+<span><span class="co">## [1] "Width of fish belt transect, in meters. See relevant tab on ingestion template for choices."</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $choices</span></span>
-<span><span class="co">## # A tibble: 9 × 1</span></span>
-<span><span class="co">##   value                                        </span></span>
-<span><span class="co">##   &lt;chr&gt;                                        </span></span>
-<span><span class="co">## 1 10m                                          </span></span>
-<span><span class="co">## 2 1m                                           </span></span>
-<span><span class="co">## 3 20m                                          </span></span>
-<span><span class="co">## 4 2m                                           </span></span>
-<span><span class="co">## 5 5m                                           </span></span>
-<span><span class="co">## 6 Mixed: &lt; 10cm @ 2m, &gt;= 10cm @ 5m             </span></span>
-<span><span class="co">## 7 Mixed: &gt;=10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm @ 20 m</span></span>
-<span><span class="co">## 8 Mixed: &lt; 20cm @ 2m, &gt;= 20cm @ 4m             </span></span>
-<span><span class="co">## 9 Mixed: &lt; 20cm @ 4m, &gt;= 20cm @ 8m</span></span></code></pre>
+<span><span class="co">## # A tibble: 10 × 1</span></span>
+<span><span class="co">##    value                                        </span></span>
+<span><span class="co">##    &lt;chr&gt;                                        </span></span>
+<span><span class="co">##  1 10m                                          </span></span>
+<span><span class="co">##  2 1m                                           </span></span>
+<span><span class="co">##  3 20m                                          </span></span>
+<span><span class="co">##  4 2m                                           </span></span>
+<span><span class="co">##  5 4m                                           </span></span>
+<span><span class="co">##  6 5m                                           </span></span>
+<span><span class="co">##  7 mixed: &lt; 10cm @ 2m, &gt;= 10cm @ 5m             </span></span>
+<span><span class="co">##  8 mixed: &gt;=10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm @ 20 m</span></span>
+<span><span class="co">##  9 mixed: &lt; 20cm @ 2m, &gt;= 20cm @ 4m             </span></span>
+<span><span class="co">## 10 mixed: &lt; 20cm @ 4m, &gt;= 20cm @ 8m</span></span></code></pre>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fish_template_and_options</span><span class="op">[[</span><span class="st">"Fish size bin *"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">## $required</span></span>
 <span><span class="co">## [1] TRUE</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $help_text</span></span>
-<span><span class="co">## [1] "Name of bin scheme used to estimate fish size for the transect. See relevant tab on importing template for choices. Choose 1 cm if the fish size recorded does not use bins."</span></span>
+<span><span class="co">## [1] "Name of bin scheme used to estimate fish size for the transect. See relevant tab on ingestion template for choices. Choose 1 cm if the fish size recorded does not use bins."</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $choices</span></span>
 <span><span class="co">## # A tibble: 5 × 1</span></span>
@@ -408,8 +377,8 @@ look at the options allowed for these columns:</p>
 <span><span class="co">## 1 1        </span></span>
 <span><span class="co">## 2 10       </span></span>
 <span><span class="co">## 3 5        </span></span>
-<span><span class="co">## 4 AGRRA    </span></span>
-<span><span class="co">## 5 WCS India</span></span></code></pre>
+<span><span class="co">## 4 agrra    </span></span>
+<span><span class="co">## 5 wcs india</span></span></code></pre>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fish_template_and_options</span><span class="op">[[</span><span class="st">"Observer emails *"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">## $required</span></span>
@@ -481,18 +450,17 @@ data:</p>
 <span><span class="co">## [21] "Size *"                     "Count *"</span></span></code></pre>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">fishbelt_data</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "SiteID"            "Depth"             "Transect_length"  </span></span>
-<span><span class="co">##  [4] "Width"             "Transect_number"   "Fish species"     </span></span>
-<span><span class="co">##  [7] "Size_cm"           "Abundance"         "Zone"             </span></span>
-<span><span class="co">## [10] "Year"              "Month"             "Day"              </span></span>
-<span><span class="co">## [13] "Reef_slope"        "visibility"        "current"          </span></span>
-<span><span class="co">## [16] "Width *"           "Fish size bin *"   "Observer emails *"</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] "SiteID"            "Depth"             "Transect_length"   "Width"            </span></span>
+<span><span class="co">##  [5] "Transect_number"   "Fish species"      "Size_cm"           "Abundance"        </span></span>
+<span><span class="co">##  [9] "Zone"              "Year"              "Month"             "Day"              </span></span>
+<span><span class="co">## [13] "Reef_slope"        "visibility"        "current"           "Width *"          </span></span>
+<span><span class="co">## [17] "Fish size bin *"   "Observer emails *"</span></span></code></pre>
 <p>Don’t worry if you don’t have any of <code>Sample time</code>,
 <code>Transect label</code>, <code>Relative depth</code>,
 <code>Tide</code>, <code>Sample unit notes</code> information, because
-none of them are required. It will not prevent you from importing your
-data into MERMAID. However, if you have those data, it is strongly
-recommended to add them as well.</p>
+none of them are required. It will not prevent you from importing
+(ingesting) your data into MERMAID. However, if you have those data, it
+is strongly recommended to add them as well.</p>
 <p>Next step is to rename and reorder the columns in one step:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fishbelt_data</span> <span class="op">&lt;-</span> <span class="va">fishbelt_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -531,10 +499,9 @@ recommended to add them as well.</p>
 <span><span class="co">##  9     1208 Control                         2021                      3</span></span>
 <span><span class="co">## 10     1208 Control                         2021                      3</span></span>
 <span><span class="co">## # ℹ 13 more variables: `Sample date: Day *` &lt;dbl&gt;, `Depth *` &lt;dbl&gt;,</span></span>
-<span><span class="co">## #   `Transect number *` &lt;dbl&gt;, `Transect length surveyed *` &lt;dbl&gt;,</span></span>
-<span><span class="co">## #   `Width *` &lt;chr&gt;, `Fish size bin *` &lt;dbl&gt;, `Reef slope` &lt;chr&gt;,</span></span>
-<span><span class="co">## #   Visibility &lt;chr&gt;, Current &lt;chr&gt;, `Observer emails *` &lt;chr&gt;,</span></span>
-<span><span class="co">## #   `Fish name *` &lt;chr&gt;, `Size *` &lt;dbl&gt;, `Count *` &lt;dbl&gt;</span></span></code></pre>
+<span><span class="co">## #   `Transect number *` &lt;dbl&gt;, `Transect length surveyed *` &lt;dbl&gt;, `Width *` &lt;chr&gt;,</span></span>
+<span><span class="co">## #   `Fish size bin *` &lt;dbl&gt;, `Reef slope` &lt;chr&gt;, Visibility &lt;chr&gt;, Current &lt;chr&gt;,</span></span>
+<span><span class="co">## #   `Observer emails *` &lt;chr&gt;, `Fish name *` &lt;chr&gt;, `Size *` &lt;dbl&gt;, `Count *` &lt;dbl&gt;</span></span></code></pre>
 <div class="section level3">
 <h3 id="address-errors-and-warnings">Address errors and warnings<a class="anchor" aria-label="anchor" href="#address-errors-and-warnings"></a>
 </h3>
@@ -557,7 +524,7 @@ will appear:</p>
 <pre><code><span><span class="co">## # A tibble: 1 × 3</span></span>
 <span><span class="co">##   data_value closest_choice match</span></span>
 <span><span class="co">##   &lt;chr&gt;      &lt;chr&gt;          &lt;lgl&gt;</span></span>
-<span><span class="co">## 1 Control    Control        TRUE</span></span></code></pre>
+<span><span class="co">## 1 Control    control        TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Sample date: Year *"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## ✔ Any value is allowed for `Sample date: Year *` - no checking to be done</span></span></code></pre>
@@ -575,15 +542,14 @@ will appear:</p>
 <pre><code><span><span class="co">## ✔ Any value is allowed for `Transect number *` - no checking to be done</span></span></code></pre>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Transect length surveyed *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## ✔ Any value is allowed for `Transect length surveyed *` - no checking to be</span></span>
-<span><span class="co">## done</span></span></code></pre>
+<pre><code><span><span class="co">## ✔ Any value is allowed for `Transect length surveyed *` - no checking to be done</span></span></code></pre>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Width *"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## ✔ All values of `Width *` match</span></span></code></pre>
 <pre><code><span><span class="co">## # A tibble: 1 × 3</span></span>
-<span><span class="co">##   data_value                                    closest_choice           match</span></span>
-<span><span class="co">##   &lt;chr&gt;                                         &lt;chr&gt;                    &lt;lgl&gt;</span></span>
-<span><span class="co">## 1 Mixed: &gt;=10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm @ 20 m Mixed: &gt;=10 cm &amp; &lt;35 cm… TRUE</span></span></code></pre>
+<span><span class="co">##   data_value                                    closest_choice                  match</span></span>
+<span><span class="co">##   &lt;chr&gt;                                         &lt;chr&gt;                           &lt;lgl&gt;</span></span>
+<span><span class="co">## 1 Mixed: &gt;=10 cm &amp; &lt;35 cm @ 5 m, &gt;=35 cm @ 20 m mixed: &gt;=10 cm &amp; &lt;35 cm @ 5 m,… TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Fish size bin *"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## ✔ All values of `Fish size bin *` match</span></span></code></pre>
@@ -621,24 +587,24 @@ will appear:</p>
 <span><span class="co">## 1 email@mermaid.org email@mermaid.org TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Fish name *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## • Some errors in values of `Fish name *` - please check table below</span></span></code></pre>
+<pre><code><span><span class="co">## ! Some errors in values of `Fish name *` - please check table below</span></span></code></pre>
 <pre><code><span><span class="co">## # A tibble: 10 × 3</span></span>
 <span><span class="co">##    data_value                    closest_choice                match</span></span>
 <span><span class="co">##    &lt;chr&gt;                         &lt;chr&gt;                         &lt;lgl&gt;</span></span>
-<span><span class="co">##  1 Parupeneus multifaskiatus     Parupeneus multifasciatus     FALSE</span></span>
-<span><span class="co">##  2 Parupeneus indikus            Parupeneus indicus            FALSE</span></span>
-<span><span class="co">##  3 Lutjanus sp.                  Lutjanus                      FALSE</span></span>
-<span><span class="co">##  4 Acanthurus bariene            Acanthurus bariene            TRUE </span></span>
-<span><span class="co">##  5 Platax teira                  Platax teira                  TRUE </span></span>
-<span><span class="co">##  6 Bolbometopon muricatum        Bolbometopon muricatum        TRUE </span></span>
-<span><span class="co">##  7 Acanthurus auranticavus       Acanthurus auranticavus       TRUE </span></span>
-<span><span class="co">##  8 Plectorhinchus chaetodonoides Plectorhinchus chaetodonoides TRUE </span></span>
-<span><span class="co">##  9 Zanclus cornutus              Zanclus cornutus              TRUE </span></span>
-<span><span class="co">## 10 Variola albimarginata         Variola albimarginata         TRUE</span></span></code></pre>
+<span><span class="co">##  1 Parupeneus multifaskiatus     parupeneus multifasciatus     FALSE</span></span>
+<span><span class="co">##  2 Parupeneus indikus            parupeneus indicus            FALSE</span></span>
+<span><span class="co">##  3 Lutjanus sp.                  lutjanus                      FALSE</span></span>
+<span><span class="co">##  4 Acanthurus bariene            acanthurus bariene            TRUE </span></span>
+<span><span class="co">##  5 Platax teira                  platax teira                  TRUE </span></span>
+<span><span class="co">##  6 Bolbometopon muricatum        bolbometopon muricatum        TRUE </span></span>
+<span><span class="co">##  7 Acanthurus auranticavus       acanthurus auranticavus       TRUE </span></span>
+<span><span class="co">##  8 Plectorhinchus chaetodonoides plectorhinchus chaetodonoides TRUE </span></span>
+<span><span class="co">##  9 Zanclus cornutus              zanclus cornutus              TRUE </span></span>
+<span><span class="co">## 10 Variola albimarginata         variola albimarginata         TRUE</span></span></code></pre>
 <p>There are issues in the Fish name that need to be fixed, marked by
 the <code>FALSE</code> note under the match column. MERMAID also
 provides the closest choice to help us with data cleaning. We need to
-fix theses issues to be able to import our data:</p>
+fix these issues to be able to import our data:</p>
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fishbelt_data</span> <span class="op">&lt;-</span> <span class="va">fishbelt_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>`Fish name *` <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
@@ -655,16 +621,16 @@ receive a check mark to move forward with the process.</p>
 <pre><code><span><span class="co">## # A tibble: 10 × 3</span></span>
 <span><span class="co">##    data_value                    closest_choice                match</span></span>
 <span><span class="co">##    &lt;chr&gt;                         &lt;chr&gt;                         &lt;lgl&gt;</span></span>
-<span><span class="co">##  1 Parupeneus multifasciatus     Parupeneus multifasciatus     TRUE </span></span>
-<span><span class="co">##  2 Acanthurus bariene            Acanthurus bariene            TRUE </span></span>
-<span><span class="co">##  3 Platax teira                  Platax teira                  TRUE </span></span>
-<span><span class="co">##  4 Bolbometopon muricatum        Bolbometopon muricatum        TRUE </span></span>
-<span><span class="co">##  5 Parupeneus indicus            Parupeneus indicus            TRUE </span></span>
-<span><span class="co">##  6 Acanthurus auranticavus       Acanthurus auranticavus       TRUE </span></span>
-<span><span class="co">##  7 Plectorhinchus chaetodonoides Plectorhinchus chaetodonoides TRUE </span></span>
-<span><span class="co">##  8 Zanclus cornutus              Zanclus cornutus              TRUE </span></span>
-<span><span class="co">##  9 Variola albimarginata         Variola albimarginata         TRUE </span></span>
-<span><span class="co">## 10 Lutjanus                      Lutjanus                      TRUE</span></span></code></pre>
+<span><span class="co">##  1 Parupeneus multifasciatus     parupeneus multifasciatus     TRUE </span></span>
+<span><span class="co">##  2 Acanthurus bariene            acanthurus bariene            TRUE </span></span>
+<span><span class="co">##  3 Platax teira                  platax teira                  TRUE </span></span>
+<span><span class="co">##  4 Bolbometopon muricatum        bolbometopon muricatum        TRUE </span></span>
+<span><span class="co">##  5 Parupeneus indicus            parupeneus indicus            TRUE </span></span>
+<span><span class="co">##  6 Acanthurus auranticavus       acanthurus auranticavus       TRUE </span></span>
+<span><span class="co">##  7 Plectorhinchus chaetodonoides plectorhinchus chaetodonoides TRUE </span></span>
+<span><span class="co">##  8 Zanclus cornutus              zanclus cornutus              TRUE </span></span>
+<span><span class="co">##  9 Variola albimarginata         variola albimarginata         TRUE </span></span>
+<span><span class="co">## 10 Lutjanus                      lutjanus                      TRUE</span></span></code></pre>
 <p>And finish checking the columns.</p>
 <div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">fishbelt_data</span>, <span class="va">fish_template_and_options</span>, <span class="st">"Size *"</span><span class="op">)</span></span></code></pre></div>
@@ -682,7 +648,7 @@ that is ready to be imported. Let’s save the cleaned fishbelt data:</p>
 <h2 id="step-6--import-your-data-to-mermaid">Step 6. Import your data to MERMAID<a class="anchor" aria-label="anchor" href="#step-6--import-your-data-to-mermaid"></a>
 </h2>
 <p>Once we have our cleaned MERMAID formatted data, the next step is
-importing the data. We do one “dry run” before actually importing to
+ingesting the data. We do one “dry run” before actually ingesting to
 check the data once more:</p>
 <div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_project_data.html">mermaid_import_project_data</a></span><span class="op">(</span></span>

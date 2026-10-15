@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -77,6 +77,9 @@
 <li class="dropdown-header">Detailed Usage</li>
     <li>
       <a href="../articles/accessing_project_data.html">Accessing Project Data</a>
+    </li>
+    <li>
+      <a href="../articles/covariates_data.html">Adding Environmental Covariates to MERMAID Data</a>
     </li>
     <li>
       <a href="../articles/accessing_dev_collect_data.html">Accessing data from the development version of MERMAID</a>
@@ -132,24 +135,22 @@ benthic covers to quickly inform communities and governments.</p>
 mermaidr following our example below. You can also use our example data
 or use your own data to follow the importing steps. More information on
 the workflow of importing historical data to MERMAID can be found in our
-<a href="https://datamermaid.org/documentation/mermaidr-data-import" class="external-link">Importing
-legacy data into MERMAID</a> documentation.</p>
+<a href="https://datamermaid.org/documentation/importing-data" class="external-link">Importing
+Data into MERMAID</a> documentation.</p>
 <div class="section level2">
 <h2 id="steps-to-import-your-cpce-data-are">Steps to import your CPCe data are:<a class="anchor" aria-label="anchor" href="#steps-to-import-your-cpce-data-are"></a>
 </h2>
 <ol style="list-style-type: decimal">
-<li><p><a href="https://datamermaid.org/documentation/collect-project-set-up" class="external-link">Prepare
+<li><p><a href="https://datamermaid.org/documentation/setting-up-a-new-project" class="external-link">Prepare
 your project</a> in <a href="https://app.datamermaid.org" class="external-link">MERMAID
-Collect</a> and ensure that you are an <u><strong>Admin</strong></u> of
+Collect</a> and ensure that you are an <u><strong>admin</strong></u> of
 the project</p></li>
 <li><p>Prepare your CPCe raw data and a benthic attribute converter file
 in a CSV format</p></li>
 <li><p>Install and activate mermaidr and other related packages</p></li>
 <li><p>Download the MERMAID PQT template</p></li>
-<li><p>Prepare and reformat your data to match the MERMAID
-template</p></li>
-<li><p>Import your data to MERMAID Collect</p></li>
-<li><p>Validate and submit your data in MERMAID Collect</p></li>
+<li><p>Import your data to MERMAID</p></li>
+<li><p>Validate and submit in MERMAID Collect</p></li>
 </ol>
 </div>
 <div class="section level2">
@@ -159,15 +160,15 @@ template</p></li>
 project in <a href="https://app.datamermaid.org" class="external-link">MERMAID Collect</a>. If
 you are new to MERMAID, you need to create a MERMAID account before
 using it. You can use a new project or existing project in MERMAID
-Collect as long as you are an admin of the project. <a href="https://datamermaid.org/documentation/collect-project-set-up" class="external-link">Setting
+Collect as long as you are an admin of the project. <a href="https://datamermaid.org/documentation/setting-up-a-new-project" class="external-link">Setting
 up a new project</a> requires internet access. To create a new project,
 click on the “New Project” button and then:</p>
 <ol style="list-style-type: decimal">
-<li>add organization(s),</li>
-<li>add users,</li>
-<li>set data sharing permissions,</li>
-<li>add sites, and</li>
-<li>add management regimes.</li>
+<li>Add organization(s),</li>
+<li>Add users,</li>
+<li>Set data sharing permissions,</li>
+<li>Add sites, and</li>
+<li>Add management regimes.</li>
 </ol>
 </div>
 <div class="section level2">
@@ -239,16 +240,13 @@ make sure to specify it by adding
 <code>include_test_project = TRUE</code>. Then download the template
 using the <code><a href="../reference/mermaid_import_get_template_and_options.html">mermaid_import_get_template_and_options( )</a></code>
 function.</p>
-<p>1: Get your MERMAID project. Omit
-<code>include_test_projects = TRUE</code> if it is not a test
-project.</p>
+<p>1: Get your MERMAID project.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">project</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mermaid_get_my_projects.html">mermaid_get_my_projects</a></span><span class="op">(</span>include_test_projects <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>2: Filter to select just the project you are working on, and rename
-the object</p>
+<code class="sourceCode R"><span><span class="va">projects</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mermaid_get_my_projects.html">mermaid_get_my_projects</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>2: Filter to select just the project you are working on</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myproject</span> <span class="op">&lt;-</span> <span class="va">project</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="st">"MERMAID reef survey"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">myproject</span> <span class="op">&lt;-</span> <span class="va">projects</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="st">"MERMAID Reef Surveys (training only)"</span><span class="op">)</span></span></code></pre></div>
 <p>3: Get the import template and options</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pqt_template</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mermaid_import_get_template_and_options.html">mermaid_import_get_template_and_options</a></span><span class="op">(</span></span>
@@ -258,10 +256,10 @@ the object</p>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## ✔ Import template and field options written to benthicpqt_mermaidsurvey_template.xlsx</span></span></code></pre>
 <p>Before running the code above, make sure that you change the project
-name <strong>MERMAID reef survey</strong> in <strong>2</strong> to your
-actual project that you want to import your data into. Remember that
-<strong>you need to be an Admin</strong> of the project to be able to
-access and import your data.</p>
+name <strong>MERMAID Reef Surveys (training only)</strong> in
+<strong>2</strong> to your actual project that you want to import your
+data into. Remember that <strong>you need to be an admin</strong> of the
+project to be able to access and import your data.</p>
 </div>
 <div class="section level2">
 <h2 id="step-5--prepare-and-reformat-your-data-to-match-the-mermaid-template">Step 5. Prepare and reformat your data to match the MERMAID
@@ -283,8 +281,8 @@ instead of read_csv2(). This depends on your computer settings.</p>
 <p>After loading the data, continue with cleaning the data. In this
 example, the cleaning data steps are:</p>
 <ol style="list-style-type: decimal">
-<li><p>Remove blank rows (if any),</p></li>
-<li><p>Rename the “Raw Data” column to
+<li><p>Remove blank rows,</p></li>
+<li><p>Subset only the <code>Raw Data</code> column and rename it to
 <code>Benthic_attribute</code>,</p></li>
 <li><p>Add necessary columns for each transect, i.e.,
 <code>Site *</code> and <code>Transect number *</code> (the column names
@@ -292,7 +290,7 @@ match the MERMAID template), and</p></li>
 <li><p>Combine the three transects.</p></li>
 </ol>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># 1. Remove blank rows (if any)</span></span>
+<code class="sourceCode R"><span><span class="co"># 1. Remove blank rows</span></span>
 <span><span class="va">pqt_t1</span> <span class="op">&lt;-</span> <span class="va">raw_t1</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">`Raw Data`</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -331,38 +329,38 @@ match the MERMAID template), and</p></li>
 <span>    .before <span class="op">=</span> <span class="st">"Benthic_attribute"</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="co"># 4. Combine the three transects</span></span>
+<span><span class="co"># 5. Combine the three transects</span></span>
 <span><span class="va">pqt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">pqt_t1</span>, <span class="va">pqt_t2</span>, <span class="va">pqt_t3</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pqt</span></span></code></pre></div>
 <pre><code><span><span class="co">## # A tibble: 90 × 6</span></span>
-<span><span class="co">##    `Site *` `Transect number *` Benthic_attribute Notes `Major Category` `Frame limits`</span></span>
-<span><span class="co">##    &lt;chr&gt;                  &lt;dbl&gt; &lt;chr&gt;             &lt;lgl&gt; &lt;chr&gt;            &lt;chr&gt;         </span></span>
-<span><span class="co">##  1 1206                       1 DC                NA    Substrate        *             </span></span>
-<span><span class="co">##  2 1206                       1 DC                NA    Substrate        &lt;NA&gt;          </span></span>
-<span><span class="co">##  3 1206                       1 DC                NA    Substrate        &lt;NA&gt;          </span></span>
-<span><span class="co">##  4 1206                       1 S                 NA    Substrate        &lt;NA&gt;          </span></span>
-<span><span class="co">##  5 1206                       1 S                 NA    Substrate        &lt;NA&gt;          </span></span>
-<span><span class="co">##  6 1206                       1 S                 NA    Substrate        &lt;NA&gt;          </span></span>
-<span><span class="co">##  7 1206                       1 DC                NA    Substrate        &lt;NA&gt;          </span></span>
-<span><span class="co">##  8 1206                       1 CCA               NA    CCA              &lt;NA&gt;          </span></span>
-<span><span class="co">##  9 1206                       1 CCA               NA    CCA              &lt;NA&gt;          </span></span>
-<span><span class="co">## 10 1206                       1 S                 NA    Substrate        **            </span></span>
-<span><span class="co">## # ℹ 80 more rows</span></span></code></pre>
+<span><span class="co">##    `Site *` `Transect number *` Benthic_attribute Notes `Major Category`</span></span>
+<span><span class="co">##    &lt;chr&gt;                  &lt;dbl&gt; &lt;chr&gt;             &lt;lgl&gt; &lt;chr&gt;           </span></span>
+<span><span class="co">##  1 1206                       1 DC                NA    Substrate       </span></span>
+<span><span class="co">##  2 1206                       1 DC                NA    Substrate       </span></span>
+<span><span class="co">##  3 1206                       1 DC                NA    Substrate       </span></span>
+<span><span class="co">##  4 1206                       1 S                 NA    Substrate       </span></span>
+<span><span class="co">##  5 1206                       1 S                 NA    Substrate       </span></span>
+<span><span class="co">##  6 1206                       1 S                 NA    Substrate       </span></span>
+<span><span class="co">##  7 1206                       1 DC                NA    Substrate       </span></span>
+<span><span class="co">##  8 1206                       1 CCA               NA    CCA             </span></span>
+<span><span class="co">##  9 1206                       1 CCA               NA    CCA             </span></span>
+<span><span class="co">## 10 1206                       1 S                 NA    Substrate       </span></span>
+<span><span class="co">## # ℹ 80 more rows</span></span>
+<span><span class="co">## # ℹ 1 more variable: `Frame limits` &lt;chr&gt;</span></span></code></pre>
 <p>Now that you have all the three transects combined, you can continue
 adding the rest of the mandatory columns. Mandatory columns are marked
 with an asterisk (*) next to the column name. You’ve added two mandatory
 columns to your data in the previous steps, which are
 <code>Site *</code> and <code>Transect number *</code>.</p>
 <p>The next mandatory column that you are going to add is the quadrat
-numbers (<code>Quadrat *</code>) for each row based on the number of
-points you used per quadrat in your method. This example is using 10
-points per quadrat. The quadrat numbers are assigned using the code
-below.</p>
-<p>You will be adding the quadrat number column (<code>Quadrat *</code>)
-by assigning the same number every 10 rows, where it increases every 10
-rows and restart from 1 when a value in the column <code>Site *</code>
-and <code>Transect number *</code> changes. If you are using a different
+numbers for each row based on the number of points you used per quadrat
+in your method. This example is using 10 points per quadrat. The quadrat
+numbers are assigned using the code below.</p>
+<p>We add the quadrat number column by assigning the same number every
+10 rows, where it increases every 10 rows and restart from 1 when a
+value in the column <code>Site *</code> and
+<code>Transect number *</code> changes. If you are using a different
 number of points per quadrat, simply replace “10” in the code with the
 actual number of points you are using in your method.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -370,14 +368,13 @@ actual number of points you are using in your method.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">`Site *`</span>, <span class="va">`Transect number *`</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>`Quadrat *` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">ceiling</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>In the MERMAID PQT template, you will find
-<code>Number of points *</code> column. This column must be filled with
-the total number of points for the same benthic attribute per quadrat.
-CPCe provides data per point, meaning one point for one row, so you
-might have the same benthic attribute in multiple rows for one quadrat.
-This will be detected as a duplicate by MERMAID. Therefore, you need to
-combine the same benthic attribute for the same quadrat (see figure
-below).</p>
+<p>In the MERMAID PQT template, you will find “Number of points *”
+column. This column must be filled with the total number of points for
+the same benthic attribute per quadrat. CPCe provides data per point,
+meaning one point for one row, so you might have the same benthic
+attribute in multiple rows for one quadrat. This will be detected as a
+duplicate by MERMAID. Therefore, you need to combine the same benthic
+attribute for the same quadrat (see figure below).</p>
 <div class="float">
 <img src="data_transformation.png" alt="Calculating number of points and removing duplicates"><div class="figcaption">Calculating number of points and removing
 duplicates</div>
@@ -392,22 +389,21 @@ attribute for each quadrat:</p>
 <span>    .groups <span class="op">=</span> <span class="st">"drop"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>Now you are ready to add the rest of the mandatory columns to your
-data. The remaining mandatory columns are - <strong>management
-regime</strong> (<code>Management *</code>), - <strong>sampling
+data. The remaining mandatory columns are <strong>management
+regime</strong> (<code>Management *</code>), <strong>sampling
 date</strong> (<code>Sample date: Year *</code>,
-<code>Sample date: Month *</code>, <code>Sample date: Day *</code>), -
+<code>Sample date: Month *</code>, <code>Sample date: Day *</code>),
 <strong>depth</strong> (<code>Depth *</code>), <strong>transect
-length</strong> (<code>Transect length surveyed *</code>), -
+length</strong> (<code>Transect length surveyed *</code>),
 <strong>number of quadrats</strong> (<code>Number of quadrats *</code>),
-- <strong>quadrat size</strong> (<code>Quadrat size *</code>), -
+<strong>quadrat size</strong> (<code>Quadrat size *</code>),
 <strong>number of points per quadrat</strong>
-(<code>Number of points per quadrat *</code>), - <strong>observer’s
-email(s)</strong> (<code>Observer emails *</code>), and -
-<strong>benthic attribute</strong>
-(<code>Benthic attribute *</code>).</p>
-<p>You are going to also add one optional column, which is
-<strong>growth form</strong> (<code>Growth from</code>) as the data also
-recorded in this example.</p>
+(<code>Number of points per quadrat *</code>), <strong>observer’s
+email(s)</strong> (<code>Observer emails *</code>), and <strong>benthic
+attribute</strong> (<code>Benthic attribute *</code>). You are going to
+also add one optional column, which is <strong>growth form</strong>
+(<code>Growth from</code>) as the data also recorded this
+information.</p>
 <p>You are going to use the <strong>benthic converter attribute</strong>
 file to add the <strong>benthic attribute</strong> and <strong>growth
 form</strong> column. The code will match the label you used in your
@@ -417,7 +413,7 @@ MERMAID.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pqt</span> <span class="op">&lt;-</span> <span class="va">pqt</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    `Management *` <span class="op">=</span> <span class="st">"NTZ"</span>,</span>
+<span>    `Management *` <span class="op">=</span> <span class="st">"Core Zone"</span>,</span>
 <span>    `Sample date: Year *` <span class="op">=</span> <span class="fl">2020</span>,</span>
 <span>    `Sample date: Month *` <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>    `Sample date: Day *` <span class="op">=</span> <span class="fl">21</span>,</span>
@@ -446,24 +442,25 @@ MERMAID.</p>
 <span></span>
 <span><span class="va">pqt</span></span></code></pre></div>
 <pre><code><span><span class="co">## # A tibble: 41 × 17</span></span>
-<span><span class="co">##    `Site *` `Management *` `Sample date: Year *` `Sample date: Month *` `Sample date: Day *`</span></span>
-<span><span class="co">##    &lt;chr&gt;    &lt;chr&gt;                          &lt;dbl&gt;                  &lt;dbl&gt;                &lt;dbl&gt;</span></span>
-<span><span class="co">##  1 1206     NTZ                             2020                     10                   21</span></span>
-<span><span class="co">##  2 1206     NTZ                             2020                     10                   21</span></span>
-<span><span class="co">##  3 1206     NTZ                             2020                     10                   21</span></span>
-<span><span class="co">##  4 1206     NTZ                             2020                     10                   21</span></span>
-<span><span class="co">##  5 1206     NTZ                             2020                     10                   21</span></span>
-<span><span class="co">##  6 1206     NTZ                             2020                     10                   21</span></span>
-<span><span class="co">##  7 1206     NTZ                             2020                     10                   21</span></span>
-<span><span class="co">##  8 1206     NTZ                             2020                     10                   21</span></span>
-<span><span class="co">##  9 1206     NTZ                             2020                     10                   21</span></span>
-<span><span class="co">## 10 1206     NTZ                             2020                     10                   21</span></span>
+<span><span class="co">##    `Site *` `Management *` `Sample date: Year *` `Sample date: Month *`</span></span>
+<span><span class="co">##    &lt;chr&gt;    &lt;chr&gt;                          &lt;dbl&gt;                  &lt;dbl&gt;</span></span>
+<span><span class="co">##  1 1206     Core Zone                       2020                     10</span></span>
+<span><span class="co">##  2 1206     Core Zone                       2020                     10</span></span>
+<span><span class="co">##  3 1206     Core Zone                       2020                     10</span></span>
+<span><span class="co">##  4 1206     Core Zone                       2020                     10</span></span>
+<span><span class="co">##  5 1206     Core Zone                       2020                     10</span></span>
+<span><span class="co">##  6 1206     Core Zone                       2020                     10</span></span>
+<span><span class="co">##  7 1206     Core Zone                       2020                     10</span></span>
+<span><span class="co">##  8 1206     Core Zone                       2020                     10</span></span>
+<span><span class="co">##  9 1206     Core Zone                       2020                     10</span></span>
+<span><span class="co">## 10 1206     Core Zone                       2020                     10</span></span>
 <span><span class="co">## # ℹ 31 more rows</span></span>
-<span><span class="co">## # ℹ 12 more variables: `Depth *` &lt;dbl&gt;, `Transect number *` &lt;dbl&gt;,</span></span>
-<span><span class="co">## #   `Transect length surveyed *` &lt;dbl&gt;, `Number of quadrats *` &lt;dbl&gt;, `Quadrat size *` &lt;dbl&gt;,</span></span>
-<span><span class="co">## #   `Number of points per quadrat *` &lt;dbl&gt;, `Observer emails *` &lt;chr&gt;, `Quadrat *` &lt;int&gt;,</span></span>
-<span><span class="co">## #   `Benthic attribute *` &lt;chr&gt;, `Growth form` &lt;chr&gt;, Benthic_attribute &lt;chr&gt;,</span></span>
-<span><span class="co">## #   `Number of points *` &lt;int&gt;</span></span></code></pre>
+<span><span class="co">## # ℹ 13 more variables: `Sample date: Day *` &lt;dbl&gt;, `Depth *` &lt;dbl&gt;,</span></span>
+<span><span class="co">## #   `Transect number *` &lt;dbl&gt;, `Transect length surveyed *` &lt;dbl&gt;,</span></span>
+<span><span class="co">## #   `Number of quadrats *` &lt;dbl&gt;, `Quadrat size *` &lt;dbl&gt;,</span></span>
+<span><span class="co">## #   `Number of points per quadrat *` &lt;dbl&gt;, `Observer emails *` &lt;chr&gt;,</span></span>
+<span><span class="co">## #   `Quadrat *` &lt;int&gt;, `Benthic attribute *` &lt;chr&gt;, `Growth form` &lt;chr&gt;,</span></span>
+<span><span class="co">## #   Benthic_attribute &lt;chr&gt;, `Number of points *` &lt;int&gt;</span></span></code></pre>
 <p>After assigning each label to the accepted benthic attributes and/or
 growth forms, you can now remove the benthic attribute column that has
 your labels from the data frame using the code below:</p>
@@ -509,11 +506,11 @@ import your data to MERMAID.</p>
 <span><span class="co">## 1 1206       1206           TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">pqt</span>, <span class="va">pqt_template</span>, <span class="st">"Management *"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## • Some errors in values of `Management *` - please check table below</span></span></code></pre>
+<pre><code><span><span class="co">## ✔ All values of `Management *` match</span></span></code></pre>
 <pre><code><span><span class="co">## # A tibble: 1 × 3</span></span>
 <span><span class="co">##   data_value closest_choice match</span></span>
 <span><span class="co">##   &lt;chr&gt;      &lt;chr&gt;          &lt;lgl&gt;</span></span>
-<span><span class="co">## 1 NTZ        Use            FALSE</span></span></code></pre>
+<span><span class="co">## 1 Core Zone  core zone      TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">pqt</span>, <span class="va">pqt_template</span>, <span class="st">"Sample date: Year *"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## ✔ Any value is allowed for `Sample date: Year *` - no checking to be done</span></span></code></pre>
@@ -557,33 +554,33 @@ import your data to MERMAID.</p>
 <pre><code><span><span class="co">## # A tibble: 14 × 3</span></span>
 <span><span class="co">##    data_value               closest_choice           match</span></span>
 <span><span class="co">##    &lt;chr&gt;                    &lt;chr&gt;                    &lt;lgl&gt;</span></span>
-<span><span class="co">##  1 Crustose coralline algae Crustose coralline algae TRUE </span></span>
-<span><span class="co">##  2 Dead coral               Dead coral               TRUE </span></span>
-<span><span class="co">##  3 Sand                     Sand                     TRUE </span></span>
-<span><span class="co">##  4 Acropora                 Acropora                 TRUE </span></span>
-<span><span class="co">##  5 Hard coral               Hard coral               TRUE </span></span>
-<span><span class="co">##  6 Rock                     Rock                     TRUE </span></span>
-<span><span class="co">##  7 Macroalgae               Macroalgae               TRUE </span></span>
-<span><span class="co">##  8 Rubble                   Rubble                   TRUE </span></span>
-<span><span class="co">##  9 Soft coral               Soft coral               TRUE </span></span>
-<span><span class="co">## 10 Millepora                Millepora                TRUE </span></span>
-<span><span class="co">## 11 Other invertebrates      Other invertebrates      TRUE </span></span>
-<span><span class="co">## 12 Sponge                   Sponge                   TRUE </span></span>
-<span><span class="co">## 13 Turf algae               Turf algae               TRUE </span></span>
-<span><span class="co">## 14 Heliopora                Heliopora                TRUE</span></span></code></pre>
+<span><span class="co">##  1 Crustose coralline algae crustose coralline algae TRUE </span></span>
+<span><span class="co">##  2 Dead coral               dead coral               TRUE </span></span>
+<span><span class="co">##  3 Sand                     sand                     TRUE </span></span>
+<span><span class="co">##  4 Acropora                 acropora                 TRUE </span></span>
+<span><span class="co">##  5 Hard coral               hard coral               TRUE </span></span>
+<span><span class="co">##  6 Rock                     rock                     TRUE </span></span>
+<span><span class="co">##  7 Macroalgae               macroalgae               TRUE </span></span>
+<span><span class="co">##  8 Rubble                   rubble                   TRUE </span></span>
+<span><span class="co">##  9 Soft coral               soft coral               TRUE </span></span>
+<span><span class="co">## 10 Millepora                millepora                TRUE </span></span>
+<span><span class="co">## 11 Other invertebrates      other invertebrates      TRUE </span></span>
+<span><span class="co">## 12 Sponge                   sponge                   TRUE </span></span>
+<span><span class="co">## 13 Turf algae               turf algae               TRUE </span></span>
+<span><span class="co">## 14 Heliopora                heliopora                TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">pqt</span>, <span class="va">pqt_template</span>, <span class="st">"Growth form"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## ✔ All values of `Growth form` match</span></span></code></pre>
 <pre><code><span><span class="co">## # A tibble: 7 × 3</span></span>
 <span><span class="co">##   data_value     closest_choice match</span></span>
 <span><span class="co">##   &lt;chr&gt;          &lt;chr&gt;          &lt;lgl&gt;</span></span>
-<span><span class="co">## 1 Branching      Branching      TRUE </span></span>
-<span><span class="co">## 2 Encrusting     Encrusting     TRUE </span></span>
-<span><span class="co">## 3 Foliose        Foliose        TRUE </span></span>
-<span><span class="co">## 4 Massive        Massive        TRUE </span></span>
-<span><span class="co">## 5 Digitate       Digitate       TRUE </span></span>
-<span><span class="co">## 6 Mushroom coral Mushroom coral TRUE </span></span>
-<span><span class="co">## 7 Submassive     Submassive     TRUE</span></span></code></pre>
+<span><span class="co">## 1 Branching      branching      TRUE </span></span>
+<span><span class="co">## 2 Encrusting     encrusting     TRUE </span></span>
+<span><span class="co">## 3 Foliose        foliose        TRUE </span></span>
+<span><span class="co">## 4 Massive        massive        TRUE </span></span>
+<span><span class="co">## 5 Digitate       digitate       TRUE </span></span>
+<span><span class="co">## 6 Mushroom coral mushroom coral TRUE </span></span>
+<span><span class="co">## 7 Submassive     submassive     TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">pqt</span>, <span class="va">pqt_template</span>, <span class="st">"Number of points *"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## ✔ Any value is allowed for `Number of points *` - no checking to be done</span></span></code></pre>
@@ -591,8 +588,8 @@ import your data to MERMAID.</p>
 file using the code below:</p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html" class="external-link">write_csv</a></span><span class="op">(</span><span class="va">pqt</span>, <span class="st">"pqt_mermaidreef.csv"</span><span class="op">)</span></span></code></pre></div>
-<p><strong>After validating and addressing all the issues</strong>, you
-need to <strong>perform a dry run check</strong> one last time using the
+<p>After validating and addressing all the issues, you need to perform a
+dry run check one last time using the
 <code><a href="../reference/mermaid_import_project_data.html">mermaid_import_project_data()</a></code> function and set
 <code>dryrun = TRUE</code>.</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
@@ -603,9 +600,9 @@ need to <strong>perform a dry run check</strong> one last time using the
 <span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Records successfully checked! To import, please run the function again with `dryrun = FALSE`.</span></span></code></pre>
-<p>Once you received the message <strong>Records successfully
-checked!</strong>, change the dryrun option to FALSE to start
-<strong>importing your data to MERMAID Collect</strong>.</p>
+<p>Once you get the message <strong>Records successfully
+checked!</strong>, change the dryrun option to FALSE to start importing
+your data to MERMAID.</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_project_data.html">mermaid_import_project_data</a></span><span class="op">(</span></span>
 <span>  <span class="va">pqt</span>,</span>
@@ -618,7 +615,7 @@ checked!</strong>, change the dryrun option to FALSE to start
 <div class="section level2">
 <h2 id="step-7--validate-and-submit-your-data-in-mermaid-collect">Step 7. Validate and submit your data in MERMAID Collect<a class="anchor" aria-label="anchor" href="#step-7--validate-and-submit-your-data-in-mermaid-collect"></a>
 </h2>
-<p>After you received the message <strong>Record successfully imported!
+<p>After you get the message <strong>Record successfully imported!
 Please review in Collect</strong>, head to your Collecting Page in your
 project in the MERMAID Collect. Continue with validating and submitting
 each transect.</p>

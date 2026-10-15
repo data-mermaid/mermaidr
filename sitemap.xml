@@ -4,6 +4,7 @@
 <url><loc>/LICENSE.html</loc></url>
 <url><loc>/articles/accessing_dev_collect_data.html</loc></url>
 <url><loc>/articles/accessing_project_data.html</loc></url>
+<url><loc>/articles/covariates_data.html</loc></url>
 <url><loc>/articles/getting_help.html</loc></url>
 <url><loc>/articles/import_coralnet.html</loc></url>
 <url><loc>/articles/import_cpce.html</loc></url>
@@ -44,5 +45,6 @@
 <url><loc>/reference/mermaid_token.html</loc></url>
 <url><loc>/reference/pipe.html</loc></url>
 <url><loc>/reference/token_available.html</loc></url>
+<url><loc>/reference/update_mermaidr.html</loc></url>
 </urlset>
 

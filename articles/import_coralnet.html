@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -77,6 +77,9 @@
 <li class="dropdown-header">Detailed Usage</li>
     <li>
       <a href="../articles/accessing_project_data.html">Accessing Project Data</a>
+    </li>
+    <li>
+      <a href="../articles/covariates_data.html">Adding Environmental Covariates to MERMAID Data</a>
     </li>
     <li>
       <a href="../articles/accessing_dev_collect_data.html">Accessing data from the development version of MERMAID</a>
@@ -153,11 +156,11 @@ in MERMAID Collect as long as you are an admin of the project. <a href="https://
 project</a> requires internet access. To create a new project, click on
 the <strong>New Project</strong> button and then:</p>
 <ol style="list-style-type: decimal">
-<li>add organization(s),</li>
-<li>add users,</li>
-<li>set data sharing permissions,</li>
-<li>add sites, and</li>
-<li>add management regimes.</li>
+<li>Add organization(s),</li>
+<li>Add users,</li>
+<li>Set data sharing permissions,</li>
+<li>Add sites, and</li>
+<li>Add management regimes.</li>
 </ol>
 </div>
 <div class="section level3">
@@ -234,22 +237,20 @@ including the MERMAID PQT template.</p>
 <p>To download the MERMAID PQT template:</p>
 <ol style="list-style-type: decimal">
 <li>Get your MERMAID project using the
-<code><a href="../reference/mermaid_get_my_projects.html">mermaid_get_my_projects()</a></code> function from the mermaidr
-package. Omit <code>inlcude_test_project = TRUE</code> if it is not a
-test project.</li>
+<code><a href="../reference/mermaid_get_my_projects.html">mermaid_get_my_projects()</a></code> function.</li>
 </ol>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">project</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mermaid_get_my_projects.html">mermaid_get_my_projects</a></span><span class="op">(</span>include_test_projects <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">project</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mermaid_get_my_projects.html">mermaid_get_my_projects</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>Filter to select just the project you are working on, and rename the
-object.</li>
+<li>Filter to select just the project you are working on.</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myproject</span> <span class="op">&lt;-</span> <span class="va">project</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="st">"MERMAID reef survey"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="st">"MERMAID Reef Surveys (training only)"</span><span class="op">)</span></span></code></pre></div>
 <p>Before running the code above, make sure that you change the project
-name “<strong>MERMAID reef survey”</strong> to <u><strong>your actual
-project</strong></u> that you want to import your data into.</p>
+name “<strong>MERMAID Reef Surveys (training only)“</strong> to
+<u><strong>your actual project</strong></u> that you want to import your
+data into.</p>
 <ol start="3" style="list-style-type: decimal">
 <li>Get the import template and options using the
 <code><a href="../reference/mermaid_import_get_template_and_options.html">mermaid_import_get_template_and_options( )</a></code> function.</li>
@@ -383,14 +384,18 @@ same with the MERMAID template. In this step you will:</p>
 </ul>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">pqt_template</span><span class="op">[[</span><span class="st">"Template"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "Site *"                         "Management *"                   "Sample date: Year *"           </span></span>
-<span><span class="co">##  [4] "Sample date: Month *"           "Sample date: Day *"             "Sample time"                   </span></span>
-<span><span class="co">##  [7] "Depth *"                        "Transect number *"              "Transect label"                </span></span>
-<span><span class="co">## [10] "Transect length surveyed *"     "Number of quadrats *"           "Quadrat size *"                </span></span>
-<span><span class="co">## [13] "First quadrat number"           "Number of points per quadrat *" "Reef slope"                    </span></span>
-<span><span class="co">## [16] "Visibility"                     "Current"                        "Relative depth"                </span></span>
-<span><span class="co">## [19] "Tide"                           "Sample unit notes"              "Observer emails *"             </span></span>
-<span><span class="co">## [22] "Quadrat *"                      "Benthic attribute *"            "Growth form"                   </span></span>
+<pre><code><span><span class="co">##  [1] "Site *"                         "Management *"                  </span></span>
+<span><span class="co">##  [3] "Sample date: Year *"            "Sample date: Month *"          </span></span>
+<span><span class="co">##  [5] "Sample date: Day *"             "Sample time"                   </span></span>
+<span><span class="co">##  [7] "Depth *"                        "Transect number *"             </span></span>
+<span><span class="co">##  [9] "Transect label"                 "Transect length surveyed *"    </span></span>
+<span><span class="co">## [11] "Number of quadrats *"           "Quadrat size *"                </span></span>
+<span><span class="co">## [13] "First quadrat number"           "Number of points per quadrat *"</span></span>
+<span><span class="co">## [15] "Reef slope"                     "Visibility"                    </span></span>
+<span><span class="co">## [17] "Current"                        "Relative depth"                </span></span>
+<span><span class="co">## [19] "Tide"                           "Sample unit notes"             </span></span>
+<span><span class="co">## [21] "Observer emails *"              "Quadrat *"                     </span></span>
+<span><span class="co">## [23] "Benthic attribute *"            "Growth form"                   </span></span>
 <span><span class="co">## [25] "Number of points *"</span></span></code></pre>
 <ul>
 <li>Rename the headers in your data to match the template. You could
@@ -448,7 +453,7 @@ appear.</p>
 <pre><code><span><span class="co">## # A tibble: 1 × 3</span></span>
 <span><span class="co">##   data_value closest_choice match</span></span>
 <span><span class="co">##   &lt;chr&gt;      &lt;chr&gt;          &lt;lgl&gt;</span></span>
-<span><span class="co">## 1 Control    Control        TRUE</span></span></code></pre>
+<span><span class="co">## 1 Control    control        TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">pqt</span>, <span class="va">pqt_template</span>, <span class="st">"Sample date: Year *"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## ✔ Any value is allowed for `Sample date: Year *` - no checking to be done</span></span></code></pre>
@@ -492,16 +497,16 @@ appear.</p>
 <pre><code><span><span class="co">## # A tibble: 107 × 3</span></span>
 <span><span class="co">##    data_value               closest_choice           match</span></span>
 <span><span class="co">##    &lt;chr&gt;                    &lt;chr&gt;                    &lt;lgl&gt;</span></span>
-<span><span class="co">##  1 Crustose coralline algae Crustose coralline algae TRUE </span></span>
-<span><span class="co">##  2 Soft coral               Soft coral               TRUE </span></span>
-<span><span class="co">##  3 Sand                     Sand                     TRUE </span></span>
-<span><span class="co">##  4 Acropora                 Acropora                 TRUE </span></span>
-<span><span class="co">##  5 Porites                  Porites                  TRUE </span></span>
-<span><span class="co">##  6 Macroalgae               Macroalgae               TRUE </span></span>
-<span><span class="co">##  7 Other invertebrates      Other invertebrates      TRUE </span></span>
-<span><span class="co">##  8 Seagrass                 Seagrass                 TRUE </span></span>
-<span><span class="co">##  9 Sponge                   Sponge                   TRUE </span></span>
-<span><span class="co">## 10 Zoanthid                 Zoanthid                 TRUE </span></span>
+<span><span class="co">##  1 Crustose coralline algae crustose coralline algae TRUE </span></span>
+<span><span class="co">##  2 Soft coral               soft coral               TRUE </span></span>
+<span><span class="co">##  3 Sand                     sand                     TRUE </span></span>
+<span><span class="co">##  4 Acropora                 acropora                 TRUE </span></span>
+<span><span class="co">##  5 Porites                  porites                  TRUE </span></span>
+<span><span class="co">##  6 Macroalgae               macroalgae               TRUE </span></span>
+<span><span class="co">##  7 Other invertebrates      other invertebrates      TRUE </span></span>
+<span><span class="co">##  8 Seagrass                 seagrass                 TRUE </span></span>
+<span><span class="co">##  9 Sponge                   sponge                   TRUE </span></span>
+<span><span class="co">## 10 Zoanthid                 zoanthid                 TRUE </span></span>
 <span><span class="co">## # ℹ 97 more rows</span></span></code></pre>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">pqt</span>, <span class="va">pqt_template</span>, <span class="st">"Growth form"</span><span class="op">)</span></span></code></pre></div>
@@ -509,8 +514,8 @@ appear.</p>
 <pre><code><span><span class="co">## # A tibble: 2 × 3</span></span>
 <span><span class="co">##   data_value closest_choice match</span></span>
 <span><span class="co">##   &lt;chr&gt;      &lt;chr&gt;          &lt;lgl&gt;</span></span>
-<span><span class="co">## 1 Branching  Branching      TRUE </span></span>
-<span><span class="co">## 2 Massive    Massive        TRUE</span></span></code></pre>
+<span><span class="co">## 1 Branching  branching      TRUE </span></span>
+<span><span class="co">## 2 Massive    massive        TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_import_check_options.html">mermaid_import_check_options</a></span><span class="op">(</span><span class="va">pqt</span>, <span class="va">pqt_template</span>, <span class="st">"Number of points *"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## ✔ Any value is allowed for `Number of points *` - no checking to be done</span></span></code></pre>

@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -77,6 +77,9 @@
 <li class="dropdown-header">Detailed Usage</li>
     <li>
       <a href="../articles/accessing_project_data.html">Accessing Project Data</a>
+    </li>
+    <li>
+      <a href="../articles/covariates_data.html">Adding Environmental Covariates to MERMAID Data</a>
     </li>
     <li>
       <a href="../articles/accessing_dev_collect_data.html">Accessing data from the development version of MERMAID</a>
@@ -135,31 +138,31 @@ prompted.</p>
 <span></span>
 <span><span class="va">my_projects</span></span>
 <span><span class="co">#&gt; # A tibble: 16 × 21</span></span>
-<span><span class="co">#&gt;    id        name  countries num_sites num_active_sample_un…¹ num_sample_units tags </span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;         &lt;int&gt;                  &lt;int&gt;            &lt;dbl&gt; &lt;chr&gt;</span></span>
-<span><span class="co">#&gt;  1 e1efb1e0… 2016… Fiji              9                     10               80 "WCS…</span></span>
-<span><span class="co">#&gt;  2 170e7182… 2018… Fiji             10                      5              121 "WCS…</span></span>
-<span><span class="co">#&gt;  3 d065cba4… 2019… Fiji             31                      3               32 "WCS…</span></span>
-<span><span class="co">#&gt;  4 1fbdb9ea… a2    Canada, …         9                      9                0 "WWF…</span></span>
-<span><span class="co">#&gt;  5 3a9ecb7c… Aceh… Indonesia        18                     55              198 "WCS…</span></span>
-<span><span class="co">#&gt;  6 bacd3529… Beli… Belize, …        39                    112              258 "WCS…</span></span>
-<span><span class="co">#&gt;  7 a1b7ff1f… Grea… Fiji             76                      8              648 "Fij…</span></span>
-<span><span class="co">#&gt;  8 507d1af9… Kari… Indonesia        43                     18              842 "WCS…</span></span>
-<span><span class="co">#&gt;  9 75ef7a5a… Kubu… Fiji             78                      1             1145 "WCS…</span></span>
-<span><span class="co">#&gt; 10 5679ef3d… Mada… Madagasc…        33                      0               49 "WCS…</span></span>
-<span><span class="co">#&gt; 11 4080679f… Mada… Madagasc…        74                      4               84 "WCS…</span></span>
-<span><span class="co">#&gt; 12 4d79339f… MERM… Indonesi…        13                     72               32 "tes…</span></span>
-<span><span class="co">#&gt; 13 2c0c9857… Shar… Canada, …        28                      5                6 ""   </span></span>
-<span><span class="co">#&gt; 14 02e6915c… TWP … Indonesia        14                     10                2 "WCS…</span></span>
-<span><span class="co">#&gt; 15 2d6cee25… WCS … Mozambiq…        74                      6              247 "WCS…</span></span>
-<span><span class="co">#&gt; 16 9de82789… XPDC… Indonesia        37                     71              450 ""   </span></span>
+<span><span class="co">#&gt;    id         name  countries num_sites num_active_sample_un…¹ num_sample_units tags </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;         &lt;int&gt;                  &lt;int&gt;            &lt;dbl&gt; &lt;chr&gt;</span></span>
+<span><span class="co">#&gt;  1 e1efb1e0-… 2016… Fiji              9                     10               80 WCS …</span></span>
+<span><span class="co">#&gt;  2 170e7182-… 2018… Fiji             10                      5              121 WCS …</span></span>
+<span><span class="co">#&gt;  3 d065cba4-… 2019… Fiji             31                      3               32 WCS …</span></span>
+<span><span class="co">#&gt;  4 1fbdb9ea-… a2    Canada; …         9                      9                0 WWF-…</span></span>
+<span><span class="co">#&gt;  5 3a9ecb7c-… Aceh… Indonesia        18                     54              199 WCS …</span></span>
+<span><span class="co">#&gt;  6 bacd3529-… Beli… Belize; …        39                    136              260 WCS …</span></span>
+<span><span class="co">#&gt;  7 a1b7ff1f-… Grea… Fiji             76                      8              648 Fiji…</span></span>
+<span><span class="co">#&gt;  8 507d1af9-… Kari… Indonesia        43                     18              842 WCS …</span></span>
+<span><span class="co">#&gt;  9 75ef7a5a-… Kubu… Fiji             78                      1             1145 WCS …</span></span>
+<span><span class="co">#&gt; 10 5679ef3d-… Mada… Madagasc…        33                      0               49 WCS …</span></span>
+<span><span class="co">#&gt; 11 4080679f-… Mada… Madagasc…        74                      4               84 WCS …</span></span>
+<span><span class="co">#&gt; 12 4d79339f-… MERM… Indonesi…        13                     73               31 test…</span></span>
+<span><span class="co">#&gt; 13 2c0c9857-… Shar… Canada; …        28                     61                7 &lt;NA&gt; </span></span>
+<span><span class="co">#&gt; 14 02e6915c-… TWP … Indonesia        14                     10                2 WCS …</span></span>
+<span><span class="co">#&gt; 15 2d6cee25-… WCS … Mozambiq…        74                      6              247 WCS …</span></span>
+<span><span class="co">#&gt; 16 9de82789-… XPDC… Indonesia        37                     71              450 &lt;NA&gt; </span></span>
 <span><span class="co">#&gt; # ℹ abbreviated name: ¹​num_active_sample_units</span></span>
-<span><span class="co">#&gt; # ℹ 14 more variables: project_admins &lt;chr&gt;, suggested_citation &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   bbox &lt;df[,4]&gt;, notes &lt;chr&gt;, status &lt;chr&gt;, data_policy_beltfish &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_benthiclit &lt;chr&gt;, data_policy_benthicpit &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_benthicpqt &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, data_policy_macroinvertebrate &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 14 more variables: suggested_citation &lt;chr&gt;, bbox &lt;df[,4]&gt;, notes &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   status &lt;chr&gt;, data_policy_beltfish &lt;chr&gt;, data_policy_benthiclit &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, data_policy_benthicpqt &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_macroinvertebrate &lt;chr&gt;, includes_gfcr &lt;lgl&gt;, created_on &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   updated_on &lt;chr&gt;</span></span></code></pre></div>
 <p>This function returns information on your projects, including project
 countries, the number of sites, tags, data policies, and more.</p>
 <p>To filter for specific projects, you can use the <code>filter</code>
@@ -172,59 +175,59 @@ function from <code>dplyr</code>:</p>
 <span></span>
 <span><span class="va">indonesia_projects</span></span>
 <span><span class="co">#&gt; # A tibble: 4 × 21</span></span>
-<span><span class="co">#&gt;   id         name  countries num_sites num_active_sample_un…¹ num_sample_units tags </span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;         &lt;int&gt;                  &lt;int&gt;            &lt;dbl&gt; &lt;chr&gt;</span></span>
-<span><span class="co">#&gt; 1 3a9ecb7c-… Aceh… Indonesia        18                     55              198 "WCS…</span></span>
-<span><span class="co">#&gt; 2 507d1af9-… Kari… Indonesia        43                     18              842 "WCS…</span></span>
-<span><span class="co">#&gt; 3 02e6915c-… TWP … Indonesia        14                     10                2 "WCS…</span></span>
-<span><span class="co">#&gt; 4 9de82789-… XPDC… Indonesia        37                     71              450 ""   </span></span>
+<span><span class="co">#&gt;   id          name  countries num_sites num_active_sample_un…¹ num_sample_units tags </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;         &lt;int&gt;                  &lt;int&gt;            &lt;dbl&gt; &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 3a9ecb7c-f… Aceh… Indonesia        18                     54              199 WCS …</span></span>
+<span><span class="co">#&gt; 2 507d1af9-e… Kari… Indonesia        43                     18              842 WCS …</span></span>
+<span><span class="co">#&gt; 3 02e6915c-1… TWP … Indonesia        14                     10                2 WCS …</span></span>
+<span><span class="co">#&gt; 4 9de82789-c… XPDC… Indonesia        37                     71              450 &lt;NA&gt; </span></span>
 <span><span class="co">#&gt; # ℹ abbreviated name: ¹​num_active_sample_units</span></span>
-<span><span class="co">#&gt; # ℹ 14 more variables: project_admins &lt;chr&gt;, suggested_citation &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   bbox &lt;df[,4]&gt;, notes &lt;chr&gt;, status &lt;chr&gt;, data_policy_beltfish &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_benthiclit &lt;chr&gt;, data_policy_benthicpit &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_benthicpqt &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, data_policy_macroinvertebrate &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 14 more variables: suggested_citation &lt;chr&gt;, bbox &lt;df[,4]&gt;, notes &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   status &lt;chr&gt;, data_policy_beltfish &lt;chr&gt;, data_policy_benthiclit &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, data_policy_benthicpqt &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_macroinvertebrate &lt;chr&gt;, includes_gfcr &lt;lgl&gt;, created_on &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   updated_on &lt;chr&gt;</span></span></code></pre></div>
 <p>Alternatively, you can search your projects using
 <code><a href="../reference/mermaid_search_my_projects.html">mermaid_search_my_projects()</a></code>, narrowing projects down by
 name, countries, or tags:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mermaid_search_my_projects.html">mermaid_search_my_projects</a></span><span class="op">(</span>countries <span class="op">=</span> <span class="st">"Indonesia"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 7 × 21</span></span>
-<span><span class="co">#&gt;   id         name  countries num_sites num_active_sample_un…¹ num_sample_units tags </span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;         &lt;int&gt;                  &lt;int&gt;            &lt;dbl&gt; &lt;chr&gt;</span></span>
-<span><span class="co">#&gt; 1 3a9ecb7c-… Aceh… Indonesia        18                     55              198 "WCS…</span></span>
-<span><span class="co">#&gt; 2 bacd3529-… Beli… Belize, …        39                    112              258 "WCS…</span></span>
-<span><span class="co">#&gt; 3 507d1af9-… Kari… Indonesia        43                     18              842 "WCS…</span></span>
-<span><span class="co">#&gt; 4 4d79339f-… MERM… Indonesi…        13                     72               32 "tes…</span></span>
-<span><span class="co">#&gt; 5 2c0c9857-… Shar… Canada, …        28                      5                6 ""   </span></span>
-<span><span class="co">#&gt; 6 02e6915c-… TWP … Indonesia        14                     10                2 "WCS…</span></span>
-<span><span class="co">#&gt; 7 9de82789-… XPDC… Indonesia        37                     71              450 ""   </span></span>
+<span><span class="co">#&gt;   id          name  countries num_sites num_active_sample_un…¹ num_sample_units tags </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;         &lt;int&gt;                  &lt;int&gt;            &lt;dbl&gt; &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 3a9ecb7c-f… Aceh… Indonesia        18                     54              199 WCS …</span></span>
+<span><span class="co">#&gt; 2 bacd3529-e… Beli… Belize; …        39                    136              260 WCS …</span></span>
+<span><span class="co">#&gt; 3 507d1af9-e… Kari… Indonesia        43                     18              842 WCS …</span></span>
+<span><span class="co">#&gt; 4 4d79339f-2… MERM… Indonesi…        13                     73               31 test…</span></span>
+<span><span class="co">#&gt; 5 2c0c9857-b… Shar… Canada; …        28                     61                7 &lt;NA&gt; </span></span>
+<span><span class="co">#&gt; 6 02e6915c-1… TWP … Indonesia        14                     10                2 WCS …</span></span>
+<span><span class="co">#&gt; 7 9de82789-c… XPDC… Indonesia        37                     71              450 &lt;NA&gt; </span></span>
 <span><span class="co">#&gt; # ℹ abbreviated name: ¹​num_active_sample_units</span></span>
-<span><span class="co">#&gt; # ℹ 14 more variables: project_admins &lt;chr&gt;, suggested_citation &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   bbox &lt;df[,4]&gt;, notes &lt;chr&gt;, status &lt;chr&gt;, data_policy_beltfish &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_benthiclit &lt;chr&gt;, data_policy_benthicpit &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_benthicpqt &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, data_policy_macroinvertebrate &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 14 more variables: suggested_citation &lt;chr&gt;, bbox &lt;df[,4]&gt;, notes &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   status &lt;chr&gt;, data_policy_beltfish &lt;chr&gt;, data_policy_benthiclit &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, data_policy_benthicpqt &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_macroinvertebrate &lt;chr&gt;, includes_gfcr &lt;lgl&gt;, created_on &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   updated_on &lt;chr&gt;</span></span></code></pre></div>
 <p>Then, you can start to access data about your projects, like project
 sites via <code><a href="../reference/mermaid_get_project_sites.html">mermaid_get_project_sites()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">indonesia_projects</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_sites.html">mermaid_get_project_sites</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 112 × 12</span></span>
-<span><span class="co">#&gt;    project id    name  notes latitude longitude country reef_type reef_zone exposure</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;   </span></span>
-<span><span class="co">#&gt;  1 Karimu… a763… Gent… ""       -5.86     111.  Indone… fringing  back reef shelter…</span></span>
-<span><span class="co">#&gt;  2 Aceh J… b7d5… Reha… ""        4.84      95.4 Indone… fringing  fore reef shelter…</span></span>
-<span><span class="co">#&gt;  3 Aceh J… 5436… Wisa… ""        5.04      95.4 Indone… fringing  fore reef shelter…</span></span>
-<span><span class="co">#&gt;  4 Karimu… 0368… Meny… ""       -5.80     110.  Indone… fringing  fore reef shelter…</span></span>
-<span><span class="co">#&gt;  5 Aceh J… 38f7… Pula… ""        5.08      95.3 Indone… fringing  back reef semi-ex…</span></span>
-<span><span class="co">#&gt;  6 Karimu… 21ae… Batu… ""       -5.81     110.  Indone… fringing  back reef semi-ex…</span></span>
-<span><span class="co">#&gt;  7 Karimu… f30c… Cema… ""       -5.81     110.  Indone… fringing  back reef semi-ex…</span></span>
-<span><span class="co">#&gt;  8 Karimu… 9ec6… Cema… ""       -5.80     110.  Indone… fringing  back reef semi-ex…</span></span>
-<span><span class="co">#&gt;  9 Karimu… 43d3… Lego… ""       -5.87     110.  Indone… fringing  back reef semi-ex…</span></span>
-<span><span class="co">#&gt; 10 Karimu… f096… Lego… ""       -5.86     110.  Indone… fringing  back reef semi-ex…</span></span>
+<span><span class="co">#&gt;    project  id    name  latitude longitude notes country reef_type reef_zone exposure</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;   </span></span>
+<span><span class="co">#&gt;  1 Karimun… a763… Gent…    -5.86     111.  &lt;NA&gt;  Indone… fringing  back reef shelter…</span></span>
+<span><span class="co">#&gt;  2 Aceh Ja… b7d5… Reha…     4.84      95.4 &lt;NA&gt;  Indone… fringing  fore reef shelter…</span></span>
+<span><span class="co">#&gt;  3 Aceh Ja… 5436… Wisa…     5.04      95.4 &lt;NA&gt;  Indone… fringing  fore reef shelter…</span></span>
+<span><span class="co">#&gt;  4 Karimun… 0368… Meny…    -5.80     110.  &lt;NA&gt;  Indone… fringing  fore reef shelter…</span></span>
+<span><span class="co">#&gt;  5 Aceh Ja… 38f7… Pula…     5.08      95.3 &lt;NA&gt;  Indone… fringing  back reef semi-ex…</span></span>
+<span><span class="co">#&gt;  6 Karimun… 21ae… Batu…    -5.81     110.  &lt;NA&gt;  Indone… fringing  back reef semi-ex…</span></span>
+<span><span class="co">#&gt;  7 Karimun… f30c… Cema…    -5.81     110.  &lt;NA&gt;  Indone… fringing  back reef semi-ex…</span></span>
+<span><span class="co">#&gt;  8 Karimun… 9ec6… Cema…    -5.80     110.  &lt;NA&gt;  Indone… fringing  back reef semi-ex…</span></span>
+<span><span class="co">#&gt;  9 Karimun… 43d3… Lego…    -5.87     110.  &lt;NA&gt;  Indone… fringing  back reef semi-ex…</span></span>
+<span><span class="co">#&gt; 10 Karimun… f096… Lego…    -5.86     110.  &lt;NA&gt;  Indone… fringing  back reef semi-ex…</span></span>
 <span><span class="co">#&gt; # ℹ 102 more rows</span></span>
 <span><span class="co">#&gt; # ℹ 2 more variables: created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>
 <p>Or the managements for your projects via
@@ -232,23 +235,23 @@ sites via <code><a href="../reference/mermaid_get_project_sites.html">mermaid_ge
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">indonesia_projects</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_managements.html">mermaid_get_project_managements</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 24 × 18</span></span>
-<span><span class="co">#&gt;    project  id    name  name_secondary est_year  size parties compliance open_access</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;             &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;lgl&gt;      </span></span>
-<span><span class="co">#&gt;  1 Aceh Ja… cc92… Core… ""                 2019    NA commun… full       FALSE      </span></span>
-<span><span class="co">#&gt;  2 TWP Gil… 0975… Zona… "Core Zone"        2013    NA govern… full       FALSE      </span></span>
-<span><span class="co">#&gt;  3 Aceh Ja… a579… Aqua… ""                 2019    NA commun… low        FALSE      </span></span>
-<span><span class="co">#&gt;  4 Aceh Ja… 646c… Fish… ""                 2019    NA commun… low        FALSE      </span></span>
-<span><span class="co">#&gt;  5 Aceh Ja… dce8… Reha… ""                 2019    NA commun… low        FALSE      </span></span>
-<span><span class="co">#&gt;  6 Aceh Ja… 1498… Tour… ""                 2019    NA commun… low        FALSE      </span></span>
-<span><span class="co">#&gt;  7 Karimun… 8b90… Fish… ""                 2005     0 commun… low        FALSE      </span></span>
-<span><span class="co">#&gt;  8 Karimun… bd73… Reha… ""                 2005    NA commun… low        FALSE      </span></span>
-<span><span class="co">#&gt;  9 Karimun… a7e2… Tour… ""                 2005    NA commun… low        FALSE      </span></span>
-<span><span class="co">#&gt; 10 Aceh Ja… 0f0f… Open  ""                 2019    NA commun… none       TRUE       </span></span>
+<span><span class="co">#&gt; # A tibble: 24 × 19</span></span>
+<span><span class="co">#&gt;    project   id    name   size name_secondary est_year notes no_take periodic_closure</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;             &lt;int&gt; &lt;chr&gt; &lt;lgl&gt;   &lt;lgl&gt;           </span></span>
+<span><span class="co">#&gt;  1 Aceh Jay… cc92… Core…    NA &lt;NA&gt;               2019 &lt;NA&gt;  TRUE    FALSE           </span></span>
+<span><span class="co">#&gt;  2 TWP Gili… 0975… Zona…    NA Core Zone          2013 &lt;NA&gt;  TRUE    FALSE           </span></span>
+<span><span class="co">#&gt;  3 Aceh Jay… a579… Aqua…    NA &lt;NA&gt;               2019 &lt;NA&gt;  FALSE   FALSE           </span></span>
+<span><span class="co">#&gt;  4 Aceh Jay… 646c… Fish…    NA &lt;NA&gt;               2019 &lt;NA&gt;  FALSE   FALSE           </span></span>
+<span><span class="co">#&gt;  5 Aceh Jay… dce8… Reha…    NA &lt;NA&gt;               2019 &lt;NA&gt;  TRUE    FALSE           </span></span>
+<span><span class="co">#&gt;  6 Aceh Jay… 1498… Tour…    NA &lt;NA&gt;               2019 &lt;NA&gt;  TRUE    FALSE           </span></span>
+<span><span class="co">#&gt;  7 Karimunj… 8b90… Fish…     0 &lt;NA&gt;               2005 &lt;NA&gt;  FALSE   FALSE           </span></span>
+<span><span class="co">#&gt;  8 Karimunj… bd73… Reha…    NA &lt;NA&gt;               2005 &lt;NA&gt;  TRUE    FALSE           </span></span>
+<span><span class="co">#&gt;  9 Karimunj… a7e2… Tour…    NA &lt;NA&gt;               2005 &lt;NA&gt;  TRUE    FALSE           </span></span>
+<span><span class="co">#&gt; 10 Aceh Jay… 0f0f… Open     NA &lt;NA&gt;               2019 &lt;NA&gt;  FALSE   FALSE           </span></span>
 <span><span class="co">#&gt; # ℹ 14 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 9 more variables: no_take &lt;lgl&gt;, access_restriction &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   periodic_closure &lt;lgl&gt;, size_limits &lt;lgl&gt;, gear_restriction &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   species_restriction &lt;lgl&gt;, notes &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 10 more variables: open_access &lt;lgl&gt;, size_limits &lt;lgl&gt;, gear_restriction &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   species_restriction &lt;lgl&gt;, access_restriction &lt;lgl&gt;, compliance &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   parties &lt;chr&gt;, rules &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="method-data">Method data<a class="anchor" aria-label="anchor" href="#method-data"></a>
 </h2>
@@ -269,26 +272,26 @@ observation) by setting <code>data = "observations"</code>:</p>
 <span></span>
 <span><span class="va">xpdc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fishbelt"</span>, data <span class="op">=</span> <span class="st">"observations"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 3,069 × 54</span></span>
-<span><span class="co">#&gt;    project  tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;    &lt;lgl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt;  1 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  2 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  3 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  4 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  5 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  6 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  7 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  8 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  9 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt; 10 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
+<span><span class="co">#&gt; # A tibble: 3,069 × 55</span></span>
+<span><span class="co">#&gt;    project         project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;lgl&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  2 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  3 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  4 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  5 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  6 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  7 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  8 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  9 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt; 10 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
 <span><span class="co">#&gt; # ℹ 3,059 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 45 more variables: reef_slope &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   visibility &lt;chr&gt;, relative_depth &lt;chr&gt;, management &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; # ℹ 47 more variables: reef_exposure &lt;chr&gt;, reef_slope &lt;chr&gt;, reef_type &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   reef_zone &lt;chr&gt;, sample_time &lt;time&gt;, tide &lt;chr&gt;, visibility &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   current &lt;chr&gt;, depth &lt;dbl&gt;, relative_depth &lt;chr&gt;, management &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   management_secondary &lt;chr&gt;, management_est_year &lt;lgl&gt;, management_size &lt;lgl&gt;,</span></span>
 <span><span class="co">#&gt; #   management_parties &lt;lgl&gt;, management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   sample_date &lt;date&gt;, sample_time &lt;time&gt;, depth &lt;dbl&gt;, transect_length &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   transect_width &lt;chr&gt;, assigned_transect_width_m &lt;dbl&gt;, size_bin &lt;dbl&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; #   sample_date &lt;date&gt;, transect_number &lt;dbl&gt;, label &lt;lgl&gt;, …</span></span></code></pre></div>
 <p>You can access sample units data, which are observations aggregated
 to the sample units level. Fish belt sample units contain total biomass
 in kg/ha per sample unit, by trophic group and by fish family:</p>
@@ -296,25 +299,25 @@ in kg/ha per sample unit, by trophic group and by fish family:</p>
 <code class="sourceCode R"><span><span class="va">xpdc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleunits"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 246 × 67</span></span>
-<span><span class="co">#&gt;    project  tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;    &lt;lgl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt;  1 XPDC Ke… NA    Indone… KE34     -5.85      133. fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  2 XPDC Ke… NA    Indone… KE06     -5.52      132. fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  3 XPDC Ke… NA    Indone… KE23     -5.80      133. fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt;  4 XPDC Ke… NA    Indone… KE07     -5.57      133. fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  5 XPDC Ke… NA    Indone… KE03     -5.61      132. fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  6 XPDC Ke… NA    Indone… KE24     -5.93      133. fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt;  7 XPDC Ke… NA    Indone… KE17     -5.69      133. fringing  fore reef semi-exposed </span></span>
-<span><span class="co">#&gt;  8 XPDC Ke… NA    Indone… KE31     -5.78      133. fringing  crest     semi-exposed </span></span>
-<span><span class="co">#&gt;  9 XPDC Ke… NA    Indone… KE36     -5.88      133. fringing  fore reef semi-exposed </span></span>
-<span><span class="co">#&gt; 10 XPDC Ke… NA    Indone… KE33     -5.82      133. fringing  fore reef semi-exposed </span></span>
+<span><span class="co">#&gt;    project         project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;lgl&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE18     -5.70      133.</span></span>
+<span><span class="co">#&gt;  2 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE24     -5.93      133.</span></span>
+<span><span class="co">#&gt;  3 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE36     -5.88      133.</span></span>
+<span><span class="co">#&gt;  4 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE03     -5.61      132.</span></span>
+<span><span class="co">#&gt;  5 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE15     -5.62      133.</span></span>
+<span><span class="co">#&gt;  6 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE36     -5.88      133.</span></span>
+<span><span class="co">#&gt;  7 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE35     -5.83      133.</span></span>
+<span><span class="co">#&gt;  8 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE06     -5.52      132.</span></span>
+<span><span class="co">#&gt;  9 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE31     -5.78      133.</span></span>
+<span><span class="co">#&gt; 10 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE33     -5.82      133.</span></span>
 <span><span class="co">#&gt; # ℹ 236 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 58 more variables: reef_slope &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   visibility &lt;chr&gt;, relative_depth &lt;chr&gt;, management &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   management_secondary &lt;chr&gt;, management_est_year &lt;lgl&gt;, management_size &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   management_parties &lt;lgl&gt;, management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   sample_date &lt;date&gt;, sample_time &lt;chr&gt;, depth &lt;dbl&gt;, transect_number &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   label &lt;lgl&gt;, size_bin &lt;chr&gt;, transect_length &lt;dbl&gt;, transect_width &lt;chr&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 59 more variables: reef_exposure &lt;chr&gt;, reef_slope &lt;chr&gt;, reef_type &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   reef_zone &lt;chr&gt;, sample_time &lt;chr&gt;, tide &lt;chr&gt;, visibility &lt;chr&gt;, current &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   depth &lt;dbl&gt;, relative_depth &lt;chr&gt;, management &lt;chr&gt;, management_secondary &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   management_est_year &lt;lgl&gt;, management_size &lt;lgl&gt;, management_parties &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span>
+<span><span class="co">#&gt; #   transect_number &lt;dbl&gt;, label &lt;lgl&gt;, …</span></span></code></pre></div>
 <p>And finally, sample events data, which are aggregated further, to the
 sample event level. Fish belt sample events contain <em>mean</em> total
 biomass in kg/ha per sample event, by trophic group and by fish family,
@@ -325,25 +328,25 @@ as well as <em>standard deviations</em>:</p>
 <span></span>
 <span><span class="va">xpdc_sample_events</span></span>
 <span><span class="co">#&gt; # A tibble: 46 × 82</span></span>
-<span><span class="co">#&gt;    project  tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;    &lt;lgl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt;  1 XPDC Ke… NA    Indone… KE02     -5.44      133. fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  2 XPDC Ke… NA    Indone… KE36     -5.88      133. fringing  fore reef semi-exposed </span></span>
-<span><span class="co">#&gt;  3 XPDC Ke… NA    Indone… KE36     -5.88      133. fringing  fore reef semi-exposed </span></span>
-<span><span class="co">#&gt;  4 XPDC Ke… NA    Indone… KE06     -5.52      132. fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  5 XPDC Ke… NA    Indone… KE23     -5.80      133. fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt;  6 XPDC Ke… NA    Indone… KE18     -5.70      133. fringing  fore reef semi-exposed </span></span>
-<span><span class="co">#&gt;  7 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  8 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  9 XPDC Ke… NA    Indone… KE19     -5.73      133. fringing  fore reef semi-exposed </span></span>
-<span><span class="co">#&gt; 10 XPDC Ke… NA    Indone… KE31     -5.78      133. fringing  crest     semi-exposed </span></span>
+<span><span class="co">#&gt;    id      project project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;lgl&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 15ed4d… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE02     -5.44      133.</span></span>
+<span><span class="co">#&gt;  2 eda605… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE36     -5.88      133.</span></span>
+<span><span class="co">#&gt;  3 52ae59… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE36     -5.88      133.</span></span>
+<span><span class="co">#&gt;  4 210144… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE06     -5.52      132.</span></span>
+<span><span class="co">#&gt;  5 3cc8e1… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE23     -5.80      133.</span></span>
+<span><span class="co">#&gt;  6 a009b4… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE18     -5.70      133.</span></span>
+<span><span class="co">#&gt;  7 05a34e… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  8 b88113… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  9 40afd0… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE19     -5.73      133.</span></span>
+<span><span class="co">#&gt; 10 06ae70… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE31     -5.78      133.</span></span>
 <span><span class="co">#&gt; # ℹ 36 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 73 more variables: tide &lt;chr&gt;, current &lt;chr&gt;, visibility &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; # ℹ 73 more variables: reef_exposure &lt;chr&gt;, reef_type &lt;chr&gt;, reef_zone &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   tide &lt;chr&gt;, visibility &lt;chr&gt;, current &lt;chr&gt;, depth_avg &lt;dbl&gt;, depth_sd &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   management &lt;chr&gt;, management_secondary &lt;chr&gt;, management_est_year &lt;lgl&gt;,</span></span>
 <span><span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;lgl&gt;, management_compliance &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   management_rules &lt;chr&gt;, sample_date &lt;date&gt;, depth_avg &lt;dbl&gt;, depth_sd &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   biomass_kgha_avg &lt;dbl&gt;, biomass_kgha_sd &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   biomass_kgha_trophic_group_avg_omnivore &lt;dbl&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; #   management_rules &lt;chr&gt;, sample_date &lt;date&gt;, observers &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   sample_unit_count &lt;dbl&gt;, biomass_kgha_avg &lt;dbl&gt;, biomass_kgha_sd &lt;dbl&gt;, …</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="benthic-lit-data">Benthic LIT data<a class="anchor" aria-label="anchor" href="#benthic-lit-data"></a>
@@ -357,26 +360,26 @@ as well as <em>standard deviations</em>:</p>
 <span></span>
 <span><span class="va">mozambique</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"benthiclit"</span>, data <span class="op">=</span> <span class="st">"observations"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 1,574 × 47</span></span>
-<span><span class="co">#&gt;    project  tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt;  1 WCS Moz… WCS … Mozamb… Ligh…    -11.0      40.7 fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  2 WCS Moz… WCS … Mozamb… Ligh…    -11.0      40.7 fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  3 WCS Moz… WCS … Mozamb… Ligh…    -11.0      40.7 fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  4 WCS Moz… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef sheltered    </span></span>
-<span><span class="co">#&gt;  5 WCS Moz… WCS … Mozamb… Ligh…    -11.0      40.7 fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  6 WCS Moz… WCS … Mozamb… Ligh…    -11.0      40.7 fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  7 WCS Moz… WCS … Mozamb… Ligh…    -11.0      40.7 fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  8 WCS Moz… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef sheltered    </span></span>
-<span><span class="co">#&gt;  9 WCS Moz… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef sheltered    </span></span>
-<span><span class="co">#&gt; 10 WCS Moz… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef sheltered    </span></span>
+<span><span class="co">#&gt; # A tibble: 1,574 × 48</span></span>
+<span><span class="co">#&gt;    project         project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9</span></span>
+<span><span class="co">#&gt;  2 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9</span></span>
+<span><span class="co">#&gt;  3 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9</span></span>
+<span><span class="co">#&gt;  4 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9</span></span>
+<span><span class="co">#&gt;  5 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9</span></span>
+<span><span class="co">#&gt;  6 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9</span></span>
+<span><span class="co">#&gt;  7 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9</span></span>
+<span><span class="co">#&gt;  8 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9</span></span>
+<span><span class="co">#&gt;  9 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9</span></span>
+<span><span class="co">#&gt; 10 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9</span></span>
 <span><span class="co">#&gt; # ℹ 1,564 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 38 more variables: reef_slope &lt;lgl&gt;, tide &lt;chr&gt;, current &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   visibility &lt;lgl&gt;, relative_depth &lt;lgl&gt;, management &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; # ℹ 40 more variables: reef_exposure &lt;chr&gt;, reef_slope &lt;lgl&gt;, reef_type &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   reef_zone &lt;chr&gt;, sample_time &lt;time&gt;, tide &lt;chr&gt;, visibility &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   current &lt;lgl&gt;, depth &lt;dbl&gt;, relative_depth &lt;lgl&gt;, management &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   management_secondary &lt;lgl&gt;, management_est_year &lt;dbl&gt;, management_size &lt;lgl&gt;,</span></span>
 <span><span class="co">#&gt; #   management_parties &lt;chr&gt;, management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   sample_date &lt;date&gt;, sample_time &lt;time&gt;, depth &lt;dbl&gt;, transect_number &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   transect_length &lt;dbl&gt;, label &lt;lgl&gt;, observers &lt;chr&gt;, benthic_category &lt;chr&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; #   sample_date &lt;date&gt;, transect_number &lt;dbl&gt;, label &lt;lgl&gt;, …</span></span></code></pre></div>
 <p>You can access sample units and sample events the same way.</p>
 <p>For Benthic LIT, sample units contain percent cover per sample unit,
 by benthic category.</p>
@@ -384,25 +387,25 @@ by benthic category.</p>
 <code class="sourceCode R"><span><span class="va">mozambique</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"benthiclit"</span>, data <span class="op">=</span> <span class="st">"sampleunits"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 64 × 56</span></span>
-<span><span class="co">#&gt;    project  tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt;  1 WCS Moz… WCS … Mozamb… Pang…    -11.0      40.6 lagoon    back reef semi-exposed </span></span>
-<span><span class="co">#&gt;  2 WCS Moz… WCS … Mozamb… Barr…    -26.1      32.9 barrier   back reef sheltered    </span></span>
-<span><span class="co">#&gt;  3 WCS Moz… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef sheltered    </span></span>
-<span><span class="co">#&gt;  4 WCS Moz… WCS … Mozamb… Lond…    -12.9      40.5 fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt;  5 WCS Moz… WCS … Mozamb… Ligh…    -11.0      40.7 fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  6 WCS Moz… WCS … Mozamb… Pang…    -11.0      40.6 lagoon    back reef semi-exposed </span></span>
-<span><span class="co">#&gt;  7 WCS Moz… WCS … Mozamb… Lond…    -12.9      40.5 fringing  back reef sheltered    </span></span>
-<span><span class="co">#&gt;  8 WCS Moz… WCS … Mozamb… Pemb…    -13.0      40.6 fringing  back reef exposed      </span></span>
-<span><span class="co">#&gt;  9 WCS Moz… WCS … Mozamb… Lond…    -12.9      40.5 fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt; 10 WCS Moz… WCS … Mozamb… Pont…    -26.1      33.0 barrier   crest     sheltered    </span></span>
+<span><span class="co">#&gt;    project         project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Pont…    -26.1      33.0</span></span>
+<span><span class="co">#&gt;  2 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5</span></span>
+<span><span class="co">#&gt;  3 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Ligh…    -11.0      40.7</span></span>
+<span><span class="co">#&gt;  4 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6</span></span>
+<span><span class="co">#&gt;  5 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Pont…    -26.1      33.0</span></span>
+<span><span class="co">#&gt;  6 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Pont…    -26.1      33.0</span></span>
+<span><span class="co">#&gt;  7 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.1      32.9</span></span>
+<span><span class="co">#&gt;  8 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5</span></span>
+<span><span class="co">#&gt;  9 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5</span></span>
+<span><span class="co">#&gt; 10 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6</span></span>
 <span><span class="co">#&gt; # ℹ 54 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 47 more variables: reef_slope &lt;lgl&gt;, tide &lt;chr&gt;, current &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   visibility &lt;lgl&gt;, relative_depth &lt;lgl&gt;, management &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; # ℹ 48 more variables: reef_exposure &lt;chr&gt;, reef_slope &lt;lgl&gt;, reef_type &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   reef_zone &lt;chr&gt;, sample_time &lt;time&gt;, tide &lt;chr&gt;, visibility &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   current &lt;lgl&gt;, depth &lt;dbl&gt;, relative_depth &lt;lgl&gt;, management &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   management_secondary &lt;lgl&gt;, management_est_year &lt;dbl&gt;, management_size &lt;lgl&gt;,</span></span>
 <span><span class="co">#&gt; #   management_parties &lt;chr&gt;, management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   sample_date &lt;date&gt;, sample_time &lt;time&gt;, depth &lt;dbl&gt;, transect_number &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   transect_length &lt;dbl&gt;, label &lt;lgl&gt;, observers &lt;chr&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; #   sample_date &lt;date&gt;, transect_number &lt;dbl&gt;, label &lt;lgl&gt;, …</span></span></code></pre></div>
 <p>Sample <em>events</em> contain <em>mean</em> percent cover per sample
 event, by benthic category, and standard deviations for these
 values:</p>
@@ -410,27 +413,26 @@ values:</p>
 <code class="sourceCode R"><span><span class="va">mozambique</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"benthiclit"</span>, data <span class="op">=</span> <span class="st">"sampleevents"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 12 × 66</span></span>
-<span><span class="co">#&gt;    project  tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt;  1 WCS Moz… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered    </span></span>
-<span><span class="co">#&gt;  2 WCS Moz… WCS … Mozamb… Pang…    -11.0      40.6 lagoon    back reef semi-exposed </span></span>
-<span><span class="co">#&gt;  3 WCS Moz… WCS … Mozamb… Barr…    -26.0      32.9 barrier   back reef sheltered    </span></span>
-<span><span class="co">#&gt;  4 WCS Moz… WCS … Mozamb… Pemb…    -13.0      40.6 fringing  back reef exposed      </span></span>
-<span><span class="co">#&gt;  5 WCS Moz… WCS … Mozamb… Ligh…    -11.0      40.7 fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  6 WCS Moz… WCS … Mozamb… Lond…    -12.9      40.5 fringing  back reef sheltered    </span></span>
-<span><span class="co">#&gt;  7 WCS Moz… WCS … Mozamb… Pont…    -26.1      33.0 barrier   crest     sheltered    </span></span>
-<span><span class="co">#&gt;  8 WCS Moz… WCS … Mozamb… Lond…    -12.9      40.5 fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt;  9 WCS Moz… WCS … Mozamb… Lond…    -12.9      40.5 fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt; 10 WCS Moz… WCS … Mozamb… Pang…    -11.0      40.6 lagoon    back reef semi-exposed </span></span>
-<span><span class="co">#&gt; 11 WCS Moz… WCS … Mozamb… Barr…    -26.1      32.9 barrier   back reef sheltered    </span></span>
-<span><span class="co">#&gt; 12 WCS Moz… WCS … Mozamb… Bunt…    -12.6      40.6 fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt; # ℹ 57 more variables: tide &lt;chr&gt;, current &lt;lgl&gt;, visibility &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt;    id      project project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 de6b40… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Kisi…    -11.0      40.7</span></span>
+<span><span class="co">#&gt;  2 3e664a… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6</span></span>
+<span><span class="co">#&gt;  3 157e2a… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.0      32.9</span></span>
+<span><span class="co">#&gt;  4 b95a34… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pemb…    -13.0      40.6</span></span>
+<span><span class="co">#&gt;  5 ef54b9… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Ligh…    -11.0      40.7</span></span>
+<span><span class="co">#&gt;  6 18f8d0… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5</span></span>
+<span><span class="co">#&gt;  7 643eb4… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pont…    -26.1      33.0</span></span>
+<span><span class="co">#&gt;  8 84e364… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5</span></span>
+<span><span class="co">#&gt;  9 62e25c… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5</span></span>
+<span><span class="co">#&gt; 10 9f0527… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6</span></span>
+<span><span class="co">#&gt; 11 bc3de1… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Barr…    -26.1      32.9</span></span>
+<span><span class="co">#&gt; 12 2574c2… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Bunt…    -12.6      40.6</span></span>
+<span><span class="co">#&gt; # ℹ 57 more variables: reef_exposure &lt;chr&gt;, reef_type &lt;chr&gt;, reef_zone &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   tide &lt;chr&gt;, visibility &lt;lgl&gt;, current &lt;lgl&gt;, depth_avg &lt;dbl&gt;, depth_sd &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   management &lt;chr&gt;, management_secondary &lt;lgl&gt;, management_est_year &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;chr&gt;, management_compliance &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   management_rules &lt;chr&gt;, sample_date &lt;date&gt;, depth_avg &lt;dbl&gt;, depth_sd &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   percent_cover_benthic_category_avg_sand &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   percent_cover_benthic_category_avg_trash &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   percent_cover_benthic_category_avg_rubble &lt;dbl&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; #   management_rules &lt;chr&gt;, sample_date &lt;date&gt;, observers &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   sample_unit_count &lt;dbl&gt;, site_notes &lt;chr&gt;, management_notes &lt;lgl&gt;, …</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="benthic-pit-data">Benthic PIT data<a class="anchor" aria-label="anchor" href="#benthic-pit-data"></a>
@@ -440,26 +442,26 @@ values:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">xpdc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"benthicpit"</span>, data <span class="op">=</span> <span class="st">"observations"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 11,100 × 48</span></span>
-<span><span class="co">#&gt;    project  tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;    &lt;lgl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt;  1 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  2 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  3 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  4 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  5 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  6 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  7 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  8 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  9 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt; 10 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
+<span><span class="co">#&gt; # A tibble: 11,100 × 49</span></span>
+<span><span class="co">#&gt;    project         project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;lgl&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE26     -5.70      133.</span></span>
+<span><span class="co">#&gt;  2 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  3 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  4 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  5 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  6 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  7 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  8 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  9 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt; 10 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
 <span><span class="co">#&gt; # ℹ 11,090 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 39 more variables: reef_slope &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   visibility &lt;chr&gt;, relative_depth &lt;chr&gt;, management &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; # ℹ 41 more variables: reef_exposure &lt;chr&gt;, reef_slope &lt;chr&gt;, reef_type &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   reef_zone &lt;chr&gt;, sample_time &lt;time&gt;, tide &lt;chr&gt;, visibility &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   current &lt;chr&gt;, depth &lt;dbl&gt;, relative_depth &lt;chr&gt;, management &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   management_secondary &lt;chr&gt;, management_est_year &lt;lgl&gt;, management_size &lt;lgl&gt;,</span></span>
 <span><span class="co">#&gt; #   management_parties &lt;lgl&gt;, management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   sample_date &lt;date&gt;, sample_time &lt;time&gt;, depth &lt;dbl&gt;, transect_number &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   transect_length &lt;dbl&gt;, label &lt;lgl&gt;, observers &lt;chr&gt;, benthic_category &lt;chr&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; #   sample_date &lt;date&gt;, transect_number &lt;dbl&gt;, label &lt;lgl&gt;, …</span></span></code></pre></div>
 <p>You can access sample units and sample events the same way, and the
 data format is the same as Benthic LIT.</p>
 <p>You can return both sample units and sample events by setting the
@@ -473,25 +475,25 @@ one containing sample units, and the other sample events.</p>
 <span><span class="co">#&gt; [1] "sampleunits"  "sampleevents"</span></span>
 <span><span class="va">xpdc_sample_units_events</span><span class="op">[[</span><span class="st">"sampleunits"</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="co">#&gt; # A tibble: 111 × 57</span></span>
-<span><span class="co">#&gt;    project  tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;    &lt;lgl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt;  1 XPDC Ke… NA    Indone… KE32     -5.79      133. fringing  fore reef semi-exposed </span></span>
-<span><span class="co">#&gt;  2 XPDC Ke… NA    Indone… KE07     -5.57      133. fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  3 XPDC Ke… NA    Indone… KE14     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  4 XPDC Ke… NA    Indone… KE26     -5.70      133. fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  5 XPDC Ke… NA    Indone… KE19     -5.73      133. fringing  fore reef semi-exposed </span></span>
-<span><span class="co">#&gt;  6 XPDC Ke… NA    Indone… KE36     -5.88      133. fringing  fore reef semi-exposed </span></span>
-<span><span class="co">#&gt;  7 XPDC Ke… NA    Indone… KE26     -5.70      133. fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  8 XPDC Ke… NA    Indone… KE09     -5.60      133. fringing  fore reef semi-exposed </span></span>
-<span><span class="co">#&gt;  9 XPDC Ke… NA    Indone… KE17     -5.69      133. fringing  fore reef semi-exposed </span></span>
-<span><span class="co">#&gt; 10 XPDC Ke… NA    Indone… KE06     -5.52      132. fringing  crest     exposed      </span></span>
+<span><span class="co">#&gt;    project         project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;lgl&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE09     -5.60      133.</span></span>
+<span><span class="co">#&gt;  2 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE28     -5.75      133.</span></span>
+<span><span class="co">#&gt;  3 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE34     -5.85      133.</span></span>
+<span><span class="co">#&gt;  4 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE39     -5.99      132.</span></span>
+<span><span class="co">#&gt;  5 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE05     -5.47      133.</span></span>
+<span><span class="co">#&gt;  6 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE09     -5.60      133.</span></span>
+<span><span class="co">#&gt;  7 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE21     -5.74      133.</span></span>
+<span><span class="co">#&gt;  8 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE19     -5.73      133.</span></span>
+<span><span class="co">#&gt;  9 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt; 10 XPDC Kei Kecil… Amkieltiela A… Indone… https://dat… NA    KE31     -5.78      133.</span></span>
 <span><span class="co">#&gt; # ℹ 101 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 48 more variables: reef_slope &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   visibility &lt;chr&gt;, relative_depth &lt;chr&gt;, management &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; # ℹ 49 more variables: reef_exposure &lt;chr&gt;, reef_slope &lt;chr&gt;, reef_type &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   reef_zone &lt;chr&gt;, sample_time &lt;time&gt;, tide &lt;chr&gt;, visibility &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   current &lt;chr&gt;, depth &lt;dbl&gt;, relative_depth &lt;chr&gt;, management &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   management_secondary &lt;chr&gt;, management_est_year &lt;lgl&gt;, management_size &lt;lgl&gt;,</span></span>
 <span><span class="co">#&gt; #   management_parties &lt;lgl&gt;, management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   sample_date &lt;date&gt;, sample_time &lt;time&gt;, depth &lt;dbl&gt;, transect_number &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   transect_length &lt;dbl&gt;, label &lt;lgl&gt;, observers &lt;chr&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; #   sample_date &lt;date&gt;, transect_number &lt;dbl&gt;, label &lt;lgl&gt;, …</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="benthic-pqt-data">Benthic PQT data<a class="anchor" aria-label="anchor" href="#benthic-pqt-data"></a>
@@ -504,65 +506,62 @@ one containing sample units, and the other sample events.</p>
 <span></span>
 <span><span class="va">glovers_atoll</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"benthicpqt"</span>, data <span class="op">=</span> <span class="st">"observations"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 14 × 45</span></span>
-<span><span class="co">#&gt;    project  tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt;  1 Belize … WCS … Camero… test      44.1     -90.8 barrier   crest     sheltered    </span></span>
-<span><span class="co">#&gt;  2 Belize … WCS … Camero… test      44.1     -90.8 barrier   crest     sheltered    </span></span>
-<span><span class="co">#&gt;  3 Belize … WCS … Camero… test      44.1     -90.8 barrier   crest     sheltered    </span></span>
-<span><span class="co">#&gt;  4 Belize … WCS … Camero… test      44.1     -90.8 barrier   crest     sheltered    </span></span>
-<span><span class="co">#&gt;  5 Belize … WCS … Camero… test      44.1     -90.8 barrier   crest     sheltered    </span></span>
-<span><span class="co">#&gt;  6 Belize … WCS … Camero… test      44.1     -90.8 barrier   crest     sheltered    </span></span>
-<span><span class="co">#&gt;  7 Belize … WCS … Camero… test      44.1     -90.8 barrier   crest     sheltered    </span></span>
-<span><span class="co">#&gt;  8 Belize … WCS … Camero… test      44.1     -90.8 barrier   crest     sheltered    </span></span>
-<span><span class="co">#&gt;  9 Belize … WCS … Camero… test      44.1     -90.8 barrier   crest     sheltered    </span></span>
-<span><span class="co">#&gt; 10 Belize … WCS … Camero… test      44.1     -90.8 barrier   crest     sheltered    </span></span>
-<span><span class="co">#&gt; 11 Belize … WCS … Camero… test      44.1     -90.8 barrier   crest     sheltered    </span></span>
-<span><span class="co">#&gt; 12 Belize … WCS … Belize  CZFR1     16.7     -87.8 atoll     fore reef exposed      </span></span>
-<span><span class="co">#&gt; 13 Belize … WCS … Belize  CZFR1     16.7     -87.8 atoll     fore reef exposed      </span></span>
-<span><span class="co">#&gt; 14 Belize … WCS … Belize  CZFR1     16.7     -87.8 atoll     fore reef exposed      </span></span>
-<span><span class="co">#&gt; # ℹ 36 more variables: reef_slope &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   visibility &lt;chr&gt;, relative_depth &lt;chr&gt;, management &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   management_secondary &lt;lgl&gt;, management_est_year &lt;lgl&gt;, management_size &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   management_parties &lt;chr&gt;, management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   sample_date &lt;date&gt;, sample_time &lt;lgl&gt;, depth &lt;dbl&gt;, transect_number &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   transect_length &lt;dbl&gt;, label &lt;dbl&gt;, observers &lt;chr&gt;, benthic_category &lt;chr&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 102 × 51</span></span>
+<span><span class="co">#&gt;    project         project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8</span></span>
+<span><span class="co">#&gt;  2 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8</span></span>
+<span><span class="co">#&gt;  3 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8</span></span>
+<span><span class="co">#&gt;  4 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8</span></span>
+<span><span class="co">#&gt;  5 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8</span></span>
+<span><span class="co">#&gt;  6 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8</span></span>
+<span><span class="co">#&gt;  7 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8</span></span>
+<span><span class="co">#&gt;  8 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8</span></span>
+<span><span class="co">#&gt;  9 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8</span></span>
+<span><span class="co">#&gt; 10 Belize Glover'… Sharla Gelfan… Camero… https://dat… WCS … test      44.1     -90.8</span></span>
+<span><span class="co">#&gt; # ℹ 92 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 43 more variables: reef_exposure &lt;chr&gt;, reef_slope &lt;chr&gt;, reef_type &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   reef_zone &lt;chr&gt;, sample_time &lt;lgl&gt;, tide &lt;chr&gt;, visibility &lt;chr&gt;, current &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   depth &lt;dbl&gt;, relative_depth &lt;chr&gt;, management &lt;chr&gt;, management_secondary &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   management_est_year &lt;lgl&gt;, management_size &lt;lgl&gt;, management_parties &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span>
+<span><span class="co">#&gt; #   transect_number &lt;dbl&gt;, label &lt;dbl&gt;, …</span></span></code></pre></div>
 <p>You can access sample units and sample events the same way.</p>
 <p>Sample units contains percent cover per sample unit, by benthic
 category and by life histories.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">glovers_atoll</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"benthicpqt"</span>, data <span class="op">=</span> <span class="st">"sampleunits"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 2 × 55</span></span>
-<span><span class="co">#&gt;   project   tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt; 1 Belize G… WCS … Belize  CZFR1     16.7     -87.8 atoll     fore reef exposed      </span></span>
-<span><span class="co">#&gt; 2 Belize G… WCS … Camero… test      44.1     -90.8 barrier   crest     sheltered    </span></span>
-<span><span class="co">#&gt; # ℹ 46 more variables: reef_slope &lt;chr&gt;, tide &lt;chr&gt;, current &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   visibility &lt;chr&gt;, relative_depth &lt;chr&gt;, management &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   management_secondary &lt;lgl&gt;, management_est_year &lt;lgl&gt;, management_size &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   management_parties &lt;chr&gt;, management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   sample_date &lt;date&gt;, sample_time &lt;lgl&gt;, depth &lt;dbl&gt;, transect_number &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   transect_length &lt;dbl&gt;, label &lt;dbl&gt;, observers &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   percent_cover_benthic_category_sand &lt;dbl&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 3 × 56</span></span>
+<span><span class="co">#&gt;   project          project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 Belize Glover's… Sharla Gelfan… Indone… https://dat… WCS … 1201     -2.02     134. </span></span>
+<span><span class="co">#&gt; 2 Belize Glover's… Sharla Gelfan… Camero… https://dat… WCS … test     44.1      -90.8</span></span>
+<span><span class="co">#&gt; 3 Belize Glover's… Sharla Gelfan… Belize  https://dat… WCS … CZFR1    16.7      -87.8</span></span>
+<span><span class="co">#&gt; # ℹ 48 more variables: reef_exposure &lt;chr&gt;, reef_slope &lt;chr&gt;, reef_type &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   reef_zone &lt;chr&gt;, sample_time &lt;lgl&gt;, tide &lt;chr&gt;, visibility &lt;chr&gt;, current &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   depth &lt;dbl&gt;, relative_depth &lt;chr&gt;, management &lt;chr&gt;, management_secondary &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   management_est_year &lt;lgl&gt;, management_size &lt;lgl&gt;, management_parties &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span>
+<span><span class="co">#&gt; #   transect_number &lt;dbl&gt;, label &lt;dbl&gt;, …</span></span></code></pre></div>
 <p>Sample events contains <em>mean</em> percent cover per sample event,
 by benthic category and by life histories, and standard deviations for
 these values:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">glovers_atoll</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"benthicpqt"</span>, data <span class="op">=</span> <span class="st">"sampleevents"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 2 × 66</span></span>
-<span><span class="co">#&gt;   project   tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt; 1 Belize G… WCS … Camero… test      44.1     -90.8 barrier   crest     sheltered    </span></span>
-<span><span class="co">#&gt; 2 Belize G… WCS … Belize  CZFR1     16.7     -87.8 atoll     fore reef exposed      </span></span>
-<span><span class="co">#&gt; # ℹ 57 more variables: tide &lt;chr&gt;, current &lt;chr&gt;, visibility &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 67</span></span>
+<span><span class="co">#&gt;   id       project project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 876652a… Belize… Sharla Gelfan… Indone… https://dat… WCS … 1201     -2.02     134. </span></span>
+<span><span class="co">#&gt; 2 b857fb3… Belize… Sharla Gelfan… Camero… https://dat… WCS … test     44.1      -90.8</span></span>
+<span><span class="co">#&gt; 3 b09ee87… Belize… Sharla Gelfan… Belize  https://dat… WCS … CZFR1    16.7      -87.8</span></span>
+<span><span class="co">#&gt; # ℹ 58 more variables: reef_exposure &lt;chr&gt;, reef_type &lt;chr&gt;, reef_zone &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   tide &lt;chr&gt;, visibility &lt;chr&gt;, current &lt;chr&gt;, depth_avg &lt;dbl&gt;, depth_sd &lt;lgl&gt;,</span></span>
 <span><span class="co">#&gt; #   management &lt;chr&gt;, management_secondary &lt;lgl&gt;, management_est_year &lt;lgl&gt;,</span></span>
 <span><span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;chr&gt;, management_compliance &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   management_rules &lt;chr&gt;, sample_date &lt;date&gt;, depth_avg &lt;dbl&gt;, depth_sd &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   percent_cover_benthic_category_avg_sand &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   percent_cover_benthic_category_avg_trash &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   percent_cover_benthic_category_avg_rubble &lt;dbl&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; #   management_rules &lt;chr&gt;, sample_date &lt;date&gt;, observers &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   sample_unit_count &lt;dbl&gt;, num_points_nonother &lt;dbl&gt;, site_notes &lt;lgl&gt;, …</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="macroinvertebrate">Macroinvertebrate<a class="anchor" aria-label="anchor" href="#macroinvertebrate"></a>
@@ -575,26 +574,26 @@ interest, along with the size, count, and density.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">glovers_atoll</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"macroinvertebrate"</span>, data <span class="op">=</span> <span class="st">"observations"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 55 × 49</span></span>
-<span><span class="co">#&gt;    project  tags  country  site latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt;  1 Belize … WCS … Indone…  1207    -3.16      135. fringing  back reef sheltered    </span></span>
-<span><span class="co">#&gt;  2 Belize … WCS … Indone…  1207    -3.16      135. fringing  back reef sheltered    </span></span>
-<span><span class="co">#&gt;  3 Belize … WCS … Indone…  1207    -3.16      135. fringing  back reef sheltered    </span></span>
-<span><span class="co">#&gt;  4 Belize … WCS … Indone…  1207    -3.16      135. fringing  back reef sheltered    </span></span>
-<span><span class="co">#&gt;  5 Belize … WCS … Indone…  1207    -3.16      135. fringing  back reef sheltered    </span></span>
-<span><span class="co">#&gt;  6 Belize … WCS … Indone…  1201     2          44  fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt;  7 Belize … WCS … Indone…  1201     2          44  fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt;  8 Belize … WCS … Indone…  1201     2          44  fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt;  9 Belize … WCS … Indone…  1201     2          44  fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt; 10 Belize … WCS … Indone…  1201     2          44  fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt; # ℹ 45 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 40 more variables: tide &lt;lgl&gt;, current &lt;lgl&gt;, visibility &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   relative_depth &lt;lgl&gt;, management &lt;chr&gt;, management_secondary &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   management_est_year &lt;lgl&gt;, management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span>
-<span><span class="co">#&gt; #   sample_time &lt;time&gt;, depth &lt;dbl&gt;, transect_length &lt;dbl&gt;, transect_width &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   observers &lt;chr&gt;, transect_number &lt;dbl&gt;, label &lt;lgl&gt;, size_bin &lt;dbl&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 56 × 51</span></span>
+<span><span class="co">#&gt;    project         project_admins country contact_link tags   site latitude longitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201    -2.02      134.</span></span>
+<span><span class="co">#&gt;  2 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201    -2.02      134.</span></span>
+<span><span class="co">#&gt;  3 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201    -2.02      134.</span></span>
+<span><span class="co">#&gt;  4 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201    -2.02      134.</span></span>
+<span><span class="co">#&gt;  5 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201    -2.02      134.</span></span>
+<span><span class="co">#&gt;  6 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201    -2.02      134.</span></span>
+<span><span class="co">#&gt;  7 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201    -2.02      134.</span></span>
+<span><span class="co">#&gt;  8 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201    -2.02      134.</span></span>
+<span><span class="co">#&gt;  9 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201    -2.02      134.</span></span>
+<span><span class="co">#&gt; 10 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201    -2.02      134.</span></span>
+<span><span class="co">#&gt; # ℹ 46 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 43 more variables: reef_exposure &lt;chr&gt;, reef_slope &lt;chr&gt;, reef_type &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   reef_zone &lt;chr&gt;, sample_time &lt;time&gt;, tide &lt;chr&gt;, visibility &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   current &lt;chr&gt;, depth &lt;dbl&gt;, relative_depth &lt;chr&gt;, management &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   management_secondary &lt;lgl&gt;, management_est_year &lt;dbl&gt;, management_size &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   management_parties &lt;chr&gt;, management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   sample_date &lt;date&gt;, transect_number &lt;dbl&gt;, label &lt;chr&gt;, …</span></span></code></pre></div>
 <p>Sample units data returns total abundance and density, as well as
 density by group of interest, and sample events contain density per
 sample event, by group of interest, and standard deviations of these
@@ -602,26 +601,26 @@ values.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">glovers_atoll</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"macroinvertebrate"</span>, data <span class="op">=</span> <span class="st">"sampleunits"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 10 × 56</span></span>
-<span><span class="co">#&gt;    project  tags  country  site latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt;  1 Belize … WCS … Indone…  1201     2          44  fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt;  2 Belize … WCS … Indone…  1201     2          44  fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt;  3 Belize … WCS … Indone…  1201     2          44  fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt;  4 Belize … WCS … Indone…  1207    -3.16      135. fringing  back reef sheltered    </span></span>
-<span><span class="co">#&gt;  5 Belize … WCS … Indone…  1201     2          44  fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt;  6 Belize … WCS … Indone…  1207    -3.16      135. fringing  back reef sheltered    </span></span>
-<span><span class="co">#&gt;  7 Belize … WCS … Indone…  1207    -3.16      135. fringing  back reef sheltered    </span></span>
-<span><span class="co">#&gt;  8 Belize … WCS … Indone…  1207    -3.16      135. fringing  back reef sheltered    </span></span>
-<span><span class="co">#&gt;  9 Belize … WCS … Indone…  1201     2          44  fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt; 10 Belize … WCS … Indone…  1207    -3.16      135. fringing  back reef sheltered    </span></span>
-<span><span class="co">#&gt; # ℹ 47 more variables: tide &lt;lgl&gt;, current &lt;lgl&gt;, visibility &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   relative_depth &lt;lgl&gt;, management &lt;chr&gt;, management_secondary &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   management_est_year &lt;lgl&gt;, management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span>
-<span><span class="co">#&gt; #   sample_time &lt;time&gt;, depth &lt;dbl&gt;, transect_number &lt;dbl&gt;, label &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   size_bin &lt;dbl&gt;, transect_length &lt;dbl&gt;, transect_width &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   total_abundance &lt;dbl&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 11 × 57</span></span>
+<span><span class="co">#&gt;    project         project_admins country contact_link tags   site latitude longitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201    -2.02      134.</span></span>
+<span><span class="co">#&gt;  2 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1207    -2.02      134.</span></span>
+<span><span class="co">#&gt;  3 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201    -2.02      134.</span></span>
+<span><span class="co">#&gt;  4 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201    -2.02      134.</span></span>
+<span><span class="co">#&gt;  5 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201    -2.02      134.</span></span>
+<span><span class="co">#&gt;  6 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1207    -2.02      134.</span></span>
+<span><span class="co">#&gt;  7 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1207    -2.02      134.</span></span>
+<span><span class="co">#&gt;  8 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201    -2.02      134.</span></span>
+<span><span class="co">#&gt;  9 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1201    -2.02      134.</span></span>
+<span><span class="co">#&gt; 10 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1207    -2.02      134.</span></span>
+<span><span class="co">#&gt; 11 Belize Glover'… Sharla Gelfan… Indone… https://dat… WCS …  1207    -2.02      134.</span></span>
+<span><span class="co">#&gt; # ℹ 49 more variables: reef_exposure &lt;chr&gt;, reef_slope &lt;chr&gt;, reef_type &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   reef_zone &lt;chr&gt;, sample_time &lt;time&gt;, tide &lt;chr&gt;, visibility &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   current &lt;chr&gt;, depth &lt;dbl&gt;, relative_depth &lt;chr&gt;, management &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   management_secondary &lt;lgl&gt;, management_est_year &lt;dbl&gt;, management_size &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   management_parties &lt;chr&gt;, management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   sample_date &lt;date&gt;, transect_number &lt;dbl&gt;, label &lt;chr&gt;, …</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="bleaching">Bleaching<a class="anchor" aria-label="anchor" href="#bleaching"></a>
@@ -638,51 +637,51 @@ pulling observations data, in a list:</p>
 <span><span class="co">#&gt; [1] "colonies_bleached" "percent_cover"</span></span>
 <span></span>
 <span><span class="va">bleaching_obs</span><span class="op">[[</span><span class="st">"colonies_bleached"</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">#&gt; # A tibble: 1,814 × 50</span></span>
-<span><span class="co">#&gt;    project  tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt;  1 WCS Moz… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered    </span></span>
-<span><span class="co">#&gt;  2 WCS Moz… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered    </span></span>
-<span><span class="co">#&gt;  3 WCS Moz… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered    </span></span>
-<span><span class="co">#&gt;  4 WCS Moz… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered    </span></span>
-<span><span class="co">#&gt;  5 WCS Moz… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered    </span></span>
-<span><span class="co">#&gt;  6 WCS Moz… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered    </span></span>
-<span><span class="co">#&gt;  7 WCS Moz… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered    </span></span>
-<span><span class="co">#&gt;  8 WCS Moz… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered    </span></span>
-<span><span class="co">#&gt;  9 WCS Moz… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered    </span></span>
-<span><span class="co">#&gt; 10 WCS Moz… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered    </span></span>
+<span><span class="co">#&gt; # A tibble: 1,814 × 51</span></span>
+<span><span class="co">#&gt;    project         project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7</span></span>
+<span><span class="co">#&gt;  2 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6</span></span>
+<span><span class="co">#&gt;  3 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6</span></span>
+<span><span class="co">#&gt;  4 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7</span></span>
+<span><span class="co">#&gt;  5 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7</span></span>
+<span><span class="co">#&gt;  6 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7</span></span>
+<span><span class="co">#&gt;  7 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7</span></span>
+<span><span class="co">#&gt;  8 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7</span></span>
+<span><span class="co">#&gt;  9 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Para…    -14.4      40.7</span></span>
+<span><span class="co">#&gt; 10 WCS Mozambique… Emily Darling… Mozamb… https://dat… WCS … Pemb…    -13.0      40.6</span></span>
 <span><span class="co">#&gt; # ℹ 1,804 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 41 more variables: tide &lt;lgl&gt;, current &lt;lgl&gt;, visibility &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   relative_depth &lt;lgl&gt;, management &lt;chr&gt;, management_secondary &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   management_est_year &lt;dbl&gt;, management_size &lt;lgl&gt;, management_parties &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span>
-<span><span class="co">#&gt; #   sample_time &lt;time&gt;, depth &lt;dbl&gt;, quadrat_size &lt;dbl&gt;, label &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   observers &lt;chr&gt;, benthic_attribute &lt;chr&gt;, benthic_category &lt;chr&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 43 more variables: reef_exposure &lt;chr&gt;, quadrat_size &lt;dbl&gt;, reef_type &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   reef_zone &lt;chr&gt;, sample_time &lt;time&gt;, tide &lt;lgl&gt;, visibility &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   current &lt;lgl&gt;, depth &lt;dbl&gt;, relative_depth &lt;lgl&gt;, management &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   management_secondary &lt;lgl&gt;, management_est_year &lt;dbl&gt;, management_size &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   management_parties &lt;chr&gt;, management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   sample_date &lt;date&gt;, observers &lt;chr&gt;, label &lt;chr&gt;, …</span></span></code></pre></div>
 <p>The sample units and sample events data contain summaries of both
 Colonies Bleached and Percent Cover:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mozambique</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"bleaching"</span>, <span class="st">"sampleevents"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 62 × 70</span></span>
-<span><span class="co">#&gt;    project  tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt;  1 WCS Moz… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered    </span></span>
-<span><span class="co">#&gt;  2 WCS Moz… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered    </span></span>
-<span><span class="co">#&gt;  3 WCS Moz… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef sheltered    </span></span>
-<span><span class="co">#&gt;  4 WCS Moz… WCS … Mozamb… Pang…    -11.0      40.6 barrier   crest     semi-exposed </span></span>
-<span><span class="co">#&gt;  5 WCS Moz… WCS … Mozamb… Two …    -21.8      35.5 barrier   fore reef exposed      </span></span>
-<span><span class="co">#&gt;  6 WCS Moz… WCS … Mozamb… Luta…    -12.3      40.6 fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt;  7 WCS Moz… WCS … Mozamb… Pang…    -11.0      40.6 lagoon    back reef semi-exposed </span></span>
-<span><span class="co">#&gt;  8 WCS Moz… WCS … Mozamb… Baby…    -11.0      40.7 fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt;  9 WCS Moz… WCS … Mozamb… Zala…    -12.0      40.6 lagoon    back reef exposed      </span></span>
-<span><span class="co">#&gt; 10 WCS Moz… WCS … Mozamb… Pemb…    -13.0      40.6 fringing  fore reef exposed      </span></span>
+<span><span class="co">#&gt;    id      project project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 1c2d7c… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Kisi…    -11.0      40.7</span></span>
+<span><span class="co">#&gt;  2 cff142… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Kisi…    -11.0      40.7</span></span>
+<span><span class="co">#&gt;  3 de6b40… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Kisi…    -11.0      40.7</span></span>
+<span><span class="co">#&gt;  4 038fe4… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6</span></span>
+<span><span class="co">#&gt;  5 fcff6a… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Two …    -21.8      35.5</span></span>
+<span><span class="co">#&gt;  6 f33ff1… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Luta…    -12.3      40.6</span></span>
+<span><span class="co">#&gt;  7 0cce99… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6</span></span>
+<span><span class="co">#&gt;  8 16a690… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Baby…    -11.0      40.7</span></span>
+<span><span class="co">#&gt;  9 1e04f6… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Zala…    -12.0      40.6</span></span>
+<span><span class="co">#&gt; 10 12a569… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Pemb…    -13.0      40.6</span></span>
 <span><span class="co">#&gt; # ℹ 52 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 61 more variables: tide &lt;lgl&gt;, current &lt;lgl&gt;, visibility &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   management &lt;chr&gt;, management_secondary &lt;lgl&gt;, management_est_year &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;chr&gt;, management_compliance &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   management_rules &lt;chr&gt;, sample_date &lt;date&gt;, depth_avg &lt;dbl&gt;, depth_sd &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   quadrat_size_avg &lt;dbl&gt;, count_total_avg &lt;dbl&gt;, count_total_sd &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   count_genera_avg &lt;dbl&gt;, count_genera_sd &lt;dbl&gt;, percent_normal_avg &lt;dbl&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 61 more variables: reef_exposure &lt;chr&gt;, quadrat_size_avg &lt;dbl&gt;, reef_type &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   reef_zone &lt;chr&gt;, tide &lt;lgl&gt;, visibility &lt;lgl&gt;, current &lt;lgl&gt;, depth_avg &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   depth_sd &lt;dbl&gt;, management &lt;chr&gt;, management_secondary &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   management_est_year &lt;dbl&gt;, management_size &lt;lgl&gt;, management_parties &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span>
+<span><span class="co">#&gt; #   observers &lt;chr&gt;, sample_unit_count &lt;dbl&gt;, count_total_avg &lt;dbl&gt;, …</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="habitat-complexity">Habitat Complexity<a class="anchor" aria-label="anchor" href="#habitat-complexity"></a>
@@ -694,17 +693,16 @@ observations, sample units, and sample events:</p>
 <code class="sourceCode R"><span><span class="va">xpdc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"habitatcomplexity"</span>, <span class="st">"sampleevents"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 2 × 36</span></span>
-<span><span class="co">#&gt;   project   tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;     &lt;lgl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt; 1 XPDC Kei… NA    Indone… KE22     -5.85      133. fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt; 2 XPDC Kei… NA    Indone… KE24     -5.93      133. fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt; # ℹ 27 more variables: tide &lt;chr&gt;, current &lt;chr&gt;, visibility &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt;   id       project project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;lgl&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 dcd4b4b… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE22     -5.85      133.</span></span>
+<span><span class="co">#&gt; 2 db26481… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE24     -5.93      133.</span></span>
+<span><span class="co">#&gt; # ℹ 27 more variables: reef_exposure &lt;chr&gt;, reef_type &lt;chr&gt;, reef_zone &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   tide &lt;chr&gt;, visibility &lt;chr&gt;, current &lt;chr&gt;, depth_avg &lt;dbl&gt;, depth_sd &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   management &lt;chr&gt;, management_secondary &lt;chr&gt;, management_est_year &lt;lgl&gt;,</span></span>
 <span><span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;lgl&gt;, management_compliance &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   management_rules &lt;chr&gt;, sample_date &lt;date&gt;, depth_avg &lt;dbl&gt;, depth_sd &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   score_avg_avg &lt;dbl&gt;, score_avg_sd &lt;dbl&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   observers &lt;chr&gt;, project_notes &lt;chr&gt;, site_notes &lt;lgl&gt;, management_notes &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   …</span></span></code></pre></div>
+<span><span class="co">#&gt; #   management_rules &lt;chr&gt;, sample_date &lt;date&gt;, observers &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   sample_unit_count &lt;dbl&gt;, score_avg_avg &lt;dbl&gt;, score_avg_sd &lt;dbl&gt;, …</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="multiple-methods-data">Multiple methods data<a class="anchor" aria-label="anchor" href="#multiple-methods-data"></a>
@@ -722,25 +720,25 @@ both fish belt and benthic PIT methods:</p>
 <span></span>
 <span><span class="va">xpdc_sample_events</span><span class="op">[[</span><span class="st">"benthicpit"</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="co">#&gt; # A tibble: 38 × 66</span></span>
-<span><span class="co">#&gt;    project  tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;    &lt;lgl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt;  1 XPDC Ke… NA    Indone… KE02     -5.44      133. fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  2 XPDC Ke… NA    Indone… KE36     -5.88      133. fringing  fore reef semi-exposed </span></span>
-<span><span class="co">#&gt;  3 XPDC Ke… NA    Indone… KE06     -5.52      132. fringing  crest     exposed      </span></span>
-<span><span class="co">#&gt;  4 XPDC Ke… NA    Indone… KE23     -5.80      133. fringing  fore reef exposed      </span></span>
-<span><span class="co">#&gt;  5 XPDC Ke… NA    Indone… KE18     -5.70      133. fringing  fore reef semi-exposed </span></span>
-<span><span class="co">#&gt;  6 XPDC Ke… NA    Indone… KE13     -5.51      133. patch     crest     exposed      </span></span>
-<span><span class="co">#&gt;  7 XPDC Ke… NA    Indone… KE19     -5.73      133. fringing  fore reef semi-exposed </span></span>
-<span><span class="co">#&gt;  8 XPDC Ke… NA    Indone… KE31     -5.78      133. fringing  crest     semi-exposed </span></span>
-<span><span class="co">#&gt;  9 XPDC Ke… NA    Indone… KE20     -5.67      133. fringing  fore reef semi-exposed </span></span>
-<span><span class="co">#&gt; 10 XPDC Ke… NA    Indone… KE40     -6.00      132. fringing  fore reef exposed      </span></span>
+<span><span class="co">#&gt;    id      project project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;lgl&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 15ed4d… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE02     -5.44      133.</span></span>
+<span><span class="co">#&gt;  2 eda605… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE36     -5.88      133.</span></span>
+<span><span class="co">#&gt;  3 210144… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE06     -5.52      132.</span></span>
+<span><span class="co">#&gt;  4 3cc8e1… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE23     -5.80      133.</span></span>
+<span><span class="co">#&gt;  5 a009b4… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE18     -5.70      133.</span></span>
+<span><span class="co">#&gt;  6 05a34e… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE13     -5.51      133.</span></span>
+<span><span class="co">#&gt;  7 40afd0… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE19     -5.73      133.</span></span>
+<span><span class="co">#&gt;  8 06ae70… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE31     -5.78      133.</span></span>
+<span><span class="co">#&gt;  9 1f7061… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE20     -5.67      133.</span></span>
+<span><span class="co">#&gt; 10 531f64… XPDC K… Amkieltiela A… Indone… https://dat… NA    KE40     -6.00      132.</span></span>
 <span><span class="co">#&gt; # ℹ 28 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 57 more variables: tide &lt;chr&gt;, current &lt;chr&gt;, visibility &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; # ℹ 57 more variables: reef_exposure &lt;chr&gt;, reef_type &lt;chr&gt;, reef_zone &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   tide &lt;chr&gt;, visibility &lt;chr&gt;, current &lt;chr&gt;, depth_avg &lt;dbl&gt;, depth_sd &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   management &lt;chr&gt;, management_secondary &lt;chr&gt;, management_est_year &lt;lgl&gt;,</span></span>
 <span><span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;lgl&gt;, management_compliance &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   management_rules &lt;chr&gt;, sample_date &lt;date&gt;, depth_avg &lt;dbl&gt;, depth_sd &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   percent_cover_benthic_category_avg_sand &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   percent_cover_benthic_category_avg_trash &lt;dbl&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; #   management_rules &lt;chr&gt;, sample_date &lt;date&gt;, observers &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   sample_unit_count &lt;dbl&gt;, site_notes &lt;lgl&gt;, management_notes &lt;lgl&gt;, …</span></span></code></pre></div>
 <p>Alternatively, you can set <code>method</code> to “all” to pull for
 all methods! Similarly, you can set <code>data</code> to “all” to pull
 all types of data:</p>
@@ -764,102 +762,52 @@ which projects the data comes from.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_projects</span></span>
 <span><span class="co">#&gt; # A tibble: 16 × 21</span></span>
-<span><span class="co">#&gt;    id        name  countries num_sites num_active_sample_un…¹ num_sample_units tags </span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;         &lt;int&gt;                  &lt;int&gt;            &lt;dbl&gt; &lt;chr&gt;</span></span>
-<span><span class="co">#&gt;  1 e1efb1e0… 2016… Fiji              9                     10               80 "WCS…</span></span>
-<span><span class="co">#&gt;  2 170e7182… 2018… Fiji             10                      5              121 "WCS…</span></span>
-<span><span class="co">#&gt;  3 d065cba4… 2019… Fiji             31                      3               32 "WCS…</span></span>
-<span><span class="co">#&gt;  4 1fbdb9ea… a2    Canada, …         9                      9                0 "WWF…</span></span>
-<span><span class="co">#&gt;  5 3a9ecb7c… Aceh… Indonesia        18                     55              198 "WCS…</span></span>
-<span><span class="co">#&gt;  6 bacd3529… Beli… Belize, …        39                    112              258 "WCS…</span></span>
-<span><span class="co">#&gt;  7 a1b7ff1f… Grea… Fiji             76                      8              648 "Fij…</span></span>
-<span><span class="co">#&gt;  8 507d1af9… Kari… Indonesia        43                     18              842 "WCS…</span></span>
-<span><span class="co">#&gt;  9 75ef7a5a… Kubu… Fiji             78                      1             1145 "WCS…</span></span>
-<span><span class="co">#&gt; 10 5679ef3d… Mada… Madagasc…        33                      0               49 "WCS…</span></span>
-<span><span class="co">#&gt; 11 4080679f… Mada… Madagasc…        74                      4               84 "WCS…</span></span>
-<span><span class="co">#&gt; 12 4d79339f… MERM… Indonesi…        13                     72               32 "tes…</span></span>
-<span><span class="co">#&gt; 13 2c0c9857… Shar… Canada, …        28                      5                6 ""   </span></span>
-<span><span class="co">#&gt; 14 02e6915c… TWP … Indonesia        14                     10                2 "WCS…</span></span>
-<span><span class="co">#&gt; 15 2d6cee25… WCS … Mozambiq…        74                      6              247 "WCS…</span></span>
-<span><span class="co">#&gt; 16 9de82789… XPDC… Indonesia        37                     71              450 ""   </span></span>
+<span><span class="co">#&gt;    id         name  countries num_sites num_active_sample_un…¹ num_sample_units tags </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;         &lt;int&gt;                  &lt;int&gt;            &lt;dbl&gt; &lt;chr&gt;</span></span>
+<span><span class="co">#&gt;  1 e1efb1e0-… 2016… Fiji              9                     10               80 WCS …</span></span>
+<span><span class="co">#&gt;  2 170e7182-… 2018… Fiji             10                      5              121 WCS …</span></span>
+<span><span class="co">#&gt;  3 d065cba4-… 2019… Fiji             31                      3               32 WCS …</span></span>
+<span><span class="co">#&gt;  4 1fbdb9ea-… a2    Canada; …         9                      9                0 WWF-…</span></span>
+<span><span class="co">#&gt;  5 3a9ecb7c-… Aceh… Indonesia        18                     54              199 WCS …</span></span>
+<span><span class="co">#&gt;  6 bacd3529-… Beli… Belize; …        39                    136              260 WCS …</span></span>
+<span><span class="co">#&gt;  7 a1b7ff1f-… Grea… Fiji             76                      8              648 Fiji…</span></span>
+<span><span class="co">#&gt;  8 507d1af9-… Kari… Indonesia        43                     18              842 WCS …</span></span>
+<span><span class="co">#&gt;  9 75ef7a5a-… Kubu… Fiji             78                      1             1145 WCS …</span></span>
+<span><span class="co">#&gt; 10 5679ef3d-… Mada… Madagasc…        33                      0               49 WCS …</span></span>
+<span><span class="co">#&gt; 11 4080679f-… Mada… Madagasc…        74                      4               84 WCS …</span></span>
+<span><span class="co">#&gt; 12 4d79339f-… MERM… Indonesi…        13                     73               31 test…</span></span>
+<span><span class="co">#&gt; 13 2c0c9857-… Shar… Canada; …        28                     61                7 &lt;NA&gt; </span></span>
+<span><span class="co">#&gt; 14 02e6915c-… TWP … Indonesia        14                     10                2 WCS …</span></span>
+<span><span class="co">#&gt; 15 2d6cee25-… WCS … Mozambiq…        74                      6              247 WCS …</span></span>
+<span><span class="co">#&gt; 16 9de82789-… XPDC… Indonesia        37                     71              450 &lt;NA&gt; </span></span>
 <span><span class="co">#&gt; # ℹ abbreviated name: ¹​num_active_sample_units</span></span>
-<span><span class="co">#&gt; # ℹ 14 more variables: project_admins &lt;chr&gt;, suggested_citation &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   bbox &lt;df[,4]&gt;, notes &lt;chr&gt;, status &lt;chr&gt;, data_policy_beltfish &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_benthiclit &lt;chr&gt;, data_policy_benthicpit &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_benthicpqt &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, data_policy_macroinvertebrate &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 14 more variables: suggested_citation &lt;chr&gt;, bbox &lt;df[,4]&gt;, notes &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   status &lt;chr&gt;, data_policy_beltfish &lt;chr&gt;, data_policy_benthiclit &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, data_policy_benthicpqt &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_macroinvertebrate &lt;chr&gt;, includes_gfcr &lt;lgl&gt;, created_on &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   updated_on &lt;chr&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_projects</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleevents"</span>, limit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 3 × 138</span></span>
-<span><span class="co">#&gt;   project   tags  country site  latitude longitude reef_type reef_zone reef_exposure</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt; 1 2016_Nam… WCS … Fiji    C3      -17.1      179.  barrier   fore reef exposed      </span></span>
-<span><span class="co">#&gt; 2 2018_Vat… WCS … Fiji    VIR1    -17.3      178.  barrier   fore reef exposed      </span></span>
-<span><span class="co">#&gt; 3 Aceh Jay… Vibr… Indone… Pula…     4.78      95.4 fringing  fore reef semi-exposed </span></span>
-<span><span class="co">#&gt; # ℹ 129 more variables: tide &lt;chr&gt;, current &lt;chr&gt;, visibility &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt;   id       project project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 8ad2272… 2016_N… Yashika Nand,… Fiji    https://dat… WCS … C3      -17.1      179. </span></span>
+<span><span class="co">#&gt; 2 4cb7f01… 2018_V… ICRS 2022 Tes… Fiji    https://dat… WCS … VIR1    -17.3      178. </span></span>
+<span><span class="co">#&gt; 3 accd066… Aceh J… Muhidin 10051… Indone… https://dat… WCS … Pula…     4.78      95.4</span></span>
+<span><span class="co">#&gt; # ℹ 129 more variables: reef_exposure &lt;chr&gt;, reef_type &lt;chr&gt;, reef_zone &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   tide &lt;chr&gt;, visibility &lt;chr&gt;, current &lt;chr&gt;, depth_avg &lt;dbl&gt;, depth_sd &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   management &lt;chr&gt;, management_secondary &lt;lgl&gt;, management_est_year &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   management_size &lt;lgl&gt;, management_parties &lt;chr&gt;, management_compliance &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   management_rules &lt;chr&gt;, sample_date &lt;date&gt;, depth_avg &lt;dbl&gt;, depth_sd &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   biomass_kgha_avg &lt;dbl&gt;, biomass_kgha_sd &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   biomass_kgha_trophic_group_avg_omnivore &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   biomass_kgha_trophic_group_avg_piscivore &lt;dbl&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; #   management_rules &lt;chr&gt;, sample_date &lt;date&gt;, observers &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   sample_unit_count &lt;dbl&gt;, biomass_kgha_avg &lt;dbl&gt;, biomass_kgha_sd &lt;dbl&gt;, …</span></span></code></pre></div>
 <p>Note the <code>limit</code> argument here, which just limits the data
 pulled to one record (per project, method, and data combination). This
 is useful if you want to get a preview of what your data will look like
 without having to pull it all in.</p>
 </div>
-</div>
-<div class="section level2">
-<h2 id="accessing-covariates">Accessing covariates<a class="anchor" aria-label="anchor" href="#accessing-covariates"></a>
-</h2>
-<p>Prior to <code>mermaidr 0.7.0</code>, covariates were automatically
-included in all <code><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data()</a></code> function calls.
-Now, to access covariates, include <code>covariates = TRUE</code> in the
-function call:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_projects</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span><span class="st">"fishbelt"</span>, <span class="st">"sampleevents"</span>, limit <span class="op">=</span> <span class="fl">1</span>, covariates <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 1 × 102</span></span>
-<span><span class="co">#&gt;   site_id         project tags  country site  latitude longitude reef_type reef_zone</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;           &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span></span>
-<span><span class="co">#&gt; 1 05323592-23b6-… 2016_N… WCS … Fiji    C3       -17.1      179. barrier   fore reef</span></span>
-<span><span class="co">#&gt; # ℹ 93 more variables: reef_exposure &lt;chr&gt;, tide &lt;lgl&gt;, current &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   visibility &lt;lgl&gt;, aca_geomorphic &lt;chr&gt;, aca_benthic &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   andrello_grav_nc &lt;dbl&gt;, andrello_sediment &lt;dbl&gt;, andrello_nutrient &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   andrello_pop_count &lt;dbl&gt;, andrello_num_ports &lt;dbl&gt;, andrello_reef_value &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   andrello_cumul_score &lt;dbl&gt;, beyer_score &lt;dbl&gt;, beyer_scorecn &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   beyer_scorecy &lt;dbl&gt;, beyer_scorepfc &lt;dbl&gt;, beyer_scoreth &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   beyer_scoretr &lt;dbl&gt;, management &lt;chr&gt;, …</span></span></code></pre></div>
-<p>You can also access covariates at the site level, using
-<code><a href="../reference/mermaid_get_project_sites.html">mermaid_get_project_sites()</a></code> with
-<code>covariates = TRUE</code>:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_projects</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/mermaid_get_project_sites.html">mermaid_get_project_sites</a></span><span class="op">(</span>covariates <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 586 × 27</span></span>
-<span><span class="co">#&gt;    project id    name  notes latitude longitude country reef_type reef_zone exposure</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;   </span></span>
-<span><span class="co">#&gt;  1 Sharla… 547d… bulk… ""        47.5     -81.8 Canada  atoll     back reef very sh…</span></span>
-<span><span class="co">#&gt;  2 Great … 9c2f… BA02  "Sou…    -17.4     178.  Fiji    atoll     back reef very sh…</span></span>
-<span><span class="co">#&gt;  3 Great … c8bd… BA03  ""       -17.4     178.  Fiji    atoll     back reef very sh…</span></span>
-<span><span class="co">#&gt;  4 Great … aa47… BA04  ""       -17.4     178.  Fiji    atoll     back reef very sh…</span></span>
-<span><span class="co">#&gt;  5 Great … 87ab… BA05  ""       -17.4     178.  Fiji    atoll     back reef very sh…</span></span>
-<span><span class="co">#&gt;  6 Great … dbd9… BA06  ""       -17.4     178.  Fiji    atoll     back reef very sh…</span></span>
-<span><span class="co">#&gt;  7 Great … a684… BA07  ""       -17.5     178.  Fiji    atoll     back reef very sh…</span></span>
-<span><span class="co">#&gt;  8 Great … 5cc3… BA08  ""       -17.4     178.  Fiji    atoll     back reef very sh…</span></span>
-<span><span class="co">#&gt;  9 Great … 0235… BA09  ""       -17.4     178.  Fiji    atoll     back reef very sh…</span></span>
-<span><span class="co">#&gt; 10 Great … 2f08… BA10  ""       -17.3     178.  Fiji    atoll     back reef very sh…</span></span>
-<span><span class="co">#&gt; # ℹ 576 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 17 more variables: aca_geomorphic &lt;chr&gt;, aca_benthic &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   andrello_grav_nc &lt;dbl&gt;, andrello_sediment &lt;dbl&gt;, andrello_nutrient &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   andrello_pop_count &lt;dbl&gt;, andrello_num_ports &lt;dbl&gt;, andrello_reef_value &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   andrello_cumul_score &lt;dbl&gt;, beyer_score &lt;dbl&gt;, beyer_scorecn &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   beyer_scorecy &lt;dbl&gt;, beyer_scorepfc &lt;dbl&gt;, beyer_scoreth &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   beyer_scoretr &lt;dbl&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>
 </div>
   </div>
 

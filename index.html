@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">mermaidr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -80,6 +80,9 @@
       <a href="articles/accessing_project_data.html">Accessing Project Data</a>
     </li>
     <li>
+      <a href="articles/covariates_data.html">Adding Environmental Covariates to MERMAID Data</a>
+    </li>
+    <li>
       <a href="articles/accessing_dev_collect_data.html">Accessing data from the development version of MERMAID</a>
     </li>
   </ul>
@@ -121,7 +124,7 @@
 <p>You can install mermaidr from GitHub with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"data-mermaid/mermaidr"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"data-mermaid/mermaidr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -138,29 +141,29 @@
 <span><span class="co">#&gt; # A tibble: 16 × 21</span></span>
 <span><span class="co">#&gt;    id    name  countries num_sites num_active_sample_un…¹ num_sample_units tags </span></span>
 <span><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         &lt;int&gt;                  &lt;int&gt;            &lt;dbl&gt; &lt;chr&gt;</span></span>
-<span><span class="co">#&gt;  1 e1ef… 2016… Fiji              9                     10               80 "WCS…</span></span>
-<span><span class="co">#&gt;  2 170e… 2018… Fiji             10                      5              121 "WCS…</span></span>
-<span><span class="co">#&gt;  3 d065… 2019… Fiji             31                      3               32 "WCS…</span></span>
-<span><span class="co">#&gt;  4 1fbd… a2    Canada, …         9                      9                0 "WWF…</span></span>
-<span><span class="co">#&gt;  5 3a9e… Aceh… Indonesia        18                     55              198 "WCS…</span></span>
-<span><span class="co">#&gt;  6 bacd… Beli… Belize, …        39                    113              258 "WCS…</span></span>
-<span><span class="co">#&gt;  7 a1b7… Grea… Fiji             76                      8              648 "Fij…</span></span>
-<span><span class="co">#&gt;  8 507d… Kari… Indonesia        43                     18              842 "WCS…</span></span>
-<span><span class="co">#&gt;  9 75ef… Kubu… Fiji             78                      1             1145 "WCS…</span></span>
-<span><span class="co">#&gt; 10 5679… Mada… Madagasc…        33                      0               49 "WCS…</span></span>
-<span><span class="co">#&gt; 11 4080… Mada… Madagasc…        74                      4               84 "WCS…</span></span>
-<span><span class="co">#&gt; 12 4d79… MERM… Indonesi…        13                     72               32 "tes…</span></span>
-<span><span class="co">#&gt; 13 2c0c… Shar… Canada, …        28                      5                6 ""   </span></span>
-<span><span class="co">#&gt; 14 02e6… TWP … Indonesia        14                     10                2 "WCS…</span></span>
-<span><span class="co">#&gt; 15 2d6c… WCS … Mozambiq…        74                      6              247 "WCS…</span></span>
-<span><span class="co">#&gt; 16 9de8… XPDC… Indonesia        37                     71              450 ""   </span></span>
+<span><span class="co">#&gt;  1 e1ef… 2016… Fiji              9                     10               80 WCS …</span></span>
+<span><span class="co">#&gt;  2 170e… 2018… Fiji             10                      5              121 WCS …</span></span>
+<span><span class="co">#&gt;  3 d065… 2019… Fiji             31                      3               32 WCS …</span></span>
+<span><span class="co">#&gt;  4 1fbd… a2    Canada; …         9                      9                0 WWF-…</span></span>
+<span><span class="co">#&gt;  5 3a9e… Aceh… Indonesia        18                     54              199 WCS …</span></span>
+<span><span class="co">#&gt;  6 bacd… Beli… Belize; …        39                    136              260 WCS …</span></span>
+<span><span class="co">#&gt;  7 a1b7… Grea… Fiji             76                      8              648 Fiji…</span></span>
+<span><span class="co">#&gt;  8 507d… Kari… Indonesia        43                     18              842 WCS …</span></span>
+<span><span class="co">#&gt;  9 75ef… Kubu… Fiji             78                      1             1145 WCS …</span></span>
+<span><span class="co">#&gt; 10 5679… Mada… Madagasc…        33                      0               49 WCS …</span></span>
+<span><span class="co">#&gt; 11 4080… Mada… Madagasc…        74                      4               84 WCS …</span></span>
+<span><span class="co">#&gt; 12 4d79… MERM… Indonesi…        13                     73               31 test…</span></span>
+<span><span class="co">#&gt; 13 2c0c… Shar… Canada; …        28                     61                7 &lt;NA&gt; </span></span>
+<span><span class="co">#&gt; 14 02e6… TWP … Indonesia        14                     10                2 WCS …</span></span>
+<span><span class="co">#&gt; 15 2d6c… WCS … Mozambiq…        74                      6              247 WCS …</span></span>
+<span><span class="co">#&gt; 16 9de8… XPDC… Indonesia        37                     71              450 &lt;NA&gt; </span></span>
 <span><span class="co">#&gt; # ℹ abbreviated name: ¹​num_active_sample_units</span></span>
-<span><span class="co">#&gt; # ℹ 14 more variables: project_admins &lt;chr&gt;, suggested_citation &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   bbox &lt;df[,4]&gt;, notes &lt;chr&gt;, status &lt;chr&gt;, data_policy_beltfish &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_benthiclit &lt;chr&gt;, data_policy_benthicpit &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_benthicpqt &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, data_policy_macroinvertebrate &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 14 more variables: suggested_citation &lt;chr&gt;, bbox &lt;df[,4]&gt;, notes &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   status &lt;chr&gt;, data_policy_beltfish &lt;chr&gt;, data_policy_benthiclit &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, data_policy_benthicpqt &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_macroinvertebrate &lt;chr&gt;, includes_gfcr &lt;lgl&gt;, created_on &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   updated_on &lt;chr&gt;</span></span></code></pre></div>
 <p>To focus on just one or a few projects, you can filter by fields like the project name, country, or tags using the <code>dplyr</code> package. For example, I’ll narrow in on the WCS Mozambique Coral Reef Monitoring project.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
@@ -175,93 +178,93 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wcs_mozambique_fishbelt_samples</span></span>
 <span><span class="co">#&gt; # A tibble: 79 × 94</span></span>
-<span><span class="co">#&gt;    project            tags  country site  latitude longitude reef_type reef_zone</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span></span>
-<span><span class="co">#&gt;  1 WCS Mozambique Co… WCS … Mozamb… Para…    -14.4      40.7 fringing  fore reef</span></span>
-<span><span class="co">#&gt;  2 WCS Mozambique Co… WCS … Mozamb… Bunt…    -12.6      40.6 fringing  fore reef</span></span>
-<span><span class="co">#&gt;  3 WCS Mozambique Co… WCS … Mozamb… Chec…    -26.8      32.9 patch     fore reef</span></span>
-<span><span class="co">#&gt;  4 WCS Mozambique Co… WCS … Mozamb… Mate…    -12.2      40.6 fringing  fore reef</span></span>
-<span><span class="co">#&gt;  5 WCS Mozambique Co… WCS … Mozamb… Jagg…    -26.8      32.9 patch     fore reef</span></span>
-<span><span class="co">#&gt;  6 WCS Mozambique Co… WCS … Mozamb… Ligh…    -12.3      40.6 fringing  fore reef</span></span>
-<span><span class="co">#&gt;  7 WCS Mozambique Co… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef</span></span>
-<span><span class="co">#&gt;  8 WCS Mozambique Co… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef</span></span>
-<span><span class="co">#&gt;  9 WCS Mozambique Co… WCS … Mozamb… Kisi…    -11.0      40.7 lagoon    back reef</span></span>
-<span><span class="co">#&gt; 10 WCS Mozambique Co… WCS … Mozamb… Two …    -21.8      35.5 barrier   fore reef</span></span>
+<span><span class="co">#&gt;    id           project project_admins country contact_link tags  site  latitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;   &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 36316e77-ea… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Bunt…    -12.6</span></span>
+<span><span class="co">#&gt;  2 cc6b0a95-64… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Chec…    -26.8</span></span>
+<span><span class="co">#&gt;  3 83353357-69… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Mate…    -12.2</span></span>
+<span><span class="co">#&gt;  4 364e439d-e4… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Jagg…    -26.8</span></span>
+<span><span class="co">#&gt;  5 324f2b0a-4a… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Ligh…    -12.3</span></span>
+<span><span class="co">#&gt;  6 1c2d7c1e-c6… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Kisi…    -11.0</span></span>
+<span><span class="co">#&gt;  7 cff14283-95… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Kisi…    -11.0</span></span>
+<span><span class="co">#&gt;  8 de6b403d-29… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Kisi…    -11.0</span></span>
+<span><span class="co">#&gt;  9 fcff6a0b-4c… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Two …    -21.8</span></span>
+<span><span class="co">#&gt; 10 910b3d5b-fa… WCS Mo… Emily Darling… Mozamb… https://dat… WCS … Luta…    -12.3</span></span>
 <span><span class="co">#&gt; # ℹ 69 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 86 more variables: reef_exposure &lt;chr&gt;, tide &lt;lgl&gt;, current &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   visibility &lt;lgl&gt;, management &lt;chr&gt;, management_secondary &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   management_est_year &lt;dbl&gt;, management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span>
-<span><span class="co">#&gt; #   depth_avg &lt;dbl&gt;, depth_sd &lt;dbl&gt;, biomass_kgha_avg &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   biomass_kgha_sd &lt;dbl&gt;, biomass_kgha_trophic_group_avg_piscivore &lt;dbl&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 86 more variables: longitude &lt;dbl&gt;, reef_exposure &lt;chr&gt;, reef_type &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   reef_zone &lt;chr&gt;, tide &lt;lgl&gt;, visibility &lt;lgl&gt;, current &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   depth_avg &lt;dbl&gt;, depth_sd &lt;dbl&gt;, management &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   management_secondary &lt;lgl&gt;, management_est_year &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;, …</span></span></code></pre></div>
 <p>If you’d like data related to the <strong>units</strong> of survey (for example, to transects or quadrats), it’s just a matter of changing <code>data</code> to “sampleunits”:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wcs_mozambique</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fishbelt"</span>, data <span class="op">=</span> <span class="st">"sampleunits"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 108 × 73</span></span>
-<span><span class="co">#&gt;    project            tags  country site  latitude longitude reef_type reef_zone</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span></span>
-<span><span class="co">#&gt;  1 WCS Mozambique Co… WCS … Mozamb… Zala…    -12.0      40.6 lagoon    back reef</span></span>
-<span><span class="co">#&gt;  2 WCS Mozambique Co… WCS … Mozamb… Aqua…    -21.8      35.5 barrier   back reef</span></span>
-<span><span class="co">#&gt;  3 WCS Mozambique Co… WCS … Mozamb… Baby…    -11.0      40.7 fringing  fore reef</span></span>
-<span><span class="co">#&gt;  4 WCS Mozambique Co… WCS … Mozamb… Rola…    -12.2      40.6 fringing  fore reef</span></span>
-<span><span class="co">#&gt;  5 WCS Mozambique Co… WCS … Mozamb… Chec…    -26.8      32.9 patch     fore reef</span></span>
-<span><span class="co">#&gt;  6 WCS Mozambique Co… WCS … Mozamb… Metu…    -11.1      40.7 fringing  fore reef</span></span>
-<span><span class="co">#&gt;  7 WCS Mozambique Co… WCS … Mozamb… Teko…    -10.8      40.7 fringing  fore reef</span></span>
-<span><span class="co">#&gt;  8 WCS Mozambique Co… WCS … Mozamb… Quil…    -12.5      40.6 fringing  back reef</span></span>
-<span><span class="co">#&gt;  9 WCS Mozambique Co… WCS … Mozamb… Pang…    -11.0      40.6 lagoon    back reef</span></span>
-<span><span class="co">#&gt; 10 WCS Mozambique Co… WCS … Mozamb… Pang…    -11.0      40.6 lagoon    back reef</span></span>
+<span><span class="co">#&gt;    project    project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Kisi…    -11.0      40.7</span></span>
+<span><span class="co">#&gt;  2 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Ligh…    -12.3      40.6</span></span>
+<span><span class="co">#&gt;  3 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Aqua…    -21.8      35.5</span></span>
+<span><span class="co">#&gt;  4 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Pang…    -11.0      40.6</span></span>
+<span><span class="co">#&gt;  5 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Pemb…    -13.0      40.6</span></span>
+<span><span class="co">#&gt;  6 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Aqua…    -21.8      35.5</span></span>
+<span><span class="co">#&gt;  7 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Pemb…    -13.0      40.6</span></span>
+<span><span class="co">#&gt;  8 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Jagg…    -26.8      32.9</span></span>
+<span><span class="co">#&gt;  9 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Papa…    -11.0      40.7</span></span>
+<span><span class="co">#&gt; 10 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Lond…    -12.9      40.5</span></span>
 <span><span class="co">#&gt; # ℹ 98 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 65 more variables: reef_exposure &lt;chr&gt;, reef_slope &lt;lgl&gt;, tide &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   current &lt;lgl&gt;, visibility &lt;lgl&gt;, relative_depth &lt;lgl&gt;, management &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; # ℹ 65 more variables: reef_exposure &lt;chr&gt;, reef_slope &lt;lgl&gt;, reef_type &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   reef_zone &lt;chr&gt;, sample_time &lt;time&gt;, tide &lt;lgl&gt;, visibility &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   current &lt;lgl&gt;, depth &lt;dbl&gt;, relative_depth &lt;lgl&gt;, management &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   management_secondary &lt;lgl&gt;, management_est_year &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span>
-<span><span class="co">#&gt; #   sample_time &lt;time&gt;, depth &lt;dbl&gt;, transect_number &lt;dbl&gt;, label &lt;dbl&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;, …</span></span></code></pre></div>
 <p>And raw observations are available by changing it to “observations”:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wcs_mozambique</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/mermaid_get_project_data.html">mermaid_get_project_data</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fishbelt"</span>, data <span class="op">=</span> <span class="st">"observations"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 2,637 × 54</span></span>
-<span><span class="co">#&gt;    project            tags  country site  latitude longitude reef_type reef_zone</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span></span>
-<span><span class="co">#&gt;  1 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef</span></span>
-<span><span class="co">#&gt;  2 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef</span></span>
-<span><span class="co">#&gt;  3 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef</span></span>
-<span><span class="co">#&gt;  4 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef</span></span>
-<span><span class="co">#&gt;  5 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef</span></span>
-<span><span class="co">#&gt;  6 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef</span></span>
-<span><span class="co">#&gt;  7 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef</span></span>
-<span><span class="co">#&gt;  8 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef</span></span>
-<span><span class="co">#&gt;  9 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef</span></span>
-<span><span class="co">#&gt; 10 WCS Mozambique Co… WCS … Mozamb… Coli…    -12.6      40.6 fringing  fore reef</span></span>
+<span><span class="co">#&gt; # A tibble: 2,637 × 55</span></span>
+<span><span class="co">#&gt;    project    project_admins country contact_link tags  site  latitude longitude</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Moti…    -14.4      40.7</span></span>
+<span><span class="co">#&gt;  2 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Moti…    -14.4      40.7</span></span>
+<span><span class="co">#&gt;  3 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Moti…    -14.4      40.7</span></span>
+<span><span class="co">#&gt;  4 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Moti…    -14.4      40.7</span></span>
+<span><span class="co">#&gt;  5 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Moti…    -14.4      40.7</span></span>
+<span><span class="co">#&gt;  6 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Moti…    -14.4      40.7</span></span>
+<span><span class="co">#&gt;  7 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Moti…    -14.4      40.7</span></span>
+<span><span class="co">#&gt;  8 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Moti…    -14.4      40.7</span></span>
+<span><span class="co">#&gt;  9 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Moti…    -14.4      40.7</span></span>
+<span><span class="co">#&gt; 10 WCS Mozam… Emily Darling… Mozamb… https://dat… WCS … Moti…    -14.4      40.7</span></span>
 <span><span class="co">#&gt; # ℹ 2,627 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 46 more variables: reef_exposure &lt;chr&gt;, reef_slope &lt;lgl&gt;, tide &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   current &lt;lgl&gt;, visibility &lt;lgl&gt;, relative_depth &lt;lgl&gt;, management &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; # ℹ 47 more variables: reef_exposure &lt;chr&gt;, reef_slope &lt;lgl&gt;, reef_type &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   reef_zone &lt;chr&gt;, sample_time &lt;time&gt;, tide &lt;lgl&gt;, visibility &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   current &lt;lgl&gt;, depth &lt;dbl&gt;, relative_depth &lt;lgl&gt;, management &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   management_secondary &lt;lgl&gt;, management_est_year &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   management_size &lt;dbl&gt;, management_parties &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;,</span></span>
-<span><span class="co">#&gt; #   sample_time &lt;time&gt;, depth &lt;dbl&gt;, transect_length &lt;dbl&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; #   management_compliance &lt;chr&gt;, management_rules &lt;chr&gt;, sample_date &lt;date&gt;, …</span></span></code></pre></div>
 <p>For more details on accessing project data, please see the <a href="https://data-mermaid.github.io/mermaidr/articles/accessing_project_data.html" class="external-link">Accessing Project Data</a> article.</p>
 <p>You may also want to access data that is not related to projects. To access this data, you do not need to authenticate R with MERMAID.</p>
 <p>For example, you can pull reference data (the names and information of the fish and benthic attributes you can choose in MERMAID), using <code><a href="reference/mermaid_get_reference.html">mermaid_get_reference()</a></code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mermaid_get_reference.html">mermaid_get_reference</a></span><span class="op">(</span>reference <span class="op">=</span> <span class="st">"fishfamilies"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 161 × 9</span></span>
-<span><span class="co">#&gt;    id      name  status biomass_constant_a biomass_constant_b biomass_constant_c</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;               &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 3f7bf3… Acan… Open              0.0256                2.97              0.990</span></span>
-<span><span class="co">#&gt;  2 455a7b… Achi… Open              0.0164                3.11              1    </span></span>
-<span><span class="co">#&gt;  3 78d71a… Acip… Open              0.00497               3.25              1    </span></span>
-<span><span class="co">#&gt;  4 0d9904… Albu… Open              0.0105                2.99              1    </span></span>
-<span><span class="co">#&gt;  5 530c63… Amba… Open              0.0130                2.96              1    </span></span>
-<span><span class="co">#&gt;  6 e8dfe9… Angu… Open              0.0006                3.35              1    </span></span>
-<span><span class="co">#&gt;  7 cf2b18… Anom… Open              0.0112                3.04              1    </span></span>
-<span><span class="co">#&gt;  8 9ef4d9… Ante… Open              0.0200                3.01              1    </span></span>
-<span><span class="co">#&gt;  9 7a9316… Aplo… Open              0.00487               3.16              1    </span></span>
-<span><span class="co">#&gt; 10 26fff3… Apog… Open              0.0142                3.15              0.993</span></span>
+<span><span class="co">#&gt; # A tibble: 161 × 8</span></span>
+<span><span class="co">#&gt;    id     name  biomass_constant_a biomass_constant_b biomass_constant_c regions</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;              &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt; &lt;chr&gt;  </span></span>
+<span><span class="co">#&gt;  1 3f7bf… Acan…            0.0256                2.97              0.990 Centra…</span></span>
+<span><span class="co">#&gt;  2 455a7… Achi…            0.0164                3.11              1     Tropic…</span></span>
+<span><span class="co">#&gt;  3 78d71… Acip…            0.00497               3.25              1     Tropic…</span></span>
+<span><span class="co">#&gt;  4 0d990… Albu…            0.0105                2.99              1     Tropic…</span></span>
+<span><span class="co">#&gt;  5 530c6… Amba…            0.0130                2.96              1     Centra…</span></span>
+<span><span class="co">#&gt;  6 e8dfe… Angu…            0.0006                3.35              1     Tropic…</span></span>
+<span><span class="co">#&gt;  7 cf2b1… Anom…            0.0112                3.04              1     Tropic…</span></span>
+<span><span class="co">#&gt;  8 9ef4d… Ante…            0.0200                3.01              1     Centra…</span></span>
+<span><span class="co">#&gt;  9 7a931… Aplo…            0.00487               3.16              1     Centra…</span></span>
+<span><span class="co">#&gt; 10 26fff… Apog…            0.0142                3.15              0.993 Centra…</span></span>
 <span><span class="co">#&gt; # ℹ 151 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 3 more variables: regions &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 2 more variables: created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>
 <p>Using this function, you can access the fish family, fish genera, fish species, and benthic attributes references by changing the <code>reference</code> argument.</p>
 <p>You can also get a list of <em>all</em> projects (not just your own):</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -269,62 +272,62 @@
 <span><span class="co">#&gt; # A tibble: 113 × 21</span></span>
 <span><span class="co">#&gt;    id    name  countries num_sites num_active_sample_un…¹ num_sample_units tags </span></span>
 <span><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         &lt;int&gt;                  &lt;int&gt;            &lt;dbl&gt; &lt;chr&gt;</span></span>
-<span><span class="co">#&gt;  1 13a2… 0909… ""                0                      0                0 ""   </span></span>
-<span><span class="co">#&gt;  2 f9c5… 1313… ""                0                      1                0 ""   </span></span>
-<span><span class="co">#&gt;  3 60dd… 2013… "Fiji"           17                      3              130 "WCS…</span></span>
-<span><span class="co">#&gt;  4 7376… 2014… "Fiji"           24                      2              345 "WCS…</span></span>
-<span><span class="co">#&gt;  5 ac93… 2016… "Fiji"           24                      2              146 "WCS…</span></span>
-<span><span class="co">#&gt;  6 e1ef… 2016… "Fiji"            9                     10               80 "WCS…</span></span>
-<span><span class="co">#&gt;  7 d549… 2017… "Fiji"           31                      0              279 "WCS…</span></span>
-<span><span class="co">#&gt;  8 c0ba… 2018… "Fiji"           22                      0              130 "WCS…</span></span>
-<span><span class="co">#&gt;  9 170e… 2018… "Fiji"           10                      5              121 "WCS…</span></span>
-<span><span class="co">#&gt; 10 95e0… 2019… "Fiji"           44                      0              406 "WCS…</span></span>
+<span><span class="co">#&gt;  1 13a2… 0909… &lt;NA&gt;              0                      0                0 &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;  2 f9c5… 1313… &lt;NA&gt;              0                      1                0 &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;  3 60dd… 2013… Fiji             17                      8              130 WCS …</span></span>
+<span><span class="co">#&gt;  4 7376… 2014… Fiji             24                      2              345 WCS …</span></span>
+<span><span class="co">#&gt;  5 ac93… 2016… Fiji             24                      2              146 WCS …</span></span>
+<span><span class="co">#&gt;  6 e1ef… 2016… Fiji              9                     10               80 WCS …</span></span>
+<span><span class="co">#&gt;  7 d549… 2017… Fiji             31                      0              279 WCS …</span></span>
+<span><span class="co">#&gt;  8 c0ba… 2018… Fiji             22                      0              130 WCS …</span></span>
+<span><span class="co">#&gt;  9 170e… 2018… Fiji             10                      5              121 WCS …</span></span>
+<span><span class="co">#&gt; 10 95e0… 2019… Fiji             44                      0              406 WCS …</span></span>
 <span><span class="co">#&gt; # ℹ 103 more rows</span></span>
 <span><span class="co">#&gt; # ℹ abbreviated name: ¹​num_active_sample_units</span></span>
-<span><span class="co">#&gt; # ℹ 14 more variables: project_admins &lt;chr&gt;, suggested_citation &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   bbox &lt;df[,4]&gt;, notes &lt;chr&gt;, status &lt;chr&gt;, data_policy_beltfish &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_benthiclit &lt;chr&gt;, data_policy_benthicpit &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_benthicpqt &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, data_policy_macroinvertebrate &lt;chr&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 14 more variables: suggested_citation &lt;chr&gt;, bbox &lt;df[,4]&gt;, notes &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   status &lt;chr&gt;, data_policy_beltfish &lt;chr&gt;, data_policy_benthiclit &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_benthicpit &lt;chr&gt;, data_policy_habitatcomplexity &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_bleachingqc &lt;chr&gt;, data_policy_benthicpqt &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_policy_macroinvertebrate &lt;chr&gt;, includes_gfcr &lt;lgl&gt;, …</span></span></code></pre></div>
 <p>As well as all sites:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mermaid_get_sites.html">mermaid_get_sites</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 2,152 × 13</span></span>
-<span><span class="co">#&gt;    id         name  notes project latitude longitude country reef_type reef_zone</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;    </span></span>
-<span><span class="co">#&gt;  1 0415d9e5-… mysi… &lt;NA&gt;  2c56b9…     -1        -1   Bangla… atoll     back reef</span></span>
-<span><span class="co">#&gt;  2 547dae1b-… bulk… &lt;NA&gt;  2c0c98…     47.5     -81.8 Canada  atoll     back reef</span></span>
-<span><span class="co">#&gt;  3 874c5a80-… dupe… &lt;NA&gt;  c08ff9…      1         1   Canada  atoll     back reef</span></span>
-<span><span class="co">#&gt;  4 42d67bb1-… dupe… &lt;NA&gt;  c08ff9…      1         1   Canada  atoll     back reef</span></span>
-<span><span class="co">#&gt;  5 afe4dac0-… meli… &lt;NA&gt;  ea4751…     49      -110   Canada  atoll     back reef</span></span>
-<span><span class="co">#&gt;  6 6cd334f9-… meli… &lt;NA&gt;  ea4751…     49      -110   Canada  atoll     back reef</span></span>
-<span><span class="co">#&gt;  7 9c2f0080-… BA02  Sour… a1b7ff…    -17.4     178.  Fiji    atoll     back reef</span></span>
-<span><span class="co">#&gt;  8 af55820b-… BA02  Sour… 89f2d4…    -17.4     178.  Fiji    atoll     back reef</span></span>
-<span><span class="co">#&gt;  9 c8bde957-… BA03  &lt;NA&gt;  a1b7ff…    -17.4     178.  Fiji    atoll     back reef</span></span>
-<span><span class="co">#&gt; 10 03e5576e-… BA03  &lt;NA&gt;  89f2d4…    -17.4     178.  Fiji    atoll     back reef</span></span>
-<span><span class="co">#&gt; # ℹ 2,142 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 4 more variables: exposure &lt;chr&gt;, predecessor &lt;chr&gt;, created_on &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   updated_on &lt;chr&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 2,156 × 12</span></span>
+<span><span class="co">#&gt;    id         name  latitude longitude notes project country reef_type reef_zone</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;    </span></span>
+<span><span class="co">#&gt;  1 0415d9e5-… mysi…     -1        -1   &lt;NA&gt;  2c56b9… Bangla… atoll     back reef</span></span>
+<span><span class="co">#&gt;  2 547dae1b-… bulk…     47.5     -81.8 &lt;NA&gt;  2c0c98… Canada  atoll     back reef</span></span>
+<span><span class="co">#&gt;  3 874c5a80-… dupe…      1         1   &lt;NA&gt;  c08ff9… Canada  atoll     back reef</span></span>
+<span><span class="co">#&gt;  4 42d67bb1-… dupe…      1         1   &lt;NA&gt;  c08ff9… Canada  atoll     back reef</span></span>
+<span><span class="co">#&gt;  5 afe4dac0-… meli…     49      -110   &lt;NA&gt;  ea4751… Canada  atoll     back reef</span></span>
+<span><span class="co">#&gt;  6 6cd334f9-… meli…     49      -110   &lt;NA&gt;  ea4751… Canada  atoll     back reef</span></span>
+<span><span class="co">#&gt;  7 af55820b-… BA02     -17.4     178.  Sour… 89f2d4… Fiji    atoll     back reef</span></span>
+<span><span class="co">#&gt;  8 9c2f0080-… BA02     -17.4     178.  Sour… a1b7ff… Fiji    atoll     back reef</span></span>
+<span><span class="co">#&gt;  9 03e5576e-… BA03     -17.4     178.  &lt;NA&gt;  89f2d4… Fiji    atoll     back reef</span></span>
+<span><span class="co">#&gt; 10 a9c8b3e0-… BA03     -17.4     178.  &lt;NA&gt;  eae004… Fiji    atoll     back reef</span></span>
+<span><span class="co">#&gt; # ℹ 2,146 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 3 more variables: exposure &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>
 <p>And all managements:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mermaid_get_managements.html">mermaid_get_managements</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 1,596 × 17</span></span>
-<span><span class="co">#&gt;    id         name  name_secondary est_year  size parties compliance open_access</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;             &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;lgl&gt;      </span></span>
-<span><span class="co">#&gt;  1 a10d4cfc-… 123   Secondary nam…     1979   123 &lt;NA&gt;    full       FALSE      </span></span>
-<span><span class="co">#&gt;  2 9788b7f9-… 678j… &lt;NA&gt;                 NA     7 &lt;NA&gt;    full       FALSE      </span></span>
-<span><span class="co">#&gt;  3 248e26fe-… 678j… &lt;NA&gt;                 NA     7 &lt;NA&gt;    full       FALSE      </span></span>
-<span><span class="co">#&gt;  4 0e9aa677-… 678j… &lt;NA&gt;                 NA     7 &lt;NA&gt;    full       FALSE      </span></span>
-<span><span class="co">#&gt;  5 9c204b0d-… 678j… &lt;NA&gt;                 NA     7 &lt;NA&gt;    full       FALSE      </span></span>
-<span><span class="co">#&gt;  6 d70de8ff-… 678j… &lt;NA&gt;                 NA     7 &lt;NA&gt;    full       FALSE      </span></span>
-<span><span class="co">#&gt;  7 9b1df02a-… 678j… &lt;NA&gt;                 NA     7 &lt;NA&gt;    full       FALSE      </span></span>
-<span><span class="co">#&gt;  8 9168b477-… 678j… &lt;NA&gt;                 NA     7 &lt;NA&gt;    full       FALSE      </span></span>
-<span><span class="co">#&gt;  9 0c8f7d2c-… A'a … Special Manag…     2017   398 &lt;NA&gt;    full       FALSE      </span></span>
-<span><span class="co">#&gt; 10 8e8a4e44-… A'a … Special Manag…     2017   398 commun… full       FALSE      </span></span>
-<span><span class="co">#&gt; # ℹ 1,586 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 9 more variables: no_take &lt;lgl&gt;, access_restriction &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   periodic_closure &lt;lgl&gt;, size_limits &lt;lgl&gt;, gear_restriction &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   species_restriction &lt;lgl&gt;, notes &lt;chr&gt;, created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 1,886 × 18</span></span>
+<span><span class="co">#&gt;    id         name   size name_secondary est_year notes no_take periodic_closure</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;             &lt;int&gt; &lt;chr&gt; &lt;lgl&gt;   &lt;lgl&gt;           </span></span>
+<span><span class="co">#&gt;  1 a10d4cfc-… 123     123 &lt;NA&gt;               1979 &lt;NA&gt;  FALSE   TRUE            </span></span>
+<span><span class="co">#&gt;  2 0e9aa677-… 678j…     7 &lt;NA&gt;                 NA &lt;NA&gt;  TRUE    FALSE           </span></span>
+<span><span class="co">#&gt;  3 248e26fe-… 678j…     7 &lt;NA&gt;                 NA &lt;NA&gt;  TRUE    FALSE           </span></span>
+<span><span class="co">#&gt;  4 9f54940e-… 678j…     7 &lt;NA&gt;                 NA &lt;NA&gt;  TRUE    FALSE           </span></span>
+<span><span class="co">#&gt;  5 9788b7f9-… 678j…     7 &lt;NA&gt;                 NA &lt;NA&gt;  TRUE    FALSE           </span></span>
+<span><span class="co">#&gt;  6 d70de8ff-… 678j…     7 &lt;NA&gt;                 NA &lt;NA&gt;  TRUE    FALSE           </span></span>
+<span><span class="co">#&gt;  7 9c204b0d-… 678j…     7 &lt;NA&gt;                 NA &lt;NA&gt;  TRUE    FALSE           </span></span>
+<span><span class="co">#&gt;  8 3ad9eb1e-… 678j…     7 &lt;NA&gt;                 NA &lt;NA&gt;  TRUE    FALSE           </span></span>
+<span><span class="co">#&gt;  9 9168b477-… 678j…     7 &lt;NA&gt;                 NA &lt;NA&gt;  TRUE    FALSE           </span></span>
+<span><span class="co">#&gt; 10 9b1df02a-… 678j…     7 &lt;NA&gt;                 NA &lt;NA&gt;  TRUE    FALSE           </span></span>
+<span><span class="co">#&gt; # ℹ 1,876 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 10 more variables: open_access &lt;lgl&gt;, size_limits &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   gear_restriction &lt;lgl&gt;, species_restriction &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   access_restriction &lt;lgl&gt;, compliance &lt;chr&gt;, parties &lt;chr&gt;, rules &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   created_on &lt;chr&gt;, updated_on &lt;chr&gt;</span></span></code></pre></div>
 <p>There is additional data available from the MERMAID API, both related to specific projects and not. If you think you’ll need to use these, please see <code><a href="reference/mermaid_get_endpoint.html">mermaid_get_endpoint()</a></code> and <code><a href="reference/mermaid_get_project_endpoint.html">mermaid_get_project_endpoint()</a></code>.</p>
 <p>This is a small sample of the wealth of data that’s available on your MERMAID projects, and on the ecosystem as a whole! Please explore the <a href="https://data-mermaid.github.io/mermaidr/" class="external-link">package website</a> for more.</p>
 </div>
