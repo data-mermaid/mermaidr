@@ -16,4 +16,8 @@ a \code{request} object (an S3 class provided by \code{httr})
 If token is not already available, call \code{\link{mermaid_auth}} to either load
 from cache or initiate OAuth2.0 flow. Return the token -- not "bare" but,
 rather, prepared for inclusion in downstream requests.
+
+If the \code{MERMAID_TOKEN} environment variable is set, it is used as a bearer
+token instead, skipping the OAuth2.0 flow. This is for non-interactive use, e.g.
+scheduled CI runs with a machine-to-machine token.
 }

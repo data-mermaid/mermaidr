@@ -119,12 +119,21 @@ mermaid_auth <- function(token = NULL,
 #' from cache or initiate OAuth2.0 flow. Return the token -- not "bare" but,
 #' rather, prepared for inclusion in downstream requests.
 #'
+#' If the \code{MERMAID_TOKEN} environment variable is set, it is used as a bearer
+#' token instead, skipping the OAuth2.0 flow. This is for non-interactive use, e.g.
+#' scheduled CI runs with a machine-to-machine token.
+#'
 #' @param verbose logical; do you want informative messages?
 #'
 #' @return a \code{request} object (an S3 class provided by \code{httr})
 #'
 #' @export
 mermaid_token <- function(verbose = FALSE) {
+  env_token <- Sys.getenv("MERMAID_TOKEN")
+  if (nzchar(env_token)) {
+    return(httr::add_headers(Authorization = paste("Bearer", env_token)))
+  }
+
   if (!token_available(verbose = verbose)) {
     mermaid_auth(verbose = verbose)
   }
