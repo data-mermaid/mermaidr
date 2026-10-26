@@ -8,7 +8,7 @@
 
   # Point mermaidr at another API (e.g. https://dev-api.datamermaid.org). Read at load
   # time: top-level assignments in settings.R are fixed when the package is installed.
-  api_url <- Sys.getenv("MERMAID_API_URL")
+  api_url <- sub("/+$", "", Sys.getenv("MERMAID_API_URL")) # paths are built as "{base_url}/v1/..."
   if (nzchar(api_url)) {
     ns <- topenv()
     assign("base_url", api_url, envir = ns)
