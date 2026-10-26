@@ -1,3 +1,8 @@
+# mermaidr (development version)
+
+* `mermaid_token()` uses the `MERMAID_TOKEN` environment variable as a bearer token when it is set, skipping the interactive OAuth flow (for non-interactive use such as CI).
+* The `MERMAID_API_URL` environment variable, if set when mermaidr is loaded, points mermaidr at a different MERMAID API (e.g. `https://dev-api.datamermaid.org`).
+
 # mermaidr 2.0.0
 
 * mermaidr internals majorly rewritten, now returns *all* columns from API (save for some that are "blacklisted"), instead of the prior approach where specific columns were "whitelisted" and had to be consistently updated
