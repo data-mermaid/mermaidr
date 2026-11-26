@@ -1,7 +1,8 @@
-# mermaidr (development version)
+# mermaidr 2.0.1
 
-* `mermaid_token()` uses the `MERMAID_TOKEN` environment variable as a bearer token when it is set, skipping the interactive OAuth flow (for non-interactive use such as CI).
-* The `MERMAID_API_URL` environment variable, if set when mermaidr is loaded, points mermaidr at a different MERMAID API (e.g. `https://dev-api.datamermaid.org`).
+* Changes to support testing the MERMAID API with mermaidr's tests (running them non-interactively against a MERMAID API deployment). These are not relevant for most users:
+    * `mermaid_token()` uses the `MERMAID_TOKEN` environment variable as a bearer token when it is set, skipping the interactive OAuth flow (for non-interactive use such as CI).
+    * The `MERMAID_API_URL` environment variable, if set when mermaidr is loaded, points mermaidr at a different MERMAID API (e.g. `https://dev-api.datamermaid.org`).
 
 # mermaidr 2.0.0
 
